@@ -1,0 +1,90 @@
+{
+  "schema_version": "temple.representative-microservice-analysis/v1",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c",
+  "generated_at": "2026-09-03T23:23:28.623Z",
+  "arms": [
+    {
+      "arm_id": "minimal-responsible",
+      "objective_correctness": true,
+      "blind_dimension_score": 8,
+      "blind_dimension_total": 8,
+      "critical_failure": null,
+      "recovery_exact_revisions": 4,
+      "recovery_exact_revision_total": 4,
+      "recovery_completed_slices": 3,
+      "recovery_completed_slice_total": 3,
+      "boundary_violation_count": 0,
+      "operational_tokens": 183854,
+      "gross_tokens": 2136110,
+      "model_latency_ms": 515217,
+      "integration_operational_tokens": 57806,
+      "integration_latency_ms": 169823,
+      "changed_lines": 56,
+      "failed_public_slice_tests": 0,
+      "rework_actions": 0,
+      "human_workflow_interventions": 0,
+      "artifact_bytes": 222982
+    },
+    {
+      "arm_id": "temple",
+      "objective_correctness": true,
+      "blind_dimension_score": 8,
+      "blind_dimension_total": 8,
+      "critical_failure": null,
+      "recovery_exact_revisions": 4,
+      "recovery_exact_revision_total": 4,
+      "recovery_completed_slices": 3,
+      "recovery_completed_slice_total": 3,
+      "boundary_violation_count": 0,
+      "operational_tokens": 177396,
+      "gross_tokens": 2455156,
+      "model_latency_ms": 501201,
+      "integration_operational_tokens": 56440,
+      "integration_latency_ms": 201588,
+      "changed_lines": 58,
+      "failed_public_slice_tests": 0,
+      "rework_actions": 0,
+      "human_workflow_interventions": 0,
+      "artifact_bytes": 2592500
+    }
+  ],
+  "comparison": {
+    "objective_correctness_delta": 0,
+    "blind_dimension_score_delta": 0,
+    "recovery_exact_revision_delta": 0,
+    "boundary_violation_delta": 0,
+    "operational_token_delta_percent": -3.51,
+    "model_latency_delta_percent": -2.72,
+    "integration_token_delta_percent": -2.36,
+    "integration_latency_delta_percent": 18.7,
+    "artifact_byte_delta_percent": 1062.65
+  },
+  "interpretation": {
+    "correctness_primary": true,
+    "statistical_generalization": false,
+    "automatic_routing_authority": false,
+    "monetary_cost_known": false,
+    "account_approval_count": 2,
+    "retry_count": 0,
+    "fallback_count": 0
+  },
+  "evaluator": {
+    "operational_tokens": 20860,
+    "gross_tokens": 20860,
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "xhigh",
+    "continuation_protocol_sha256": "3247ab0cfcfa8664efea67cd751cae51cbaf9d0729276f03d250010e81ab9eb5",
+    "source_candidate_run_sha256": "c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165"
+  },
+  "continuation": {
+    "protocol_sha256": "3247ab0cfcfa8664efea67cd751cae51cbaf9d0729276f03d250010e81ab9eb5",
+    "source_candidate_run_sha256": "c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165",
+    "candidate_operational_tokens": 361250,
+    "candidate_turns": 10,
+    "evaluator_turns": 1,
+    "approval_count": 2,
+    "retry_count": 0,
+    "fallback_count": 0
+  }
+}

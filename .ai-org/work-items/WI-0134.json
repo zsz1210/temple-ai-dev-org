@@ -1,0 +1,206 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0134",
+  "title": "Repair invalid historical evidence records",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-03T10:07:24.344Z",
+  "updated_at": "2026-09-03T10:15:44.387Z",
+  "scope": [
+    "Add a governed evidence invalidation path, stop invalidated records from failing artifact-health checks while retaining audit visibility, invalidate the two unused malformed WI-0130 and WI-0131 records, restore Doctor health, and record the repair without rewriting historical evidence."
+  ],
+  "acceptance_criteria": [
+    "A CLI command invalidates one existing evidence record with actor, timestamp, reason, optional replacement reference, and an audit event; invalidated evidence remains structurally valid, unusable for gates, and visible to Observer; Doctor ignores artifact-integrity failures only after explicit invalidation; the two named malformed records are invalidated through the CLI; schema, focused tests, full verification, and Doctor pass; no historical artifact, existing valid gate evidence, Provider call, push, merge, deployment, publication, or release occurs."
+  ],
+  "affected_paths": [
+    "src/evidence.mjs",
+    "src/cli.mjs",
+    "test/evidence-observer.test.mjs",
+    ".ai-org/project/evidence.json",
+    ".ai-org/events/events.jsonl",
+    ".ai-org/artifacts/WI-0134"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "Evidence integrity affects repository trust and requires independently verified standard lifecycle gates.",
+    "evidence_refs": [
+      "Current Doctor evidence_registry failure and WI-0130/WI-0131 registry inspection"
+    ],
+    "evaluated_at": "2026-09-03T10:07:24.344Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "63c2dd0e7e675201952be1c516443973c7e99d13",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0134 is sequential and takes temporary ownership of test/evidence-observer.test.mjs while blocked WI-0086 performs no concurrent edits; WI-0086 remains unchanged."
+  ],
+  "claim": {
+    "id": "claim-20260903100914-99f084b5",
+    "status": "released",
+    "principal_id": "principal-zsz1210",
+    "agent_id": "agent-rikku",
+    "base_revision": "63c2dd0e7e675201952be1c516443973c7e99d13",
+    "branch": "codex/wi-0134-evidence-integrity-repair",
+    "worktree": null,
+    "claimed_at": "2026-09-03T10:09:14.192Z",
+    "released_at": "2026-09-03T10:13:33.872Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260903100914-99f084b5",
+      "status": "released",
+      "principal_id": "principal-zsz1210",
+      "agent_id": "agent-rikku",
+      "base_revision": "63c2dd0e7e675201952be1c516443973c7e99d13",
+      "branch": "codex/wi-0134-evidence-integrity-repair",
+      "worktree": null,
+      "claimed_at": "2026-09-03T10:09:14.192Z",
+      "released_at": "2026-09-03T10:13:33.872Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0134/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0134/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0134/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0134/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0134/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0134/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0134/developer-report.md",
+      ".ai-org/artifacts/WI-0134/developer-test-observation.json",
+      "EVID-20260903T101325Z-572AEB94"
+    ],
+    "test_evidence": [
+      "EVID-20260903T101404Z-26B0E4DF"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0134/quality-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0134/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0134/product-spec.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0134/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0134/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0134/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0134/work-order.md",
+    ".ai-org/artifacts/WI-0134/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0134/product-spec.md",
+    ".ai-org/artifacts/WI-0134/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0134/technical-design.md",
+    ".ai-org/artifacts/WI-0134/risk-review.md",
+    ".ai-org/artifacts/WI-0134/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0134/developer-report.md",
+    ".ai-org/artifacts/WI-0134/developer-test-observation.json",
+    "EVID-20260903T101325Z-572AEB94",
+    "EVID-20260903T101404Z-26B0E4DF",
+    ".ai-org/artifacts/WI-0134/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0134/quality-report.md",
+    ".ai-org/artifacts/WI-0134/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0134/independent-qa-report.md",
+    "EVID-20260903T101534Z-9F296821",
+    ".ai-org/artifacts/WI-0134/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "63c2dd0e7e675201952be1c516443973c7e99d13",
+      "artifact": ".ai-org/artifacts/WI-0134/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-03T10:09:12.754Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "63c2dd0e7e675201952be1c516443973c7e99d13",
+      "artifact": ".ai-org/artifacts/WI-0134/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-03T10:09:13.254Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "63c2dd0e7e675201952be1c516443973c7e99d13",
+      "artifact": ".ai-org/artifacts/WI-0134/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-03T10:09:13.715Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "ad1f06a5205820ff2075487bf5cab7f55082191d",
+      "artifact": ".ai-org/artifacts/WI-0134/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-03T10:13:33.597Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "ad1f06a5205820ff2075487bf5cab7f55082191d",
+      "artifact": ".ai-org/artifacts/WI-0134/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-03T10:14:11.486Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "ad1f06a5205820ff2075487bf5cab7f55082191d",
+      "artifact": ".ai-org/artifacts/WI-0134/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-03T10:15:43.831Z"
+    }
+  ],
+  "developer_candidate_revision": "ad1f06a5205820ff2075487bf5cab7f55082191d",
+  "tested_revision": "ad1f06a5205820ff2075487bf5cab7f55082191d",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

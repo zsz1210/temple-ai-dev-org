@@ -1,0 +1,373 @@
+{
+  "schema_version": "temple.representative-microservice-stopped-run/v2",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "ff06ec032d8bc6f452e307269d9e87774e4f4207d0449af70905fcc314786674",
+  "started_at": "2026-09-03T16:46:53.272Z",
+  "stopped_at": "2026-09-03T16:51:55.025Z",
+  "completed_arm_count": 0,
+  "completed_arms": [],
+  "active_arm": {
+    "arm_id": "minimal-responsible",
+    "design": {
+      "id": "minimal-responsible-design",
+      "stage": "design",
+      "started_at": "2026-09-03T16:46:53.273Z",
+      "completed_at": "2026-09-03T16:51:24.154Z",
+      "elapsed_ms": 270881,
+      "session_setup_ms": 144,
+      "turn_elapsed_ms": 270737,
+      "time_to_first_activity_ms": 2615,
+      "time_to_first_command_ms": 10007,
+      "effective_output_tokens_per_second": 32.881,
+      "thread_id": "01a0682a-8980-7580-89c1-eec23a2d029d",
+      "turn_id": "01a0682a-89ea-7ee2-a0b6-61f2eb1d5641",
+      "requested_model": "gpt-5.6-sol",
+      "acknowledged_model": "gpt-5.6-sol",
+      "requested_reasoning_effort": "xhigh",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 927687,
+        "cached_input_tokens": 881024,
+        "output_tokens": 8902,
+        "reasoning_output_tokens": 5573,
+        "total_tokens": 936589
+      },
+      "operational_tokens": 55565,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 1408,
+            "characters": 1408,
+            "sha256": "05264f4e8fef83ba39be450ff0a8e6fe586a9f0788818b711a227e4938dd55d4"
+          },
+          "user_input": {
+            "bytes": 1873,
+            "characters": 1873,
+            "sha256": "ed05308117a50aa6409f528383c2de85033224a76d801b15294a33d44d9202d9"
+          },
+          "output_schema": {
+            "bytes": 606,
+            "characters": 606,
+            "sha256": "dd96eba2c74430a2bb90418d024e9dfb21cc36d0e6ad62ad23fdc65a14e19d37"
+          }
+        },
+        "explicit_bytes": 4055,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 29,
+        "command_actions": 29,
+        "action_types": {
+          "listFiles": 1,
+          "unknown": 22,
+          "read": 3,
+          "search": 3
+        },
+        "temple_md_attempts": 0,
+        "context_resolve_attempts": 0,
+        "temple_md_reads": 0,
+        "context_resolve_calls": 0,
+        "context_sequence": [],
+        "reported_output_bytes": 50121
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "contract_version": "OrderPlaced/v2",
+        "rollout_order": [
+          "notifications",
+          "orders-catalog",
+          "gateway"
+        ],
+        "slices": [
+          {
+            "id": "orders-catalog",
+            "repositories": [
+              "orders",
+              "catalog"
+            ],
+            "responsibility": "At orders revision 21b595ddeaf29c43c77ee6b980c8820c499bef67 and catalog revision 490bb75496c715770d2585a18c7a6ddd8c8b67c9, respect the recorded owned paths. Update catalog/src/catalog.mjs first so every known SKU returns its stored inventoryRevision while preserving existing availability behavior and omitting a revision for unknown SKUs. Then update orders/src/order-event.mjs to forward the Catalog-provided revision and emit exactly the required v2 envelope, including occurredAt, locale, inventoryRevision, and nested order, with no retained flat order fields. Gate with `npm test --prefix catalog`, `npm test --prefix orders`, and, after all slices converge, the coordinator public integration test. Each repository owner must later commit independently and record its resulting revision, tests, completed work, and issues in organization/HANDOFF.md."
+          },
+          {
+            "id": "notifications",
+            "repositories": [
+              "notifications"
+            ],
+            "responsibility": "Prepare the consumer before any v2 publication. At revision 01c716dc842e22b8b241eeb19707d69bf57f9598, update only src/consumer.mjs to validate and accept both the retained v1 flat event and the v2 nested event. Require nonempty common identifiers; for v1 require flat orderId, sku, and a positive integer quantity; for v2 require occurredAt, locale, inventoryRevision, and a nested order with id, sku, and positive integer quantity. Reject unsupported versions or malformed payloads without changing deliveries. Normalize the order ID from either shape and deduplicate valid deliveries solely by event.id across versions. Gate with `npm test --prefix notifications`; the owner must later commit and write the required exact-revision handoff."
+          },
+          {
+            "id": "gateway",
+            "repositories": [
+              "gateway"
+            ],
+            "responsibility": "At revision b650f0713776851c609659d5f6872d60e67742fe, update only src/checkout-response.mjs so the response retains orderId and status unchanged and adds eventVersion from event.version rather than hard-coding v2. Roll this out after v2 publication so the externally exposed field reflects the event actually produced. Gate with `npm test --prefix gateway` and the final coordinator public integration test; the owner must later commit and record the resulting revision and evidence in organization/HANDOFF.md."
+          }
+        ],
+        "risks": [
+          "All four service public tests currently fail at their recorded clean baselines: Catalog omits inventoryRevision, Orders emits v1 flat fields, Notifications rejects v2, and Gateway omits eventVersion.",
+          "The coordinator public integration test at revision 33f41d70e4376d789562cd3f887152850cf700d5 currently fails because Orders produces v1 instead of v2; it must be rerun only after all three slices converge.",
+          "Notifications' public test covers only v2 idempotency; retained-v1 acceptance and malformed or unsupported-event rejection remain acceptance gaps that the implementation must satisfy despite lacking visible public coverage.",
+          "coordinator/organization/PORTFOLIO.json already labels the contracts compatible and records the intended rollout order although implementation tests are red; that metadata must not be treated as release evidence until repository handoffs and integration tests are green.",
+          "No post-change revisions or HANDOFF.md records exist from this design-only attempt because files were intentionally not modified."
+        ],
+        "assumptions": [
+          "The retained v1 contract is the current flat shape: type, version, id, orderId, sku, and quantity.",
+          "A known SKU means a Catalog inventory-map hit; both available and unavailable known items may expose their stored inventoryRevision, while unknown-SKU behavior remains otherwise unchanged.",
+          "The coordinator repository is an acceptance and workflow-record authority, not a writable service slice; it remains outside the three required, repository-disjoint slices.",
+          "Verified clean service baselines are gateway b650f0713776851c609659d5f6872d60e67742fe, catalog 490bb75496c715770d2585a18c7a6ddd8c8b67c9, orders 21b595ddeaf29c43c77ee6b980c8820c499bef67, and notifications 01c716dc842e22b8b241eeb19707d69bf57f9598.",
+          "This attempt only inspected local workflow records and repositories and ran local public tests; it performed no file changes, installation, network access, deployment, or publication."
+        ]
+      },
+      "design_revision": "327e51577f9bf89544964f909c506876be0e75bf"
+    },
+    "builds": [
+      {
+        "id": "minimal-responsible-gateway",
+        "stage": "build",
+        "started_at": "2026-09-03T16:51:24.247Z",
+        "completed_at": "2026-09-03T16:51:55.016Z",
+        "elapsed_ms": 30769,
+        "session_setup_ms": 169,
+        "turn_elapsed_ms": 30600,
+        "time_to_first_activity_ms": 2751,
+        "time_to_first_command_ms": 7951,
+        "effective_output_tokens_per_second": 20.752,
+        "thread_id": "01a0682e-abfa-7c31-a279-4396a2b91c06",
+        "turn_id": "01a0682e-ac83-71c1-92b2-4501370a41f0",
+        "requested_model": "gpt-5.6-terra",
+        "acknowledged_model": "gpt-5.6-terra",
+        "requested_reasoning_effort": "medium",
+        "observed_thread_reasoning_effort": "high",
+        "effective_turn_reasoning_effort": null,
+        "usage": {
+          "input_tokens": 106310,
+          "cached_input_tokens": 89856,
+          "output_tokens": 635,
+          "reasoning_output_tokens": 203,
+          "total_tokens": 106945
+        },
+        "operational_tokens": 17089,
+        "prompt_metrics": {
+          "components": {
+            "base_instructions": {
+              "bytes": 168,
+              "characters": 168,
+              "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+            },
+            "developer_instructions": {
+              "bytes": 1408,
+              "characters": 1408,
+              "sha256": "05264f4e8fef83ba39be450ff0a8e6fe586a9f0788818b711a227e4938dd55d4"
+            },
+            "user_input": {
+              "bytes": 847,
+              "characters": 847,
+              "sha256": "973bf17350ff18cf75794e8fb0f80daa3eb50f5e688e6dd43617eaf56a7cc856"
+            },
+            "output_schema": {
+              "bytes": 350,
+              "characters": 350,
+              "sha256": "c29cae9d81c3749e9869f21c25e39961641415e0e8bac39b09d166c7e4afae91"
+            }
+          },
+          "explicit_bytes": 2773,
+          "raw_prompt_retained": false
+        },
+        "tool_activity": {
+          "command_items": 5,
+          "command_actions": 5,
+          "action_types": {
+            "listFiles": 1,
+            "read": 4
+          },
+          "temple_md_attempts": 0,
+          "context_resolve_attempts": 0,
+          "temple_md_reads": 0,
+          "context_resolve_calls": 0,
+          "context_sequence": [],
+          "reported_output_bytes": 6453
+        },
+        "retry_count": 0,
+        "fallback_count": 0,
+        "raw_prompt_retained": false,
+        "raw_response_retained": false,
+        "hidden_reasoning_retained": false,
+        "status": "stopped",
+        "stop_scope": "run",
+        "stop_reason": "parallel-wave-cancelled",
+        "completion": null
+      },
+      {
+        "id": "minimal-responsible-notifications",
+        "stage": "build",
+        "started_at": "2026-09-03T16:51:24.245Z",
+        "completed_at": "2026-09-03T16:51:54.506Z",
+        "elapsed_ms": 30261,
+        "session_setup_ms": 177,
+        "turn_elapsed_ms": 30084,
+        "time_to_first_activity_ms": 2825,
+        "time_to_first_command_ms": 10073,
+        "effective_output_tokens_per_second": 16.354,
+        "thread_id": "01a0682e-abf9-7302-a99f-3aecd510fb99",
+        "turn_id": "01a0682e-ac88-7b83-8134-06ace9364443",
+        "requested_model": "gpt-5.6-terra",
+        "acknowledged_model": "gpt-5.6-terra",
+        "requested_reasoning_effort": "medium",
+        "observed_thread_reasoning_effort": "high",
+        "effective_turn_reasoning_effort": null,
+        "usage": {
+          "input_tokens": 62228,
+          "cached_input_tokens": 48384,
+          "output_tokens": 492,
+          "reasoning_output_tokens": 217,
+          "total_tokens": 62720
+        },
+        "operational_tokens": 14336,
+        "prompt_metrics": {
+          "components": {
+            "base_instructions": {
+              "bytes": 168,
+              "characters": 168,
+              "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+            },
+            "developer_instructions": {
+              "bytes": 1408,
+              "characters": 1408,
+              "sha256": "05264f4e8fef83ba39be450ff0a8e6fe586a9f0788818b711a227e4938dd55d4"
+            },
+            "user_input": {
+              "bytes": 865,
+              "characters": 865,
+              "sha256": "34717ffc6f84a60383aa9b3d3800d13d6017d357f3a83e9db64a0a5249765563"
+            },
+            "output_schema": {
+              "bytes": 350,
+              "characters": 350,
+              "sha256": "c29cae9d81c3749e9869f21c25e39961641415e0e8bac39b09d166c7e4afae91"
+            }
+          },
+          "explicit_bytes": 2791,
+          "raw_prompt_retained": false
+        },
+        "tool_activity": {
+          "command_items": 4,
+          "command_actions": 4,
+          "action_types": {
+            "search": 1,
+            "listFiles": 3
+          },
+          "temple_md_attempts": 0,
+          "context_resolve_attempts": 0,
+          "temple_md_reads": 0,
+          "context_resolve_calls": 0,
+          "context_sequence": [],
+          "reported_output_bytes": 276
+        },
+        "retry_count": 0,
+        "fallback_count": 0,
+        "raw_prompt_retained": false,
+        "raw_response_retained": false,
+        "hidden_reasoning_retained": false,
+        "status": "stopped",
+        "stop_scope": "run",
+        "stop_reason": "command-policy-violation:command policy rejected: /bin/zsh -lc 'rg --files coordinator'",
+        "completion": null
+      },
+      {
+        "id": "minimal-responsible-orders-catalog",
+        "stage": "build",
+        "started_at": "2026-09-03T16:51:24.247Z",
+        "completed_at": "2026-09-03T16:51:55.016Z",
+        "elapsed_ms": 30769,
+        "session_setup_ms": 204,
+        "turn_elapsed_ms": 30565,
+        "time_to_first_activity_ms": 2717,
+        "time_to_first_command_ms": 8133,
+        "effective_output_tokens_per_second": 24.767,
+        "thread_id": "01a0682e-abfa-7941-bdaa-e4db9e2a8fd8",
+        "turn_id": "01a0682e-aca4-72f1-8947-349d3531ea0a",
+        "requested_model": "gpt-5.6-terra",
+        "acknowledged_model": "gpt-5.6-terra",
+        "requested_reasoning_effort": "medium",
+        "observed_thread_reasoning_effort": "high",
+        "effective_turn_reasoning_effort": null,
+        "usage": {
+          "input_tokens": 109194,
+          "cached_input_tokens": 89856,
+          "output_tokens": 757,
+          "reasoning_output_tokens": 336,
+          "total_tokens": 109951
+        },
+        "operational_tokens": 20095,
+        "prompt_metrics": {
+          "components": {
+            "base_instructions": {
+              "bytes": 168,
+              "characters": 168,
+              "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+            },
+            "developer_instructions": {
+              "bytes": 1408,
+              "characters": 1408,
+              "sha256": "05264f4e8fef83ba39be450ff0a8e6fe586a9f0788818b711a227e4938dd55d4"
+            },
+            "user_input": {
+              "bytes": 870,
+              "characters": 870,
+              "sha256": "1da5224b5ad4e5a5359d040da6606f326315fd42db1043dd5bddd313d65010b8"
+            },
+            "output_schema": {
+              "bytes": 350,
+              "characters": 350,
+              "sha256": "c29cae9d81c3749e9869f21c25e39961641415e0e8bac39b09d166c7e4afae91"
+            }
+          },
+          "explicit_bytes": 2796,
+          "raw_prompt_retained": false
+        },
+        "tool_activity": {
+          "command_items": 5,
+          "command_actions": 5,
+          "action_types": {
+            "listFiles": 3,
+            "read": 2
+          },
+          "temple_md_attempts": 0,
+          "context_resolve_attempts": 0,
+          "temple_md_reads": 0,
+          "context_resolve_calls": 0,
+          "context_sequence": [],
+          "reported_output_bytes": 11912
+        },
+        "retry_count": 0,
+        "fallback_count": 0,
+        "raw_prompt_retained": false,
+        "raw_response_retained": false,
+        "hidden_reasoning_retained": false,
+        "status": "stopped",
+        "stop_scope": "run",
+        "stop_reason": "parallel-wave-cancelled",
+        "completion": null
+      }
+    ],
+    "portfolio_revision": null,
+    "integration": null
+  },
+  "candidate_operational_tokens": 107085,
+  "reason": "minimal-responsible-notifications:command-policy-violation:command policy rejected: /bin/zsh -lc 'rg --files coordinator'",
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}

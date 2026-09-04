@@ -1,0 +1,192 @@
+# Lean routing effectiveness results
+
+## WI-0135 optimized Terra confirmation
+
+- Run date: 2026-09-03
+- Registered protocol: `2e8b3053beed780c9851027382675b5aecea658aa4d7231d412e3ce96bcdf071`
+- Scope: two corrected implementation cases, conventional and optimized Temple processes, four Terra candidates, and one blind Terra evaluator
+- Classification: `neutral`
+
+### Bottom line
+
+The optimized Temple process preserved correctness and blind-reviewed quality, and it completed the two candidates **19.77% faster** than the responsible conventional process. It did **not** reduce operational Tokens: Temple used 63,930 versus 62,825, an increase of 1.76%. Because the registered decision required at least a 10% improvement in both Tokens and latency, the result is neutral and does not authorize a routing or default-model change.
+
+This is still a substantial improvement over the first Temple treatment: the same-run process gap is now close to Token parity instead of the earlier run's 77.94% overhead. However, cross-run baselines moved materially, so that change cannot be treated as a causal savings estimate. The only controlled conclusion is the current within-run comparison.
+
+### Aggregate result
+
+| Condition | Objective tests | Mean blind score | Operational Tokens | Candidate time | Mean context |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Responsible conventional Terra | 2 / 2 | 100 | 62,825 | 167.01 s | 2,166 B |
+| Optimized Temple Terra | 2 / 2 | 100 | 63,930 | 133.99 s | 9,339 B |
+| Temple delta | equal | 0 points | **+1.76%** | **-19.77%** | **+331.16%** |
+
+All four candidates passed their public and coordinator-held acceptance tests. The arm-neutral evaluator scored all four packages 100. The complete run used 149,982 operational Tokens including the evaluator, or 71.76% of the approved 209,000 ceiling, with no retry, fallback, reroute, or network access.
+
+### Per-case result
+
+| Case | Condition | Objective | Blind | Operational Tokens | Time | Context |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| Idempotent command | Conventional | Pass | 100 | 31,851 | 82.95 s | 2,151 B |
+| Idempotent command | Optimized Temple | Pass | 100 | 32,271 | 65.28 s | 9,316 B |
+| Compatible event evolution | Conventional | Pass | 100 | 30,974 | 84.06 s | 2,181 B |
+| Compatible event evolution | Optimized Temple | Pass | 100 | 31,659 | 68.71 s | 9,362 B |
+
+Temple was faster in both pairs, by 21.31% and 18.26%, but used 1.32% and 2.21% more operational Tokens. The direction is consistent across the two cases, but two pairs remain diagnostic rather than statistically representative.
+
+### What this changes
+
+1. **Keep Terra as the bounded-work default.** Both processes solved both corrected cases at the same quality; a stronger model is not justified here.
+2. **Keep the optimized Lean treatment.** It removed most of the previously observed Token penalty while retaining explicit authority and acceptance evidence, but it is not yet a Token-saving treatment.
+3. **Do not market Temple as cheaper from this result.** The data supports quality parity and a promising latency signal for these cases, not a cost or universal productivity claim.
+4. **Target the remaining context overhead.** The optimized Temple envelope is still about 7.2 KB larger per case. The next design should test a minimum authority capsule rather than deleting acceptance or safety contracts.
+5. **Measure Temple's actual organizational value.** One-turn coding fixtures do not capture handoff recovery, duplicate-work avoidance, review findings, rework, human intervention, or multi-Agent continuity. Those outcomes are the next representative experiment family.
+6. **Repair reasoning-effort observability before effort claims.** All candidates requested `medium`, the thread-level observation reported `high`, and effective turn effort remained unavailable. Both arms were matched, but this run cannot prove the effective effort value.
+
+### Evidence and limits
+
+- Canonical observation: `.ai-org/artifacts/WI-0135/live-experiment-observation.json`
+- Frozen blind scores: `.ai-org/artifacts/WI-0135/quality-scores-frozen.json`
+- Analysis: `.ai-org/artifacts/WI-0135/effectiveness-analysis.json`
+- Preflight audit: `.ai-org/artifacts/WI-0135/preflight-audit.json`
+- Exact approval: `.ai-org/artifacts/WI-0135/account-approval.json`
+- Raw prompts, responses, hidden reasoning, credentials, candidate repositories, and PDF are not retained in Git.
+- Monetary cost is unknown. Operational Tokens are a registered resource metric, not a billing-price claim.
+- The sample covers two bounded JavaScript tasks. It does not establish statistical superiority or generalize to large, ambiguous, multi-repository, UI, security, or operational work.
+
+## WI-0132 four-arm baseline
+
+- Work Item: `WI-0132`
+- Run date: 2026-09-03
+- Registered protocol: `84d30df16d72bfbae6ac1d111729ddab9e90d761c46a8694250955985028bc45`
+- Scope: two bounded implementation cases, four conditions, eight candidates, and one blind evaluator
+- Claim boundary: diagnostic evidence only; no automatic routing or framework-wide superiority claim
+
+## Bottom line
+
+The corrected experiment produced a useful answer: **for clearly specified, low-risk, bounded implementation work, Terra medium was enough.** All four conditions passed both cases. Luna Max spent substantially more Tokens and time without improving correctness, while Sol xhigh was more efficient than Luna in this small sample but did not add an objective correctness win.
+
+Temple's Lean process did not improve correctness over the responsible conventional baseline in these two cases. It did finish about 10% faster, but used about 78% more operational Tokens. The most actionable Temple improvement is therefore not “use a stronger model”; it is **make the routed context smaller while keeping the explicit acceptance contract**.
+
+## Efficiency follow-up
+
+WI-0133 implemented the first response without running another model experiment:
+
+- the installed instruction component fell from 9,350 to 6,039 measured UTF-8 bytes, a 35.41% reduction;
+- unrelated Skills retrieved by the two generic fixture requests fell from five to zero;
+- routed context fell from 4,409 to 1,634 bytes and from 4,425 to 1,650 bytes; and
+- total static context fell from 15,412 to 9,326 bytes and from 15,458 to 9,372 bytes, about 39% in both cases.
+
+These are deterministic pre-generation byte measurements, not Provider Tokens and not proof of lower cost or equal runtime quality. The complete compact record is in `.ai-org/artifacts/WI-0133/retained-effectiveness-evidence.json`.
+
+WI-0133 also added separately versioned `promising-efficiency` semantics. The classification requires objective correctness, blind-quality non-inferiority, and pre-registered Token and latency improvements, but grants no routing authority. A matched two-arm, four-candidate Terra confirmation is validated at `.ai-org/artifacts/WI-0133/terra-ab-protocol.json`; it remains `generation_ready: false` until a fresh Provider handshake and exact approval.
+
+## What was compared
+
+| Arm | Process | Requested route | Purpose |
+| --- | --- | --- | --- |
+| A | Responsible conventional | Terra medium | Baseline |
+| B | Native Lean Temple | Terra medium | Isolate process effect |
+| C | Same native Lean Temple | Luna max | Measure bounded-work escalation |
+| D | Same native Lean Temple | Sol xhigh | Measure the flagship ceiling |
+
+All candidates started from matched product files in isolated clean repositories. The Temple arms shared the same routed-context digest for each case. The blind evaluator saw arm-neutral packages and froze all eight scores before the coordinator revealed the mapping.
+
+## Aggregate results
+
+| Condition | Objective correctness | Mean blind score | Operational Tokens | Candidate time | Mean context |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Conventional Terra | 2 / 2 | 97.5 | 49,926 | 108.87 s | 2,166 B |
+| Temple Terra | 2 / 2 | 97.5 | 88,836 | 97.63 s | 15,435 B |
+| Temple Luna | 2 / 2 | 96.5 | 156,673 | 357.74 s | 15,435 B |
+| Temple Sol | 2 / 2 | 98.5 | 120,960 | 304.41 s | 15,435 B |
+
+The candidates used 416,395 operational Tokens and the evaluator used 27,237, for a combined 443,632 against the approved 580,000 ceiling. Candidate execution took 868.64 seconds in total. Gross Provider throughput was 4,375,664 Tokens because cached input is included there; it is not the approved operational budget and does not reveal monetary cost.
+
+## Per-case results
+
+| Case | Conventional Terra | Temple Terra | Temple Luna | Temple Sol |
+| --- | --- | --- | --- | --- |
+| Idempotent command | Pass · 98 · 23,924 | Pass · 97 · 33,801 | Pass · 97 · 85,442 | Pass · 99 · 42,463 |
+| Compatible event evolution | Pass · 97 · 26,002 | Pass · 98 · 55,035 | Pass · 96 · 71,231 | Pass · 98 · 78,497 |
+
+Each cell is `objective result · blind score · operational Tokens`.
+
+## A to B — process effect
+
+Both conditions passed 2/2 and had the same mean blind score.
+
+- Temple Terra used 77.94% more aggregate operational Tokens.
+- Temple Terra was 10.33% faster in aggregate candidate time.
+- Temple added a median 13,269 UTF-8 bytes of context per case.
+- Of the roughly 15.4 KB Temple prompt context, about 9.35 KB came from candidate instructions and about 4.41 KB from routed context in the inspected idempotent case.
+
+**Decision:** preserve the acceptance contract, then reduce instruction and routed-context overhead before repeating the process comparison. This run does not demonstrate a Temple quality advantage, and it does not justify a savings claim.
+
+## B to C — Luna escalation
+
+Both conditions passed 2/2. Luna scored one point lower on average.
+
+- Luna used 76.36% more aggregate operational Tokens than Temple Terra.
+- Luna took 266.43% longer.
+- Neither case gained objective correctness.
+
+**Decision:** keep Terra medium as the default for explicit, low-risk, bounded implementation work. Luna Max should require an ambiguity, semantic-invariant, or demonstrated lower-route failure signal; it should not be selected merely because quality matters.
+
+## C to D — Sol ceiling
+
+Both conditions passed 2/2. Sol scored two points higher on average.
+
+- Sol used 22.79% fewer aggregate operational Tokens than Luna.
+- Sol took 14.91% less candidate time.
+- Sol produced no objective correctness win because Luna already passed both cases.
+
+**Decision:** keep Sol xhigh as a capability ceiling and collect more matched evidence. Do not promote it to a default or claim it is cheaper: the sample has only two cases, C and D are model-plus-effort bundles, effective turn reasoning effort was unavailable, and monetary price was not observed.
+
+## What changed relative to WI-0130
+
+WI-0130 left a return-identity invariant implicit. Its Terra candidates missed that hidden requirement while Luna inferred it, which made escalation look more valuable than it was. WI-0132 exposed identity, immutability, idempotency, compatibility, and error semantics to every candidate. All four arms then passed.
+
+This supports a strong operational rule: **repair an incomplete contract before escalating the model.** A larger model may compensate for ambiguity, but that is an expensive and unreliable substitute for Specification and Design.
+
+## Response and remaining work
+
+1. **Context reduction — implemented and statically verified.** The authority rules remain in the compact instruction router, while generic task language no longer retrieves Skills merely because the Position matches.
+2. **Evidence-driven escalation — retained.** Terra remains the bounded default. Luna and Sol require task-shape or failure evidence; the two-case result is not an automatic rule.
+3. **Versioned analyzer semantics — implemented for future evidence.** WI-0132 remains frozen and keeps its original decision language.
+4. **Matched confirmation — prepared, not run.** Run the four candidates and one blind evaluator only after fresh compatibility checks and exact approval.
+5. **Broader qualification — still required.** Add mechanical, error-semantics, cross-file, concurrency, API-contract, and deliberately ambiguous cases. Derive later sample size from observed variance.
+6. **Separate model from effort — still required.** When the Provider can expose effective turn effort, run matched-effort comparisons. Until then, C and D remain route bundles.
+7. **Measure developer outcomes — still required.** Add rework, review findings, intervention count, and elapsed delivery time. Token volume alone is not product value.
+
+## Evidence quality and limitations
+
+| Gate | Result |
+| --- | --- |
+| Eight clean isolated candidates | Pass |
+| Native Lean, bounded, low-risk Temple treatment | Pass |
+| Matched product inputs | Pass |
+| Matched B/C/D context | Pass |
+| Public and held-out acceptance tests | 8 / 8 pass |
+| Blind packages frozen before mapping reveal | Pass |
+| Retry, fallback, reroute, path violation | 0 |
+| Effective turn reasoning effort | Unknown |
+| Statistical qualification | Not attempted |
+| Monetary cost | Unknown |
+
+The two implementation cases are deliberately narrow. Their percentages describe this run, not all software work or all users of Temple.
+
+## Retained evidence
+
+- Canonical observation: `.ai-org/artifacts/WI-0132/live-experiment-observation.json`
+- Quality interpretation: `.ai-org/artifacts/WI-0132/quality-report.md`
+- Approved envelope: `.ai-org/artifacts/WI-0132/account-approval.json`
+- Registered protocol: `.ai-org/artifacts/WI-0132/live-protocol.json`
+- Raw evidence digest: `fdcd5d54e7dd07dee69234a5ad80ed750b52771aadaa29c9c21b1e246e5d67f7`
+- Analysis digest: `4eefe732c33464c6d43189e84fa9b82e1e1369fe7087f4d055587a4958d89a68`
+- Frozen score digest: `7898b6bbf0c9c376572cee48c178e5460da79999bb80fc9d09d947379f327377`
+- WI-0133 retained evidence: `.ai-org/artifacts/WI-0133/retained-effectiveness-evidence.json`
+- WI-0133 Engineering Lesson: `.ai-org/learning/lessons/LESSON-0004.md`
+- Prepared confirmation protocol: `.ai-org/artifacts/WI-0133/terra-ab-protocol.json`
+
+The raw lab is local and temporary. The canonical observation retains the bounded metrics, protocol audit, and source digests without raw prompts or hidden reasoning.

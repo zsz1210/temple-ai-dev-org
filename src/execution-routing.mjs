@@ -140,8 +140,17 @@ export function defaultExecutionPolicy(options = {}) {
         preference_order: ["mechanical-fast", "lightweight-quality", "standard"]
       },
       {
-        id: "bounded-quality",
+        id: "explicit-bounded-delivery",
         match: { task_kinds: ["bounded"], lifecycle_stages: ["*"], risk_classes: ["low", "standard"] },
+        preference_order: ["standard", "lightweight-quality"]
+      },
+      {
+        id: "semantic-ambiguity-escalation",
+        match: {
+          task_kinds: ["semantic-ambiguity", "invariant-sensitive"],
+          lifecycle_stages: ["*"],
+          risk_classes: ["low", "standard"]
+        },
         preference_order: ["lightweight-quality", "standard"]
       },
       {

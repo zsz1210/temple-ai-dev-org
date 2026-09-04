@@ -1,0 +1,96 @@
+{
+  "schema_version": "temple.context-capsule-ablation-analysis/v2",
+  "work_item_id": "WI-0139",
+  "protocol_sha256": "ef5c9608f83fb7a70793f64d400f0c2434a8c1f1ccf8f37a7cbea9dc665ea81b",
+  "generated_at": "2026-09-04T02:04:06.912Z",
+  "status": "inconclusive",
+  "correctness_primary": true,
+  "all_candidates_completed": false,
+  "all_candidates_correct": false,
+  "comparisons": [
+    {
+      "shape": "single-repository",
+      "outcome": "inconclusive",
+      "correctness": {
+        "legacy_pass": null,
+        "stage_aware_pass": null
+      },
+      "source_selection": {
+        "legacy_bytes": 40296,
+        "stage_aware_bytes": 14592,
+        "bytes_delta": {
+          "absolute": -25704,
+          "percent": -63.79
+        },
+        "legacy_source_count": 12,
+        "stage_aware_source_count": 7
+      },
+      "operational_tokens": {
+        "legacy": 40460,
+        "stage_aware": 40084,
+        "delta": null
+      },
+      "latency_ms": {
+        "legacy": 31487,
+        "stage_aware": 34905,
+        "delta": null
+      },
+      "tool_output_bytes": {
+        "legacy": 7415,
+        "stage_aware": 7163,
+        "delta": null
+      }
+    },
+    {
+      "shape": "coordinator-multi-repository",
+      "outcome": "overhead-regression",
+      "correctness": {
+        "legacy_pass": true,
+        "stage_aware_pass": true
+      },
+      "source_selection": {
+        "legacy_bytes": 34379,
+        "stage_aware_bytes": 11859,
+        "bytes_delta": {
+          "absolute": -22520,
+          "percent": -65.51
+        },
+        "legacy_source_count": 10,
+        "stage_aware_source_count": 6
+      },
+      "operational_tokens": {
+        "legacy": 27283,
+        "stage_aware": 29024,
+        "delta": {
+          "absolute": 1741,
+          "percent": 6.38
+        }
+      },
+      "latency_ms": {
+        "legacy": 56214,
+        "stage_aware": 60718,
+        "delta": {
+          "absolute": 4504,
+          "percent": 8.01
+        }
+      },
+      "tool_output_bytes": {
+        "legacy": 11456,
+        "stage_aware": 10505,
+        "delta": {
+          "absolute": -951,
+          "percent": -8.3
+        }
+      }
+    }
+  ],
+  "diagnostic_aggregate": null,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "interpretation_boundary": {
+    "sample_per_condition": 1,
+    "statistical_claim": false,
+    "monetary_claim": false,
+    "automatic_routing_authority": false
+  }
+}

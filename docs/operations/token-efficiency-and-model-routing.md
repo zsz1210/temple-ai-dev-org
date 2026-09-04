@@ -27,6 +27,8 @@ Usually, no.
 
 Recording numeric metadata still uses a small amount of local CPU, memory, disk, and dashboard bandwidth. That overhead must be measured separately from model Tokens and kept bounded through aggregation and retention.
 
+Context Capsule v2 also reports a local, body-free source manifest: selected source count, measured bytes, per-source SHA-256, and one stable selection digest. These values require filesystem I/O but no model call. They answer whether a route changed and which source category dominates its repository footprint; they do **not** estimate prompt Tokens, cached-input billing, latency, or price.
+
 OpenAI's Responses API, for example, returns input, cached-input, output, reasoning-output, and total usage fields in the response itself. Current official guidance also recommends comparing model and reasoning configurations on representative tasks by quality, tokens, latency, and cost rather than assuming one configuration is always best. See the [Responses usage schema](https://developers.openai.com/api/reference/cli/resources/responses/methods/retrieve) and [model guidance](https://developers.openai.com/api/docs/guides/latest-model). For Codex, the official [App Server protocol](https://developers.openai.com/codex/app-server/) identifies `thread/tokenUsage/updated` as a thread notification and `account/usage/read` as an account activity query.
 
 ## What Temple already has
@@ -222,6 +224,17 @@ A high Token count is a lead for investigation, not proof of waste. The Observer
 5. Input, cached input, output, and reasoning-output composition.
 6. Context Capsule size, capability set, tool-call count, retry count, and final outcome.
 
+For stage analysis, keep four measurements separate:
+
+| Measurement | Meaning |
+|---|---|
+| Source-manifest bytes | Unique selected repository file bytes before a caller chooses what to open |
+| Provider input and cached input | Context the Provider actually reports for the model turn |
+| Model or critical-path time | Provider execution time or end-to-end stage time, labelled by source |
+| Tool-output bytes | Local command output exposed to the execution context, when the harness can measure it |
+
+Do not add source bytes to provider Tokens or sum sequential model time and parallel critical-path time into one latency claim.
+
 Useful initial measures include:
 
 - total Tokens per accepted Work Item;
@@ -290,7 +303,7 @@ Concrete model preferences belong to project-owned policy, not the framework-man
 |---|---|---|
 | `critical-planning` | `gpt-5.6-sol`, `xhigh` | consequential planning, architecture, security, migrations, and high-risk review |
 | `standard` | `gpt-5.6-terra`, `medium` or `high` | ordinary implementation, diagnosis, documentation synthesis, and broad exploration |
-| `lightweight-quality` | `gpt-5.6-luna`, `max` | bounded and reversible work with objective acceptance checks where quality matters |
+| `lightweight-quality` | `gpt-5.6-luna`, `max` | semantic ambiguity or invariant-sensitive work that justifies an advisory quality escalation |
 | `mechanical-fast` | `gpt-5.6-luna`, `medium` or `low`, or no model | formatting, extraction, inventory, repetitive transformation, and deterministic checks |
 
 These are coordinator choices for the exact task, not automatic-routing behavior and not defaults imposed on repositories that adopt Temple. Task shape and risk take precedence over Position or Agent display name. Explicit human task-level selection still wins within the authorized scope and spending boundary, and a fallback outside the GPT-5.6 family requires an explicit exception. Requested and effective model remain distinct facts.

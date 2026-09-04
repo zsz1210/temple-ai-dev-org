@@ -1,0 +1,231 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0138",
+  "title": "Measure stage-aware Context Capsule effectiveness",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-04T00:31:57.590Z",
+  "updated_at": "2026-09-04T01:14:39.239Z",
+  "scope": [
+    "Build a generation-free, fail-closed A/B harness comparing legacy-expanded and stage-aware context on matched single-repository and coordinator-led multi-repository cold handoffs.",
+    "Retain source bytes, selection digests, correctness, Provider Token categories, latency, tool output, human intervention, and rework without retaining prompts or hidden reasoning.",
+    "Freeze an exact live protocol and require exact human approval before any Provider generation."
+  ],
+  "acceptance_criteria": [
+    "The protocol isolates context treatment while holding task, repository revisions, model, effort, retry, fallback, and evaluator rules constant.",
+    "Generation-free rehearsal proves matched fixtures, route differences, output schemas, command policy, cleanup, and stopped-run preservation before approval can unlock generation.",
+    "The analyzer reports single-repository and multi-repository results separately and never turns one sample per condition into a general savings claim.",
+    "Independent QA reproduces the exact candidate and verifies all published calculations."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0138/**",
+    "scripts/run-context-capsule-ablation.mjs",
+    "test/context-capsule-ablation.test.mjs",
+    "docs/validation/context-capsule-v2-ablation.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [
+      "cross-repository-contract"
+    ],
+    "rationale": "A bounded local experiment with an external Provider gate; standard workflow preserves evaluation and independent QA.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-04T00:31:57.589Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "87d0f8e2c4d1ab62e646a3bd76c8ee4409aed3c2",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904011031-f7c9f539",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "87d0f8e2c4d1ab62e646a3bd76c8ee4409aed3c2",
+    "branch": "codex/wi-0138-context-capsule-ablation",
+    "worktree": null,
+    "claimed_at": "2026-09-04T01:10:31.254Z",
+    "released_at": "2026-09-04T01:12:40.634Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260904003203-1c078142",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "2bfb99f",
+      "branch": "codex/wi-0138-context-capsule-ablation",
+      "worktree": null,
+      "claimed_at": "2026-09-04T00:32:03.661Z",
+      "released_at": "2026-09-04T00:32:52.852Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904003253-2eae9b97",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "79f42ec29b5ee7aedf3eaa85891ea2f142ff304d",
+      "branch": "codex/wi-0138-context-capsule-ablation",
+      "worktree": null,
+      "claimed_at": "2026-09-04T00:32:53.098Z",
+      "released_at": "2026-09-04T00:34:36.576Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904003436-58aff613",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "d995c47730521849f67f0dec1f9f8aa5af8b15c4",
+      "branch": "codex/wi-0138-context-capsule-ablation",
+      "worktree": null,
+      "claimed_at": "2026-09-04T00:34:36.839Z",
+      "released_at": "2026-09-04T00:37:24.190Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904003724-64a6b904",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "2b67d89718627c7c4007c658baac8d4457569954",
+      "branch": "codex/wi-0138-context-capsule-ablation",
+      "worktree": null,
+      "claimed_at": "2026-09-04T00:37:24.449Z",
+      "released_at": "2026-09-04T01:10:30.926Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260904011031-f7c9f539",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "87d0f8e2c4d1ab62e646a3bd76c8ee4409aed3c2",
+      "branch": "codex/wi-0138-context-capsule-ablation",
+      "worktree": null,
+      "claimed_at": "2026-09-04T01:10:31.254Z",
+      "released_at": "2026-09-04T01:12:40.634Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0138/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0138/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0138/approved-scope.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0138/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0138/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0138/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260904T005936Z-CEE25D8F",
+      "EVID-20260904T005936Z-CFDDB54F",
+      "EVID-20260904T011010Z-C94F07F6",
+      ".ai-org/artifacts/WI-0138/evidence-backed-findings.md"
+    ],
+    "test_evidence": [
+      "EVID-20260904T011211Z-0EF8D349"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0138/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260904T011418Z-57A7CF5D"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0138/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0138/work-order.md",
+    ".ai-org/artifacts/WI-0138/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0138/approved-scope.md",
+    ".ai-org/artifacts/WI-0138/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0138/technical-design.md",
+    ".ai-org/artifacts/WI-0138/handoff-004-developer-to-quality_evaluator.md",
+    "EVID-20260904T005936Z-CEE25D8F",
+    "EVID-20260904T005936Z-CFDDB54F",
+    "EVID-20260904T011010Z-C94F07F6",
+    ".ai-org/artifacts/WI-0138/evidence-backed-findings.md",
+    "EVID-20260904T011211Z-0EF8D349",
+    ".ai-org/artifacts/WI-0138/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0138/handoff-005-independent_qa-to-release_manager.md",
+    "EVID-20260904T011418Z-57A7CF5D",
+    ".ai-org/artifacts/WI-0138/independent-qa.md"
+  ],
+  "unresolved": [
+    "A successor typed-fact evaluator must be proven generation-free before any new live comparison."
+  ],
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "79f42ec29b5ee7aedf3eaa85891ea2f142ff304d",
+      "artifact": ".ai-org/artifacts/WI-0138/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-04T00:32:52.582Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "d995c47730521849f67f0dec1f9f8aa5af8b15c4",
+      "artifact": ".ai-org/artifacts/WI-0138/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-04T00:34:36.302Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "2b67d89718627c7c4007c658baac8d4457569954",
+      "artifact": ".ai-org/artifacts/WI-0138/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-04T00:37:23.891Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "87d0f8e2c4d1ab62e646a3bd76c8ee4409aed3c2",
+      "artifact": ".ai-org/artifacts/WI-0138/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T01:10:30.632Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "9eba9eb6c7c01bb8427dfe2889469966ae0545d9",
+      "artifact": ".ai-org/artifacts/WI-0138/handoff-005-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-04T01:14:38.960Z"
+    }
+  ],
+  "developer_candidate_revision": "87d0f8e2c4d1ab62e646a3bd76c8ee4409aed3c2"
+}

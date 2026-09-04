@@ -1,0 +1,1588 @@
+{
+  "schema_version": "temple.context-capsule-ablation-observation/v4",
+  "work_item_id": "WI-0141",
+  "protocol_sha256": "3e51faf3bb6962d0f998003839a113a0fe789aaf22d0ad6d8b737672aff8edbd",
+  "kind": "live-provider-run",
+  "status": "completed",
+  "started_at": "2026-09-04T03:15:32.778Z",
+  "completed_at": "2026-09-04T03:22:12.085Z",
+  "conditions": [
+    {
+      "id": "single-stage-aware-a",
+      "shape": "single-repository",
+      "strategy": "stage-aware",
+      "repetition": "a",
+      "started_at": "2026-09-04T03:15:32.778Z",
+      "completed_at": "2026-09-04T03:16:11.001Z",
+      "elapsed_ms": 38217,
+      "turn_elapsed_ms": 38100,
+      "time_to_first_activity_ms": 2567,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "acknowledged_configured_reasoning_effort": "medium",
+      "effective_turn_reasoning_effort": null,
+      "reasoning_effort_evidence_kind": "requested-and-thread-configured-not-per-turn-execution-telemetry",
+      "usage": {
+        "input_tokens": 126343,
+        "cached_input_tokens": 103936,
+        "output_tokens": 606,
+        "reasoning_output_tokens": 114,
+        "total_tokens": 126949
+      },
+      "operational_tokens": 23013,
+      "tool_activity": {
+        "command_items": 6,
+        "command_actions": 6,
+        "temple_md_reads": 0,
+        "context_package_reads": 1,
+        "reported_output_bytes": 7165,
+        "item_types": {
+          "userMessage": 1,
+          "reasoning": 5,
+          "commandExecution": 6,
+          "agentMessage": 1
+        }
+      },
+      "context_acquisition": {
+        "schema_version": "temple.context-acquisition/v1",
+        "limits": {
+          "maximum_entries": 64,
+          "maximum_path_bytes": 240
+        },
+        "entries": [
+          {
+            "repository_id": null,
+            "path": null,
+            "access_kind": "read",
+            "classification": "unknown",
+            "reported_output_bytes": 2804
+          },
+          {
+            "repository_id": "coordinator",
+            "path": ".ai-org/work-items/WI-0001.json",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 2714
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/handoffs/developer.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 309
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/adr/0042-reuse-original-receipt.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 152
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/product/idempotency.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 251
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          }
+        ],
+        "entry_count": 6,
+        "unique_path_count": 5,
+        "overflow_count": 0,
+        "failed_command_items": 0,
+        "counts": {
+          "control": 0,
+          "required-evidence": 1,
+          "routed": 4,
+          "permitted-fallback": 0,
+          "off-route": 0,
+          "unknown": 1
+        },
+        "reported_output_bytes_by_classification": {
+          "control": 0,
+          "required-evidence": 935,
+          "routed": 3426,
+          "permitted-fallback": 0,
+          "off-route": 0,
+          "unknown": 2804
+        },
+        "classifiable_context_reads": 4,
+        "policy_adherent_reads": 4,
+        "known_policy_adherence_percent": 100,
+        "routed_share_percent": 100,
+        "coverage_complete": false,
+        "adherence_pass": false,
+        "raw_commands_retained": false,
+        "raw_output_retained": false
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "model_generation_performed": true,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "requirement_id": "REQ-IDEMPOTENCY-001",
+        "duplicate_request_effect": "return-original-receipt",
+        "decision_id": "ADR-0042",
+        "repository_revision": "1865bcc0d2757c89e44c01b735623fd39206ac6b",
+        "public_tests_passed": 18,
+        "public_tests_failed": 0,
+        "unresolved_risk_id": "RISK-CRASH-RECOVERY",
+        "safe_next_action_id": "ACTION-INDEPENDENT-CRASH-QA",
+        "authority_source": "docs/product/idempotency.md"
+      },
+      "objective": {
+        "pass": true,
+        "schema_pass": true,
+        "schema_errors": [],
+        "typed_fact_pass": true,
+        "typed_fact_errors": {},
+        "fields": [
+          {
+            "id": "requirement_id",
+            "pass": true
+          },
+          {
+            "id": "duplicate_request_effect",
+            "pass": true
+          },
+          {
+            "id": "decision_id",
+            "pass": true
+          },
+          {
+            "id": "repository_revision",
+            "pass": true
+          },
+          {
+            "id": "public_tests_passed",
+            "pass": true
+          },
+          {
+            "id": "public_tests_failed",
+            "pass": true
+          },
+          {
+            "id": "unresolved_risk_id",
+            "pass": true
+          },
+          {
+            "id": "safe_next_action_id",
+            "pass": true
+          },
+          {
+            "id": "authority_source",
+            "pass": true
+          }
+        ],
+        "passed_fields": 9,
+        "total_fields": 9
+      }
+    },
+    {
+      "id": "multi-legacy-expanded-a",
+      "shape": "coordinator-multi-repository",
+      "strategy": "legacy-expanded",
+      "repetition": "a",
+      "started_at": "2026-09-04T03:16:11.078Z",
+      "completed_at": "2026-09-04T03:17:08.338Z",
+      "elapsed_ms": 57256,
+      "turn_elapsed_ms": 57108,
+      "time_to_first_activity_ms": 2368,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "acknowledged_configured_reasoning_effort": "medium",
+      "effective_turn_reasoning_effort": null,
+      "reasoning_effort_evidence_kind": "requested-and-thread-configured-not-per-turn-execution-telemetry",
+      "usage": {
+        "input_tokens": 210106,
+        "cached_input_tokens": 183808,
+        "output_tokens": 944,
+        "reasoning_output_tokens": 181,
+        "total_tokens": 211050
+      },
+      "operational_tokens": 27242,
+      "tool_activity": {
+        "command_items": 10,
+        "command_actions": 10,
+        "temple_md_reads": 0,
+        "context_package_reads": 1,
+        "reported_output_bytes": 11458,
+        "item_types": {
+          "userMessage": 1,
+          "reasoning": 6,
+          "commandExecution": 10,
+          "agentMessage": 1
+        }
+      },
+      "context_acquisition": {
+        "schema_version": "temple.context-acquisition/v1",
+        "limits": {
+          "maximum_entries": 64,
+          "maximum_path_bytes": 240
+        },
+        "entries": [
+          {
+            "repository_id": null,
+            "path": null,
+            "access_kind": "read",
+            "classification": "unknown",
+            "reported_output_bytes": 3470
+          },
+          {
+            "repository_id": "coordinator",
+            "path": ".ai-org/work-items/WI-0001.json",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 2467
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/contracts/order-placed-v2.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 244
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/integration/portfolio.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 271
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/handoffs/components.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 331
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          },
+          {
+            "repository_id": "gateway",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          },
+          {
+            "repository_id": "catalog",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          },
+          {
+            "repository_id": "orders",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          },
+          {
+            "repository_id": "notifications",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          }
+        ],
+        "entry_count": 10,
+        "unique_path_count": 9,
+        "overflow_count": 0,
+        "failed_command_items": 0,
+        "counts": {
+          "control": 0,
+          "required-evidence": 5,
+          "routed": 4,
+          "permitted-fallback": 0,
+          "off-route": 0,
+          "unknown": 1
+        },
+        "reported_output_bytes_by_classification": {
+          "control": 0,
+          "required-evidence": 4675,
+          "routed": 3313,
+          "permitted-fallback": 0,
+          "off-route": 0,
+          "unknown": 3470
+        },
+        "classifiable_context_reads": 4,
+        "policy_adherent_reads": 4,
+        "known_policy_adherence_percent": 100,
+        "routed_share_percent": 100,
+        "coverage_complete": false,
+        "adherence_pass": false,
+        "raw_commands_retained": false,
+        "raw_output_retained": false
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "model_generation_performed": true,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "contract_id": "OrderPlaced/v2",
+        "compatibility_policy_id": "COMPAT-V1-CONSUMERS",
+        "component_revisions": {
+          "gateway": "ea2743e6005984cc6b55f6522942c6cec515af8b",
+          "catalog": "1f858812997f87fa1f580971062bc42926bcbe32",
+          "orders": "8bc718dd3984fdb24a312a446486daf4273d81dc",
+          "notifications": "4c3bf10ef5a3dda81c4e45f1874d475071ebe719"
+        },
+        "completed_slice_ids": [
+          "orders-catalog",
+          "notifications",
+          "gateway"
+        ],
+        "unresolved_risk_id": "RISK-COORDINATOR-PERSISTENCE",
+        "authority_owner_id": "coordinator",
+        "safe_next_action_id": "ACTION-BOUNDED-INTEGRATION-TEST"
+      },
+      "objective": {
+        "pass": true,
+        "schema_pass": true,
+        "schema_errors": [],
+        "typed_fact_pass": true,
+        "typed_fact_errors": {},
+        "fields": [
+          {
+            "id": "contract_id",
+            "pass": true
+          },
+          {
+            "id": "compatibility_policy_id",
+            "pass": true
+          },
+          {
+            "id": "component_revisions",
+            "pass": true
+          },
+          {
+            "id": "completed_slice_ids",
+            "pass": true
+          },
+          {
+            "id": "unresolved_risk_id",
+            "pass": true
+          },
+          {
+            "id": "authority_owner_id",
+            "pass": true
+          },
+          {
+            "id": "safe_next_action_id",
+            "pass": true
+          }
+        ],
+        "passed_fields": 7,
+        "total_fields": 7
+      }
+    },
+    {
+      "id": "single-legacy-expanded-a",
+      "shape": "single-repository",
+      "strategy": "legacy-expanded",
+      "repetition": "a",
+      "started_at": "2026-09-04T03:17:08.531Z",
+      "completed_at": "2026-09-04T03:17:50.066Z",
+      "elapsed_ms": 41530,
+      "turn_elapsed_ms": 41361,
+      "time_to_first_activity_ms": 2667,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "acknowledged_configured_reasoning_effort": "medium",
+      "effective_turn_reasoning_effort": null,
+      "reasoning_effort_evidence_kind": "requested-and-thread-configured-not-per-turn-execution-telemetry",
+      "usage": {
+        "input_tokens": 129925,
+        "cached_input_tokens": 107008,
+        "output_tokens": 905,
+        "reasoning_output_tokens": 129,
+        "total_tokens": 130830
+      },
+      "operational_tokens": 23822,
+      "tool_activity": {
+        "command_items": 6,
+        "command_actions": 6,
+        "temple_md_reads": 0,
+        "context_package_reads": 1,
+        "reported_output_bytes": 8352,
+        "item_types": {
+          "userMessage": 1,
+          "reasoning": 6,
+          "commandExecution": 6,
+          "agentMessage": 1
+        }
+      },
+      "context_acquisition": {
+        "schema_version": "temple.context-acquisition/v1",
+        "limits": {
+          "maximum_entries": 64,
+          "maximum_path_bytes": 240
+        },
+        "entries": [
+          {
+            "repository_id": null,
+            "path": null,
+            "access_kind": "read",
+            "classification": "unknown",
+            "reported_output_bytes": 3991
+          },
+          {
+            "repository_id": "coordinator",
+            "path": ".ai-org/work-items/WI-0001.json",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 2714
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/product/idempotency.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 251
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/adr/0042-reuse-original-receipt.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 152
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/handoffs/developer.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 309
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          }
+        ],
+        "entry_count": 6,
+        "unique_path_count": 5,
+        "overflow_count": 0,
+        "failed_command_items": 0,
+        "counts": {
+          "control": 0,
+          "required-evidence": 1,
+          "routed": 4,
+          "permitted-fallback": 0,
+          "off-route": 0,
+          "unknown": 1
+        },
+        "reported_output_bytes_by_classification": {
+          "control": 0,
+          "required-evidence": 935,
+          "routed": 3426,
+          "permitted-fallback": 0,
+          "off-route": 0,
+          "unknown": 3991
+        },
+        "classifiable_context_reads": 4,
+        "policy_adherent_reads": 4,
+        "known_policy_adherence_percent": 100,
+        "routed_share_percent": 100,
+        "coverage_complete": false,
+        "adherence_pass": false,
+        "raw_commands_retained": false,
+        "raw_output_retained": false
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "model_generation_performed": true,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "requirement_id": "REQ-IDEMPOTENCY-001",
+        "duplicate_request_effect": "return-original-receipt",
+        "decision_id": "ADR-0042",
+        "repository_revision": "1865bcc0d2757c89e44c01b735623fd39206ac6b",
+        "public_tests_passed": 18,
+        "public_tests_failed": 0,
+        "unresolved_risk_id": "RISK-CRASH-RECOVERY",
+        "safe_next_action_id": "ACTION-INDEPENDENT-CRASH-QA",
+        "authority_source": "docs/product/idempotency.md"
+      },
+      "objective": {
+        "pass": true,
+        "schema_pass": true,
+        "schema_errors": [],
+        "typed_fact_pass": true,
+        "typed_fact_errors": {},
+        "fields": [
+          {
+            "id": "requirement_id",
+            "pass": true
+          },
+          {
+            "id": "duplicate_request_effect",
+            "pass": true
+          },
+          {
+            "id": "decision_id",
+            "pass": true
+          },
+          {
+            "id": "repository_revision",
+            "pass": true
+          },
+          {
+            "id": "public_tests_passed",
+            "pass": true
+          },
+          {
+            "id": "public_tests_failed",
+            "pass": true
+          },
+          {
+            "id": "unresolved_risk_id",
+            "pass": true
+          },
+          {
+            "id": "safe_next_action_id",
+            "pass": true
+          },
+          {
+            "id": "authority_source",
+            "pass": true
+          }
+        ],
+        "passed_fields": 9,
+        "total_fields": 9
+      }
+    },
+    {
+      "id": "multi-stage-aware-a",
+      "shape": "coordinator-multi-repository",
+      "strategy": "stage-aware",
+      "repetition": "a",
+      "started_at": "2026-09-04T03:17:50.143Z",
+      "completed_at": "2026-09-04T03:18:46.161Z",
+      "elapsed_ms": 56014,
+      "turn_elapsed_ms": 55862,
+      "time_to_first_activity_ms": 2675,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "acknowledged_configured_reasoning_effort": "medium",
+      "effective_turn_reasoning_effort": null,
+      "reasoning_effort_evidence_kind": "requested-and-thread-configured-not-per-turn-execution-telemetry",
+      "usage": {
+        "input_tokens": 206607,
+        "cached_input_tokens": 179712,
+        "output_tokens": 992,
+        "reasoning_output_tokens": 229,
+        "total_tokens": 207599
+      },
+      "operational_tokens": 27887,
+      "tool_activity": {
+        "command_items": 10,
+        "command_actions": 10,
+        "temple_md_reads": 0,
+        "context_package_reads": 1,
+        "reported_output_bytes": 10507,
+        "item_types": {
+          "userMessage": 1,
+          "reasoning": 6,
+          "commandExecution": 10,
+          "agentMessage": 1
+        }
+      },
+      "context_acquisition": {
+        "schema_version": "temple.context-acquisition/v1",
+        "limits": {
+          "maximum_entries": 64,
+          "maximum_path_bytes": 240
+        },
+        "entries": [
+          {
+            "repository_id": null,
+            "path": null,
+            "access_kind": "read",
+            "classification": "unknown",
+            "reported_output_bytes": 2519
+          },
+          {
+            "repository_id": "coordinator",
+            "path": ".ai-org/work-items/WI-0001.json",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 2467
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/contracts/order-placed-v2.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 244
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/handoffs/components.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 331
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/integration/portfolio.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 271
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          },
+          {
+            "repository_id": "gateway",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          },
+          {
+            "repository_id": "catalog",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          },
+          {
+            "repository_id": "orders",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          },
+          {
+            "repository_id": "notifications",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          }
+        ],
+        "entry_count": 10,
+        "unique_path_count": 9,
+        "overflow_count": 0,
+        "failed_command_items": 0,
+        "counts": {
+          "control": 0,
+          "required-evidence": 5,
+          "routed": 4,
+          "permitted-fallback": 0,
+          "off-route": 0,
+          "unknown": 1
+        },
+        "reported_output_bytes_by_classification": {
+          "control": 0,
+          "required-evidence": 4675,
+          "routed": 3313,
+          "permitted-fallback": 0,
+          "off-route": 0,
+          "unknown": 2519
+        },
+        "classifiable_context_reads": 4,
+        "policy_adherent_reads": 4,
+        "known_policy_adherence_percent": 100,
+        "routed_share_percent": 100,
+        "coverage_complete": false,
+        "adherence_pass": false,
+        "raw_commands_retained": false,
+        "raw_output_retained": false
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "model_generation_performed": true,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "contract_id": "OrderPlaced/v2",
+        "compatibility_policy_id": "COMPAT-V1-CONSUMERS",
+        "component_revisions": {
+          "gateway": "ea2743e6005984cc6b55f6522942c6cec515af8b",
+          "catalog": "1f858812997f87fa1f580971062bc42926bcbe32",
+          "orders": "8bc718dd3984fdb24a312a446486daf4273d81dc",
+          "notifications": "4c3bf10ef5a3dda81c4e45f1874d475071ebe719"
+        },
+        "completed_slice_ids": [
+          "orders-catalog",
+          "notifications",
+          "gateway"
+        ],
+        "unresolved_risk_id": "RISK-COORDINATOR-PERSISTENCE",
+        "authority_owner_id": "coordinator",
+        "safe_next_action_id": "ACTION-BOUNDED-INTEGRATION-TEST"
+      },
+      "objective": {
+        "pass": true,
+        "schema_pass": true,
+        "schema_errors": [],
+        "typed_fact_pass": true,
+        "typed_fact_errors": {},
+        "fields": [
+          {
+            "id": "contract_id",
+            "pass": true
+          },
+          {
+            "id": "compatibility_policy_id",
+            "pass": true
+          },
+          {
+            "id": "component_revisions",
+            "pass": true
+          },
+          {
+            "id": "completed_slice_ids",
+            "pass": true
+          },
+          {
+            "id": "unresolved_risk_id",
+            "pass": true
+          },
+          {
+            "id": "authority_owner_id",
+            "pass": true
+          },
+          {
+            "id": "safe_next_action_id",
+            "pass": true
+          }
+        ],
+        "passed_fields": 7,
+        "total_fields": 7
+      }
+    },
+    {
+      "id": "single-legacy-expanded-b",
+      "shape": "single-repository",
+      "strategy": "legacy-expanded",
+      "repetition": "b",
+      "started_at": "2026-09-04T03:18:46.354Z",
+      "completed_at": "2026-09-04T03:19:23.578Z",
+      "elapsed_ms": 37223,
+      "turn_elapsed_ms": 37040,
+      "time_to_first_activity_ms": 2745,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "acknowledged_configured_reasoning_effort": "medium",
+      "effective_turn_reasoning_effort": null,
+      "reasoning_effort_evidence_kind": "requested-and-thread-configured-not-per-turn-execution-telemetry",
+      "usage": {
+        "input_tokens": 129012,
+        "cached_input_tokens": 105984,
+        "output_tokens": 653,
+        "reasoning_output_tokens": 161,
+        "total_tokens": 129665
+      },
+      "operational_tokens": 23681,
+      "tool_activity": {
+        "command_items": 6,
+        "command_actions": 6,
+        "temple_md_reads": 0,
+        "context_package_reads": 1,
+        "reported_output_bytes": 8352,
+        "item_types": {
+          "userMessage": 1,
+          "reasoning": 5,
+          "commandExecution": 6,
+          "agentMessage": 1
+        }
+      },
+      "context_acquisition": {
+        "schema_version": "temple.context-acquisition/v1",
+        "limits": {
+          "maximum_entries": 64,
+          "maximum_path_bytes": 240
+        },
+        "entries": [
+          {
+            "repository_id": null,
+            "path": null,
+            "access_kind": "read",
+            "classification": "unknown",
+            "reported_output_bytes": 3991
+          },
+          {
+            "repository_id": "coordinator",
+            "path": ".ai-org/work-items/WI-0001.json",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 2714
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/product/idempotency.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 251
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/adr/0042-reuse-original-receipt.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 152
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/handoffs/developer.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 309
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          }
+        ],
+        "entry_count": 6,
+        "unique_path_count": 5,
+        "overflow_count": 0,
+        "failed_command_items": 0,
+        "counts": {
+          "control": 0,
+          "required-evidence": 1,
+          "routed": 4,
+          "permitted-fallback": 0,
+          "off-route": 0,
+          "unknown": 1
+        },
+        "reported_output_bytes_by_classification": {
+          "control": 0,
+          "required-evidence": 935,
+          "routed": 3426,
+          "permitted-fallback": 0,
+          "off-route": 0,
+          "unknown": 3991
+        },
+        "classifiable_context_reads": 4,
+        "policy_adherent_reads": 4,
+        "known_policy_adherence_percent": 100,
+        "routed_share_percent": 100,
+        "coverage_complete": false,
+        "adherence_pass": false,
+        "raw_commands_retained": false,
+        "raw_output_retained": false
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "model_generation_performed": true,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "requirement_id": "REQ-IDEMPOTENCY-001",
+        "duplicate_request_effect": "return-original-receipt",
+        "decision_id": "ADR-0042",
+        "repository_revision": "1865bcc0d2757c89e44c01b735623fd39206ac6b",
+        "public_tests_passed": 18,
+        "public_tests_failed": 0,
+        "unresolved_risk_id": "RISK-CRASH-RECOVERY",
+        "safe_next_action_id": "ACTION-INDEPENDENT-CRASH-QA",
+        "authority_source": "docs/product/idempotency.md"
+      },
+      "objective": {
+        "pass": true,
+        "schema_pass": true,
+        "schema_errors": [],
+        "typed_fact_pass": true,
+        "typed_fact_errors": {},
+        "fields": [
+          {
+            "id": "requirement_id",
+            "pass": true
+          },
+          {
+            "id": "duplicate_request_effect",
+            "pass": true
+          },
+          {
+            "id": "decision_id",
+            "pass": true
+          },
+          {
+            "id": "repository_revision",
+            "pass": true
+          },
+          {
+            "id": "public_tests_passed",
+            "pass": true
+          },
+          {
+            "id": "public_tests_failed",
+            "pass": true
+          },
+          {
+            "id": "unresolved_risk_id",
+            "pass": true
+          },
+          {
+            "id": "safe_next_action_id",
+            "pass": true
+          },
+          {
+            "id": "authority_source",
+            "pass": true
+          }
+        ],
+        "passed_fields": 9,
+        "total_fields": 9
+      }
+    },
+    {
+      "id": "multi-stage-aware-b",
+      "shape": "coordinator-multi-repository",
+      "strategy": "stage-aware",
+      "repetition": "b",
+      "started_at": "2026-09-04T03:19:23.635Z",
+      "completed_at": "2026-09-04T03:20:18.855Z",
+      "elapsed_ms": 55215,
+      "turn_elapsed_ms": 55078,
+      "time_to_first_activity_ms": 3751,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "acknowledged_configured_reasoning_effort": "medium",
+      "effective_turn_reasoning_effort": null,
+      "reasoning_effort_evidence_kind": "requested-and-thread-configured-not-per-turn-execution-telemetry",
+      "usage": {
+        "input_tokens": 206593,
+        "cached_input_tokens": 160512,
+        "output_tokens": 982,
+        "reasoning_output_tokens": 217,
+        "total_tokens": 207575
+      },
+      "operational_tokens": 47063,
+      "tool_activity": {
+        "command_items": 10,
+        "command_actions": 10,
+        "temple_md_reads": 0,
+        "context_package_reads": 1,
+        "reported_output_bytes": 10507,
+        "item_types": {
+          "userMessage": 1,
+          "reasoning": 7,
+          "commandExecution": 10,
+          "agentMessage": 1
+        }
+      },
+      "context_acquisition": {
+        "schema_version": "temple.context-acquisition/v1",
+        "limits": {
+          "maximum_entries": 64,
+          "maximum_path_bytes": 240
+        },
+        "entries": [
+          {
+            "repository_id": null,
+            "path": null,
+            "access_kind": "read",
+            "classification": "unknown",
+            "reported_output_bytes": 2519
+          },
+          {
+            "repository_id": "coordinator",
+            "path": ".ai-org/work-items/WI-0001.json",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 2467
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/contracts/order-placed-v2.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 244
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/handoffs/components.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 331
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/integration/portfolio.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 271
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          },
+          {
+            "repository_id": "gateway",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          },
+          {
+            "repository_id": "catalog",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          },
+          {
+            "repository_id": "orders",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          },
+          {
+            "repository_id": "notifications",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          }
+        ],
+        "entry_count": 10,
+        "unique_path_count": 9,
+        "overflow_count": 0,
+        "failed_command_items": 0,
+        "counts": {
+          "control": 0,
+          "required-evidence": 5,
+          "routed": 4,
+          "permitted-fallback": 0,
+          "off-route": 0,
+          "unknown": 1
+        },
+        "reported_output_bytes_by_classification": {
+          "control": 0,
+          "required-evidence": 4675,
+          "routed": 3313,
+          "permitted-fallback": 0,
+          "off-route": 0,
+          "unknown": 2519
+        },
+        "classifiable_context_reads": 4,
+        "policy_adherent_reads": 4,
+        "known_policy_adherence_percent": 100,
+        "routed_share_percent": 100,
+        "coverage_complete": false,
+        "adherence_pass": false,
+        "raw_commands_retained": false,
+        "raw_output_retained": false
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "model_generation_performed": true,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "contract_id": "OrderPlaced/v2",
+        "compatibility_policy_id": "COMPAT-V1-CONSUMERS",
+        "component_revisions": {
+          "gateway": "ea2743e6005984cc6b55f6522942c6cec515af8b",
+          "catalog": "1f858812997f87fa1f580971062bc42926bcbe32",
+          "orders": "8bc718dd3984fdb24a312a446486daf4273d81dc",
+          "notifications": "4c3bf10ef5a3dda81c4e45f1874d475071ebe719"
+        },
+        "completed_slice_ids": [
+          "orders-catalog",
+          "notifications",
+          "gateway"
+        ],
+        "unresolved_risk_id": "RISK-COORDINATOR-PERSISTENCE",
+        "authority_owner_id": "coordinator",
+        "safe_next_action_id": "ACTION-BOUNDED-INTEGRATION-TEST"
+      },
+      "objective": {
+        "pass": true,
+        "schema_pass": true,
+        "schema_errors": [],
+        "typed_fact_pass": true,
+        "typed_fact_errors": {},
+        "fields": [
+          {
+            "id": "contract_id",
+            "pass": true
+          },
+          {
+            "id": "compatibility_policy_id",
+            "pass": true
+          },
+          {
+            "id": "component_revisions",
+            "pass": true
+          },
+          {
+            "id": "completed_slice_ids",
+            "pass": true
+          },
+          {
+            "id": "unresolved_risk_id",
+            "pass": true
+          },
+          {
+            "id": "authority_owner_id",
+            "pass": true
+          },
+          {
+            "id": "safe_next_action_id",
+            "pass": true
+          }
+        ],
+        "passed_fields": 7,
+        "total_fields": 7
+      }
+    },
+    {
+      "id": "single-stage-aware-b",
+      "shape": "single-repository",
+      "strategy": "stage-aware",
+      "repetition": "b",
+      "started_at": "2026-09-04T03:20:19.051Z",
+      "completed_at": "2026-09-04T03:21:02.999Z",
+      "elapsed_ms": 43944,
+      "turn_elapsed_ms": 43789,
+      "time_to_first_activity_ms": 3429,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "acknowledged_configured_reasoning_effort": "medium",
+      "effective_turn_reasoning_effort": null,
+      "reasoning_effort_evidence_kind": "requested-and-thread-configured-not-per-turn-execution-telemetry",
+      "usage": {
+        "input_tokens": 127219,
+        "cached_input_tokens": 119040,
+        "output_tokens": 870,
+        "reasoning_output_tokens": 102,
+        "total_tokens": 128089
+      },
+      "operational_tokens": 9049,
+      "tool_activity": {
+        "command_items": 6,
+        "command_actions": 6,
+        "temple_md_reads": 0,
+        "context_package_reads": 1,
+        "reported_output_bytes": 7165,
+        "item_types": {
+          "userMessage": 1,
+          "reasoning": 5,
+          "commandExecution": 6,
+          "agentMessage": 1
+        }
+      },
+      "context_acquisition": {
+        "schema_version": "temple.context-acquisition/v1",
+        "limits": {
+          "maximum_entries": 64,
+          "maximum_path_bytes": 240
+        },
+        "entries": [
+          {
+            "repository_id": null,
+            "path": null,
+            "access_kind": "read",
+            "classification": "unknown",
+            "reported_output_bytes": 2804
+          },
+          {
+            "repository_id": "coordinator",
+            "path": ".ai-org/work-items/WI-0001.json",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 2714
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/product/idempotency.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 251
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/adr/0042-reuse-original-receipt.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 152
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/handoffs/developer.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 309
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          }
+        ],
+        "entry_count": 6,
+        "unique_path_count": 5,
+        "overflow_count": 0,
+        "failed_command_items": 0,
+        "counts": {
+          "control": 0,
+          "required-evidence": 1,
+          "routed": 4,
+          "permitted-fallback": 0,
+          "off-route": 0,
+          "unknown": 1
+        },
+        "reported_output_bytes_by_classification": {
+          "control": 0,
+          "required-evidence": 935,
+          "routed": 3426,
+          "permitted-fallback": 0,
+          "off-route": 0,
+          "unknown": 2804
+        },
+        "classifiable_context_reads": 4,
+        "policy_adherent_reads": 4,
+        "known_policy_adherence_percent": 100,
+        "routed_share_percent": 100,
+        "coverage_complete": false,
+        "adherence_pass": false,
+        "raw_commands_retained": false,
+        "raw_output_retained": false
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "model_generation_performed": true,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "requirement_id": "REQ-IDEMPOTENCY-001",
+        "duplicate_request_effect": "return-original-receipt",
+        "decision_id": "ADR-0042",
+        "repository_revision": "1865bcc0d2757c89e44c01b735623fd39206ac6b",
+        "public_tests_passed": 18,
+        "public_tests_failed": 0,
+        "unresolved_risk_id": "RISK-CRASH-RECOVERY",
+        "safe_next_action_id": "ACTION-INDEPENDENT-CRASH-QA",
+        "authority_source": "docs/product/idempotency.md"
+      },
+      "objective": {
+        "pass": true,
+        "schema_pass": true,
+        "schema_errors": [],
+        "typed_fact_pass": true,
+        "typed_fact_errors": {},
+        "fields": [
+          {
+            "id": "requirement_id",
+            "pass": true
+          },
+          {
+            "id": "duplicate_request_effect",
+            "pass": true
+          },
+          {
+            "id": "decision_id",
+            "pass": true
+          },
+          {
+            "id": "repository_revision",
+            "pass": true
+          },
+          {
+            "id": "public_tests_passed",
+            "pass": true
+          },
+          {
+            "id": "public_tests_failed",
+            "pass": true
+          },
+          {
+            "id": "unresolved_risk_id",
+            "pass": true
+          },
+          {
+            "id": "safe_next_action_id",
+            "pass": true
+          },
+          {
+            "id": "authority_source",
+            "pass": true
+          }
+        ],
+        "passed_fields": 9,
+        "total_fields": 9
+      }
+    },
+    {
+      "id": "multi-legacy-expanded-b",
+      "shape": "coordinator-multi-repository",
+      "strategy": "legacy-expanded",
+      "repetition": "b",
+      "started_at": "2026-09-04T03:21:03.074Z",
+      "completed_at": "2026-09-04T03:22:11.923Z",
+      "elapsed_ms": 68847,
+      "turn_elapsed_ms": 68692,
+      "time_to_first_activity_ms": 5099,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "acknowledged_configured_reasoning_effort": "medium",
+      "effective_turn_reasoning_effort": null,
+      "reasoning_effort_evidence_kind": "requested-and-thread-configured-not-per-turn-execution-telemetry",
+      "usage": {
+        "input_tokens": 191956,
+        "cached_input_tokens": 177664,
+        "output_tokens": 1318,
+        "reasoning_output_tokens": 190,
+        "total_tokens": 193274
+      },
+      "operational_tokens": 15610,
+      "tool_activity": {
+        "command_items": 9,
+        "command_actions": 9,
+        "temple_md_reads": 0,
+        "context_package_reads": 1,
+        "reported_output_bytes": 11187,
+        "item_types": {
+          "userMessage": 1,
+          "reasoning": 7,
+          "commandExecution": 9,
+          "agentMessage": 1
+        }
+      },
+      "context_acquisition": {
+        "schema_version": "temple.context-acquisition/v1",
+        "limits": {
+          "maximum_entries": 64,
+          "maximum_path_bytes": 240
+        },
+        "entries": [
+          {
+            "repository_id": null,
+            "path": null,
+            "access_kind": "read",
+            "classification": "unknown",
+            "reported_output_bytes": 3470
+          },
+          {
+            "repository_id": "coordinator",
+            "path": ".ai-org/work-items/WI-0001.json",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 2467
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/handoffs/components.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 331
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "docs/contracts/order-placed-v2.md",
+            "access_kind": "read",
+            "classification": "routed",
+            "reported_output_bytes": 244
+          },
+          {
+            "repository_id": "coordinator",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          },
+          {
+            "repository_id": "gateway",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          },
+          {
+            "repository_id": "catalog",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          },
+          {
+            "repository_id": "orders",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          },
+          {
+            "repository_id": "notifications",
+            "path": "@git/HEAD",
+            "access_kind": "git",
+            "classification": "required-evidence",
+            "reported_output_bytes": 935
+          }
+        ],
+        "entry_count": 9,
+        "unique_path_count": 8,
+        "overflow_count": 0,
+        "failed_command_items": 0,
+        "counts": {
+          "control": 0,
+          "required-evidence": 5,
+          "routed": 3,
+          "permitted-fallback": 0,
+          "off-route": 0,
+          "unknown": 1
+        },
+        "reported_output_bytes_by_classification": {
+          "control": 0,
+          "required-evidence": 4675,
+          "routed": 3042,
+          "permitted-fallback": 0,
+          "off-route": 0,
+          "unknown": 3470
+        },
+        "classifiable_context_reads": 3,
+        "policy_adherent_reads": 3,
+        "known_policy_adherence_percent": 100,
+        "routed_share_percent": 100,
+        "coverage_complete": false,
+        "adherence_pass": false,
+        "raw_commands_retained": false,
+        "raw_output_retained": false
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "model_generation_performed": true,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "contract_id": "OrderPlaced/v2",
+        "compatibility_policy_id": "COMPAT-V1-CONSUMERS",
+        "component_revisions": {
+          "gateway": "ea2743e6005984cc6b55f6522942c6cec515af8b",
+          "catalog": "1f858812997f87fa1f580971062bc42926bcbe32",
+          "orders": "8bc718dd3984fdb24a312a446486daf4273d81dc",
+          "notifications": "4c3bf10ef5a3dda81c4e45f1874d475071ebe719"
+        },
+        "completed_slice_ids": [
+          "orders-catalog",
+          "notifications",
+          "gateway"
+        ],
+        "unresolved_risk_id": "RISK-COORDINATOR-PERSISTENCE",
+        "authority_owner_id": "coordinator",
+        "safe_next_action_id": "ACTION-BOUNDED-INTEGRATION-TEST"
+      },
+      "objective": {
+        "pass": true,
+        "schema_pass": true,
+        "schema_errors": [],
+        "typed_fact_pass": true,
+        "typed_fact_errors": {},
+        "fields": [
+          {
+            "id": "contract_id",
+            "pass": true
+          },
+          {
+            "id": "compatibility_policy_id",
+            "pass": true
+          },
+          {
+            "id": "component_revisions",
+            "pass": true
+          },
+          {
+            "id": "completed_slice_ids",
+            "pass": true
+          },
+          {
+            "id": "unresolved_risk_id",
+            "pass": true
+          },
+          {
+            "id": "authority_owner_id",
+            "pass": true
+          },
+          {
+            "id": "safe_next_action_id",
+            "pass": true
+          }
+        ],
+        "passed_fields": 7,
+        "total_fields": 7
+      }
+    }
+  ],
+  "total_operational_tokens": 197367,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}

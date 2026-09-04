@@ -1,0 +1,295 @@
+{
+  "schema_version": "temple.representative-microservice-evaluator-continuation-preflight/v1",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "3247ab0cfcfa8664efea67cd751cae51cbaf9d0729276f03d250010e81ab9eb5",
+  "observed_at": "2026-09-03T23:22:44.221Z",
+  "checks": [
+    {
+      "id": "continuation-protocol-valid",
+      "pass": true
+    },
+    {
+      "id": "source-protocol-valid",
+      "pass": true
+    },
+    {
+      "id": "source-protocol-bound",
+      "pass": true
+    },
+    {
+      "id": "source-lab-bound",
+      "pass": true
+    },
+    {
+      "id": "candidate-file-bound",
+      "pass": true
+    },
+    {
+      "id": "candidate-archive-bound",
+      "pass": true
+    },
+    {
+      "id": "candidate-complete",
+      "pass": true
+    },
+    {
+      "id": "candidate-usage-bound",
+      "pass": true
+    },
+    {
+      "id": "candidate-zero-retry-fallback",
+      "pass": true
+    },
+    {
+      "id": "blind-packages-bound",
+      "pass": true
+    },
+    {
+      "id": "manifest-bound",
+      "pass": true
+    },
+    {
+      "id": "portable-output-schema",
+      "pass": true
+    },
+    {
+      "id": "exact-evaluator-prompt-bound",
+      "pass": true
+    },
+    {
+      "id": "exact-wire-requests-valid",
+      "pass": true
+    },
+    {
+      "id": "installed-item-type-partition",
+      "pass": true
+    },
+    {
+      "id": "continuation-runner-bound",
+      "pass": true
+    },
+    {
+      "id": "continuation-analyzer-bound",
+      "pass": true
+    },
+    {
+      "id": "provider-contract-bound",
+      "pass": true
+    },
+    {
+      "id": "generation-free-evaluator-readiness",
+      "pass": true
+    },
+    {
+      "id": "all-generated-repositories-clean",
+      "pass": true
+    },
+    {
+      "id": "no-prior-continuation-result",
+      "pass": true
+    },
+    {
+      "id": "no-prior-continuation-stop",
+      "pass": true
+    },
+    {
+      "id": "exact-continuation-approval",
+      "pass": true
+    }
+  ],
+  "approval_errors": [],
+  "readiness_errors": [],
+  "source_candidate_operational_tokens": 361250,
+  "evaluator_operational_token_limit": 100000,
+  "provider_handshake": {
+    "pass": true,
+    "codex_cli_version": "codex-cli 0.153.0-alpha.5",
+    "schema_digests": {
+      "ThreadStartParams.json": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+      "TurnStartParams.json": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
+      "ThreadStartResponse.json": "656f8fd0fe91f533126cbfdb9369cfab550927a229e48dd46460f6f015d2b186",
+      "TurnStartResponse.json": "6fc49c3e5d0ce11a3a109ae194619b04d6e3ff98fa29bac683fdb754608958be",
+      "ItemStartedNotification.json": "c4c34f47db6326cd4841bae428f23d08eb285077ffad35be9772b928c65bb912",
+      "TurnCompletedNotification.json": "78af2a37391e8e669a4020cb58593e4d3e378756ced79d5fec72374fa69fb94b",
+      "ItemCompletedNotification.json": "69aba3fe5f72f38bf5c541e7e2c09de40778abe65ff969d9fc73372037812091",
+      "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
+      "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
+      "TurnInterruptParams.json": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b",
+      "ConfigReadParams.json": "257c54a423b47c1d209ff1076765a1564d82322fd5161670fd489a2874de1bac",
+      "ConfigReadResponse.json": "bd72c94e2c7d49ead6a20bcf54afedc8db11044bf8cadb387e42135dd5d1e342"
+    },
+    "turn_sandbox_capabilities": {
+      "restricted_read_access_supported": false,
+      "workspace_write_roots_supported": true,
+      "network_access_toggle_supported": true
+    },
+    "memory_isolation": {
+      "use_memories": false,
+      "generate_memories": false,
+      "feature_enabled": false,
+      "app_server_arguments_sha256": "e5d3c3be08c8191bc85c61fa4ba79436ae8fedcdb480cba347f2b85f494567ab",
+      "pass": true
+    },
+    "wire_request_validation": {
+      "thread_start": {
+        "pass": true,
+        "request_sha256": "ce568276732d6016d9cb5c362163c14c1d3de49c8ddedb930a96b25101e9f025",
+        "errors": []
+      },
+      "turn_start": {
+        "pass": true,
+        "request_sha256": "d56537a0154731fb97bc733bb9c6e3ee74c6cf1a7732b60701e967eda24061ac",
+        "errors": []
+      }
+    },
+    "item_type_partition": {
+      "schema_values": [
+        "agentMessage",
+        "collabAgentToolCall",
+        "commandExecution",
+        "contextCompaction",
+        "dynamicToolCall",
+        "enteredReviewMode",
+        "exitedReviewMode",
+        "fileChange",
+        "functionCallOutput",
+        "hookPrompt",
+        "imageGeneration",
+        "imageView",
+        "mcpToolCall",
+        "plan",
+        "reasoning",
+        "sleep",
+        "subAgentActivity",
+        "userMessage",
+        "webSearch"
+      ],
+      "passive_no_tool_values": [
+        "agentMessage",
+        "contextCompaction",
+        "plan",
+        "reasoning",
+        "userMessage"
+      ],
+      "denied_no_tool_values": [
+        "collabAgentToolCall",
+        "commandExecution",
+        "dynamicToolCall",
+        "enteredReviewMode",
+        "exitedReviewMode",
+        "fileChange",
+        "functionCallOutput",
+        "hookPrompt",
+        "imageGeneration",
+        "imageView",
+        "mcpToolCall",
+        "sleep",
+        "subAgentActivity",
+        "webSearch"
+      ],
+      "pass": true
+    },
+    "required_models": [
+      {
+        "model": "gpt-5.6-sol",
+        "reasoning_efforts": [
+          "xhigh"
+        ]
+      },
+      {
+        "model": "gpt-5.6-terra",
+        "reasoning_efforts": [
+          "medium"
+        ]
+      }
+    ],
+    "model_checks": [
+      {
+        "model": "gpt-5.6-sol",
+        "reasoning_efforts": [
+          "xhigh"
+        ],
+        "available": true,
+        "observed_reasoning_efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max",
+          "ultra"
+        ]
+      },
+      {
+        "model": "gpt-5.6-terra",
+        "reasoning_efforts": [
+          "medium"
+        ],
+        "available": true,
+        "observed_reasoning_efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max",
+          "ultra"
+        ]
+      }
+    ],
+    "model_generation_performed": false
+  },
+  "repository_cleanliness": [
+    {
+      "arm_id": "minimal-responsible",
+      "repository": "gateway",
+      "clean": true
+    },
+    {
+      "arm_id": "minimal-responsible",
+      "repository": "catalog",
+      "clean": true
+    },
+    {
+      "arm_id": "minimal-responsible",
+      "repository": "orders",
+      "clean": true
+    },
+    {
+      "arm_id": "minimal-responsible",
+      "repository": "notifications",
+      "clean": true
+    },
+    {
+      "arm_id": "minimal-responsible",
+      "repository": "coordinator",
+      "clean": true
+    },
+    {
+      "arm_id": "temple",
+      "repository": "gateway",
+      "clean": true
+    },
+    {
+      "arm_id": "temple",
+      "repository": "catalog",
+      "clean": true
+    },
+    {
+      "arm_id": "temple",
+      "repository": "orders",
+      "clean": true
+    },
+    {
+      "arm_id": "temple",
+      "repository": "notifications",
+      "clean": true
+    },
+    {
+      "arm_id": "temple",
+      "repository": "coordinator",
+      "clean": true
+    }
+  ],
+  "generation_ready": true,
+  "blockers": [],
+  "model_generation_performed": false
+}

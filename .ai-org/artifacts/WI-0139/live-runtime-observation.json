@@ -1,0 +1,18 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "revision": "65d2d5065c51a20618e81781dfdbd4987e870534",
+  "environment": "Codex App Server with isolated local repository fixtures",
+  "scenario": "Execute the approved four-condition typed Context Capsule comparison with fixed model, effort, token, retry, and fallback boundaries",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-09-04T02:04:06.910Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0139/account-approval.json",
+    ".ai-org/artifacts/WI-0139/approved-preflight.json",
+    ".ai-org/artifacts/WI-0139/live-protocol.json",
+    ".ai-org/artifacts/WI-0139/live-observation.json",
+    ".ai-org/artifacts/WI-0139/effectiveness-analysis.json",
+    ".ai-org/artifacts/WI-0139/effectiveness-report.md",
+    ".ai-org/artifacts/WI-0139/live-evaluation.md"
+  ]
+}

@@ -1,0 +1,372 @@
+{
+  "schema_version": "temple.representative-microservice-stopped-run/v2",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "d729c503d8e8a9d35e0eb6367fda51fa76dbf34e7db45a5ef0a0408166283040",
+  "started_at": "2026-09-03T17:58:41.408Z",
+  "stopped_at": "2026-09-03T18:03:09.829Z",
+  "completed_arm_count": 0,
+  "completed_arms": [],
+  "active_arm": {
+    "arm_id": "minimal-responsible",
+    "design": {
+      "id": "minimal-responsible-design",
+      "stage": "design",
+      "started_at": "2026-09-03T17:58:41.408Z",
+      "completed_at": "2026-09-03T18:02:50.613Z",
+      "elapsed_ms": 249205,
+      "session_setup_ms": 141,
+      "turn_elapsed_ms": 249064,
+      "time_to_first_activity_ms": 2655,
+      "time_to_first_command_ms": 9939,
+      "effective_output_tokens_per_second": 34.818,
+      "thread_id": "01a0686c-4620-75a2-b816-eb9549e1c6b6",
+      "turn_id": "01a0686c-468e-7fb0-95c3-1e1f0a97c0b8",
+      "requested_model": "gpt-5.6-sol",
+      "acknowledged_model": "gpt-5.6-sol",
+      "requested_reasoning_effort": "xhigh",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 989936,
+        "cached_input_tokens": 912512,
+        "output_tokens": 8672,
+        "reasoning_output_tokens": 4933,
+        "total_tokens": 998608
+      },
+      "operational_tokens": 86096,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 1408,
+            "characters": 1408,
+            "sha256": "05264f4e8fef83ba39be450ff0a8e6fe586a9f0788818b711a227e4938dd55d4"
+          },
+          "user_input": {
+            "bytes": 1873,
+            "characters": 1873,
+            "sha256": "ed05308117a50aa6409f528383c2de85033224a76d801b15294a33d44d9202d9"
+          },
+          "output_schema": {
+            "bytes": 606,
+            "characters": 606,
+            "sha256": "dd96eba2c74430a2bb90418d024e9dfb21cc36d0e6ad62ad23fdc65a14e19d37"
+          }
+        },
+        "explicit_bytes": 4055,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 36,
+        "command_actions": 36,
+        "action_types": {
+          "read": 13,
+          "listFiles": 7,
+          "unknown": 16
+        },
+        "temple_md_attempts": 0,
+        "context_resolve_attempts": 0,
+        "temple_md_reads": 0,
+        "context_resolve_calls": 0,
+        "context_sequence": [],
+        "reported_output_bytes": 31527
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "contract_version": "OrderPlaced/v2",
+        "rollout_order": [
+          "notifications",
+          "orders-catalog",
+          "gateway"
+        ],
+        "slices": [
+          {
+            "id": "orders-catalog",
+            "repositories": [
+              "catalog",
+              "orders"
+            ],
+            "responsibility": "Using only the recorded owned sources, update Catalog first so every mapped SKU returns its stored inventoryRevision while preserving existing unknown-SKU behavior. Then update Orders to emit only the exact v2 envelope: type, version, id, occurredAt, locale, inventoryRevision, and nested order {id, sku, quantity}. The checkout caller must pass Catalog's inventoryRevision into createOrderPlaced. Publish the Orders producer only after the notifications compatibility gate passes. Run each repository's npm test, commit accepted changes separately, and create each required organization/HANDOFF.md with revision, tests, completed work, and unresolved issues."
+          },
+          {
+            "id": "notifications",
+            "repositories": [
+              "notifications"
+            ],
+            "responsibility": "Prepare the consumer before v2 publication. Validate type, supported version, nonempty event ID, and all version-specific required fields. Accept retained v1 flat events using orderId, sku, and quantity; accept v2 events using occurredAt, locale, inventoryRevision, and nested order.id, order.sku, and order.quantity. Reject malformed or unsupported events without mutating deliveries. Preserve the accepted/duplicate/deliveryCount result contract and derive the delivery order ID from the appropriate version. Deduplicate solely by event.id across both versions so replaying the same ID cannot create another delivery. Run npm test, commit the accepted change, and write the required handoff."
+          },
+          {
+            "id": "gateway",
+            "repositories": [
+              "gateway"
+            ],
+            "responsibility": "Preserve orderId and status exactly and add eventVersion from event.version. Run npm test, commit the accepted change, and write the required handoff after producer publication."
+          }
+        ],
+        "risks": [
+          "Consumer preparation is the hard rollout gate: publishing Orders v2 before Notifications accepts both versions would reject new events; removing v1 handling before retained events drain would break replay.",
+          "The current public Notifications test covers v2 idempotency only; retained-v1 acceptance, unsupported-version rejection, malformed-event rejection, no-mutation-on-rejection, and cross-version duplicate IDs remain explicit verification obligations.",
+          "Idempotency is only as durable as the caller-supplied deliveries Map. Persistent or distributed deduplication is outside the recorded repository boundary.",
+          "Baseline tests currently fail as expected: catalog npm test 0/1 because inventoryRevision is omitted; orders npm test 0/1 because it emits flat v1; notifications npm test 0/1 because it rejects v2; gateway npm test 0/1 because eventVersion is omitted; coordinator npm test 0/1 at the v1-versus-v2 assertion.",
+          "Mixed-version rollout behavior is represented by contracts and unit/integration tests only; no deployment or external-state verification is permitted."
+        ],
+        "assumptions": [
+          "Inspected clean revisions are catalog 490bb75496c715770d2585a18c7a6ddd8c8b67c9, orders 21b595ddeaf29c43c77ee6b980c8820c499bef67, notifications 01c716dc842e22b8b241eeb19707d69bf57f9598, gateway b650f0713776851c609659d5f6872d60e67742fe, and coordinator 9cca4a59fb9d333433d6fb86fa5503a358733d04.",
+          "The retained v1 contract is the current flat Orders shape: type, version, id, orderId, sku, and quantity.",
+          "Malformed means a missing or invalid required field for the selected version; IDs and required metadata are nonempty strings, order is an object for v2, and quantity is a positive integer.",
+          "Catalog inventory revisions are returned for all known mapped SKUs, including unavailable ones; unknown-SKU response semantics remain unchanged.",
+          "The existing coordinator integration already supplies Catalog's inventoryRevision to Orders and requires no writable coordinator slice.",
+          "No files were modified."
+        ]
+      },
+      "design_revision": "58e82177b5abc2ff1c1fa82d0ab07c8b8ab0d117"
+    },
+    "builds": [
+      {
+        "id": "minimal-responsible-gateway",
+        "stage": "build",
+        "started_at": "2026-09-03T18:02:50.708Z",
+        "completed_at": "2026-09-03T18:03:09.290Z",
+        "elapsed_ms": 18582,
+        "session_setup_ms": 193,
+        "turn_elapsed_ms": 18389,
+        "time_to_first_activity_ms": 3355,
+        "time_to_first_command_ms": 8509,
+        "effective_output_tokens_per_second": 31.16,
+        "thread_id": "01a06870-1414-7ea2-80e6-ca63abda3247",
+        "turn_id": "01a06870-1497-7362-9ab1-a384096849c6",
+        "requested_model": "gpt-5.6-terra",
+        "acknowledged_model": "gpt-5.6-terra",
+        "requested_reasoning_effort": "medium",
+        "observed_thread_reasoning_effort": "high",
+        "effective_turn_reasoning_effort": null,
+        "usage": {
+          "input_tokens": 62240,
+          "cached_input_tokens": 57600,
+          "output_tokens": 573,
+          "reasoning_output_tokens": 258,
+          "total_tokens": 62813
+        },
+        "operational_tokens": 5213,
+        "prompt_metrics": {
+          "components": {
+            "base_instructions": {
+              "bytes": 168,
+              "characters": 168,
+              "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+            },
+            "developer_instructions": {
+              "bytes": 1408,
+              "characters": 1408,
+              "sha256": "05264f4e8fef83ba39be450ff0a8e6fe586a9f0788818b711a227e4938dd55d4"
+            },
+            "user_input": {
+              "bytes": 847,
+              "characters": 847,
+              "sha256": "973bf17350ff18cf75794e8fb0f80daa3eb50f5e688e6dd43617eaf56a7cc856"
+            },
+            "output_schema": {
+              "bytes": 350,
+              "characters": 350,
+              "sha256": "c29cae9d81c3749e9869f21c25e39961641415e0e8bac39b09d166c7e4afae91"
+            }
+          },
+          "explicit_bytes": 2773,
+          "raw_prompt_retained": false
+        },
+        "tool_activity": {
+          "command_items": 3,
+          "command_actions": 3,
+          "action_types": {
+            "listFiles": 3
+          },
+          "temple_md_attempts": 0,
+          "context_resolve_attempts": 0,
+          "temple_md_reads": 0,
+          "context_resolve_calls": 0,
+          "context_sequence": [],
+          "reported_output_bytes": 0
+        },
+        "retry_count": 0,
+        "fallback_count": 0,
+        "raw_prompt_retained": false,
+        "raw_response_retained": false,
+        "hidden_reasoning_retained": false,
+        "status": "stopped",
+        "stop_scope": "run",
+        "stop_reason": "command-policy-violation:command policy rejected (command-cwd-outside-arm): /bin/zsh -lc \"rg --files --hidden -g 'WORK_ITEM.md' -g 'TASK.md' -g 'design-record.json' -g 'package.json' -g 'AGENTS.md",
+        "completion": null
+      },
+      {
+        "id": "minimal-responsible-notifications",
+        "stage": "build",
+        "started_at": "2026-09-03T18:02:50.707Z",
+        "completed_at": "2026-09-03T18:03:09.810Z",
+        "elapsed_ms": 19103,
+        "session_setup_ms": 194,
+        "turn_elapsed_ms": 18909,
+        "time_to_first_activity_ms": 3261,
+        "time_to_first_command_ms": 9086,
+        "effective_output_tokens_per_second": 28.188,
+        "thread_id": "01a06870-13ff-7790-95ab-a371b80e422e",
+        "turn_id": "01a06870-1497-77c0-a774-57aeeb684b2d",
+        "requested_model": "gpt-5.6-terra",
+        "acknowledged_model": "gpt-5.6-terra",
+        "requested_reasoning_effort": "medium",
+        "observed_thread_reasoning_effort": "high",
+        "effective_turn_reasoning_effort": null,
+        "usage": {
+          "input_tokens": 66010,
+          "cached_input_tokens": 54528,
+          "output_tokens": 533,
+          "reasoning_output_tokens": 253,
+          "total_tokens": 66543
+        },
+        "operational_tokens": 12015,
+        "prompt_metrics": {
+          "components": {
+            "base_instructions": {
+              "bytes": 168,
+              "characters": 168,
+              "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+            },
+            "developer_instructions": {
+              "bytes": 1408,
+              "characters": 1408,
+              "sha256": "05264f4e8fef83ba39be450ff0a8e6fe586a9f0788818b711a227e4938dd55d4"
+            },
+            "user_input": {
+              "bytes": 865,
+              "characters": 865,
+              "sha256": "34717ffc6f84a60383aa9b3d3800d13d6017d357f3a83e9db64a0a5249765563"
+            },
+            "output_schema": {
+              "bytes": 350,
+              "characters": 350,
+              "sha256": "c29cae9d81c3749e9869f21c25e39961641415e0e8bac39b09d166c7e4afae91"
+            }
+          },
+          "explicit_bytes": 2791,
+          "raw_prompt_retained": false
+        },
+        "tool_activity": {
+          "command_items": 3,
+          "command_actions": 3,
+          "action_types": {
+            "listFiles": 2,
+            "read": 1
+          },
+          "temple_md_attempts": 0,
+          "context_resolve_attempts": 0,
+          "temple_md_reads": 0,
+          "context_resolve_calls": 0,
+          "context_sequence": [],
+          "reported_output_bytes": 10931
+        },
+        "retry_count": 0,
+        "fallback_count": 0,
+        "raw_prompt_retained": false,
+        "raw_response_retained": false,
+        "hidden_reasoning_retained": false,
+        "status": "stopped",
+        "stop_scope": "run",
+        "stop_reason": "parallel-wave-cancelled",
+        "completion": null
+      },
+      {
+        "id": "minimal-responsible-orders-catalog",
+        "stage": "build",
+        "started_at": "2026-09-03T18:02:50.710Z",
+        "completed_at": "2026-09-03T18:03:09.810Z",
+        "elapsed_ms": 19100,
+        "session_setup_ms": 191,
+        "turn_elapsed_ms": 18909,
+        "time_to_first_activity_ms": 3253,
+        "time_to_first_command_ms": 7705,
+        "effective_output_tokens_per_second": 20.731,
+        "thread_id": "01a06870-13ff-7303-bf61-ef1e0557c9d4",
+        "turn_id": "01a06870-1497-7182-9217-0f16e842c08a",
+        "requested_model": "gpt-5.6-terra",
+        "acknowledged_model": "gpt-5.6-terra",
+        "requested_reasoning_effort": "medium",
+        "observed_thread_reasoning_effort": "high",
+        "effective_turn_reasoning_effort": null,
+        "usage": {
+          "input_tokens": 62155,
+          "cached_input_tokens": 57600,
+          "output_tokens": 392,
+          "reasoning_output_tokens": 153,
+          "total_tokens": 62547
+        },
+        "operational_tokens": 4947,
+        "prompt_metrics": {
+          "components": {
+            "base_instructions": {
+              "bytes": 168,
+              "characters": 168,
+              "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+            },
+            "developer_instructions": {
+              "bytes": 1408,
+              "characters": 1408,
+              "sha256": "05264f4e8fef83ba39be450ff0a8e6fe586a9f0788818b711a227e4938dd55d4"
+            },
+            "user_input": {
+              "bytes": 870,
+              "characters": 870,
+              "sha256": "1da5224b5ad4e5a5359d040da6606f326315fd42db1043dd5bddd313d65010b8"
+            },
+            "output_schema": {
+              "bytes": 350,
+              "characters": 350,
+              "sha256": "c29cae9d81c3749e9869f21c25e39961641415e0e8bac39b09d166c7e4afae91"
+            }
+          },
+          "explicit_bytes": 2796,
+          "raw_prompt_retained": false
+        },
+        "tool_activity": {
+          "command_items": 3,
+          "command_actions": 3,
+          "action_types": {
+            "listFiles": 1,
+            "read": 2
+          },
+          "temple_md_attempts": 0,
+          "context_resolve_attempts": 0,
+          "temple_md_reads": 0,
+          "context_resolve_calls": 0,
+          "context_sequence": [],
+          "reported_output_bytes": 567
+        },
+        "retry_count": 0,
+        "fallback_count": 0,
+        "raw_prompt_retained": false,
+        "raw_response_retained": false,
+        "hidden_reasoning_retained": false,
+        "status": "stopped",
+        "stop_scope": "run",
+        "stop_reason": "parallel-wave-cancelled",
+        "completion": null
+      }
+    ],
+    "portfolio_revision": null,
+    "integration": null
+  },
+  "candidate_operational_tokens": 108271,
+  "reason": "minimal-responsible-gateway:command-policy-violation:command policy rejected (command-cwd-outside-arm): /bin/zsh -lc \"rg --files --hidden -g 'WORK_ITEM.md' -g 'TASK.md' -g 'design-record.json' -g 'package.json' -g 'AGENTS.md",
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}

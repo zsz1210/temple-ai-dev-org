@@ -1,24 +1,21 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-02T02:48:38.536Z",
-  "source_fingerprint": "cf36c7171769b739dc823a778e376e8e41b3b0839baa65ba8c60fb18072dcf02",
+  "generated_at": "2026-09-03T10:37:36.510Z",
+  "source_fingerprint": "14043d24823203dbe06b09d7ff2a61311ad7e1eb09799cf072a7ff0a2452547d",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
     "selected_work_item_ids": [
       "WI-0033",
-      "WI-0064",
-      "WI-0067",
-      "WI-0086",
-      "WI-0094"
+      "WI-0086"
     ]
   },
   "max_workers": 3,
   "summary": {
-    "selected": 5,
+    "selected": 2,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 4,
+    "sequential": 1,
     "blocked": 1,
     "waves": 0
   },
@@ -26,45 +23,12 @@
   "active": [],
   "sequential": [
     {
-      "work_item_id": "WI-0064",
-      "title": "Revalidate Provider-observed model attribution",
-      "disposition": "sequential",
-      "position_id": "engineering_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "requested_mode_sequential"
-      ]
-    },
-    {
-      "work_item_id": "WI-0067",
-      "title": "Run bounded four-repository commerce rehearsal",
-      "disposition": "sequential",
-      "position_id": "engineering_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "requested_mode_sequential"
-      ]
-    },
-    {
       "work_item_id": "WI-0086",
       "title": "Prepare the first public Alpha release candidate",
       "disposition": "sequential",
       "position_id": "engineering_manager",
       "agent_id": "agent-mog",
       "integration_owner_agent_id": "agent-mog",
-      "reasons": [
-        "requested_mode_sequential"
-      ]
-    },
-    {
-      "work_item_id": "WI-0094",
-      "title": "Bound managed Usage snapshot latency and payload",
-      "disposition": "sequential",
-      "position_id": "engineering_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": null,
       "reasons": [
         "requested_mode_sequential"
       ]
@@ -92,42 +56,6 @@
         {
           "left_path": "SECURITY.md",
           "right_path": "SECURITY.md"
-        }
-      ],
-      "resolution": "separate-waves"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0033",
-      "right_work_item_id": "WI-0094",
-      "paths": [
-        {
-          "left_path": "src/control-plane-server.mjs",
-          "right_path": "src/control-plane-server.mjs"
-        }
-      ],
-      "resolution": "separate-waves"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0064",
-      "right_work_item_id": "WI-0067",
-      "paths": [
-        {
-          "left_path": "docs/planning/temple-effectiveness-and-microservice-validation.md",
-          "right_path": "docs/planning/temple-effectiveness-and-microservice-validation.md"
-        }
-      ],
-      "resolution": "separate-waves"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0067",
-      "right_work_item_id": "WI-0086",
-      "paths": [
-        {
-          "left_path": "docs/validation/README.md",
-          "right_path": "docs/validation/README.md"
         }
       ],
       "resolution": "separate-waves"

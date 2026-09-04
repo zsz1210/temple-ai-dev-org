@@ -1,0 +1,500 @@
+{
+  "schema_version": "temple.context-model-diagnostic-stopped-run/v8",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "c0d4aaefd74419487fd7541f03c4fe1355661df24e1981d2a8897ee371510683",
+  "started_at": "2026-09-03T14:06:07.215Z",
+  "stopped_at": "2026-09-03T14:10:01.824Z",
+  "observed_condition_count": 2,
+  "completed_condition_count": 2,
+  "censored_condition_count": 0,
+  "stopped_condition_count": 0,
+  "observed_conditions": [
+    {
+      "condition": "terra-routed",
+      "context_strategy": "routed",
+      "context_strategy_observed": true,
+      "id": "context-terra-routed",
+      "stage": "integration",
+      "started_at": "2026-09-03T14:06:07.215Z",
+      "completed_at": "2026-09-03T14:09:29.810Z",
+      "elapsed_ms": 202595,
+      "session_setup_ms": 136,
+      "turn_elapsed_ms": 202459,
+      "time_to_first_activity_ms": 3269,
+      "time_to_first_command_ms": 7005,
+      "effective_output_tokens_per_second": 29.611,
+      "thread_id": "01a06797-5988-78c0-b4ce-78f5068a5223",
+      "turn_id": "01a06797-59f8-7630-85fb-6602b6ac3ccf",
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 1056375,
+        "cached_input_tokens": 995328,
+        "output_tokens": 5995,
+        "reasoning_output_tokens": 1800,
+        "total_tokens": 1062370
+      },
+      "operational_tokens": 67042,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 560,
+            "characters": 560,
+            "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
+          },
+          "user_input": {
+            "bytes": 1155,
+            "characters": 1155,
+            "sha256": "622df7a9f4c33c9afc962dbce1316a5c2cbd691117e668176bb5c4608c521eb3"
+          },
+          "output_schema": {
+            "bytes": 684,
+            "characters": 684,
+            "sha256": "677d13bd2fdf4025cd2071f30e3a0745f23b15e2e0be3884086004dff33152f1"
+          }
+        },
+        "explicit_bytes": 2567,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 36,
+        "command_actions": 36,
+        "action_types": {
+          "unknown": 15,
+          "read": 15,
+          "listFiles": 3,
+          "search": 3
+        },
+        "temple_md_reads": 0,
+        "context_resolve_calls": 2,
+        "context_sequence": [
+          "context-resolve",
+          "context-resolve"
+        ],
+        "reported_output_bytes": 46700
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "recovered_revisions": [
+          {
+            "repository": "gateway",
+            "revision": "9ee19f2cd76bc9b06ed966341cb0af79608c08f8"
+          },
+          {
+            "repository": "catalog",
+            "revision": "9596781116cdd4119e8b82ba12777b9ee5dafaaa"
+          },
+          {
+            "repository": "orders",
+            "revision": "aa9602104a9f28d2287e4b3e63154956e4baaf0c"
+          },
+          {
+            "repository": "notifications",
+            "revision": "530a130727083e2a4d5eef45d42541ccf761a07f"
+          }
+        ],
+        "governing_contract": "OrderPlaced/v2 rolling compatibility: retain v1 while Catalog inventoryRevision propagates through the v2 event and Gateway response.",
+        "completed_slices": [
+          "orders-catalog",
+          "notifications",
+          "gateway"
+        ],
+        "unresolved": [
+          "All three slices have only developer-to-quality-evaluator handoffs; their quality-evaluation/testing and subsequent integration remain unrecorded.",
+          "Retained v1 compatibility remains the recorded rollout risk."
+        ],
+        "safe_next_action": "Quality & Evaluation Engineer: start the rollout with the notifications handoff revision e2fb4e05a4349328ae36b4a951cded44eeca63f0, run its assigned public tests, and record results before evaluating orders-catalog and gateway.",
+        "summary": "All four repositories are clean. Developer build handoffs are retained for orders, catalog, notifications, and gateway; each local WI is in test state, while the coordinator WI remains in build state."
+      },
+      "expected_revisions": {
+        "gateway": "9ee19f2cd76bc9b06ed966341cb0af79608c08f8",
+        "catalog": "9596781116cdd4119e8b82ba12777b9ee5dafaaa",
+        "orders": "aa9602104a9f28d2287e4b3e63154956e4baaf0c",
+        "notifications": "530a130727083e2a4d5eef45d42541ccf761a07f"
+      },
+      "recovery": {
+        "exact_revision_count": 4,
+        "exact_revision_total": 4,
+        "governing_contract_named": true,
+        "completed_slice_count": 3,
+        "completed_slice_total": 3,
+        "unresolved_reported": true,
+        "safe_next_action_bounded": true,
+        "pass": true
+      }
+    },
+    {
+      "condition": "terra-full-load",
+      "context_strategy": "full-load",
+      "context_strategy_observed": false,
+      "id": "context-terra-full-load",
+      "stage": "integration",
+      "started_at": "2026-09-03T14:09:29.829Z",
+      "completed_at": "2026-09-03T14:10:01.809Z",
+      "elapsed_ms": 31980,
+      "session_setup_ms": 186,
+      "turn_elapsed_ms": 31794,
+      "time_to_first_activity_ms": 3050,
+      "time_to_first_command_ms": 7221,
+      "effective_output_tokens_per_second": 28.056,
+      "thread_id": "01a0679a-7126-75a3-85e4-b77ffd6507b0",
+      "turn_id": "01a0679a-719f-7660-a9dd-588626bb690b",
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 101302,
+        "cached_input_tokens": 77824,
+        "output_tokens": 892,
+        "reasoning_output_tokens": 343,
+        "total_tokens": 102194
+      },
+      "operational_tokens": 24370,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 560,
+            "characters": 560,
+            "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
+          },
+          "user_input": {
+            "bytes": 1033,
+            "characters": 1033,
+            "sha256": "c3aef8804dab335272a4028c71b5d0b3b0d60151d8ac64dce2e4ff2879e2c12d"
+          },
+          "output_schema": {
+            "bytes": 684,
+            "characters": 684,
+            "sha256": "677d13bd2fdf4025cd2071f30e3a0745f23b15e2e0be3884086004dff33152f1"
+          }
+        },
+        "explicit_bytes": 2445,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 4,
+        "command_actions": 4,
+        "action_types": {
+          "unknown": 3,
+          "listFiles": 1
+        },
+        "temple_md_reads": 2,
+        "context_resolve_calls": 0,
+        "context_sequence": [
+          "temple-md",
+          "temple-md"
+        ],
+        "reported_output_bytes": 1980
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "recovered_revisions": [],
+        "governing_contract": "",
+        "completed_slices": [
+          "orders-catalog",
+          "notifications",
+          "gateway"
+        ],
+        "unresolved": [
+          "Recovery blocked: Coordinator repository's TEMPLE.md is absent from the provided workspace, so the mandatory first action and Context Capsule preview could not be completed.",
+          "Consequently, service repositories, governing contract, design record, and retained slice handoffs were not inspected."
+        ],
+        "safe_next_action": "Provide or mount the Coordinator repository containing TEMPLE.md, then restart recovery by reading it in full before running the required context-resolve preview.",
+        "summary": "No repository-state assertions were made because the required Coordinator entry document was unavailable."
+      },
+      "expected_revisions": {
+        "gateway": "9ee19f2cd76bc9b06ed966341cb0af79608c08f8",
+        "catalog": "9596781116cdd4119e8b82ba12777b9ee5dafaaa",
+        "orders": "aa9602104a9f28d2287e4b3e63154956e4baaf0c",
+        "notifications": "530a130727083e2a4d5eef45d42541ccf761a07f"
+      },
+      "recovery": {
+        "exact_revision_count": 0,
+        "exact_revision_total": 4,
+        "governing_contract_named": false,
+        "completed_slice_count": 3,
+        "completed_slice_total": 3,
+        "unresolved_reported": true,
+        "safe_next_action_bounded": true,
+        "pass": false
+      }
+    }
+  ],
+  "completed_conditions": [
+    {
+      "condition": "terra-routed",
+      "context_strategy": "routed",
+      "context_strategy_observed": true,
+      "id": "context-terra-routed",
+      "stage": "integration",
+      "started_at": "2026-09-03T14:06:07.215Z",
+      "completed_at": "2026-09-03T14:09:29.810Z",
+      "elapsed_ms": 202595,
+      "session_setup_ms": 136,
+      "turn_elapsed_ms": 202459,
+      "time_to_first_activity_ms": 3269,
+      "time_to_first_command_ms": 7005,
+      "effective_output_tokens_per_second": 29.611,
+      "thread_id": "01a06797-5988-78c0-b4ce-78f5068a5223",
+      "turn_id": "01a06797-59f8-7630-85fb-6602b6ac3ccf",
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 1056375,
+        "cached_input_tokens": 995328,
+        "output_tokens": 5995,
+        "reasoning_output_tokens": 1800,
+        "total_tokens": 1062370
+      },
+      "operational_tokens": 67042,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 560,
+            "characters": 560,
+            "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
+          },
+          "user_input": {
+            "bytes": 1155,
+            "characters": 1155,
+            "sha256": "622df7a9f4c33c9afc962dbce1316a5c2cbd691117e668176bb5c4608c521eb3"
+          },
+          "output_schema": {
+            "bytes": 684,
+            "characters": 684,
+            "sha256": "677d13bd2fdf4025cd2071f30e3a0745f23b15e2e0be3884086004dff33152f1"
+          }
+        },
+        "explicit_bytes": 2567,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 36,
+        "command_actions": 36,
+        "action_types": {
+          "unknown": 15,
+          "read": 15,
+          "listFiles": 3,
+          "search": 3
+        },
+        "temple_md_reads": 0,
+        "context_resolve_calls": 2,
+        "context_sequence": [
+          "context-resolve",
+          "context-resolve"
+        ],
+        "reported_output_bytes": 46700
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "recovered_revisions": [
+          {
+            "repository": "gateway",
+            "revision": "9ee19f2cd76bc9b06ed966341cb0af79608c08f8"
+          },
+          {
+            "repository": "catalog",
+            "revision": "9596781116cdd4119e8b82ba12777b9ee5dafaaa"
+          },
+          {
+            "repository": "orders",
+            "revision": "aa9602104a9f28d2287e4b3e63154956e4baaf0c"
+          },
+          {
+            "repository": "notifications",
+            "revision": "530a130727083e2a4d5eef45d42541ccf761a07f"
+          }
+        ],
+        "governing_contract": "OrderPlaced/v2 rolling compatibility: retain v1 while Catalog inventoryRevision propagates through the v2 event and Gateway response.",
+        "completed_slices": [
+          "orders-catalog",
+          "notifications",
+          "gateway"
+        ],
+        "unresolved": [
+          "All three slices have only developer-to-quality-evaluator handoffs; their quality-evaluation/testing and subsequent integration remain unrecorded.",
+          "Retained v1 compatibility remains the recorded rollout risk."
+        ],
+        "safe_next_action": "Quality & Evaluation Engineer: start the rollout with the notifications handoff revision e2fb4e05a4349328ae36b4a951cded44eeca63f0, run its assigned public tests, and record results before evaluating orders-catalog and gateway.",
+        "summary": "All four repositories are clean. Developer build handoffs are retained for orders, catalog, notifications, and gateway; each local WI is in test state, while the coordinator WI remains in build state."
+      },
+      "expected_revisions": {
+        "gateway": "9ee19f2cd76bc9b06ed966341cb0af79608c08f8",
+        "catalog": "9596781116cdd4119e8b82ba12777b9ee5dafaaa",
+        "orders": "aa9602104a9f28d2287e4b3e63154956e4baaf0c",
+        "notifications": "530a130727083e2a4d5eef45d42541ccf761a07f"
+      },
+      "recovery": {
+        "exact_revision_count": 4,
+        "exact_revision_total": 4,
+        "governing_contract_named": true,
+        "completed_slice_count": 3,
+        "completed_slice_total": 3,
+        "unresolved_reported": true,
+        "safe_next_action_bounded": true,
+        "pass": true
+      }
+    },
+    {
+      "condition": "terra-full-load",
+      "context_strategy": "full-load",
+      "context_strategy_observed": false,
+      "id": "context-terra-full-load",
+      "stage": "integration",
+      "started_at": "2026-09-03T14:09:29.829Z",
+      "completed_at": "2026-09-03T14:10:01.809Z",
+      "elapsed_ms": 31980,
+      "session_setup_ms": 186,
+      "turn_elapsed_ms": 31794,
+      "time_to_first_activity_ms": 3050,
+      "time_to_first_command_ms": 7221,
+      "effective_output_tokens_per_second": 28.056,
+      "thread_id": "01a0679a-7126-75a3-85e4-b77ffd6507b0",
+      "turn_id": "01a0679a-719f-7660-a9dd-588626bb690b",
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 101302,
+        "cached_input_tokens": 77824,
+        "output_tokens": 892,
+        "reasoning_output_tokens": 343,
+        "total_tokens": 102194
+      },
+      "operational_tokens": 24370,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 560,
+            "characters": 560,
+            "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
+          },
+          "user_input": {
+            "bytes": 1033,
+            "characters": 1033,
+            "sha256": "c3aef8804dab335272a4028c71b5d0b3b0d60151d8ac64dce2e4ff2879e2c12d"
+          },
+          "output_schema": {
+            "bytes": 684,
+            "characters": 684,
+            "sha256": "677d13bd2fdf4025cd2071f30e3a0745f23b15e2e0be3884086004dff33152f1"
+          }
+        },
+        "explicit_bytes": 2445,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 4,
+        "command_actions": 4,
+        "action_types": {
+          "unknown": 3,
+          "listFiles": 1
+        },
+        "temple_md_reads": 2,
+        "context_resolve_calls": 0,
+        "context_sequence": [
+          "temple-md",
+          "temple-md"
+        ],
+        "reported_output_bytes": 1980
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "recovered_revisions": [],
+        "governing_contract": "",
+        "completed_slices": [
+          "orders-catalog",
+          "notifications",
+          "gateway"
+        ],
+        "unresolved": [
+          "Recovery blocked: Coordinator repository's TEMPLE.md is absent from the provided workspace, so the mandatory first action and Context Capsule preview could not be completed.",
+          "Consequently, service repositories, governing contract, design record, and retained slice handoffs were not inspected."
+        ],
+        "safe_next_action": "Provide or mount the Coordinator repository containing TEMPLE.md, then restart recovery by reading it in full before running the required context-resolve preview.",
+        "summary": "No repository-state assertions were made because the required Coordinator entry document was unavailable."
+      },
+      "expected_revisions": {
+        "gateway": "9ee19f2cd76bc9b06ed966341cb0af79608c08f8",
+        "catalog": "9596781116cdd4119e8b82ba12777b9ee5dafaaa",
+        "orders": "aa9602104a9f28d2287e4b3e63154956e4baaf0c",
+        "notifications": "530a130727083e2a4d5eef45d42541ccf761a07f"
+      },
+      "recovery": {
+        "exact_revision_count": 0,
+        "exact_revision_total": 4,
+        "governing_contract_named": false,
+        "completed_slice_count": 3,
+        "completed_slice_total": 3,
+        "unresolved_reported": true,
+        "safe_next_action_bounded": true,
+        "pass": false
+      }
+    }
+  ],
+  "censored_conditions": [],
+  "stopped_conditions": [],
+  "candidate_operational_tokens": 91412,
+  "reason": "terra-full-load:context-strategy-not-observed",
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}

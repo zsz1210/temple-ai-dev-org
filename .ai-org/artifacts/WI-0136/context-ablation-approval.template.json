@@ -1,0 +1,28 @@
+{
+  "schema_version": "temple.context-model-diagnostic-account-approval/v10",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "f1a3da3550d5751581a049e0e17085948517eea5caa8b40c63e744c495fef33f",
+  "approved": false,
+  "authorization_source": null,
+  "approved_candidate_turns": 2,
+  "approved_models": [
+    "gpt-5.6-terra"
+  ],
+  "approved_reasoning_efforts": [
+    "medium"
+  ],
+  "approved_condition_operational_token_limits": {
+    "terra-routed": 80000,
+    "terra-full-load": 120000
+  },
+  "approved_candidate_operational_tokens": 200000,
+  "approved_combined_operational_tokens": 200000,
+  "approved_program_wall_clock_ms": 1200000,
+  "pro_included_allowance_only": true,
+  "credits_purchase_authorized": false,
+  "automatic_refill_authorized": false,
+  "usage_reset_authorized": false,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "approved_at": null
+}

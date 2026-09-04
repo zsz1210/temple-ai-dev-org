@@ -69,7 +69,8 @@ export function defaultUsagePolicy(options = {}) {
       profiles: DEFAULT_PROFILES.map((entry) => profile(entry, mappings.get(entry.id))),
       rules: [
         { id: "mechanical-low-risk", task_kinds: ["mechanical"], risk_classes: ["low"], profile_id: "mechanical-fast" },
-        { id: "bounded-quality", task_kinds: ["bounded"], risk_classes: ["low", "standard"], profile_id: "lightweight-quality" },
+        { id: "explicit-bounded-delivery", task_kinds: ["bounded"], risk_classes: ["low", "standard"], profile_id: "standard" },
+        { id: "semantic-ambiguity-escalation", task_kinds: ["semantic-ambiguity", "invariant-sensitive"], risk_classes: ["low", "standard"], profile_id: "lightweight-quality" },
         { id: "ordinary-delivery", task_kinds: ["implementation", "diagnosis", "documentation"], risk_classes: ["low", "standard"], profile_id: "standard" },
         { id: "consequential-work", task_kinds: ["planning", "architecture", "security", "migration", "independent-qa"], risk_classes: ["high", "critical"], profile_id: "critical-planning" }
       ],

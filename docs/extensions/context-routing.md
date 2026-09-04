@@ -34,7 +34,7 @@ The Context Map is a compact index of important project sources. Do not copy ful
 
 ```json
 {
-  "schema_version": "temple.context-map/v1",
+  "schema_version": "temple.context-map/v2",
   "routes": [
     {
       "id": "checkout-spec",
@@ -47,13 +47,17 @@ The Context Map is a compact index of important project sources. Do not copy ful
       "work_items": [],
       "read_when": ["Changing or verifying checkout behavior"],
       "owner_position": "product_manager",
-      "status": "active"
+      "status": "active",
+      "stages": ["spec", "design", "build", "test", "independent_qa"],
+      "purposes": ["primary", "integration"]
     }
   ]
 }
 ```
 
 Active routes must use repository-relative safe paths, name valid Positions, and point to existing files. `temple doctor` checks those conditions. A work item may pin routes through repeatable `--context-ref` values; `temple doctor` rejects references that do not exist.
+
+Context Map v2 may also constrain a route by `stages` and `purposes`. An omitted or empty array means the route applies everywhere. `temple.context-map/v1` remains readable and behaves as unscoped; context resolution never rewrites that project-owned file. A pinned route outside the selected stage or purpose is excluded with a warning rather than silently overriding the route boundary.
 
 ## Capability discovery
 
@@ -86,12 +90,14 @@ Resolve context before acting in a Position:
 temple context resolve . \
   --work-item WI-0001 \
   --position developer \
+  --stage build \
+  --purpose primary \
   --revision abc123 \
   --no-write \
   --json
 ```
 
-Remove `--no-write` to persist the generated capsule. A capsule contains:
+Remove `--no-write` to persist the generated capsule. `--stage` defaults to the Work Item's effective lifecycle stage, while `--purpose` defaults to `primary`. Use `integration` for joining component revisions and contracts, and `recovery` when a fresh Agent must reconstruct the operating boundary. A capsule contains:
 
 - the canonical work-item path, scope, acceptance criteria, and unresolved items;
 - the Work Item's revisioned product, UX, UI, API, and technical-design references, resolved to their current authority metadata with stale-reference warnings;
@@ -102,8 +108,14 @@ Remove `--no-write` to persist the generated capsule. A capsule contains:
 - affected-path overlaps with other non-terminal work items;
 - the Work Item's current parallel-plan disposition, wave, and plan freshness;
 - the provider ID, retrieval mode, scores, reasons, and warnings.
+- the selected stage, purpose, and explicit `TEMPLE.md` fallback policy;
+- a body-free source manifest with one stable selection digest plus per-file category, byte size, and SHA-256.
 
 The resolver does not read every routed document into a prompt. It returns paths and reasons so the Agent can open only the sources necessary for the current responsibility.
+
+The source manifest hashes selected safe regular files locally and retains no source body, prompt, hidden reasoning, tool payload, or credential. Its byte count measures repository content, not model Tokens or monetary cost. `TEMPLE.md` is included in the manifest only for explicit recovery purpose; primary and integration routes name it only as a fallback when authority is ambiguous or the route is incomplete. Temple never expands to it automatically.
+
+Because `.ai-org/views/work-items/WI-####.json` remains a rebuildable latest view, a later resolution may replace an earlier Position, stage, or purpose view. Durable handoffs and evidence must cite canonical repository sources or normalized Evidence rather than using the capsule as lifecycle history.
 
 ## Retrieval Provider boundary
 
@@ -131,6 +143,8 @@ Each case declares a retrieval kind, query, expected IDs, optional Position, and
 - Keep route summaries short and discrimination-oriented.
 - Route stable source families, not every implementation file.
 - Use `work_items` and `context_refs` for explicit exceptions; do not encode transient chat state.
+- Add stage or purpose constraints only when the same source is genuinely irrelevant elsewhere; leave the arrays empty while evidence is insufficient.
+- Compare `source_manifest.selection_digest` before reopening an unchanged route, but still read the underlying canonical source when the responsibility requires its body.
 - Deprecate a route before removing it when active work may still reference it.
 - Treat affected-path overlap as a warning for coordination, not an automatic ownership claim or work cancellation.
 - Evaluate retrieval failures from real work before adding semantic infrastructure.

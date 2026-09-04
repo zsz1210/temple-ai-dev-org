@@ -1,0 +1,280 @@
+{
+  "schema_version": "temple.context-model-diagnostic-stopped-run/v7",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "5f20f1143394b4e0b6cc19d2a8736029ca4c54e361b93a04310556ec75d6f92d",
+  "started_at": "2026-09-03T13:54:55.280Z",
+  "stopped_at": "2026-09-03T13:58:31.066Z",
+  "observed_condition_count": 1,
+  "completed_condition_count": 1,
+  "censored_condition_count": 0,
+  "stopped_condition_count": 0,
+  "observed_conditions": [
+    {
+      "condition": "terra-routed",
+      "context_strategy": "routed",
+      "context_strategy_observed": false,
+      "id": "context-terra-routed",
+      "stage": "integration",
+      "started_at": "2026-09-03T13:54:55.280Z",
+      "completed_at": "2026-09-03T13:58:31.049Z",
+      "elapsed_ms": 215769,
+      "session_setup_ms": 141,
+      "turn_elapsed_ms": 215628,
+      "time_to_first_activity_ms": 2660,
+      "time_to_first_command_ms": 5678,
+      "effective_output_tokens_per_second": 30.905,
+      "thread_id": "01a0678d-18c9-7a83-9611-a56bc97533c4",
+      "turn_id": "01a0678d-193d-7333-a59b-0e4bf25a4b86",
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 1314717,
+        "cached_input_tokens": 1248000,
+        "output_tokens": 6664,
+        "reasoning_output_tokens": 1506,
+        "total_tokens": 1321381
+      },
+      "operational_tokens": 73381,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 560,
+            "characters": 560,
+            "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
+          },
+          "user_input": {
+            "bytes": 874,
+            "characters": 874,
+            "sha256": "c4272639d4f2f0095b8bda84734ec7a4be2d53d6adbf5d11292d6cc4f132420d"
+          },
+          "output_schema": {
+            "bytes": 684,
+            "characters": 684,
+            "sha256": "677d13bd2fdf4025cd2071f30e3a0745f23b15e2e0be3884086004dff33152f1"
+          }
+        },
+        "explicit_bytes": 2286,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 45,
+        "command_actions": 45,
+        "action_types": {
+          "unknown": 16,
+          "read": 19,
+          "listFiles": 8,
+          "search": 2
+        },
+        "temple_md_reads": 1,
+        "context_resolve_calls": 2,
+        "context_sequence": [
+          "temple-md",
+          "context-resolve",
+          "context-resolve"
+        ],
+        "reported_output_bytes": 40528
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "recovered_revisions": [
+          {
+            "repository": "gateway",
+            "revision": "9557a8478325372dd9961b8ab34d2256e980daf5"
+          },
+          {
+            "repository": "catalog",
+            "revision": "88f004af5e963ecda2271e37f20d8e271d19700b"
+          },
+          {
+            "repository": "orders",
+            "revision": "8f70d9cfc4b66d204df5f7df21efa098fb587cd0"
+          },
+          {
+            "repository": "notifications",
+            "revision": "c04f1e3112048020bf18c7430d5e91948d032bbb"
+          }
+        ],
+        "governing_contract": "OrderPlaced/v2: catalog supplies inventoryRevision; orders emits the specified v2 nested envelope; notifications retains v1 and accepts v2 with event-ID idempotency; gateway retains orderId/status and adds eventVersion; checkout propagates inventoryRevision.",
+        "completed_slices": [
+          "orders-catalog",
+          "notifications",
+          "gateway"
+        ],
+        "unresolved": [
+          "All four service work items remain in state test awaiting Quality & Evaluation Engineer completion; coordinator WI-0001 remains in build and has no integration-report.json or developer-to-quality handoff. Local service tests and the coordinator public integration test pass."
+        ],
+        "safe_next_action": "Bounded coordinator-only action: record the passing integration evidence, exact current revisions, and unresolved quality-evaluation state in integration-report.json, then create the developer-to-quality-evaluator handoff; do not alter service code.",
+        "summary": "Recovered from repository artifacts only. Retained slice handoffs record the four developer fixture revisions; current HEADs are later build-handoff revisions."
+      },
+      "expected_revisions": {
+        "gateway": "9557a8478325372dd9961b8ab34d2256e980daf5",
+        "catalog": "88f004af5e963ecda2271e37f20d8e271d19700b",
+        "orders": "8f70d9cfc4b66d204df5f7df21efa098fb587cd0",
+        "notifications": "c04f1e3112048020bf18c7430d5e91948d032bbb"
+      },
+      "recovery": {
+        "exact_revision_count": 4,
+        "exact_revision_total": 4,
+        "governing_contract_named": true,
+        "completed_slice_count": 3,
+        "completed_slice_total": 3,
+        "unresolved_reported": true,
+        "safe_next_action_bounded": true,
+        "pass": true
+      }
+    }
+  ],
+  "completed_conditions": [
+    {
+      "condition": "terra-routed",
+      "context_strategy": "routed",
+      "context_strategy_observed": false,
+      "id": "context-terra-routed",
+      "stage": "integration",
+      "started_at": "2026-09-03T13:54:55.280Z",
+      "completed_at": "2026-09-03T13:58:31.049Z",
+      "elapsed_ms": 215769,
+      "session_setup_ms": 141,
+      "turn_elapsed_ms": 215628,
+      "time_to_first_activity_ms": 2660,
+      "time_to_first_command_ms": 5678,
+      "effective_output_tokens_per_second": 30.905,
+      "thread_id": "01a0678d-18c9-7a83-9611-a56bc97533c4",
+      "turn_id": "01a0678d-193d-7333-a59b-0e4bf25a4b86",
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 1314717,
+        "cached_input_tokens": 1248000,
+        "output_tokens": 6664,
+        "reasoning_output_tokens": 1506,
+        "total_tokens": 1321381
+      },
+      "operational_tokens": 73381,
+      "prompt_metrics": {
+        "components": {
+          "base_instructions": {
+            "bytes": 168,
+            "characters": 168,
+            "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+          },
+          "developer_instructions": {
+            "bytes": 560,
+            "characters": 560,
+            "sha256": "45d37d5363155e0929d2b32410d811bffe16e29f75ce55910680115f88f93d4f"
+          },
+          "user_input": {
+            "bytes": 874,
+            "characters": 874,
+            "sha256": "c4272639d4f2f0095b8bda84734ec7a4be2d53d6adbf5d11292d6cc4f132420d"
+          },
+          "output_schema": {
+            "bytes": 684,
+            "characters": 684,
+            "sha256": "677d13bd2fdf4025cd2071f30e3a0745f23b15e2e0be3884086004dff33152f1"
+          }
+        },
+        "explicit_bytes": 2286,
+        "raw_prompt_retained": false
+      },
+      "tool_activity": {
+        "command_items": 45,
+        "command_actions": 45,
+        "action_types": {
+          "unknown": 16,
+          "read": 19,
+          "listFiles": 8,
+          "search": 2
+        },
+        "temple_md_reads": 1,
+        "context_resolve_calls": 2,
+        "context_sequence": [
+          "temple-md",
+          "context-resolve",
+          "context-resolve"
+        ],
+        "reported_output_bytes": 40528
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "recovered_revisions": [
+          {
+            "repository": "gateway",
+            "revision": "9557a8478325372dd9961b8ab34d2256e980daf5"
+          },
+          {
+            "repository": "catalog",
+            "revision": "88f004af5e963ecda2271e37f20d8e271d19700b"
+          },
+          {
+            "repository": "orders",
+            "revision": "8f70d9cfc4b66d204df5f7df21efa098fb587cd0"
+          },
+          {
+            "repository": "notifications",
+            "revision": "c04f1e3112048020bf18c7430d5e91948d032bbb"
+          }
+        ],
+        "governing_contract": "OrderPlaced/v2: catalog supplies inventoryRevision; orders emits the specified v2 nested envelope; notifications retains v1 and accepts v2 with event-ID idempotency; gateway retains orderId/status and adds eventVersion; checkout propagates inventoryRevision.",
+        "completed_slices": [
+          "orders-catalog",
+          "notifications",
+          "gateway"
+        ],
+        "unresolved": [
+          "All four service work items remain in state test awaiting Quality & Evaluation Engineer completion; coordinator WI-0001 remains in build and has no integration-report.json or developer-to-quality handoff. Local service tests and the coordinator public integration test pass."
+        ],
+        "safe_next_action": "Bounded coordinator-only action: record the passing integration evidence, exact current revisions, and unresolved quality-evaluation state in integration-report.json, then create the developer-to-quality-evaluator handoff; do not alter service code.",
+        "summary": "Recovered from repository artifacts only. Retained slice handoffs record the four developer fixture revisions; current HEADs are later build-handoff revisions."
+      },
+      "expected_revisions": {
+        "gateway": "9557a8478325372dd9961b8ab34d2256e980daf5",
+        "catalog": "88f004af5e963ecda2271e37f20d8e271d19700b",
+        "orders": "8f70d9cfc4b66d204df5f7df21efa098fb587cd0",
+        "notifications": "c04f1e3112048020bf18c7430d5e91948d032bbb"
+      },
+      "recovery": {
+        "exact_revision_count": 4,
+        "exact_revision_total": 4,
+        "governing_contract_named": true,
+        "completed_slice_count": 3,
+        "completed_slice_total": 3,
+        "unresolved_reported": true,
+        "safe_next_action_bounded": true,
+        "pass": true
+      }
+    }
+  ],
+  "censored_conditions": [],
+  "stopped_conditions": [],
+  "candidate_operational_tokens": 73381,
+  "reason": "terra-routed:context-strategy-not-observed",
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}

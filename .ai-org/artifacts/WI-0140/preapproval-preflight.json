@@ -1,0 +1,42 @@
+{
+  "schema_version": "temple.context-capsule-ablation-preflight/v1",
+  "work_item_id": "WI-0140",
+  "observed_at": "2026-09-04T02:37:04.393Z",
+  "protocol_sha256": "3d9544fd40468f8ad7bdb448b81255ed69e3ba256e74f6fd444eba93a7e5800f",
+  "generation_ready": false,
+  "checks": [
+    {
+      "id": "lab-valid",
+      "pass": true
+    },
+    {
+      "id": "harness-source-bound",
+      "pass": true
+    },
+    {
+      "id": "provider-contract-matches",
+      "pass": true
+    },
+    {
+      "id": "predecessor-artifacts-still-unchanged",
+      "pass": true
+    },
+    {
+      "id": "readiness-present-and-passing",
+      "pass": true
+    },
+    {
+      "id": "exact-approval",
+      "pass": false
+    }
+  ],
+  "blockers": [
+    "exact-approval"
+  ],
+  "inspection_errors": [],
+  "approval_errors": [
+    "exact approval missing"
+  ],
+  "provider_handshake_performed": true,
+  "model_generation_performed": false
+}

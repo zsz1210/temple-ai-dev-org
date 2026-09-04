@@ -1,0 +1,33 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "567da1996df5d47a10cb66677b4fa467c41060f3",
+  "command": [
+    "node --test test/context-capsule-ablation.test.mjs",
+    "npm run verify",
+    "git diff --name-only 496a9490ea05462ddc738b4320554c8f11a949ac -- .ai-org/artifacts/WI-0141"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T04:07:16.000Z",
+  "completed_at": "2026-09-04T04:08:53.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0142/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0142/measurement-repair-result.md",
+    "docs/operations/model-and-process-evaluation.md",
+    ".ai-org/templates/model-process-evaluation-protocol.json"
+  ],
+  "summary": {
+    "focused_tests_passed": 11,
+    "focused_tests_failed": 0,
+    "full_tests_passed": 411,
+    "full_tests_failed": 0,
+    "repository_checks_passed": true,
+    "documentation_links_passed": true,
+    "package_boundary_passed": true,
+    "wi_0141_artifact_diff": false,
+    "environment_setup_attempts": 2,
+    "candidate_failures": 0,
+    "external_action_performed": false,
+    "model_invocation_performed": false
+  }
+}

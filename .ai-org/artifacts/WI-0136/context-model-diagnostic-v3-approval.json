@@ -1,0 +1,26 @@
+{
+  "schema_version": "temple.context-model-diagnostic-account-approval/v3",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "c5e0b069880a079de6fd8030fda3818cee92c809bd834999db2a04ca32be147a",
+  "approved": true,
+  "authorization_source": "user-message:exact-WI-0136-v3-context-model-diagnostic-approval",
+  "approved_candidate_turns": 4,
+  "approved_models": [
+    "gpt-5.6-terra",
+    "gpt-5.6-sol"
+  ],
+  "approved_reasoning_efforts": [
+    "medium",
+    "xhigh"
+  ],
+  "approved_candidate_operational_tokens": 320000,
+  "approved_combined_operational_tokens": 320000,
+  "approved_program_wall_clock_ms": 2400000,
+  "pro_included_allowance_only": true,
+  "credits_purchase_authorized": false,
+  "automatic_refill_authorized": false,
+  "usage_reset_authorized": false,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "approved_at": "2026-09-03T12:48:58Z"
+}

@@ -1,0 +1,220 @@
+{
+  "schema_version": "temple.representative-microservice-comparison/v3",
+  "protocol_revision": 13,
+  "work_item_id": "WI-0136",
+  "status": "generation-disabled",
+  "protocol_sha256": "ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c",
+  "fixture": {
+    "fixture_sha256": "b10ff626ef465686909aaab6d858b087f0c2aaad7a8c484f9955ed0a8465822c",
+    "runner_sha256": "f2787ea13db93002e6448ecc36bab1170f71d9e50daa5bd28ea0e385f3e28843",
+    "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
+    "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
+    "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
+    "held_out_tests_sha256": "d4f781d5b03d14c08a4214185ae525c1c6a0e7a7f2c8c9ff1d24291b27363a47",
+    "tool_policy_sha256": "18f5bef25f7b8a4efc220252818e642b75f5c342dd8d316e79a1254652801913",
+    "rubric_sha256": "364d20a3102ddd78131fd2566b8579957b14df2d6638efd3ef1e97e94faeaf3f"
+  },
+  "lab_manifest_sha256": "3707b1a932ab8d4ec222bf6e2c6034488e840c2cf377f45aa1ee3e1423aff18d",
+  "arms": [
+    {
+      "id": "minimal-responsible",
+      "product_revisions": {
+        "gateway": "98bf9aa6469d6d60ee9e9a6121be99fcf8d85f0d",
+        "catalog": "cdde879bc07cc38a4f11cd1f376bf0f2ea0dcff1",
+        "orders": "11fbc3f5d6c31a878a62a0e0044e0859562459a4",
+        "notifications": "d42b5101f8f850cac01c087a0221e8da68180f72",
+        "coordinator": "e3ce9dcde7e25d57df6a310bb850a4977921114f"
+      },
+      "organization_revisions": {
+        "gateway": "b650f0713776851c609659d5f6872d60e67742fe",
+        "catalog": "490bb75496c715770d2585a18c7a6ddd8c8b67c9",
+        "orders": "21b595ddeaf29c43c77ee6b980c8820c499bef67",
+        "notifications": "01c716dc842e22b8b241eeb19707d69bf57f9598",
+        "coordinator": "a282b8a12e3c54631e83c178325788ec30e3ad4a"
+      }
+    },
+    {
+      "id": "temple",
+      "product_revisions": {
+        "gateway": "98bf9aa6469d6d60ee9e9a6121be99fcf8d85f0d",
+        "catalog": "cdde879bc07cc38a4f11cd1f376bf0f2ea0dcff1",
+        "orders": "11fbc3f5d6c31a878a62a0e0044e0859562459a4",
+        "notifications": "d42b5101f8f850cac01c087a0221e8da68180f72",
+        "coordinator": "e3ce9dcde7e25d57df6a310bb850a4977921114f"
+      },
+      "organization_revisions": {
+        "gateway": "bd345944df1674f22d327a6930fd7ed4e8337343",
+        "catalog": "f109fc8f13676b186fc01cfa73a348676fe2bb9a",
+        "orders": "6832274543c1e7295eb92db36407a79c90bcfe23",
+        "notifications": "5a4fea12bd78b270af83036bfce18795c2854eff",
+        "coordinator": "8383ce35abde8eec22e27e6869706bf532fc2203"
+      }
+    }
+  ],
+  "execution": {
+    "arm_order": [
+      "minimal-responsible",
+      "temple"
+    ],
+    "candidate_turns": 10,
+    "evaluator_turns": 1,
+    "build_wave_concurrency": 3,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "network_access": false,
+    "generation_ready": false,
+    "exact_approval_required": true,
+    "design_operational_token_limit": 150000,
+    "build_operational_token_limit": 69000,
+    "integration_operational_token_limit": 80000,
+    "candidate_aggregate_operational_token_limit": 650000,
+    "evaluator_operational_token_limit": 100000,
+    "combined_operational_token_limit": 750000,
+    "program_wall_clock_limit_ms": 2700000
+  },
+  "model_route": {
+    "design": {
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh"
+    },
+    "build": {
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium"
+    },
+    "integration": {
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium"
+    },
+    "evaluator": {
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh"
+    }
+  },
+  "context_policy": {
+    "known_bounded_work_item_start": "context-capsule-first",
+    "canonical_source_bodies_required": true,
+    "route_metadata_is_authority": false,
+    "temple_md_fallback_when_missing": [
+      "authority",
+      "current-state",
+      "safe-next-action"
+    ],
+    "new_unknown_recovery_start": "temple-md-first"
+  },
+  "predecessor": {
+    "protocol_sha256": "94fb522ec92b9f76694d2a1a0d457d9da0e2422ef33d40d0c5463e5ef962dbd0",
+    "disposition": "stopped-candidate-ambient-memory-context-contamination",
+    "stopped_run": ".ai-org/artifacts/WI-0136/representative-main-v12-stopped-run.json",
+    "stop_report": ".ai-org/artifacts/WI-0136/representative-main-v12-stop-report.md"
+  },
+  "stopped_evidence_policy": "completed-active-and-settled-sibling-observations-v3",
+  "runner_safety": {
+    "relative_git_target_policy": "exact-fixture-repository-id-plus-installed-provider-turn-sandbox",
+    "parallel_failure_policy": "interrupt-and-await-all-siblings-before-stop-record",
+    "build_command_policy": "arm-root-repository-ids-without-candidate-git-self-check",
+    "provider_shell_wrapper_policy": "unwrap-one-exact-zsh-lc-single-quoted-layer-then-reapply-full-policy",
+    "provider_cwd_policy": "diagnostic-only-for-nested-code-mode-command-items",
+    "turn_sandbox_policy": "installed-provider-arm-write-boundary-network-disabled-plus-command-and-explicit-path-gates",
+    "memory_isolation_policy": "strict-app-server-config-disables-memory-use-generation-and-feature",
+    "harness_readiness_policy": "production-orchestration-with-injected-generation-free-provider-v1",
+    "readiness_required_before_exact_approval": true
+  },
+  "stop_rules": {
+    "protocol_mismatch": true,
+    "model_reroute": true,
+    "provider_approval_request": true,
+    "command_policy_violation": true,
+    "out_of_scope_write": true,
+    "missing_usage": true,
+    "malformed_completion": true,
+    "token_limit": true,
+    "wall_clock_limit": true
+  },
+  "claims": {
+    "statistical_generalization": false,
+    "automatic_routing_authority": false,
+    "monetary_cost_known": false,
+    "raw_prompts_retained": false,
+    "raw_responses_retained": false,
+    "hidden_reasoning_retained": false
+  },
+  "provider_contract": {
+    "codex_cli_version": "codex-cli 0.153.0-alpha.5",
+    "schema_digests": {
+      "ThreadStartParams.json": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+      "TurnStartParams.json": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
+      "ThreadStartResponse.json": "656f8fd0fe91f533126cbfdb9369cfab550927a229e48dd46460f6f015d2b186",
+      "TurnStartResponse.json": "6fc49c3e5d0ce11a3a109ae194619b04d6e3ff98fa29bac683fdb754608958be",
+      "ItemStartedNotification.json": "c4c34f47db6326cd4841bae428f23d08eb285077ffad35be9772b928c65bb912",
+      "TurnCompletedNotification.json": "78af2a37391e8e669a4020cb58593e4d3e378756ced79d5fec72374fa69fb94b",
+      "ItemCompletedNotification.json": "69aba3fe5f72f38bf5c541e7e2c09de40778abe65ff969d9fc73372037812091",
+      "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
+      "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
+      "TurnInterruptParams.json": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b",
+      "ConfigReadParams.json": "257c54a423b47c1d209ff1076765a1564d82322fd5161670fd489a2874de1bac",
+      "ConfigReadResponse.json": "bd72c94e2c7d49ead6a20bcf54afedc8db11044bf8cadb387e42135dd5d1e342"
+    },
+    "required_models": [
+      {
+        "model": "gpt-5.6-sol",
+        "reasoning_efforts": [
+          "xhigh"
+        ]
+      },
+      {
+        "model": "gpt-5.6-terra",
+        "reasoning_efforts": [
+          "medium"
+        ]
+      }
+    ],
+    "turn_sandbox_capabilities": {
+      "restricted_read_access_supported": false,
+      "workspace_write_roots_supported": true,
+      "network_access_toggle_supported": true
+    },
+    "memory_isolation": {
+      "use_memories": false,
+      "generate_memories": false,
+      "feature_enabled": false,
+      "app_server_arguments_sha256": "e5d3c3be08c8191bc85c61fa4ba79436ae8fedcdb480cba347f2b85f494567ab",
+      "pass": true
+    }
+  },
+  "limit_basis": {
+    "design": {
+      "source": ".ai-org/artifacts/WI-0136/representative-main-v4-stopped-run.json",
+      "observed_censored_temple_design_operational_tokens": 101815,
+      "prior_limit": 100000,
+      "frozen_limit": 150000,
+      "meaning": "A bounded safety ceiling above the observed censored lower bound; not a completion forecast."
+    },
+    "evaluator": {
+      "source": ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
+      "observed_sol_xhigh_candidate_maximum": 78497,
+      "frozen_limit": 100000
+    },
+    "build": {
+      "source": ".ai-org/artifacts/WI-0135/live-protocol.json",
+      "prior_terra_per_candidate_limit": 69000,
+      "frozen_limit": 69000
+    },
+    "integration": {
+      "source": ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-analysis.json",
+      "observed_routed_terra_operational_tokens": 57296,
+      "headroom_percent": 39.63,
+      "frozen_limit": 80000
+    },
+    "aggregate": {
+      "source": ".ai-org/artifacts/WI-0136/representative-main-v4-stopped-run.json",
+      "completed_minimal_arm_operational_tokens": 234099,
+      "censored_temple_design_operational_tokens": 101815,
+      "remaining_declared_stage_ceiling": 287000,
+      "observed_plus_remaining_declared_ceiling": 623914,
+      "rounded_candidate_limit": 650000,
+      "candidate_limit": 650000,
+      "evaluator_limit": 100000
+    },
+    "meaning": "Safety stops based on retained operational-Token observations; not forecasts, prices, or statistical estimates."
+  }
+}

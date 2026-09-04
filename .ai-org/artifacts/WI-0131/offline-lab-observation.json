@@ -1,0 +1,65 @@
+{
+  "schema_version": "temple.effectiveness-pilot-offline-observation/v2",
+  "work_item_id": "WI-0131",
+  "observed_at": "2026-09-03T07:57:46.831Z",
+  "framework_revision": "c040c0be1cc955e7c9aa260f534ea482278af0e5",
+  "protocol_sha256": "1c776cd954e9f81c2c865ca657c0d430a9c38852e8fb80cd435f72cc742a3854",
+  "offline_pass": true,
+  "candidate_repositories": 8,
+  "native_lean_candidates": 6,
+  "conventional_candidates": 2,
+  "routes": {
+    "temple-terra": {
+      "profile_id": "standard",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "resolved_candidates": 2
+    },
+    "temple-luna": {
+      "profile_id": "lightweight-quality",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "max",
+      "resolved_candidates": 2
+    },
+    "temple-sol": {
+      "profile_id": "critical-planning",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh",
+      "resolved_candidates": 2
+    }
+  },
+  "lean_profile_checks": {
+    "workflow_profile": "lean",
+    "scope_class": "bounded",
+    "risk_tier": "low",
+    "state": "build",
+    "passed": 6,
+    "failed": 0
+  },
+  "matched_temple_context": [
+    {
+      "case_id": "idempotent-command",
+      "context_profile_digest": "sha256:e80e1d521ce1cd2de7704b8efbccc378d80bf40cf38f71e6d7fd9d2862bd5918",
+      "utf8_bytes": 15412,
+      "matched_candidates": 3
+    },
+    {
+      "case_id": "compatible-event-evolution",
+      "context_profile_digest": "sha256:597fee39d8b0570a79118e17fa7ebfe40aabd96f36eda8f664d9eff59fed78da",
+      "utf8_bytes": 15458,
+      "matched_candidates": 3
+    }
+  ],
+  "matched_product_checks": {
+    "idempotent-command": true,
+    "compatible-event-evolution": true
+  },
+  "route_treatment_hidden_from_candidates": true,
+  "provider_contact": false,
+  "model_generation_performed": false,
+  "generation_ready": false,
+  "remaining_boundaries": [
+    "exact-owner-approval-required",
+    "provider-contract-handshake-required-before-live-run"
+  ]
+}

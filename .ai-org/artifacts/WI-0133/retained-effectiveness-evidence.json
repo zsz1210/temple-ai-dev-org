@@ -1,0 +1,165 @@
+{
+  "schema_version": "temple.effectiveness-retained-evidence/v1",
+  "work_item_id": "WI-0133",
+  "source_work_item_id": "WI-0132",
+  "observed_at": "2026-09-03T09:35:43.000Z",
+  "claim_boundary": {
+    "diagnostic_only": true,
+    "statistical_qualification": false,
+    "automatic_routing_authorized": false,
+    "temple_superiority_proven": false,
+    "provider_generation_performed_by_wi_0133": false,
+    "context_bytes_are_provider_tokens": false
+  },
+  "source_digests": {
+    "protocol_sha256": "84d30df16d72bfbae6ac1d111729ddab9e90d761c46a8694250955985028bc45",
+    "effectiveness_evidence_sha256": "fdcd5d54e7dd07dee69234a5ad80ed750b52771aadaa29c9c21b1e246e5d67f7",
+    "effectiveness_analysis_sha256": "4eefe732c33464c6d43189e84fa9b82e1e1369fe7087f4d055587a4958d89a68",
+    "frozen_scores_sha256": "7898b6bbf0c9c376572cee48c178e5460da79999bb80fc9d09d947379f327377",
+    "canonical_observation_file_sha256": "9ba848ec870200e1cffd9cc1435f03cdf3e51ca8ebc18e83655294bc56df4e99"
+  },
+  "source_execution": {
+    "candidate_turns": 8,
+    "evaluator_turns": 1,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "reroute_count": 0,
+    "path_violation_count": 0,
+    "candidate_operational_tokens": 416395,
+    "evaluator_operational_tokens": 27237,
+    "combined_operational_tokens": 443632,
+    "candidate_latency_ms": 868644,
+    "billed_cost_known": false
+  },
+  "condition_aggregates": [
+    {
+      "condition_id": "conventional-terra",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "objective_pass_count": 2,
+      "candidate_count": 2,
+      "mean_blind_score": 97.5,
+      "operational_tokens": 49926,
+      "latency_ms": 108872,
+      "mean_context_utf8_bytes": 2166
+    },
+    {
+      "condition_id": "temple-terra",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "objective_pass_count": 2,
+      "candidate_count": 2,
+      "mean_blind_score": 97.5,
+      "operational_tokens": 88836,
+      "latency_ms": 97627,
+      "mean_context_utf8_bytes": 15435
+    },
+    {
+      "condition_id": "temple-luna",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "max",
+      "objective_pass_count": 2,
+      "candidate_count": 2,
+      "mean_blind_score": 96.5,
+      "operational_tokens": 156673,
+      "latency_ms": 357735,
+      "mean_context_utf8_bytes": 15435
+    },
+    {
+      "condition_id": "temple-sol",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "xhigh",
+      "objective_pass_count": 2,
+      "candidate_count": 2,
+      "mean_blind_score": 98.5,
+      "operational_tokens": 120960,
+      "latency_ms": 304410,
+      "mean_context_utf8_bytes": 15435
+    }
+  ],
+  "case_results": [
+    {
+      "case_id": "idempotent-command",
+      "conventional_terra": { "objective": "pass", "blind_score": 98, "operational_tokens": 23924, "latency_ms": 52708 },
+      "temple_terra": { "objective": "pass", "blind_score": 97, "operational_tokens": 33801, "latency_ms": 47584 },
+      "temple_luna": { "objective": "pass", "blind_score": 97, "operational_tokens": 85442, "latency_ms": 174232 },
+      "temple_sol": { "objective": "pass", "blind_score": 99, "operational_tokens": 42463, "latency_ms": 114534 }
+    },
+    {
+      "case_id": "compatible-event-evolution",
+      "conventional_terra": { "objective": "pass", "blind_score": 97, "operational_tokens": 26002, "latency_ms": 56164 },
+      "temple_terra": { "objective": "pass", "blind_score": 98, "operational_tokens": 55035, "latency_ms": 50043 },
+      "temple_luna": { "objective": "pass", "blind_score": 96, "operational_tokens": 71231, "latency_ms": 183503 },
+      "temple_sol": { "objective": "pass", "blind_score": 98, "operational_tokens": 78497, "latency_ms": 189876 }
+    }
+  ],
+  "blind_scores": [
+    { "case_id": "idempotent-command", "condition_id": "conventional-terra", "score": 98, "decision": "pass", "rationale": "Uses the existing processed-ID source of truth, retains centralized validation, and returns fresh immutable state with no event for duplicates. Coverage verifies the retry behavior." },
+    { "case_id": "idempotent-command", "condition_id": "temple-terra", "score": 97, "decision": "pass", "rationale": "Correct explicit duplicate no-op using existing state, with validation retained before the retry path and fresh copied state returned. Tests cover immutability and no event emission." },
+    { "case_id": "idempotent-command", "condition_id": "temple-luna", "score": 97, "decision": "pass", "rationale": "Correctly implements idempotent retries using processedCommandIds, preserves validation behavior, and returns a new state object and empty events array. Tests cover the core retry contract." },
+    { "case_id": "idempotent-command", "condition_id": "temple-sol", "score": 99, "decision": "pass", "rationale": "Strong implementation: explicit retry branch, centralized validation, existing processed-ID source of truth, fresh copied state, and preservation of any additional state fields. Tests include frozen input and invalid duplicate validation." },
+    { "case_id": "compatible-event-evolution", "condition_id": "conventional-terra", "score": 97, "decision": "pass", "rationale": "Keeps v1 behavior/default intact, explicitly handles v2 in the codec, rejects unsupported versions, and verifies v2 round-trip plus non-mutation." },
+    { "case_id": "compatible-event-evolution", "condition_id": "temple-terra", "score": 98, "decision": "pass", "rationale": "Explicit codec version branches preserve v1 default/decoding, add the required v2 mapping, reject unknown versions, and include round-trip and non-mutation coverage." },
+    { "case_id": "compatible-event-evolution", "condition_id": "temple-luna", "score": 96, "decision": "pass", "rationale": "Meets all frozen codec requirements. Direct v2 nested access is acceptable for the specified valid event shape but is slightly less defensive." },
+    { "case_id": "compatible-event-evolution", "condition_id": "temple-sol", "score": 98, "decision": "pass", "rationale": "Maintains the stable normalized shape and v1 default while explicitly supporting v2 and rejecting unsupported versions. Tests cover round-trip and input immutability." }
+  ],
+  "source_comparisons": {
+    "process_effect": { "baseline": "conventional-terra", "next": "temple-terra", "objective_wins": 0, "mean_blind_score_delta": 0, "aggregate_operational_token_delta_percent": 77.94, "aggregate_latency_delta_percent": -10.33, "decision": "simplify-and-rerun" },
+    "efficient_escalation": { "baseline": "temple-terra", "next": "temple-luna", "objective_wins": 0, "mean_blind_score_delta": -1, "aggregate_operational_token_delta_percent": 76.36, "aggregate_latency_delta_percent": 266.43, "decision": "keep-terra-default" },
+    "flagship_ceiling": { "baseline": "temple-luna", "next": "temple-sol", "objective_wins": 0, "mean_blind_score_delta": 2, "aggregate_operational_token_delta_percent": -22.79, "aggregate_latency_delta_percent": -14.91, "original_decision": "retain-ceiling-and-qualify-before-routing-change", "v3_counterfactual_classification": "promising-efficiency", "v3_was_used_for_wi_0132": false }
+  },
+  "context_optimization": {
+    "measurement": "stable-json-v1 UTF-8 bytes before Provider generation; not a Token estimate",
+    "fresh_initialization": true,
+    "generic_capability_ids_before": [
+      "decision-interview",
+      "domain-modeling",
+      "project-documentation",
+      "skill-authoring",
+      "temple-work"
+    ],
+    "generic_capability_ids_after": [],
+    "candidate_instruction": {
+      "before_utf8_bytes": 9350,
+      "after_utf8_bytes": 6039,
+      "delta_utf8_bytes": -3311,
+      "delta_percent": -35.41,
+      "after_sha256": "0fb4d6cc71b08244666e935bc4e4c64bef2fbda85d078455d0aa3232475f55e1"
+    },
+    "cases": [
+      {
+        "case_id": "idempotent-command",
+        "before": { "total_utf8_bytes": 15412, "routed_context_utf8_bytes": 4409, "context_profile_digest": "sha256:e80e1d521ce1cd2de7704b8efbccc378d80bf40cf38f71e6d7fd9d2862bd5918" },
+        "after": { "total_utf8_bytes": 9326, "routed_context_utf8_bytes": 1634, "context_profile_digest": "sha256:0009ba5682ebef8aa660c64e74fdeeefdec6b754792d2ff087d9d0cae9eb8715" },
+        "total_delta_utf8_bytes": -6086,
+        "total_delta_percent": -39.49,
+        "routed_context_delta_percent": -62.94
+      },
+      {
+        "case_id": "compatible-event-evolution",
+        "before": { "total_utf8_bytes": 15458, "routed_context_utf8_bytes": 4425, "context_profile_digest": "sha256:597fee39d8b0570a79118e17fa7ebfe40aabd96f36eda8f664d9eff59fed78da" },
+        "after": { "total_utf8_bytes": 9372, "routed_context_utf8_bytes": 1650, "context_profile_digest": "sha256:d61b81f5db12c5a54138f63eaa28e6a17d7844b94c08e8e99a5c60faa39dac24" },
+        "total_delta_utf8_bytes": -6086,
+        "total_delta_percent": -39.37,
+        "routed_context_delta_percent": -62.71
+      }
+    ]
+  },
+  "next_protocol": {
+    "ref": ".ai-org/artifacts/WI-0133/terra-ab-protocol.json",
+    "sha256": "f2a691c27920dae6373cae02b1fdf8143466f6a15f2671049b1b37974149650b",
+    "generation_ready": false,
+    "candidate_turns": 4,
+    "evaluator_turns": 1,
+    "combined_operational_token_limit": 209000
+  },
+  "excluded_data": [
+    "raw prompts",
+    "candidate responses",
+    "hidden reasoning",
+    "Provider payloads",
+    "credentials",
+    "candidate repositories",
+    "temporary raw lab"
+  ]
+}

@@ -1,0 +1,700 @@
+{
+  "schema_version": "temple.context-capsule-ablation/v3",
+  "work_item_id": "WI-0140",
+  "status": "generation-disabled",
+  "protocol_sha256": "3d9544fd40468f8ad7bdb448b81255ed69e3ba256e74f6fd444eba93a7e5800f",
+  "source_revision": "70a98b4a8d07bb27f1c2f91fa1cbbea06113adef",
+  "harness_sha256": "0564f651f0b29bcbd8cc76fcdc2d1c1edaf45da2a7d2c02d8b683db0306e4caa",
+  "lab_manifest_sha256": "262dd46fd234603eedd1c927a4fddf2e0b17666ffeccc2a29788b6cb881dd633",
+  "conditions": [
+    {
+      "id": "single-stage-aware-a",
+      "shape": "single-repository",
+      "strategy": "stage-aware",
+      "repetition": "a",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "operational_token_limit": 51000,
+      "repository_manifest": {
+        "coordinator": {
+          "revision": "1442d200c950a411eac2287e66bd85a9051002c2",
+          "tree": "5518438a53c8be5fc97da4e609d1635ea2aeda9d",
+          "clean": true
+        }
+      },
+      "treatment": {
+        "package_sha256": "71b28ee34e7ac4e3f0ba61aa5a092aafebef9ee320ab6c0cbe0ea5915a1a80ab",
+        "selection_digest": "sha256:d3fd800cc48412960dbadac0ecfa076a1c2e4e83665a4e93f69422721a30dc18",
+        "resolver_selection_digest": "sha256:23ec3a583d85905dd1548699515481dd11f8d8ece0376fc2bc83f5d64b48a6f3",
+        "selected_source_count": 7,
+        "measured_source_bytes": 14592
+      },
+      "prompt_contract": {
+        "components": {
+          "base_instructions": {
+            "utf8_bytes": 150,
+            "sha256": "871b58cd8ab5da18f9678e220a1eede56d465a25118026cbe7303e129c4957d2"
+          },
+          "developer_instructions": {
+            "utf8_bytes": 614,
+            "sha256": "70ab0f135a5af84170a7a2505383eda2c1a1a3ad00d7d6b70dcfefab1828f511"
+          },
+          "user_input": {
+            "utf8_bytes": 812,
+            "sha256": "cbd502c983f4baac492fe8da0153864646578f16579e5f83952e886f66788687"
+          },
+          "output_schema": {
+            "utf8_bytes": 610,
+            "sha256": "1628d8f3ea26a93808e28c9b50ebdb937dd41c55ee73c5eb5293886e913a3dbf"
+          }
+        },
+        "explicit_prompt_bytes": 2186,
+        "raw_prompt_retained": false
+      },
+      "output_schema_sha256": "1628d8f3ea26a93808e28c9b50ebdb937dd41c55ee73c5eb5293886e913a3dbf",
+      "condition_root_id": "single-stage-aware-a"
+    },
+    {
+      "id": "multi-legacy-expanded-a",
+      "shape": "coordinator-multi-repository",
+      "strategy": "legacy-expanded",
+      "repetition": "a",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "operational_token_limit": 80000,
+      "repository_manifest": {
+        "coordinator": {
+          "revision": "832d03857bb713a60ca19e730c3aedd430a40941",
+          "tree": "e24beaf07ce495dee7f6b7cf3d143ca433191f23",
+          "clean": true
+        },
+        "gateway": {
+          "revision": "9071d1b37f09bcc88b815dfc10e7a18c958dc411",
+          "tree": "53030d78dbfde10cba16a03aa304a6ab21c5a11b",
+          "clean": true
+        },
+        "catalog": {
+          "revision": "6d3a7ce19075343f3b4e3d1ab77d44f94e1fbfb7",
+          "tree": "04520188290cdc8964d1469d7540cabca915a227",
+          "clean": true
+        },
+        "orders": {
+          "revision": "e1344109a6948f65ae9e72c55d8f3bdb8c98bfcd",
+          "tree": "d3a83e7fb0504e4e5b66db249cd2a0c579a8c0d1",
+          "clean": true
+        },
+        "notifications": {
+          "revision": "f6cf891e9b6c9bc4c87bd10a25c05b120c5568cd",
+          "tree": "9410416b344066ccee1222f8081f89fe6cbe3f4b",
+          "clean": true
+        }
+      },
+      "treatment": {
+        "package_sha256": "c08e95aabb34a39991baae7ab9ac479b612949e92d455d98e5bcdb2f56e85406",
+        "selection_digest": "sha256:51c42c67fa656b1e647a075cad24b727faa3abfe5964027c4cc15efcd5081ede",
+        "resolver_selection_digest": "sha256:bb97168d426da383895576e2161c22e6a40b5965f851fb1d347f798a987e2e24",
+        "selected_source_count": 10,
+        "measured_source_bytes": 34379
+      },
+      "prompt_contract": {
+        "components": {
+          "base_instructions": {
+            "utf8_bytes": 150,
+            "sha256": "871b58cd8ab5da18f9678e220a1eede56d465a25118026cbe7303e129c4957d2"
+          },
+          "developer_instructions": {
+            "utf8_bytes": 614,
+            "sha256": "70ab0f135a5af84170a7a2505383eda2c1a1a3ad00d7d6b70dcfefab1828f511"
+          },
+          "user_input": {
+            "utf8_bytes": 833,
+            "sha256": "aa3fc475cd95cf28b21f364b5280cb53f96f6a06795712aa25578e8ad37f8d0c"
+          },
+          "output_schema": {
+            "utf8_bytes": 740,
+            "sha256": "764b6ae3b0557116b645a008a19cbc43287984affa4e3b66d7b25b09ab7f7af6"
+          }
+        },
+        "explicit_prompt_bytes": 2337,
+        "raw_prompt_retained": false
+      },
+      "output_schema_sha256": "764b6ae3b0557116b645a008a19cbc43287984affa4e3b66d7b25b09ab7f7af6",
+      "condition_root_id": "multi-legacy-expanded-a"
+    },
+    {
+      "id": "single-legacy-expanded-a",
+      "shape": "single-repository",
+      "strategy": "legacy-expanded",
+      "repetition": "a",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "operational_token_limit": 51000,
+      "repository_manifest": {
+        "coordinator": {
+          "revision": "1442d200c950a411eac2287e66bd85a9051002c2",
+          "tree": "5518438a53c8be5fc97da4e609d1635ea2aeda9d",
+          "clean": true
+        }
+      },
+      "treatment": {
+        "package_sha256": "72c27354dd1f763a8db5a09e174e65b6734afd97427e991b54deec9f0f4e44c6",
+        "selection_digest": "sha256:fea5ea5c44b478defc7f792e35934c37ef4e032fce7fde4c2f3c35cbcba22735",
+        "resolver_selection_digest": "sha256:2307859c1583d65d60b91c4eab421177ceef7d0dec6d47c9bd74c52afa697f65",
+        "selected_source_count": 12,
+        "measured_source_bytes": 40296
+      },
+      "prompt_contract": {
+        "components": {
+          "base_instructions": {
+            "utf8_bytes": 150,
+            "sha256": "871b58cd8ab5da18f9678e220a1eede56d465a25118026cbe7303e129c4957d2"
+          },
+          "developer_instructions": {
+            "utf8_bytes": 614,
+            "sha256": "70ab0f135a5af84170a7a2505383eda2c1a1a3ad00d7d6b70dcfefab1828f511"
+          },
+          "user_input": {
+            "utf8_bytes": 812,
+            "sha256": "cbd502c983f4baac492fe8da0153864646578f16579e5f83952e886f66788687"
+          },
+          "output_schema": {
+            "utf8_bytes": 610,
+            "sha256": "1628d8f3ea26a93808e28c9b50ebdb937dd41c55ee73c5eb5293886e913a3dbf"
+          }
+        },
+        "explicit_prompt_bytes": 2186,
+        "raw_prompt_retained": false
+      },
+      "output_schema_sha256": "1628d8f3ea26a93808e28c9b50ebdb937dd41c55ee73c5eb5293886e913a3dbf",
+      "condition_root_id": "single-legacy-expanded-a"
+    },
+    {
+      "id": "multi-stage-aware-a",
+      "shape": "coordinator-multi-repository",
+      "strategy": "stage-aware",
+      "repetition": "a",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "operational_token_limit": 80000,
+      "repository_manifest": {
+        "coordinator": {
+          "revision": "832d03857bb713a60ca19e730c3aedd430a40941",
+          "tree": "e24beaf07ce495dee7f6b7cf3d143ca433191f23",
+          "clean": true
+        },
+        "gateway": {
+          "revision": "9071d1b37f09bcc88b815dfc10e7a18c958dc411",
+          "tree": "53030d78dbfde10cba16a03aa304a6ab21c5a11b",
+          "clean": true
+        },
+        "catalog": {
+          "revision": "6d3a7ce19075343f3b4e3d1ab77d44f94e1fbfb7",
+          "tree": "04520188290cdc8964d1469d7540cabca915a227",
+          "clean": true
+        },
+        "orders": {
+          "revision": "e1344109a6948f65ae9e72c55d8f3bdb8c98bfcd",
+          "tree": "d3a83e7fb0504e4e5b66db249cd2a0c579a8c0d1",
+          "clean": true
+        },
+        "notifications": {
+          "revision": "f6cf891e9b6c9bc4c87bd10a25c05b120c5568cd",
+          "tree": "9410416b344066ccee1222f8081f89fe6cbe3f4b",
+          "clean": true
+        }
+      },
+      "treatment": {
+        "package_sha256": "71ae004217431f5c80fc6c4dee0e7d2393d7a4ceaf039ccb2a1e56883db76e18",
+        "selection_digest": "sha256:d0c39952ae5d91c6c8e7c6720c9456eb59a320bfcdecfbf3d0c341d54dc249aa",
+        "resolver_selection_digest": "sha256:2e01f623b1119bb1b7ab5cadf34a5387bb1a214e11cda997a9175a3e6a8b679c",
+        "selected_source_count": 6,
+        "measured_source_bytes": 11859
+      },
+      "prompt_contract": {
+        "components": {
+          "base_instructions": {
+            "utf8_bytes": 150,
+            "sha256": "871b58cd8ab5da18f9678e220a1eede56d465a25118026cbe7303e129c4957d2"
+          },
+          "developer_instructions": {
+            "utf8_bytes": 614,
+            "sha256": "70ab0f135a5af84170a7a2505383eda2c1a1a3ad00d7d6b70dcfefab1828f511"
+          },
+          "user_input": {
+            "utf8_bytes": 833,
+            "sha256": "aa3fc475cd95cf28b21f364b5280cb53f96f6a06795712aa25578e8ad37f8d0c"
+          },
+          "output_schema": {
+            "utf8_bytes": 740,
+            "sha256": "764b6ae3b0557116b645a008a19cbc43287984affa4e3b66d7b25b09ab7f7af6"
+          }
+        },
+        "explicit_prompt_bytes": 2337,
+        "raw_prompt_retained": false
+      },
+      "output_schema_sha256": "764b6ae3b0557116b645a008a19cbc43287984affa4e3b66d7b25b09ab7f7af6",
+      "condition_root_id": "multi-stage-aware-a"
+    },
+    {
+      "id": "single-legacy-expanded-b",
+      "shape": "single-repository",
+      "strategy": "legacy-expanded",
+      "repetition": "b",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "operational_token_limit": 51000,
+      "repository_manifest": {
+        "coordinator": {
+          "revision": "1442d200c950a411eac2287e66bd85a9051002c2",
+          "tree": "5518438a53c8be5fc97da4e609d1635ea2aeda9d",
+          "clean": true
+        }
+      },
+      "treatment": {
+        "package_sha256": "c25c9a00f871b59617ceb8e423ab46c55089884a2c0673165ac79862d6fde089",
+        "selection_digest": "sha256:fea5ea5c44b478defc7f792e35934c37ef4e032fce7fde4c2f3c35cbcba22735",
+        "resolver_selection_digest": "sha256:2307859c1583d65d60b91c4eab421177ceef7d0dec6d47c9bd74c52afa697f65",
+        "selected_source_count": 12,
+        "measured_source_bytes": 40296
+      },
+      "prompt_contract": {
+        "components": {
+          "base_instructions": {
+            "utf8_bytes": 150,
+            "sha256": "871b58cd8ab5da18f9678e220a1eede56d465a25118026cbe7303e129c4957d2"
+          },
+          "developer_instructions": {
+            "utf8_bytes": 614,
+            "sha256": "70ab0f135a5af84170a7a2505383eda2c1a1a3ad00d7d6b70dcfefab1828f511"
+          },
+          "user_input": {
+            "utf8_bytes": 812,
+            "sha256": "cbd502c983f4baac492fe8da0153864646578f16579e5f83952e886f66788687"
+          },
+          "output_schema": {
+            "utf8_bytes": 610,
+            "sha256": "1628d8f3ea26a93808e28c9b50ebdb937dd41c55ee73c5eb5293886e913a3dbf"
+          }
+        },
+        "explicit_prompt_bytes": 2186,
+        "raw_prompt_retained": false
+      },
+      "output_schema_sha256": "1628d8f3ea26a93808e28c9b50ebdb937dd41c55ee73c5eb5293886e913a3dbf",
+      "condition_root_id": "single-legacy-expanded-b"
+    },
+    {
+      "id": "multi-stage-aware-b",
+      "shape": "coordinator-multi-repository",
+      "strategy": "stage-aware",
+      "repetition": "b",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "operational_token_limit": 80000,
+      "repository_manifest": {
+        "coordinator": {
+          "revision": "832d03857bb713a60ca19e730c3aedd430a40941",
+          "tree": "e24beaf07ce495dee7f6b7cf3d143ca433191f23",
+          "clean": true
+        },
+        "gateway": {
+          "revision": "9071d1b37f09bcc88b815dfc10e7a18c958dc411",
+          "tree": "53030d78dbfde10cba16a03aa304a6ab21c5a11b",
+          "clean": true
+        },
+        "catalog": {
+          "revision": "6d3a7ce19075343f3b4e3d1ab77d44f94e1fbfb7",
+          "tree": "04520188290cdc8964d1469d7540cabca915a227",
+          "clean": true
+        },
+        "orders": {
+          "revision": "e1344109a6948f65ae9e72c55d8f3bdb8c98bfcd",
+          "tree": "d3a83e7fb0504e4e5b66db249cd2a0c579a8c0d1",
+          "clean": true
+        },
+        "notifications": {
+          "revision": "f6cf891e9b6c9bc4c87bd10a25c05b120c5568cd",
+          "tree": "9410416b344066ccee1222f8081f89fe6cbe3f4b",
+          "clean": true
+        }
+      },
+      "treatment": {
+        "package_sha256": "da74ab10a7bb8d96179ab636bd97594be86335e9bae2bd2908d312d40a97801d",
+        "selection_digest": "sha256:d0c39952ae5d91c6c8e7c6720c9456eb59a320bfcdecfbf3d0c341d54dc249aa",
+        "resolver_selection_digest": "sha256:2e01f623b1119bb1b7ab5cadf34a5387bb1a214e11cda997a9175a3e6a8b679c",
+        "selected_source_count": 6,
+        "measured_source_bytes": 11859
+      },
+      "prompt_contract": {
+        "components": {
+          "base_instructions": {
+            "utf8_bytes": 150,
+            "sha256": "871b58cd8ab5da18f9678e220a1eede56d465a25118026cbe7303e129c4957d2"
+          },
+          "developer_instructions": {
+            "utf8_bytes": 614,
+            "sha256": "70ab0f135a5af84170a7a2505383eda2c1a1a3ad00d7d6b70dcfefab1828f511"
+          },
+          "user_input": {
+            "utf8_bytes": 833,
+            "sha256": "aa3fc475cd95cf28b21f364b5280cb53f96f6a06795712aa25578e8ad37f8d0c"
+          },
+          "output_schema": {
+            "utf8_bytes": 740,
+            "sha256": "764b6ae3b0557116b645a008a19cbc43287984affa4e3b66d7b25b09ab7f7af6"
+          }
+        },
+        "explicit_prompt_bytes": 2337,
+        "raw_prompt_retained": false
+      },
+      "output_schema_sha256": "764b6ae3b0557116b645a008a19cbc43287984affa4e3b66d7b25b09ab7f7af6",
+      "condition_root_id": "multi-stage-aware-b"
+    },
+    {
+      "id": "single-stage-aware-b",
+      "shape": "single-repository",
+      "strategy": "stage-aware",
+      "repetition": "b",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "operational_token_limit": 51000,
+      "repository_manifest": {
+        "coordinator": {
+          "revision": "1442d200c950a411eac2287e66bd85a9051002c2",
+          "tree": "5518438a53c8be5fc97da4e609d1635ea2aeda9d",
+          "clean": true
+        }
+      },
+      "treatment": {
+        "package_sha256": "55db689f6ee49eecd0abb884833868df3effe2acbd575cdeea9e788ecabc5ec1",
+        "selection_digest": "sha256:d3fd800cc48412960dbadac0ecfa076a1c2e4e83665a4e93f69422721a30dc18",
+        "resolver_selection_digest": "sha256:23ec3a583d85905dd1548699515481dd11f8d8ece0376fc2bc83f5d64b48a6f3",
+        "selected_source_count": 7,
+        "measured_source_bytes": 14592
+      },
+      "prompt_contract": {
+        "components": {
+          "base_instructions": {
+            "utf8_bytes": 150,
+            "sha256": "871b58cd8ab5da18f9678e220a1eede56d465a25118026cbe7303e129c4957d2"
+          },
+          "developer_instructions": {
+            "utf8_bytes": 614,
+            "sha256": "70ab0f135a5af84170a7a2505383eda2c1a1a3ad00d7d6b70dcfefab1828f511"
+          },
+          "user_input": {
+            "utf8_bytes": 812,
+            "sha256": "cbd502c983f4baac492fe8da0153864646578f16579e5f83952e886f66788687"
+          },
+          "output_schema": {
+            "utf8_bytes": 610,
+            "sha256": "1628d8f3ea26a93808e28c9b50ebdb937dd41c55ee73c5eb5293886e913a3dbf"
+          }
+        },
+        "explicit_prompt_bytes": 2186,
+        "raw_prompt_retained": false
+      },
+      "output_schema_sha256": "1628d8f3ea26a93808e28c9b50ebdb937dd41c55ee73c5eb5293886e913a3dbf",
+      "condition_root_id": "single-stage-aware-b"
+    },
+    {
+      "id": "multi-legacy-expanded-b",
+      "shape": "coordinator-multi-repository",
+      "strategy": "legacy-expanded",
+      "repetition": "b",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "operational_token_limit": 80000,
+      "repository_manifest": {
+        "coordinator": {
+          "revision": "832d03857bb713a60ca19e730c3aedd430a40941",
+          "tree": "e24beaf07ce495dee7f6b7cf3d143ca433191f23",
+          "clean": true
+        },
+        "gateway": {
+          "revision": "9071d1b37f09bcc88b815dfc10e7a18c958dc411",
+          "tree": "53030d78dbfde10cba16a03aa304a6ab21c5a11b",
+          "clean": true
+        },
+        "catalog": {
+          "revision": "6d3a7ce19075343f3b4e3d1ab77d44f94e1fbfb7",
+          "tree": "04520188290cdc8964d1469d7540cabca915a227",
+          "clean": true
+        },
+        "orders": {
+          "revision": "e1344109a6948f65ae9e72c55d8f3bdb8c98bfcd",
+          "tree": "d3a83e7fb0504e4e5b66db249cd2a0c579a8c0d1",
+          "clean": true
+        },
+        "notifications": {
+          "revision": "f6cf891e9b6c9bc4c87bd10a25c05b120c5568cd",
+          "tree": "9410416b344066ccee1222f8081f89fe6cbe3f4b",
+          "clean": true
+        }
+      },
+      "treatment": {
+        "package_sha256": "69a36908bd5999b1a9629dcc995e87191a7e7f0dec3676db7c470a998bd0a7e2",
+        "selection_digest": "sha256:51c42c67fa656b1e647a075cad24b727faa3abfe5964027c4cc15efcd5081ede",
+        "resolver_selection_digest": "sha256:bb97168d426da383895576e2161c22e6a40b5965f851fb1d347f798a987e2e24",
+        "selected_source_count": 10,
+        "measured_source_bytes": 34379
+      },
+      "prompt_contract": {
+        "components": {
+          "base_instructions": {
+            "utf8_bytes": 150,
+            "sha256": "871b58cd8ab5da18f9678e220a1eede56d465a25118026cbe7303e129c4957d2"
+          },
+          "developer_instructions": {
+            "utf8_bytes": 614,
+            "sha256": "70ab0f135a5af84170a7a2505383eda2c1a1a3ad00d7d6b70dcfefab1828f511"
+          },
+          "user_input": {
+            "utf8_bytes": 833,
+            "sha256": "aa3fc475cd95cf28b21f364b5280cb53f96f6a06795712aa25578e8ad37f8d0c"
+          },
+          "output_schema": {
+            "utf8_bytes": 740,
+            "sha256": "764b6ae3b0557116b645a008a19cbc43287984affa4e3b66d7b25b09ab7f7af6"
+          }
+        },
+        "explicit_prompt_bytes": 2337,
+        "raw_prompt_retained": false
+      },
+      "output_schema_sha256": "764b6ae3b0557116b645a008a19cbc43287984affa4e3b66d7b25b09ab7f7af6",
+      "condition_root_id": "multi-legacy-expanded-b"
+    }
+  ],
+  "execution": {
+    "condition_order": [
+      "single-stage-aware-a",
+      "multi-legacy-expanded-a",
+      "single-legacy-expanded-a",
+      "multi-stage-aware-a",
+      "single-legacy-expanded-b",
+      "multi-stage-aware-b",
+      "single-stage-aware-b",
+      "multi-legacy-expanded-b"
+    ],
+    "candidate_turns": 8,
+    "evaluator_turns": 0,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "network_access": false,
+    "external_writes": false,
+    "generation_ready": false,
+    "exact_approval_required": true,
+    "condition_operational_token_limits": {
+      "single-stage-aware-a": 51000,
+      "multi-legacy-expanded-a": 80000,
+      "single-legacy-expanded-a": 51000,
+      "multi-stage-aware-a": 80000,
+      "single-legacy-expanded-b": 51000,
+      "multi-stage-aware-b": 80000,
+      "single-stage-aware-b": 51000,
+      "multi-legacy-expanded-b": 80000
+    },
+    "aggregate_operational_token_limit": 524000,
+    "program_wall_clock_limit_ms": 4800000
+  },
+  "provider_contract": {
+    "pass": true,
+    "codex_cli_version": "codex-cli 0.153.0-alpha.5",
+    "schema_digests": {
+      "ThreadStartParams.json": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+      "TurnStartParams.json": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
+      "ItemStartedNotification.json": "c4c34f47db6326cd4841bae428f23d08eb285077ffad35be9772b928c65bb912",
+      "ItemCompletedNotification.json": "69aba3fe5f72f38bf5c541e7e2c09de40778abe65ff969d9fc73372037812091",
+      "TurnCompletedNotification.json": "78af2a37391e8e669a4020cb58593e4d3e378756ced79d5fec72374fa69fb94b",
+      "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
+      "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef"
+    },
+    "model_route": {
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "available": true,
+      "observed_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ]
+    },
+    "memory_isolation": {
+      "use_memories": false,
+      "generate_memories": false,
+      "feature_enabled": false,
+      "arguments_sha256": "e5d3c3be08c8191bc85c61fa4ba79436ae8fedcdb480cba347f2b85f494567ab",
+      "pass": true
+    },
+    "configuration_acknowledgement": {
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "acknowledged_configured_reasoning_effort": "medium",
+      "evidence_kind": "thread-configured-state-not-per-turn-execution-telemetry",
+      "pass": true
+    },
+    "wire_requests": {
+      "thread_start": {
+        "pass": true,
+        "request_sha256": "de8e5917cd2e9fd92cead005a2e105851c9a2419621b1c57db87fdcfd51c8757",
+        "errors": []
+      },
+      "turn_start": {
+        "pass": true,
+        "request_sha256": "af1129fb1de095c30c4364baff2b05a2b6ffde58679ab2b9f5cd08af8289ba8b",
+        "errors": []
+      }
+    },
+    "structured_output_schemas": [
+      {
+        "profile": "openai-structured-outputs-portable-subset/2026-09-04",
+        "schema_sha256": "1628d8f3ea26a93808e28c9b50ebdb937dd41c55ee73c5eb5293886e913a3dbf",
+        "supported": true,
+        "answer_free": true,
+        "forbidden_keywords": []
+      },
+      {
+        "profile": "openai-structured-outputs-portable-subset/2026-09-04",
+        "schema_sha256": "764b6ae3b0557116b645a008a19cbc43287984affa4e3b66d7b25b09ab7f7af6",
+        "supported": true,
+        "answer_free": true,
+        "forbidden_keywords": []
+      }
+    ],
+    "model_generation_performed": false
+  },
+  "historical_regression": {
+    "source_path": ".ai-org/artifacts/WI-0138/live-observation.json",
+    "source_sha256": "89aca34b3ad2e9037c1aa44d2e1c32db1775e4fd9814010cb77a59c340ea79e0",
+    "result": {
+      "pass": true,
+      "source_work_item_id": "WI-0138",
+      "scope": "known-display-false-negatives-only",
+      "historical_result_changed": false,
+      "single": [
+        {
+          "id": "single-stage-aware",
+          "facts": {
+            "public_tests_passed": 18,
+            "public_tests_failed": 0
+          }
+        },
+        {
+          "id": "single-legacy-expanded",
+          "facts": {
+            "public_tests_passed": 18,
+            "public_tests_failed": 0
+          }
+        }
+      ],
+      "multi": [
+        {
+          "id": "multi-legacy-expanded",
+          "facts": {
+            "contract_id": "OrderPlaced/v2"
+          }
+        },
+        {
+          "id": "multi-stage-aware",
+          "facts": {
+            "contract_id": "OrderPlaced/v2"
+          }
+        }
+      ]
+    },
+    "model_generation_performed": false
+  },
+  "diagnostic_regression": {
+    "source_path": ".ai-org/artifacts/WI-0139/live-observation.json",
+    "source_sha256": "61f1688e23d7b9b4dd1ce6292202f3572b135d1afc77a3e891fcbedd38109927",
+    "result": {
+      "pass": true,
+      "source_work_item_id": "WI-0139",
+      "single_repository_censored_conditions": [
+        "single-stage-aware",
+        "single-legacy-expanded"
+      ],
+      "coordinator_multi_repository": {
+        "legacy_correct": true,
+        "stage_aware_correct": true,
+        "operational_tokens_delta_percent": 6.38,
+        "latency_delta_percent": 8.01
+      },
+      "total_operational_tokens": 136851,
+      "historical_result_changed": false
+    },
+    "model_generation_performed": false
+  },
+  "predecessor_integrity": {
+    "work_item_id": "WI-0139",
+    "baseline_revision": "1461cf6a841761506229913a538cc1e58cc6ed5e",
+    "artifact_root": ".ai-org/artifacts/WI-0139",
+    "source_path": ".ai-org/artifacts/WI-0139/live-observation.json",
+    "source_sha256": "61f1688e23d7b9b4dd1ce6292202f3572b135d1afc77a3e891fcbedd38109927",
+    "tracked_diff": false,
+    "working_tree_diff": false,
+    "pass": true,
+    "model_generation_performed": false
+  },
+  "privacy": {
+    "raw_prompts_retained": false,
+    "raw_responses_retained": false,
+    "hidden_reasoning_retained": false,
+    "normalized_structured_completion_retained": true,
+    "temporary_repositories_retained_in_git": false,
+    "raw_commands_retained": false,
+    "raw_command_outputs_retained": false,
+    "acquisition_manifest": "bounded-path-only",
+    "acquisition_limits": {
+      "maximum_entries": 64,
+      "maximum_path_bytes": 240
+    }
+  },
+  "interpretation": {
+    "primary_metric": "objective-correctness",
+    "per_shape_reporting_required": true,
+    "sample_per_condition": 2,
+    "counterbalanced_order": true,
+    "acquisition_is_primary_diagnostic": true,
+    "reasoning_effort_claim": "requested-and-thread-configured",
+    "effective_turn_reasoning_effort_observable": false,
+    "statistical_claim_authorized": false,
+    "monetary_claim_authorized": false,
+    "routing_authority_granted": false
+  },
+  "predecessors": [
+    {
+      "work_item_id": "WI-0135",
+      "evidence": ".ai-org/artifacts/WI-0135/live-experiment-observation.json"
+    },
+    {
+      "work_item_id": "WI-0136",
+      "evidence": ".ai-org/artifacts/WI-0136/representative-main-v16-findings.md"
+    },
+    {
+      "work_item_id": "WI-0137",
+      "evidence": ".ai-org/artifacts/WI-0137/independent-qa.md"
+    },
+    {
+      "work_item_id": "WI-0138",
+      "evidence": ".ai-org/artifacts/WI-0138/evidence-backed-findings.md"
+    },
+    {
+      "work_item_id": "WI-0139",
+      "evidence": ".ai-org/artifacts/WI-0139/live-evaluation.md"
+    }
+  ],
+  "limit_basis": {
+    "pass": true,
+    "source_work_item_id": "WI-0139",
+    "observed_single_repository_lower_bound": 40460,
+    "headroom_band": 10000,
+    "rounding_band": 1000,
+    "derived_single_repository_limit": 51000,
+    "coordinator_multi_repository_limit": 80000,
+    "meaning": "A fixed safety ceiling derived from retained censoring evidence; not expected use, price, or an optimal budget."
+  }
+}

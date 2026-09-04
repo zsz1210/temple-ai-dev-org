@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+import { createReadStream } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { REQUIRED_SKILLS } from "./constants.mjs";
@@ -28,10 +30,42 @@ import {
 export const CONTEXT_MAP_RELATIVE_PATH = ".ai-org/project/context-map.json";
 export const CAPABILITY_REGISTRY_RELATIVE_PATH = ".ai-org/views/capabilities.json";
 export const CONTEXT_CAPSULE_DIRECTORY = ".ai-org/views/work-items";
-export const CONTEXT_MAP_SCHEMA = "temple.context-map/v1";
+export const LEGACY_CONTEXT_MAP_SCHEMA = "temple.context-map/v1";
+export const CONTEXT_MAP_SCHEMA = "temple.context-map/v2";
 export const CAPABILITY_REGISTRY_SCHEMA = "temple.capability-registry/v1";
-export const CONTEXT_CAPSULE_SCHEMA = "temple.context-capsule/v1";
+export const CONTEXT_CAPSULE_SCHEMA = "temple.context-capsule/v2";
 export const RETRIEVAL_PROVIDER_SCHEMA = "temple.retrieval-provider/v1";
+export const ACCEPTANCE_CONTRACT_SCHEMA = "temple.acceptance-contract/v1";
+export const CONTEXT_PURPOSES = Object.freeze(["primary", "integration", "recovery"]);
+export const CONTEXT_STAGES = Object.freeze([
+  "intake",
+  "spec",
+  "design",
+  "build",
+  "test",
+  "eval",
+  "independent_qa",
+  "release_gate",
+  "done",
+  "concluded",
+  "blocked",
+  "cancelled"
+]);
+export const CONTEXT_SOURCE_CATEGORIES = Object.freeze([
+  "work-item",
+  "specification",
+  "context-route",
+  "learning",
+  "capability",
+  "operating-contract"
+]);
+export const ACCEPTANCE_CONTRACT_DIMENSIONS = Object.freeze([
+  "identity_semantics",
+  "input_immutability",
+  "idempotency",
+  "compatibility",
+  "error_semantics"
+]);
 
 export const CONTEXT_KINDS = [
   "product-spec",
@@ -49,16 +83,57 @@ const CONTEXT_STATUSES = ["active", "deprecated"];
 const SKILL_NAME = /^[a-z0-9][a-z0-9-]{0,63}$/;
 const CONTEXT_ID = /^[a-z0-9][a-z0-9-]{0,79}$/;
 const EXCLUDED_QUERY_WORDS = new Set([
+  "a",
+  "an",
   "and",
+  "as",
+  "at",
+  "be",
+  "but",
+  "by",
+  "change",
+  "complete",
+  "do",
+  "does",
+  "evidence",
+  "file",
+  "files",
   "for",
   "from",
+  "if",
+  "in",
   "into",
+  "is",
+  "it",
+  "its",
+  "may",
+  "md",
+  "must",
+  "no",
+  "not",
+  "of",
+  "on",
+  "only",
+  "or",
+  "project",
+  "repository",
+  "rules",
+  "src",
+  "task",
+  "test",
+  "tests",
   "the",
   "this",
   "that",
+  "to",
+  "use",
+  "using",
+  "when",
   "with",
   "without",
   "work",
+  "write",
+  "writes",
   "item"
 ]);
 
@@ -85,6 +160,85 @@ function uniqueNonEmptyStrings(values) {
   );
 }
 
+function stableJson(value) {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
+  if (value && typeof value === "object") {
+    return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(",")}}`;
+  }
+  return JSON.stringify(value);
+}
+
+function contextItemCount(value) {
+  if (Array.isArray(value)) return value.length;
+  if (value && typeof value === "object") return Object.keys(value).length;
+  return value === null || value === undefined ? 0 : 1;
+}
+
+export function measureContextEnvelope(components) {
+  if (!components || typeof components !== "object" || Array.isArray(components)) {
+    throw new Error("context components must be an object");
+  }
+  const entries = Object.entries(components).sort(([left], [right]) => left.localeCompare(right));
+  if (entries.length === 0) throw new Error("context components must not be empty");
+  const digest = [];
+  const measured = entries.map(([id, value]) => {
+    if (!CONTEXT_ID.test(id)) throw new Error(`invalid context component id ${id}`);
+    const canonical = stableJson(value);
+    const bytes = Buffer.byteLength(canonical, "utf8");
+    digest.push(id, "\0", canonical, "\0");
+    return { id, utf8_bytes: bytes, item_count: contextItemCount(value), sha256: sha256(canonical) };
+  });
+  const utf8Bytes = measured.reduce((total, entry) => total + entry.utf8_bytes, 0);
+  const measuredWithShares = measured.map((entry) => ({
+    ...entry,
+    share_percent: utf8Bytes === 0 ? 0 : Number(((entry.utf8_bytes / utf8Bytes) * 100).toFixed(2))
+  }));
+  const largest = [...measuredWithShares].sort((left, right) => right.utf8_bytes - left.utf8_bytes || left.id.localeCompare(right.id))[0];
+  return {
+    algorithm: "stable-json-v1",
+    context_profile_digest: `sha256:${sha256(digest.join(""))}`,
+    utf8_bytes: utf8Bytes,
+    largest_component: { id: largest.id, utf8_bytes: largest.utf8_bytes, share_percent: largest.share_percent },
+    components: measuredWithShares
+  };
+}
+
+export function validateAcceptanceContract(document) {
+  const errors = [];
+  const blockers = [];
+  if (document?.schema_version !== ACCEPTANCE_CONTRACT_SCHEMA) {
+    errors.push(`schema_version must be ${ACCEPTANCE_CONTRACT_SCHEMA}`);
+  }
+  if (typeof document?.case_id !== "string" || !document.case_id.trim()) errors.push("case_id is required");
+  const dimensions = document?.dimensions;
+  if (!dimensions || typeof dimensions !== "object" || Array.isArray(dimensions)) {
+    errors.push("dimensions must be an object");
+  } else {
+    const unknown = Object.keys(dimensions).filter((id) => !ACCEPTANCE_CONTRACT_DIMENSIONS.includes(id));
+    if (unknown.length) errors.push(`unknown acceptance dimensions: ${unknown.join(", ")}`);
+    for (const id of ACCEPTANCE_CONTRACT_DIMENSIONS) {
+      const entry = dimensions[id];
+      if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+        errors.push(`${id} is required`);
+        continue;
+      }
+      if (!["specified", "not-applicable", "unknown"].includes(entry.status)) {
+        errors.push(`${id}.status is invalid`);
+        continue;
+      }
+      if (entry.status === "specified") {
+        if (typeof entry.requirement !== "string" || !entry.requirement.trim()) errors.push(`${id}.requirement is required when specified`);
+        if (typeof entry.evidence_ref !== "string" || !entry.evidence_ref.trim()) errors.push(`${id}.evidence_ref is required when specified`);
+      }
+      if (entry.status === "not-applicable" && (typeof entry.rationale !== "string" || !entry.rationale.trim())) {
+        errors.push(`${id}.rationale is required when not-applicable`);
+      }
+      if (entry.status === "unknown") blockers.push(`acceptance dimension ${id} is unknown`);
+    }
+  }
+  return { valid: errors.length === 0, ready: errors.length === 0 && blockers.length === 0, errors, blockers };
+}
+
 export function isSafeRepositoryPath(value) {
   return (
     typeof value === "string" &&
@@ -98,10 +252,11 @@ export function isSafeRepositoryPath(value) {
   );
 }
 
-export function validateContextMap(contextMap, positionIds = null) {
+export function validateContextMap(contextMap, positionIds = null, stageIds = new Set(CONTEXT_STAGES)) {
   const errors = [];
-  if (contextMap?.schema_version !== CONTEXT_MAP_SCHEMA) {
-    errors.push(`schema_version must be ${CONTEXT_MAP_SCHEMA}`);
+  const schemaVersion = contextMap?.schema_version;
+  if (![LEGACY_CONTEXT_MAP_SCHEMA, CONTEXT_MAP_SCHEMA].includes(schemaVersion)) {
+    errors.push(`schema_version must be ${LEGACY_CONTEXT_MAP_SCHEMA} or ${CONTEXT_MAP_SCHEMA}`);
   }
   if (!Array.isArray(contextMap?.routes)) return { valid: false, errors: [...errors, "routes must be an array"] };
 
@@ -121,6 +276,19 @@ export function validateContextMap(contextMap, positionIds = null) {
     }
     for (const field of ["tags", "positions", "work_items", "read_when"]) {
       if (!uniqueNonEmptyStrings(route?.[field])) errors.push(`${label}.${field} must contain unique non-empty strings`);
+    }
+    for (const field of ["stages", "purposes"]) {
+      if (schemaVersion === LEGACY_CONTEXT_MAP_SCHEMA && Object.hasOwn(route ?? {}, field)) {
+        errors.push(`${label}.${field} requires ${CONTEXT_MAP_SCHEMA}`);
+      } else if (schemaVersion === CONTEXT_MAP_SCHEMA && route?.[field] !== undefined && !uniqueNonEmptyStrings(route[field])) {
+        errors.push(`${label}.${field} must contain unique non-empty strings`);
+      }
+    }
+    if ((route?.stages ?? []).some((value) => !stageIds.has(value))) {
+      errors.push(`${label}.stages contains an unknown workflow stage`);
+    }
+    if ((route?.purposes ?? []).some((value) => !CONTEXT_PURPOSES.includes(value))) {
+      errors.push(`${label}.purposes contains an unknown context purpose`);
     }
     if (route?.positions?.some((value) => positionIds && !positionIds.has(value))) {
       errors.push(`${label}.positions contains an unknown Position`);
@@ -303,12 +471,15 @@ function scoreDocument(document, request) {
   const fields = textFields(document);
   const reasons = [];
   let score = 0;
+  let relevanceSignals = 0;
   if ((request.pinned_ids ?? []).includes(document.id)) {
     score += 1000;
+    relevanceSignals += 1;
     reasons.push("explicit-context-reference");
   }
   if ((document.work_items ?? document.source_work_items ?? []).includes(request.work_item_id)) {
     score += 160;
+    relevanceSignals += 1;
     reasons.push("work-item-reference");
   }
   if (request.position && (document.positions ?? document.position_hints ?? []).includes(request.position)) {
@@ -317,6 +488,7 @@ function scoreDocument(document, request) {
   }
   if (query.length > 1 && Object.values(fields).some((value) => value.includes(query))) {
     score += 80;
+    relevanceSignals += 1;
     reasons.push("phrase-match");
   }
   for (const token of tokens) {
@@ -330,10 +502,11 @@ function scoreDocument(document, request) {
     else if (fields.hints.includes(token)) tokenScore = 6;
     if (tokenScore > 0) {
       score += tokenScore;
+      relevanceSignals += 1;
       reasons.push(`term:${token}`);
     }
   }
-  return { score, reasons: [...new Set(reasons)] };
+  return { score, relevant: relevanceSignals > 0, reasons: [...new Set(reasons)] };
 }
 
 export function createRepositoryRetrievalProvider() {
@@ -347,7 +520,7 @@ export function createRepositoryRetrievalProvider() {
       return (request.documents ?? [])
         .filter((document) => document.status !== "deprecated" || (request.pinned_ids ?? []).includes(document.id))
         .map((document) => ({ document, ...scoreDocument(document, request) }))
-        .filter((entry) => entry.score > 0)
+        .filter((entry) => entry.relevant && entry.score > 0)
         .sort((left, right) => right.score - left.score || left.document.id.localeCompare(right.document.id))
         .slice(0, limit)
         .map((entry) => ({
@@ -397,6 +570,91 @@ export async function findCapabilities(target, options = {}) {
 
 export function contextRouteDocuments(contextMap) {
   return contextMap.routes.map((route) => ({ ...route, retrieval_kind: "context-route" }));
+}
+
+function routeApplies(route, stage, purpose) {
+  const stages = route.stages ?? [];
+  const purposes = route.purposes ?? [];
+  return (stages.length === 0 || stages.includes(stage)) && (purposes.length === 0 || purposes.includes(purpose));
+}
+
+function withinRepository(repository, candidate) {
+  const relative = path.relative(repository, candidate);
+  return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative));
+}
+
+async function measureContextSource(repository, sourcePath, categories) {
+  const base = {
+    path: sourcePath,
+    categories: [...categories].sort((left, right) => left.localeCompare(right)),
+    status: "unreadable",
+    bytes: null,
+    sha256: null
+  };
+  if (!isSafeRepositoryPath(sourcePath)) return { ...base, status: "unsafe" };
+  const absolute = path.resolve(repository, sourcePath);
+  let metadata;
+  try {
+    metadata = await fs.lstat(absolute);
+  } catch (error) {
+    return { ...base, status: error?.code === "ENOENT" ? "missing" : "unreadable" };
+  }
+  if (metadata.isSymbolicLink()) return { ...base, status: "unsafe" };
+  if (!metadata.isFile()) return { ...base, status: "non-regular" };
+  let real;
+  try {
+    real = await fs.realpath(absolute);
+  } catch {
+    return base;
+  }
+  if (!withinRepository(repository, real)) return { ...base, status: "unsafe" };
+  const hash = createHash("sha256");
+  let bytes = 0;
+  try {
+    for await (const chunk of createReadStream(real)) {
+      bytes += chunk.length;
+      hash.update(chunk);
+    }
+  } catch {
+    return base;
+  }
+  return { ...base, status: "measured", bytes, sha256: `sha256:${hash.digest("hex")}` };
+}
+
+export async function buildContextSourceManifest(target, references) {
+  const byPath = new Map();
+  for (const reference of references ?? []) {
+    const sourcePath = reference?.path;
+    const category = reference?.category;
+    if (typeof sourcePath !== "string" || typeof category !== "string") continue;
+    if (!CONTEXT_SOURCE_CATEGORIES.includes(category)) throw new Error(`Unknown context source category: ${category}`);
+    const categories = byPath.get(sourcePath) ?? new Set();
+    categories.add(category);
+    byPath.set(sourcePath, categories);
+  }
+  const repository = await fs.realpath(path.resolve(target));
+  const sources = [];
+  for (const [sourcePath, categories] of [...byPath.entries()].sort(([left], [right]) => left.localeCompare(right))) {
+    sources.push(await measureContextSource(repository, sourcePath, categories));
+  }
+  const measured = sources.filter((source) => source.status === "measured");
+  const digestInput = sources.map((source) => ({
+    path: source.path,
+    categories: source.categories,
+    status: source.status,
+    bytes: source.bytes,
+    sha256: source.sha256
+  }));
+  return {
+    schema_version: "temple.context-source-manifest/v1",
+    algorithm: "sha256-stream-v1",
+    selection_digest: `sha256:${sha256(stableJson(digestInput))}`,
+    source_count: sources.length,
+    measured_source_count: measured.length,
+    measured_bytes: measured.reduce((total, source) => total + source.bytes, 0),
+    source_bodies_retained: false,
+    sources
+  };
 }
 
 export function learningDocuments(index) {
@@ -542,7 +800,8 @@ export async function resolveWorkItemContext(target, options) {
   const positionId = options.position ?? item.owner_position;
   if (!context.positions.has(positionId)) throw new Error(`Unknown Position: ${positionId}`);
   const contextMap = await readContextMap(target);
-  const mapValidation = validateContextMap(contextMap, new Set(context.positions.keys()));
+  const workflowStages = new Set((context.workflow.states ?? []).map((state) => state.id));
+  const mapValidation = validateContextMap(contextMap, new Set(context.positions.keys()), workflowStages);
   if (!mapValidation.valid) throw new Error(`Invalid context map:\n- ${mapValidation.errors.join("\n- ")}`);
   const registry = options.registry ?? (await buildCapabilityRegistry(target));
   if (registry.issues.length > 0) throw new Error(`Capability registry has invalid Skills:\n- ${registry.issues.join("\n- ")}`);
@@ -586,6 +845,15 @@ export async function resolveWorkItemContext(target, options) {
   const providerValidation = validateRetrievalProvider(provider);
   if (!providerValidation.valid) throw new Error(`Invalid Retrieval Provider:\n- ${providerValidation.errors.join("\n- ")}`);
 
+  const lifecycle = lifecycleProjection(context.workflow, item);
+  const stage = options.stage ?? lifecycle.effective_state;
+  const purpose = options.purpose ?? "primary";
+  if (!workflowStages.has(stage)) throw new Error(`Unknown workflow stage: ${stage}`);
+  if (!CONTEXT_PURPOSES.includes(purpose)) throw new Error(`Unknown context purpose: ${purpose}`);
+  const applicableContextMap = {
+    ...contextMap,
+    routes: contextMap.routes.filter((route) => routeApplies(route, stage, purpose))
+  };
   const query = [
     item.title,
     ...(item.scope ?? []),
@@ -603,7 +871,7 @@ export async function resolveWorkItemContext(target, options) {
     limit: options.limit
   };
   const [routeResults, learningResults, capabilityResults] = await Promise.all([
-    provider.search({ ...commonRequest, documents: contextRouteDocuments(contextMap) }),
+    provider.search({ ...commonRequest, documents: contextRouteDocuments(applicableContextMap) }),
     provider.search({ ...commonRequest, pinned_ids: [], documents: learningDocuments(learningIndex) }),
     provider.search({ ...commonRequest, pinned_ids: [], documents: capabilityDocuments(registry) })
   ]);
@@ -612,13 +880,19 @@ export async function resolveWorkItemContext(target, options) {
   const deprecatedContextRefs = (item.context_refs ?? []).filter(
     (routeId) => contextMap.routes.find((route) => route.id === routeId)?.status === "deprecated"
   );
-  const lifecycle = lifecycleProjection(context.workflow, item);
+  const outOfScopeContextRefs = (item.context_refs ?? []).filter((routeId) => {
+    const route = contextMap.routes.find((candidate) => candidate.id === routeId);
+    return route && !routeApplies(route, stage, purpose);
+  });
   const overlaps = await findAffectedPathOverlaps(target, item, context.workflow);
   const parallelExecution = await parallelExecutionForWorkItem(target, item.id);
   const agent = assignedAgent(context, positionId);
   const warnings = [];
   if (missingContextRefs.length) warnings.push(`Missing context routes: ${missingContextRefs.join(", ")}`);
   if (deprecatedContextRefs.length) warnings.push(`Deprecated context routes: ${deprecatedContextRefs.join(", ")}`);
+  if (outOfScopeContextRefs.length) {
+    warnings.push(`Pinned context routes outside ${stage}/${purpose}: ${outOfScopeContextRefs.join(", ")}`);
+  }
   if (overlaps.length) warnings.push(`${overlaps.length} active work item(s) overlap affected paths`);
   warnings.push(...specificationEvaluation.warnings);
   warnings.push(...trackerReferenceValidation.warnings);
@@ -641,6 +915,24 @@ export async function resolveWorkItemContext(target, options) {
         trackerKeys.has(`${entry.work_item_id}:${entry.observation.provider_id}:${entry.observation.item_id}`)
       )
     : [];
+  const resolvedSpecifications = specificationEvaluation.resolved_refs.map((reference) => ({
+    ...reference,
+    title: specificationsById.get(reference.id)?.title,
+    source: specificationsById.get(reference.id)?.source
+  }));
+  const sourceReferences = [
+    { path: `.ai-org/work-items/${item.id}.json`, category: "work-item" },
+    ...resolvedSpecifications
+      .filter((reference) => reference.source?.kind === "repository")
+      .map((reference) => ({ path: reference.source.location, category: "specification" })),
+    ...routeResults.flatMap((result) =>
+      (result.source.paths ?? []).map((sourcePath) => ({ path: sourcePath, category: "context-route" }))
+    ),
+    ...learningResults.map((result) => ({ path: result.source.path, category: "learning" })),
+    ...capabilityResults.map((result) => ({ path: result.source.path, category: "capability" })),
+    ...(purpose === "recovery" ? [{ path: "TEMPLE.md", category: "operating-contract" }] : [])
+  ];
+  const sourceManifest = await buildContextSourceManifest(target, sourceReferences);
 
   return {
     schema_version: CONTEXT_CAPSULE_SCHEMA,
@@ -664,12 +956,18 @@ export async function resolveWorkItemContext(target, options) {
     position: { id: positionId, name: context.positions.get(positionId).display_name },
     agent: { id: agent.id, display_name: agent.display_name },
     revision: inferredRevision(item, options.revision),
+    route: {
+      stage,
+      stage_source: options.stage ? "explicit" : "work-item-effective-state",
+      purpose,
+      fallback: {
+        path: "TEMPLE.md",
+        policy: purpose === "recovery" ? "selected-for-recovery" : "only-when-route-incomplete-or-authority-ambiguous",
+        automatic_expansion: false
+      }
+    },
     affected_paths: item.affected_paths ?? [],
-    specifications: specificationEvaluation.resolved_refs.map((reference) => ({
-      ...reference,
-      title: specificationsById.get(reference.id)?.title,
-      source: specificationsById.get(reference.id)?.source
-    })),
+    specifications: resolvedSpecifications,
     tracker: {
       profile: trackerConfig.profile,
       sync_granularity: trackerConfig.sync_granularity,
@@ -697,6 +995,8 @@ export async function resolveWorkItemContext(target, options) {
       paths: result.source.paths,
       owner_position: result.source.owner_position,
       status: result.source.status,
+      stages: result.source.stages ?? [],
+      purposes: result.source.purposes ?? [],
       score: result.score,
       reasons: result.reasons
     })),
@@ -729,6 +1029,7 @@ export async function resolveWorkItemContext(target, options) {
       query,
       result_limit_per_kind: Number.isInteger(options.limit) && options.limit > 0 ? options.limit : 5
     },
+    source_manifest: sourceManifest,
     warnings
   };
 }

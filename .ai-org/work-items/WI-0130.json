@@ -1,0 +1,245 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0130",
+  "title": "Run the first three-arm Temple effectiveness pilot",
+  "state": "concluded",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-03T06:27:28.833Z",
+  "updated_at": "2026-09-03T07:12:33.620Z",
+  "scope": [
+    "Build and validate a reproducible six-candidate pilot across conventional fixed, Temple fixed, and Temple adaptive conditions",
+    "Use two frozen bounded implementation cases and isolate A versus B from B versus C",
+    "Run live Provider turns only after exact App Server, model, approval, Token, wall-clock, path, retry, fallback, and blind-evaluator preflight pass",
+    "Produce an evidence-backed human report; no deployment, publication, public release, automatic routing, purchased Credits, or automatic Credit reload"
+  ],
+  "acceptance_criteria": [
+    "Two independent frozen cases run through all three arms from clean matched starting states",
+    "A and B use the same fixed model and reasoning; B and C use the same Temple process with only the resolved route changed",
+    "Public and held-out correctness, blind quality, operational and gross Tokens, latency, rework, interventions, path violations, retries, and disk growth are retained",
+    "Invalid or incomplete pairs are excluded; neutral and negative results trigger explicit simplify, remove, retain, or redesign decisions",
+    "Offline fixtures and protocol tests, live result analysis, full verification, and separate Independent QA pass"
+  ],
+  "affected_paths": [
+    "scripts/run-effectiveness-pilot.mjs",
+    "scripts/analyze-effectiveness-pilot.mjs",
+    "test/effectiveness-pilot.test.mjs",
+    ".ai-org/artifacts/WI-0130",
+    "docs/validation/temple-effectiveness-pilot-result.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "The experiment is locally reversible but Provider generation and effectiveness claims require Standard review and separate Independent QA",
+    "evidence_refs": [
+      "docs/validation/adaptive-execution-routing-experiment.md"
+    ],
+    "evaluated_at": "2026-09-03T06:27:28.833Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "21444796a2505a49716f5d6a18a19bdcd56376ca",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260903071224-8f43e45f",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "21444796a2505a49716f5d6a18a19bdcd56376ca",
+    "branch": "codex/wi-0130-effectiveness-pilot",
+    "worktree": null,
+    "claimed_at": "2026-09-03T07:12:24.953Z",
+    "released_at": "2026-09-03T07:12:33.620Z",
+    "release_reason": "work_item_closed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260903063115-e88d358f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
+      "branch": "codex/wi-0130-effectiveness-pilot",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-03T06:31:15.788Z",
+      "released_at": "2026-09-03T07:08:39.389Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903070911-945fcd94",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "4fbb0fb4a7fa17e5ab71e5f76053190a562d2b70",
+      "branch": "codex/wi-0130-effectiveness-pilot",
+      "worktree": null,
+      "claimed_at": "2026-09-03T07:09:11.831Z",
+      "released_at": "2026-09-03T07:09:47.696Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903071002-291a5831",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "33b6ed3bd5dc96bffbb168818d62f9bba221d733",
+      "branch": "codex/wi-0130-effectiveness-pilot",
+      "worktree": null,
+      "claimed_at": "2026-09-03T07:10:02.624Z",
+      "released_at": "2026-09-03T07:11:54.641Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903071224-8f43e45f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "21444796a2505a49716f5d6a18a19bdcd56376ca",
+      "branch": "codex/wi-0130-effectiveness-pilot",
+      "worktree": null,
+      "claimed_at": "2026-09-03T07:12:24.953Z",
+      "released_at": "2026-09-03T07:12:33.620Z",
+      "release_reason": "work_item_closed"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0130/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0130/product-spec.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0130/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0130/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0130/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0130/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0130/developer-report.md"
+    ],
+    "test_evidence": [
+      "EVID-20260903T070940Z-0EA94917"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0130/quality-report.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260903T071148Z-86E35406"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0130/product-spec.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0130/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0130/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0130/account-approval.json"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0130/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0130/work-order.md",
+    ".ai-org/artifacts/WI-0130/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0130/product-spec.md",
+    ".ai-org/artifacts/WI-0130/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0130/technical-design.md",
+    ".ai-org/artifacts/WI-0130/risk-review.md",
+    ".ai-org/artifacts/WI-0130/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0130/developer-report.md",
+    "EVID-20260903T070940Z-0EA94917",
+    ".ai-org/artifacts/WI-0130/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0130/quality-report.md",
+    ".ai-org/artifacts/WI-0130/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0130/independent-qa-report.md",
+    "EVID-20260903T071148Z-86E35406",
+    ".ai-org/artifacts/WI-0130/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
+      "artifact": ".ai-org/artifacts/WI-0130/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-03T06:31:14.077Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
+      "artifact": ".ai-org/artifacts/WI-0130/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-03T06:31:14.581Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
+      "artifact": ".ai-org/artifacts/WI-0130/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-03T06:31:15.048Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "2ac73bc1b2ed3d966114fd9be8b71995510d68ce",
+      "artifact": ".ai-org/artifacts/WI-0130/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-03T07:08:39.105Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "4fbb0fb4a7fa17e5ab71e5f76053190a562d2b70",
+      "artifact": ".ai-org/artifacts/WI-0130/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-03T07:09:47.455Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "33b6ed3bd5dc96bffbb168818d62f9bba221d733",
+      "artifact": ".ai-org/artifacts/WI-0130/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-03T07:11:54.348Z"
+    }
+  ],
+  "developer_candidate_revision": "2ac73bc1b2ed3d966114fd9be8b71995510d68ce",
+  "tested_revision": "33b6ed3bd5dc96bffbb168818d62f9bba221d733",
+  "release_gate_result": "no-go",
+  "lifecycle_outcome": "inconclusive",
+  "closeout_reasons": [
+    "The live Temple arms used Standard workflow instead of the registered Lean Core Path.",
+    "Two cases and unavailable effective-turn reasoning evidence cannot qualify framework-wide effectiveness or automatic routing."
+  ],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0130/account-approval.json"
+}

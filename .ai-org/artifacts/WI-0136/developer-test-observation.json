@@ -1,0 +1,21 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "15239a247de4c069c27cb82a0783fee176482230",
+  "command": [
+    "npm",
+    "run",
+    "verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-03T11:23:37.000Z",
+  "completed_at": "2026-09-03T11:24:44.000Z",
+  "artifact_refs": [
+    "scripts/run-representative-microservice-comparison.mjs",
+    "scripts/analyze-representative-microservice-comparison.mjs",
+    "test/representative-microservice-comparison.test.mjs",
+    ".ai-org/artifacts/WI-0136/live-protocol.json",
+    ".ai-org/artifacts/WI-0136/developer-preflight-report.md",
+    "docs/validation/representative-microservice-comparison.md"
+  ]
+}

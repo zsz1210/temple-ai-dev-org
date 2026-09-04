@@ -1,0 +1,14 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "ad1f06a5205820ff2075487bf5cab7f55082191d",
+  "command": ["npm", "run", "verify"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-03T10:14:46.000Z",
+  "completed_at": "2026-09-03T10:15:48.000Z",
+  "artifact_refs": [
+    "src/evidence.mjs",
+    "src/cli.mjs",
+    "test/evidence-observer.test.mjs"
+  ]
+}

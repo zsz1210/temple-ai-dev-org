@@ -1,0 +1,34 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "4a59131b8a2b2112752dc1a92bd450e880e72de7",
+  "command": [
+    "node --test test/context-capsule-ablation.test.mjs",
+    "node scripts/run-context-capsule-ablation.mjs inspect"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T02:39:14Z",
+  "completed_at": "2026-09-04T02:39:14Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0140/live-protocol.json",
+    ".ai-org/artifacts/WI-0140/harness-readiness.json",
+    ".ai-org/artifacts/WI-0140/preapproval-preflight.json",
+    ".ai-org/artifacts/WI-0140/quality-evaluation.md"
+  ],
+  "summary": {
+    "focused_tests_passed": 8,
+    "focused_tests_failed": 0,
+    "protocol_inspection_checks_passed": 30,
+    "protocol_inspection_checks_failed": 0,
+    "readiness_checks_passed": 52,
+    "readiness_checks_failed": 0,
+    "preapproval_blockers": [
+      "exact-approval"
+    ],
+    "wi0139_artifact_diff": false,
+    "candidate_turns": 0,
+    "operational_tokens": 0,
+    "external_action_performed": false,
+    "model_invocation_performed": false
+  }
+}

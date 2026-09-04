@@ -1,0 +1,22 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "c0e6720513d2e4b86f7cd689ef2f214df5dbc066",
+  "command": ["npm", "run", "verify"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-03T07:53:42.000Z",
+  "completed_at": "2026-09-03T07:54:49.000Z",
+  "summary": {
+    "tests": 348,
+    "passed": 348,
+    "failed": 0,
+    "offline_candidate_repositories": 8,
+    "native_lean_candidates": 6,
+    "model_generation_performed": false
+  },
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0131/developer-report.md",
+    ".ai-org/artifacts/WI-0131/offline-lab-observation.json",
+    "docs/validation/lean-routing-effectiveness-plan.md"
+  ]
+}

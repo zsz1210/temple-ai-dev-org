@@ -46,7 +46,7 @@ Management Console、継続的な Usage 観測、Semantic Retrieval、Provider �
 
 実際の複数企業・複数マシン・規制環境での運用は、今後の代表的な検証対象です。
 
-### 3. Adaptive Execution — 基盤は完了、効果は未評価
+### 3. Adaptive Execution — 基盤は完了、限定的な比較証拠を取得
 
 - 責任とモデル選択を分離
 - 一つの Work Item 内で Step ごとに異なる Execution Profile を解決
@@ -54,12 +54,15 @@ Management Console、継続的な Usage 観測、Semantic Retrieval、Provider �
 - 提案値と実際に観測した Model / Reasoning を別々に記録
 - Route 解決は Advisory に限定し、Provider 起動や Project State の変更を行わない
 
-次に必要なのは、Adaptive Route が固定された安全な設定より有効な Task Shape と、使わない方がよい Task Shape を比較実験で明らかにすることです。
+修正後の最初の比較から得られた運用上の結論は限定的です。範囲の明確な作業では、モデルを強くする前に Acceptance Contract を明示します。低リスクの 2 ケースは Terra medium で完了し、上位 Route による客観的な正解の増加はありませんでした。この結果だけでは Automatic Routing を正当化できません。
+
+その後、同じ Fixture に対する Temple Lean の静的 Context を約 39% 削減し、Authority Contract を維持しました。4 Candidate の比較確認は準備済みですが、まだ実行していません。次はこの改善を確認し、異なる Task Shape に証拠を広げてから Default を変更します。
 
 ### 4. 実環境での適格性確認 — 現在
 
 - 初見の利用者と新しい Agent が、過去の会話なしで Core Path を完了できるか確認
 - Task、Model、Tool、Acceptance Test をそろえ、Temple と一般的で堅実な開発手順を比較
+- 小さくした Lean Context が、品質を落とさず Token と Latency の負担を減らすか確認
 - Temple の手順を固定したまま、Adaptive Execution Route と固定 Model Route を比較
 - 実際の複数人・複数マシン・複数リポジトリ開発を検証
 - Correctness、Recovery、Rework、Human Intervention、Token、Latency、運用負荷を計測

@@ -1,0 +1,616 @@
+{
+  "schema_version": "temple.context-capsule-ablation-analysis/v4",
+  "work_item_id": "WI-0141",
+  "protocol_sha256": "3e51faf3bb6962d0f998003839a113a0fe789aaf22d0ad6d8b737672aff8edbd",
+  "generated_at": "2026-09-04T03:26:16.949Z",
+  "status": "complete",
+  "correctness_primary": true,
+  "all_candidates_completed": true,
+  "all_candidates_correct": true,
+  "comparisons": [
+    {
+      "shape": "single-repository",
+      "outcome": "supported",
+      "repetitions": {
+        "legacy": 2,
+        "stage_aware": 2
+      },
+      "correctness": {
+        "legacy_pass": true,
+        "stage_aware_pass": true,
+        "legacy_by_repetition": [
+          {
+            "repetition": "a",
+            "pass": true
+          },
+          {
+            "repetition": "b",
+            "pass": true
+          }
+        ],
+        "stage_aware_by_repetition": [
+          {
+            "repetition": "a",
+            "pass": true
+          },
+          {
+            "repetition": "b",
+            "pass": true
+          }
+        ]
+      },
+      "source_selection": {
+        "legacy_bytes": 40296,
+        "stage_aware_bytes": 14592,
+        "bytes_delta": {
+          "absolute": -25704,
+          "percent": -63.79
+        },
+        "legacy_source_count": 12,
+        "stage_aware_source_count": 7
+      },
+      "operational_tokens": {
+        "legacy_mean": 23751.5,
+        "stage_aware_mean": 16031,
+        "delta": {
+          "absolute": -7720.5,
+          "percent": -32.51
+        }
+      },
+      "provider_usage": {
+        "input_tokens": {
+          "legacy_mean": 129468.5,
+          "stage_aware_mean": 126781,
+          "delta": {
+            "absolute": -2687.5,
+            "percent": -2.08
+          }
+        },
+        "cached_input_tokens": {
+          "legacy_mean": 106496,
+          "stage_aware_mean": 111488,
+          "delta": {
+            "absolute": 4992,
+            "percent": 4.69
+          }
+        },
+        "output_tokens": {
+          "legacy_mean": 779,
+          "stage_aware_mean": 738,
+          "delta": {
+            "absolute": -41,
+            "percent": -5.26
+          }
+        },
+        "cache_share_percent": {
+          "legacy_mean": 82.25,
+          "stage_aware_mean": 87.91
+        }
+      },
+      "latency_ms": {
+        "legacy_mean": 39200.5,
+        "stage_aware_mean": 40944.5,
+        "delta": {
+          "absolute": 1744,
+          "percent": 4.45
+        }
+      },
+      "tool_output_bytes": {
+        "legacy_mean": 8352,
+        "stage_aware_mean": 7165,
+        "delta": {
+          "absolute": -1187,
+          "percent": -14.21
+        }
+      },
+      "context_acquisition": {
+        "legacy": {
+          "available": true,
+          "coverage_complete": false,
+          "overflow_count": 0,
+          "counts": {
+            "control": 0,
+            "required-evidence": 2,
+            "routed": 8,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 2
+          },
+          "classifiable_context_reads": 8,
+          "policy_adherent_reads": 8,
+          "known_policy_adherence_percent": 100,
+          "routed_share_percent": 100,
+          "reported_output_bytes_by_classification": {
+            "control": 0,
+            "required-evidence": 1870,
+            "routed": 6852,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 7982
+          }
+        },
+        "stage_aware": {
+          "available": true,
+          "coverage_complete": false,
+          "overflow_count": 0,
+          "counts": {
+            "control": 0,
+            "required-evidence": 2,
+            "routed": 8,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 2
+          },
+          "classifiable_context_reads": 8,
+          "policy_adherent_reads": 8,
+          "known_policy_adherence_percent": 100,
+          "routed_share_percent": 100,
+          "reported_output_bytes_by_classification": {
+            "control": 0,
+            "required-evidence": 1870,
+            "routed": 6852,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 5608
+          }
+        },
+        "coverage_complete": false,
+        "observed_off_route_count": 0,
+        "conclusion": "inconclusive-incomplete-coverage"
+      },
+      "repetition_pairs": [
+        {
+          "repetition": "a",
+          "operational_tokens": {
+            "legacy": 23822,
+            "stage_aware": 23013,
+            "delta": {
+              "absolute": -809,
+              "percent": -3.4
+            }
+          },
+          "latency_ms": {
+            "legacy": 41361,
+            "stage_aware": 38100,
+            "delta": {
+              "absolute": -3261,
+              "percent": -7.88
+            }
+          },
+          "provider_input_tokens": {
+            "legacy": 129925,
+            "stage_aware": 126343,
+            "delta": {
+              "absolute": -3582,
+              "percent": -2.76
+            }
+          },
+          "cached_input_tokens": {
+            "legacy": 107008,
+            "stage_aware": 103936,
+            "delta": {
+              "absolute": -3072,
+              "percent": -2.87
+            }
+          },
+          "cache_share_percent": {
+            "legacy": 82.36,
+            "stage_aware": 82.26,
+            "delta": {
+              "absolute": -0.1,
+              "percent": -0.12
+            }
+          }
+        },
+        {
+          "repetition": "b",
+          "operational_tokens": {
+            "legacy": 23681,
+            "stage_aware": 9049,
+            "delta": {
+              "absolute": -14632,
+              "percent": -61.79
+            }
+          },
+          "latency_ms": {
+            "legacy": 37040,
+            "stage_aware": 43789,
+            "delta": {
+              "absolute": 6749,
+              "percent": 18.22
+            }
+          },
+          "provider_input_tokens": {
+            "legacy": 129012,
+            "stage_aware": 127219,
+            "delta": {
+              "absolute": -1793,
+              "percent": -1.39
+            }
+          },
+          "cached_input_tokens": {
+            "legacy": 105984,
+            "stage_aware": 119040,
+            "delta": {
+              "absolute": 13056,
+              "percent": 12.32
+            }
+          },
+          "cache_share_percent": {
+            "legacy": 82.15,
+            "stage_aware": 93.57,
+            "delta": {
+              "absolute": 11.42,
+              "percent": 13.9
+            }
+          }
+        }
+      ],
+      "repetition_spread": {
+        "operational_tokens": {
+          "legacy": {
+            "values": [
+              23822,
+              23681
+            ],
+            "minimum": 23681,
+            "maximum": 23822,
+            "absolute": 141,
+            "percent_of_minimum": 0.6
+          },
+          "stage_aware": {
+            "values": [
+              23013,
+              9049
+            ],
+            "minimum": 9049,
+            "maximum": 23013,
+            "absolute": 13964,
+            "percent_of_minimum": 154.32
+          }
+        },
+        "cache_share_percent": {
+          "legacy": {
+            "values": [
+              82.36,
+              82.15
+            ],
+            "minimum": 82.15,
+            "maximum": 82.36,
+            "absolute": 0.20999999999999375,
+            "percent_of_minimum": 0.26
+          },
+          "stage_aware": {
+            "values": [
+              82.26,
+              93.57
+            ],
+            "minimum": 82.26,
+            "maximum": 93.57,
+            "absolute": 11.309999999999988,
+            "percent_of_minimum": 13.75
+          }
+        }
+      }
+    },
+    {
+      "shape": "coordinator-multi-repository",
+      "outcome": "tradeoff",
+      "repetitions": {
+        "legacy": 2,
+        "stage_aware": 2
+      },
+      "correctness": {
+        "legacy_pass": true,
+        "stage_aware_pass": true,
+        "legacy_by_repetition": [
+          {
+            "repetition": "a",
+            "pass": true
+          },
+          {
+            "repetition": "b",
+            "pass": true
+          }
+        ],
+        "stage_aware_by_repetition": [
+          {
+            "repetition": "a",
+            "pass": true
+          },
+          {
+            "repetition": "b",
+            "pass": true
+          }
+        ]
+      },
+      "source_selection": {
+        "legacy_bytes": 34379,
+        "stage_aware_bytes": 11859,
+        "bytes_delta": {
+          "absolute": -22520,
+          "percent": -65.51
+        },
+        "legacy_source_count": 10,
+        "stage_aware_source_count": 6
+      },
+      "operational_tokens": {
+        "legacy_mean": 21426,
+        "stage_aware_mean": 37475,
+        "delta": {
+          "absolute": 16049,
+          "percent": 74.9
+        }
+      },
+      "provider_usage": {
+        "input_tokens": {
+          "legacy_mean": 201031,
+          "stage_aware_mean": 206600,
+          "delta": {
+            "absolute": 5569,
+            "percent": 2.77
+          }
+        },
+        "cached_input_tokens": {
+          "legacy_mean": 180736,
+          "stage_aware_mean": 170112,
+          "delta": {
+            "absolute": -10624,
+            "percent": -5.88
+          }
+        },
+        "output_tokens": {
+          "legacy_mean": 1131,
+          "stage_aware_mean": 987,
+          "delta": {
+            "absolute": -144,
+            "percent": -12.73
+          }
+        },
+        "cache_share_percent": {
+          "legacy_mean": 90.02,
+          "stage_aware_mean": 82.34
+        }
+      },
+      "latency_ms": {
+        "legacy_mean": 62900,
+        "stage_aware_mean": 55470,
+        "delta": {
+          "absolute": -7430,
+          "percent": -11.81
+        }
+      },
+      "tool_output_bytes": {
+        "legacy_mean": 11322.5,
+        "stage_aware_mean": 10507,
+        "delta": {
+          "absolute": -815.5,
+          "percent": -7.2
+        }
+      },
+      "context_acquisition": {
+        "legacy": {
+          "available": true,
+          "coverage_complete": false,
+          "overflow_count": 0,
+          "counts": {
+            "control": 0,
+            "required-evidence": 10,
+            "routed": 7,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 2
+          },
+          "classifiable_context_reads": 7,
+          "policy_adherent_reads": 7,
+          "known_policy_adherence_percent": 100,
+          "routed_share_percent": 100,
+          "reported_output_bytes_by_classification": {
+            "control": 0,
+            "required-evidence": 9350,
+            "routed": 6355,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 6940
+          }
+        },
+        "stage_aware": {
+          "available": true,
+          "coverage_complete": false,
+          "overflow_count": 0,
+          "counts": {
+            "control": 0,
+            "required-evidence": 10,
+            "routed": 8,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 2
+          },
+          "classifiable_context_reads": 8,
+          "policy_adherent_reads": 8,
+          "known_policy_adherence_percent": 100,
+          "routed_share_percent": 100,
+          "reported_output_bytes_by_classification": {
+            "control": 0,
+            "required-evidence": 9350,
+            "routed": 6626,
+            "permitted-fallback": 0,
+            "off-route": 0,
+            "unknown": 5038
+          }
+        },
+        "coverage_complete": false,
+        "observed_off_route_count": 0,
+        "conclusion": "inconclusive-incomplete-coverage"
+      },
+      "repetition_pairs": [
+        {
+          "repetition": "a",
+          "operational_tokens": {
+            "legacy": 27242,
+            "stage_aware": 27887,
+            "delta": {
+              "absolute": 645,
+              "percent": 2.37
+            }
+          },
+          "latency_ms": {
+            "legacy": 57108,
+            "stage_aware": 55862,
+            "delta": {
+              "absolute": -1246,
+              "percent": -2.18
+            }
+          },
+          "provider_input_tokens": {
+            "legacy": 210106,
+            "stage_aware": 206607,
+            "delta": {
+              "absolute": -3499,
+              "percent": -1.67
+            }
+          },
+          "cached_input_tokens": {
+            "legacy": 183808,
+            "stage_aware": 179712,
+            "delta": {
+              "absolute": -4096,
+              "percent": -2.23
+            }
+          },
+          "cache_share_percent": {
+            "legacy": 87.48,
+            "stage_aware": 86.98,
+            "delta": {
+              "absolute": -0.5,
+              "percent": -0.57
+            }
+          }
+        },
+        {
+          "repetition": "b",
+          "operational_tokens": {
+            "legacy": 15610,
+            "stage_aware": 47063,
+            "delta": {
+              "absolute": 31453,
+              "percent": 201.49
+            }
+          },
+          "latency_ms": {
+            "legacy": 68692,
+            "stage_aware": 55078,
+            "delta": {
+              "absolute": -13614,
+              "percent": -19.82
+            }
+          },
+          "provider_input_tokens": {
+            "legacy": 191956,
+            "stage_aware": 206593,
+            "delta": {
+              "absolute": 14637,
+              "percent": 7.63
+            }
+          },
+          "cached_input_tokens": {
+            "legacy": 177664,
+            "stage_aware": 160512,
+            "delta": {
+              "absolute": -17152,
+              "percent": -9.65
+            }
+          },
+          "cache_share_percent": {
+            "legacy": 92.55,
+            "stage_aware": 77.69,
+            "delta": {
+              "absolute": -14.86,
+              "percent": -16.06
+            }
+          }
+        }
+      ],
+      "repetition_spread": {
+        "operational_tokens": {
+          "legacy": {
+            "values": [
+              27242,
+              15610
+            ],
+            "minimum": 15610,
+            "maximum": 27242,
+            "absolute": 11632,
+            "percent_of_minimum": 74.52
+          },
+          "stage_aware": {
+            "values": [
+              27887,
+              47063
+            ],
+            "minimum": 27887,
+            "maximum": 47063,
+            "absolute": 19176,
+            "percent_of_minimum": 68.76
+          }
+        },
+        "cache_share_percent": {
+          "legacy": {
+            "values": [
+              87.48,
+              92.55
+            ],
+            "minimum": 87.48,
+            "maximum": 92.55,
+            "absolute": 5.069999999999993,
+            "percent_of_minimum": 5.8
+          },
+          "stage_aware": {
+            "values": [
+              86.98,
+              77.69
+            ],
+            "minimum": 77.69,
+            "maximum": 86.98,
+            "absolute": 9.290000000000006,
+            "percent_of_minimum": 11.96
+          }
+        }
+      }
+    }
+  ],
+  "diagnostic_aggregate": {
+    "legacy_operational_tokens": 90355,
+    "stage_aware_operational_tokens": 107012,
+    "operational_tokens_delta": {
+      "absolute": 16657,
+      "percent": 18.44
+    },
+    "legacy_provider_input_tokens": 660999,
+    "stage_aware_provider_input_tokens": 666762,
+    "provider_input_tokens_delta": {
+      "absolute": 5763,
+      "percent": 0.87
+    },
+    "legacy_cached_input_tokens": 574464,
+    "stage_aware_cached_input_tokens": 563200,
+    "cached_input_tokens_delta": {
+      "absolute": -11264,
+      "percent": -1.96
+    },
+    "legacy_latency_ms": 204201,
+    "stage_aware_latency_ms": 192829,
+    "latency_delta": {
+      "absolute": -11372,
+      "percent": -5.57
+    }
+  },
+  "retry_count": 0,
+  "fallback_count": 0,
+  "interpretation_boundary": {
+    "sample_per_condition": 2,
+    "statistical_claim": false,
+    "monetary_claim": false,
+    "automatic_routing_authority": false
+  }
+}

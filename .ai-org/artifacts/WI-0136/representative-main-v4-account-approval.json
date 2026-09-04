@@ -1,0 +1,28 @@
+{
+  "schema_version": "temple.representative-microservice-account-approval/v1",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "b01f96b48bb585e4b24390fa0b0c322d2abfc03d8f99650fa9b07a3da4932c71",
+  "approved": true,
+  "authorization_source": "User approved the immediately preceding frozen WI-0136 v4 envelope in the controlling Codex task on 2026-09-04 Asia/Tokyo.",
+  "approved_candidate_turns": 10,
+  "approved_evaluator_turns": 1,
+  "approved_models": [
+    "gpt-5.6-sol",
+    "gpt-5.6-terra"
+  ],
+  "approved_reasoning_efforts": [
+    "xhigh",
+    "medium"
+  ],
+  "approved_candidate_operational_tokens": 525000,
+  "approved_evaluator_operational_tokens": 100000,
+  "approved_combined_operational_tokens": 625000,
+  "approved_program_wall_clock_ms": 2700000,
+  "pro_included_allowance_only": true,
+  "credits_purchase_authorized": false,
+  "automatic_refill_authorized": false,
+  "usage_reset_authorized": false,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "approved_at": "2026-09-03T15:49:07Z"
+}

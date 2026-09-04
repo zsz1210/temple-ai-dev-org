@@ -1,0 +1,241 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0137",
+  "title": "Make context routing stage-aware and measurement-ready",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-03T23:55:06.667Z",
+  "updated_at": "2026-09-04T00:26:42.408Z",
+  "scope": [
+    "Add stage- and purpose-bound Context Capsules that route only relevant sources without copying source bodies or expanding authority.",
+    "Expose content-addressed source size and category measurements so context, cached-input, latency, and storage trade-offs can be analyzed without guessing.",
+    "Document the boundary across single-repository, coordinator-led multi-repository, and autonomous federation use."
+  ],
+  "acceptance_criteria": [
+    "Context resolution defaults to the Work Item lifecycle stage and supports explicit primary, integration, and recovery purposes.",
+    "Generated capsules contain deterministic digests and byte-level source manifests while retaining no source bodies, prompts, hidden reasoning, or credentials.",
+    "Existing context-map/v1 project files remain readable; new optional stage and purpose constraints are validated and tested.",
+    "Single-repository and multi-repository fixtures demonstrate that unrelated stage context is not selected and that unscoped legacy routes remain compatible.",
+    "Human documentation explains the routing, observability, fallback, and authority boundaries using measured WI-0136 evidence."
+  ],
+  "affected_paths": [
+    "src/context.mjs",
+    "src/cli.mjs",
+    ".ai-org/core/schemas/context-map.schema.json",
+    ".ai-org/core/schemas/context-capsule.schema.json",
+    "test/context.test.mjs",
+    "docs/extensions/context-routing.md",
+    "docs/operations/token-efficiency-and-model-routing.md",
+    "docs/concepts/architecture.md",
+    "docs/adr"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "This changes a core routing contract and generated schema, but remains local, reversible, and does not invoke a model or external service.",
+    "evidence_refs": [
+      ".ai-org/artifacts/WI-0136/representative-main-v16-findings.md"
+    ],
+    "evaluated_at": "2026-09-03T23:55:06.667Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {
+    "build": {
+      "disciplines": [
+        "general-development"
+      ],
+      "resources": []
+    },
+    "design": {
+      "disciplines": [
+        "architecture"
+      ],
+      "resources": []
+    },
+    "independent_qa": {
+      "disciplines": [
+        "quality"
+      ],
+      "resources": []
+    }
+  },
+  "base_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904001600-f807afe4",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+    "branch": "codex/wi-0137-stage-context-capsules",
+    "worktree": null,
+    "claimed_at": "2026-09-04T00:16:00.330Z",
+    "released_at": "2026-09-04T00:25:20.445Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260903235555-14d573d5",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "b4d680e",
+      "branch": "codex/wi-0137-stage-context-capsules",
+      "worktree": null,
+      "claimed_at": "2026-09-03T23:55:55.563Z",
+      "released_at": "2026-09-03T23:56:45.121Z",
+      "release_reason": [
+        "Product scope handed off to Tech Lead."
+      ]
+    },
+    {
+      "id": "claim-20260903235645-69372389",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "904bc6b",
+      "branch": "codex/wi-0137-stage-context-capsules",
+      "worktree": null,
+      "claimed_at": "2026-09-03T23:56:45.827Z",
+      "released_at": "2026-09-03T23:59:04.795Z",
+      "release_reason": [
+        "Technical design handed off to Developer."
+      ]
+    },
+    {
+      "id": "claim-20260903235905-d6692126",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "7f4c7b0",
+      "branch": "codex/wi-0137-stage-context-capsules",
+      "worktree": null,
+      "claimed_at": "2026-09-03T23:59:05.520Z",
+      "released_at": "2026-09-04T00:15:59.600Z",
+      "release_reason": [
+        "Exact Developer candidate and test evidence handed off to Quality Evaluator."
+      ]
+    },
+    {
+      "id": "claim-20260904001600-f807afe4",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+      "branch": "codex/wi-0137-stage-context-capsules",
+      "worktree": null,
+      "claimed_at": "2026-09-04T00:16:00.330Z",
+      "released_at": "2026-09-04T00:25:20.445Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/work-items/WI-0137.json"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0137/product-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0137/product-scope.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0137/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0137/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0137/handoff-003-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260904T001539Z-A757CEBB",
+      "EVID-20260904T001539Z-10032E7A",
+      ".ai-org/artifacts/WI-0137/developer-verification.md",
+      ".ai-org/artifacts/WI-0137/developer-test-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260904T002514Z-F37EECEE"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0137/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260904T002620Z-DDECACBD"
+    ]
+  },
+  "evidence": [
+    ".ai-org/work-items/WI-0137.json",
+    ".ai-org/artifacts/WI-0137/handoff-001-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0137/product-scope.md",
+    ".ai-org/artifacts/WI-0137/handoff-002-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0137/technical-design.md",
+    "docs/adr/0047-bind-context-capsules-to-stage-purpose-and-source-manifests.md",
+    ".ai-org/artifacts/WI-0137/handoff-003-developer-to-quality_evaluator.md",
+    "EVID-20260904T001539Z-A757CEBB",
+    "EVID-20260904T001539Z-10032E7A",
+    ".ai-org/artifacts/WI-0137/developer-verification.md",
+    ".ai-org/artifacts/WI-0137/developer-test-observation.json",
+    "EVID-20260904T002514Z-F37EECEE",
+    ".ai-org/artifacts/WI-0137/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0137/handoff-004-independent_qa-to-release_manager.md",
+    "EVID-20260904T002620Z-DDECACBD",
+    ".ai-org/artifacts/WI-0137/independent-qa.md"
+  ],
+  "unresolved": [],
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "904bc6b",
+      "artifact": ".ai-org/artifacts/WI-0137/handoff-001-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-03T23:56:44.848Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "7f4c7b0",
+      "artifact": ".ai-org/artifacts/WI-0137/handoff-002-tech_lead-to-developer.md",
+      "created_at": "2026-09-03T23:59:04.516Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+      "artifact": ".ai-org/artifacts/WI-0137/handoff-003-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T00:15:59.342Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "acdb6b420b79436e05f436b9d6015113a468ef69",
+      "artifact": ".ai-org/artifacts/WI-0137/handoff-004-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-04T00:26:41.953Z"
+    }
+  ],
+  "developer_candidate_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d"
+}

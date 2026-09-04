@@ -1,0 +1,202 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0140",
+  "title": "Measure and enforce Context Capsule route adherence",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-04T02:17:43.020Z",
+  "updated_at": "2026-09-04T02:46:05.864Z",
+  "scope": [
+    "Retain a bounded path-only manifest of successful context reads after routing without storing raw prompts, outputs, hidden reasoning, credentials, or temporary repository content.",
+    "Measure total context acquisition and route adherence separately from initial package size, Provider Tokens, latency, and command counts for single-repository and coordinator multi-repository recovery.",
+    "Prepare a generation-free successor protocol with a data-derived non-censoring single-repository ceiling, counterbalanced condition order, exact model configuration, and a separate approval gate before Provider generation."
+  ],
+  "acceptance_criteria": [
+    "Successful read observations normalize to safe repository IDs and relative paths, remain bounded, and exclude raw commands and content; failed or disallowed reads cannot count as adherence.",
+    "The evaluator reports routed reads, permitted fallback reads, off-route reads, acquired bytes when known, and an explicit unknown state rather than inventing coverage.",
+    "Generation-free tests reproduce the WI-0139 overhead regression and censoring boundary, validate counterbalanced order and fixed limits, and prove no WI-0139 artifact changes.",
+    "No Provider generation occurs until a new immutable protocol and separate exact human approval record exist."
+  ],
+  "affected_paths": [
+    "scripts/run-context-capsule-ablation.mjs",
+    "test/context-capsule-ablation.test.mjs",
+    ".ai-org/artifacts/WI-0140/**",
+    "docs/validation/context-capsule-route-adherence.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-04T02:17:43.020Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [
+    "general-development"
+  ],
+  "stage_requirements": {},
+  "base_revision": "8c1d792a27c1a2386dc3d5f753b2ab7f4f7bcb8e",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260904022058-90276bb9",
+    "status": "released",
+    "principal_id": "principal-owner",
+    "agent_id": "agent-rikku",
+    "base_revision": "8c1d792a27c1a2386dc3d5f753b2ab7f4f7bcb8e",
+    "branch": "codex/wi-0140-context-route-adherence",
+    "worktree": null,
+    "claimed_at": "2026-09-04T02:20:58.573Z",
+    "released_at": "2026-09-04T02:38:41.905Z",
+    "release_reason": [
+      "Developer handoff recorded"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260904022058-90276bb9",
+      "status": "released",
+      "principal_id": "principal-owner",
+      "agent_id": "agent-rikku",
+      "base_revision": "8c1d792a27c1a2386dc3d5f753b2ab7f4f7bcb8e",
+      "branch": "codex/wi-0140-context-route-adherence",
+      "worktree": null,
+      "claimed_at": "2026-09-04T02:20:58.573Z",
+      "released_at": "2026-09-04T02:38:41.905Z",
+      "release_reason": [
+        "Developer handoff recorded"
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0140/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0140/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0140/approved-scope.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0140/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0140/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0140/handoff-003-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      "EVID-20260904T023820Z-9B033B1C",
+      "EVID-20260904T023820Z-0005EAB2",
+      ".ai-org/artifacts/WI-0140/developer-verification.md"
+    ],
+    "test_evidence": [
+      "EVID-20260904T024119Z-B6646DAF"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0140/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260904T024536Z-1A51EFFB"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0140/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0140/independent-qa.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0140/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0140/work-order.md",
+    ".ai-org/artifacts/WI-0140/handoff-001-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0140/approved-scope.md",
+    ".ai-org/artifacts/WI-0140/handoff-002-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0140/technical-design.md",
+    ".ai-org/artifacts/WI-0140/handoff-003-developer-to-quality_evaluator.md",
+    "EVID-20260904T023820Z-9B033B1C",
+    "EVID-20260904T023820Z-0005EAB2",
+    ".ai-org/artifacts/WI-0140/developer-verification.md",
+    "EVID-20260904T024119Z-B6646DAF",
+    ".ai-org/artifacts/WI-0140/handoff-004-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0140/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0140/handoff-005-independent_qa-to-release_manager.md",
+    "EVID-20260904T024536Z-1A51EFFB",
+    ".ai-org/artifacts/WI-0140/independent-qa.md",
+    ".ai-org/artifacts/WI-0140/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "1461cf6",
+      "artifact": ".ai-org/artifacts/WI-0140/handoff-001-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-04T02:20:52.003Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "1461cf6",
+      "artifact": ".ai-org/artifacts/WI-0140/handoff-002-tech_lead-to-developer.md",
+      "created_at": "2026-09-04T02:20:52.488Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "70a98b4a8d07bb27f1c2f91fa1cbbea06113adef",
+      "artifact": ".ai-org/artifacts/WI-0140/handoff-003-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T02:38:41.617Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "c84a31eb9d4c46a22f189640d86ad2488ea1e919",
+      "artifact": ".ai-org/artifacts/WI-0140/handoff-004-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-04T02:41:39.284Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "1216896f0a1e5b6176cc616f1db0782c5a218388",
+      "artifact": ".ai-org/artifacts/WI-0140/handoff-005-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-04T02:45:46.444Z"
+    }
+  ],
+  "developer_candidate_revision": "70a98b4a8d07bb27f1c2f91fa1cbbea06113adef",
+  "tested_revision": "1216896f0a1e5b6176cc616f1db0782c5a218388",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

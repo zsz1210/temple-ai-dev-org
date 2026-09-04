@@ -1,0 +1,32 @@
+{
+  "schema_version": "temple.execution-request/v1",
+  "work_item_id": "WI-0130",
+  "steps": [
+    {
+      "step_id": "bounded-build-adaptive",
+      "responsibility": "developer",
+      "task_shape": {
+        "position_id": "developer",
+        "lifecycle_stage": "build",
+        "task_kind": "bounded",
+        "risk_class": "low",
+        "context_profile_digest": "sha256:pilot-adaptive-route"
+      },
+      "capability_route": {
+        "required": ["text.reasoning", "code.change"],
+        "optional": ["quality.evaluate"]
+      },
+      "constraints": {
+        "required_modalities": ["text"],
+        "allowed_provider_ids": ["openai-codex"],
+        "data_class": "internal",
+        "execution_boundary": "approved-provider",
+        "resource_limits": []
+      },
+      "selection": {
+        "mode": "advisory"
+      },
+      "resource_observations": []
+    }
+  ]
+}

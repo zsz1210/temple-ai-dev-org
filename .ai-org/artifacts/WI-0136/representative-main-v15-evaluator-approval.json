@@ -1,0 +1,21 @@
+{
+  "schema_version": "temple.representative-microservice-evaluator-continuation-approval/v1",
+  "work_item_id": "WI-0136",
+  "continuation_protocol_sha256": "95ddc4fbe65db25761a4ea1e0d44a437b3760e4422022265ce67ddf827fc1bf3",
+  "source_protocol_sha256": "ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c",
+  "source_candidate_run_sha256": "c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165",
+  "approved": true,
+  "authorization_source": "user-message:approval-to-displayed-WI-0136-v15-envelope",
+  "approved_evaluator_turns": 1,
+  "approved_model": "gpt-5.6-sol",
+  "approved_reasoning_effort": "xhigh",
+  "approved_evaluator_operational_tokens": 100000,
+  "approved_program_wall_clock_ms": 900000,
+  "pro_included_allowance_only": true,
+  "credits_purchase_authorized": false,
+  "automatic_refill_authorized": false,
+  "usage_reset_authorized": false,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "approved_at": "2026-09-03T23:11:38Z"
+}

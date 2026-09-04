@@ -1,0 +1,190 @@
+{
+  "schema_version": "temple.representative-microservice-lab/v1",
+  "work_item_id": "WI-0136",
+  "created_at": "2026-09-03T18:39:59.768Z",
+  "lab_root": "/tmp/temple-wi0136-representative-microservice-v13-final",
+  "source_digests": {
+    "fixture_sha256": "b10ff626ef465686909aaab6d858b087f0c2aaad7a8c484f9955ed0a8465822c",
+    "runner_sha256": "f2787ea13db93002e6448ecc36bab1170f71d9e50daa5bd28ea0e385f3e28843",
+    "analyzer_sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c",
+    "task_sha256": "5dfd10dce99196f282f0560a25aaffd359b7af2119a62d943e465f19ae46369c",
+    "public_tests_sha256": "8809e165ee024f5606a48c38bb0f6065e3b943fcd00d05fda5fdd6099e0f41f9",
+    "held_out_tests_sha256": "d4f781d5b03d14c08a4214185ae525c1c6a0e7a7f2c8c9ff1d24291b27363a47",
+    "tool_policy_sha256": "18f5bef25f7b8a4efc220252818e642b75f5c342dd8d316e79a1254652801913",
+    "rubric_sha256": "364d20a3102ddd78131fd2566b8579957b14df2d6638efd3ef1e97e94faeaf3f"
+  },
+  "golden_validation": {
+    "pass": true,
+    "service_exit_codes": {
+      "gateway": 0,
+      "catalog": 0,
+      "orders": 0,
+      "notifications": 0
+    },
+    "public_integration_exit_code": 0,
+    "held_out_exit_code": 0
+  },
+  "product_revisions_matched": true,
+  "arms": [
+    {
+      "id": "minimal-responsible",
+      "organization_mode": "minimal-responsible",
+      "root": "/tmp/temple-wi0136-representative-microservice-v13-final/arms/minimal-responsible",
+      "product_revisions": {
+        "gateway": "98bf9aa6469d6d60ee9e9a6121be99fcf8d85f0d",
+        "catalog": "cdde879bc07cc38a4f11cd1f376bf0f2ea0dcff1",
+        "orders": "11fbc3f5d6c31a878a62a0e0044e0859562459a4",
+        "notifications": "d42b5101f8f850cac01c087a0221e8da68180f72",
+        "coordinator": "e3ce9dcde7e25d57df6a310bb850a4977921114f"
+      },
+      "organization_revisions": {
+        "gateway": "b650f0713776851c609659d5f6872d60e67742fe",
+        "catalog": "490bb75496c715770d2585a18c7a6ddd8c8b67c9",
+        "orders": "21b595ddeaf29c43c77ee6b980c8820c499bef67",
+        "notifications": "01c716dc842e22b8b241eeb19707d69bf57f9598",
+        "coordinator": "a282b8a12e3c54631e83c178325788ec30e3ad4a"
+      },
+      "starting_tests": {
+        "public": {
+          "gateway": {
+            "exit_code": 1,
+            "output_sha256": "6e3b3a86c4cd8ebd3b06c0ff0753f477e7a7a52609f7f06153b55fcf61db78c5"
+          },
+          "catalog": {
+            "exit_code": 1,
+            "output_sha256": "c2fd4c103fda89a8966892a7c359124b12b4503e4bfcffb718ad361edb9cb2dc"
+          },
+          "orders": {
+            "exit_code": 1,
+            "output_sha256": "c5147941c20df22b784dc97ade122034827c2b9346293708c7c1ba56145c8e35"
+          },
+          "notifications": {
+            "exit_code": 1,
+            "output_sha256": "2d78863bc947c79e79103e7b7f4c2aded79888e23b1f34e35a75c429dda24cad"
+          }
+        },
+        "public_integration": {
+          "exit_code": 1,
+          "output_sha256": "7deb9829c97061854a3613dd3f8706ac2839a21de3f405e863f18aed2c980db8"
+        },
+        "held_out": {
+          "exit_code": 1,
+          "output_sha256": "fdce46e90a27e9df535b3d5856e1d104c261d533959c95722f33314aa1e28a9b"
+        }
+      },
+      "repositories": {
+        "gateway": {
+          "revision": "b650f0713776851c609659d5f6872d60e67742fe",
+          "tree": "4a97e9aef042eec9add63506199d387bf4197758",
+          "clean": true,
+          "bytes": 2497
+        },
+        "catalog": {
+          "revision": "490bb75496c715770d2585a18c7a6ddd8c8b67c9",
+          "tree": "80818cddcf011cd427a85bc4b1c1feee80a9ee36",
+          "clean": true,
+          "bytes": 2571
+        },
+        "orders": {
+          "revision": "21b595ddeaf29c43c77ee6b980c8820c499bef67",
+          "tree": "7bd96043ea5444e96029d75ac52d4dacda72e785",
+          "clean": true,
+          "bytes": 2844
+        },
+        "notifications": {
+          "revision": "01c716dc842e22b8b241eeb19707d69bf57f9598",
+          "tree": "69b992dff8bc30c7ae9296925df979277d3ff5b3",
+          "clean": true,
+          "bytes": 3158
+        },
+        "coordinator": {
+          "revision": "a282b8a12e3c54631e83c178325788ec30e3ad4a",
+          "tree": "e4f5ddd2b50da8eea5f81251cc2393dd508e784d",
+          "clean": true,
+          "bytes": 4938
+        }
+      }
+    },
+    {
+      "id": "temple",
+      "organization_mode": "temple",
+      "root": "/tmp/temple-wi0136-representative-microservice-v13-final/arms/temple",
+      "product_revisions": {
+        "gateway": "98bf9aa6469d6d60ee9e9a6121be99fcf8d85f0d",
+        "catalog": "cdde879bc07cc38a4f11cd1f376bf0f2ea0dcff1",
+        "orders": "11fbc3f5d6c31a878a62a0e0044e0859562459a4",
+        "notifications": "d42b5101f8f850cac01c087a0221e8da68180f72",
+        "coordinator": "e3ce9dcde7e25d57df6a310bb850a4977921114f"
+      },
+      "organization_revisions": {
+        "gateway": "bd345944df1674f22d327a6930fd7ed4e8337343",
+        "catalog": "f109fc8f13676b186fc01cfa73a348676fe2bb9a",
+        "orders": "6832274543c1e7295eb92db36407a79c90bcfe23",
+        "notifications": "5a4fea12bd78b270af83036bfce18795c2854eff",
+        "coordinator": "8383ce35abde8eec22e27e6869706bf532fc2203"
+      },
+      "starting_tests": {
+        "public": {
+          "gateway": {
+            "exit_code": 1,
+            "output_sha256": "a2bbdb14d1ed7d69e616489828f08bcd6e47b8474b9d253cdd2300579605a826"
+          },
+          "catalog": {
+            "exit_code": 1,
+            "output_sha256": "b2ba397075158fd387e057895ba73826c680f9aeab93fb54de37c39393550a43"
+          },
+          "orders": {
+            "exit_code": 1,
+            "output_sha256": "2eef1b12fdd90ad26c862245dd460fd3d741d0e22dd01dd11d7023ec119f0caf"
+          },
+          "notifications": {
+            "exit_code": 1,
+            "output_sha256": "f44480591f4f3926760167165ebf9e53b6c519a75ebb9beef6fa0ac78acd2283"
+          }
+        },
+        "public_integration": {
+          "exit_code": 1,
+          "output_sha256": "28024f040baf9d33e5ef411ff73a1f2e6125b4b9713a6a0b463128b9945fbff9"
+        },
+        "held_out": {
+          "exit_code": 1,
+          "output_sha256": "69ac74e6b4dd6c5d400e8fb4fc997494b2627bf88ab2df5e8a234ffa5a875ba8"
+        }
+      },
+      "repositories": {
+        "gateway": {
+          "revision": "bd345944df1674f22d327a6930fd7ed4e8337343",
+          "tree": "bba294f1830ebccd4c66796250a30ef1c8d962cb",
+          "clean": true,
+          "bytes": 325565
+        },
+        "catalog": {
+          "revision": "f109fc8f13676b186fc01cfa73a348676fe2bb9a",
+          "tree": "39f685be89ede0871fc3e898a07716e9f577da73",
+          "clean": true,
+          "bytes": 325629
+        },
+        "orders": {
+          "revision": "6832274543c1e7295eb92db36407a79c90bcfe23",
+          "tree": "9e0e1ef205326da3b6f841fdcb40b460acfbaa99",
+          "clean": true,
+          "bytes": 325897
+        },
+        "notifications": {
+          "revision": "5a4fea12bd78b270af83036bfce18795c2854eff",
+          "tree": "a4a8f0112fed8654ed16ffabbf0cf2b271659342",
+          "clean": true,
+          "bytes": 326271
+        },
+        "coordinator": {
+          "revision": "8383ce35abde8eec22e27e6869706bf532fc2203",
+          "tree": "76b93912900b54e9f909b5f4d9e9122cd95f0869",
+          "clean": true,
+          "bytes": 332843
+        }
+      }
+    }
+  ],
+  "model_generation_performed": false,
+  "manifest_sha256": "3707b1a932ab8d4ec222bf6e2c6034488e840c2cf377f45aa1ee3e1423aff18d"
+}

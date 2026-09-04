@@ -1,0 +1,373 @@
+{
+  "schema_version": "temple.representative-microservice-preflight/v1",
+  "work_item_id": "WI-0136",
+  "observed_at": "2026-09-03T18:41:25.381Z",
+  "local_fixture_ready": true,
+  "protocol_sha256": "ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c",
+  "provider_handshake_performed": true,
+  "provider_contract_matches": true,
+  "provider_handshake": {
+    "pass": true,
+    "codex_cli_version": "codex-cli 0.153.0-alpha.5",
+    "schema_digests": {
+      "ThreadStartParams.json": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+      "TurnStartParams.json": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
+      "ThreadStartResponse.json": "656f8fd0fe91f533126cbfdb9369cfab550927a229e48dd46460f6f015d2b186",
+      "TurnStartResponse.json": "6fc49c3e5d0ce11a3a109ae194619b04d6e3ff98fa29bac683fdb754608958be",
+      "ItemStartedNotification.json": "c4c34f47db6326cd4841bae428f23d08eb285077ffad35be9772b928c65bb912",
+      "TurnCompletedNotification.json": "78af2a37391e8e669a4020cb58593e4d3e378756ced79d5fec72374fa69fb94b",
+      "ItemCompletedNotification.json": "69aba3fe5f72f38bf5c541e7e2c09de40778abe65ff969d9fc73372037812091",
+      "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
+      "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
+      "TurnInterruptParams.json": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b",
+      "ConfigReadParams.json": "257c54a423b47c1d209ff1076765a1564d82322fd5161670fd489a2874de1bac",
+      "ConfigReadResponse.json": "bd72c94e2c7d49ead6a20bcf54afedc8db11044bf8cadb387e42135dd5d1e342"
+    },
+    "turn_sandbox_capabilities": {
+      "restricted_read_access_supported": false,
+      "workspace_write_roots_supported": true,
+      "network_access_toggle_supported": true
+    },
+    "memory_isolation": {
+      "use_memories": false,
+      "generate_memories": false,
+      "feature_enabled": false,
+      "app_server_arguments_sha256": "e5d3c3be08c8191bc85c61fa4ba79436ae8fedcdb480cba347f2b85f494567ab",
+      "pass": true
+    },
+    "required_models": [
+      {
+        "model": "gpt-5.6-sol",
+        "reasoning_efforts": [
+          "xhigh"
+        ]
+      },
+      {
+        "model": "gpt-5.6-terra",
+        "reasoning_efforts": [
+          "medium"
+        ]
+      }
+    ],
+    "model_checks": [
+      {
+        "model": "gpt-5.6-sol",
+        "reasoning_efforts": [
+          "xhigh"
+        ],
+        "available": true,
+        "observed_reasoning_efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max",
+          "ultra"
+        ]
+      },
+      {
+        "model": "gpt-5.6-terra",
+        "reasoning_efforts": [
+          "medium"
+        ],
+        "available": true,
+        "observed_reasoning_efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max",
+          "ultra"
+        ]
+      }
+    ],
+    "model_generation_performed": false
+  },
+  "temple_lifecycle_rehearsal": {
+    "pass": true,
+    "states": {
+      "gateway": "test",
+      "catalog": "test",
+      "orders": "test",
+      "notifications": "test",
+      "coordinator": "test"
+    },
+    "doctor_pass": true,
+    "objective_pass": true,
+    "model_generation_performed": false
+  },
+  "harness_readiness": {
+    "schema_version": "temple.representative-harness-readiness/v1",
+    "work_item_id": "WI-0136",
+    "protocol_sha256": "ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c",
+    "completed_at": "2026-09-03T18:40:42.013Z",
+    "pass": true,
+    "source_lab": "/tmp/temple-wi0136-representative-microservice-v13-final",
+    "readiness_lab": "/private/tmp/temple-wi0136-representative-microservice-v13-final-readiness",
+    "candidate_turn_count": 10,
+    "evaluator_turn_count": 1,
+    "checks": [
+      {
+        "id": "source-lab-inspection",
+        "pass": true
+      },
+      {
+        "id": "both-arms-completed",
+        "pass": true
+      },
+      {
+        "id": "all-ten-candidate-turns-completed",
+        "pass": true
+      },
+      {
+        "id": "three-way-build-wave-observed-per-arm",
+        "pass": true
+      },
+      {
+        "id": "objective-tests-pass-both-arms",
+        "pass": true
+      },
+      {
+        "id": "exact-cold-recovery-both-arms",
+        "pass": true
+      },
+      {
+        "id": "blind-evaluator-completed",
+        "pass": true
+      },
+      {
+        "id": "analysis-completed",
+        "pass": true
+      },
+      {
+        "id": "all-generated-repositories-clean",
+        "pass": true
+      },
+      {
+        "id": "provider-command-event-replay",
+        "pass": true
+      },
+      {
+        "id": "nested-code-mode-cwd-advisory-replay",
+        "pass": true
+      },
+      {
+        "id": "explicit-path-escape-replay",
+        "pass": true
+      },
+      {
+        "id": "installed-provider-sandbox-schema-replay",
+        "pass": true
+      },
+      {
+        "id": "ambient-memory-path-rejection-replay",
+        "pass": true
+      },
+      {
+        "id": "memory-isolation-config-handshake",
+        "pass": true
+      },
+      {
+        "id": "zero-operational-tokens",
+        "pass": true
+      },
+      {
+        "id": "no-model-generation",
+        "pass": true
+      }
+    ],
+    "repository_cleanliness": [
+      {
+        "arm_id": "minimal-responsible",
+        "repository": "gateway",
+        "clean": true
+      },
+      {
+        "arm_id": "minimal-responsible",
+        "repository": "catalog",
+        "clean": true
+      },
+      {
+        "arm_id": "minimal-responsible",
+        "repository": "orders",
+        "clean": true
+      },
+      {
+        "arm_id": "minimal-responsible",
+        "repository": "notifications",
+        "clean": true
+      },
+      {
+        "arm_id": "minimal-responsible",
+        "repository": "coordinator",
+        "clean": true
+      },
+      {
+        "arm_id": "temple",
+        "repository": "gateway",
+        "clean": true
+      },
+      {
+        "arm_id": "temple",
+        "repository": "catalog",
+        "clean": true
+      },
+      {
+        "arm_id": "temple",
+        "repository": "orders",
+        "clean": true
+      },
+      {
+        "arm_id": "temple",
+        "repository": "notifications",
+        "clean": true
+      },
+      {
+        "arm_id": "temple",
+        "repository": "coordinator",
+        "clean": true
+      }
+    ],
+    "retry_count": 0,
+    "fallback_count": 0,
+    "operational_tokens": 0,
+    "model_generation_performed": false
+  },
+  "harness_readiness_matches": true,
+  "harness_readiness_errors": [],
+  "exact_approval_present": false,
+  "approval_errors": [
+    "exact approval missing"
+  ],
+  "generation_ready": false,
+  "blockers": [
+    "exact-human-approval-required"
+  ],
+  "checks": [
+    {
+      "id": "protocol-valid",
+      "pass": true
+    },
+    {
+      "id": "manifest-digest",
+      "pass": true
+    },
+    {
+      "id": "protocol-manifest",
+      "pass": true
+    },
+    {
+      "id": "product-revisions-matched",
+      "pass": true
+    },
+    {
+      "id": "fixture-current",
+      "pass": true
+    },
+    {
+      "id": "golden-acceptance-pass",
+      "pass": true
+    },
+    {
+      "id": "runtime-tool-policy-matched",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:gateway:revision",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:gateway:clean",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:catalog:revision",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:catalog:clean",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:orders:revision",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:orders:clean",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:notifications:revision",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:notifications:clean",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:coordinator:revision",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:coordinator:clean",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:seeded-public-failure",
+      "pass": true
+    },
+    {
+      "id": "minimal-responsible:seeded-held-out-failure",
+      "pass": true
+    },
+    {
+      "id": "temple:gateway:revision",
+      "pass": true
+    },
+    {
+      "id": "temple:gateway:clean",
+      "pass": true
+    },
+    {
+      "id": "temple:catalog:revision",
+      "pass": true
+    },
+    {
+      "id": "temple:catalog:clean",
+      "pass": true
+    },
+    {
+      "id": "temple:orders:revision",
+      "pass": true
+    },
+    {
+      "id": "temple:orders:clean",
+      "pass": true
+    },
+    {
+      "id": "temple:notifications:revision",
+      "pass": true
+    },
+    {
+      "id": "temple:notifications:clean",
+      "pass": true
+    },
+    {
+      "id": "temple:coordinator:revision",
+      "pass": true
+    },
+    {
+      "id": "temple:coordinator:clean",
+      "pass": true
+    },
+    {
+      "id": "temple:seeded-public-failure",
+      "pass": true
+    },
+    {
+      "id": "temple:seeded-held-out-failure",
+      "pass": true
+    }
+  ],
+  "model_generation_performed": false
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": "temple.acceptance-contract/v1",
+  "case_id": "compatible-event-evolution",
+  "dimensions": {
+    "identity_semantics": {
+      "status": "not-applicable",
+      "rationale": "The codec contract concerns value shape and version behavior, not object identity."
+    },
+    "input_immutability": {
+      "status": "specified",
+      "requirement": "Encoding must not mutate the supplied order value.",
+      "evidence_ref": "Candidate-visible acceptance contract"
+    },
+    "idempotency": {
+      "status": "not-applicable",
+      "rationale": "The codec is a pure value transformation with no command replay or persisted side effect."
+    },
+    "compatibility": {
+      "status": "specified",
+      "requirement": "Version 1 decoding and default encoding remain unchanged; version 2 round-trips to the same normalized decoded shape.",
+      "evidence_ref": "TASK.md"
+    },
+    "error_semantics": {
+      "status": "specified",
+      "requirement": "Unknown event versions remain rejected.",
+      "evidence_ref": "TASK.md"
+    }
+  }
+}

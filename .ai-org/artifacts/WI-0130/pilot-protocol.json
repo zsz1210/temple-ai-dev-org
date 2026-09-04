@@ -1,0 +1,97 @@
+{
+  "schema_version": "temple.effectiveness-pilot/v1",
+  "protocol_id": "bounded-three-arm-pilot-1",
+  "work_item_id": "WI-0130",
+  "fixture_root": ".ai-org/artifacts/WI-0106/fixtures",
+  "fixture_source_revision": "87d7e68aaed0af6559697a690cf623ac158ab283",
+  "temple_framework_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
+  "codex": {
+    "cli_version": "codex-cli 0.151.0-alpha.7.2",
+    "schema_mode": "v2-non-experimental",
+    "candidate_sandbox": "workspace-write",
+    "candidate_network_access": false,
+    "evaluator_sandbox": "read-only",
+    "retry_count": 0,
+    "fallback_count": 0,
+    "concurrency": 1
+  },
+  "conditions": [
+    {
+      "id": "conventional-fixed",
+      "process": "minimal-responsible",
+      "selection_mode": "fixed",
+      "profile_id": "standard",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium"
+    },
+    {
+      "id": "temple-fixed",
+      "process": "temple-lean",
+      "selection_mode": "pinned",
+      "profile_id": "standard",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium"
+    },
+    {
+      "id": "temple-adaptive",
+      "process": "temple-lean",
+      "selection_mode": "advisory",
+      "profile_id": "lightweight-quality",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "max"
+    }
+  ],
+  "cases": [
+    {
+      "id": "idempotent-command",
+      "bundle_sha256": "d1e305e558d889b04a94bb3ece31e4575c064a41bde49af197170a3a885f2bfa",
+      "condition_order": ["conventional-fixed", "temple-adaptive", "temple-fixed"],
+      "temple_init_path": "temple-init-idempotent-command.json"
+    },
+    {
+      "id": "compatible-event-evolution",
+      "bundle_sha256": "84126afb5d4d82ebb479cc1a9ded3c1cbefabb13fddd845b0de7d6441a8e57d1",
+      "condition_order": ["temple-fixed", "conventional-fixed", "temple-adaptive"],
+      "temple_init_path": "temple-init-compatible-event-evolution.json"
+    }
+  ],
+  "limits": {
+    "candidate_turns": 6,
+    "evaluator_turns": 1,
+    "per_candidate_warning_operational_tokens": 55000,
+    "per_candidate_hard_operational_tokens": 70000,
+    "candidate_aggregate_hard_operational_tokens": 420000,
+    "evaluator_warning_operational_tokens": 70000,
+    "evaluator_hard_operational_tokens": 100000,
+    "combined_hard_operational_tokens": 520000,
+    "per_candidate_hard_ms": 600000,
+    "evaluator_hard_ms": 900000,
+    "program_hard_ms": 4500000,
+    "per_repository_hard_bytes": 134217728,
+    "aggregate_hard_bytes": 805306368
+  },
+  "blind_evaluation": {
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "xhigh",
+    "score_minimum": 0,
+    "score_maximum": 100,
+    "quality_pass_score": 85,
+    "fresh_provider_context_required": true,
+    "tools_allowed": false,
+    "score_freeze_before_mapping_unseal": true
+  },
+  "decision_thresholds": {
+    "quality_non_inferiority_points": 3,
+    "meaningful_operational_token_reduction_percent": 10,
+    "meaningful_latency_reduction_percent": 10,
+    "interpretation": "Project-owned diagnostic thresholds registered before live execution; they are not statistical or industry benchmarks."
+  },
+  "claims": {
+    "diagnostic_bounded_task_family": true,
+    "statistical_superiority": false,
+    "framework_wide_effectiveness": false,
+    "automatic_routing": false,
+    "token_savings": false,
+    "billing_cost": false
+  }
+}

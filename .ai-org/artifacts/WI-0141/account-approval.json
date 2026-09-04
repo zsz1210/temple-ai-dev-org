@@ -1,0 +1,39 @@
+{
+  "schema_version": "temple.context-capsule-ablation-approval/v4",
+  "work_item_id": "WI-0141",
+  "protocol_sha256": "3e51faf3bb6962d0f998003839a113a0fe789aaf22d0ad6d8b737672aff8edbd",
+  "approved": true,
+  "authorization_source": "User approved the exact WI-0141 protocol and account-impact boundary in the controlling Codex task.",
+  "approved_conditions": [
+    "single-stage-aware-a",
+    "multi-legacy-expanded-a",
+    "single-legacy-expanded-a",
+    "multi-stage-aware-a",
+    "single-legacy-expanded-b",
+    "multi-stage-aware-b",
+    "single-stage-aware-b",
+    "multi-legacy-expanded-b"
+  ],
+  "approved_candidate_turns": 8,
+  "approved_model": "gpt-5.6-terra",
+  "approved_reasoning_effort": "medium",
+  "approved_condition_operational_token_limits": {
+    "single-stage-aware-a": 51000,
+    "multi-legacy-expanded-a": 80000,
+    "single-legacy-expanded-a": 51000,
+    "multi-stage-aware-a": 80000,
+    "single-legacy-expanded-b": 51000,
+    "multi-stage-aware-b": 80000,
+    "single-stage-aware-b": 51000,
+    "multi-legacy-expanded-b": 80000
+  },
+  "approved_aggregate_operational_tokens": 524000,
+  "approved_program_wall_clock_ms": 4800000,
+  "pro_included_allowance_only": true,
+  "credits_purchase_authorized": false,
+  "automatic_refill_authorized": false,
+  "usage_reset_authorized": false,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "approved_at": "2026-09-04T03:15:02Z"
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": "temple.runtime-observation/v1",
+  "revision": "091f9264889e78209194d5aabc55bcb3f52f028c",
+  "environment": "Local Codex App Server with isolated disposable Git repositories",
+  "scenario": "Eight-turn Terra-medium Context Capsule route-adherence comparison",
+  "result": "pass",
+  "provenance": "live",
+  "observed_at": "2026-09-04T03:22:12.085Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0141/account-approval.json",
+    ".ai-org/artifacts/WI-0141/approved-preflight.json",
+    ".ai-org/artifacts/WI-0141/live-protocol.json",
+    ".ai-org/artifacts/WI-0141/live-observation.json",
+    ".ai-org/artifacts/WI-0141/effectiveness-analysis.json",
+    ".ai-org/artifacts/WI-0141/live-evaluation.md"
+  ]
+}

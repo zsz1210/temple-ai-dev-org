@@ -1,6 +1,6 @@
 # Representative multi-Agent microservice comparison
 
-- Status: protocol specified and locally rehearsed; no live model generation authorized
+- Status: v16 completed one matched pair with zero retry and zero fallback; both arms passed objective tests and received 8/8 from the arm-blind evaluator
 - Purpose: measure where Temple changes delivery outcomes, not accumulate another pass count
 - Comparison: Temple versus a minimal responsible workflow under matched inputs and model routes
 
@@ -9,6 +9,8 @@
 For one realistic, bounded change spanning four service repositories, does Temple improve recovery, task boundaries, contract convergence, correctness, rework, or human coordination enough to justify its Token, latency, and artifact overhead?
 
 The result may be positive, negative, mixed, or inconclusive. The protocol is useful only if all four answers remain possible.
+
+The observed result is mixed. Both arms achieved equal correctness, recovery, boundary, and blind-evaluation outcomes. Temple used 3.51% fewer Operational Tokens and 2.72% less measured model latency, while its integration was 18.70% slower and its artifact footprint was 1062.65% larger. This is one pair and cannot establish a population effect. See the [v16 report](../../.ai-org/artifacts/WI-0136/representative-main-v16-report.md) and [evidence-backed findings](../../.ai-org/artifacts/WI-0136/representative-main-v16-findings.md).
 
 ## Scenario
 
@@ -79,13 +81,132 @@ The validator rejects:
 
 The rehearsal validates protocol consistency only. It does not prove the repositories build, the seeded defect is detectable, the Provider works, or Temple is effective. The separate live Work Item must create and run the exact frozen fixture checks before its first model turn.
 
+WI-0136 now supplies that separate execution boundary. Its generation-free preparation uses:
+
+```bash
+node scripts/run-representative-microservice-comparison.mjs setup
+node scripts/run-representative-microservice-comparison.mjs freeze
+node scripts/run-representative-microservice-comparison.mjs readiness
+node scripts/run-representative-microservice-comparison.mjs preflight
+```
+
+The current preflight verifies two arms with identical product revisions, four failing starting service tests per arm, a failing public integration path, a failing held-out compatibility path, a fully passing evaluator-only golden implementation, 31 retained fixture and revision checks, the installed Codex App Server contract, and a complete no-generation Temple lifecycle rehearsal across all five repositories. It must still report `exact-human-approval-required` until the frozen protocol envelope is approved.
+
+## Context and model diagnostic
+
+Prompt inspection found an avoidable confound before any candidate generation: the Temple condition loaded `TEMPLE.md` before resolving a known Work Item's Context Capsule. The intended framework route resolves the capsule first, opens only routed sources, and treats `TEMPLE.md` as a recovery fallback.
+
+The diagnostic compares four otherwise identical prepared Temple recovery repositories:
+
+| Condition | Model and effort | Retrieval order | Question isolated |
+|---|---|---|---|
+| Terra full-load | Terra medium | Read `TEMPLE.md` in full, then resolve and follow the Context Capsule | Full-load baseline |
+| Terra routed | Terra medium | Resolve the Context Capsule first and use `TEMPLE.md` only as fallback | Context-routing effect |
+| Sol routed medium | Sol medium | Same routed prompt and repositories | Same-effort model effect |
+| Sol routed xhigh | Sol xhigh | Same routed prompt and repositories | User's quality-first effort effect |
+
+Every condition uses one fresh read-only turn, the same exact Git revisions, the same output schema and tool policy, zero retry, and zero fallback. The result reports objective recovery, exact revisions, contract and slice recovery, safe next action, input, cached-input, output, reasoning-output, gross, and operational Tokens, session setup, turn duration, time to first activity, time to first command, effective output Tokens per second, explicit prompt bytes, normalized context-command order, and reported tool-output bytes.
+
+OpenAI documents Sol as the flagship GPT-5.6 model for complex professional work and Terra as the balanced intelligence-and-cost option. The documentation does not provide a fixed Codex task duration for this workload, so the diagnostic reports observed timings rather than assuming a speed ranking.
+
+Generation-free preparation uses:
+
+```bash
+node scripts/run-representative-microservice-comparison.mjs ablation-setup
+node scripts/run-representative-microservice-comparison.mjs ablation-freeze
+node scripts/run-representative-microservice-comparison.mjs ablation-preflight
+```
+
+The diagnostic determines whether routed context preserves recovery quality, whether Token or context-volume reduction is observed, how Terra and Sol differ at medium effort, and how Sol xhigh changes the observed tradeoff. One attempt per setting is directional only: it is not a Temple-versus-baseline result, does not establish a stable model-routing policy, and makes no statistical claim.
+
+The exact-approved v2 attempt stopped after one completed condition when Terra routed selected the safe repository-inspection command `git ls-tree`, which the recovery allowlist had omitted. V2 was not retried and produced no valid model comparison. V3 adds that bounded read-only prefix, retains completed normalized condition records on any future stop, rebuilds fresh matched repositories, and requires a new exact approval under protocol `c5e0b069880a079de6fd8030fda3818cee92c809bd834999db2a04ca32be147a`.
+
+The exact-approved v3 attempt then stopped during its first Terra full-load condition after 142.914 seconds and 80,621 observed Operational Tokens, just beyond the independent 80,000-Token hard stop. No condition completed and none of the routed conditions started. This establishes a bounded full-load resource failure for that attempt, not a context or model comparison. A successor protocol must retain partial-condition telemetry and may continue after an independent candidate Token stop, while global budget, time, policy, Provider, and revision violations remain whole-run stops.
+
+V4 implements that correction without raising any limit or changing the four prompts, models, efforts, conditions, or order. A candidate that reaches its independent Token ceiling is retained as a censored observation and is not retried; the other unused independent conditions may each run once. Exact numeric deltas involving a censored condition remain unavailable, while the successful routed conditions can still support same-effort Terra-versus-Sol and Sol-effort comparisons. V4 is frozen under protocol `c291842d43692df0dd117bec75ed3ed716312125caa0e0d383b2e8b06313d90a` and remains generation-disabled until exact approval.
+
+V4 was superseded before approval or generation. V5 runs Terra routed, Sol routed medium, and Sol routed xhigh before Terra full-load. The three routed ceilings remain 80,000 Operational Tokens each; full-load rises to 120,000 because v2 completed it before a combined observation reached 104,893 and v3 stopped it at 80,621. The combined ceiling is 360,000, a 12.5% increase, while the 40-minute, zero-retry, zero-fallback, Pro-included-only, and no-purchase boundaries remain unchanged. V5 is frozen under protocol `9c947a32b2e63f771de3bcdfae2f3e95dd8ab69b66a65e812473c28ec04d615f` and remains generation-disabled until exact approval.
+
+The exact-approved v5 attempt produced one completed Terra routed condition, two censored Sol routed conditions, and one Terra full-load command-policy stop. It also exposed an output-schema/evaluator mismatch and masked top-level failure reporting. V6 corrects those defects and narrows the remaining qualification to matched Terra medium routed and full-load conditions. Its exact slice-ID output contract, stopped-run analysis, 80,000 routed ceiling, 120,000 full-load ceiling, 200,000 aggregate ceiling, and 20-minute boundary are frozen under protocol `74f581c82408340462f1c65ef6a0666847c40ac4750303d08c5adb60ee6c153f`. Generation remains disabled until exact approval.
+
+After exact diagnostic approval, the bounded commands are:
+
+```bash
+node scripts/run-representative-microservice-comparison.mjs ablation-run --approval .ai-org/artifacts/WI-0136/context-ablation-approval.json
+node scripts/run-representative-microservice-comparison.mjs ablation-report
+```
+
+The exact-approved v10 qualification is complete. Both Terra medium conditions completed once with zero retry and zero fallback. Routed context recovered all four exact service revisions and used 57,296 Operational Tokens; full-load context recovered three exact revisions and used 70,743 after truncating one 40-character revision to 39 characters. In this single matched pair, routed context also finished 55.245 seconds sooner and exposed 96,062 fewer tool-output bytes. These descriptive observations qualify Context Capsule-first retrieval for the replacement main comparison, but they do not establish a population effect, a model-routing rule, or Temple effectiveness. See the [v10 qualification report](../../.ai-org/artifacts/WI-0136/context-recovery-qualification-v10-report.md) and its preserved raw evidence.
+
+After the ablation, the main live execution shape remains ten candidate turns and one blind evaluator turn: one Sol xhigh design turn, three concurrent Terra medium implementation slices, and one fresh Terra medium cold-integration turn per arm, followed by one Sol xhigh evaluator. V3 stopped on a repaired Git-path parser defect and provides no arm comparison. Exact-approved v4 then completed the entire Minimal Responsible arm at 234,099 Operational Tokens: all service, public integration, and held-out tests passed; cold recovery found every exact revision and slice; and no boundary violation was observed. The pair stopped at 335,914 total when the Temple Design turn crossed its 100,000 stage ceiling, leaving 101,815 observed Tokens attributable to that censored attempt. The evaluator did not start, so v4 provides no matched Temple-versus-minimal conclusion. See the [v3 stop report](../../.ai-org/artifacts/WI-0136/representative-main-v3-stop-report.md) and [v4 stop report](../../.ai-org/artifacts/WI-0136/representative-main-v4-stop-report.md).
+
+Exact-approved v5 passed preflight and ran once with zero retry and zero fallback. Its Minimal Responsible Design completed at 47,032 Operational Tokens. The first Build wave then stopped after 33,432 observed Tokens because the model issued the read-only command `git -C ../../orders status --short` from a nested Provider-reported working directory. The frozen literal-prefix policy could not prove the normalized target was the exact Orders fixture, so it rejected the command. Total observed candidate usage was 125,681; no arm completed, and the Temple arm and evaluator did not start. This is runner evidence, not evidence about Temple or either model route. See the [v5 stop report](../../.ai-org/artifacts/WI-0136/representative-main-v5-stop-report.md).
+
+Exact-approved v6 ran once with zero retry and zero fallback. Minimal Responsible Design completed at 53,617 Operational Tokens. The concurrent Build wave then stopped when Notifications requested `git -C ../../../notifications status --short`; resolving that command from its Provider-reported working directory did not reach an exact fixture repository root. The run retained 103,555 candidate Operational Tokens. All three Build observations were settled, every App Server child exited, and all five Minimal Responsible repositories remained clean. This confirms the v6 path-validation and parallel-cleanup repairs, but no arm completed and neither Temple nor the evaluator started. See the [v6 stop report](../../.ai-org/artifacts/WI-0136/representative-main-v6-stop-report.md).
+
+Successor v7 is frozen under digest `ff06ec032d8bc6f452e307269d9e87774e4f4207d0449af70905fcc314786674`. It keeps the v6 task, routes, tests, limits, zero-retry policy, zero-fallback policy, and network boundary. It explicitly tells every candidate to avoid parent-directory paths, keep cross-repository commands at the arm root, and leave Git inspection to the experiment coordinator. The same path policy remains fail-closed, so the prompt clarification does not grant broader filesystem authority. V7 uses fresh matched repositories and requires its own exact approval.
+
+Exact-approved v7 ran once and stopped during the Minimal Responsible Build wave after 107,085 candidate Operational Tokens. Design completed at 55,565. Notifications requested the allowlisted read-only command `rg --files coordinator`, but v7 interpreted its Provider-relative command cwd against the runner process directory rather than the generated arm. Notifications stopped at 14,336; Gateway and orders-catalog were interrupted as siblings after 17,089 and 20,095. Every App Server child exited and all generated repositories remained clean. No arm completed, so v7 is harness evidence rather than a Temple comparison. See the [v7 stop report](../../.ai-org/artifacts/WI-0136/representative-main-v7-stop-report.md).
+
+Successor v8 is frozen under digest `3c179b15b37e5fad0a538ff12dc0f4ca5a3e3d7384b8542b394f22bdd42618da`. It normalizes absolute and `file://` cwd values directly, resolves Provider-relative cwd values from the exact generated arm, and still rejects every normalized escape or unknown URI scheme. It changes no model route, task, resource ceiling, test, retry, fallback, or network boundary. V8 uses fresh matched repositories and requires separate exact approval before generation.
+
+V8 was superseded before approval or generation. V9 adds the missing systemic guard: the same production orchestration must first complete both arms, all ten candidate stages, both three-way Build waves, cold integration, arm-neutral evaluation, score freeze, analysis, objective tests, and repository-cleanliness checks through a deterministic local Provider double. This readiness path cannot call model generation, runs only inside a disposable temporary clone, and writes an exact-digest evidence record that live preflight requires.
+
+The v9 readiness run passed its declared checks with zero Operational Tokens, zero retry, zero fallback, and no model generation. The exact-approved live attempt then exposed one missing event-shape case: the retained summary identifies a schema-valid `unknown` CommandAction and a `/bin/zsh -lc` command display, while the same extracted inner command passes the local predicate. Minimal Responsible completed fully and Temple Design completed, but the Temple Build wave stopped fail-closed at 313,151 candidate Operational Tokens. The evaluator did not start, so v9 provides no arm comparison. See the [v9 stop report](../../.ai-org/artifacts/WI-0136/representative-main-v9-stop-report.md).
+
+V10 classifies at most one exact single-quoted Provider shell wrapper, then reapplies the same inner command, shell-control, parent-path, cwd, and exact Git-target policies. It does not generally permit shell commands or nested wrappers. The exact event shape that stopped v9 is now a mandatory Harness Readiness check before live approval. All twelve readiness checks pass with zero Operational Tokens under protocol `16591db95bde29d6becd273ce6df3cd39569f016ebdd03c5fd2fb2c21d9253e0`; the only remaining preflight blocker is separate exact human approval.
+
+The exact-approved v10 attempt stopped during the first Minimal Responsible Build wave after 77,224 candidate Operational Tokens. Its Design turn completed, but the Provider reported an existing generated repository under canonical `/private/tmp/...` while the frozen arm root used the equivalent `/tmp/...` spelling. The literal path-containment comparison rejected this as `command-cwd-outside-arm`. All sibling turns settled, all generated repositories remained clean, no retry or fallback occurred, and neither the Temple arm nor evaluator started. This is a harness compatibility result, not an arm comparison. See the [v10 stop report](../../.ai-org/artifacts/WI-0136/representative-main-v10-stop-report.md).
+
+V11 canonicalized existing filesystem paths before cwd containment and exact Git-target checks. Its exact-approved run stopped during the first Minimal Responsible Build wave after 108,271 candidate Operational Tokens. Design completed at 86,096, but the App Server command item presented a repository-discovery command with a cwd outside the arm even though the frozen turn cwd and nested Code Mode `exec_command.workdir` were the exact arm root. All siblings settled, all ten repositories remained clean, no retry or fallback occurred, and neither arm nor the evaluator completed. This is Provider-presentation evidence, not an arm comparison. See the [v11 stop report](../../.ai-org/artifacts/WI-0136/representative-main-v11-stop-report.md).
+
+V12 treated the command-item cwd as diagnostic for nested Code Mode commands and kept authorization bound to the frozen turn environment, exact allowed commands and fixture repository IDs, explicit-path containment, an arm-only write root, and disabled network access. Its exact-approved run stopped during the first Minimal Responsible Build wave after 119,084 candidate Operational Tokens. Design completed at 50,602, but Notifications followed an ambient Codex Memory instruction and requested the user's repository-external `MEMORY.md`. The runner rejected the absolute path, settled the sibling turns, and left all ten repositories clean. Allowing it would have contaminated both experiment context and arm comparability. See the [v12 stop report](../../.ai-org/artifacts/WI-0136/representative-main-v12-stop-report.md).
+
+V13 starts every experiment App Server with strict configuration that disables memory use, memory generation, and the Memory feature. Preflight reads the effective configuration back from the Provider and binds those values, launch arguments, and Config schemas into the protocol contract. The personal-memory path remains rejected rather than allowlisted. The readiness gate contains seventeen checks, including ambient-memory-path rejection and the effective memory-isolation handshake. All seventeen passed with zero Operational Tokens under protocol `ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c`.
+
+The exact-approved v13 candidate program completed both arms and all ten candidate turns once. Every service test, public integration test, and held-out test passed; both cold Integration turns recovered all four exact revisions and all three slices. The candidate program used 361,250 Operational Tokens with zero retry and zero fallback. Minimal Responsible used 183,854 candidate Operational Tokens; Temple used 177,396, which is 6,458 fewer (3.51%) in this single run. This is candidate resource evidence only until the arm-blind score is complete.
+
+The original v13 evaluator request then stopped before the runner received attributable detailed usage. The v13 runner reported only `blind-evaluator:detailed Token usage missing` and did not retain the underlying failed terminal, so its generation and Token amount remain unknown. It is not silently retried. The immutable candidate record is archived under SHA-256 `c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165`.
+
+V14 was superseded before approval or generation after a systemic failure-mode review found that it still did not exercise child-process exit, deadline release, exact wire requests, semantic-output rejection, or stopped-evidence retention as one end-to-end gate. Its schema simplification remains useful hardening, but the missing v13 terminal means schema incompatibility was never established as the cause.
+
+V15 bound the exact v13 candidate and lab, prompt, dynamic output schema, wire request shapes, runner, and analyzer. Its exact-approved live turn stopped after 3.7 seconds because the runner treated every `item/started` notification as a tool violation whenever tools were disabled. The predicate therefore rejected passive `reasoning` or `agentMessage` activity as well as real tool activity. The v15 record preserves the interrupted terminal, but that revision did not retain the triggering item type and received no detailed usage notification, so model generation and Operational Tokens remain unknown. It is not retried.
+
+V16 is the evaluator-only successor under protocol `3247ab0cfcfa8664efea67cd751cae51cbaf9d0729276f03d250010e81ab9eb5`. It reads all nineteen installed App Server item types from the generated schema, permits only five passive no-tool types, rejects the other fourteen active or unexpected types, records observed item types, and binds that partition into the Provider contract. Its expanded generation-free rehearsal passed fourteen of fourteen checks at zero Operational Tokens. After exact approval, all twenty-three live preflight checks passed.
+
+The single v16 Sol evaluator turn completed in 37.693 seconds and used 20,860 additional Operational Tokens. It did not regenerate candidate work, retry, fall back, access the network, use tools, buy Credits, refill Credits, or consume a reset. Scores were frozen before the anonymous package mapping was unsealed; both packages received 8/8 with no critical failure.
+
+After that evaluator-only protocol receives its own exact approval, the bounded commands are:
+
+```bash
+node scripts/run-representative-microservice-comparison.mjs evaluator-continuation-preflight \
+  --lab /tmp/temple-wi0136-representative-microservice-v16-evaluator \
+  --approval .ai-org/artifacts/WI-0136/evaluator-continuation-approval.json
+node scripts/run-representative-microservice-comparison.mjs evaluator-continuation-evaluate \
+  --lab /tmp/temple-wi0136-representative-microservice-v16-evaluator \
+  --approval .ai-org/artifacts/WI-0136/evaluator-continuation-approval.json
+node scripts/run-representative-microservice-comparison.mjs evaluator-continuation-report \
+  --lab /tmp/temple-wi0136-representative-microservice-v16-evaluator
+```
+
+The no-generation gate that precedes those commands is:
+
+```bash
+node scripts/run-representative-microservice-comparison.mjs evaluator-continuation-readiness \
+  --lab /tmp/temple-wi0136-representative-microservice-v16-evaluator
+```
+
+It has already completed for the frozen v16 protocol. Re-running it against the same evidence path is intentionally refused rather than counted as another attempt.
+
+The runner refuses a second candidate or evaluator attempt in the same lab. A stopped run remains evidence and requires a new protocol revision and exact approval rather than a hidden retry.
+
 ## Stop and interpretation rules
 
 - Stop the pair after any protocol mismatch, missing exact revision, lost usage correlation, retry request, fallback request, evaluator contract mismatch, or score unseal before freeze.
-- Preserve the stopped outcome once. Correcting the harness requires a new protocol revision and a new Work Item, not a hidden retry.
+- Preserve the stopped outcome once. Correcting the harness requires a new protocol revision and exact approval, not a hidden retry.
 - Report objective correctness even when subjective evaluation is inconclusive.
 - Report operational and gross Token counters separately.
 - Do not convert Tokens to cost without an authoritative versioned billing source.
 - With one scenario and one pair, report descriptive effects and failure modes only; do not claim statistical generalization.
 
-The live run remains a later, explicitly bounded validation action. This document and its validator authorize no model generation, external write, deployment, release, or Credits purchase.
+The bounded live run is complete. Its evidence authorizes no deployment, release, policy change, automatic model routing, external write, or Credits purchase.

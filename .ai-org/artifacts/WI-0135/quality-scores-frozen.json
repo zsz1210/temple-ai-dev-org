@@ -1,0 +1,44 @@
+{
+  "schema_version": "temple.effectiveness-pilot-scores/v2",
+  "work_item_id": "WI-0135",
+  "frozen_at": "2026-09-03T10:28:40.637Z",
+  "input_manifest_digest": "8d336bbc8dbe0d510ecdb86f36590166e0059e797d5eed61fd0e3aea800c14a1",
+  "evaluator_thread_id": "01a066d0-189d-7c43-bb68-f0fe4bb209e2",
+  "packages": [
+    {
+      "package_id": "pkg-0746afbd30658b35",
+      "case_id": "compatible-event-evolution",
+      "score": 100,
+      "decision": "pass",
+      "critical_failure": null,
+      "rationale": "Explicit v1/v2 codec branching preserves v1 default encoding, normalizes both versions, rejects unknown versions, and acceptance passes."
+    },
+    {
+      "package_id": "pkg-3792f34567724f6e",
+      "case_id": "idempotent-command",
+      "score": 100,
+      "decision": "pass",
+      "critical_failure": null,
+      "rationale": "Uses processedCommandIds, retains centralized validation and signature, returns a fresh immutable no-op state for duplicates, and acceptance passes."
+    },
+    {
+      "package_id": "pkg-b88bf8b1819e68db",
+      "case_id": "compatible-event-evolution",
+      "score": 100,
+      "decision": "pass",
+      "critical_failure": null,
+      "rationale": "Explicit codec version handling preserves the v1 contract, supports v2 round trips with a stable decoded shape, rejects unknown versions, and acceptance passes."
+    },
+    {
+      "package_id": "pkg-dcec9d022e1c70cc",
+      "case_id": "idempotent-command",
+      "score": 100,
+      "decision": "pass",
+      "critical_failure": null,
+      "rationale": "Duplicate detection uses the existing state source of truth, keeps validation centralized, returns fresh unmodified state and no events, and acceptance passes."
+    }
+  ],
+  "summary": "All four packages meet their matching frozen rubric and exceed the registered passing threshold of 85.",
+  "mapping_unsealed_after_freeze": true,
+  "source_lab_sha256": "d37f8e1bdb40232243b15eb2d8f4e31a712bef3b04701b6b7ed41582f885a3b7"
+}

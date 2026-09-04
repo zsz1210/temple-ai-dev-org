@@ -1,0 +1,135 @@
+{
+  "schema_version": "temple.effectiveness-terra-ab/v1",
+  "protocol_id": "wi-0135-optimized-lean-terra-ab-live-1",
+  "work_item_id": "WI-0135",
+  "status": "approved-one-attempt",
+  "source_protocol": {
+    "ref": ".ai-org/artifacts/WI-0133/terra-ab-protocol.json",
+    "sha256": "f2a691c27920dae6373cae02b1fdf8143466f6a15f2671049b1b37974149650b"
+  },
+  "source_evidence": {
+    "work_item_id": "WI-0132",
+    "result_ref": "docs/validation/lean-routing-effectiveness-result.md",
+    "raw_evidence_sha256": "fdcd5d54e7dd07dee69234a5ad80ed750b52771aadaa29c9c21b1e246e5d67f7",
+    "analysis_sha256": "4eefe732c33464c6d43189e84fa9b82e1e1369fe7087f4d055587a4958d89a68",
+    "frozen_scores_sha256": "7898b6bbf0c9c376572cee48c178e5460da79999bb80fc9d09d947379f327377"
+  },
+  "question": "After preserving the corrected acceptance contract, does the smaller Temple instruction and retrieval treatment reduce operational Tokens and latency without losing objective or blind-reviewed quality?",
+  "fixture_root": ".ai-org/artifacts/WI-0106/fixtures",
+  "fixture_source_revision": "87d7e68aaed0af6559697a690cf623ac158ab283",
+  "framework_revision_source": "9e2357ad38b17c3c664a52b330c225e727dc18fe",
+  "launch_instruction": {
+    "path": "launch-instruction.md",
+    "sha256": "f5b60dfe7525b64f1b9fac35fdf836314a6c8729136c1a850b3a43e47b0e24eb"
+  },
+  "tool_policy": {
+    "path": "tool-policy.json",
+    "sha256": "c249684d7a24776c4b02639ac2fae5bdd027dd38e6f2ab017b48302db773e126"
+  },
+  "conditions": [
+    {
+      "id": "conventional-terra",
+      "process": "minimal-responsible",
+      "selection_mode": "fixed",
+      "profile_id": "standard",
+      "task_kind": "bounded",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium"
+    },
+    {
+      "id": "temple-terra-optimized",
+      "process": "temple-lean-optimized",
+      "selection_mode": "advisory",
+      "profile_id": "standard",
+      "task_kind": "bounded",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium"
+    }
+  ],
+  "cases": [
+    {
+      "id": "idempotent-command",
+      "bundle_sha256": "d1e305e558d889b04a94bb3ece31e4575c064a41bde49af197170a3a885f2bfa",
+      "acceptance_contract": ".ai-org/artifacts/WI-0131/cases/idempotent-command.acceptance.json",
+      "condition_order": [
+        "temple-terra-optimized",
+        "conventional-terra"
+      ],
+      "temple_init_path": "temple-init-idempotent-command.json"
+    },
+    {
+      "id": "compatible-event-evolution",
+      "bundle_sha256": "84126afb5d4d82ebb479cc1a9ded3c1cbefabb13fddd845b0de7d6441a8e57d1",
+      "acceptance_contract": ".ai-org/artifacts/WI-0131/cases/compatible-event-evolution.acceptance.json",
+      "condition_order": [
+        "conventional-terra",
+        "temple-terra-optimized"
+      ],
+      "temple_init_path": "temple-init-compatible-event-evolution.json"
+    }
+  ],
+  "execution": {
+    "candidate_turns": 4,
+    "evaluator_turns": 1,
+    "concurrency": 1,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "network_access": false,
+    "generation_ready": false,
+    "fresh_provider_handshake_required": true,
+    "live_generation_requires_exact_approval": true,
+    "candidate_operational_token_limit": 69000,
+    "candidate_aggregate_operational_token_limit": 174000,
+    "evaluator_operational_token_limit": 35000,
+    "combined_operational_token_limit": 209000,
+    "program_wall_clock_limit_ms": 600000
+  },
+  "provider_contract": {
+    "codex_cli_version": "codex-cli 0.151.0-alpha.7.2",
+    "schema_digests": {
+      "ThreadStartParams.json": "792e2f32e37cece971bd616664ea2053741acbed4e9c92e9d1766427718f2ecd",
+      "TurnStartParams.json": "a3835e8c1e942e4b358e1a670939b89918b16c4d13105a579899892b7ade6dea",
+      "ThreadStartResponse.json": "c8fb6bcd1e4fb5ead6b487f0f35a90d8f13c9272edd4285914012dda403a77d2",
+      "TurnStartResponse.json": "7a817a98d78ac8e982c82c24bf8f7a2d2e61cca9fb91e5386e31cae0888e38e2",
+      "ItemStartedNotification.json": "e30713dca6e8f6842a0c5350003ea433b6cbb4894209b4f871894450caa67b6f",
+      "TurnCompletedNotification.json": "b85470d9eadbcad52700bd1d5aae187a9cd995e50b7099ed05469b6d41d6b997",
+      "ItemCompletedNotification.json": "9958dce3bcab754e88323d233dff5f4c2ee04ce35f068a18d8f83f93528acf8b",
+      "ThreadTokenUsageUpdatedNotification.json": "aba4f6c7e4a19b2b842c08ee793b57000c07dafd57b922ad0d8e7c76609108c2",
+      "ModelReroutedNotification.json": "37cd3c1b3a3560b85b01d4061a07d830fc9ed93b80e4663f975f9197cdb501ef",
+      "TurnInterruptParams.json": "6dff382dae73d1dbc58406ed045605f647e7a49660e2540fbd2c6c24d60c5f2b"
+    },
+    "required_models": [
+      {
+        "model": "gpt-5.6-terra",
+        "reasoning_efforts": [
+          "medium",
+          "high"
+        ]
+      }
+    ]
+  },
+  "evaluation": {
+    "objective_held_out_tests_primary": true,
+    "blind_review_secondary": true,
+    "evaluator_model": "gpt-5.6-terra",
+    "evaluator_reasoning_effort": "high",
+    "fresh_provider_context_required": true,
+    "tools_allowed": false,
+    "score_freeze_before_mapping_unseal": true
+  },
+  "decision_contract": {
+    "schema_version": "temple.effectiveness-decision-input/v3",
+    "thresholds": {
+      "quality_non_inferiority_points": 3,
+      "meaningful_operational_token_reduction_percent": 10,
+      "meaningful_latency_reduction_percent": 10,
+      "interpretation": "Project-owned diagnostic thresholds retained for comparison continuity; they are not statistical or industry benchmarks."
+    }
+  },
+  "claims": {
+    "automatic_routing": false,
+    "temple_superiority": false,
+    "statistical_qualification": false,
+    "provider_generation_performed": false
+  }
+}

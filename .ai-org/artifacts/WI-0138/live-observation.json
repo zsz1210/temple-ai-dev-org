@@ -1,0 +1,387 @@
+{
+  "schema_version": "temple.context-capsule-ablation-observation/v1",
+  "work_item_id": "WI-0138",
+  "protocol_sha256": "45717b859f2f88a4dd182d4bb7c7968839eb154e0f3ad9671e4d53e3986ad382",
+  "kind": "live-provider-run",
+  "status": "completed",
+  "started_at": "2026-09-04T01:03:17.878Z",
+  "completed_at": "2026-09-04T01:07:12.215Z",
+  "conditions": [
+    {
+      "id": "single-stage-aware",
+      "shape": "single-repository",
+      "strategy": "stage-aware",
+      "started_at": "2026-09-04T01:03:17.879Z",
+      "completed_at": "2026-09-04T01:04:03.199Z",
+      "elapsed_ms": 45320,
+      "turn_elapsed_ms": 45187,
+      "time_to_first_activity_ms": 3200,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 126869,
+        "cached_input_tokens": 103936,
+        "output_tokens": 900,
+        "reasoning_output_tokens": 143,
+        "total_tokens": 127769
+      },
+      "operational_tokens": 23833,
+      "tool_activity": {
+        "command_items": 6,
+        "command_actions": 6,
+        "temple_md_reads": 0,
+        "context_package_reads": 1,
+        "reported_output_bytes": 6960,
+        "item_types": {
+          "userMessage": 1,
+          "reasoning": 5,
+          "commandExecution": 6,
+          "agentMessage": 1
+        }
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "model_generation_performed": true,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "governing_requirement": "Entries with the same request_id return the original receipt without duplicate ledger records.",
+        "governing_decision": "ADR-0042",
+        "repository_revision": "067158f86cb2bfc05f6b77651bc3b7af4cfea767",
+        "public_test_status": "18 passed.",
+        "unresolved_risk": "Crash recovery after fsync remains unverified.",
+        "safe_next_action": "Run independent crash-recovery QA without changing the candidate.",
+        "authority_source": "docs/product/idempotency.md"
+      },
+      "objective": {
+        "pass": false,
+        "schema_pass": true,
+        "schema_errors": [],
+        "fields": [
+          {
+            "id": "governing_requirement",
+            "pass": true
+          },
+          {
+            "id": "governing_decision",
+            "pass": true
+          },
+          {
+            "id": "repository_revision",
+            "pass": true
+          },
+          {
+            "id": "public_test_status",
+            "pass": false
+          },
+          {
+            "id": "unresolved_risk",
+            "pass": true
+          },
+          {
+            "id": "safe_next_action",
+            "pass": true
+          },
+          {
+            "id": "authority_source",
+            "pass": true
+          }
+        ],
+        "passed_fields": 6,
+        "total_fields": 7
+      }
+    },
+    {
+      "id": "multi-legacy-expanded",
+      "shape": "coordinator-multi-repository",
+      "strategy": "legacy-expanded",
+      "started_at": "2026-09-04T01:04:03.277Z",
+      "completed_at": "2026-09-04T01:05:17.898Z",
+      "elapsed_ms": 74621,
+      "turn_elapsed_ms": 74482,
+      "time_to_first_activity_ms": 2977,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 211831,
+        "cached_input_tokens": 184832,
+        "output_tokens": 1382,
+        "reasoning_output_tokens": 158,
+        "total_tokens": 213213
+      },
+      "operational_tokens": 28381,
+      "tool_activity": {
+        "command_items": 10,
+        "command_actions": 10,
+        "temple_md_reads": 0,
+        "context_package_reads": 1,
+        "reported_output_bytes": 11241,
+        "item_types": {
+          "userMessage": 1,
+          "reasoning": 6,
+          "commandExecution": 10,
+          "agentMessage": 1
+        }
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "model_generation_performed": true,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "governing_contract": "OrderPlaced/v2: coordinator-owned contract; consumers accept the legacy flat v1 event while producers add the v2 envelope.",
+        "component_revisions": {
+          "gateway": "9099d57f36da5836e85d127905488a9a46a33c90",
+          "catalog": "15b872845ba5a69042f7c952843e54495555a988",
+          "orders": "b2e7d5d830e96ecbf758bc8577407f578db02484",
+          "notifications": "ee7547772cd0e97e82d288c1476bd65a31945b53"
+        },
+        "completed_slices": [
+          "orders-catalog",
+          "notifications",
+          "gateway"
+        ],
+        "unresolved_risk": "Coordinator persistence coverage remains unverified.",
+        "authority_owner": "coordinator",
+        "safe_next_action": "Run the bounded coordinator integration test."
+      },
+      "objective": {
+        "pass": false,
+        "schema_pass": true,
+        "schema_errors": [],
+        "fields": [
+          {
+            "id": "governing_contract",
+            "pass": false
+          },
+          {
+            "id": "component_revisions",
+            "pass": true
+          },
+          {
+            "id": "completed_slices",
+            "pass": true
+          },
+          {
+            "id": "unresolved_risk",
+            "pass": true
+          },
+          {
+            "id": "authority_owner",
+            "pass": true
+          },
+          {
+            "id": "safe_next_action",
+            "pass": true
+          }
+        ],
+        "passed_fields": 5,
+        "total_fields": 6
+      }
+    },
+    {
+      "id": "single-legacy-expanded",
+      "shape": "single-repository",
+      "strategy": "legacy-expanded",
+      "started_at": "2026-09-04T01:05:18.096Z",
+      "completed_at": "2026-09-04T01:05:59.404Z",
+      "elapsed_ms": 41308,
+      "turn_elapsed_ms": 41143,
+      "time_to_first_activity_ms": 3012,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 128870,
+        "cached_input_tokens": 104960,
+        "output_tokens": 779,
+        "reasoning_output_tokens": 288,
+        "total_tokens": 129649
+      },
+      "operational_tokens": 24689,
+      "tool_activity": {
+        "command_items": 6,
+        "command_actions": 6,
+        "temple_md_reads": 0,
+        "context_package_reads": 1,
+        "reported_output_bytes": 8147,
+        "item_types": {
+          "userMessage": 1,
+          "reasoning": 7,
+          "commandExecution": 6,
+          "agentMessage": 1
+        }
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "model_generation_performed": true,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "governing_requirement": "Entries with the same request_id return the original receipt without duplicate ledger records.",
+        "governing_decision": "ADR-0042",
+        "repository_revision": "067158f86cb2bfc05f6b77651bc3b7af4cfea767",
+        "public_test_status": "18 passed.",
+        "unresolved_risk": "Crash recovery after fsync remains unverified.",
+        "safe_next_action": "Run independent crash-recovery QA without changing the candidate.",
+        "authority_source": "docs/product/idempotency.md"
+      },
+      "objective": {
+        "pass": false,
+        "schema_pass": true,
+        "schema_errors": [],
+        "fields": [
+          {
+            "id": "governing_requirement",
+            "pass": true
+          },
+          {
+            "id": "governing_decision",
+            "pass": true
+          },
+          {
+            "id": "repository_revision",
+            "pass": true
+          },
+          {
+            "id": "public_test_status",
+            "pass": false
+          },
+          {
+            "id": "unresolved_risk",
+            "pass": true
+          },
+          {
+            "id": "safe_next_action",
+            "pass": true
+          },
+          {
+            "id": "authority_source",
+            "pass": true
+          }
+        ],
+        "passed_fields": 6,
+        "total_fields": 7
+      }
+    },
+    {
+      "id": "multi-stage-aware",
+      "shape": "coordinator-multi-repository",
+      "strategy": "stage-aware",
+      "started_at": "2026-09-04T01:05:59.480Z",
+      "completed_at": "2026-09-04T01:07:12.019Z",
+      "elapsed_ms": 72539,
+      "turn_elapsed_ms": 72383,
+      "time_to_first_activity_ms": 2863,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "observed_thread_reasoning_effort": "high",
+      "effective_turn_reasoning_effort": null,
+      "usage": {
+        "input_tokens": 208497,
+        "cached_input_tokens": 180736,
+        "output_tokens": 1636,
+        "reasoning_output_tokens": 418,
+        "total_tokens": 210133
+      },
+      "operational_tokens": 29397,
+      "tool_activity": {
+        "command_items": 10,
+        "command_actions": 10,
+        "temple_md_reads": 0,
+        "context_package_reads": 1,
+        "reported_output_bytes": 10290,
+        "item_types": {
+          "userMessage": 1,
+          "reasoning": 8,
+          "commandExecution": 10,
+          "agentMessage": 1
+        }
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "model_generation_performed": true,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "governing_contract": "OrderPlaced/v2 — coordinator-owned contract; consumers accept the legacy flat v1 event while producers add the v2 envelope.",
+        "component_revisions": {
+          "gateway": "9099d57f36da5836e85d127905488a9a46a33c90",
+          "catalog": "15b872845ba5a69042f7c952843e54495555a988",
+          "orders": "b2e7d5d830e96ecbf758bc8577407f578db02484",
+          "notifications": "ee7547772cd0e97e82d288c1476bd65a31945b53"
+        },
+        "completed_slices": [
+          "orders-catalog",
+          "notifications",
+          "gateway"
+        ],
+        "unresolved_risk": "Coordinator persistence coverage remains unverified.",
+        "authority_owner": "coordinator",
+        "safe_next_action": "Run the bounded coordinator integration test."
+      },
+      "objective": {
+        "pass": false,
+        "schema_pass": true,
+        "schema_errors": [],
+        "fields": [
+          {
+            "id": "governing_contract",
+            "pass": false
+          },
+          {
+            "id": "component_revisions",
+            "pass": true
+          },
+          {
+            "id": "completed_slices",
+            "pass": true
+          },
+          {
+            "id": "unresolved_risk",
+            "pass": true
+          },
+          {
+            "id": "authority_owner",
+            "pass": true
+          },
+          {
+            "id": "safe_next_action",
+            "pass": true
+          }
+        ],
+        "passed_fields": 5,
+        "total_fields": 6
+      }
+    }
+  ],
+  "total_operational_tokens": 106300,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}

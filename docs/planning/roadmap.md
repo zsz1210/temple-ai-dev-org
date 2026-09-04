@@ -46,7 +46,7 @@ The Management Console, continuous Usage observation, semantic retrieval, and Pr
 
 Real multi-company, multi-machine, and regulated operation still requires representative validation.
 
-### 3. Adaptive execution — foundation delivered, effectiveness not yet qualified
+### 3. Adaptive execution — foundation delivered, bounded evidence collected
 
 - responsibility is separate from model selection
 - one Work Item can resolve different execution profiles for different steps
@@ -54,12 +54,15 @@ Real multi-company, multi-machine, and regulated operation still requires repres
 - requested settings remain separate from the model and reasoning actually observed
 - route resolution is advisory and does not launch a Provider or change project state
 
-The next requirement is comparative evidence showing when adaptive routing is better than a fixed safe profile and when it should not be used.
+The first corrected comparison supports one narrow operating rule: make the acceptance contract explicit before escalating a bounded task. Terra medium completed both low-risk cases; stronger routes added no objective correctness. This does not qualify automatic routing.
+
+Temple's static Lean context has since been reduced by about 39% for those fixtures while preserving the authority contract. A four-candidate matched confirmation is prepared but not run. The next requirement is to confirm the improvement, then expand evidence across distinct task shapes before changing defaults.
 
 ### 4. Real-world qualification — current
 
 - verify that a new user and a fresh Agent can complete the Core Path without maintainer chat history
 - compare Temple with a competent conventional workflow under matched tasks, models, tools, and acceptance tests
+- confirm that the smaller Lean context reduces measured Token and latency overhead without losing quality
 - compare Temple's adaptive route with a fixed model route while keeping the Temple process unchanged
 - validate real multi-human, multi-machine, and multi-repository delivery
 - measure correctness, recovery, rework, human intervention, Tokens, latency, and operating overhead

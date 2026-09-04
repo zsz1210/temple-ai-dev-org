@@ -1,0 +1,29 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "c2ebaa1d7e5da8c43bf7d382ddeaae2d8ff61c99",
+  "command": [
+    "npm run verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T00:57:00.000Z",
+  "completed_at": "2026-09-04T00:58:40.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0138/developer-verification.md",
+    ".ai-org/artifacts/WI-0138/harness-readiness.json",
+    ".ai-org/artifacts/WI-0138/preapproval-preflight.json",
+    ".ai-org/artifacts/WI-0138/live-protocol.json",
+    "docs/validation/context-capsule-v2-ablation.md"
+  ],
+  "summary": {
+    "full_tests_passed": 405,
+    "full_tests_failed": 0,
+    "focused_regression_tests_passed": 56,
+    "focused_regression_tests_failed": 0,
+    "readiness_checks_passed": 26,
+    "readiness_checks_failed": 0,
+    "operational_tokens": 0,
+    "external_action_performed": false,
+    "model_invocation_performed": false
+  }
+}

@@ -41,6 +41,9 @@ Validation records preserve bounded evidence for framework capabilities. They id
 - [Wave 5A overhead analysis — reproducible offline findings and Wave 5B evaluator boundary](wave-5a-overhead-analysis.md)
 - [Evidence-driven Lean Mode retrospective — observations, unsupported claims, and implemented response](evidence-driven-lean-mode.md)
 - [Representative multi-Agent microservice comparison — locally rehearsed protocol; live run not authorized](representative-microservice-comparison.md)
-- [Temple effectiveness and adaptive-routing experiment — three-arm design; live run not authorized](adaptive-execution-routing-experiment.md)
+- [Temple effectiveness and adaptive-routing experiment](adaptive-execution-routing-experiment.md) — registered three-arm design and validity rules.
+- [Temple effectiveness pilot result](temple-effectiveness-pilot-result.md) — first six-candidate result, protocol deviation, measured trade-offs, and required product changes.
+- [Native Lean routing effectiveness](lean-routing-effectiveness-result.md) — corrected bounded comparison completed; static context reduced by about 39%; matched Terra confirmation prepared but not run.
+- [Context Capsule route-adherence evaluation](context-capsule-route-adherence.md) — bounded path-only acquisition measurement and counterbalanced successor protocol; live Provider run not yet approved.
 - [Bounded four-repository commerce rehearsal — stopped safely at the Token ceiling](bounded-four-repository-commerce-rehearsal.md)
 - [Collaborative large-scale real-environment test plan — planned / not run](collaborative-large-scale-test-plan.md)

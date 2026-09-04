@@ -1,0 +1,220 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0136",
+  "title": "Execute representative multi-Agent microservice comparison",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-03T10:47:38.923Z",
+  "updated_at": "2026-09-03T23:33:51.755Z",
+  "scope": [
+    "Turn the locally rehearsed WI-0118 protocol into a deterministic four-repository fixture and fail-closed experiment runner, then execute the frozen matched comparison only after exact Provider and account approval.",
+    "Compare Temple with a competent minimal responsible workflow under identical repositories, task input, tests, tools, and model routes; measure organizational outcomes rather than pass counts.",
+    "Stop at the bounded experiment report; do not change routing policy, release Temple, deploy services, or generalize from one scenario."
+  ],
+  "acceptance_criteria": [
+    "Four real local Git repositories are created from deterministic sources, pin exact revisions, and reproduce the seeded compatibility failure before candidate work.",
+    "Both arms remain matched except for the declared organizational intervention, use zero retry and zero fallback, and fail closed on protocol, model, usage, command, or revision drift.",
+    "The runner and analyzer retain objective correctness, cold recovery, boundary conflicts, contract convergence, rework, human intervention, operational and gross Tokens, latency, and artifact footprint.",
+    "No Provider generation occurs until a final preflight publishes the exact protocol digest, requested models and efforts, maximum Tokens, maximum elapsed time, and receives matching human approval.",
+    "The final report is descriptive, preserves stopped and negative outcomes, and makes no superiority, savings, pricing, or routing-authority claim beyond the observed run."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0136",
+    "scripts/run-representative-microservice-comparison.mjs",
+    "scripts/analyze-representative-microservice-comparison.mjs",
+    "test/representative-microservice-comparison.test.mjs",
+    "docs/validation/representative-microservice-comparison.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "cross-system",
+    "escalation_triggers": [],
+    "rationale": "A live multi-model, multi-repository matched experiment has material usage and evidence-integrity risk, so Standard preserves independent evaluation and QA.",
+    "evidence_refs": [
+      "docs/validation/representative-microservice-comparison.md"
+    ],
+    "evaluated_at": "2026-09-03T10:47:38.922Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "71a4ce0",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260903163248-db33f0a9",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "71a4ce0",
+    "branch": "codex/wi-0136-representative-microservice-comparison",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+    "claimed_at": "2026-09-03T16:32:48.677Z",
+    "released_at": "2026-09-03T23:29:59.623Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260903105158-48afa2a4",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "4c4e149debe87bb459ffa241aa659777e23ca7f4",
+      "branch": "codex/wi-0136-representative-microservice-comparison",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-03T10:51:58.546Z",
+      "released_at": "2026-09-03T14:49:22.433Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260903144953-d38e6072",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "0b906a643ad1f86391dfca428b36c903a1f38744",
+      "branch": "codex/wi-0136-representative-microservice-comparison",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-03T14:49:53.967Z",
+      "released_at": "2026-09-03T14:52:36.299Z",
+      "release_reason": [
+        "The bounded v10 context qualification was independently verified; the main Temple-versus-minimal protocol remains a separate unapproved next step."
+      ]
+    },
+    {
+      "id": "claim-20260903163248-db33f0a9",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "71a4ce0",
+      "branch": "codex/wi-0136-representative-microservice-comparison",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org",
+      "claimed_at": "2026-09-03T16:32:48.677Z",
+      "released_at": "2026-09-03T23:29:59.623Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0136/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0136/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0136/product-spec.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0136/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0136/risk-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0136/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-report.md",
+      ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-run.json",
+      ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-analysis.json",
+      "EVID-20260903T144912Z-292F2426"
+    ],
+    "test_evidence": [
+      "EVID-20260903T232923Z-A114E9C1"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0136/representative-main-v16-findings.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260903T233315Z-05887961"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0136/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0136/work-order.md",
+    ".ai-org/artifacts/WI-0136/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0136/approved-scope.md",
+    ".ai-org/artifacts/WI-0136/product-spec.md",
+    ".ai-org/artifacts/WI-0136/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0136/technical-design.md",
+    ".ai-org/artifacts/WI-0136/risk-review.md",
+    ".ai-org/artifacts/WI-0136/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-report.md",
+    ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-run.json",
+    ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-analysis.json",
+    "EVID-20260903T144912Z-292F2426",
+    "EVID-20260903T232923Z-A114E9C1",
+    ".ai-org/artifacts/WI-0136/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0136/representative-main-v16-report.md",
+    ".ai-org/artifacts/WI-0136/representative-main-v16-findings.md",
+    ".ai-org/artifacts/WI-0136/handoff-006-independent_qa-to-release_manager.md",
+    "EVID-20260903T233315Z-05887961",
+    ".ai-org/artifacts/WI-0136/representative-main-v16-independent-qa.md"
+  ],
+  "unresolved": [],
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "HEAD",
+      "artifact": ".ai-org/artifacts/WI-0136/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-03T10:48:36.179Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "HEAD",
+      "artifact": ".ai-org/artifacts/WI-0136/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-03T10:49:49.384Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "HEAD",
+      "artifact": ".ai-org/artifacts/WI-0136/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-03T10:51:58.060Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "f76d2e7be336e96c1e89a5c9b0d06fb6ab6ec0a9",
+      "artifact": ".ai-org/artifacts/WI-0136/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-03T14:49:18.375Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "6a7abb6c3e86e78c3e638a35d6e1f9d28843adda",
+      "artifact": ".ai-org/artifacts/WI-0136/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-03T23:29:59.390Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "6a7abb6c3e86e78c3e638a35d6e1f9d28843adda",
+      "artifact": ".ai-org/artifacts/WI-0136/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-03T23:33:31.628Z"
+    }
+  ],
+  "developer_candidate_revision": "f76d2e7be336e96c1e89a5c9b0d06fb6ab6ec0a9"
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": "temple.context-model-diagnostic-stopped-run/v6",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "74f581c82408340462f1c65ef6a0666847c40ac4750303d08c5adb60ee6c153f",
+  "started_at": "2026-09-03T13:40:41.204Z",
+  "stopped_at": "2026-09-03T13:40:45.128Z",
+  "observed_condition_count": 0,
+  "completed_condition_count": 0,
+  "censored_condition_count": 0,
+  "stopped_condition_count": 0,
+  "observed_conditions": [],
+  "completed_conditions": [],
+  "censored_conditions": [],
+  "stopped_conditions": [],
+  "candidate_operational_tokens": 0,
+  "reason": "context-terra-routed:provider-invalid-output-schema:provider rejected the structured-output schema before generation",
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}

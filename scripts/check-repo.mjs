@@ -78,8 +78,8 @@ check(
 );
 for (const [file, schemaId] of [
   ["capability-registry.schema.json", "temple.capability-registry/v1"],
-  ["context-capsule.schema.json", "temple.context-capsule/v1"],
-  ["context-map.schema.json", "temple.context-map/v1"],
+  ["context-capsule.schema.json", "temple.context-capsule/v2"],
+  ["context-map.schema.json", "temple.context-map/v2"],
   ["retrieval-provider.schema.json", "temple.retrieval-provider/v1"],
   ["collaboration.schema.json", "temple.collaboration/v2"],
   ["parallel-plan.schema.json", "temple.parallel-plan/v1"],

@@ -22,7 +22,8 @@
   ],
   "rules": [
     { "id": "mechanical-low-risk", "match": { "task_kinds": ["mechanical"], "lifecycle_stages": ["*"], "risk_classes": ["low"] }, "preference_order": ["mechanical-fast", "lightweight-quality", "standard"] },
-    { "id": "bounded-quality", "match": { "task_kinds": ["bounded"], "lifecycle_stages": ["*"], "risk_classes": ["low", "standard"] }, "preference_order": ["lightweight-quality", "standard"] },
+    { "id": "explicit-bounded-delivery", "match": { "task_kinds": ["bounded"], "lifecycle_stages": ["*"], "risk_classes": ["low", "standard"] }, "preference_order": ["standard", "lightweight-quality"] },
+    { "id": "semantic-ambiguity-escalation", "match": { "task_kinds": ["semantic-ambiguity", "invariant-sensitive"], "lifecycle_stages": ["*"], "risk_classes": ["low", "standard"] }, "preference_order": ["lightweight-quality", "standard"] },
     { "id": "ordinary-delivery", "match": { "task_kinds": ["implementation", "diagnosis", "documentation"], "lifecycle_stages": ["*"], "risk_classes": ["low", "standard"] }, "preference_order": ["standard", "lightweight-quality"] },
     { "id": "consequential-work", "match": { "task_kinds": ["planning", "architecture", "security", "migration", "independent-qa"], "lifecycle_stages": ["*"], "risk_classes": ["high", "critical"] }, "preference_order": ["critical-planning"] }
   ],

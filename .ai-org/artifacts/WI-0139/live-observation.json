@@ -1,0 +1,316 @@
+{
+  "schema_version": "temple.context-capsule-ablation-observation/v2",
+  "work_item_id": "WI-0139",
+  "protocol_sha256": "ef5c9608f83fb7a70793f64d400f0c2434a8c1f1ccf8f37a7cbea9dc665ea81b",
+  "kind": "live-provider-run",
+  "status": "completed-with-censored-condition",
+  "started_at": "2026-09-04T02:01:02.375Z",
+  "completed_at": "2026-09-04T02:04:06.910Z",
+  "conditions": [
+    {
+      "id": "single-stage-aware",
+      "shape": "single-repository",
+      "strategy": "stage-aware",
+      "started_at": "2026-09-04T02:01:02.375Z",
+      "completed_at": "2026-09-04T02:01:37.405Z",
+      "elapsed_ms": 35030,
+      "turn_elapsed_ms": 34905,
+      "time_to_first_activity_ms": 2892,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "acknowledged_configured_reasoning_effort": "medium",
+      "effective_turn_reasoning_effort": null,
+      "reasoning_effort_evidence_kind": "requested-and-thread-configured-not-per-turn-execution-telemetry",
+      "usage": {
+        "input_tokens": 126256,
+        "cached_input_tokens": 86784,
+        "output_tokens": 612,
+        "reasoning_output_tokens": 122,
+        "total_tokens": 126868
+      },
+      "operational_tokens": 40084,
+      "tool_activity": {
+        "command_items": 6,
+        "command_actions": 6,
+        "temple_md_reads": 0,
+        "context_package_reads": 1,
+        "reported_output_bytes": 7163,
+        "item_types": {
+          "userMessage": 1,
+          "reasoning": 5,
+          "commandExecution": 6,
+          "agentMessage": 1
+        }
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "model_generation_performed": true,
+      "status": "censored",
+      "stop_scope": "condition",
+      "stop_reason": "condition-operational-token-limit",
+      "completion": null,
+      "objective": null
+    },
+    {
+      "id": "multi-legacy-expanded",
+      "shape": "coordinator-multi-repository",
+      "strategy": "legacy-expanded",
+      "started_at": "2026-09-04T02:01:37.477Z",
+      "completed_at": "2026-09-04T02:02:33.863Z",
+      "elapsed_ms": 56386,
+      "turn_elapsed_ms": 56214,
+      "time_to_first_activity_ms": 3198,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "acknowledged_configured_reasoning_effort": "medium",
+      "effective_turn_reasoning_effort": null,
+      "reasoning_effort_evidence_kind": "requested-and-thread-configured-not-per-turn-execution-telemetry",
+      "usage": {
+        "input_tokens": 211172,
+        "cached_input_tokens": 184832,
+        "output_tokens": 943,
+        "reasoning_output_tokens": 173,
+        "total_tokens": 212115
+      },
+      "operational_tokens": 27283,
+      "tool_activity": {
+        "command_items": 10,
+        "command_actions": 10,
+        "temple_md_reads": 0,
+        "context_package_reads": 1,
+        "reported_output_bytes": 11456,
+        "item_types": {
+          "userMessage": 1,
+          "reasoning": 7,
+          "commandExecution": 10,
+          "agentMessage": 1
+        }
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "model_generation_performed": true,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "contract_id": "OrderPlaced/v2",
+        "compatibility_policy_id": "COMPAT-V1-CONSUMERS",
+        "component_revisions": {
+          "gateway": "eb0c032c581455541aca78a072b7b1af36f2b9d5",
+          "catalog": "79fcd47e44b93e711422e382ce06accc49afe6ad",
+          "orders": "283b0aa98218aab2adb06c181d3777a37e4664b8",
+          "notifications": "c05978cf227857fccd481d0d94f1b25ce329ca34"
+        },
+        "completed_slice_ids": [
+          "orders-catalog",
+          "notifications",
+          "gateway"
+        ],
+        "unresolved_risk_id": "RISK-COORDINATOR-PERSISTENCE",
+        "authority_owner_id": "coordinator",
+        "safe_next_action_id": "ACTION-BOUNDED-INTEGRATION-TEST"
+      },
+      "objective": {
+        "pass": true,
+        "schema_pass": true,
+        "schema_errors": [],
+        "typed_fact_pass": true,
+        "typed_fact_errors": {},
+        "fields": [
+          {
+            "id": "contract_id",
+            "pass": true
+          },
+          {
+            "id": "compatibility_policy_id",
+            "pass": true
+          },
+          {
+            "id": "component_revisions",
+            "pass": true
+          },
+          {
+            "id": "completed_slice_ids",
+            "pass": true
+          },
+          {
+            "id": "unresolved_risk_id",
+            "pass": true
+          },
+          {
+            "id": "authority_owner_id",
+            "pass": true
+          },
+          {
+            "id": "safe_next_action_id",
+            "pass": true
+          }
+        ],
+        "passed_fields": 7,
+        "total_fields": 7
+      }
+    },
+    {
+      "id": "single-legacy-expanded",
+      "shape": "single-repository",
+      "strategy": "legacy-expanded",
+      "started_at": "2026-09-04T02:02:34.069Z",
+      "completed_at": "2026-09-04T02:03:05.734Z",
+      "elapsed_ms": 31665,
+      "turn_elapsed_ms": 31487,
+      "time_to_first_activity_ms": 4257,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "acknowledged_configured_reasoning_effort": "medium",
+      "effective_turn_reasoning_effort": null,
+      "reasoning_effort_evidence_kind": "requested-and-thread-configured-not-per-turn-execution-telemetry",
+      "usage": {
+        "input_tokens": 90434,
+        "cached_input_tokens": 50432,
+        "output_tokens": 458,
+        "reasoning_output_tokens": 138,
+        "total_tokens": 90892
+      },
+      "operational_tokens": 40460,
+      "tool_activity": {
+        "command_items": 5,
+        "command_actions": 5,
+        "temple_md_reads": 0,
+        "context_package_reads": 1,
+        "reported_output_bytes": 7415,
+        "item_types": {
+          "userMessage": 1,
+          "reasoning": 5,
+          "commandExecution": 5
+        }
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "model_generation_performed": true,
+      "status": "censored",
+      "stop_scope": "condition",
+      "stop_reason": "condition-operational-token-limit",
+      "completion": null,
+      "objective": null
+    },
+    {
+      "id": "multi-stage-aware",
+      "shape": "coordinator-multi-repository",
+      "strategy": "stage-aware",
+      "started_at": "2026-09-04T02:03:05.807Z",
+      "completed_at": "2026-09-04T02:04:06.698Z",
+      "elapsed_ms": 60891,
+      "turn_elapsed_ms": 60718,
+      "time_to_first_activity_ms": 3101,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_reasoning_effort": "medium",
+      "acknowledged_configured_reasoning_effort": "medium",
+      "effective_turn_reasoning_effort": null,
+      "reasoning_effort_evidence_kind": "requested-and-thread-configured-not-per-turn-execution-telemetry",
+      "usage": {
+        "input_tokens": 208452,
+        "cached_input_tokens": 180736,
+        "output_tokens": 1308,
+        "reasoning_output_tokens": 96,
+        "total_tokens": 209760
+      },
+      "operational_tokens": 29024,
+      "tool_activity": {
+        "command_items": 10,
+        "command_actions": 10,
+        "temple_md_reads": 0,
+        "context_package_reads": 1,
+        "reported_output_bytes": 10505,
+        "item_types": {
+          "userMessage": 1,
+          "reasoning": 3,
+          "commandExecution": 10,
+          "agentMessage": 1
+        }
+      },
+      "retry_count": 0,
+      "fallback_count": 0,
+      "raw_prompt_retained": false,
+      "raw_response_retained": false,
+      "hidden_reasoning_retained": false,
+      "model_generation_performed": true,
+      "status": "completed",
+      "stop_scope": null,
+      "stop_reason": null,
+      "completion": {
+        "contract_id": "OrderPlaced/v2",
+        "compatibility_policy_id": "COMPAT-V1-CONSUMERS",
+        "component_revisions": {
+          "gateway": "eb0c032c581455541aca78a072b7b1af36f2b9d5",
+          "catalog": "79fcd47e44b93e711422e382ce06accc49afe6ad",
+          "orders": "283b0aa98218aab2adb06c181d3777a37e4664b8",
+          "notifications": "c05978cf227857fccd481d0d94f1b25ce329ca34"
+        },
+        "completed_slice_ids": [
+          "orders-catalog",
+          "notifications",
+          "gateway"
+        ],
+        "unresolved_risk_id": "RISK-COORDINATOR-PERSISTENCE",
+        "authority_owner_id": "coordinator",
+        "safe_next_action_id": "ACTION-BOUNDED-INTEGRATION-TEST"
+      },
+      "objective": {
+        "pass": true,
+        "schema_pass": true,
+        "schema_errors": [],
+        "typed_fact_pass": true,
+        "typed_fact_errors": {},
+        "fields": [
+          {
+            "id": "contract_id",
+            "pass": true
+          },
+          {
+            "id": "compatibility_policy_id",
+            "pass": true
+          },
+          {
+            "id": "component_revisions",
+            "pass": true
+          },
+          {
+            "id": "completed_slice_ids",
+            "pass": true
+          },
+          {
+            "id": "unresolved_risk_id",
+            "pass": true
+          },
+          {
+            "id": "authority_owner_id",
+            "pass": true
+          },
+          {
+            "id": "safe_next_action_id",
+            "pass": true
+          }
+        ],
+        "passed_fields": 7,
+        "total_fields": 7
+      }
+    }
+  ],
+  "total_operational_tokens": 136851,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}

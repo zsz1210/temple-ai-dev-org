@@ -1,0 +1,64 @@
+{
+  "schema_version": "temple.wave-5b-protocol/v1",
+  "protocol_id": "wi-0130-adaptive-route-comparison",
+  "fixture_root": ".ai-org/artifacts/WI-0106/fixtures",
+  "fixture_source_revision": "87d7e68aaed0af6559697a690cf623ac158ab283",
+  "temple_framework_revision": "8b3dc75c839bb8345d79ec000b5cfe21dabae091",
+  "launch_instruction": {
+    "path": "launch-instruction.md",
+    "sha256": "f5b60dfe7525b64f1b9fac35fdf836314a6c8729136c1a850b3a43e47b0e24eb"
+  },
+  "model": {
+    "provider_id": "codex-local",
+    "requested_model": "gpt-5.6-luna",
+    "requested_reasoning_effort": "max",
+    "sandbox": "workspace-write",
+    "approval_policy": "never",
+    "network_access": false,
+    "candidate_turns": 2,
+    "evaluator_turns": 0,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "concurrency": 1
+  },
+  "limits": {
+    "max_turns": 2,
+    "max_launch_attempts": 2,
+    "max_retries": 0,
+    "max_concurrency": 1,
+    "per_turn_warning_tokens": 55000,
+    "per_turn_hard_tokens": 70000,
+    "aggregate_warning_tokens": 110000,
+    "aggregate_hard_tokens": 140000,
+    "per_turn_warning_ms": 480000,
+    "per_turn_hard_ms": 600000,
+    "program_warning_ms": 900000,
+    "program_hard_ms": 1350000,
+    "per_repository_warning_bytes": 67108864,
+    "per_repository_hard_bytes": 134217728,
+    "aggregate_warning_bytes": 134217728,
+    "aggregate_hard_bytes": 268435456
+  },
+  "tool_policy": {
+    "path": "tool-policy.json",
+    "sha256": "c249684d7a24776c4b02639ac2fae5bdd027dd38e6f2ab017b48302db773e126"
+  },
+  "conditions": [
+    { "id": "temple", "display_id": "temple-adaptive" }
+  ],
+  "cases": [
+    {
+      "id": "idempotent-command",
+      "bundle_sha256": "d1e305e558d889b04a94bb3ece31e4575c064a41bde49af197170a3a885f2bfa",
+      "condition_order": ["temple"],
+      "temple_init_path": "temple-init-idempotent-command.json"
+    },
+    {
+      "id": "compatible-event-evolution",
+      "bundle_sha256": "84126afb5d4d82ebb479cc1a9ded3c1cbefabb13fddd845b0de7d6441a8e57d1",
+      "condition_order": ["temple"],
+      "temple_init_path": "temple-init-compatible-event-evolution.json"
+    }
+  ],
+  "claims": { "diagnostic_only": true, "automatic_routing": false }
+}

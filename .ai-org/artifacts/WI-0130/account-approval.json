@@ -1,0 +1,20 @@
+{
+  "schema_version": "temple.effectiveness-pilot-approval/v1",
+  "work_item_id": "WI-0130",
+  "approved_by": "repository-owner",
+  "approved_at": "2026-09-03T06:48:11Z",
+  "automatic_credit_reload_disabled": true,
+  "purchased_credits_authorized": false,
+  "usage_reset_authorized": false,
+  "included_pro_allowance_accepted": true,
+  "approved_candidate_turns": 6,
+  "approved_evaluator_turns": 1,
+  "approved_candidate_operational_tokens": 420000,
+  "approved_evaluator_operational_tokens": 100000,
+  "approved_combined_operational_tokens": 520000,
+  "approved_program_wall_clock_ms": 4500000,
+  "max_retries": 0,
+  "fallback_allowed": false,
+  "network_access": false,
+  "scope": "Four GPT-5.6 Terra medium and two GPT-5.6 Luna max candidate turns, followed by one GPT-5.6 Sol xhigh blind evaluator turn. Included Pro allowance only; no purchased Credits, automatic reload, reset, retry, fallback, network access, deployment, publication, or public release."
+}

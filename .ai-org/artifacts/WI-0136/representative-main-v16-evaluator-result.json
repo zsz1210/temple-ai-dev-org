@@ -1,0 +1,202 @@
+{
+  "schema_version": "temple.representative-microservice-evaluator-result/v1",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c",
+  "continuation_protocol_sha256": "3247ab0cfcfa8664efea67cd751cae51cbaf9d0729276f03d250010e81ab9eb5",
+  "source_candidate_run_sha256": "c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165",
+  "completed_at": "2026-09-03T23:23:21.945Z",
+  "status": "completed",
+  "scores_frozen_before_mapping_unseal": true,
+  "evaluator": {
+    "id": "blind-evaluator-continuation-v16",
+    "stage": "evaluator",
+    "started_at": "2026-09-03T23:22:44.223Z",
+    "completed_at": "2026-09-03T23:23:21.917Z",
+    "elapsed_ms": 37693,
+    "session_setup_ms": 129,
+    "turn_elapsed_ms": 37564,
+    "time_to_first_activity_ms": 3829,
+    "time_to_first_command_ms": null,
+    "effective_output_tokens_per_second": 46.161,
+    "thread_id": "01a06994-f298-7fa2-a3f5-88e9684bdf87",
+    "turn_id": "01a06994-f301-7670-bb9d-6b82b35ecd3f",
+    "requested_model": "gpt-5.6-sol",
+    "acknowledged_model": "gpt-5.6-sol",
+    "requested_reasoning_effort": "xhigh",
+    "observed_thread_reasoning_effort": "high",
+    "effective_turn_reasoning_effort": null,
+    "usage": {
+      "input_tokens": 19126,
+      "cached_input_tokens": 0,
+      "output_tokens": 1734,
+      "reasoning_output_tokens": 1111,
+      "total_tokens": 20860
+    },
+    "operational_tokens": 20860,
+    "prompt_metrics": {
+      "components": {
+        "base_instructions": {
+          "bytes": 168,
+          "characters": 168,
+          "sha256": "1047978338bd9a90e27e7c49180e32a5a3ea2346456155544ac4dd442321c6e5"
+        },
+        "developer_instructions": {
+          "bytes": 1408,
+          "characters": 1408,
+          "sha256": "05264f4e8fef83ba39be450ff0a8e6fe586a9f0788818b711a227e4938dd55d4"
+        },
+        "user_input": {
+          "bytes": 11459,
+          "characters": 11457,
+          "sha256": "33ee729ebd9464d6f243bf79b43a51fb57ce9d48109fab0c21dc738a8eb1e613"
+        },
+        "output_schema": {
+          "bytes": 958,
+          "characters": 958,
+          "sha256": "ea30c4177b729827a8d33e8cb13c47c5e4f94e584757e38fc0b6aef738dc1fe7"
+        }
+      },
+      "explicit_bytes": 13993,
+      "raw_prompt_retained": false
+    },
+    "tool_activity": {
+      "command_items": 0,
+      "command_actions": 0,
+      "action_types": {},
+      "temple_md_attempts": 0,
+      "context_resolve_attempts": 0,
+      "temple_md_reads": 0,
+      "context_resolve_calls": 0,
+      "context_sequence": [],
+      "reported_output_bytes": 0,
+      "provider_cwd_diagnostics": {},
+      "item_types": {
+        "userMessage": 1,
+        "reasoning": 3,
+        "agentMessage": 1
+      }
+    },
+    "retry_count": 0,
+    "fallback_count": 0,
+    "raw_prompt_retained": false,
+    "raw_response_retained": false,
+    "hidden_reasoning_retained": false,
+    "status": "completed",
+    "stop_scope": null,
+    "stop_reason": null
+  },
+  "frozen_scores": {
+    "schema_version": "temple.representative-microservice-frozen-scores/v1",
+    "work_item_id": "WI-0136",
+    "protocol_sha256": "ffc48213ef3704418cb031a1fdf0621fb79763df259c9bc290d340224a4ec06c",
+    "continuation_protocol_sha256": "3247ab0cfcfa8664efea67cd751cae51cbaf9d0729276f03d250010e81ab9eb5",
+    "source_candidate_run_sha256": "c78c1ab4753e9aca3c095389cafe19fead5cb98328a4faf23adba71ca0303165",
+    "frozen_at": "2026-09-03T23:23:21.943Z",
+    "packages": [
+      {
+        "package_id": "package-60b8212567fe0e47",
+        "dimensions": [
+          {
+            "id": "contract",
+            "score": 1,
+            "rationale": "Defines one explicit OrderPlaced/v2 envelope while Notifications retains v1 compatibility."
+          },
+          {
+            "id": "rollout",
+            "score": 1,
+            "rationale": "Prepares Notifications before v2 publication and requires Catalog availability before Orders enables v2."
+          },
+          {
+            "id": "boundaries",
+            "score": 1,
+            "rationale": "Changes are confined to declared service repositories, with no reported boundary violations or shared-file conflicts."
+          },
+          {
+            "id": "exact-revisions",
+            "score": 1,
+            "rationale": "Provides full revisions for gateway, catalog, orders, and notifications."
+          },
+          {
+            "id": "authority",
+            "score": 1,
+            "rationale": "Names coordinator/TASK.md as the governing contract rather than chat or generated status."
+          },
+          {
+            "id": "current-state",
+            "score": 1,
+            "rationale": "Identifies all completed slices and explicitly records remaining integration and Notifications-coverage gaps."
+          },
+          {
+            "id": "safe-next-action",
+            "score": 1,
+            "rationale": "Selects only the bounded Coordinator integration test and avoids deployment, publication, or follow-on implementation."
+          },
+          {
+            "id": "evidence-quality",
+            "score": 1,
+            "rationale": "Supports claims with passing objective tests, exact revisions, changed paths, clean trees, and retained handoffs."
+          }
+        ],
+        "critical_failure": null,
+        "summary": "Passes all eight dimensions; every objective test, including the held-out test, passed and no critical failure is reported."
+      },
+      {
+        "package_id": "package-836fb4e9fe89a6e4",
+        "dimensions": [
+          {
+            "id": "contract",
+            "score": 1,
+            "rationale": "Defines the exact OrderPlaced/v2 contract and explicitly preserves valid flat v1 consumption."
+          },
+          {
+            "id": "rollout",
+            "score": 1,
+            "rationale": "Prepares Notifications and Gateway before producer enablement, with Catalog made available before Orders publishes v2."
+          },
+          {
+            "id": "boundaries",
+            "score": 1,
+            "rationale": "Implementation paths remain within declared repositories, and no boundary violation or concurrent shared-file change is reported."
+          },
+          {
+            "id": "exact-revisions",
+            "score": 1,
+            "rationale": "Provides full recovered revisions for all four service repositories."
+          },
+          {
+            "id": "authority",
+            "score": 1,
+            "rationale": "Identifies coordinator/TASK.md and the frozen design record as governing contract sources."
+          },
+          {
+            "id": "current-state",
+            "score": 1,
+            "rationale": "Reports all three slices complete while retaining explicit QA, coverage, and persistence limitations."
+          },
+          {
+            "id": "safe-next-action",
+            "score": 1,
+            "rationale": "Limits the next action to QA review, assigned tests, and evidence recording without lifecycle mutation or deployment."
+          },
+          {
+            "id": "evidence-quality",
+            "score": 1,
+            "rationale": "Ties completion to passing service and integration tests, exact revisions, clean trees, and retained handoff evidence."
+          }
+        ],
+        "critical_failure": null,
+        "summary": "Passes all eight dimensions; every objective test, including the held-out test, passed and no critical failure is reported."
+      }
+    ],
+    "summary": "Both arm-neutral packages satisfy the frozen binary rubric with no critical failures.",
+    "mapping_unsealed_after_freeze": true
+  },
+  "arm_mapping": {
+    "package-60b8212567fe0e47": "minimal-responsible",
+    "package-836fb4e9fe89a6e4": "temple"
+  },
+  "combined_operational_tokens": 382110,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}

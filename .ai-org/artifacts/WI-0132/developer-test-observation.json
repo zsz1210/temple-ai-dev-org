@@ -1,0 +1,26 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "b7263e5cc64a1f3c5e93a32d2ae10a356074227d",
+  "command": ["npm", "run", "verify"],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-03T08:31:29.000Z",
+  "completed_at": "2026-09-03T08:32:36.000Z",
+  "summary": {
+    "tests": 350,
+    "passed": 350,
+    "failed": 0,
+    "targeted_tests": 8,
+    "candidate_repositories": 8,
+    "native_lean_candidates": 6,
+    "provider_handshake": "pass",
+    "offline_preflight": "pass",
+    "generation_ready": false,
+    "remaining_blockers": ["exact-owner-approval-required"]
+  },
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0132/developer-report.md",
+    ".ai-org/artifacts/WI-0132/provider-handshake-observation.json",
+    ".ai-org/artifacts/WI-0132/live-protocol.json"
+  ]
+}

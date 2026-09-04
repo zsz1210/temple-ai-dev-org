@@ -1,0 +1,14 @@
+{
+  "schema_version": "temple.context-model-diagnostic-stopped-run/v3",
+  "work_item_id": "WI-0136",
+  "protocol_sha256": "c5e0b069880a079de6fd8030fda3818cee92c809bd834999db2a04ca32be147a",
+  "started_at": "2026-09-03T12:49:23.845Z",
+  "stopped_at": "2026-09-03T12:51:46.759Z",
+  "completed_condition_count": 0,
+  "completed_conditions": [],
+  "candidate_operational_tokens": 80621,
+  "reason": "context-terra-full-load:integration-operational-token-limit",
+  "retry_count": 0,
+  "fallback_count": 0,
+  "model_generation_performed": true
+}

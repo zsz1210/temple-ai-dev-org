@@ -5,14 +5,14 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 129 total, 2 active
+- Work items: 142 total, 5 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
 - Context routes: 0 active (repository-deterministic, semantic=false)
-- Engineering learning: 3 Lessons, 1 Practices
+- Engineering learning: 4 Lessons, 1 Practices
 - Learning revalidation: 0 due, 0 contradicted
 - Skill promotion: 0 candidate(s), 0 approval pending, 0 authoring Work Item(s)
 - Specifications: 2 indexed, 2 approved (hybrid)
@@ -40,7 +40,7 @@
 - Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 4 / 1
+- Active / sequential / blocked: 0 / 1 / 1
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -177,6 +177,19 @@
 | WI-0127 | Audit the Console-free core operating path | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2edf130b` | 0 | 20 | 0 |
 | WI-0128 | Make the product roadmap and core path human-readable | cancelled | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 | WI-0129 | Make the product roadmap and core path human-readable | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3e5178ba` | 0 | 18 | 0 |
+| WI-0130 | Run the first three-arm Temple effectiveness pilot | concluded | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `33b6ed3b` | 0 | 16 | 0 |
+| WI-0131 | Correct the Lean routing effectiveness experiment | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c040c0be` | 0 | 16 | 0 |
+| WI-0132 | Run corrected Lean routing effectiveness comparison | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fd4bbe88` | 0 | 21 | 0 |
+| WI-0133 | Reduce Lean context overhead and harden effectiveness measurement | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1df92590` | 0 | 20 | 0 |
+| WI-0134 | Repair invalid historical evidence records | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ad1f06a5` | 0 | 18 | 0 |
+| WI-0135 | Run optimized Terra process confirmation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `00ea3a47` | 0 | 24 | 0 |
+| WI-0136 | Execute representative multi-Agent microservice comparison | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f76d2e7b` | 0 | 20 | 0 |
+| WI-0137 | Make context routing stage-aware and measurement-ready | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `94d8ceb9` | 0 | 16 | 0 |
+| WI-0138 | Measure stage-aware Context Capsule effectiveness | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `87d0f8e2` | 0 | 16 | 1 |
+| WI-0139 | Repair Context Capsule evaluation contract | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f787f8a` | 0 | 17 | 0 |
+| WI-0140 | Measure and enforce Context Capsule route adherence | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1216896f` | 0 | 16 | 0 |
+| WI-0141 | Run the live Context Capsule route-adherence comparison | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e0d7f37d` | 0 | 16 | 0 |
+| WI-0142 | Harden reusable model and process evaluation controls | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f6a007da` | 0 | 18 | 0 |
 
 ## Codex task registry
 
@@ -245,7 +258,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 28
+- Team-visible Work Items: 33
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -301,7 +314,7 @@
 
 ## Engineering learning
 
-- Candidate: 4
+- Candidate: 5
 - Validated: 0
 - Active: 0
 - Deprecated: 0
@@ -318,14 +331,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-03T06:14:33.661Z | work_item_closed | WI-0129 | agent-mog |
-| 2026-09-03T06:14:33.661Z | release_gate_completed | WI-0129 | agent-mog |
-| 2026-09-03T06:14:19.890Z | work_item_claimed | WI-0129 | human |
-| 2026-09-03T06:14:19.643Z | work_item_transitioned | WI-0129 | agent-lulu |
-| 2026-09-03T06:14:13.612Z | work_item_claim_released | WI-0129 | human |
-| 2026-09-03T06:14:13.343Z | handoff_created | WI-0129 | agent-lulu |
-| 2026-09-03T06:12:29.480Z | work_item_claimed | WI-0129 | human |
-| 2026-09-03T06:12:29.227Z | work_item_transitioned | WI-0129 | agent-lulu |
+| 2026-09-04T04:14:41.909Z | work_item_closed | WI-0142 | agent-mog |
+| 2026-09-04T04:14:41.909Z | release_gate_completed | WI-0142 | agent-mog |
+| 2026-09-04T04:10:12.780Z | work_item_transitioned | WI-0142 | agent-lulu |
+| 2026-09-04T04:10:12.528Z | work_item_claim_released | WI-0142 | principal-owner |
+| 2026-09-04T04:10:12.227Z | handoff_created | WI-0142 | agent-lulu |
+| 2026-09-04T04:09:59.922Z | evidence_recorded | WI-0142 | human |
+| 2026-09-04T04:07:00.424Z | work_item_claimed | WI-0142 | principal-owner |
+| 2026-09-04T04:05:20.440Z | work_item_transitioned | WI-0142 | agent-lulu |
 
 ## Assignments
 

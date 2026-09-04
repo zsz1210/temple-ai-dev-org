@@ -1,0 +1,31 @@
+{
+  "schema_version": "temple.context-capsule-ablation-approval/v2",
+  "work_item_id": "WI-0139",
+  "protocol_sha256": "ef5c9608f83fb7a70793f64d400f0c2434a8c1f1ccf8f37a7cbea9dc665ea81b",
+  "approved": false,
+  "authorization_source": null,
+  "approved_conditions": [
+    "single-stage-aware",
+    "multi-legacy-expanded",
+    "single-legacy-expanded",
+    "multi-stage-aware"
+  ],
+  "approved_candidate_turns": 4,
+  "approved_model": "gpt-5.6-terra",
+  "approved_reasoning_effort": "medium",
+  "approved_condition_operational_token_limits": {
+    "single-stage-aware": 40000,
+    "multi-legacy-expanded": 80000,
+    "single-legacy-expanded": 40000,
+    "multi-stage-aware": 80000
+  },
+  "approved_aggregate_operational_tokens": 240000,
+  "approved_program_wall_clock_ms": 2400000,
+  "pro_included_allowance_only": true,
+  "credits_purchase_authorized": false,
+  "automatic_refill_authorized": false,
+  "usage_reset_authorized": false,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "approved_at": null
+}

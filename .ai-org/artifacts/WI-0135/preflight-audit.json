@@ -1,0 +1,33 @@
+{
+  "schema_version": "temple.effectiveness-preflight-audit/v1",
+  "work_item_id": "WI-0135",
+  "observed_at": "2026-09-03T10:23:23.194Z",
+  "protocol_sha256": "2e8b3053beed780c9851027382675b5aecea658aa4d7231d412e3ce96bcdf071",
+  "offline_pass": true,
+  "generation_ready": true,
+  "blockers": [],
+  "approval_accepted": true,
+  "provider_handshake": {
+    "pass": true,
+    "codex_cli_version": "codex-cli 0.151.0-alpha.7.2",
+    "schema_checks_passed": 10,
+    "schema_checks_failed": 0,
+    "required_model": "gpt-5.6-terra",
+    "required_reasoning_efforts": [
+      "medium",
+      "high"
+    ],
+    "model_available": true,
+    "model_generation_performed": false
+  },
+  "pre_generation_checks": {
+    "passed": 20,
+    "failed": 0,
+    "matched_product_inputs": true,
+    "clean_candidates": 4,
+    "native_lean_candidates": 2,
+    "route_resolution_offline": true
+  },
+  "source_lab_sha256": "d74f6098fa3eba2b47ef497ab6af955ca9ed16f22badff82a5b8f67123794cdf",
+  "raw_provider_content_retained": false
+}

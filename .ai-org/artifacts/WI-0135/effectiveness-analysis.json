@@ -1,0 +1,117 @@
+{
+  "schema_version": "temple.effectiveness-terra-ab-analysis/v1",
+  "work_item_id": "WI-0135",
+  "validity": {
+    "status": "diagnostic-complete",
+    "case_count": 2,
+    "candidate_count": 4,
+    "statistical_qualification": false,
+    "generalizable": false
+  },
+  "conditions": {
+    "conventional-terra": {
+      "candidates": 2,
+      "objective_passes": 2,
+      "objective_pass": true,
+      "mean_blind_score": 100,
+      "operational_tokens": 62825,
+      "gross_tokens": 517993,
+      "latency_ms": 167011,
+      "mean_context_utf8_bytes": 2166
+    },
+    "temple-terra-optimized": {
+      "candidates": 2,
+      "objective_passes": 2,
+      "objective_pass": true,
+      "mean_blind_score": 100,
+      "operational_tokens": 63930,
+      "gross_tokens": 469946,
+      "latency_ms": 133990,
+      "mean_context_utf8_bytes": 9339
+    }
+  },
+  "comparison": {
+    "id": "optimized-process-effect",
+    "baseline": "conventional-terra",
+    "next": "temple-terra-optimized",
+    "attribution": "process",
+    "pairs": [
+      {
+        "case_id": "idempotent-command",
+        "comparison_id": "optimized-process-effect",
+        "attribution": "process",
+        "baseline_condition": "conventional-terra",
+        "next_condition": "temple-terra-optimized",
+        "objective_direction": "both-pass",
+        "blind_available": true,
+        "quality_delta_points": 0,
+        "quality_non_inferior": true,
+        "operational_token_delta": 420,
+        "operational_token_delta_percent": 1.3186,
+        "latency_delta_ms": -17675,
+        "latency_delta_percent": -21.3075,
+        "context_byte_delta": 7165,
+        "qualified": true
+      },
+      {
+        "case_id": "compatible-event-evolution",
+        "comparison_id": "optimized-process-effect",
+        "attribution": "process",
+        "baseline_condition": "conventional-terra",
+        "next_condition": "temple-terra-optimized",
+        "objective_direction": "both-pass",
+        "blind_available": true,
+        "quality_delta_points": 0,
+        "quality_non_inferior": true,
+        "operational_token_delta": 685,
+        "operational_token_delta_percent": 2.2115,
+        "latency_delta_ms": -15346,
+        "latency_delta_percent": -18.2562,
+        "context_byte_delta": 7181,
+        "qualified": true
+      }
+    ],
+    "deltas": {
+      "blind_score_points": 0,
+      "operational_tokens": 1105,
+      "operational_token_percent": 1.7589,
+      "latency_ms": -33021,
+      "latency_percent": -19.7718,
+      "mean_context_utf8_bytes": 7173,
+      "context_percent": 331.1634
+    },
+    "decision": {
+      "schema_version": "temple.effectiveness-decision/v3",
+      "classification": "neutral",
+      "checks": {
+        "objective_nonregressing": true,
+        "both_objectively_correct": true,
+        "quality_delta_points": 0,
+        "quality_non_inferior": true,
+        "operational_token_improvement": false,
+        "latency_improvement": true
+      },
+      "action": "retain the current route and collect more matched evidence",
+      "authority": {
+        "routing_change_authorized": false,
+        "model_default_change_authorized": false,
+        "generalizable": false
+      }
+    }
+  },
+  "aggregate": {
+    "candidate_operational_tokens": 126755,
+    "evaluator_operational_tokens": 23227,
+    "combined_operational_tokens": 149982,
+    "retry_count": 0,
+    "fallback_count": 0
+  },
+  "claims": {
+    "matched_terra_process_confirmation": true,
+    "pure_model_effect_proven": false,
+    "temple_superiority_proven": false,
+    "automatic_routing_authorized": false,
+    "billed_cost_known": false
+  },
+  "source_lab_sha256": "8c28c7ac2cc8f3e7668b6f0e7e87f8215a94ae050ba88c343b2f05196d902109"
+}

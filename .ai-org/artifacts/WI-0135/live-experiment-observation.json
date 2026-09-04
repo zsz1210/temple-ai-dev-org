@@ -1,0 +1,191 @@
+{
+  "schema_version": "temple.effectiveness-terra-ab-observation/v1",
+  "work_item_id": "WI-0135",
+  "generated_at": "2026-09-03T10:28:40.645Z",
+  "protocol_sha256": "2e8b3053beed780c9851027382675b5aecea658aa4d7231d412e3ce96bcdf071",
+  "framework_revision": "9e2357ad38b17c3c664a52b330c225e727dc18fe",
+  "run": {
+    "started_at": "2026-09-03T10:23:23.195Z",
+    "completed_at": "2026-09-03T10:28:24.298Z",
+    "status": "candidate-matrix-completed",
+    "completed_candidates": 4,
+    "candidate_operational_tokens": 126755,
+    "retry_count": 0,
+    "fallback_count": 0
+  },
+  "candidates": [
+    {
+      "participant_id": "candidate-01",
+      "case_id": "idempotent-command",
+      "condition_id": "temple-terra-optimized",
+      "package_id": "pkg-3792f34567724f6e",
+      "public_tests": "pass",
+      "acceptance_tests": "pass",
+      "blind_score": 100,
+      "blind_decision": "pass",
+      "usage": {
+        "input_tokens": 229118,
+        "cached_input_tokens": 198400,
+        "output_tokens": 1553,
+        "reasoning_output_tokens": 280,
+        "operational_tokens": 32271,
+        "gross_tokens": 230671
+      },
+      "latency_ms": 65277,
+      "context_utf8_bytes": 9316,
+      "context_profile_digest": "sha256:df52a6c427f80a4d29005c6644306ad84ae6578afbb1bc80d909a8a89e069543",
+      "changed_lines": 22,
+      "changed_paths": [
+        "src/command-store.mjs",
+        "test/public.test.mjs"
+      ],
+      "model": {
+        "requested_model": "gpt-5.6-terra",
+        "acknowledged_model": "gpt-5.6-terra",
+        "requested_reasoning_effort": "medium",
+        "observed_thread_reasoning_effort": "high",
+        "effective_turn_reasoning_effort": null,
+        "rerouted": false
+      }
+    },
+    {
+      "participant_id": "candidate-02",
+      "case_id": "idempotent-command",
+      "condition_id": "conventional-terra",
+      "package_id": "pkg-dcec9d022e1c70cc",
+      "public_tests": "pass",
+      "acceptance_tests": "pass",
+      "blind_score": 100,
+      "blind_decision": "pass",
+      "usage": {
+        "input_tokens": 255916,
+        "cached_input_tokens": 225536,
+        "output_tokens": 1471,
+        "reasoning_output_tokens": 136,
+        "operational_tokens": 31851,
+        "gross_tokens": 257387
+      },
+      "latency_ms": 82952,
+      "context_utf8_bytes": 2151,
+      "context_profile_digest": "sha256:7c6b4cdaf4e280006bec380ad50918d06ebde4e3ee8e7d48b18e8bd2befc3435",
+      "changed_lines": 23,
+      "changed_paths": [
+        "src/command-store.mjs",
+        "test/public.test.mjs"
+      ],
+      "model": {
+        "requested_model": "gpt-5.6-terra",
+        "acknowledged_model": "gpt-5.6-terra",
+        "requested_reasoning_effort": "medium",
+        "observed_thread_reasoning_effort": "high",
+        "effective_turn_reasoning_effort": null,
+        "rerouted": false
+      }
+    },
+    {
+      "participant_id": "candidate-03",
+      "case_id": "compatible-event-evolution",
+      "condition_id": "conventional-terra",
+      "package_id": "pkg-0746afbd30658b35",
+      "public_tests": "pass",
+      "acceptance_tests": "pass",
+      "blind_score": 100,
+      "blind_decision": "pass",
+      "usage": {
+        "input_tokens": 258601,
+        "cached_input_tokens": 229632,
+        "output_tokens": 2005,
+        "reasoning_output_tokens": 194,
+        "operational_tokens": 30974,
+        "gross_tokens": 260606
+      },
+      "latency_ms": 84059,
+      "context_utf8_bytes": 2181,
+      "context_profile_digest": "sha256:deae81557f33e65e79b4a73aa95772736f9bc4531adcb64545bfc352810e3d95",
+      "changed_lines": 51,
+      "changed_paths": [
+        "src/order-events.mjs",
+        "test/public.test.mjs"
+      ],
+      "model": {
+        "requested_model": "gpt-5.6-terra",
+        "acknowledged_model": "gpt-5.6-terra",
+        "requested_reasoning_effort": "medium",
+        "observed_thread_reasoning_effort": "high",
+        "effective_turn_reasoning_effort": null,
+        "rerouted": false
+      }
+    },
+    {
+      "participant_id": "candidate-04",
+      "case_id": "compatible-event-evolution",
+      "condition_id": "temple-terra-optimized",
+      "package_id": "pkg-b88bf8b1819e68db",
+      "public_tests": "pass",
+      "acceptance_tests": "pass",
+      "blind_score": 100,
+      "blind_decision": "pass",
+      "usage": {
+        "input_tokens": 237635,
+        "cached_input_tokens": 207616,
+        "output_tokens": 1640,
+        "reasoning_output_tokens": 93,
+        "operational_tokens": 31659,
+        "gross_tokens": 239275
+      },
+      "latency_ms": 68713,
+      "context_utf8_bytes": 9362,
+      "context_profile_digest": "sha256:14be05f20e59ee7b8ceb186411ac4a8ab6f8ae0a7cebaaef012b810c77e4d989",
+      "changed_lines": 32,
+      "changed_paths": [
+        "src/order-events.mjs",
+        "test/public.test.mjs"
+      ],
+      "model": {
+        "requested_model": "gpt-5.6-terra",
+        "acknowledged_model": "gpt-5.6-terra",
+        "requested_reasoning_effort": "medium",
+        "observed_thread_reasoning_effort": "high",
+        "effective_turn_reasoning_effort": null,
+        "rerouted": false
+      }
+    }
+  ],
+  "evaluator": {
+    "requested_model": "gpt-5.6-terra",
+    "acknowledged_model": "gpt-5.6-terra",
+    "requested_reasoning_effort": "high",
+    "observed_thread_reasoning_effort": "high",
+    "effective_turn_reasoning_effort": null,
+    "rerouted": false,
+    "scores_frozen_before_mapping_unseal": true,
+    "usage": {
+      "input_tokens": 22862,
+      "cached_input_tokens": 0,
+      "output_tokens": 365,
+      "reasoning_output_tokens": 61,
+      "operational_tokens": 23227,
+      "gross_tokens": 23227
+    }
+  },
+  "aggregate": {
+    "candidate_operational_tokens": 126755,
+    "evaluator_operational_tokens": 23227,
+    "combined_operational_tokens": 149982,
+    "approved_combined_operational_tokens": 209000,
+    "approved_budget_used_percent": 71.7617,
+    "retry_count": 0,
+    "fallback_count": 0,
+    "reroute_count": 0
+  },
+  "source_lab_sha256": {
+    "effectiveness_evidence": "969a2569f46cd71317093469f4dfea78517a1334fd1758b874c2c81ef1812a73",
+    "effectiveness_analysis": "8c28c7ac2cc8f3e7668b6f0e7e87f8215a94ae050ba88c343b2f05196d902109",
+    "quality_scores_frozen": "d37f8e1bdb40232243b15eb2d8f4e31a712bef3b04701b6b7ed41582f885a3b7"
+  },
+  "effective_turn_reasoning_effort_observed": false,
+  "billed_cost_known": false,
+  "raw_prompt_retained": false,
+  "raw_response_retained": false,
+  "hidden_reasoning_retained": false
+}

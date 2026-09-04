@@ -19879,6 +19879,3114 @@
         "dirty_scope": "outside-affected-scope",
         "affected_paths_dirty": []
       }
+    },
+    {
+      "id": "EVID-20260903T070838Z-903FABE9",
+      "work_item_id": "WI-0130",
+      "recorded_at": "2026-09-03T07:08:38.707Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": "2026-09-03T10:11:15.387Z",
+      "invalidated_by": "human",
+      "invalidation_reason": "The observation file was rewritten after scope revision 2ac73bc, so this unused developer record cannot prove the bytes it retained. Superseded by the later current quality evidence; historical artifacts remain unchanged.",
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0130 full repository verification",
+      "outcome": "pass",
+      "scope_revision": "2ac73bc1b2ed3d966114fd9be8b71995510d68ce",
+      "observed_at": "2026-09-03T07:06:31.000Z",
+      "summary": "All 339 repository tests passed at candidate 2ac73bc after the retained pilot report and protocol safeguards were added.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0130/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0130/developer-test-observation.json",
+          "sha256": "f446da84af71480ba7070d9f0c968eaf67f19347545a55e2c0c37ee7de70efd2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/developer-report.md",
+          "sha256": "648fd09ad492d847c76e69d5b09961cfaa9b8d0b7650ddc7c1b3016162608273"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/live-experiment-observation.json",
+          "sha256": "353316327fda87bedf54f1a5d93eb85a0060842c549359eac04428ab90bceb73"
+        },
+        {
+          "path": "docs/validation/temple-effectiveness-pilot-result.md",
+          "sha256": "3bf62a5ce8e352cf4c8136f900b68bade427806f95f0a646b3b30c82f7965859"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T07:05:23.000Z",
+        "invalidation": {
+          "replacement_evidence_id": "EVID-20260903T070940Z-0EA94917"
+        }
+      }
+    },
+    {
+      "id": "EVID-20260903T070838Z-CEC655BB",
+      "work_item_id": "WI-0130",
+      "recorded_at": "2026-09-03T07:08:38.909Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0130 bounded live pilot execution",
+      "outcome": "pass",
+      "scope_revision": "2ac73bc1b2ed3d966114fd9be8b71995510d68ce",
+      "observed_at": "2026-09-03T07:00:43.000Z",
+      "summary": "Six candidates and one blind evaluator completed within the approved envelope with no retries or fallback; the retained protocol audit marks the Standard-versus-Lean deviation.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0130/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0130/runtime-observation.json",
+          "sha256": "62daf15952a0ceac7c9e2f599841a3c2fdc00e738e9472ccbe1a7cc85625fe93"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/account-approval.json",
+          "sha256": "cd5c436c8dbb08096dccac3c28414e122dd4198ecba157f0c42717d4f6b0a5a5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/live-experiment-observation.json",
+          "sha256": "353316327fda87bedf54f1a5d93eb85a0060842c549359eac04428ab90bceb73"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/developer-report.md",
+          "sha256": "648fd09ad492d847c76e69d5b09961cfaa9b8d0b7650ddc7c1b3016162608273"
+        },
+        {
+          "path": "docs/validation/temple-effectiveness-pilot-result.md",
+          "sha256": "3bf62a5ce8e352cf4c8136f900b68bade427806f95f0a646b3b30c82f7965859"
+        }
+      ],
+      "details": {
+        "environment": "Local isolated Codex App Server lab",
+        "scenario": "Complete the approved six-candidate pilot and one blind evaluation within its fixed execution envelope",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260903T070940Z-0EA94917",
+      "work_item_id": "WI-0130",
+      "recorded_at": "2026-09-03T07:09:40.389Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0130 independent quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "4fbb0fb4a7fa17e5ab71e5f76053190a562d2b70",
+      "observed_at": "2026-09-03T07:09:12.000Z",
+      "summary": "Seven focused regressions pass and the retained report truthfully limits its claims to observed Standard-process diagnostic evidence.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0130/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0130/quality-test-observation.json",
+          "sha256": "5fdd69b00057b7c7d0b7532f9b88cf0d40d44cb0c51450edfb0a01173016bff4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/quality-report.md",
+          "sha256": "f13c7a532dd07eef39842da21eec966087d8ab343f03cbf35f63763ad0694ab8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/live-experiment-observation.json",
+          "sha256": "353316327fda87bedf54f1a5d93eb85a0060842c549359eac04428ab90bceb73"
+        },
+        {
+          "path": "docs/validation/temple-effectiveness-pilot-result.md",
+          "sha256": "3bf62a5ce8e352cf4c8136f900b68bade427806f95f0a646b3b30c82f7965859"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/effectiveness-pilot.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T07:09:11.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T071148Z-86E35406",
+      "work_item_id": "WI-0130",
+      "recorded_at": "2026-09-03T07:11:48.734Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0130 independent QA verification",
+      "outcome": "pass",
+      "scope_revision": "33b6ed3bd5dc96bffbb168818d62f9bba221d733",
+      "observed_at": "2026-09-03T07:11:12.000Z",
+      "summary": "Independent QA passed all 339 repository tests and confirmed that the report preserves the protocol deviation and no-go boundaries.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0130/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0130/independent-qa-test-observation.json",
+          "sha256": "e20329fd1b27fecdead4d0a3254a1b5c1fa2a8cc118d9927e4a172108fbf9d9a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/independent-qa-report.md",
+          "sha256": "28f6c9e62cb85f8fccf71cd8622ed6893c76d53e84b9fb36faed7f95927c9d8a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/quality-report.md",
+          "sha256": "f13c7a532dd07eef39842da21eec966087d8ab343f03cbf35f63763ad0694ab8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0130/live-experiment-observation.json",
+          "sha256": "353316327fda87bedf54f1a5d93eb85a0060842c549359eac04428ab90bceb73"
+        },
+        {
+          "path": "docs/validation/temple-effectiveness-pilot-result.md",
+          "sha256": "3bf62a5ce8e352cf4c8136f900b68bade427806f95f0a646b3b30c82f7965859"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T07:10:02.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T071225Z-DE170376",
+      "work_item_id": "WI-0130",
+      "recorded_at": "2026-09-03T07:12:25.201Z",
+      "recorded_by": "agent-mog",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "33b6ed3bd5dc96bffbb168818d62f9bba221d733",
+      "observed_at": "2026-09-03T07:12:25.201Z",
+      "summary": "Revert the WI-0130 branch commits and rerun repository verification; preserve the frozen local lab until evidence audit is complete.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0130/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0130/rollback-plan.md",
+          "sha256": "2c76ee5ad420d79291b47b56ffef033a2f81af12344948689026f6be315ab04a"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0130/rollback-plan.md"
+      }
+    },
+    {
+      "id": "EVID-20260903T075512Z-1C1830CB",
+      "work_item_id": "WI-0131",
+      "recorded_at": "2026-09-03T07:55:12.129Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0131 full regression and offline lab pass",
+      "outcome": "pass",
+      "scope_revision": "c0e6720513d2e4b86f7cd689ef2f214df5dbc066",
+      "observed_at": "2026-09-03T07:54:49.000Z",
+      "summary": "348 tests passed; eight repositories constructed without generation and all six Temple candidates were native Lean.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0131/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0131/developer-test-observation.json",
+          "sha256": "a837fc1eb10fb2b792d6407d337421335425afcfb2ce95cf4f13ed4629de1e41"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0131/developer-report.md",
+          "sha256": "5248fb9f8d1dfdc8f2ef5b9ea61a9358502bf6eb7279985d9fbc2ede8adacd22"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0131/offline-lab-observation.json",
+          "sha256": "40a6c76ebca71a250d74c8998ce0c9d0bc3ea0855ea9ad78acebd56d4fbd3600"
+        },
+        {
+          "path": "docs/validation/lean-routing-effectiveness-plan.md",
+          "sha256": "67b2117c960784cd50dfacd3d1c07ccc51d5f296f85c5c07ea69b39c8d3e1368"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T07:53:42.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T075942Z-C6F47254",
+      "work_item_id": "WI-0131",
+      "recorded_at": "2026-09-03T07:59:42.484Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": "2026-09-03T10:11:15.670Z",
+      "invalidated_by": "human",
+      "invalidation_reason": "The offline-lab observation was updated after scope revision c040c0b, so this unused quality record cannot prove the bytes it retained. Superseded by exact reviewed-revision evidence; historical artifacts remain unchanged.",
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0131 independent quality regression",
+      "outcome": "pass",
+      "scope_revision": "c040c0be1cc955e7c9aa260f534ea482278af0e5",
+      "observed_at": "2026-09-03T07:58:02.000Z",
+      "summary": "Quality evaluation passed 348 tests and an eight-repository provider-free rehearsal after removing route-treatment leakage.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0131/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0131/quality-test-observation.json",
+          "sha256": "c8a708be5c14123e6157b812ea43c94919dd0ffc892f385b61e1bd1ce82934ec"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0131/quality-report.md",
+          "sha256": "fd3daeee9644e75a9b5f2f35532371e676bc9662857defe740bb14760723fbc6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0131/offline-lab-observation.json",
+          "sha256": "9ced3752d7a7798eceb795e1dc584a00e128f0e0ebff0462058bb3213fa0b77e"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T07:56:55.000Z",
+        "invalidation": {
+          "replacement_evidence_id": "EVID-20260903T080026Z-351F6369"
+        }
+      }
+    },
+    {
+      "id": "EVID-20260903T080026Z-351F6369",
+      "work_item_id": "WI-0131",
+      "recorded_at": "2026-09-03T08:00:26.912Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0131 independently reviewed implementation",
+      "outcome": "verified",
+      "scope_revision": "c040c0be1cc955e7c9aa260f534ea482278af0e5",
+      "observed_at": "2026-09-03T08:00:26.912Z",
+      "summary": "Native Lean harness, acceptance contracts, context accounting, route split, and four-arm protocol passed Independent QA.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "c040c0be1cc955e7c9aa260f534ea482278af0e5"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "c040c0be1cc955e7c9aa260f534ea482278af0e5",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T083256Z-C5B6E3B5",
+      "work_item_id": "WI-0132",
+      "recorded_at": "2026-09-03T08:32:56.849Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0132 live runner implementation",
+      "outcome": "verified",
+      "scope_revision": "b7263e5cc64a1f3c5e93a32d2ae10a356074227d",
+      "observed_at": "2026-09-03T08:32:56.849Z",
+      "summary": "Exact candidate revision containing the no-retry four-arm live runner and Provider contract preflight.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "b7263e5cc64a1f3c5e93a32d2ae10a356074227d"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "b7263e5cc64a1f3c5e93a32d2ae10a356074227d",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T083327Z-1529080F",
+      "work_item_id": "WI-0132",
+      "recorded_at": "2026-09-03T08:33:27.328Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0132 provider-free implementation verification",
+      "outcome": "pass",
+      "scope_revision": "b7263e5cc64a1f3c5e93a32d2ae10a356074227d",
+      "observed_at": "2026-09-03T08:32:36.000Z",
+      "summary": "Eight-repository preflight, exact App Server handshake, package checks, and all 350 tests passed without model generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0132/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0132/developer-test-observation.json",
+          "sha256": "5355190bb1d20c051d1b56d301bed6a77ed82d9f85c253eb94cb250ab72103c8"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/developer-report.md",
+          "sha256": "fc373d0a23212cf02f5675ccb5a6013146c3ef6982589b00bfb30355210d93dc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/provider-handshake-observation.json",
+          "sha256": "79faa7eed2b6bbb0f1eb935937723779397a4c19a570b77155c6613bb830f449"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/live-protocol.json",
+          "sha256": "146071ecfcddb0d9e7c9803dfc36e7712231319846bf48bd511833a68f9e5782"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T08:31:29.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T085758Z-E101BC9E",
+      "work_item_id": "WI-0132",
+      "recorded_at": "2026-09-03T08:57:58.627Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "Corrected Lean routing experiment",
+      "outcome": "pass",
+      "scope_revision": "7ebd8db41b5e4ce8b6ec605ff9d068d2b06f8301",
+      "observed_at": "2026-09-03T08:53:14.458Z",
+      "summary": "Eight candidates and one blind evaluator completed within the approved envelope with zero retry, fallback, reroute, or path violation.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0132/runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0132/runtime-observation.json",
+          "sha256": "5c393722a7d4e4230a524a91d301436be362ea0bfebf329447d84a4d8df36146"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/account-approval.json",
+          "sha256": "782405a3f213b14c1a3a437cc5bfa203512aae0ce0d7db12547a1d59c51aac1f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
+          "sha256": "9ba848ec870200e1cffd9cc1435f03cdf3e51ca8ebc18e83655294bc56df4e99"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/quality-report.md",
+          "sha256": "51ba0771330ec3595531c22603aa0b61079084e1070dba7a3558fdece45a3403"
+        },
+        {
+          "path": "docs/validation/lean-routing-effectiveness-result.md",
+          "sha256": "dc0a744145a443e2566aa69ba36143a74659fa216cc9bc3aa067c56b03c0ba40"
+        }
+      ],
+      "details": {
+        "environment": "Local isolated Codex App Server lab",
+        "scenario": "Complete the approved eight-candidate native Lean comparison and one Terra high blind evaluation within its fixed execution envelope",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260903T085758Z-413039C9",
+      "work_item_id": "WI-0132",
+      "recorded_at": "2026-09-03T08:57:58.855Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0132 experiment harness tests",
+      "outcome": "pass",
+      "scope_revision": "7ebd8db41b5e4ce8b6ec605ff9d068d2b06f8301",
+      "observed_at": "2026-09-03T08:57:21Z",
+      "summary": "All eight focused v2 protocol and analysis regression tests passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0132/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0132/quality-test-observation.json",
+          "sha256": "4176fead991db8986d3bc78864f6227cc7977df3d8d95280f664a5d621b982ce"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
+          "sha256": "9ba848ec870200e1cffd9cc1435f03cdf3e51ca8ebc18e83655294bc56df4e99"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/quality-report.md",
+          "sha256": "51ba0771330ec3595531c22603aa0b61079084e1070dba7a3558fdece45a3403"
+        },
+        {
+          "path": "docs/validation/lean-routing-effectiveness-result.md",
+          "sha256": "dc0a744145a443e2566aa69ba36143a74659fa216cc9bc3aa067c56b03c0ba40"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/effectiveness-pilot-v2.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T08:57:20Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T090035Z-B2990923",
+      "work_item_id": "WI-0132",
+      "recorded_at": "2026-09-03T09:00:35.948Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0132 independent QA",
+      "outcome": "pass",
+      "scope_revision": "fd4bbe881b3b86d25cd48846b13d9ae1546c4470",
+      "observed_at": "2026-09-03T09:00:10Z",
+      "summary": "Independent QA verified the experiment, report arithmetic, claim boundaries, and all 350 repository tests.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0132/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0132/independent-qa-test-observation.json",
+          "sha256": "40425280856b64431ec91ecad8298301606221b70ed3c969f94ce2cc090816af"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/independent-qa-report.md",
+          "sha256": "e6cf47bc963262459ce145a4d593f5509b154d46a6fbb8f1e9a06f4f2665bf9f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/quality-report.md",
+          "sha256": "51ba0771330ec3595531c22603aa0b61079084e1070dba7a3558fdece45a3403"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0132/live-experiment-observation.json",
+          "sha256": "9ba848ec870200e1cffd9cc1435f03cdf3e51ca8ebc18e83655294bc56df4e99"
+        },
+        {
+          "path": "docs/validation/lean-routing-effectiveness-result.md",
+          "sha256": "dc0a744145a443e2566aa69ba36143a74659fa216cc9bc3aa067c56b03c0ba40"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T08:59:03Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T094443Z-B41C3220",
+      "work_item_id": "WI-0133",
+      "recorded_at": "2026-09-03T09:44:43.834Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0133 full repository verification",
+      "outcome": "pass",
+      "scope_revision": "1df92590bb3fd8c33e494b75a17c094a7b81d3ec",
+      "observed_at": "2026-09-03T09:42:00.000Z",
+      "summary": "Repository checks, package boundary, and all 356 tests passed on the exact implementation candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0133/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0133/developer-test-observation.json",
+          "sha256": "f62011cd6f667d77ae2e03cf4735fcadee2c8ca72787541b38f8a386415ca5c6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/developer-report.md",
+          "sha256": "8ebfd07824537809162b8c4e70a94a6f2310e33d5ecb378b35de61ad94165101"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/retained-effectiveness-evidence.json",
+          "sha256": "193c4d80880c5a1396eb2cf789b959bdb89d893e160004b5cf217ccd79fb9028"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/product-spec.md",
+          "sha256": "45eb758b525ce1e769cc1f8b2db6aa5fb1fe2432c423c52176d8841e98a85718"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/technical-design.md",
+          "sha256": "e26b527106dceb2fd63a6526e5fb2c464f7683129106dadfc09e2749a7e9b026"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T09:40:51.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T094605Z-96DC0179",
+      "work_item_id": "WI-0133",
+      "recorded_at": "2026-09-03T09:46:05.633Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0133 focused quality verification",
+      "outcome": "pass",
+      "scope_revision": "1df92590bb3fd8c33e494b75a17c094a7b81d3ec",
+      "observed_at": "2026-09-03T09:45:35.000Z",
+      "summary": "All 21 focused Context and effectiveness tests and the repository checks passed on the candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0133/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0133/quality-test-observation.json",
+          "sha256": "fa403a6a1c507940a04800e836dba565f8df6960f7d743e7cf5c7c973c8271fc"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/quality-report.md",
+          "sha256": "f1e3b633b8945af7606566b805c5b843559a2114f585b00a28d8d6f0999741e6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/developer-report.md",
+          "sha256": "8ebfd07824537809162b8c4e70a94a6f2310e33d5ecb378b35de61ad94165101"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/retained-effectiveness-evidence.json",
+          "sha256": "193c4d80880c5a1396eb2cf789b959bdb89d893e160004b5cf217ccd79fb9028"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/terra-ab-protocol.json",
+          "sha256": "f2a691c27920dae6373cae02b1fdf8143466f6a15f2671049b1b37974149650b"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/context.test.mjs",
+          "test/effectiveness-pilot-v2.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T09:45:24.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T094757Z-62B2BC1E",
+      "work_item_id": "WI-0133",
+      "recorded_at": "2026-09-03T09:47:57.921Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0133 independent full verification",
+      "outcome": "pass",
+      "scope_revision": "1df92590bb3fd8c33e494b75a17c094a7b81d3ec",
+      "observed_at": "2026-09-03T09:47:20.000Z",
+      "summary": "Independent QA reran the complete repository gate; all 356 tests and repository checks passed.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0133/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0133/independent-qa-test-observation.json",
+          "sha256": "ea44609e0f1b010978977ae62d5d187245eecdc8da9cca881f6289c15ab0afae"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/independent-qa-report.md",
+          "sha256": "aed7a1af775144cda6a4d1085d78c35fd7c4af2a5e12f70c2d94a9e0c818641d"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/quality-report.md",
+          "sha256": "f1e3b633b8945af7606566b805c5b843559a2114f585b00a28d8d6f0999741e6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/retained-effectiveness-evidence.json",
+          "sha256": "193c4d80880c5a1396eb2cf789b959bdb89d893e160004b5cf217ccd79fb9028"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0133/terra-ab-protocol.json",
+          "sha256": "f2a691c27920dae6373cae02b1fdf8143466f6a15f2671049b1b37974149650b"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T09:46:15.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T101325Z-572AEB94",
+      "work_item_id": "WI-0134",
+      "recorded_at": "2026-09-03T10:13:25.570Z",
+      "recorded_by": "agent-rikku",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0134 full repository verification",
+      "outcome": "pass",
+      "scope_revision": "ad1f06a5205820ff2075487bf5cab7f55082191d",
+      "observed_at": "2026-09-03T10:12:04.000Z",
+      "summary": "All 358 tests passed for the governed evidence invalidation candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0134/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0134/developer-test-observation.json",
+          "sha256": "55d9686bf20ce9caabce732b78ee54c7241b086666198dbeb497f03e3b4bfef2"
+        },
+        {
+          "path": "src/evidence.mjs",
+          "sha256": "cb00fab113837a2df390189634e7406ae4f8e3749479124a449f1c6b5e634592"
+        },
+        {
+          "path": "src/cli.mjs",
+          "sha256": "f4a37ac04668046d0d5a7412bf82cb79393b05649ca2985b890aecd94f5a7e8d"
+        },
+        {
+          "path": "test/evidence-observer.test.mjs",
+          "sha256": "fb4ea68508fa3d993150b7f75fcc6f1133fb38b4036a068dd7db75e2f267be43"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0134/developer-report.md",
+          "sha256": "976e5f02e6371e93cc1a0f2287bdecdf404eb0523df458cea366facba7f64d51"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T10:11:02.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T101404Z-26B0E4DF",
+      "work_item_id": "WI-0134",
+      "recorded_at": "2026-09-03T10:14:04.045Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0134 focused quality regression",
+      "outcome": "pass",
+      "scope_revision": "ad1f06a5205820ff2075487bf5cab7f55082191d",
+      "observed_at": "2026-09-03T10:13:47.000Z",
+      "summary": "All 14 evidence and Observer tests passed for the exact candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0134/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0134/quality-test-observation.json",
+          "sha256": "c786d645ee3b1901b5c6f44a4eca63339d8f5149252f3b59fad357186458cfea"
+        },
+        {
+          "path": "src/evidence.mjs",
+          "sha256": "cb00fab113837a2df390189634e7406ae4f8e3749479124a449f1c6b5e634592"
+        },
+        {
+          "path": "src/cli.mjs",
+          "sha256": "f4a37ac04668046d0d5a7412bf82cb79393b05649ca2985b890aecd94f5a7e8d"
+        },
+        {
+          "path": "test/evidence-observer.test.mjs",
+          "sha256": "fb4ea68508fa3d993150b7f75fcc6f1133fb38b4036a068dd7db75e2f267be43"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/evidence-observer.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T10:13:31.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T101534Z-9F296821",
+      "work_item_id": "WI-0134",
+      "recorded_at": "2026-09-03T10:15:34.111Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0134 independent full verification",
+      "outcome": "pass",
+      "scope_revision": "ad1f06a5205820ff2075487bf5cab7f55082191d",
+      "observed_at": "2026-09-03T10:15:48.000Z",
+      "summary": "Independent QA reproduced all 358 tests and the evidence-integrity boundary.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0134/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0134/independent-qa-test-observation.json",
+          "sha256": "d798c5a01c496fae49be79fcc69a2e8abc86457893e9717c1a3af76e2c248b9b"
+        },
+        {
+          "path": "src/evidence.mjs",
+          "sha256": "cb00fab113837a2df390189634e7406ae4f8e3749479124a449f1c6b5e634592"
+        },
+        {
+          "path": "src/cli.mjs",
+          "sha256": "f4a37ac04668046d0d5a7412bf82cb79393b05649ca2985b890aecd94f5a7e8d"
+        },
+        {
+          "path": "test/evidence-observer.test.mjs",
+          "sha256": "fb4ea68508fa3d993150b7f75fcc6f1133fb38b4036a068dd7db75e2f267be43"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T10:14:46.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T103312Z-CE949DD6",
+      "work_item_id": "WI-0135",
+      "recorded_at": "2026-09-03T10:33:12.929Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0135 full repository verification",
+      "outcome": "pass",
+      "scope_revision": "01c0f81412ab9bc590ca2ebe6b9414fae10ed885",
+      "observed_at": "2026-09-03T10:32:23.000Z",
+      "summary": "All 359 tests passed for the exact optimized Terra confirmation candidate and retained textual report.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0135/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0135/developer-test-observation.json",
+          "sha256": "265864b5b8dc0044e581becdf720c222ef5888a9277c088ed83fe737560a6c55"
+        },
+        {
+          "path": "scripts/run-effectiveness-pilot-v2.mjs",
+          "sha256": "457941a7d818781770f9253c9beea24023be5985961e31ee13d8c73baebeffb2"
+        },
+        {
+          "path": "scripts/analyze-effectiveness-pilot-v2.mjs",
+          "sha256": "af1d11fddfb065894e62bac8651aa6f0b2cc9ef85ac266efeb1d80b916c6bf6e"
+        },
+        {
+          "path": "test/effectiveness-pilot-v2.test.mjs",
+          "sha256": "3cc8275f8c6019a7d16f6b27665e130eae2b85bf2f05aa28ab508b3c2657afaa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/live-experiment-observation.json",
+          "sha256": "9a545ddf9e9c080d664278db198dd4003fd3e3a042627f32279368720cea981f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/effectiveness-analysis.json",
+          "sha256": "d15d9c89d7187fc509312f0cda1bbd5456345b035ba53f6d816498b205d43118"
+        },
+        {
+          "path": "docs/validation/lean-routing-effectiveness-result.md",
+          "sha256": "cf2d6b34af26d82f00b89cac0ec671d400a1d21fd0a679afdc4b6d38a0edf30b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/developer-report.md",
+          "sha256": "7eb9b004d52c1fff5a6b5a54d6e762a773844238a49d733a89006c35c2038e8d"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T10:31:18.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T103413Z-588A5419",
+      "work_item_id": "WI-0135",
+      "recorded_at": "2026-09-03T10:34:13.436Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0135 quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "7394ec9a659f65909bf8ab80ba7b2989fc9c8731",
+      "observed_at": "2026-09-03T10:33:50.000Z",
+      "summary": "Focused protocol, approval, evidence-reconciliation, analysis, and reporting checks passed for the neutral Terra confirmation result.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0135/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0135/quality-test-observation.json",
+          "sha256": "05e3b98596e5a70372e54e803bcdf5ae2892be1bd52340c22489d9f37178e340"
+        },
+        {
+          "path": "test/effectiveness-pilot-v2.test.mjs",
+          "sha256": "3cc8275f8c6019a7d16f6b27665e130eae2b85bf2f05aa28ab508b3c2657afaa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/live-protocol.json",
+          "sha256": "6e405ecc670069886a776de246762eeafa23a93d27cd0951c85d5ae0a6685f17"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/account-approval.json",
+          "sha256": "c119e856fc7b2e92fbf1b72a23a0f6e64936a585393b5a66d86b8dc6abc34962"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/live-experiment-observation.json",
+          "sha256": "9a545ddf9e9c080d664278db198dd4003fd3e3a042627f32279368720cea981f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/effectiveness-analysis.json",
+          "sha256": "d15d9c89d7187fc509312f0cda1bbd5456345b035ba53f6d816498b205d43118"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/quality-report.md",
+          "sha256": "6648d2d8391cfcead7ad5f6014c8c3ce5482794ae28fb4ff70ea15a7f4579715"
+        },
+        {
+          "path": "docs/validation/lean-routing-effectiveness-result.md",
+          "sha256": "cf2d6b34af26d82f00b89cac0ec671d400a1d21fd0a679afdc4b6d38a0edf30b"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/effectiveness-pilot-v2.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T10:33:42.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T103632Z-D4544CEA",
+      "work_item_id": "WI-0135",
+      "recorded_at": "2026-09-03T10:36:32.659Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0135 independent full verification",
+      "outcome": "pass",
+      "scope_revision": "00ea3a4731bc27bd89084be3bd3660618e431da9",
+      "observed_at": "2026-09-03T10:35:46.000Z",
+      "summary": "Independent QA reproduced all 359 tests and verified the protocol, retained evidence, neutral interpretation, resource envelope, and claim boundaries.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0135/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0135/independent-qa-test-observation.json",
+          "sha256": "f601989c7eed39b8fa16f8f09b72b9b0ac46b4da970861036bd8300696aa8215"
+        },
+        {
+          "path": "scripts/run-effectiveness-pilot-v2.mjs",
+          "sha256": "457941a7d818781770f9253c9beea24023be5985961e31ee13d8c73baebeffb2"
+        },
+        {
+          "path": "scripts/analyze-effectiveness-pilot-v2.mjs",
+          "sha256": "af1d11fddfb065894e62bac8651aa6f0b2cc9ef85ac266efeb1d80b916c6bf6e"
+        },
+        {
+          "path": "test/effectiveness-pilot-v2.test.mjs",
+          "sha256": "3cc8275f8c6019a7d16f6b27665e130eae2b85bf2f05aa28ab508b3c2657afaa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/live-experiment-observation.json",
+          "sha256": "9a545ddf9e9c080d664278db198dd4003fd3e3a042627f32279368720cea981f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/effectiveness-analysis.json",
+          "sha256": "d15d9c89d7187fc509312f0cda1bbd5456345b035ba53f6d816498b205d43118"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/quality-scores-frozen.json",
+          "sha256": "c8e701c31834bc3dd7e7cf10849ed5cadae6267e77a7eaeaaf9e25507d67dd56"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0135/independent-qa-report.md",
+          "sha256": "65e97e98af8795346557395975c7657a1d2887ff3453a41036026d0aadd43541"
+        },
+        {
+          "path": "docs/validation/lean-routing-effectiveness-result.md",
+          "sha256": "cf2d6b34af26d82f00b89cac0ec671d400a1d21fd0a679afdc4b6d38a0edf30b"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T10:34:40.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T112719Z-CD3B8304",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T11:27:19.070Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": "2026-09-03T11:28:59.485Z",
+      "invalidated_by": "human",
+      "invalidation_reason": "Observation referenced a documentation file whose post-test wording no longer matched the scoped revision.",
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0136 generation-free preflight",
+      "outcome": "pass",
+      "scope_revision": "15239a247de4c069c27cb82a0783fee176482230",
+      "observed_at": "2026-09-03T11:24:44.000Z",
+      "summary": "The matched multi-repository fixture, Provider contract, refusal boundary, and full 364-test repository verification pass without candidate or evaluator generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0136/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0136/developer-test-observation.json",
+          "sha256": "f7fda66037d39a5fa8673aa3b8692778efeed4e7fa71b7cd0b2ae5e7375a57fe"
+        },
+        {
+          "path": "scripts/run-representative-microservice-comparison.mjs",
+          "sha256": "b6f59df49725907462918cf81afbf6f460d4d754b205495a03fc603d7d48277e"
+        },
+        {
+          "path": "scripts/analyze-representative-microservice-comparison.mjs",
+          "sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c"
+        },
+        {
+          "path": "test/representative-microservice-comparison.test.mjs",
+          "sha256": "4377a14bd03ff49cbf5d8c04690becef1d094034e6995a2d485a38193f1a1acb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/live-protocol.json",
+          "sha256": "9d1d451f29e8de33b9c9ca38e084c1ccd3fd2d63c96e060ff251e98bb342571e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/developer-preflight-report.md",
+          "sha256": "5ef30e2dfb17517322ad53945b66aec4d3d97f5ac6f47dec37fa32480d75510c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/developer-test-observation.md",
+          "sha256": "d603b86c58c0bf8302ce34b89a93a7f2ea86215ea29bfb68ff58dcf8a529c1ee"
+        },
+        {
+          "path": "docs/validation/representative-microservice-comparison.md",
+          "sha256": "459a9bcae21f216dc055b51f38886fd7a646c36b85fe4b7bb4bccb4d02463d98"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T11:23:37.000Z",
+        "invalidation": {
+          "replacement_evidence_id": null
+        }
+      }
+    },
+    {
+      "id": "EVID-20260903T112734Z-0630C985",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T11:27:34.647Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0136 verified preparation revision",
+      "outcome": "verified",
+      "scope_revision": "6f692ef75f72c0f79d74fb2a4872ffd37144e39b",
+      "observed_at": "2026-09-03T11:27:34.647Z",
+      "summary": "Exact revision containing the executable matched fixture, frozen protocol, full verification observation, and no-generation preflight evidence.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "6f692ef75f72c0f79d74fb2a4872ffd37144e39b"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "6f692ef75f72c0f79d74fb2a4872ffd37144e39b",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T112859Z-E4E1A33C",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T11:28:59.755Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0136 generation-free preflight",
+      "outcome": "pass",
+      "scope_revision": "15239a247de4c069c27cb82a0783fee176482230",
+      "observed_at": "2026-09-03T11:24:44.000Z",
+      "summary": "The matched multi-repository fixture, Provider contract, refusal boundary, and full 364-test repository verification pass without candidate or evaluator generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0136/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0136/developer-test-observation.json",
+          "sha256": "6bfc77f119762124330552af9291f068b02add217c74b6ed8f097ad4359f7de6"
+        },
+        {
+          "path": "scripts/run-representative-microservice-comparison.mjs",
+          "sha256": "b6f59df49725907462918cf81afbf6f460d4d754b205495a03fc603d7d48277e"
+        },
+        {
+          "path": "scripts/analyze-representative-microservice-comparison.mjs",
+          "sha256": "5e614a7879a8fbdb7655d6780dcf0c7e693e7326259fa166d7fe3231f1151c5c"
+        },
+        {
+          "path": "test/representative-microservice-comparison.test.mjs",
+          "sha256": "4377a14bd03ff49cbf5d8c04690becef1d094034e6995a2d485a38193f1a1acb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/live-protocol.json",
+          "sha256": "9d1d451f29e8de33b9c9ca38e084c1ccd3fd2d63c96e060ff251e98bb342571e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/developer-preflight-report.md",
+          "sha256": "5ef30e2dfb17517322ad53945b66aec4d3d97f5ac6f47dec37fa32480d75510c"
+        },
+        {
+          "path": "docs/validation/representative-microservice-comparison.md",
+          "sha256": "459a9bcae21f216dc055b51f38886fd7a646c36b85fe4b7bb4bccb4d02463d98"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T11:23:37.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T120944Z-E169F1B4",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T12:09:44.571Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0136 context-routing ablation preflight",
+      "outcome": "pass",
+      "scope_revision": "e665db9d13b7e11599205227034e4d7f35804d67",
+      "observed_at": "2026-09-03T12:08:37.000Z",
+      "summary": "The matched two-condition fixture, prompt and runner digests, refusal boundary, and all 367 repository tests pass without model generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0136/context-ablation-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-ablation-test-observation.json",
+          "sha256": "756424524962468a6331fe2a548764010ee3604ebcea0d717b64706796da7840"
+        },
+        {
+          "path": "scripts/run-representative-microservice-comparison.mjs",
+          "sha256": "6f3785426bceeb4c21c4a9dafdf8f9ac2f1d7b1131aa13da46b09d8cde040ca7"
+        },
+        {
+          "path": "test/representative-microservice-comparison.test.mjs",
+          "sha256": "093838a803332092a121fffb2a03bc6b9d6d65d668ac72c194de48342e16c4ca"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-ablation-protocol.json",
+          "sha256": "ca8f2646d607aaa0e84c4eb7fb5c444d95e6df68ec7daf6d2a006264f1761a85"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-ablation-approval.template.json",
+          "sha256": "10a3240f5dfe0e3a61568463f01d80e600f07333e368b5aa20fe4602066fcb1a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-ablation-preflight-report.md",
+          "sha256": "21ffc5c9d8c9ee7f6463bdf1d289b126691ee76d9031d6207b3bfd6043d6eb49"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/protocol-history.md",
+          "sha256": "09f9d892affe8132a3bb88c6a457adec0862b648467c71103329bc328ce6349b"
+        },
+        {
+          "path": "docs/validation/representative-microservice-comparison.md",
+          "sha256": "2057374daebb8fa851418ec0ae99dd29f6310c7e08eb603de87d8ba5854fcf7a"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T12:07:30.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T144912Z-292F2426",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T14:49:12.820Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0136 completed context qualification",
+      "outcome": "verified",
+      "scope_revision": "f76d2e7be336e96c1e89a5c9b0d06fb6ab6ec0a9",
+      "observed_at": "2026-09-03T14:49:12.820Z",
+      "summary": "Exact revision preserving the completed v10 routed-versus-full-load run, deterministic analysis, human report, full 378-test verification, and one-attempt consumption guard.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "f76d2e7be336e96c1e89a5c9b0d06fb6ab6ec0a9"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "f76d2e7be336e96c1e89a5c9b0d06fb6ab6ec0a9",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T145159Z-ED958FA9",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T14:51:59.347Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0136 v10 independent quality verification",
+      "outcome": "pass",
+      "scope_revision": "5b224ddeae83181b7322a39b3a0d3b3cdcd51aec",
+      "observed_at": "2026-09-03T14:51:27.000Z",
+      "summary": "Quality Evaluator independently reproduced the analysis, confirmed the full-load revision truncation, and passed all 378 repository tests; this qualifies routed context only and does not complete the main comparison.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-quality-test.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-quality-test.json",
+          "sha256": "7c992b1b27fdab5594049960f7dd0a4fc50684c0e5256bc4fb99751ffd117d38"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-quality-evaluation.md",
+          "sha256": "11f70d0ecdeb10e5048d5b6661f6493e9e253002e01711280b7081977b24c189"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-report.md",
+          "sha256": "7cc8ecee49fd1f290a540e564317100c19c74504bddc2727846e81c6e4c99aac"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-run.json",
+          "sha256": "4a074d4796ca075a8347e6ecdd3894ff82664b63c31f279971ccb14936e3eb29"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/context-recovery-qualification-v10-analysis.json",
+          "sha256": "80b953d039726cf47804ded75841142418d9bb9a18ccf35c101f0674b03238d1"
+        },
+        {
+          "path": "scripts/run-representative-microservice-comparison.mjs",
+          "sha256": "fd7f5e6fcd6ce77a6fcd2993705fc0a5b0e0e15aad77328d71585c09ef6575ef"
+        },
+        {
+          "path": "test/representative-microservice-comparison.test.mjs",
+          "sha256": "c20e0eb43e58ca886c8c9dbc60ad36a43d806be6a22ba2af14ff1725e2685f07"
+        },
+        {
+          "path": "docs/validation/representative-microservice-comparison.md",
+          "sha256": "101792ca8f923df48c262bc1cba9739911f1699cfdbeffdc585e7746082b701a"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T14:50:18.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T150920Z-F74043C7",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T15:09:20.874Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Routed main comparison protocol",
+      "outcome": "verified",
+      "scope_revision": "1c43123e8c56a762f35c0a010af962bffe40c2a8",
+      "observed_at": "2026-09-03T15:09:20.874Z",
+      "summary": "Frozen generation-disabled v3 protocol after matched context qualification; Context Capsule navigation, canonical body reads, fallback policy, and measured safety limits are bound to the runner digest.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "1c43123"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "1c43123",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T154039Z-93DFF0E1",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T15:40:39.197Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Representative protocol v4 harness repair",
+      "outcome": "verified",
+      "scope_revision": "90ac21e977488b113a9c5e2f6cf219ea39b7fa12",
+      "observed_at": "2026-09-03T15:40:39.197Z",
+      "summary": "Preserves the approved v3 fail-closed attempt, fixes Git porcelain path parsing, retains active-stage stop evidence, and freezes successor protocol v4 without authorizing generation.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "90ac21e"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "90ac21e",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T154759Z-95FB65A5",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T15:47:59.635Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Representative Provider contract refresh",
+      "outcome": "verified",
+      "scope_revision": "710144ca089ea4a19aab81db8b27e4b3de4585ec",
+      "observed_at": "2026-09-03T15:47:59.635Z",
+      "summary": "Records the zero-generation preflight stop caused by Codex CLI schema drift and freezes the unchanged v4 experiment against the installed Provider contract under a new exact digest.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "710144c"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "710144c",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T160816Z-18534220",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T16:08:16.874Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Representative protocol v5 preparation",
+      "outcome": "verified",
+      "scope_revision": "dc81593de086d0cc6939565a0820116d2710ebb8",
+      "observed_at": "2026-09-03T16:08:16.874Z",
+      "summary": "Preserves the exact-approved v4 partial result, records its Temple Design Token stop, retains active-stage telemetry in future stops, and freezes fresh v5 limits derived from the observed run.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "dc81593"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "dc81593",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260903T232923Z-A114E9C1",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T23:29:23.273Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0136 representative comparison v16",
+      "outcome": "pass",
+      "scope_revision": "6a7abb6c3e86e78c3e638a35d6e1f9d28843adda",
+      "observed_at": "2026-09-03T23:29:03Z",
+      "summary": "The frozen matched pair and arm-blind evaluator completed once with zero retry and fallback; both arms passed objective tests and scored 8/8, and the exact result revision passed all 398 repository tests.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0136/representative-main-v16-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-test-observation.json",
+          "sha256": "3edbda3fcc304291003c9a8b9ea646eea0bd859465f6bb6f0af8d573b3f14d90"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/evaluator-continuation-approval.json",
+          "sha256": "3a2b4b335b5d2bff55a99252246f09ecb1b63059387c7973265e344b511ee734"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-approved-preflight.json",
+          "sha256": "e7328ec2f9f9f674d7a18bcb6748b494763191aeac1cae48c091c84d9baa63a7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-evaluator-readiness.json",
+          "sha256": "5f7167f18979791f56baa72e068590a4867d512b39aba24a4e96b720fc693c12"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-evaluator-result.json",
+          "sha256": "9edb8d78031720e4bc29ee2d4950bfcea1b4acc5b4668d00947708232b71f39a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-quality-scores-frozen.json",
+          "sha256": "830fcef99efd147f0d246b3edd73ac746bbfa663758bd872053954f2c9f76941"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-analysis.json",
+          "sha256": "973e0b4a3a54726577edab7d5518d5f05c0d4bcda8d57e16fedbacbfd1feece1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-report.md",
+          "sha256": "4a965a979562e3956dea6fadeaed6eb3d11644ad3834c58a87bce9bafefe59ed"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-findings.md",
+          "sha256": "d69b4c372de2b056cb9c018f385c3a7d7d72f783b6bd0a57da04615d5028da76"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/failure-mode-review.md",
+          "sha256": "0e8df93986413a3c9873ec05a61a00a56b5646fc1e7e684932544c4cd6103fee"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/protocol-history.md",
+          "sha256": "1e96c3188ebec3b7671646aec5a339f21f64d05801d57860938550d55c2a3d4f"
+        },
+        {
+          "path": "scripts/run-representative-microservice-comparison.mjs",
+          "sha256": "efd7811f11a9a655726bfc43b1c462af20bc083b656150f731acbe5fe1f739ed"
+        },
+        {
+          "path": "scripts/analyze-representative-microservice-comparison.mjs",
+          "sha256": "59dc98b583907adcad9419eab3695658e44946fdb58720f754c9c9b743f89e6a"
+        },
+        {
+          "path": "test/representative-microservice-comparison.test.mjs",
+          "sha256": "5f5d4e4dc6098b2dd4fdd440818198e17e9d7b0e4e1a9c7e591c583fee8775f6"
+        },
+        {
+          "path": "docs/validation/representative-microservice-comparison.md",
+          "sha256": "02d2608e1431bd9cc1e9d8b93eeeba8864f90ac1dbb4323b8bd643706e6d6e57"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T23:27:39Z"
+      }
+    },
+    {
+      "id": "EVID-20260903T233315Z-05887961",
+      "work_item_id": "WI-0136",
+      "recorded_at": "2026-09-03T23:33:15.769Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0136 v16 independent QA",
+      "outcome": "pass",
+      "scope_revision": "6a7abb6c3e86e78c3e638a35d6e1f9d28843adda",
+      "observed_at": "2026-09-03T23:32:38Z",
+      "summary": "Independent QA reproduced both arms' public and held-out checks, recomputed every comparison field, verified five archived evidence pairs and score-freeze ordering, and found the exact bounded result consistent.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0136/representative-main-v16-independent-qa-test.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-independent-qa-test.json",
+          "sha256": "0e03f99951dd78a13b3404039f0432cc524dab657ea05f1aff7baa8daa6852ae"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-independent-qa.md",
+          "sha256": "76f2a4bcc4217752d895ed23c08ede5b1ca5e2ebd3463edd0dfa3bc5a0a867e3"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-evaluator-result.json",
+          "sha256": "9edb8d78031720e4bc29ee2d4950bfcea1b4acc5b4668d00947708232b71f39a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-quality-scores-frozen.json",
+          "sha256": "830fcef99efd147f0d246b3edd73ac746bbfa663758bd872053954f2c9f76941"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-analysis.json",
+          "sha256": "973e0b4a3a54726577edab7d5518d5f05c0d4bcda8d57e16fedbacbfd1feece1"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-report.md",
+          "sha256": "4a965a979562e3956dea6fadeaed6eb3d11644ad3834c58a87bce9bafefe59ed"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/representative-main-v16-findings.md",
+          "sha256": "d69b4c372de2b056cb9c018f385c3a7d7d72f783b6bd0a57da04615d5028da76"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0136/fixture/coordinator/evaluator-only/held-out-integration.test.mjs",
+          "sha256": "0a8f345fb5796b54524cda9d90e89fa4dbfbf4b48b9eb2bb8b0a5921c977bc42"
+        },
+        {
+          "path": "scripts/analyze-representative-microservice-comparison.mjs",
+          "sha256": "59dc98b583907adcad9419eab3695658e44946fdb58720f754c9c9b743f89e6a"
+        },
+        {
+          "path": "test/representative-microservice-comparison.test.mjs",
+          "sha256": "5f5d4e4dc6098b2dd4fdd440818198e17e9d7b0e4e1a9c7e591c583fee8775f6"
+        }
+      ],
+      "details": {
+        "command": [
+          "independent-qa",
+          "reproduce-v16-frozen-evidence"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-03T23:29:24Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T001539Z-A757CEBB",
+      "work_item_id": "WI-0137",
+      "recorded_at": "2026-09-04T00:15:39.283Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0137 Developer candidate",
+      "outcome": "verified",
+      "scope_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+      "observed_at": "2026-09-04T00:15:39.283Z",
+      "summary": "Stage-aware measurable Context Capsule implementation.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T001539Z-10032E7A",
+      "work_item_id": "WI-0137",
+      "recorded_at": "2026-09-04T00:15:39.496Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0137 Developer tests",
+      "outcome": "pass",
+      "scope_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+      "observed_at": "2026-09-04T00:14:54.000Z",
+      "summary": "Focused 51/51 and full 400/400 verification passed for the exact candidate content.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0137/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0137/developer-test-observation.json",
+          "sha256": "ca750c47670ff94663daf358a746c82df29c977785d127be92c6b960b4e7bc39"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0137/developer-verification.md",
+          "sha256": "9d32ea46c5d3ab461d2b680aa907e308afd6ee0545abeb605a255e6b7c1685c2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0137/technical-design.md",
+          "sha256": "9c19ce3527291a07f34cb2bce3d26b535e8558f1159ffc78b793b965aa15663d"
+        },
+        {
+          "path": "docs/adr/0047-bind-context-capsules-to-stage-purpose-and-source-manifests.md",
+          "sha256": "b65f77da73fea0ab0049ab97fdd7cfbd42ede6156f7ff4f627de037d8e604f98"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context.test.mjs test/representative-microservice-comparison.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T00:14:48.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T002514Z-F37EECEE",
+      "work_item_id": "WI-0137",
+      "recorded_at": "2026-09-04T00:25:14.216Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Stage-aware context capsule quality verification",
+      "outcome": "pass",
+      "scope_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+      "observed_at": "2026-09-04T00:24:37.000Z",
+      "summary": "Detached candidate verification passed all repository checks and 400 tests.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0137/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0137/quality-test-observation.json",
+          "sha256": "d11a98a6ecf3cb5462c6401dc06802732a4bb17725d0e82f006a65b46237473b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0137/quality-evaluation.md",
+          "sha256": "7966d1f6018bd7ee03b8ab916bf8beac26d153cd4f6c3e1ee29373dcc4d028b4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0137/product-scope.md",
+          "sha256": "80b5e9758b489b6377cbe75da8f839213443fe80a3fe8a26e612506f90e07d6c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0137/technical-design.md",
+          "sha256": "9c19ce3527291a07f34cb2bce3d26b535e8558f1159ffc78b793b965aa15663d"
+        },
+        {
+          "path": "docs/adr/0047-bind-context-capsules-to-stage-purpose-and-source-manifests.md",
+          "sha256": "b65f77da73fea0ab0049ab97fdd7cfbd42ede6156f7ff4f627de037d8e604f98"
+        },
+        {
+          "path": "docs/extensions/context-routing.md",
+          "sha256": "e917a893f2355d012b8b4ff3020daaa3bc77da4bd5469becc4e9899f90fd3c92"
+        },
+        {
+          "path": "src/context.mjs",
+          "sha256": "a06ad64b830b3c4212fc92819d5862897c7f29222f8ac958640913fc92370e3b"
+        },
+        {
+          "path": "src/cli.mjs",
+          "sha256": "91d0d00d95cf5501f9e00e5b1a47872dbc610cdaf3eaf3bd3c66a4603ab24411"
+        },
+        {
+          "path": "test/context.test.mjs",
+          "sha256": "3022dd32d662cac14c8994a009e94a1894af4cc45bb3657281d0b48df18c4a7f"
+        },
+        {
+          "path": "test/representative-microservice-comparison.test.mjs",
+          "sha256": "5f5d4e4dc6098b2dd4fdd440818198e17e9d7b0e4e1a9c7e591c583fee8775f6"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T00:23:32.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T002620Z-DDECACBD",
+      "work_item_id": "WI-0137",
+      "recorded_at": "2026-09-04T00:26:20.346Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Stage-aware context capsule independent QA",
+      "outcome": "pass",
+      "scope_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+      "observed_at": "2026-09-04T00:25:39.000Z",
+      "summary": "Independent QA reproduced the affected routing and comparison suite: 51 tests passed at the exact candidate revision.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0137/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0137/independent-qa-test-observation.json",
+          "sha256": "1109530d364875fdc089cd7dd1ed4bcf61b030b876ed2ff060937de0427c944a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0137/independent-qa.md",
+          "sha256": "9e22418ca4874510dc5eecd01ad054464eba8bccca96166412c9cf9d7e5aabaa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0137/quality-evaluation.md",
+          "sha256": "7966d1f6018bd7ee03b8ab916bf8beac26d153cd4f6c3e1ee29373dcc4d028b4"
+        },
+        {
+          "path": "docs/adr/0047-bind-context-capsules-to-stage-purpose-and-source-manifests.md",
+          "sha256": "b65f77da73fea0ab0049ab97fdd7cfbd42ede6156f7ff4f627de037d8e604f98"
+        },
+        {
+          "path": "src/context.mjs",
+          "sha256": "a06ad64b830b3c4212fc92819d5862897c7f29222f8ac958640913fc92370e3b"
+        },
+        {
+          "path": "test/context.test.mjs",
+          "sha256": "3022dd32d662cac14c8994a009e94a1894af4cc45bb3657281d0b48df18c4a7f"
+        },
+        {
+          "path": "test/representative-microservice-comparison.test.mjs",
+          "sha256": "5f5d4e4dc6098b2dd4fdd440818198e17e9d7b0e4e1a9c7e591c583fee8775f6"
+        }
+      ],
+      "details": {
+        "command": [
+          "node",
+          "--test",
+          "test/context.test.mjs",
+          "test/representative-microservice-comparison.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T00:25:32.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T005936Z-CEE25D8F",
+      "work_item_id": "WI-0138",
+      "recorded_at": "2026-09-04T00:59:36.485Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Context Capsule ablation harness candidate",
+      "outcome": "verified",
+      "scope_revision": "c2ebaa1d7e5da8c43bf7d382ddeaae2d8ff61c99",
+      "observed_at": "2026-09-04T00:59:36.485Z",
+      "summary": "Generation-free comparison harness, fixtures, schemas, and human documentation at the exact protocol source revision.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "c2ebaa1d7e5da8c43bf7d382ddeaae2d8ff61c99"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "c2ebaa1d7e5da8c43bf7d382ddeaae2d8ff61c99",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T005936Z-CFDDB54F",
+      "work_item_id": "WI-0138",
+      "recorded_at": "2026-09-04T00:59:36.762Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0138 Developer generation-free verification",
+      "outcome": "pass",
+      "scope_revision": "c2ebaa1d7e5da8c43bf7d382ddeaae2d8ff61c99",
+      "observed_at": "2026-09-04T00:58:40.000Z",
+      "summary": "405 full tests, 56 focused regressions, and 26 readiness checks passed with zero Provider generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0138/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0138/developer-test-observation.json",
+          "sha256": "05c83384fef0f64f771bac3f702c0111c2a3103ee6a61f6430d6cb3f6c98e91b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/developer-verification.md",
+          "sha256": "fb9fb76e04141c44c9413c157cd1ef70fd01b3e30f1636605818991b84374eac"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/harness-readiness.json",
+          "sha256": "768814c0f0e31765837ddecfca2bbdcf664365ef6612fafa43225e46f9afd94c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/preapproval-preflight.json",
+          "sha256": "5f8f30923da85f87991616c3315aaa0fb2e55dc6e7a59345fd6aecd54fa323ac"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/live-protocol.json",
+          "sha256": "76cee4d6e1e2f32250895c7b9d4a60e8a8996540bd1e953a3ca8fa23dbe53da5"
+        },
+        {
+          "path": "docs/validation/context-capsule-v2-ablation.md",
+          "sha256": "b800329a039c1912692a43d486faf757c4c1df1bdf38c15101805dcc9923dd23"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T00:57:00.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T011010Z-C94F07F6",
+      "work_item_id": "WI-0138",
+      "recorded_at": "2026-09-04T01:10:10.405Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0138 bounded Context Capsule live run",
+      "outcome": "pass",
+      "scope_revision": "c2ebaa1d7e5da8c43bf7d382ddeaae2d8ff61c99",
+      "observed_at": "2026-09-04T01:07:12.215Z",
+      "summary": "Four of four candidates completed once; 106,300 Operational Tokens; registered effectiveness outcome inconclusive due exact-string evaluator mismatch.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0138/live-runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0138/live-runtime-observation.json",
+          "sha256": "126e64e670ef81f356f1d0919b1deb52663648951ca9226140abb3612cb30457"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/live-observation.json",
+          "sha256": "89aca34b3ad2e9037c1aa44d2e1c32db1775e4fd9814010cb77a59c340ea79e0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/effectiveness-analysis.json",
+          "sha256": "9365083aad48917df484f1b7982c25eff4cd770898d6199ae8ff78fe109b65e2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/effectiveness-report.md",
+          "sha256": "3bb5848ea093bf524d6ea7a0ace7bc330c605068e54b469dd8f09fd8459e447b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/evidence-backed-findings.md",
+          "sha256": "f8392a1487e4987da06622559e33a959fb897eb00f874794f07d1c2175808908"
+        }
+      ],
+      "details": {
+        "environment": "Local macOS Codex App Server with four fresh read-only synthetic cold-handoff fixtures",
+        "scenario": "Run one exact-approved matched legacy-expanded versus stage-aware Context Capsule candidate per single-repository and coordinator-led multi-repository shape",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260904T011211Z-0EF8D349",
+      "work_item_id": "WI-0138",
+      "recorded_at": "2026-09-04T01:12:11.424Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0138 Quality analysis reproduction",
+      "outcome": "pass",
+      "scope_revision": "87d0f8e2c4d1ab62e646a3bd76c8ee4409aed3c2",
+      "observed_at": "2026-09-04T01:11:35.000Z",
+      "summary": "Frozen analysis reproduced exactly; 5 focused tests and lab inspection passed; effectiveness remains inconclusive.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0138/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0138/quality-test-observation.json",
+          "sha256": "3831eb15d5b0e4495f83f70330a5cb33f16ea71b10f87ba3dc5fa5a07f293358"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/quality-evaluation.md",
+          "sha256": "e54c629825c6b99ee771b9e627151201c3013967e46cf395956eae13f6f8e8be"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/live-observation.json",
+          "sha256": "89aca34b3ad2e9037c1aa44d2e1c32db1775e4fd9814010cb77a59c340ea79e0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/effectiveness-analysis.json",
+          "sha256": "9365083aad48917df484f1b7982c25eff4cd770898d6199ae8ff78fe109b65e2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/evidence-backed-findings.md",
+          "sha256": "f8392a1487e4987da06622559e33a959fb897eb00f874794f07d1c2175808908"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "recompute analyzeContextAblation from frozen protocol and observation",
+          "node scripts/run-context-capsule-ablation.mjs inspect --lab-root <temporary-lab>"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T01:11:20.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T011418Z-57A7CF5D",
+      "work_item_id": "WI-0138",
+      "recorded_at": "2026-09-04T01:14:18.717Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0138 Independent QA reproduction",
+      "outcome": "pass",
+      "scope_revision": "87d0f8e2c4d1ab62e646a3bd76c8ee4409aed3c2",
+      "observed_at": "2026-09-04T01:13:48.000Z",
+      "summary": "Exact detached candidate reproduced all calculations and retained the effectiveness outcome as inconclusive.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0138/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0138/independent-qa-test-observation.json",
+          "sha256": "65b78e9d6088f1314c93f9e75a90afcc7cfb10027253c7afb3984b92d27957d7"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/independent-qa.md",
+          "sha256": "84a6d51f8d54b2cf6d827d69a56f5733fbb96cf7907df1965ba5f7796cac3394"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/quality-evaluation.md",
+          "sha256": "e54c629825c6b99ee771b9e627151201c3013967e46cf395956eae13f6f8e8be"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/live-observation.json",
+          "sha256": "89aca34b3ad2e9037c1aa44d2e1c32db1775e4fd9814010cb77a59c340ea79e0"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/effectiveness-analysis.json",
+          "sha256": "9365083aad48917df484f1b7982c25eff4cd770898d6199ae8ff78fe109b65e2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0138/evidence-backed-findings.md",
+          "sha256": "f8392a1487e4987da06622559e33a959fb897eb00f874794f07d1c2175808908"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run check",
+          "node --test test/context-capsule-ablation.test.mjs",
+          "recompute analyzeContextAblation from frozen protocol and observation"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T01:13:35.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T014814Z-BED21DC8",
+      "work_item_id": "WI-0139",
+      "recorded_at": "2026-09-04T01:48:14.176Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0139 typed evaluator candidate",
+      "outcome": "verified",
+      "scope_revision": "498c7dfdcd0e4abb547a3e3e829311185ddfa96c",
+      "observed_at": "2026-09-04T01:48:14.176Z",
+      "summary": "Typed-fact scoring, answer-free schemas, historical false-negative projection, route acknowledgement, frozen protocol, and generation-free readiness.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "498c7dfdcd0e4abb547a3e3e829311185ddfa96c"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "498c7dfdcd0e4abb547a3e3e829311185ddfa96c",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T014814Z-A48DFA0F",
+      "work_item_id": "WI-0139",
+      "recorded_at": "2026-09-04T01:48:14.634Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0139 full local verification",
+      "outcome": "pass",
+      "scope_revision": "498c7dfdcd0e4abb547a3e3e829311185ddfa96c",
+      "observed_at": "2026-09-04T01:47:31Z",
+      "summary": "All 406 repository tests and 29 generation-free readiness checks passed with zero candidate turns and zero Operational Tokens.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0139/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0139/developer-test-observation.json",
+          "sha256": "7a8ef1062647940244b43b550d99e632187b6805ae3f12d34ab3b0aa1c5ea554"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/developer-verification.md",
+          "sha256": "5f1d94e0dfb6f555aca52257054b0ebbf94efaf2c9ce350015d010266ebd8012"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/harness-readiness.json",
+          "sha256": "626e5d0a15f9c05ab8bab73d6de54bb258c8c228715c535638c4ac453cb8392b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/preapproval-preflight.json",
+          "sha256": "912b10e57cc2c5a5529ee11e097d22aa34dec399e32e1cb13ae6e653eda19e9e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-protocol.json",
+          "sha256": "1dab5e0e09a9c49b8b5bffb6c39e133a1c6e8c416bb19c1f8b03b4bfc8f21641"
+        },
+        {
+          "path": "docs/validation/context-capsule-typed-evaluator.md",
+          "sha256": "45b4af23aa40bdc9e3874f066b59a2ed604faca5a3a10f3502af32740b201087"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T01:44:30Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T015121Z-06E69C46",
+      "work_item_id": "WI-0139",
+      "recorded_at": "2026-09-04T01:51:21.841Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0139 independent quality readiness check",
+      "outcome": "pass",
+      "scope_revision": "0969566f770ad1a9a8df01901195edfea56f5268",
+      "observed_at": "2026-09-04T01:49:52Z",
+      "summary": "Focused typed-fact tests and exact protocol inspection passed without Provider generation; only exact approval remains.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0139/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0139/quality-test-observation.json",
+          "sha256": "7bea5fa55a78cb1f5272b9af246d818c95d2fda463f23db9f8b3d03c146e089e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-protocol.json",
+          "sha256": "1dab5e0e09a9c49b8b5bffb6c39e133a1c6e8c416bb19c1f8b03b4bfc8f21641"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/harness-readiness.json",
+          "sha256": "626e5d0a15f9c05ab8bab73d6de54bb258c8c228715c535638c4ac453cb8392b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/preapproval-preflight.json",
+          "sha256": "912b10e57cc2c5a5529ee11e097d22aa34dec399e32e1cb13ae6e653eda19e9e"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "node scripts/run-context-capsule-ablation.mjs inspect"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T01:49:43Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T020657Z-9A79B899",
+      "work_item_id": "WI-0139",
+      "recorded_at": "2026-09-04T02:06:57.671Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0139 approved live Context Capsule comparison",
+      "outcome": "pass",
+      "scope_revision": "65d2d5065c51a20618e81781dfdbd4987e870534",
+      "observed_at": "2026-09-04T02:04:06.910Z",
+      "summary": "Four authorized Terra medium conditions executed with 136,851 Operational Tokens, zero retries and zero fallback. The multi-repository pair was correct in both arms but stage-aware regressed 6.38% in tokens and 8.01% in latency; both single-repository arms were censored by the 40,000-token limit.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0139/live-runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-runtime-observation.json",
+          "sha256": "8f22a159661666c9e7193a6cf9d351f038ac2ea2b25913ea219e09228d3cfbed"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/account-approval.json",
+          "sha256": "edca68d8333d3ed2b6e08390082a00f686f0cf6cc7e7ea5d54a9ff66e83ec58a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/approved-preflight.json",
+          "sha256": "ee1c23e0bb8afd589ac80abb6c1c99af8b9000c42fd0d218248c7c98da7a4f3a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-protocol.json",
+          "sha256": "1dab5e0e09a9c49b8b5bffb6c39e133a1c6e8c416bb19c1f8b03b4bfc8f21641"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-observation.json",
+          "sha256": "61f1688e23d7b9b4dd1ce6292202f3572b135d1afc77a3e891fcbedd38109927"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/effectiveness-analysis.json",
+          "sha256": "3cac1e6250a7d80ca25eca999cb3eeeb138341dce5f3128598944db9c431922f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/effectiveness-report.md",
+          "sha256": "182c81f4973f9e356c5769c8a298a0aa897b8a878649a78a8a4365455f294cdf"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-evaluation.md",
+          "sha256": "c92caa7960ec124719bdcf46c0eb17b3c14b764a33ebe460be8a95987d89b81b"
+        }
+      ],
+      "details": {
+        "environment": "Codex App Server with isolated local repository fixtures",
+        "scenario": "Execute the approved four-condition typed Context Capsule comparison with fixed model, effort, token, retry, and fallback boundaries",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260904T021113Z-FF02EC27",
+      "work_item_id": "WI-0139",
+      "recorded_at": "2026-09-04T02:11:13.414Z",
+      "recorded_by": "agent-lulu",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0139 independent QA",
+      "outcome": "pass",
+      "scope_revision": "bf63442ef23ceccc58fef8b9eddfa61e12c7697f",
+      "observed_at": "2026-09-04T02:10:33Z",
+      "summary": "Independent QA reproduced the typed live analysis, confirmed protocol and approval integrity, and passed 6 focused plus 406 repository tests. The evaluator repair passes; treatment effectiveness remains inconclusive.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0139/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0139/independent-qa-test-observation.json",
+          "sha256": "850b2b6f1febd1e3f248ddec54897b63d37456e8204903fcfa3fd0321f10db2b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-protocol.json",
+          "sha256": "1dab5e0e09a9c49b8b5bffb6c39e133a1c6e8c416bb19c1f8b03b4bfc8f21641"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/account-approval.json",
+          "sha256": "edca68d8333d3ed2b6e08390082a00f686f0cf6cc7e7ea5d54a9ff66e83ec58a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-observation.json",
+          "sha256": "61f1688e23d7b9b4dd1ce6292202f3572b135d1afc77a3e891fcbedd38109927"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/effectiveness-analysis.json",
+          "sha256": "3cac1e6250a7d80ca25eca999cb3eeeb138341dce5f3128598944db9c431922f"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/live-evaluation.md",
+          "sha256": "c92caa7960ec124719bdcf46c0eb17b3c14b764a33ebe460be8a95987d89b81b"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0139/independent-qa.md",
+          "sha256": "79492b1ebed3c344508f31af77d95dfd86f0b4352c16502a6aa942e20ee05132"
+        }
+      ],
+      "details": {
+        "command": [
+          "recompute retained WI-0139 analysis from the frozen protocol and live observation",
+          "node --test test/context-capsule-ablation.test.mjs",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T02:09:18Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T023820Z-9B033B1C",
+      "work_item_id": "WI-0140",
+      "recorded_at": "2026-09-04T02:38:20.607Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0140 route-adherence implementation",
+      "outcome": "verified",
+      "scope_revision": "70a98b4a8d07bb27f1c2f91fa1cbbea06113adef",
+      "observed_at": "2026-09-04T02:38:20.607Z",
+      "summary": "Implemented bounded path-only acquisition observation, counterbalanced eight-turn protocol, data-derived single-repository limit, and immutable predecessor checks.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "70a98b4a8d07bb27f1c2f91fa1cbbea06113adef"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "70a98b4a8d07bb27f1c2f91fa1cbbea06113adef",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T023820Z-0005EAB2",
+      "work_item_id": "WI-0140",
+      "recorded_at": "2026-09-04T02:38:20.843Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0140 developer verification",
+      "outcome": "pass",
+      "scope_revision": "70a98b4a8d07bb27f1c2f91fa1cbbea06113adef",
+      "observed_at": "2026-09-04T02:37:36Z",
+      "summary": "408 repository tests, 8 focused tests, and 52 generation-free readiness checks passed; no Provider candidate generation occurred and exact approval remains the only preflight blocker.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0140/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0140/developer-test-observation.json",
+          "sha256": "dbba765663c2bc02f64f1f03f625f5620a7674ded468b1b00a27a492e18dd70c"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/developer-verification.md",
+          "sha256": "e52e0a82a90a452a305af30ed08218f40edac19f25712bb0aa3922debd7445df"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/harness-readiness.json",
+          "sha256": "ea1ab794ba5c6d81f955a3d8a5c5683db4b6b3944366dc95c06545185c5c8c97"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/preapproval-preflight.json",
+          "sha256": "73fbc46444a24425d6f7d04e30dbda8c9b4bc69adcc43d19c4bbe8f404073ecd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/live-protocol.json",
+          "sha256": "9f4e648f386c63c2c89c5efad07635960ee16a7c20c4a35b0c0a6afebcd895aa"
+        },
+        {
+          "path": "docs/validation/context-capsule-route-adherence.md",
+          "sha256": "cc4492b2c12c6b5b28cae2ab232bf225932f503005f40f7b5506f60285b96eb0"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify",
+          "node scripts/run-context-capsule-ablation.mjs prepare",
+          "node scripts/run-context-capsule-ablation.mjs rehearse",
+          "node scripts/run-context-capsule-ablation.mjs preflight"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T02:37:36Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T024119Z-B6646DAF",
+      "work_item_id": "WI-0140",
+      "recorded_at": "2026-09-04T02:41:19.161Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0140 generation-free quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "4a59131b8a2b2112752dc1a92bd450e880e72de7",
+      "observed_at": "2026-09-04T02:39:14Z",
+      "summary": "Quality evaluation passed 8 focused tests, 30 frozen-lab checks, 52 readiness checks, and adversarial path and protocol counterexamples; no Provider candidate generation occurred.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0140/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0140/quality-test-observation.json",
+          "sha256": "4a4ac44ed2f5ab83864a66b80c63549bd07b0417d78140858c66ad79552c580e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/live-protocol.json",
+          "sha256": "9f4e648f386c63c2c89c5efad07635960ee16a7c20c4a35b0c0a6afebcd895aa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/harness-readiness.json",
+          "sha256": "ea1ab794ba5c6d81f955a3d8a5c5683db4b6b3944366dc95c06545185c5c8c97"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/preapproval-preflight.json",
+          "sha256": "73fbc46444a24425d6f7d04e30dbda8c9b4bc69adcc43d19c4bbe8f404073ecd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/quality-evaluation.md",
+          "sha256": "3fe5564cb57f530a804dbd59d5a92cfc0ea306a3381b55bebd7f4d4f65b8cb53"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "node scripts/run-context-capsule-ablation.mjs inspect"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T02:39:14Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T024536Z-1A51EFFB",
+      "work_item_id": "WI-0140",
+      "recorded_at": "2026-09-04T02:45:36.526Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0140 independent QA",
+      "outcome": "pass",
+      "scope_revision": "c84a31eb9d4c46a22f189640d86ad2488ea1e919",
+      "observed_at": "2026-09-04T02:45:11Z",
+      "summary": "Independent QA passed 8 focused route-adherence tests, 30 frozen-lab checks, 52 readiness checks, and predecessor integrity. A separate full-suite run exposed one pre-existing Console refresh test flake that passed alone; it is retained transparently and did not affect the scoped result.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0140/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0140/independent-qa-test-observation.json",
+          "sha256": "30f254af63acfe04919387fcb083ef6f43d740c8de846f2efa751440890162d4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/independent-qa.md",
+          "sha256": "2014986d6d5c0292a204cf40a7fbaa04dc34f757cae4405131f7b732927d6000"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/live-protocol.json",
+          "sha256": "9f4e648f386c63c2c89c5efad07635960ee16a7c20c4a35b0c0a6afebcd895aa"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/harness-readiness.json",
+          "sha256": "ea1ab794ba5c6d81f955a3d8a5c5683db4b6b3944366dc95c06545185c5c8c97"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/preapproval-preflight.json",
+          "sha256": "73fbc46444a24425d6f7d04e30dbda8c9b4bc69adcc43d19c4bbe8f404073ecd"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0140/quality-evaluation.md",
+          "sha256": "3fe5564cb57f530a804dbd59d5a92cfc0ea306a3381b55bebd7f4d4f65b8cb53"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "node scripts/run-context-capsule-ablation.mjs inspect",
+          "git diff --quiet 1461cf6 -- .ai-org/artifacts/WI-0139"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T02:44:59Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T031225Z-6C72600E",
+      "work_item_id": "WI-0141",
+      "recorded_at": "2026-09-04T03:12:25.365Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0141 generation-gated harness revision",
+      "outcome": "verified",
+      "scope_revision": "091f9264889e78209194d5aabc55bcb3f52f028c",
+      "observed_at": "2026-09-04T03:12:25.365Z",
+      "summary": "Runner and focused tests establish the WI-0141 boundary while preserving WI-0140.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "091f9264889e78209194d5aabc55bcb3f52f028c"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "091f9264889e78209194d5aabc55bcb3f52f028c",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T031329Z-9E8829AE",
+      "work_item_id": "WI-0141",
+      "recorded_at": "2026-09-04T03:13:29.280Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0141 generation-free readiness",
+      "outcome": "pass",
+      "scope_revision": "091f9264889e78209194d5aabc55bcb3f52f028c",
+      "observed_at": "2026-09-04T03:11:39Z",
+      "summary": "Focused tests and full repository verification passed; the only live preflight blocker is exact approval.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0141/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0141/developer-test-observation.json",
+          "sha256": "fe54fc3b928fe5613046dab9f9d257a89d7d4cfcaccde6e6a1255f9b9d1abee5"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/developer-verification.md",
+          "sha256": "d1b43585cb881730795ebf7aa271b7a41da1bd66c152ea89bbf0bf81ef38ef93"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/harness-readiness.json",
+          "sha256": "45435e7429eae18fd3d9b9e1de9e1836a1abfeddd5d98c7824b606281e979b31"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/preapproval-preflight.json",
+          "sha256": "9367879dd761ab3d527871af7844937a776bf4dc0c0048c6b9a0541f546fe58a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-protocol.json",
+          "sha256": "06c59452edc531eb108ea55d3e9783f33ea16ac2650085fc21e395f742439b25"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "node scripts/run-context-capsule-ablation.mjs prepare",
+          "node scripts/run-context-capsule-ablation.mjs rehearse",
+          "node scripts/run-context-capsule-ablation.mjs preflight",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T03:10:00Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T033025Z-0D21A3F9",
+      "work_item_id": "WI-0141",
+      "recorded_at": "2026-09-04T03:30:25.852Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "runtime",
+      "title": "WI-0141 live eight-turn comparison",
+      "outcome": "pass",
+      "scope_revision": "091f9264889e78209194d5aabc55bcb3f52f028c",
+      "observed_at": "2026-09-04T03:22:12.085Z",
+      "summary": "All eight approved Terra-medium candidates completed correctly with zero retry and zero fallback.",
+      "adapter": {
+        "id": "runtime-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0141/live-runtime-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-runtime-observation.json",
+          "sha256": "1bab8665b95fde1a3113b50a466da8fb703e7e22f8cd9b555f0c921fe7e2db0e"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/account-approval.json",
+          "sha256": "a90fb3bad1f97df1aa92e6a8d514fd5b1ff0d9dfa464a77f7e277f337a3a0a20"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/approved-preflight.json",
+          "sha256": "2392f45e005a6860556881663b78707a1b047ca3b0166ca900b01068728212c9"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-protocol.json",
+          "sha256": "06c59452edc531eb108ea55d3e9783f33ea16ac2650085fc21e395f742439b25"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-observation.json",
+          "sha256": "ee48dd876e72d4e5806afbd971fe483b99cabc59575f5a9087bb33930a43e2ee"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/effectiveness-analysis.json",
+          "sha256": "5c5259915f8be717657098f164a41600192fb01826d671d7991f3b9464f55e07"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-evaluation.md",
+          "sha256": "cde6c76ed4327aa9c5d4029641b86c5bc7c851e3f62eb3feab06b73aa52943f3"
+        }
+      ],
+      "details": {
+        "environment": "Local Codex App Server with isolated disposable Git repositories",
+        "scenario": "Eight-turn Terra-medium Context Capsule route-adherence comparison",
+        "provenance": "live"
+      }
+    },
+    {
+      "id": "EVID-20260904T033026Z-43F15CE8",
+      "work_item_id": "WI-0141",
+      "recorded_at": "2026-09-04T03:30:26.057Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0141 analysis and repository verification",
+      "outcome": "pass",
+      "scope_revision": "cd3d43c52f002b3a9efad09fd1a099c367a661b1",
+      "observed_at": "2026-09-04T03:29:24Z",
+      "summary": "Analysis regression tests and the full repository verification passed on the retained live observation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0141/live-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-test-observation.json",
+          "sha256": "df0e0672a4f3f169458c796746deb1525c6fec9e23216a4b2acb17ecb21451b4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/effectiveness-analysis.json",
+          "sha256": "5c5259915f8be717657098f164a41600192fb01826d671d7991f3b9464f55e07"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/effectiveness-report.md",
+          "sha256": "33d867d008ee36520ecca43c7dd916d571687047631de166c2589a660414b0f6"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-evaluation.md",
+          "sha256": "cde6c76ed4327aa9c5d4029641b86c5bc7c851e3f62eb3feab06b73aa52943f3"
+        },
+        {
+          "path": "docs/validation/context-capsule-route-adherence.md",
+          "sha256": "3a76f1ce97dd011f9d6d6e52412cddce70976a7e6c7d01be977938161943f6e8"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "node scripts/run-context-capsule-ablation.mjs analyze",
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T03:25:19Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T033155Z-337E0A23",
+      "work_item_id": "WI-0141",
+      "recorded_at": "2026-09-04T03:31:55.573Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0141 quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "5afa1858c19cff8ea1e220738730008d0f51f199",
+      "observed_at": "2026-09-04T03:31:28Z",
+      "summary": "Quality evaluation reproduced the live evidence totals, interpretation boundaries, sealed-run guard, and repository checks.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0141/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0141/quality-test-observation.json",
+          "sha256": "b49f371443c3570fb901032704dc36b0eed3e36f229c549441f41cf48f98f139"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-protocol.json",
+          "sha256": "06c59452edc531eb108ea55d3e9783f33ea16ac2650085fc21e395f742439b25"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-observation.json",
+          "sha256": "ee48dd876e72d4e5806afbd971fe483b99cabc59575f5a9087bb33930a43e2ee"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/effectiveness-analysis.json",
+          "sha256": "5c5259915f8be717657098f164a41600192fb01826d671d7991f3b9464f55e07"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-evaluation.md",
+          "sha256": "cde6c76ed4327aa9c5d4029641b86c5bc7c851e3f62eb3feab06b73aa52943f3"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/quality-evaluation.md",
+          "sha256": "9b0e6ef870eb32405604971b4034da8da7f01627218a87700cb1a32ef67ed056"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "npm run check",
+          "node inline WI-0141 protocol-observation-analysis consistency check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T03:31:15Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T033413Z-4DD12191",
+      "work_item_id": "WI-0141",
+      "recorded_at": "2026-09-04T03:34:13.682Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0141 independent QA",
+      "outcome": "pass",
+      "scope_revision": "7bc2d55580e1d90e950ae390f328d6b8cae25d03",
+      "observed_at": "2026-09-04T03:33:00Z",
+      "summary": "Independent QA reproduced the bounded live result, limitations, sealed evidence, and accepted interpretation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0141/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0141/independent-qa-test-observation.json",
+          "sha256": "c4ac1583c7d324590c7bd4e32ffa304b595e6468d0ba298d383d808014c3c091"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-protocol.json",
+          "sha256": "06c59452edc531eb108ea55d3e9783f33ea16ac2650085fc21e395f742439b25"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-observation.json",
+          "sha256": "ee48dd876e72d4e5806afbd971fe483b99cabc59575f5a9087bb33930a43e2ee"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/effectiveness-analysis.json",
+          "sha256": "5c5259915f8be717657098f164a41600192fb01826d671d7991f3b9464f55e07"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/live-evaluation.md",
+          "sha256": "cde6c76ed4327aa9c5d4029641b86c5bc7c851e3f62eb3feab06b73aa52943f3"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0141/independent-qa.md",
+          "sha256": "6d4ee4c011fba5e202dcea5cc08b20833121d96e2e839b9c9ebb303ce1e943b3"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "node inline WI-0141 independent artifact recomputation",
+          "git diff --quiet 25b846d -- .ai-org/artifacts/WI-0140",
+          "node ./templew.mjs doctor . --json"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T03:31:56Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T040357Z-A12FCBF4",
+      "work_item_id": "WI-0142",
+      "recorded_at": "2026-09-04T04:03:57.632Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0142 evaluation controls candidate",
+      "outcome": "verified",
+      "scope_revision": "5197e7a3b513ab0d4f06e31163f29549a0103f43",
+      "observed_at": "2026-09-04T04:03:57.632Z",
+      "summary": "Exact committed candidate with acquisition normalization, cache-aware causal gating, reusable guide, protocol template, and developer verification.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "5197e7a"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "5197e7a",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T040357Z-903481F2",
+      "work_item_id": "WI-0142",
+      "recorded_at": "2026-09-04T04:03:57.872Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0142 developer verification",
+      "outcome": "pass",
+      "scope_revision": "250abc73c0b1ddfb56e0d6d9853fe200f74c3c2d",
+      "observed_at": "2026-09-04T04:02:31.000Z",
+      "summary": "Focused acquisition and cache regressions, repository checks, documentation links, package boundary, and the final 411-test suite passed without model generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0142/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0142/developer-test-observation.json",
+          "sha256": "2e6dae90f743b75578841445b302ee8ea0175c7c5b032fdeeef656ffc2813af4"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0142/developer-verification.md",
+          "sha256": "efda574e13b422f77e91d1febc9e46ef1a2d33e3b5416205972660c6037abe97"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0142/measurement-repair-result.md",
+          "sha256": "1550989ec3bc64beb935086065ed8fe0cb19609463641705342820090d2ebddc"
+        },
+        {
+          "path": "docs/operations/model-and-process-evaluation.md",
+          "sha256": "2821a6773e92ea18bd64acc5b5f790ff56b6ff55221fd334d7fd7c404d04cb7c"
+        },
+        {
+          "path": ".ai-org/templates/model-process-evaluation-protocol.json",
+          "sha256": "95bfdb8d8214828c1f984b9697e2cccd3d98adcaeba076976f4d41763d8dd139"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "npm run check",
+          "npm run verify",
+          "git diff --check",
+          "git diff --name-only 496a949 -- .ai-org/artifacts/WI-0141"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T04:01:18.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T040519Z-6F6737A5",
+      "work_item_id": "WI-0142",
+      "recorded_at": "2026-09-04T04:05:19.703Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0142 quality evaluation",
+      "outcome": "pass",
+      "scope_revision": "5197e7a3b513ab0d4f06e31163f29549a0103f43",
+      "observed_at": "2026-09-04T04:04:39.000Z",
+      "summary": "Quality evaluation passed focused regressions, documentation links, retained-data projection, cache claim gating, and predecessor immutability without model generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0142/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0142/quality-test-observation.json",
+          "sha256": "d2efe45db1955de5ef3d0680692767e6d28adf78af1086f260dccd1653b95b03"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0142/quality-evaluation.md",
+          "sha256": "a9d1b961bdbcd04d2fe7a40aa82612e91bb8c50d1b9629ef32a22883275df888"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0142/measurement-repair-result.md",
+          "sha256": "1550989ec3bc64beb935086065ed8fe0cb19609463641705342820090d2ebddc"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "node scripts/check-doc-links.mjs",
+          "deterministic WI-0141 analysis v5 projection assertion",
+          "git diff --name-only 496a949 -- .ai-org/artifacts/WI-0141"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T04:04:27.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T040959Z-A131A6A3",
+      "work_item_id": "WI-0142",
+      "recorded_at": "2026-09-04T04:09:59.922Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0142 independent QA",
+      "outcome": "pass",
+      "scope_revision": "567da1996df5d47a10cb66677b4fa467c41060f3",
+      "observed_at": "2026-09-04T04:08:53.000Z",
+      "summary": "Detached exact-revision verification passed 11 focused and 411 complete tests; WI-0141 artifacts remained unchanged; no model generation or external action.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0142/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0142/independent-qa-test-observation.json",
+          "sha256": "db666d8115aafd85163ff57d5d9166c496b86fd6f238c3386fef55c4fe8d1580"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0142/independent-qa-report.md",
+          "sha256": "d9467974d49909c1713b66aa2b740f9525b35356e71796ad6b771dc8fd4b42eb"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0142/measurement-repair-result.md",
+          "sha256": "1550989ec3bc64beb935086065ed8fe0cb19609463641705342820090d2ebddc"
+        },
+        {
+          "path": "docs/operations/model-and-process-evaluation.md",
+          "sha256": "2821a6773e92ea18bd64acc5b5f790ff56b6ff55221fd334d7fd7c404d04cb7c"
+        },
+        {
+          "path": ".ai-org/templates/model-process-evaluation-protocol.json",
+          "sha256": "95bfdb8d8214828c1f984b9697e2cccd3d98adcaeba076976f4d41763d8dd139"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context-capsule-ablation.test.mjs",
+          "npm run verify",
+          "git diff --name-only 496a9490ea05462ddc738b4320554c8f11a949ac -- .ai-org/artifacts/WI-0141"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T04:07:16.000Z"
+      }
     }
   ]
 }

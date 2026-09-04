@@ -1,0 +1,133 @@
+{
+  "schema_version": "temple.context-capsule-ablation-readiness/v1",
+  "work_item_id": "WI-0139",
+  "protocol_sha256": "ef5c9608f83fb7a70793f64d400f0c2434a8c1f1ccf8f37a7cbea9dc665ea81b",
+  "completed_at": "2026-09-04T01:43:57.391Z",
+  "pass": true,
+  "lab_root_id": "temple-wi0139-context-capsule-ablation",
+  "checks": [
+    {
+      "id": "protocol-valid",
+      "pass": true
+    },
+    {
+      "id": "lab-manifest-digest",
+      "pass": true
+    },
+    {
+      "id": "single-stage-aware-package-present",
+      "pass": true
+    },
+    {
+      "id": "single-stage-aware-package-digest",
+      "pass": true
+    },
+    {
+      "id": "single-stage-aware-repository-parity",
+      "pass": true
+    },
+    {
+      "id": "multi-legacy-expanded-package-present",
+      "pass": true
+    },
+    {
+      "id": "multi-legacy-expanded-package-digest",
+      "pass": true
+    },
+    {
+      "id": "multi-legacy-expanded-repository-parity",
+      "pass": true
+    },
+    {
+      "id": "single-legacy-expanded-package-present",
+      "pass": true
+    },
+    {
+      "id": "single-legacy-expanded-package-digest",
+      "pass": true
+    },
+    {
+      "id": "single-legacy-expanded-repository-parity",
+      "pass": true
+    },
+    {
+      "id": "multi-stage-aware-package-present",
+      "pass": true
+    },
+    {
+      "id": "multi-stage-aware-package-digest",
+      "pass": true
+    },
+    {
+      "id": "multi-stage-aware-repository-parity",
+      "pass": true
+    },
+    {
+      "id": "single-repository-treatment-difference",
+      "pass": true
+    },
+    {
+      "id": "coordinator-multi-repository-treatment-difference",
+      "pass": true
+    },
+    {
+      "id": "all-injected-candidates-objectively-pass",
+      "pass": true
+    },
+    {
+      "id": "malformed-output-fails-closed",
+      "pass": true
+    },
+    {
+      "id": "output-schemas-portable",
+      "pass": true
+    },
+    {
+      "id": "output-schemas-answer-free",
+      "pass": true
+    },
+    {
+      "id": "retained-false-negatives-project-to-typed-facts",
+      "pass": true
+    },
+    {
+      "id": "configured-route-acknowledged-before-generation",
+      "pass": true
+    },
+    {
+      "id": "safe-package-read-accepted",
+      "pass": true
+    },
+    {
+      "id": "path-escape-rejected",
+      "pass": true
+    },
+    {
+      "id": "model-reroute-rejected",
+      "pass": true
+    },
+    {
+      "id": "zero-retry",
+      "pass": true
+    },
+    {
+      "id": "zero-fallback",
+      "pass": true
+    },
+    {
+      "id": "zero-provider-generation",
+      "pass": true
+    },
+    {
+      "id": "analysis-path-completed",
+      "pass": true
+    }
+  ],
+  "candidate_turn_count": 0,
+  "simulated_condition_count": 4,
+  "evaluator_turn_count": 0,
+  "retry_count": 0,
+  "fallback_count": 0,
+  "operational_tokens": 0,
+  "model_generation_performed": false
+}

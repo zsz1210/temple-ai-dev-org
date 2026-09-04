@@ -1,0 +1,9 @@
+{
+  "name": "temple-benchmark-coordinator",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/public-integration.test.mjs",
+    "test:hidden-contract": "node --test evaluator-only/held-out-integration.test.mjs"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "e665db9d13b7e11599205227034e4d7f35804d67",
+  "command": [
+    "npm",
+    "run",
+    "verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-03T12:07:30.000Z",
+  "completed_at": "2026-09-03T12:08:37.000Z",
+  "artifact_refs": [
+    "scripts/run-representative-microservice-comparison.mjs",
+    "test/representative-microservice-comparison.test.mjs",
+    ".ai-org/artifacts/WI-0136/context-ablation-protocol.json",
+    ".ai-org/artifacts/WI-0136/context-ablation-approval.template.json",
+    ".ai-org/artifacts/WI-0136/context-ablation-preflight-report.md",
+    ".ai-org/artifacts/WI-0136/protocol-history.md",
+    "docs/validation/representative-microservice-comparison.md"
+  ]
+}

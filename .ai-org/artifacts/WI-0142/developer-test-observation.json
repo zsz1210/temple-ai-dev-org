@@ -1,0 +1,33 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "250abc73c0b1ddfb56e0d6d9853fe200f74c3c2d",
+  "command": [
+    "node --test test/context-capsule-ablation.test.mjs",
+    "npm run check",
+    "npm run verify",
+    "git diff --check",
+    "git diff --name-only 496a949 -- .ai-org/artifacts/WI-0141"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T04:01:18.000Z",
+  "completed_at": "2026-09-04T04:02:31.000Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0142/developer-verification.md",
+    ".ai-org/artifacts/WI-0142/measurement-repair-result.md",
+    "docs/operations/model-and-process-evaluation.md",
+    ".ai-org/templates/model-process-evaluation-protocol.json"
+  ],
+  "summary": {
+    "focused_tests_passed": 11,
+    "focused_tests_failed": 0,
+    "full_tests_passed": 411,
+    "full_tests_failed": 0,
+    "transient_unrelated_timeout_observed_before_clean_rerun": true,
+    "transient_test": "optional Console emits a bounded refresh signal after canonical state changes",
+    "transient_test_isolated_rerun": "pass",
+    "wi_0141_artifact_diff": false,
+    "external_action_performed": false,
+    "model_invocation_performed": false
+  }
+}
