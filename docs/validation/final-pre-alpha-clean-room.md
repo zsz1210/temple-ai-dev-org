@@ -53,6 +53,8 @@ The next release steps remain separate Human decisions: choose the candidate ver
 
 A read-only public-profile audit during evidence reconciliation also found four blocked maintainer-path occurrences in retained WI-0155 and WI-0156 artifacts. The package surface remained clean. Those historical records need a provenance-preserving redaction or an explicitly reviewed publication treatment before repository visibility changes; they do not change the clean-room result.
 
+WI-0159 later replaced those values in the current tracked copies with non-identifying placeholders and retained a digest-based redaction manifest. The original WI-0155 and WI-0156 Evidence remains bound to its immutable historical revisions. This clears the current-tree blockers but does not decide whether the already-shared Git history is acceptable for publication.
+
 ## Evidence
 
 - Protocol: `.ai-org/artifacts/WI-0158/clean-room-protocol.json`

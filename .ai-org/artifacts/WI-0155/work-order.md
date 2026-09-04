@@ -8,10 +8,10 @@ Test whether a new Codex task with no Temple conversation history can use only r
 
 - Temple source revision: `779ba588f4c7315871c4ff0eaeb1df76bfca669a`
 - Package: `@zsz1210/temple-ai-dev-org@0.1.0-alpha.29`
-- Tarball: `/private/tmp/wi0155-package.TwBetl/zsz1210-temple-ai-dev-org-0.1.0-alpha.29.tgz`
+- Tarball: `<FROZEN_TARBALL>`
 - Tarball SHA-256: `fb910bce72b6560cffdd973fa3fda2735a060c39f083b0328c57c092034aeb69`
 - Tarball inventory: 370 files, 797,992 packed bytes, 3,173,551 unpacked bytes
-- Disposable project: `/Users/zsz1210/Documents/ChatGPT/temple-clean-room-wi-0155.QXrZ4y`
+- Disposable project: `<DISPOSABLE_PROJECT>`
 - Participant brief: `.ai-org/artifacts/WI-0155/participant-brief.md`
 
 The tarball was produced from a clean detached worktree at the exact source revision. It is local-only and is not an npm publication.
@@ -47,4 +47,3 @@ The result is one bounded observation. It cannot establish unaided human usabili
 Stop and return to the Human Principal if the run requests external spend, a reset, a fallback model, repository visibility changes, remote writes, publication, destructive history changes, sensitive credentials, or a product-scope decision outside the participant brief. Ordinary local implementation decisions and reversible fixes remain automatic.
 
 The sample product freezes after accepted closeout and cold recovery. Do not continue developing it.
-

@@ -1,0 +1,94 @@
+{
+  "schema_version": "temple.current-tree-redaction-manifest/v1",
+  "work_item_id": "WI-0159",
+  "created_at": "2026-09-04T14:44:59Z",
+  "purpose": "Remove machine-identifying absolute paths from current retained artifacts while preserving revision-pinned historical evidence.",
+  "original_values_retained": false,
+  "historical_git_objects_changed": false,
+  "records": [
+    {
+      "path": ".ai-org/artifacts/WI-0155/clean-room-result.json",
+      "source_revisions": [
+        "9d1d42b6aa86c7b25a572165703543bf1525e13e",
+        "b20b529e7d14783b7acd160a63e4dd87e4181de2"
+      ],
+      "evidence_ids": [
+        "EVID-20260904T124140Z-9741C1FA",
+        "EVID-20260904T124803Z-8289E69D"
+      ],
+      "original_git_blob_sha1": "1c62cde7c69b1e4df80d6cbc550d38ea23130e80",
+      "original_sha256": "cfbef6a58f7124789ec973cb381c4f281a6b63355a4c7f0048a74e070db4e885",
+      "replacement_sha256": "3ffdf5ca88158dd90bd361c90890060daf3d5dce3a5546fcf9be96b93bdfbcf2",
+      "normalized_locations": [
+        "target.path"
+      ],
+      "replacement_classes": [
+        "disposable-project-placeholder"
+      ]
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0155/participant-brief.md",
+      "source_revisions": [
+        "9d1d42b6aa86c7b25a572165703543bf1525e13e"
+      ],
+      "evidence_ids": [],
+      "original_git_blob_sha1": "abe31d41758e001920bb81ef958fee6e4e8afe5d",
+      "original_sha256": "7bc8632c3e0ca2fe1618291aae152dfe364e0cc91af6d7ee02c0bd160f9699b5",
+      "replacement_sha256": "5843805c92ed3ed49953e6bceaba7fa41a42910cd37a15eedab625c58f5d814f",
+      "normalized_locations": [
+        "Inputs.Frozen Temple package",
+        "Inputs.Empty disposable project directory"
+      ],
+      "replacement_classes": [
+        "frozen-tarball-placeholder",
+        "disposable-project-placeholder"
+      ]
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0155/work-order.md",
+      "source_revisions": [
+        "9d1d42b6aa86c7b25a572165703543bf1525e13e",
+        "b20b529e7d14783b7acd160a63e4dd87e4181de2"
+      ],
+      "evidence_ids": [
+        "EVID-20260904T124140Z-9741C1FA",
+        "EVID-20260904T124803Z-8289E69D"
+      ],
+      "original_git_blob_sha1": "4d98d3d8c102ad3308dc2906d5fbcd66719f5896",
+      "original_sha256": "6ecdb78355d628506a71674f547f187ec46dfaa91e48908eb4ea6b51d2d09a17",
+      "replacement_sha256": "a31eafd9544754e95e4d6d726399962bf8d1f50a0a7dd4d41943cbc08a64fe6d",
+      "normalized_locations": [
+        "Frozen inputs.Tarball",
+        "Frozen inputs.Disposable project"
+      ],
+      "replacement_classes": [
+        "frozen-tarball-placeholder",
+        "disposable-project-placeholder"
+      ]
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0156/clean-room-comparison.json",
+      "source_revisions": [
+        "336bd945b49e80a3e6d9459a8d093790d1200f9b"
+      ],
+      "evidence_ids": [
+        "EVID-20260904T132431Z-E88215DA",
+        "EVID-20260904T132724Z-3A5A2F08"
+      ],
+      "original_git_blob_sha1": "bca02e1689b7eaf3bd71e13911199cc197d8a618",
+      "original_sha256": "5713932028094c6674bb4dfd20e20fc21b2af0c0de4c0cd72f3717425a2b298a",
+      "replacement_sha256": "9fba2c389f2c3bd68bad292a1dff0d57ed50e058503aff58ed209369708af53e",
+      "normalized_locations": [
+        "target.path"
+      ],
+      "replacement_classes": [
+        "disposable-project-placeholder"
+      ]
+    }
+  ],
+  "verification_contract": {
+    "historical_evidence": "Verify the original bytes and recorded SHA-256 at each Evidence entry's immutable scope_revision.",
+    "current_tree": "Verify each replacement_sha256 against the current tracked file and run the public Evidence Profile audit.",
+    "history_disposition": "Human decision required before publication; this manifest neither approves exposure nor authorizes history rewriting."
+  }
+}
