@@ -1,0 +1,34 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "f01cafc6611ce387760fb822e11b202775767615",
+  "command": [
+    "git diff --check",
+    "npm run verify:fast",
+    "npm run verify",
+    "Current planning terminology and claim-boundary review"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T09:15:20Z",
+  "completed_at": "2026-09-04T09:17:22Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0150/developer-verification.md",
+    ".ai-org/artifacts/WI-0150/work-order.md",
+    "docs/planning/release-readiness.md",
+    "docs/planning/roadmap.md"
+  ],
+  "summary": {
+    "focused_tests_passed": 25,
+    "full_tests_passed": 422,
+    "tests_failed": 0,
+    "repository_checks_passed": true,
+    "documentation_links_passed": true,
+    "package_boundary_passed": true,
+    "external_participant_required": false,
+    "fresh_session_required": true,
+    "new_disposable_project_required": true,
+    "cold_recovery_required": true,
+    "external_human_usability_claimed": false,
+    "external_publication_performed": false
+  }
+}

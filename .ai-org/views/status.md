@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 149 total, 5 active
+- Work items: 150 total, 5 active
 - Codex tasks: 6 registered, 6 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -197,6 +197,7 @@
 | WI-0147 | Keep bounded CI within its declared runtime | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aca402e2` | 0 | 6 | 0 |
 | WI-0148 | Generalize README concept and Work Item diagrams | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `32a5a3c5` | 0 | 6 | 0 |
 | WI-0149 | Refresh current Alpha release readiness | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `8d2b1135` | 0 | 6 | 0 |
+| WI-0150 | Replace external novice gate with clean-room rehearsal | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f01cafc6` | 0 | 6 | 0 |
 
 ## Codex task registry
 
@@ -338,14 +339,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T09:06:21.068Z | work_item_closed | WI-0149 | agent-lulu |
-| 2026-09-04T09:06:21.068Z | work_item_transitioned | WI-0149 | agent-lulu |
-| 2026-09-04T09:06:14.619Z | evidence_recorded | WI-0149 | human |
-| 2026-09-04T09:04:59.295Z | work_item_transitioned | WI-0149 | agent-rikku |
-| 2026-09-04T09:04:58.998Z | handoff_created | WI-0149 | agent-rikku |
-| 2026-09-04T09:04:48.318Z | evidence_recorded | WI-0149 | human |
-| 2026-09-04T09:04:48.080Z | evidence_recorded | WI-0149 | human |
-| 2026-09-04T08:58:03.924Z | work_item_claimed | WI-0149 | human |
+| 2026-09-04T09:18:55.995Z | work_item_closed | WI-0150 | agent-lulu |
+| 2026-09-04T09:18:55.995Z | work_item_transitioned | WI-0150 | agent-lulu |
+| 2026-09-04T09:18:41.008Z | evidence_recorded | WI-0150 | human |
+| 2026-09-04T09:17:57.291Z | work_item_transitioned | WI-0150 | agent-rikku |
+| 2026-09-04T09:17:56.977Z | handoff_created | WI-0150 | agent-rikku |
+| 2026-09-04T09:17:48.292Z | evidence_recorded | WI-0150 | human |
+| 2026-09-04T09:17:48.033Z | evidence_recorded | WI-0150 | human |
+| 2026-09-04T09:15:04.449Z | work_item_claimed | WI-0150 | human |
 
 ## Assignments
 

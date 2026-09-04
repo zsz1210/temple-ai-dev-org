@@ -60,7 +60,7 @@ Temple's static Lean context has since been reduced by about 39% for those fixtu
 
 ### 4. Real-world qualification — current
 
-- verify that a new user and a fresh Agent can complete the Core Path without maintainer chat history
+- verify that a fresh AI Agent can complete the Core Path in a disposable new project using only repository-visible instructions, with no prior Temple chat history or maintainer coaching
 - compare Temple with a competent conventional workflow under matched tasks, models, tools, and acceptance tests
 - confirm that the smaller Lean context reduces measured Token and latency overhead without losing quality
 - compare Temple's adaptive route with a fixed model route while keeping the Temple process unchanged
@@ -68,6 +68,8 @@ Temple's static Lean context has since been reduced by about 39% for those fixtu
 - measure correctness, recovery, rework, human intervention, Tokens, latency, and operating overhead
 
 This milestone succeeds only with decision-grade evidence. A neutral or negative result must narrow, simplify, or remove the mechanism that failed to justify its cost.
+
+An external first-time-human study can add broader usability evidence later, but it is not required for a narrowly labeled AI-assisted Alpha. Temple must not claim unaided beginner usability until that separate question is actually tested.
 
 ### 5. Ecosystem and public distribution — later
 
