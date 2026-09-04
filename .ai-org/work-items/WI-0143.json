@@ -1,0 +1,215 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0143",
+  "title": "Validate cache-controlled Context Capsule effectiveness",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-04T04:37:02.048Z",
+  "updated_at": "2026-09-04T05:12:03.302Z",
+  "scope": [
+    "Run one bounded live process-only comparison of Routed Context versus Full-load Context using the same approved model and reasoning effort across matched task shapes.",
+    "Freeze assignment order, cache-control rule, acquisition classification, quality rubric, Provider contract, privacy boundary, operational Token ceiling, wall-clock ceiling, zero retry, and zero fallback before generation.",
+    "Complete generation-free preparation and stop for exact protocol approval before any model invocation; then retain objective quality, Token components, latency, acquisition, and cache-sensitivity evidence for an evidence-bounded conclusion."
+  ],
+  "acceptance_criteria": [
+    "A content-addressed protocol and approval template isolate context treatment as the causal factor and keep model, reasoning, repository revision, tasks, tooling, and evaluator fixed.",
+    "Preflight proves every candidate package, fixture, command boundary, output schema, cache-control requirement, stop condition, and Provider field against the installed contract without generating model output.",
+    "The live run cannot start without an affirmative approval matching the exact protocol digest, model, reasoning effort, sample count, Token ceiling, time ceiling, and Pro-only spending boundary.",
+    "Analysis makes objective quality primary, reports gross input, cached input, non-cached input, output, Operational Tokens, latency, human intervention, rework, and acquisition coverage separately, and blocks causal claims when cache control fails.",
+    "No retry, fallback, automatic routing change, historical evidence rewrite, external publication, or production action occurs."
+  ],
+  "affected_paths": [
+    "scripts/run-context-capsule-ablation.mjs",
+    "test/context-capsule-ablation.test.mjs",
+    "docs/validation/context-capsule-cache-controlled-evaluation.md",
+    ".ai-org/artifacts/WI-0143"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "A live Provider experiment has bounded cost and evidence-integrity risk, so it requires the standard lifecycle and an exact pre-generation approval boundary.",
+    "evidence_refs": [
+      ".ai-org/artifacts/WI-0142/release-record.md"
+    ],
+    "evaluated_at": "2026-09-04T04:37:02.047Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "3b75297762230f1d0d6d71972d6a1c8b811567ab",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0138 is a frozen predecessor at release_gate with no active claim; WI-0143 owns successor-only edits to the shared harness and tests and must not rewrite WI-0138 artifacts."
+  ],
+  "claim": {
+    "id": "claim-20260904044158-a12d98b1",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "3b75297762230f1d0d6d71972d6a1c8b811567ab",
+    "branch": "codex/wi-0143-cache-controlled-context-experiment",
+    "worktree": null,
+    "claimed_at": "2026-09-04T04:41:58.072Z",
+    "released_at": "2026-09-04T05:03:34.794Z",
+    "release_reason": [
+      "Developer handoff to Quality Evaluator completed."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260904044158-a12d98b1",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "3b75297762230f1d0d6d71972d6a1c8b811567ab",
+      "branch": "codex/wi-0143-cache-controlled-context-experiment",
+      "worktree": null,
+      "claimed_at": "2026-09-04T04:41:58.072Z",
+      "released_at": "2026-09-04T05:03:34.794Z",
+      "release_reason": [
+        "Developer handoff to Quality Evaluator completed."
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0143/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0143/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0143.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0143/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0143/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0143/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0143/live-observation.json",
+      ".ai-org/artifacts/WI-0143/effectiveness-analysis.json",
+      "EVID-20260904T050323Z-F4585C73"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0143/quality-test-observation.json"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0143/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0143/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0143/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0143/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0143/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0143/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0143/work-order.md",
+    ".ai-org/artifacts/WI-0143/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0143/approved-scope.md",
+    ".ai-org/work-items/WI-0143.json",
+    ".ai-org/artifacts/WI-0143/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0143/technical-design.md",
+    ".ai-org/artifacts/WI-0143/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0143/live-observation.json",
+    ".ai-org/artifacts/WI-0143/effectiveness-analysis.json",
+    "EVID-20260904T050323Z-F4585C73",
+    ".ai-org/artifacts/WI-0143/quality-test-observation.json",
+    ".ai-org/artifacts/WI-0143/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0143/quality-evaluation.md",
+    "EVID-20260904T050443Z-31430DC1",
+    ".ai-org/artifacts/WI-0143/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0143/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0143/independent-qa-test-observation.json",
+    ".ai-org/artifacts/WI-0143/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "3b75297762230f1d0d6d71972d6a1c8b811567ab",
+      "artifact": ".ai-org/artifacts/WI-0143/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-04T04:41:41.166Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "3b75297762230f1d0d6d71972d6a1c8b811567ab",
+      "artifact": ".ai-org/artifacts/WI-0143/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-04T04:41:48.367Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "3b75297762230f1d0d6d71972d6a1c8b811567ab",
+      "artifact": ".ai-org/artifacts/WI-0143/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-04T04:41:57.282Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "e02ab92ca845858fb519c0ca0daafadc2c63a8b9",
+      "artifact": ".ai-org/artifacts/WI-0143/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-04T05:03:34.507Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "e02ab92ca845858fb519c0ca0daafadc2c63a8b9",
+      "artifact": ".ai-org/artifacts/WI-0143/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-04T05:04:54.529Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "e02ab92ca845858fb519c0ca0daafadc2c63a8b9",
+      "artifact": ".ai-org/artifacts/WI-0143/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-04T05:06:05.150Z"
+    }
+  ],
+  "developer_candidate_revision": "e02ab92ca845858fb519c0ca0daafadc2c63a8b9",
+  "tested_revision": "e02ab92ca845858fb519c0ca0daafadc2c63a8b9",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

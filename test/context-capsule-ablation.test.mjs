@@ -1,8 +1,11 @@
 import assert from "node:assert/strict";
+import { execFile as execFileCallback } from "node:child_process";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { promisify } from "node:util";
+import { pathToFileURL } from "node:url";
 
 import {
   CONTEXT_ABLATION_ANALYSIS_SCHEMA,
@@ -28,6 +31,8 @@ import {
   validateContextAblationApproval,
   validateContextAblationProtocol
 } from "../scripts/run-context-capsule-ablation.mjs";
+
+const execFile = promisify(execFileCallback);
 
 function syntheticCondition(definition, expected, operationalTokens, latencyMs, toolBytes) {
   return {
@@ -274,6 +279,70 @@ test("generation-free preparation produces matched repositories and smaller stag
   assert.equal(preflight.generation_ready, true, preflight.blockers.join(", "));
 });
 
+test("WI-0143 profile freezes adjacent cache-matched blocks and remains approval-gated", async () => {
+  const harnessUrl = pathToFileURL(path.resolve("scripts/run-context-capsule-ablation.mjs")).href;
+  const program = `
+    import fs from "node:fs/promises";
+    import os from "node:os";
+    import path from "node:path";
+    process.argv = [process.argv[0], "context-capsule-test", "--work-item", "WI-0143"];
+    const harness = await import(${JSON.stringify(harnessUrl)});
+    const labRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0143-test-"));
+    await fs.rm(labRoot, { recursive: true, force: true });
+    try {
+      const prepared = await harness.prepareContextAblationLab(labRoot, {
+        providerContract: harness.contextAblationTestProviderContract(),
+        sourceRevision: "b".repeat(40),
+        writeArtifacts: false
+      });
+      const readiness = await harness.rehearseContextAblation(labRoot, path.join(labRoot, "live-protocol.json"), {
+        completedAt: "2026-01-01T00:00:00.000Z",
+        writeArtifacts: false
+      });
+      const preflight = await harness.preflightContextAblation(
+        labRoot,
+        path.join(labRoot, "live-protocol.json"),
+        path.join(labRoot, "missing-approval.json"),
+        { providerContract: harness.contextAblationTestProviderContract(), writeArtifacts: false, observedAt: "2026-01-01T00:00:00.000Z" }
+      );
+      process.stdout.write(JSON.stringify({
+        work_item_id: prepared.protocol.work_item_id,
+        order: prepared.protocol.execution.condition_order,
+        cache_control: prepared.protocol.cache_control,
+        valid: harness.validateContextAblationProtocol(prepared.protocol),
+        readiness_pass: readiness.pass,
+        preflight_blockers: preflight.blockers,
+        generation_ready: preflight.generation_ready
+      }));
+    } finally {
+      await fs.rm(labRoot, { recursive: true, force: true });
+    }
+  `;
+  const { stdout } = await execFile(process.execPath, ["--input-type=module", "--eval", program], {
+    cwd: path.resolve("."),
+    maxBuffer: 1024 * 1024
+  });
+  const result = JSON.parse(stdout);
+  assert.equal(result.work_item_id, "WI-0143");
+  assert.deepEqual(result.order, [
+    "single-stage-aware-a",
+    "single-legacy-expanded-a",
+    "multi-legacy-expanded-a",
+    "multi-stage-aware-a",
+    "single-legacy-expanded-b",
+    "single-stage-aware-b",
+    "multi-stage-aware-b",
+    "multi-legacy-expanded-b"
+  ]);
+  assert.equal(result.cache_control.method, "matched-cache-share");
+  assert.equal(result.cache_control.maximum_pair_delta_percentage_points, 2);
+  assert.equal(result.cache_control.pilot_basis.maximum_selected_pair_delta_percentage_points, 0.5);
+  assert.equal(result.valid.valid, true, result.valid.errors.join("\n"));
+  assert.equal(result.readiness_pass, true);
+  assert.deepEqual(result.preflight_blockers, ["exact-approval"]);
+  assert.equal(result.generation_ready, false);
+});
+
 test("bounded acquisition evidence classifies safe reads without retaining commands or output", async (context) => {
   const labRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0141-acquisition-"));
   await fs.rm(labRoot, { recursive: true, force: true });
@@ -465,6 +534,50 @@ test("analysis blocks causal efficiency when cache control was not predeclared",
   assert.equal(analysis.interpretation_boundary.causal_efficiency_claim, false);
   assert.equal(analysis.comparisons[0].repetition_pairs[1].non_cached_input_tokens.stage_aware, 700);
   assert.deepEqual(analysis.comparisons[0].cache_control.reason_codes, ["protocol-cache-control-not-declared"]);
+});
+
+test("matched-cache-share permits only predeclared pair balance", () => {
+  const expectedByShape = {
+    "single-repository": {
+      requirement_id: "REQ-ONE", duplicate_request_effect: "return-original", decision_id: "ADR-0042",
+      repository_revision: "a".repeat(40), public_tests_passed: 18, public_tests_failed: 0,
+      unresolved_risk_id: "RISK-ONE", safe_next_action_id: "ACTION-ONE", authority_source: "source"
+    },
+    "coordinator-multi-repository": {
+      contract_id: "Event/v2", compatibility_policy_id: "COMPAT-V1",
+      component_revisions: Object.fromEntries(["gateway", "catalog", "orders", "notifications"].map((id) => [id, "b".repeat(40)])),
+      completed_slice_ids: ["one"], unresolved_risk_id: "RISK-ONE",
+      authority_owner_id: "coordinator", safe_next_action_id: "ACTION-ONE"
+    }
+  };
+  const protocol = {
+    protocol_sha256: "f".repeat(64),
+    cache_control: { method: "matched-cache-share", predeclared: true, maximum_pair_delta_percentage_points: 2 },
+    conditions: conditionDefinitions.map((definition) => ({
+      ...definition,
+      treatment: { measured_source_bytes: 100, selected_source_count: 1 }
+    }))
+  };
+  const conditions = conditionDefinitions.map((definition) => syntheticCondition(
+    definition, expectedByShape[definition.shape], 1000, 1000, 100
+  ));
+  const balanced = analyzeContextAblation({ protocol, observation: { conditions } });
+  assert.equal(balanced.comparisons.every((entry) => entry.cache_control.status === "sufficient"), true);
+  assert.equal(balanced.comparisons.every((entry) => entry.causal_efficiency_claim.status === "eligible"), true);
+
+  const imbalancedConditions = structuredClone(conditions);
+  imbalancedConditions.find((entry) => entry.id === "single-stage-aware-a").usage = {
+    input_tokens: 2000,
+    cached_input_tokens: 1000,
+    output_tokens: 100,
+    reasoning_output_tokens: 0,
+    total_tokens: 2100
+  };
+  const imbalanced = analyzeContextAblation({ protocol, observation: { conditions: imbalancedConditions } });
+  const single = imbalanced.comparisons.find((entry) => entry.shape === "single-repository");
+  assert.equal(single.cache_control.status, "failed");
+  assert.deepEqual(single.cache_control.reason_codes, ["cache-share-balance-limit-exceeded"]);
+  assert.equal(single.causal_efficiency_claim.status, "blocked");
 });
 
 test("the reusable model and process evaluation template is non-executable until frozen", async () => {

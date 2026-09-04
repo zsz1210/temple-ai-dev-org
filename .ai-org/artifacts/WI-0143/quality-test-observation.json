@@ -1,0 +1,32 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "e02ab92ca845858fb519c0ca0daafadc2c63a8b9",
+  "command": [
+    "validate frozen WI-0143 protocol and exact approval",
+    "recompute effectiveness analysis from retained observation",
+    "verify condition order, objective correctness, Token total, acquisition coverage, and cache-control outcome"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T05:03:53Z",
+  "completed_at": "2026-09-04T05:04:06Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0143/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0143/effectiveness-analysis.json",
+    ".ai-org/artifacts/WI-0143/live-observation.json"
+  ],
+  "summary": {
+    "protocol_valid": true,
+    "approval_valid": true,
+    "analysis_reproduced_exactly": true,
+    "candidate_turns": 8,
+    "all_candidates_correct": true,
+    "total_operational_tokens": 233040,
+    "within_approved_limit": true,
+    "acquisition_coverage_complete": true,
+    "cache_control_single_repository": "failed",
+    "cache_control_multi_repository": "failed",
+    "causal_efficiency_claim": false,
+    "model_invocation_performed": false
+  }
+}
