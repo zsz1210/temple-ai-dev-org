@@ -23142,6 +23142,177 @@
         "exit_code": 0,
         "started_at": "2026-09-04T05:05:10Z"
       }
+    },
+    {
+      "id": "EVID-20260904T053023Z-6357FDCF",
+      "work_item_id": "WI-0144",
+      "recorded_at": "2026-09-04T05:30:23.212Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Portable model onboarding design candidate",
+      "outcome": "verified",
+      "scope_revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
+      "observed_at": "2026-09-04T05:30:23.212Z",
+      "summary": "Adds the Provider-neutral onboarding guide, clarifies execution routing, and separates Context Capsule successor programs.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
+        "working_tree_dirty": true,
+        "dirty_path_count": 2,
+        "dirty_scope": "outside-affected-scope",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T053023Z-5EA4B159",
+      "work_item_id": "WI-0144",
+      "recorded_at": "2026-09-04T05:30:23.451Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Focused routing and Context evaluation verification",
+      "outcome": "pass",
+      "scope_revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
+      "observed_at": "2026-09-04T05:29:00Z",
+      "summary": "Repository checks passed and 32 focused tests passed without Provider generation.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0144/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0144/developer-test-observation.json",
+          "sha256": "e728f6f3b77ca293810711aadb770756b56c7b18b755e331b60e42edec7e57cf"
+        },
+        {
+          "path": "docs/getting-started/model-routing.md",
+          "sha256": "170f66cdf56f7da44181e55328f6dfa2d7c4f62677ded5cba55915929ad4bcad"
+        },
+        {
+          "path": "docs/concepts/adaptive-execution-routing.md",
+          "sha256": "5f622fddbd6ab6f6261efaa3d3ada2c22a2bcf80308cfdc89385f0082069800d"
+        },
+        {
+          "path": "docs/operations/execution-routing.md",
+          "sha256": "0bbc82628bf6a5013f10867aaa9834e82b19d1556d576ed95ef476c24eec0a49"
+        },
+        {
+          "path": "docs/validation/context-capsule-successor-evaluations.md",
+          "sha256": "06eb2bf2d13d92f6bf7f6012562edf77d6e7920caa539fb4e1cc4d18ad68f7ac"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run check",
+          "node --test test/execution-routing.test.mjs test/context-capsule-ablation.test.mjs",
+          "git diff --check"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T05:28:00Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T053254Z-56934955",
+      "work_item_id": "WI-0144",
+      "recorded_at": "2026-09-04T05:32:54.832Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Full repository verification",
+      "outcome": "pass",
+      "scope_revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
+      "observed_at": "2026-09-04T05:32:22Z",
+      "summary": "All 413 tests and repository checks passed for the exact design candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0144/quality-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0144/quality-test-observation.json",
+          "sha256": "a75a0ba6b08c793b5aa43052b781568a2360e432fd759b1b2bed43940deb795a"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0144/quality-evaluation.md",
+          "sha256": "f279fa00b32a9d85327cfc2f73ed4447be5c710d840b5308d88a1cae7e53d1fb"
+        },
+        {
+          "path": "docs/getting-started/model-routing.md",
+          "sha256": "170f66cdf56f7da44181e55328f6dfa2d7c4f62677ded5cba55915929ad4bcad"
+        },
+        {
+          "path": "docs/validation/context-capsule-successor-evaluations.md",
+          "sha256": "06eb2bf2d13d92f6bf7f6012562edf77d6e7920caa539fb4e1cc4d18ad68f7ac"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm run verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T05:30:45Z"
+      }
+    },
+    {
+      "id": "EVID-20260904T053421Z-63F3F97E",
+      "work_item_id": "WI-0144",
+      "recorded_at": "2026-09-04T05:34:21.568Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent detached-candidate reproduction",
+      "outcome": "pass",
+      "scope_revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
+      "observed_at": "2026-09-04T05:33:39Z",
+      "summary": "Independent QA reproduced repository checks and 32 focused tests from the exact candidate.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0144/independent-qa-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0144/independent-qa-test-observation.json",
+          "sha256": "0755073b16310f1072e6990f7a03e36116d16a66e6b349e56d487e18ec657ebe"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0144/independent-qa-report.md",
+          "sha256": "c7a39c446b146b9c9473459edef1549df38c01bcc73aad32bc8cac12903787a7"
+        }
+      ],
+      "details": {
+        "command": [
+          "detached worktree: node scripts/check-repo.mjs",
+          "detached worktree: node scripts/check-doc-links.mjs",
+          "detached worktree: node --test test/execution-routing.test.mjs test/context-capsule-ablation.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T05:33:20Z"
+      }
     }
   ]
 }

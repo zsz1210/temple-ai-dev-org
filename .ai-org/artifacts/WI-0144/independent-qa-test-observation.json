@@ -1,0 +1,25 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
+  "command": [
+    "detached worktree: node scripts/check-repo.mjs",
+    "detached worktree: node scripts/check-doc-links.mjs",
+    "detached worktree: node --test test/execution-routing.test.mjs test/context-capsule-ablation.test.mjs"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T05:33:20Z",
+  "completed_at": "2026-09-04T05:33:39Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0144/independent-qa-report.md"
+  ],
+  "summary": {
+    "focused_tests_passed": 32,
+    "focused_tests_failed": 0,
+    "detached_candidate_reproduced": true,
+    "developer_and_independent_qa_distinct": true,
+    "provider_generation_performed": false,
+    "automatic_execution_enabled": false,
+    "external_write_performed": false
+  }
+}

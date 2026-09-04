@@ -14,6 +14,8 @@ The project-owned policy is:
 
 The framework seed is Provider-neutral. A concrete profile mapping is valid only when `provider_id`, `model`, and `reasoning_effort` are all strings or all `null`.
 
+A freshly initialized project intentionally has no concrete mappings. Do not copy model names from the Temple repository or infer them from an Agent conversation. Follow [Model routing setup](../getting-started/model-routing.md) to discover the approved Provider catalog, qualify compatibility, propose and review project-owned mappings, and retain unknowns honestly.
+
 ## Describe a routed request
 
 Store durable evaluation inputs below `.ai-org/evaluations/execution/` when the request should be reviewed and versioned. An ephemeral caller may also create a temporary repository-relative input. The schema supports several independent steps in one Work Item.
@@ -100,6 +102,8 @@ Do not label `selected.requested` as the model actually used. Do not convert a m
 4. Run schema validation and route fixtures.
 5. Use matched quality evidence from the Usage Policy before claiming that one candidate is better.
 6. Keep the mode `shadow` or `advisory` until a separately designed executor and authority contract exist.
+
+Provider discovery and policy adoption are separate operations. A `model/list` result can establish that a model and reasoning option were advertised to the current Codex environment; it cannot establish project quality, price, execution authority, or the model that was effective for a later turn. Preserve discovered, compatible, proposed, adopted, requested, and effective states separately.
 
 A Work Item or human decision may pin a profile, but pinning is not permission to contact its Provider.
 

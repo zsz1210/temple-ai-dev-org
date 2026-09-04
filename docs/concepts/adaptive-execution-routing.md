@@ -75,6 +75,12 @@ Temple ships model classes and reasoning classes without assuming a Provider. Th
 
 This keeps the framework reusable while allowing one project to map profiles to GPT-5.6 models, another to use a local model, and a media project to add a rendering pipeline. Adding a capability or execution profile does not create a Position or expand anyone's authority.
 
+### What a new adopter receives
+
+A fresh project receives active abstract profiles with `provider_id`, `model`, and `reasoning_effort` set to `null`. It does **not** inherit the Temple repository's Luna, Terra, or Sol choices. Until the project reviews a concrete mapping, the resolver can explain the appropriate profile class but rejects execution candidates as `provider-unmapped`.
+
+The portable setup path is Provider discovery, compatibility qualification, a project-owned mapping proposal, explicit adoption, advisory resolution, and later project-local calibration. Conversation history is not evidence for availability, compatibility, or adoption. See [Set up model routing for a project](../getting-started/model-routing.md).
+
 ## Resources beyond Tokens
 
 Execution routing uses typed resource measures. The initial vocabulary includes Tokens, latency, retries, Credits, GPU time, image count and pixels, video and audio duration, and human editing time. Projects can add namespaced measures with an explicit unit and aggregation rule.
@@ -87,4 +93,5 @@ Missing data is not zero. An unavailable observation remains `null` with a sourc
 - [Workflow profiles](workflow-profiles.md) scale delivery gates for the Work Item; an Execution Profile configures one execution candidate.
 - [Token Efficiency and Model Routing](../operations/token-efficiency-and-model-routing.md) owns usage observation and matched calibration; it does not launch the route.
 - [Execution routing operations](../operations/execution-routing.md) documents the project policy, request format, resolver command, and interpretation rules.
+- [Model routing setup](../getting-started/model-routing.md) explains the Provider-neutral cold start and project-owned mapping path.
 - [ADR-0046](../adr/0046-separate-adaptive-execution-routing.md) records why this layer is separate.

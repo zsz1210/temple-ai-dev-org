@@ -1,0 +1,26 @@
+{
+  "schema_version": "temple.test-observation/v1",
+  "revision": "edf772dedf72eaa1db748ae7f9cb3ae0f31a9286",
+  "command": [
+    "npm run verify"
+  ],
+  "result": "pass",
+  "exit_code": 0,
+  "started_at": "2026-09-04T05:30:45Z",
+  "completed_at": "2026-09-04T05:32:22Z",
+  "artifact_refs": [
+    ".ai-org/artifacts/WI-0144/quality-evaluation.md",
+    "docs/getting-started/model-routing.md",
+    "docs/validation/context-capsule-successor-evaluations.md"
+  ],
+  "summary": {
+    "full_tests_passed": 413,
+    "full_tests_failed": 0,
+    "repository_checks_passed": true,
+    "documentation_links_passed": true,
+    "package_boundary_passed": true,
+    "provider_generation_performed": false,
+    "automatic_execution_enabled": false,
+    "external_write_performed": false
+  }
+}
