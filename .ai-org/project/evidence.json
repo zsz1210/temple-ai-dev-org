@@ -21585,6 +21585,83 @@
         "exit_code": 0,
         "started_at": "2026-09-03T23:29:24Z"
       }
+    },
+    {
+      "id": "EVID-20260904T001539Z-A757CEBB",
+      "work_item_id": "WI-0137",
+      "recorded_at": "2026-09-04T00:15:39.283Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "WI-0137 Developer candidate",
+      "outcome": "verified",
+      "scope_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+      "observed_at": "2026-09-04T00:15:39.283Z",
+      "summary": "Stage-aware measurable Context Capsule implementation.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
+    },
+    {
+      "id": "EVID-20260904T001539Z-10032E7A",
+      "work_item_id": "WI-0137",
+      "recorded_at": "2026-09-04T00:15:39.496Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "WI-0137 Developer tests",
+      "outcome": "pass",
+      "scope_revision": "94d8ceb987ecce2bd444c2ca98209fd4f1a6f66d",
+      "observed_at": "2026-09-04T00:14:54.000Z",
+      "summary": "Focused 51/51 and full 400/400 verification passed for the exact candidate content.",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0137/developer-test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0137/developer-test-observation.json",
+          "sha256": "ca750c47670ff94663daf358a746c82df29c977785d127be92c6b960b4e7bc39"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0137/developer-verification.md",
+          "sha256": "9d32ea46c5d3ab461d2b680aa907e308afd6ee0545abeb605a255e6b7c1685c2"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0137/technical-design.md",
+          "sha256": "9c19ce3527291a07f34cb2bce3d26b535e8558f1159ffc78b793b965aa15663d"
+        },
+        {
+          "path": "docs/adr/0047-bind-context-capsules-to-stage-purpose-and-source-manifests.md",
+          "sha256": "b65f77da73fea0ab0049ab97fdd7cfbd42ede6156f7ff4f627de037d8e604f98"
+        }
+      ],
+      "details": {
+        "command": [
+          "node --test test/context.test.mjs test/representative-microservice-comparison.test.mjs"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-04T00:14:48.000Z"
+      }
     }
   ]
 }
