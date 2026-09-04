@@ -239,7 +239,7 @@ Usage:
   temple pack remove [target] --pack build-quality [--dry-run]
   temple capability list [target] [--json]
   temple capability find [target] --query text [--position position] [--limit number] [--json]
-  temple context resolve [target] --work-item WI-0001 [--position position] [--query text] [--revision ref] [--limit number] [--json] [--no-write]
+  temple context resolve [target] --work-item WI-0001 [--position position] [--stage stage] [--purpose primary|integration|recovery] [--query text] [--revision ref] [--limit number] [--json] [--no-write]
   temple --version
 
 Core commands:
@@ -326,6 +326,8 @@ const VALUE_FLAGS = new Set([
   "--tested-revision",
   "--approval",
   "--position",
+  "--stage",
+  "--purpose",
   "--thread-id",
   "--client-thread-id",
   "--host-id",
@@ -2841,6 +2843,8 @@ async function runContext(parsed) {
     position: parsed.options["--position"],
     query: parsed.options["--query"],
     revision: parsed.options["--revision"],
+    stage: parsed.options["--stage"],
+    purpose: parsed.options["--purpose"],
     limit: positiveIntegerOption(parsed, "--limit")
   });
   const outputPath = parsed.flags.has("--no-write") ? null : await writeContextCapsule(target, capsule);
@@ -2848,6 +2852,7 @@ async function runContext(parsed) {
   else {
     console.log(`${capsule.work_item.id} context for ${capsule.position.name} / ${capsule.agent.display_name}`);
     console.log(`Revision: ${capsule.revision ?? "not recorded"}`);
+    console.log(`Route: ${capsule.route.stage} / ${capsule.route.purpose} (${capsule.route.stage_source})`);
     console.log(`Context routes: ${capsule.context_routes.map((entry) => entry.id).join(", ") || "none"}`);
     console.log(`Learning: ${capsule.learning.map((entry) => entry.id).join(", ") || "none"}`);
     console.log(`Capabilities: ${capsule.capabilities.map((entry) => entry.id).join(", ") || "none"}`);
@@ -2856,6 +2861,8 @@ async function runContext(parsed) {
       `Parallel execution: ${capsule.parallel_execution.disposition ?? "unplanned"} (fresh=${capsule.parallel_execution.plan_fresh ?? "n/a"})`
     );
     console.log(`Retrieval: ${capsule.retrieval.provider_id} (semantic=${capsule.retrieval.semantic})`);
+    console.log(`Selected sources: ${capsule.source_manifest.measured_source_count}/${capsule.source_manifest.source_count} measured, ${capsule.source_manifest.measured_bytes} bytes`);
+    console.log(`Selection digest: ${capsule.source_manifest.selection_digest}`);
     if (outputPath) console.log(`Context Capsule: ${path.relative(target, outputPath).split(path.sep).join("/")}`);
     if (capsule.warnings.length) console.log(`Warnings: ${capsule.warnings.join(" | ")}`);
   }

@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0137",
   "title": "Make context routing stage-aware and measurement-ready",
-  "state": "design",
-  "owner_position": "tech_lead",
-  "assigned_agent_id": "agent-tidus",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-03T23:55:06.667Z",
-  "updated_at": "2026-09-03T23:56:45.827Z",
+  "updated_at": "2026-09-03T23:59:05.520Z",
   "scope": [
     "Add stage- and purpose-bound Context Capsules that route only relevant sources without copying source bodies or expanding authority.",
     "Expose content-addressed source size and category measurements so context, cached-input, latency, and storage trade-offs can be analyzed without guessing.",
@@ -77,22 +77,22 @@
       "resources": []
     }
   },
-  "base_revision": "904bc6b",
+  "base_revision": "7f4c7b0",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
-  "planned_agent_id": "agent-tidus",
+  "planned_agent_id": "agent-rikku",
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260903235645-69372389",
+    "id": "claim-20260903235905-d6692126",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-tidus",
-    "base_revision": "904bc6b",
+    "agent_id": "agent-rikku",
+    "base_revision": "7f4c7b0",
     "branch": "codex/wi-0137-stage-context-capsules",
     "worktree": null,
-    "claimed_at": "2026-09-03T23:56:45.827Z",
+    "claimed_at": "2026-09-03T23:59:05.520Z",
     "released_at": null
   },
   "claims": [
@@ -112,13 +112,27 @@
     },
     {
       "id": "claim-20260903235645-69372389",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-tidus",
       "base_revision": "904bc6b",
       "branch": "codex/wi-0137-stage-context-capsules",
       "worktree": null,
       "claimed_at": "2026-09-03T23:56:45.827Z",
+      "released_at": "2026-09-03T23:59:04.795Z",
+      "release_reason": [
+        "Technical design handed off to Developer."
+      ]
+    },
+    {
+      "id": "claim-20260903235905-d6692126",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "7f4c7b0",
+      "branch": "codex/wi-0137-stage-context-capsules",
+      "worktree": null,
+      "claimed_at": "2026-09-03T23:59:05.520Z",
       "released_at": null
     }
   ],
@@ -131,15 +145,24 @@
     ],
     "acceptance_criteria": [
       ".ai-org/artifacts/WI-0137/product-scope.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0137/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0137/technical-design.md"
     ]
   },
   "evidence": [
     ".ai-org/work-items/WI-0137.json",
     ".ai-org/artifacts/WI-0137/handoff-001-product_manager-to-tech_lead.md",
-    ".ai-org/artifacts/WI-0137/product-scope.md"
+    ".ai-org/artifacts/WI-0137/product-scope.md",
+    ".ai-org/artifacts/WI-0137/handoff-002-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0137/technical-design.md",
+    "docs/adr/0047-bind-context-capsules-to-stage-purpose-and-source-manifests.md"
   ],
   "unresolved": [],
-  "next_position": "developer",
+  "next_position": "quality_evaluator",
   "handoffs": [
     {
       "from_position": "product_manager",
@@ -147,6 +170,13 @@
       "input_revision": "904bc6b",
       "artifact": ".ai-org/artifacts/WI-0137/handoff-001-product_manager-to-tech_lead.md",
       "created_at": "2026-09-03T23:56:44.848Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "7f4c7b0",
+      "artifact": ".ai-org/artifacts/WI-0137/handoff-002-tech_lead-to-developer.md",
+      "created_at": "2026-09-03T23:59:04.516Z"
     }
   ]
 }

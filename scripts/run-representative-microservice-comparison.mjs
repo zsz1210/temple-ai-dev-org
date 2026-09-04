@@ -3188,7 +3188,7 @@ async function inspectAblation(labRoot, protocolPath) {
     if (contextProbe.status === 0) {
       try {
         const capsule = JSON.parse(contextProbe.stdout);
-        contextProbePass = capsule.schema_version === "temple.context-capsule/v1" &&
+        contextProbePass = capsule.schema_version === "temple.context-capsule/v2" &&
           capsule.work_item?.id === "WI-0001" && capsule.position?.id === "developer";
       } catch {}
     }

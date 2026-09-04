@@ -11,13 +11,11 @@
       "launcher": "templew.mjs",
       "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.29",
       "repository_spec": null,
-      "source_revision": "907c326f4729a78e39962047646929bfad210ad4",
+      "source_revision": "7f4c7b038c629f6b45b30b2103f7205ae433cc21",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
-    "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-09-03T04:15:24.000Z",
-    "upgraded_from": "0.1.0-alpha.29"
+    "installed_at": "2026-08-30T02:28:18.355Z"
   },
   "installation": {
     "mode": "toolkit-self-host",
@@ -78,6 +76,7 @@
   },
   "integrations": {
     "agents_md": "present",
+    "claude_md": "installed",
     "archify": {
       "status": "available_not_enabled",
       "pinned_tag": "v2.15.0",
@@ -106,6 +105,7 @@
     "progressive_context_routing": true,
     "capability_registry": true,
     "retrieval_provider_contract": true,
+    "repository_integration_contract": true,
     "collaboration_profiles": true,
     "human_principals": true,
     "position_memberships": true,
@@ -162,14 +162,16 @@
     "usage_qualification": true,
     "progressive_usage_calibration": true,
     "matched_model_advisory": true,
+    "adaptive_execution_routing": true,
+    "typed_resource_observations": true,
+    "non_executing_route_resolution": true,
     "exception_only_autonomy": true,
     "provider_attach_outcomes": true,
     "repository_federation": true,
     "read_only_portfolio": true,
     "checksum_upgrade": true,
     "optional_packs": true,
-    "toolkit_self_hosting": true,
-    "repository_integration_contract": true
+    "toolkit_self_hosting": true
   },
   "optional_packs": [],
   "managed_files": [
@@ -186,12 +188,12 @@
       "sha256": "fa366000d024dd67734974b909ed581fab236d266b4106cd6aa4e28f23bd0728"
     },
     {
-      "path": ".agents/skills/skill-authoring/SKILL.md",
-      "sha256": "218e2d02c86859eaf43a7d82eecbd220eef337781704bed4011ec4d5033e1da9"
-    },
-    {
       "path": ".agents/skills/skill-authoring/references/authoring-contract.md",
       "sha256": "11fb7d3a8aa9284e3c863b11c618ab3d5524e9304d1644d95b7ac09507959997"
+    },
+    {
+      "path": ".agents/skills/skill-authoring/SKILL.md",
+      "sha256": "218e2d02c86859eaf43a7d82eecbd220eef337781704bed4011ec4d5033e1da9"
     },
     {
       "path": ".agents/skills/temple-init/SKILL.md",
@@ -251,11 +253,11 @@
     },
     {
       "path": ".ai-org/core/schemas/context-capsule.schema.json",
-      "sha256": "492f4928a19c46e8fbdead86ec5bc0f6be51611dad3e5cc7c3209e995300c849"
+      "sha256": "2cbccad6f7c637ec7d624958d055201cc0fc919d0ad80abd1f72809891a42e26"
     },
     {
       "path": ".ai-org/core/schemas/context-map.schema.json",
-      "sha256": "31e72f4711bbcb0587515b047d61af65d5920278bfffd0f1e5702aa5756743d4"
+      "sha256": "9771e28c20799ea2eaf5be82f84455d22506cfa38e3d28d866051cd5dff64201"
     },
     {
       "path": ".ai-org/core/schemas/control-plane-config.schema.json",
@@ -515,7 +517,7 @@
     },
     {
       "path": "TEMPLE.md",
-      "sha256": "59f6cd80ba837885b79d8afd899eb0bb9f7ef7d5ee34ef389f528b0a81c45837"
+      "sha256": "33dbf0d38533dc6a863869a94f196b1385f1fefc87d0491c14c218ecd834538e"
     },
     {
       "path": "templew.mjs",

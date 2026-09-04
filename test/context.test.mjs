@@ -6,6 +6,7 @@ import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import {
+  buildContextSourceManifest,
   createRepositoryRetrievalProvider,
   measureContextEnvelope,
   RETRIEVAL_PROVIDER_SCHEMA,
@@ -58,6 +59,38 @@ test("context envelope accounting is stable, componentized, and content-sensitiv
   assert.ok(first.components.every((entry) => Number.isFinite(entry.share_percent)));
   assert.notEqual(first.context_profile_digest, changed.context_profile_digest);
   assert.match(first.context_profile_digest, /^sha256:[0-9a-f]{64}$/);
+});
+
+test("context source manifests are stable, content-sensitive, de-duplicated, and boundary-safe", async (context) => {
+  const target = await fs.mkdtemp(path.join(os.tmpdir(), "temple-context-manifest-"));
+  context.after(() => fs.rm(target, { recursive: true, force: true }));
+  await fs.mkdir(path.join(target, "docs"), { recursive: true });
+  await fs.writeFile(path.join(target, "docs/a.md"), "alpha\n");
+  await fs.writeFile(path.join(target, "docs/b.md"), "beta\n");
+  await fs.symlink(path.join(target, "docs/a.md"), path.join(target, "docs/link.md"));
+
+  const references = [
+    { path: "docs/b.md", category: "context-route" },
+    { path: "docs/a.md", category: "specification" },
+    { path: "docs/a.md", category: "context-route" },
+    { path: "docs/link.md", category: "learning" },
+    { path: "docs/missing.md", category: "capability" }
+  ];
+  const first = await buildContextSourceManifest(target, references);
+  const reordered = await buildContextSourceManifest(target, [...references].reverse());
+  assert.equal(first.selection_digest, reordered.selection_digest);
+  assert.equal(first.source_count, 4);
+  assert.equal(first.measured_source_count, 2);
+  assert.equal(first.measured_bytes, 11);
+  assert.equal(first.source_bodies_retained, false);
+  assert.deepEqual(first.sources.find((source) => source.path === "docs/a.md").categories, ["context-route", "specification"]);
+  assert.equal(first.sources.find((source) => source.path === "docs/link.md").status, "unsafe");
+  assert.equal(first.sources.find((source) => source.path === "docs/missing.md").status, "missing");
+
+  await fs.writeFile(path.join(target, "docs/a.md"), "alpha changed\n");
+  const changed = await buildContextSourceManifest(target, references);
+  assert.notEqual(first.selection_digest, changed.selection_digest);
+  assert.equal(changed.measured_bytes, 19);
 });
 
 test("deterministic retrieval does not treat Position membership as relevance", async () => {
@@ -130,6 +163,8 @@ test("fresh initialization installs a compact authority-equivalent instruction r
   const installed = await fs.readFile(path.join(target, "AGENTS.md"), "utf8");
   const distribution = await fs.readFile(path.join(root, "project-overlay/AGENTS.md"), "utf8");
   const toolkit = await fs.readFile(path.join(root, "AGENTS.md"), "utf8");
+  const contextMap = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/context-map.json"), "utf8"));
+  assert.equal(contextMap.schema_version, "temple.context-map/v2");
   const marker = /<!-- temple:instructions:start -->[\s\S]*?<!-- temple:instructions:end -->/;
   assert.equal(installed, distribution);
   assert.equal(toolkit.match(marker)?.[0], distribution.trim());
@@ -328,7 +363,17 @@ test("context resolve builds a bounded capsule from routes, learning, capabiliti
   ]);
   assert.equal(preview.status, 0, preview.stderr || preview.stdout);
   const capsule = JSON.parse(preview.stdout);
-  assert.equal(capsule.schema_version, "temple.context-capsule/v1");
+  assert.equal(capsule.schema_version, "temple.context-capsule/v2");
+  assert.deepEqual(capsule.route, {
+    stage: "intake",
+    stage_source: "work-item-effective-state",
+    purpose: "primary",
+    fallback: {
+      path: "TEMPLE.md",
+      policy: "only-when-route-incomplete-or-authority-ambiguous",
+      automatic_expansion: false
+    }
+  });
   assert.deepEqual(capsule.context_routes.map((entry) => entry.id), ["checkout-spec"]);
   assert.deepEqual(capsule.learning.map((entry) => entry.id), ["LESSON-0001"]);
   assert.ok(capsule.capabilities.some((entry) => entry.id === "project-documentation"));
@@ -336,13 +381,119 @@ test("context resolve builds a bounded capsule from routes, learning, capabiliti
   assert.equal(capsule.retrieval.provider_id, "repository-deterministic");
   assert.equal(capsule.retrieval.semantic, false);
   assert.equal(capsule.affected_path_overlaps[0].work_item_id, "WI-0002");
+  assert.match(capsule.source_manifest.selection_digest, /^sha256:[0-9a-f]{64}$/);
+  assert.equal(capsule.source_manifest.source_bodies_retained, false);
+  assert.ok(capsule.source_manifest.sources.some((source) => source.path === routePath && source.status === "measured"));
+  assert.ok(!capsule.source_manifest.sources.some((source) => source.path === "TEMPLE.md"));
   await assert.rejects(() => fs.access(path.join(target, ".ai-org/views/work-items/WI-0001.json")));
 
   const persisted = run(["context", "resolve", target, "--work-item", "WI-0001"]);
   assert.equal(persisted.status, 0, persisted.stderr || persisted.stdout);
   const stored = JSON.parse(await fs.readFile(path.join(target, ".ai-org/views/work-items/WI-0001.json"), "utf8"));
   assert.equal(stored.work_item.id, "WI-0001");
+  assert.equal(stored.route.stage, "intake");
   assert.match(persisted.stdout, /Affected-path overlaps: 1/);
+  assert.match(persisted.stdout, /Selected sources:/);
+});
+
+test("context map v2 scopes component routes by lifecycle stage and purpose", async (context) => {
+  const { target } = await fixture(context);
+  await fs.mkdir(path.join(target, "services/catalog"), { recursive: true });
+  await fs.mkdir(path.join(target, "services/orders"), { recursive: true });
+  await fs.mkdir(path.join(target, "contracts"), { recursive: true });
+  await fs.writeFile(path.join(target, "services/catalog/build.md"), "# Catalog build\n");
+  await fs.writeFile(path.join(target, "services/orders/qa.md"), "# Orders QA\n");
+  await fs.writeFile(path.join(target, "contracts/order-created.md"), "# OrderCreated\n");
+  await fs.writeFile(path.join(target, "docs-shared.md"), "# Shared\n");
+  const route = (overrides) => ({
+    id: "shared-route",
+    kind: "technical-spec",
+    title: "Shared service context",
+    summary: "Catalog and orders service context for the representative change.",
+    paths: ["docs-shared.md"],
+    tags: ["catalog", "orders", "service"],
+    positions: ["developer", "independent_qa"],
+    work_items: [],
+    read_when: ["Changing the representative services"],
+    owner_position: "tech_lead",
+    status: "active",
+    ...overrides
+  });
+  await fs.writeFile(
+    path.join(target, ".ai-org/project/context-map.json"),
+    `${JSON.stringify({
+      schema_version: "temple.context-map/v2",
+      routes: [
+        route({ id: "catalog-build", paths: ["services/catalog/build.md"], stages: ["build"], purposes: ["primary"] }),
+        route({ id: "orders-qa", paths: ["services/orders/qa.md"], stages: ["independent_qa"], purposes: ["primary"] }),
+        route({ id: "service-integration", paths: ["contracts/order-created.md"], stages: ["build"], purposes: ["integration"] }),
+        route({ id: "shared-route" })
+      ]
+    }, null, 2)}\n`
+  );
+  const created = run([
+    "work-item", "create", target,
+    "--title", "Change catalog and orders services",
+    "--scope", "Build and integrate the representative service contract",
+    "--context-ref", "catalog-build",
+    "--context-ref", "orders-qa",
+    "--context-ref", "service-integration",
+    "--context-ref", "shared-route"
+  ]);
+  assert.equal(created.status, 0, created.stderr || created.stdout);
+
+  const build = run([
+    "context", "resolve", target,
+    "--work-item", "WI-0001",
+    "--position", "developer",
+    "--stage", "build",
+    "--purpose", "primary",
+    "--no-write", "--json"
+  ]);
+  assert.equal(build.status, 0, build.stderr || build.stdout);
+  const buildCapsule = JSON.parse(build.stdout);
+  assert.deepEqual(buildCapsule.context_routes.map((entry) => entry.id), ["catalog-build", "shared-route"]);
+  assert.match(buildCapsule.warnings.join(" "), /orders-qa/);
+  assert.match(buildCapsule.warnings.join(" "), /service-integration/);
+  assert.deepEqual(
+    buildCapsule.source_manifest.sources.filter((source) => source.categories.includes("context-route")).map((source) => source.path),
+    ["docs-shared.md", "services/catalog/build.md"]
+  );
+
+  const integration = run([
+    "context", "resolve", target,
+    "--work-item", "WI-0001",
+    "--position", "developer",
+    "--stage", "build",
+    "--purpose", "integration",
+    "--no-write", "--json"
+  ]);
+  assert.equal(integration.status, 0, integration.stderr || integration.stdout);
+  const integrationCapsule = JSON.parse(integration.stdout);
+  assert.deepEqual(integrationCapsule.context_routes.map((entry) => entry.id), ["service-integration", "shared-route"]);
+  assert.equal(integrationCapsule.route.stage_source, "explicit");
+  assert.equal(integrationCapsule.route.purpose, "integration");
+
+  const recovery = run([
+    "context", "resolve", target,
+    "--work-item", "WI-0001",
+    "--position", "developer",
+    "--purpose", "recovery",
+    "--no-write", "--json"
+  ]);
+  assert.equal(recovery.status, 0, recovery.stderr || recovery.stdout);
+  const recoveryCapsule = JSON.parse(recovery.stdout);
+  assert.equal(recoveryCapsule.route.fallback.policy, "selected-for-recovery");
+  assert.ok(recoveryCapsule.source_manifest.sources.some((source) => source.path === "TEMPLE.md" && source.status === "measured"));
+
+  const invalidPurpose = run([
+    "context", "resolve", target,
+    "--work-item", "WI-0001",
+    "--purpose", "everything",
+    "--no-write", "--json"
+  ]);
+  assert.equal(invalidPurpose.status, 1);
+  assert.match(invalidPurpose.stderr, /Unknown context purpose/);
 });
 
 test("doctor validates active context routes and canonical work-item references", async (context) => {
@@ -416,6 +567,7 @@ test("upgrade creates the project-owned Context Map and preserves later project 
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const created = JSON.parse(await fs.readFile(mapPath, "utf8"));
+  assert.equal(created.schema_version, "temple.context-map/v2");
   assert.deepEqual(created.routes, []);
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/context-map.json"));

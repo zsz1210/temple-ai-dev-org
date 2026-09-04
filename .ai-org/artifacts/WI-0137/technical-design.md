@@ -4,7 +4,7 @@
 
 ### Context Map
 
-`temple.context-map/v2` keeps the v1 route fields and adds two required arrays to each route:
+`temple.context-map/v2` keeps the v1 route fields and adds two optional arrays to each route:
 
 - `stages`: workflow state IDs for which the route applies; `[]` means every stage.
 - `purposes`: any of `primary`, `integration`, or `recovery`; `[]` means every purpose.
@@ -47,6 +47,7 @@ Source categories are:
 - `context-route`;
 - `learning`;
 - `capability`.
+- `operating-contract` for `TEMPLE.md` in explicit recovery context.
 
 The same path appears once with all applicable categories so totals do not double count it.
 

@@ -6,8 +6,8 @@ Before acting:
 
 1. Read `.ai-org/project/project.json`, `agents.json`, `assignments.json`, `collaboration.json`, `repository-integration.json`, `spec-index.json`, `tracker.json`, `retrieval.json`, `usage-policy.json`, `evidence.json`, and `control-plane.json` as relevant to the work.
 2. Identify the Position you are acting as and the durable work item ID.
-3. Preview the bounded route with `temple context resolve . --work-item <work-item-id> --position <position> --no-write --json`.
-4. Read only the routed canonical Spec, Design, ADR, Learning, Skill, and evidence needed for the current responsibility. Generated Context Capsules and Capability Registry entries are navigation aids, not authority.
+3. Preview the bounded route with `temple context resolve . --work-item <work-item-id> --position <position> --no-write --json`. The Work Item stage and `primary` purpose are defaults; use `--purpose integration` or `--purpose recovery` deliberately.
+4. Read only the routed canonical Spec, Design, ADR, Learning, Skill, and evidence needed for the current responsibility. Compare the body-free selection digest before reopening unchanged context. Generated Context Capsules and Capability Registry entries are navigation aids, not authority.
 5. Stay inside that Position's ownership and approval limits.
 6. If the work runs in a separate Codex task, use the suggested `Work Item ID · short goal · Position (Agent Name)` title and register the real task/thread ID in `.ai-org/project/tasks.json` through `temple task register`. Reserve `Project · control scope · Primary Position (Agent Name)` for the long-lived project control task.
 
