@@ -40,7 +40,7 @@ import {
 import { runAgentLedOnboardingValidation } from "../scripts/validate-agent-led-onboarding.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const releaseVersion = "0.1.0-alpha.29";
+const releaseVersion = "0.1.0-alpha.30";
 const phase4Capabilities = [
   "backup_retention",
   "redacted_audit_export",

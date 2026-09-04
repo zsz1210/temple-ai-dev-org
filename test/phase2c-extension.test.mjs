@@ -119,7 +119,7 @@ test("migration registry distinguishes fresh baselines from pending upgrade migr
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.29");
+  assert.equal(upgradedLock.template.version, "0.1.0-alpha.30");
   assert.ok(upgradedLock.migrations.applied.some((entry) => entry.id === "MIG-0019-PHASE2C"));
 });
 
