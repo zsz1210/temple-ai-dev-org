@@ -25842,6 +25842,36 @@
         "exit_code": 0,
         "started_at": "2026-09-04T17:28:00.000Z"
       }
+    },
+    {
+      "id": "EVID-20260904T175753Z-9D460116",
+      "work_item_id": "WI-0165",
+      "recorded_at": "2026-09-04T17:57:53.003Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Historical Git text audit candidate",
+      "outcome": "verified",
+      "scope_revision": "839e467af093d8e46b9b042442852868e71c1f30",
+      "observed_at": "2026-09-04T17:57:53.003Z",
+      "summary": "Value-redacted Git object review, human report, and reproducible verifier; no media review or publication action.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "839e467af093d8e46b9b042442852868e71c1f30"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "839e467af093d8e46b9b042442852868e71c1f30",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
     }
   ]
 }

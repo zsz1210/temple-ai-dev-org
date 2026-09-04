@@ -212,7 +212,7 @@
 | WI-0162 | Normalize retained publication evidence and fixtures | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9012ece9` | 0 | 11 | 0 |
 | WI-0163 | Freeze the Alpha.30 candidate scope and identity | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a6849519` | 0 | 12 | 0 |
 | WI-0164 | Qualify the exact Alpha.30 package | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a6849519` | 0 | 13 | 0 |
-| WI-0165 | Audit public Git history text exposure | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904174243-d870ecb2 | `—` | 0 | 3 | 0 |
+| WI-0165 | Audit public Git history text exposure | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260904175754-754c43e4 | `839e467a` | 0 | 8 | 2 |
 
 ## Codex task registry
 
@@ -364,14 +364,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-04T17:57:54.015Z | work_item_claimed | WI-0165 | human |
+| 2026-09-04T17:57:53.696Z | work_item_coordination_configured | WI-0165 | agent-lulu |
+| 2026-09-04T17:57:53.463Z | work_item_transitioned | WI-0165 | agent-rikku |
+| 2026-09-04T17:57:53.229Z | handoff_created | WI-0165 | agent-rikku |
+| 2026-09-04T17:57:53.003Z | evidence_recorded | WI-0165 | human |
 | 2026-09-04T17:42:43.095Z | work_item_claimed | WI-0165 | human |
 | 2026-09-04T17:42:42.814Z | work_item_coordination_configured | WI-0165 | agent-rikku |
 | 2026-09-04T17:42:42.589Z | work_item_transitioned | WI-0165 | agent-tidus |
-| 2026-09-04T17:42:42.368Z | work_item_claimed | WI-0165 | human |
-| 2026-09-04T17:42:42.047Z | work_item_coordination_configured | WI-0165 | agent-tidus |
-| 2026-09-04T17:42:41.782Z | work_item_transitioned | WI-0165 | agent-yuna |
-| 2026-09-04T17:42:41.519Z | work_item_claimed | WI-0165 | human |
-| 2026-09-04T17:42:41.160Z | work_item_coordination_configured | WI-0165 | agent-yuna |
 
 ## Assignments
 
