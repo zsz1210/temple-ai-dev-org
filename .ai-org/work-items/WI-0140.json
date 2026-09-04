@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0140",
   "title": "Measure and enforce Context Capsule route adherence",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-04T02:17:43.020Z",
-  "updated_at": "2026-09-04T02:41:39.571Z",
+  "updated_at": "2026-09-04T02:46:05.864Z",
   "scope": [
     "Retain a bounded path-only manifest of successful context reads after routing without storing raw prompts, outputs, hidden reasoning, credentials, or temporary repository content.",
     "Measure total context acquisition and route adherence separately from initial package size, Provider Tokens, latency, and command counts for single-repository and coordinator multi-repository recovery.",
@@ -118,6 +118,21 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0140/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      "EVID-20260904T024536Z-1A51EFFB"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0140/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0140/independent-qa.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0140/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -132,10 +147,14 @@
     ".ai-org/artifacts/WI-0140/developer-verification.md",
     "EVID-20260904T024119Z-B6646DAF",
     ".ai-org/artifacts/WI-0140/handoff-004-quality_evaluator-to-independent_qa.md",
-    ".ai-org/artifacts/WI-0140/quality-evaluation.md"
+    ".ai-org/artifacts/WI-0140/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0140/handoff-005-independent_qa-to-release_manager.md",
+    "EVID-20260904T024536Z-1A51EFFB",
+    ".ai-org/artifacts/WI-0140/independent-qa.md",
+    ".ai-org/artifacts/WI-0140/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "release_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "product_manager",
@@ -164,7 +183,20 @@
       "input_revision": "c84a31eb9d4c46a22f189640d86ad2488ea1e919",
       "artifact": ".ai-org/artifacts/WI-0140/handoff-004-quality_evaluator-to-independent_qa.md",
       "created_at": "2026-09-04T02:41:39.284Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "1216896f0a1e5b6176cc616f1db0782c5a218388",
+      "artifact": ".ai-org/artifacts/WI-0140/handoff-005-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-04T02:45:46.444Z"
     }
   ],
-  "developer_candidate_revision": "70a98b4a8d07bb27f1c2f91fa1cbbea06113adef"
+  "developer_candidate_revision": "70a98b4a8d07bb27f1c2f91fa1cbbea06113adef",
+  "tested_revision": "1216896f0a1e5b6176cc616f1db0782c5a218388",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }
