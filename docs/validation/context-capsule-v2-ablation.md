@@ -1,6 +1,6 @@
 # Context Capsule v2 effectiveness experiment
 
-- Status: generation-free preparation passed; live candidate turns require exact approval
+- Status: bounded live run completed; registered outcome is inconclusive because the exact-string evaluator rejected semantically correct formatting variants
 - Work Item: `WI-0138`
 - Question: does stage- and purpose-aware context reduce unnecessary input while preserving exact cold-handoff recovery?
 - Scope: one single-repository fixture and one coordinator-led multi-repository fixture
@@ -57,6 +57,27 @@ These figures prove that the fixture exposes a real context-treatment difference
 
 The rehearsal also verifies fixture parity, strict output schemas, command and path boundaries, stopped-run retention, child-process cleanup, zero retry, zero fallback, and a generation-disabled Provider handshake.
 
+## Live result
+
+The approved run completed all four candidate turns once with zero retry and zero fallback. It used 106,300 Operational Tokens in 234.337 seconds of end-to-end elapsed time.
+
+| Project shape | Stage-aware Token delta | Stage-aware latency delta | Stage-aware tool-output delta | Registered outcome |
+|---|---:|---:|---:|---|
+| Single repository | -3.47% | +9.83% | -14.57% | Inconclusive |
+| Coordinator-led multi-repository | +3.58% | -2.82% | -8.46% | Inconclusive |
+| Diagnostic aggregate | +0.30% | +1.68% | -11.03% | Not an outcome label |
+
+The source selection became much smaller, but this one sample did not show a corresponding Operational Token or latency reduction. Gross Provider Tokens decreased 1.45% in the diagnostic aggregate; this includes cached input and is not the operational budget measure.
+
+Every candidate recovered the exact revisions, ownership, residual risk, completed work, and safe next action. The registered correctness gate still failed for both treatments:
+
+- both single-repository candidates returned `18 passed.` while the evaluator required the byte-exact string `18 passed`;
+- both multi-repository candidates returned `OrderPlaced/v2` plus a correct compatibility description while the evaluator required only the identifier.
+
+The frozen protocol cannot be reinterpreted after seeing the outputs, so its official outcome remains inconclusive. The matching failure pattern is evidence of an evaluator-contract defect, not evidence that either context treatment misunderstood the handoff.
+
+The Provider acknowledged Terra for all four turns. The requested effort was `medium`, but the observed thread effort was `high` and effective turn effort was unavailable. The treatments remain matched to each other, but the result must not be presented as a confirmed Terra-medium performance benchmark.
+
 ## Reproduce the preparation
 
 Use a disposable lab under the operating system temporary directory:
@@ -74,9 +95,9 @@ node scripts/run-context-capsule-ablation.mjs preflight \
   --lab-root "$lab_root"
 ```
 
-The unapproved preflight is expected to fail closed with `exact-approval` as its only blocker. It performs no candidate generation.
+Before approval, preflight fails closed with `exact-approval` as its only blocker and performs no candidate generation. The completed live run used the separately retained exact approval record.
 
-After a protocol-specific approval has been recorded, the bounded live command is:
+For audit purposes, the bounded live command was:
 
 ```bash
 node scripts/run-context-capsule-ablation.mjs run \
@@ -84,7 +105,7 @@ node scripts/run-context-capsule-ablation.mjs run \
   --approval .ai-org/artifacts/WI-0138/account-approval.json
 ```
 
-The runner refuses a second attempt in the same lab. Any stopped condition is preserved rather than silently retried.
+The runner refuses a second attempt in the same lab. The completed run must not be rerun or reinterpreted under the same protocol.
 
 ## Registered live boundary
 
@@ -111,3 +132,5 @@ The report keeps single-repository and multi-repository outcomes separate:
 - `inconclusive`: a condition stops or required telemetry is unavailable.
 
 One pair per shape is diagnostic evidence. It cannot establish statistical significance, a universal savings claim, model superiority, monetary savings, or automatic routing authority.
+
+Before another live run, replace narrative-string equality with typed facts: represent the public test result numerically, separate the contract identifier from its compatibility rule, and fail preflight unless the effective reasoning effort is either verified or explicitly classified as unavailable. Prove the corrected evaluator against the retained outputs without generation before requesting any new live approval.

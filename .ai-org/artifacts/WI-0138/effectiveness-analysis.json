@@ -1,0 +1,118 @@
+{
+  "schema_version": "temple.context-capsule-ablation-analysis/v1",
+  "work_item_id": "WI-0138",
+  "protocol_sha256": "45717b859f2f88a4dd182d4bb7c7968839eb154e0f3ad9671e4d53e3986ad382",
+  "generated_at": "2026-09-04T01:07:12.216Z",
+  "status": "complete",
+  "correctness_primary": true,
+  "all_candidates_completed": true,
+  "all_candidates_correct": false,
+  "comparisons": [
+    {
+      "shape": "single-repository",
+      "outcome": "inconclusive",
+      "correctness": {
+        "legacy_pass": false,
+        "stage_aware_pass": false
+      },
+      "source_selection": {
+        "legacy_bytes": 40093,
+        "stage_aware_bytes": 14389,
+        "bytes_delta": {
+          "absolute": -25704,
+          "percent": -64.11
+        },
+        "legacy_source_count": 12,
+        "stage_aware_source_count": 7
+      },
+      "operational_tokens": {
+        "legacy": 24689,
+        "stage_aware": 23833,
+        "delta": {
+          "absolute": -856,
+          "percent": -3.47
+        }
+      },
+      "latency_ms": {
+        "legacy": 41143,
+        "stage_aware": 45187,
+        "delta": {
+          "absolute": 4044,
+          "percent": 9.83
+        }
+      },
+      "tool_output_bytes": {
+        "legacy": 8147,
+        "stage_aware": 6960,
+        "delta": {
+          "absolute": -1187,
+          "percent": -14.57
+        }
+      }
+    },
+    {
+      "shape": "coordinator-multi-repository",
+      "outcome": "inconclusive",
+      "correctness": {
+        "legacy_pass": false,
+        "stage_aware_pass": false
+      },
+      "source_selection": {
+        "legacy_bytes": 34164,
+        "stage_aware_bytes": 11644,
+        "bytes_delta": {
+          "absolute": -22520,
+          "percent": -65.92
+        },
+        "legacy_source_count": 10,
+        "stage_aware_source_count": 6
+      },
+      "operational_tokens": {
+        "legacy": 28381,
+        "stage_aware": 29397,
+        "delta": {
+          "absolute": 1016,
+          "percent": 3.58
+        }
+      },
+      "latency_ms": {
+        "legacy": 74482,
+        "stage_aware": 72383,
+        "delta": {
+          "absolute": -2099,
+          "percent": -2.82
+        }
+      },
+      "tool_output_bytes": {
+        "legacy": 11241,
+        "stage_aware": 10290,
+        "delta": {
+          "absolute": -951,
+          "percent": -8.46
+        }
+      }
+    }
+  ],
+  "diagnostic_aggregate": {
+    "legacy_operational_tokens": 53070,
+    "stage_aware_operational_tokens": 53230,
+    "operational_tokens_delta": {
+      "absolute": 160,
+      "percent": 0.3
+    },
+    "legacy_latency_ms": 115625,
+    "stage_aware_latency_ms": 117570,
+    "latency_delta": {
+      "absolute": 1945,
+      "percent": 1.68
+    }
+  },
+  "retry_count": 0,
+  "fallback_count": 0,
+  "interpretation_boundary": {
+    "sample_per_condition": 1,
+    "statistical_claim": false,
+    "monetary_claim": false,
+    "automatic_routing_authority": false
+  }
+}
