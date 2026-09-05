@@ -815,7 +815,24 @@ export function createJsonRpcProcess(command, args = [], options = {}) {
   let sequence = 0;
   let stderr = "";
   let closed = false;
+  let exited = false;
+  let closePromise = null;
+  let resolveExit;
+  const exitObserved = new Promise((resolve) => { resolveExit = resolve; });
   const lines = readline.createInterface({ input: child.stdout });
+
+  function rejectPending(error) {
+    for (const request of pending.values()) request.reject(error);
+    pending.clear();
+  }
+
+  function waitForExit(timeoutMs) {
+    if (exited) return Promise.resolve(true);
+    return new Promise((resolve) => {
+      const timer = setTimeout(() => resolve(false), timeoutMs);
+      exitObserved.then(() => { clearTimeout(timer); resolve(true); });
+    });
+  }
 
   function send(message) {
     if (closed || child.stdin.destroyed) throw new Error("Codex App Server connection is closed");
@@ -848,18 +865,30 @@ export function createJsonRpcProcess(command, args = [], options = {}) {
   child.stderr.on("data", (chunk) => {
     stderr = `${stderr}${chunk}`.slice(-4096);
   });
-  child.on("error", (error) => options.onExit?.(error));
+  child.stdin.on("error", (error) => rejectPending(error));
+  child.on("error", (error) => {
+    rejectPending(error);
+    // Failed spawn has no process to terminate; a failed signal does not prove exit.
+    if (!child.pid) {
+      closed = true;
+      exited = true;
+      resolveExit();
+    }
+    options.onExit?.(error);
+  });
   child.on("exit", (code, signal) => {
     closed = true;
+    exited = true;
+    resolveExit();
     const error = new Error(`Codex App Server exited (${code ?? signal ?? "unknown"})`);
-    for (const request of pending.values()) request.reject(error);
-    pending.clear();
+    rejectPending(error);
     options.onExit?.(error, { code, signal, stderr_present: Boolean(stderr.trim()) });
   });
 
   return {
     child,
     request(method, params = {}, timeoutMs = 15000) {
+      if (closed || child.stdin.destroyed) return Promise.reject(new Error("Codex App Server connection is closed"));
       const id = ++sequence;
       return new Promise((resolve, reject) => {
         const timer = setTimeout(() => {
@@ -871,7 +900,12 @@ export function createJsonRpcProcess(command, args = [], options = {}) {
           resolve: (value) => { clearTimeout(timer); resolve(value); },
           reject: (error) => { clearTimeout(timer); reject(error); }
         });
-        send({ id, method, params });
+        try {
+          send({ id, method, params });
+        } catch (error) {
+          pending.get(String(id)).reject(error);
+          pending.delete(String(id));
+        }
       });
     },
     respond(id, result) {
@@ -880,15 +914,28 @@ export function createJsonRpcProcess(command, args = [], options = {}) {
     notify(method, params = {}) {
       send({ method, params });
     },
-    async close() {
-      if (closed) return;
+    close() {
+      if (closePromise) return closePromise;
       closed = true;
-      child.kill("SIGTERM");
-      await new Promise((resolve) => {
-        const timer = setTimeout(resolve, 1000);
-        child.once("exit", () => { clearTimeout(timer); resolve(); });
-      });
-      lines.close();
+      rejectPending(new Error("Codex App Server connection is closed"));
+      closePromise = (async () => {
+        try {
+          if (!exited) {
+            child.kill("SIGTERM");
+            if (!await waitForExit(1000)) {
+              // Only the child handle created above is owned here, never a PID sweep.
+              child.kill("SIGKILL");
+              if (!await waitForExit(1000)) throw new Error("Codex App Server shutdown could not confirm child exit");
+            }
+          }
+        } finally {
+          lines.close();
+          child.stdin.destroy();
+          child.stdout.destroy();
+          child.stderr.destroy();
+        }
+      })();
+      return closePromise;
     }
   };
 }

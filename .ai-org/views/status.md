@@ -5,9 +5,9 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 175 total, 1 active
+- Work items: 176 total, 1 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 30 registered, 0 reserved, 0 active
+- Runtime workers: 31 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -223,6 +223,7 @@
 | WI-0173 | Pin handoff revisions and align published capability status | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `974d6578` | 0 | 11 | 0 |
 | WI-0174 | Return same-scope review findings to Build | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3cd0e554` | 0 | 9 | 0 |
 | WI-0175 | Reject unsupported configure options | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `d59845c0` | 0 | 8 | 0 |
+| WI-0176 | Confirm owned provider process shutdown | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a59f62ce` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -275,6 +276,7 @@
 | worker-20260905035623-2de5700b | internal-subagent | WI-0174 | Independent QA / Lulu | failed | /root/wi0174_independent_qa | `aefa50ba` | 0 |
 | worker-20260905040521-609a929b | internal-subagent | WI-0174 | Independent QA / Lulu | completed | /root/wi0174_rework_qa | `3cd0e554` | 0 |
 | worker-20260905050426-66e8dd4f | internal-subagent | WI-0175 | Independent QA / Lulu | completed | /root/wi0175_independent_qa | `d59845c0` | 0 |
+| worker-20260905052549-b2328dd0 | internal-subagent | WI-0176 | Independent QA / Lulu | completed | /root/wi0176_independent_qa | `a59f62ce` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -305,7 +307,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 42
+- Team-visible Work Items: 43
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -378,14 +380,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-05T05:07:40.907Z | work_item_closed | WI-0175 | agent-mog |
-| 2026-09-05T05:07:40.907Z | release_gate_completed | WI-0175 | agent-mog |
-| 2026-09-05T05:07:04.674Z | work_item_claimed | WI-0175 | human |
-| 2026-09-05T05:07:04.417Z | work_item_transitioned | WI-0175 | agent-lulu |
-| 2026-09-05T05:07:04.179Z | handoff_created | WI-0175 | agent-lulu |
-| 2026-09-05T05:07:03.923Z | runtime_worker_status_changed | WI-0175 | agent-lulu |
-| 2026-09-05T05:04:51.344Z | runtime_worker_attached | WI-0175 | agent-lulu |
-| 2026-09-05T05:04:26.974Z | runtime_worker_reserved | WI-0175 | human |
+| 2026-09-05T05:29:09.089Z | work_item_closed | WI-0176 | agent-mog |
+| 2026-09-05T05:29:09.089Z | release_gate_completed | WI-0176 | agent-mog |
+| 2026-09-05T05:28:39.356Z | work_item_claimed | WI-0176 | human |
+| 2026-09-05T05:28:39.090Z | work_item_transitioned | WI-0176 | agent-lulu |
+| 2026-09-05T05:28:38.849Z | handoff_created | WI-0176 | agent-lulu |
+| 2026-09-05T05:28:38.595Z | runtime_worker_status_changed | WI-0176 | agent-lulu |
+| 2026-09-05T05:26:15.643Z | runtime_worker_attached | WI-0176 | agent-lulu |
+| 2026-09-05T05:25:49.005Z | runtime_worker_reserved | WI-0176 | human |
 
 ## Assignments
 
