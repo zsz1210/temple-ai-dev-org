@@ -1,0 +1,63 @@
+{
+  "model_calls": 0,
+  "observations": [
+    {
+      "mode": "separate",
+      "stage": "developer",
+      "command_count": 3,
+      "command_elapsed_ms": 766.3835429999999,
+      "response_bytes": 2586,
+      "exit_codes": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "separate",
+      "stage": "quality_evaluator",
+      "command_count": 3,
+      "command_elapsed_ms": 634.2887500000004,
+      "response_bytes": 6442,
+      "exit_codes": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "mode": "finish",
+      "stage": "developer",
+      "command_count": 1,
+      "command_elapsed_ms": 678.4074999999998,
+      "response_bytes": 3295,
+      "exit_codes": [
+        0
+      ]
+    },
+    {
+      "mode": "finish",
+      "stage": "quality_evaluator",
+      "command_count": 1,
+      "command_elapsed_ms": 677.8577500000001,
+      "response_bytes": 3219,
+      "exit_codes": [
+        0
+      ]
+    }
+  ],
+  "method": "One synthetic run per mode; completion plus explicit full Status inspection and Doctor. Existing individual mutations also rebuild views internally.",
+  "exclusions": [
+    "fixture setup",
+    "claim",
+    "product tests",
+    "evidence authoring",
+    "model inference"
+  ],
+  "limitations": [
+    "command counts are structural, not AI turns",
+    "elapsed command time is a local diagnostic sample",
+    "response bytes are not Tokens",
+    "no ordinary-versus-Temple delivery comparison"
+  ]
+}

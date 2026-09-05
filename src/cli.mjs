@@ -12,6 +12,7 @@ import {
 } from "./context.mjs";
 import { runDoctor, formatDoctor, compactDoctor } from "./doctor.mjs";
 import { deliverLeanWorkItem } from "./lean-delivery.mjs";
+import { finishLeanWorkItem } from "./lean-finish.mjs";
 import { OperationError, operationErrorResult } from "./operation-errors.mjs";
 import {
   addMembership,
@@ -200,6 +201,7 @@ Usage:
   temple work-item claim [target] --work-item WI-ID --agent-id agent-name --principal-id principal-name --base-revision ref --branch name [--worktree path]
   temple work-item release [target] --work-item WI-ID [--agent-id agent-name] [--principal-id principal-name] [--reason text]
   temple work-item deliver [target] --work-item WI-ID --operation-id id --claim-id id --agent-id agent-name --principal-id principal-name --revision commit --completed text --evidence path [--unresolved text] [--dry-run] [--expected-plan sha256] [--json]
+  temple work-item finish [target] --work-item WI-ID --position developer|quality_evaluator --operation-id id --claim-id id --agent-id id --principal-id id --revision commit [--completed text --evidence path | --judgment pass --test-evidence path --lean-closeout path] [--dry-run] [--expected-plan sha256] [--json]
   temple work-item rework [target] --work-item WI-ID --same-scope --input-revision full-sha --reason text --evidence repository-path [--actor agent-name] [--json]
   temple work-item unresolved [target] --work-item WI-0001 [--resolve text] [--merge text]
   temple parallel check [target] --work-item WI-ID [--agent-id agent-name] [--json]
@@ -341,6 +343,7 @@ const BOOLEAN_FLAGS = new Set([
   "--confirm-normalization"
 ]);
 const VALUE_FLAGS = new Set([
+  "--judgment", "--test-evidence", "--lean-closeout",
   "--config",
   "--title",
   "--actor",
@@ -511,6 +514,7 @@ const VALUE_FLAGS = new Set([
   "--max-event-bytes"
 ]);
 const REPEATABLE_FLAGS = new Set([
+  "--test-evidence", "--lean-closeout",
   "--scope",
   "--acceptance",
   "--completed",
@@ -2473,6 +2477,23 @@ async function runWorkItemDeliver(parsed) {
   return 0;
 }
 
+async function runWorkItemFinish(parsed) {
+  assertCommandOptions(parsed,
+    ["--work-item", "--position", "--operation-id", "--claim-id", "--agent-id", "--principal-id", "--revision", "--completed", "--evidence", "--unresolved", "--expected-plan", "--judgment", "--test-evidence", "--lean-closeout"],
+    ["--dry-run", "--json"]);
+  const target = await assertSafeTarget(parsed.target);
+  const result = await withProjectMutationLock(target, () => finishLeanWorkItem(target, {
+    workItemId: parsed.options["--work-item"], position: parsed.options["--position"],
+    operationId: parsed.options["--operation-id"], claimId: parsed.options["--claim-id"], agentId: parsed.options["--agent-id"],
+    principalId: parsed.options["--principal-id"], revision: parsed.options["--revision"],
+    completed: listOption(parsed, "--completed"), evidence: listOption(parsed, "--evidence"), unresolved: listOption(parsed, "--unresolved"),
+    judgment: parsed.options["--judgment"], testEvidence: listOption(parsed, "--test-evidence"), leanCloseout: listOption(parsed, "--lean-closeout"),
+    dryRun: parsed.flags.has("--dry-run"), expectedPlan: parsed.options["--expected-plan"]
+  }), { leanDeliveryOperation: `${parsed.options["--work-item"]}/${parsed.options["--operation-id"]}` });
+  printResult(parsed, result, [`Lean finish: ${result.status}`, `Lifecycle: ${result.mutation.status}`, `Diagnostics: ${result.diagnostics.status}`, result.mutation.next_action]);
+  return result.success || result.mutation.dry_run ? 0 : 1;
+}
+
 async function runWorkItemMigrateOutcomes(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const result = await withProjectMutationLock(target, async () => {
@@ -3133,6 +3154,7 @@ async function dispatch(argv) {
   if (parsed.command === "work-item" && parsed.action === "claim") return runWorkItemClaim(parsed);
   if (parsed.command === "work-item" && parsed.action === "release") return runWorkItemRelease(parsed);
   if (parsed.command === "work-item" && parsed.action === "deliver") return runWorkItemDeliver(parsed);
+  if (parsed.command === "work-item" && parsed.action === "finish") return runWorkItemFinish(parsed);
   if (parsed.command === "work-item" && parsed.action === "rework") return runWorkItemRework(parsed);
   if (parsed.command === "work-item" && parsed.action === "migrate-outcomes") return runWorkItemMigrateOutcomes(parsed);
   if (parsed.command === "work-item" && parsed.action === "unresolved") return runWorkItemUnresolved(parsed);
@@ -3160,7 +3182,7 @@ async function dispatch(argv) {
 }
 
 export async function main(argv) {
-  const delivery = argv[0] === "work-item" && argv[1] === "deliver";
+  const delivery = argv[0] === "work-item" && ["deliver", "finish"].includes(argv[1]);
   const compact = argv[0] === "context" && ((argv[1] === "resolve" && argv.includes("--compact")) || argv[1] === "packet");
   if (!delivery && !compact) return dispatch(argv);
   try {

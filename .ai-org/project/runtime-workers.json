@@ -1196,6 +1196,32 @@
       "attached_at": "2026-09-05T13:24:58.103Z",
       "completed_at": "2026-09-05T13:28:57.141Z",
       "updated_at": "2026-09-05T13:28:57.141Z"
+    },
+    {
+      "id": "worker-20260905133548-96d7f84f",
+      "runtime_kind": "internal-subagent",
+      "status": "active",
+      "work_item_id": "WI-0187",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "principal_id": "human",
+      "claim_id": "claim-20260905133548-da28be6b",
+      "base_revision": "49eb1f5",
+      "branch": "codex/wi-0187-lean-finish",
+      "worktree": null,
+      "plan_fingerprint": "303a41b70fa1b12dedc8a1b78e8e29f3cb20daeec03c87b8255733ff06929f1b",
+      "plan_digest": "18e0bcddad14e9fba20ee46165333df11969b2d6ec32337f4c2b495ce4878522",
+      "preparation_fingerprint": "08d6a63f3453602745e66f99502ef5be12c1bf4af3e218394b16a82409179f5e",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/lean_finish_developer",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": null,
+      "evidence": [],
+      "reserved_at": "2026-09-05T13:35:48.065Z",
+      "attached_at": "2026-09-05T13:36:25.402Z",
+      "completed_at": null,
+      "updated_at": "2026-09-05T13:36:25.402Z"
     }
   ]
 }

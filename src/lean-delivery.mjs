@@ -44,7 +44,7 @@ async function fileBytes(target, relative, allowMissing = false) {
 
 const hashBytes = (bytes) => bytes === null ? null : sha256(bytes);
 
-function normalizedRequest(target, options) {
+function normalizedRequest(target, options, finish = false) {
   if (!isWorkItemId(options.workItemId)) throw new OperationError("INVALID_INPUT", "Lean delivery requires a valid --work-item");
   if (!OPERATION.test(options.operationId ?? "")) throw new OperationError("INVALID_INPUT", "--operation-id must be 1-64 letters, digits, underscores, or hyphens");
   if (options.expectedPlan !== undefined && !/^[a-f0-9]{64}$/.test(options.expectedPlan)) throw new OperationError("INVALID_INPUT", "--expected-plan must be a SHA-256 digest");
@@ -63,7 +63,19 @@ function normalizedRequest(target, options) {
     evidence: uniqueStrings(options.evidence),
     unresolved: uniqueStrings(options.unresolved)
   };
-  if (!request.completed.length || !request.evidence.length) throw new OperationError("INVALID_INPUT", "Lean delivery requires --completed and --evidence");
+  if (finish) {
+    if (!["developer", "quality_evaluator"].includes(options.position)) throw new OperationError("INVALID_INPUT", "Lean finish requires --position developer or quality_evaluator");
+    request.schema_version = "temple.lean-finish-request/v1";
+    request.position = options.position;
+    if (options.position === "quality_evaluator") {
+      request.judgment = options.judgment;
+      request.test_evidence = uniqueStrings(options.testEvidence);
+      request.lean_closeout = uniqueStrings(options.leanCloseout);
+      if (request.judgment !== "pass" || !request.test_evidence.length || !request.lean_closeout.length || request.unresolved.length || request.completed.length || request.evidence.length) throw new OperationError("INVALID_INPUT", "Verifier finish requires --judgment pass, --test-evidence and --lean-closeout, without Developer fields or unresolved work");
+      request.evidence = uniqueStrings([...request.test_evidence, ...request.lean_closeout]);
+    } else if (options.judgment !== undefined || options.testEvidence?.length || options.leanCloseout?.length) throw new OperationError("INVALID_INPUT", "Developer finish does not accept Verifier judgment or gates");
+  }
+  if (request.position !== "quality_evaluator" && (!request.completed.length || !request.evidence.length)) throw new OperationError("INVALID_INPUT", "Lean delivery requires --completed and --evidence");
   return request;
 }
 
@@ -91,6 +103,7 @@ async function inputSnapshot(target, item, request) {
     ".ai-org/core/positions.json", ".ai-org/core/workflow.json", ".ai-org/core/policies.json",
     `.ai-org/work-items/${item.id}.json`, EVENTS
   ]);
+  if (request.position) for (const relative of ["AGENTS.md", "TEMPLE.md", ".agents/skills/temple-work/SKILL.md", ".agents/skills/temple-work/references/lean-delivery.md", ".agents/skills/temple-work/references/assurance-and-recovery.md", ".ai-org/core/high-assurance.json", ".ai-org/core/ui-design.json", ".ai-org/project/usage-policy.json", ".ai-org/project/repository-integration.json"]) paths.add(relative);
   for (const relative of await currentEvidencePaths(target, item, request)) paths.add(relative);
   const specs = JSON.parse(await fileBytes(target, ".ai-org/project/spec-index.json"));
   const ids = new Set([...(item.spec_refs ?? []), ...(item.ux_refs ?? []), ...(item.ui_refs ?? []), ...(item.contract_refs ?? [])].map((entry) => entry.id));
@@ -150,8 +163,12 @@ async function assertInputs(target, inputs, writes = []) {
 async function prepareDelivery(target, request) {
   const context = await loadProjectContext(target);
   const item = await readWorkItem(target, request.work_item_id);
-  if (item.state !== "build" || item.owner_position !== "developer" || workflowProfileForItem(context.workflow, item) !== "lean") {
-    throw new Error("Lean delivery requires a Lean Work Item at Developer Build");
+  const position = request.position ?? "developer";
+  const stage = position === "developer" ? "build" : "test";
+  const finishing = Boolean(request.position);
+  const accepting = position === "quality_evaluator";
+  if (item.state !== stage || item.owner_position !== position || workflowProfileForItem(context.workflow, item) !== "lean") {
+    throw new Error(`Lean completion requires a Lean Work Item at ${position} ${stage}`);
   }
   const assessment = assessWorkflowProfile(context.workflow, {
     requestedProfile: "lean", riskTier: item.risk_tier,
@@ -166,8 +183,8 @@ async function prepareDelivery(target, request) {
     throw new Error("Lean delivery actor or active claim does not match request");
   }
   const collaboration = await readCollaborationState(target);
-  if (!context.agents.has(request.agent_id) || context.agents.get(request.agent_id).active === false || !agentIsEligible(collaboration, request.agent_id, "developer", activeExecutionRequirements(item, "build").disciplines)) {
-    throw new Error("Lean delivery Agent is not eligible for Developer");
+  if (!context.agents.has(request.agent_id) || context.agents.get(request.agent_id).active === false || !agentIsEligible(collaboration, request.agent_id, position, activeExecutionRequirements(item, stage).disciplines)) {
+    throw new Error(`Lean completion Agent is not eligible for ${position}`);
   }
   if (collaboration.profile !== "solo") {
     if (sponsoredPrincipal(collaboration, request.agent_id) !== request.principal_id) throw new Error("Lean delivery Principal does not sponsor Agent");
@@ -178,41 +195,48 @@ async function prepareDelivery(target, request) {
     throw new Error("Complete the runtime worker before Lean delivery");
   }
   assertCandidate(target, request, item.affected_paths ?? []);
+  if (accepting && resolveGitRevision(target, item.claim.base_revision) !== request.candidate_revision) throw new Error("Lean Verifier claim must pin the exact candidate");
+  if (accepting) {
+    const handoff = [...(item.handoffs ?? [])].reverse().find((entry) => entry.from_position === "developer");
+    if (!handoff?.actor || handoff.actor === request.agent_id) throw new Error("Lean acceptance requires an Identity distinct from the Developer handoff author");
+    if (resolveGitRevision(target, handoff.input_revision) !== request.candidate_revision || item.developer_candidate_revision !== request.candidate_revision) throw new Error("Lean acceptance candidate does not match the Developer handoff");
+    if (item.unresolved?.length || handoff.unresolved?.length) throw new Error("Lean acceptance cannot close unresolved work");
+  }
   const inputs = await inputSnapshot(target, item, request);
-  const handoff = await prepareHandoff(target, {
+  const handoff = accepting ? null : await prepareHandoff(target, {
     workItemId: item.id, toPosition: "quality_evaluator", inputRevision: request.candidate_revision,
     completed: request.completed, evidence: request.evidence, unresolved: request.unresolved, actor: request.agent_id
   });
   const released = await prepareClaimRelease(target, {
-    workItemId: item.id, agentId: request.agent_id, principalId: request.principal_id, reason: "developer_delivery"
-  }, handoff.item);
+    workItemId: item.id, agentId: request.agent_id, principalId: request.principal_id, reason: accepting ? "completed" : "developer_delivery"
+  }, handoff?.item ?? item);
   const transition = await prepareWorkItemTransition(target, {
-    workItemId: item.id, toState: "test", actor: request.agent_id,
-    satisfied: { developer_handoff: [handoff.artifact], developer_evidence: request.evidence }
-  }, handoff.item, new Map([[handoff.artifact, handoff.content]]));
+    workItemId: item.id, toState: accepting ? "done" : "test", actor: request.agent_id,
+    satisfied: accepting ? { test_evidence: request.test_evidence, lean_closeout: request.lean_closeout } : { developer_handoff: [handoff.artifact], developer_evidence: request.evidence }
+  }, handoff?.item ?? item, new Map(handoff ? [[handoff.artifact, handoff.content]] : []));
   // Validate transition while the originating actor still owns its active claim,
   // then retain the separately validated release fact in the final state.
   transition.item.claim = released.item.claim;
   transition.item.claims = released.item.claims;
-  const receiptPath = `.ai-org/artifacts/${item.id}/delivery-${request.operation_id}.json`;
-  const outputPaths = [handoff.artifact, `.ai-org/work-items/${item.id}.json`, EVENTS, receiptPath];
+  const receiptPath = `.ai-org/artifacts/${item.id}/${finishing ? "finish" : "delivery"}-${request.operation_id}.json`;
+  const outputPaths = [...(handoff ? [handoff.artifact] : []), `.ai-org/work-items/${item.id}.json`, EVENTS, receiptPath];
   const requestDigest = sha256(formatJson(request));
   const planDigest = sha256(formatJson({ request, inputs, output_paths: outputPaths, affected_paths: item.affected_paths }));
   const result = {
-    schema_version: "temple.lean-delivery-result/v1", operation_id: request.operation_id,
+    schema_version: finishing ? "temple.lean-finish-lifecycle/v1" : "temple.lean-delivery-result/v1", operation_id: request.operation_id,
     work_item_id: item.id, candidate_revision: request.candidate_revision,
-    plan_digest: planDigest, handoff: handoff.artifact, receipt: receiptPath,
-    resulting_state: "test", next_action: "The assigned Quality Evaluator must claim Test and verify acceptance.",
+    plan_digest: planDigest, handoff: handoff?.artifact ?? null, receipt: receiptPath,
+    resulting_state: accepting ? "done" : "test", next_action: accepting ? "Lean acceptance is recorded; no external release is authorized." : "The assigned Quality Evaluator must claim Test and verify acceptance.",
     testing_performed: false, external_action_performed: false
   };
-  const receipt = { schema_version: RECEIPT_SCHEMA, request_digest: requestDigest, request, result, applied_at: transition.item.updated_at };
+  const receipt = { schema_version: finishing ? "temple.lean-finish-receipt/v1" : RECEIPT_SCHEMA, request_digest: requestDigest, request, result, applied_at: transition.item.updated_at };
   const beforeEvents = (await fileBytes(target, EVENTS)).toString("utf8");
-  const events = [...handoff.events, ...released.events, ...transition.events];
-  const contents = [handoff.content, formatJson(transition.item), `${beforeEvents}${beforeEvents && !beforeEvents.endsWith("\n") ? "\n" : ""}${events.map((event) => JSON.stringify(event)).join("\n")}\n`, formatJson(receipt)];
+  const events = [...(handoff?.events ?? []), ...released.events, ...transition.events];
+  const contents = [...(handoff ? [handoff.content] : []), formatJson(transition.item), `${beforeEvents}${beforeEvents && !beforeEvents.endsWith("\n") ? "\n" : ""}${events.map((event) => JSON.stringify(event)).join("\n")}\n`, formatJson(receipt)];
   const writes = [];
   for (let index = 0; index < outputPaths.length; index++) {
     const before = await fileBytes(target, outputPaths[index], true);
-    if ((index === 0 || index === 3) && before !== null) throw new Error(`Lean delivery output already exists: ${outputPaths[index]}`);
+    if (((handoff && index === 0) || index === outputPaths.length - 1) && before !== null) throw new Error(`Lean delivery output already exists: ${outputPaths[index]}`);
     writes.push({ path: outputPaths[index], before_sha256: hashBytes(before), after_sha256: sha256(contents[index]), content: contents[index] });
   }
   // Ensure all preparation reads still describe the original snapshot.
@@ -224,8 +248,9 @@ function validateJournal(journal, target, request) {
   if (journal.schema_version !== JOURNAL_SCHEMA || journal.target !== target || journal.request_digest !== sha256(formatJson(request)) || journal.operation_key !== `${request.work_item_id}/${request.operation_id}`) {
     throw new Error("Lean delivery pending request conflicts with this operation");
   }
-  const allowed = [journal.result?.handoff, `.ai-org/work-items/${request.work_item_id}.json`, EVENTS, `.ai-org/artifacts/${request.work_item_id}/delivery-${request.operation_id}.json`];
-  if (!new RegExp(`^\\.ai-org/artifacts/${request.work_item_id}/handoff-[0-9]+-developer-to-quality_evaluator\\.md$`).test(allowed[0] ?? "") || !Array.isArray(journal.writes) || journal.writes.length !== 4) throw new Error("Invalid Lean delivery journal outputs");
+  const accepting = request.position === "quality_evaluator";
+  const allowed = [...(accepting ? [] : [journal.result?.handoff]), `.ai-org/work-items/${request.work_item_id}.json`, EVENTS, `.ai-org/artifacts/${request.work_item_id}/${request.position ? "finish" : "delivery"}-${request.operation_id}.json`];
+  if ((!accepting && !new RegExp(`^\\.ai-org/artifacts/${request.work_item_id}/handoff-[0-9]+-developer-to-quality_evaluator\\.md$`).test(allowed[0] ?? "")) || !Array.isArray(journal.writes) || journal.writes.length !== allowed.length) throw new Error("Invalid Lean delivery journal outputs");
   for (let index = 0; index < allowed.length; index++) {
     const entry = journal.writes[index];
     if (entry.path !== allowed[index] || typeof entry.content !== "string" || sha256(entry.content) !== entry.after_sha256) throw new Error("Invalid Lean delivery journal digest or path");
@@ -233,17 +258,37 @@ function validateJournal(journal, target, request) {
   if (!Array.isArray(journal.inputs) || !Array.isArray(journal.affected_paths)) throw new Error("Invalid Lean delivery journal inputs");
 }
 
-async function applyJournal(target, directory, journal, { checkpoint } = {}) {
+export async function validateLeanCompletionReceipt(target, journal) {
+  validateJournal(journal, target, journal.request);
+  const write = journal.writes.at(-1);
+  const receipt = JSON.parse(write.content);
+  if (hashBytes(await fileBytes(target, write.path)) !== write.after_sha256 || receipt.request_digest !== journal.request_digest ||
+    formatJson(receipt.request) !== formatJson(journal.request) || formatJson(receipt.result) !== formatJson(journal.result)) throw new Error("Lean finish diagnostic journal conflicts with canonical receipt");
+}
+
+export async function validateLeanCompletionSnapshot(target, journal, { applied = false } = {}) {
+  validateJournal(journal, target, journal.request);
   const collaboration = await readCollaborationState(target);
-  if (collaboration.profile !== "solo") await assertLocalActorBinding(target, journal.request.principal_id);
+  if (collaboration.profile !== "solo") {
+    await assertLocalActorBinding(target, journal.request.principal_id);
+    if (sponsoredPrincipal(collaboration, journal.request.agent_id) !== journal.request.principal_id) throw new Error("Lean completion Principal no longer sponsors Agent");
+  }
   // Time-dependent expiry must be checked again even when input bytes match.
-  const resultingItem = JSON.parse(journal.writes[1].content);
-  if (!agentIsEligible(collaboration, journal.request.agent_id, "developer", activeExecutionRequirements(resultingItem, "build").disciplines)) {
-    throw new Error("Lean delivery Agent is no longer eligible for Developer");
+  const resultingItem = JSON.parse(journal.writes.find((entry) => entry.path === `.ai-org/work-items/${journal.request.work_item_id}.json`).content);
+  const position = journal.request.position ?? "developer";
+  if (!agentIsEligible(collaboration, journal.request.agent_id, position, activeExecutionRequirements(resultingItem, position === "developer" ? "build" : "test").disciplines)) {
+    throw new Error(`Lean completion Agent is no longer eligible for ${position}`);
   }
   await currentEvidencePaths(target, resultingItem, journal.request);
   assertCandidate(target, journal.request, journal.affected_paths);
   await assertInputs(target, journal.inputs, journal.writes);
+  if (applied) for (const write of journal.writes) {
+    if (hashBytes(await fileBytes(target, write.path, true)) !== write.after_sha256) throw new Error(`Lean finish resulting state changed: ${write.path}`);
+  }
+}
+
+async function applyJournal(target, directory, journal, { checkpoint, lifecycleApplied } = {}) {
+  await validateLeanCompletionSnapshot(target, journal);
   for (let index = 0; index < journal.writes.length; index++) {
     const write = journal.writes[index];
     const actual = hashBytes(await fileBytes(target, write.path, true));
@@ -253,14 +298,15 @@ async function applyJournal(target, directory, journal, { checkpoint } = {}) {
     else await durableAtomicWrite(path.join(target, write.path), write.content);
     await checkpoint?.(`write-${index + 1}`);
   }
+  await lifecycleApplied?.(journal);
   await fs.unlink(path.join(directory, "pending.json"));
 }
 
 // Call while holding the project mutation lock. Checkpoints are test-only injection,
 // never CLI/environment options and never authority to bypass validation.
-async function executeDelivery(target, options, hooks, state) {
+async function executeDelivery(target, options, hooks, state, finish) {
   target = await fs.realpath(target);
-  const request = normalizedRequest(target, options);
+  const request = normalizedRequest(target, options, finish);
   const operationKey = `${request.work_item_id}/${request.operation_id}`;
   const pending = await readPendingLeanDelivery(target);
   if (pending) {
@@ -271,11 +317,11 @@ async function executeDelivery(target, options, hooks, state) {
     await applyJournal(target, pending.directory, pending.journal, hooks);
     return { ...pending.journal.result, status: "resumed", dry_run: false };
   }
-  const receiptPath = `.ai-org/artifacts/${request.work_item_id}/delivery-${request.operation_id}.json`;
+  const receiptPath = `.ai-org/artifacts/${request.work_item_id}/${finish ? "finish" : "delivery"}-${request.operation_id}.json`;
   const existing = await fileBytes(target, receiptPath, true);
   if (existing) {
     const receipt = JSON.parse(existing);
-    if (receipt.schema_version !== RECEIPT_SCHEMA || receipt.request_digest !== sha256(formatJson(request)) || receipt.request_digest !== sha256(formatJson(receipt.request))) throw new Error("Lean delivery operation ID conflicts with an existing receipt");
+    if (receipt.schema_version !== (finish ? "temple.lean-finish-receipt/v1" : RECEIPT_SCHEMA) || receipt.request_digest !== sha256(formatJson(request)) || receipt.request_digest !== sha256(formatJson(receipt.request))) throw new Error("Lean delivery operation ID conflicts with an existing receipt");
     if (options.expectedPlan && options.expectedPlan !== receipt.result?.plan_digest) throw new OperationError("STALE_PREVIEW", "Stale Lean delivery preview");
     return { ...receipt.result, status: "already_applied", dry_run: Boolean(options.dryRun) };
   }
@@ -294,9 +340,13 @@ async function executeDelivery(target, options, hooks, state) {
 }
 
 export async function deliverLeanWorkItem(target, options, hooks = {}) {
+  return executeLeanCompletion(target, options, hooks, false);
+}
+
+export async function executeLeanCompletion(target, options, hooks = {}, finish = true) {
   const state = { phase: "not_started" };
   try {
-    return await executeDelivery(target, options, hooks, state);
+    return await executeDelivery(target, options, hooks, state, finish);
   } catch (error) {
     if (error instanceof OperationError) {
       error.mutationStatus = state.phase;

@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { leanFinishAttention } from "./lean-delivery-state.mjs";
 import {
   buildCapabilityRegistry,
   CONTEXT_MAP_RELATIVE_PATH,
@@ -305,6 +306,7 @@ export async function buildStatus(target, options = {}) {
     external_action_performed: false
   };
   const attention = [
+    ...await leanFinishAttention(target, options.settlingLeanFinish),
     ...workItems
       .filter((item) => item.state === "blocked")
       .map((item) => ({ type: "blocked_work_item", work_item_id: item.id, message: `${item.id} is blocked` })),

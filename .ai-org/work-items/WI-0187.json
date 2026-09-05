@@ -1,0 +1,127 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0187",
+  "title": "Compose Lean stage completion with truthful diagnostics and recovery",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-05T13:34:34.425Z",
+  "updated_at": "2026-09-05T13:35:48.078Z",
+  "scope": [
+    "Implement slice B: opt-in Developer and distinct Verifier completion with shared validators, replay-safe mutation and separately reported full diagnostics. Local deterministic validation only; continue slice C only after this slice passes."
+  ],
+  "acceptance_criteria": [
+    "Equivalent canonical delivery and acceptance, exact candidate and identity checks, failure-boundary recovery without duplicate writes, diagnostics failures visible after terminal state, full verification and distinct QA pass."
+  ],
+  "affected_paths": [
+    "src/lean-delivery.mjs",
+    "src/lean-delivery-state.mjs",
+    "src/lean-finish.mjs",
+    "src/cli.mjs",
+    "src/status.mjs",
+    "src/doctor.mjs",
+    "src/work-items.mjs",
+    "test/lean-finish.test.mjs",
+    "test/lean-delivery.test.mjs",
+    "test/helpers/lean-delivery-fixture.mjs",
+    "scripts/check-package.mjs",
+    "docs/adr/0057-composed-lean-completion.md",
+    "docs/adr/README.md",
+    "docs/extensions/lean-completion.md",
+    ".ai-org/artifacts/WI-0187"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T13:34:34.425Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "49eb1f5",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260905133548-da28be6b",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "49eb1f5",
+    "branch": "codex/wi-0187-lean-finish",
+    "worktree": null,
+    "claimed_at": "2026-09-05T13:35:48.078Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260905133434-2b9cc649",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "49eb1f5",
+      "branch": "codex/wi-0187-lean-finish",
+      "worktree": null,
+      "claimed_at": "2026-09-05T13:34:34.928Z",
+      "released_at": "2026-09-05T13:35:46.356Z",
+      "release_reason": [
+        "Authorized B scope and acceptance recorded."
+      ]
+    },
+    {
+      "id": "claim-20260905133548-da28be6b",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "49eb1f5",
+      "branch": "codex/wi-0187-lean-finish",
+      "worktree": null,
+      "claimed_at": "2026-09-05T13:35:48.078Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0187/brief.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0187/brief.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0187/brief.md"
+    ],
+    "technical_design": [
+      "docs/adr/0057-composed-lean-completion.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0187/brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0187/brief.md",
+    "docs/adr/0057-composed-lean-completion.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

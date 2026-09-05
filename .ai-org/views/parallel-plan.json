@@ -1,26 +1,42 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-05T13:29:23.744Z",
-  "source_fingerprint": "a3130efef081344e1e9852ac5ba93aca4e5c52e1cdae3885be1f88af3c55c8e3",
+  "generated_at": "2026-09-05T13:36:25.704Z",
+  "source_fingerprint": "ebadcd9dfb26737b13119e9c84a752e1c15b4536f1f3eaaedaec97eedc407459",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
     "selected_work_item_ids": [
       "WI-0172",
-      "WI-0183"
+      "WI-0183",
+      "WI-0187"
     ]
   },
   "max_workers": null,
   "summary": {
-    "selected": 2,
+    "selected": 3,
     "dispatchable": 0,
-    "active": 0,
+    "active": 1,
     "sequential": 2,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
-  "active": [],
+  "active": [
+    {
+      "work_item_id": "WI-0187",
+      "title": "Compose Lean stage completion with truthful diagnostics and recovery",
+      "disposition": "active",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [],
+      "claim_id": "claim-20260905133548-da28be6b",
+      "principal_id": "human",
+      "branch": "codex/wi-0187-lean-finish",
+      "worktree": null,
+      "base_revision": "49eb1f5"
+    }
+  ],
   "sequential": [
     {
       "work_item_id": "WI-0172",

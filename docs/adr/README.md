@@ -56,5 +56,6 @@
 - [ADR-0054: Bound delivery entry and compose recoverable administration](0054-bounded-delivery-entry-and-recovery.md)
 - [ADR-0055: Acquire transient stage material through an opt-in read-only command](0055-transient-stage-material.md)
 - [ADR-0056: Scope derived stage material without dropping governing rules](0056-stage-material-projections.md)
+- [ADR-0057: Composed Lean completion with separate diagnostics](0057-composed-lean-completion.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

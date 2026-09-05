@@ -51,8 +51,8 @@ const ALLOWED_TOP_LEVEL_FILES = new Set([
   "package.json"
 ]);
 const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overlay/", "src/"];
-// WI-0186 adds only ADR-0056 to the previously reviewed 402-file inventory.
-const MAX_FILE_COUNT = 403;
+// WI-0187 adds the finish module, ADR-0057 and completion guide to 403 reviewed files.
+const MAX_FILE_COUNT = 406;
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {
