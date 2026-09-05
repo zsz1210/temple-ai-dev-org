@@ -804,6 +804,34 @@
       "attached_at": "2026-09-05T03:56:50.522Z",
       "completed_at": "2026-09-05T04:00:02.336Z",
       "updated_at": "2026-09-05T04:00:02.336Z"
+    },
+    {
+      "id": "worker-20260905040521-609a929b",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0174",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260905040521-2b589efb",
+      "base_revision": "3cd0e55489be856854105497182d5d7514d3dd06",
+      "branch": "codex/wi-0174-review-rework",
+      "worktree": null,
+      "plan_fingerprint": "e8d8a27cb4b589f65c82ef3fa8e44817925ef569b6fc766c91f4329efc16cee7",
+      "plan_digest": "36ac7ae81833775a5661ff3a4b3b0262fb8ec1976987bd0f1322b44a154b8b79",
+      "preparation_fingerprint": "ad9803cbbd41fa3c212a81a3221aa7b618ef4616dccfc6c9be90a9e8ac5c995b",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0174_rework_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "3cd0e55489be856854105497182d5d7514d3dd06",
+      "evidence": [
+        ".ai-org/artifacts/WI-0174/independent-qa-v2.md"
+      ],
+      "reserved_at": "2026-09-05T04:05:21.811Z",
+      "attached_at": "2026-09-05T04:05:47.970Z",
+      "completed_at": "2026-09-05T04:09:22.220Z",
+      "updated_at": "2026-09-05T04:09:22.220Z"
     }
   ]
 }
