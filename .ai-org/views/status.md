@@ -416,6 +416,7 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-05T21:45:50.583Z | work_item_coordination_configured | WI-0190 | agent-rikku |
 | 2026-09-05T21:42:35.633Z | work_item_coordination_configured | WI-0190 | agent-rikku |
 | 2026-09-05T21:36:39.970Z | work_item_claimed | WI-0190 | human |
 | 2026-09-05T21:36:39.692Z | work_item_transitioned | WI-0190 | agent-tidus |
@@ -423,7 +424,6 @@
 | 2026-09-05T21:36:39.180Z | work_item_transitioned | WI-0190 | agent-mog |
 | 2026-09-05T21:36:38.924Z | work_item_claim_released | WI-0190 | human |
 | 2026-09-05T21:36:38.640Z | work_item_claimed | WI-0190 | human |
-| 2026-09-05T21:36:38.334Z | work_item_coordination_configured | WI-0190 | agent-mog |
 
 ## Assignments
 

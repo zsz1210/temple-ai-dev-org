@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-05T21:35:33.373Z",
-  "updated_at": "2026-09-05T21:42:35.633Z",
+  "updated_at": "2026-09-05T21:45:50.583Z",
   "scope": [
     "Framework instruction routes, stage completion, and bounded read-only support; preserve execution guards and sealed experiments"
   ],
@@ -56,7 +56,7 @@
   ],
   "contract_status": "stable",
   "overlap_resolution": [
-    "WI-0172 owns test/delivery-control-pair.test.mjs; WI-0190 changes only test/proportionate-work.test.mjs and does not change that comparison or its artifacts."
+    "WI-0172 owns test/delivery-control-pair.test.mjs. WI-0190 adds test/proportionate-work.test.mjs and updates test/skill-policy.test.mjs reference inventory only; the comparison and its artifacts remain unchanged."
   ],
   "claim": {
     "id": "claim-20260905213639-800dc30a",
