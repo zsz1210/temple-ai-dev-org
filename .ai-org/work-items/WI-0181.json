@@ -1,0 +1,147 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0181",
+  "title": "Reduce diagnostic output and clarify stage completion",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-05T11:07:50.115Z",
+  "updated_at": "2026-09-05T11:08:45.674Z",
+  "scope": [
+    "Add opt-in compact Doctor and scoped Status output while preserving checks, warnings, attention and defaults; clarify stage handoff in maintained temple-work source. Local implementation and verification only; preserve sealed experiments and consumed approvals."
+  ],
+  "acceptance_criteria": [
+    "Compact diagnostics preserve warnings, failures, attention, exit status and write behavior; scoped Status retains exact selected item; stage completion does not imply whole-work closeout; full verification and distinct Independent QA, no model efficiency claim."
+  ],
+  "affected_paths": [
+    "src/cli.mjs",
+    "src/doctor.mjs",
+    "src/status.mjs",
+    "test/cli.test.mjs",
+    "project-overlay/.agents/skills/temple-work",
+    ".agents/skills/temple-work",
+    "docs/operations/compact-diagnostics.md",
+    ".ai-org/artifacts/WI-0181"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T11:07:50.114Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "1d5688e",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260905110845-84efc2bd",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "1d5688e",
+    "branch": "codex/wi-0181-compact-diagnostics",
+    "worktree": null,
+    "claimed_at": "2026-09-05T11:08:45.674Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260905110843-cbe642cc",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "1d5688e",
+      "branch": "codex/wi-0181-compact-diagnostics",
+      "worktree": null,
+      "claimed_at": "2026-09-05T11:08:43.430Z",
+      "released_at": "2026-09-05T11:08:43.693Z",
+      "release_reason": [
+        "Work order recorded."
+      ]
+    },
+    {
+      "id": "claim-20260905110844-1681470c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "1d5688e",
+      "branch": "codex/wi-0181-compact-diagnostics",
+      "worktree": null,
+      "claimed_at": "2026-09-05T11:08:44.195Z",
+      "released_at": "2026-09-05T11:08:44.428Z",
+      "release_reason": [
+        "Approved local scope and acceptance are recorded from user takeover request."
+      ]
+    },
+    {
+      "id": "claim-20260905110844-4b473245",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "1d5688e",
+      "branch": "codex/wi-0181-compact-diagnostics",
+      "worktree": null,
+      "claimed_at": "2026-09-05T11:08:44.936Z",
+      "released_at": "2026-09-05T11:08:45.168Z",
+      "release_reason": [
+        "Additive projection design preserves checks and explicit stop boundaries."
+      ]
+    },
+    {
+      "id": "claim-20260905110845-84efc2bd",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "1d5688e",
+      "branch": "codex/wi-0181-compact-diagnostics",
+      "worktree": null,
+      "claimed_at": "2026-09-05T11:08:45.674Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0181/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0181/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0181/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0181/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0181/design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0181/design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

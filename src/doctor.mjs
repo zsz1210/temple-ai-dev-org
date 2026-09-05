@@ -922,6 +922,18 @@ export async function runDoctor(target) {
   return { target, checks, summary, healthy: summary.fail === 0 };
 }
 
+export function compactDoctor(result) {
+  return {
+    schema_version: "temple.doctor-summary/v1",
+    validation_scope: "full",
+    target: result.target,
+    healthy: result.healthy,
+    summary: result.summary,
+    omitted_passing_checks: result.checks.filter((check) => check.status === "pass").length,
+    checks: result.checks.filter((check) => check.status !== "pass")
+  };
+}
+
 export function formatDoctor(result) {
   const lines = [`AI development organization doctor — ${result.target}`];
   for (const check of result.checks) {

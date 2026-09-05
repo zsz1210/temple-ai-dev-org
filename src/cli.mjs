@@ -10,7 +10,7 @@ import {
   writeCapabilityRegistry,
   writeContextCapsule
 } from "./context.mjs";
-import { runDoctor, formatDoctor } from "./doctor.mjs";
+import { runDoctor, formatDoctor, compactDoctor } from "./doctor.mjs";
 import { deliverLeanWorkItem } from "./lean-delivery.mjs";
 import { OperationError, operationErrorResult } from "./operation-errors.mjs";
 import {
@@ -45,7 +45,7 @@ import {
   planPackRemove
 } from "./packs.mjs";
 import { withProjectMutationLock } from "./project.mjs";
-import { buildStatus, renderStatusMarkdown, writeStatus } from "./status.mjs";
+import { buildStatus, compactStatus, renderStatusMarkdown, writeStatus } from "./status.mjs";
 import { buildObserverProjection, writeObserverProjection } from "./observer.mjs";
 import {
   ingestControlPlaneFixture,
@@ -163,8 +163,8 @@ Usage:
   temple portfolio build [target] [--allowed-root directory] [--no-write] [--json]
   temple experiment inspect [target] --manifest path --allowed-root directory [--json]
   temple experiment report [target] --manifest path --allowed-root directory [--no-write] [--json]
-  temple doctor [target] [--json]
-  temple status [target] [--json] [--no-write]
+  temple doctor [target] [--json] [--compact]
+  temple status [target] [--json] [--no-write] [--compact (requires --json)] [--work-item WI-ID (requires --compact)]
   temple observe [target] [--json] [--no-write]
   temple control-plane snapshot [target] [--state-dir path] [--json]
   temple control-plane ingest [target] --fixture path [--state-dir path] [--json]
@@ -1390,18 +1390,23 @@ async function runRestore(parsed) {
 async function runDoctorCommand(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const result = await runDoctor(target);
-  console.log(parsed.flags.has("--json") ? JSON.stringify(result, null, 2) : formatDoctor(result));
+  const output = parsed.flags.has("--compact") ? compactDoctor(result) : result;
+  console.log(parsed.flags.has("--json") ? JSON.stringify(output, null, 2) : formatDoctor(output));
   return result.healthy ? 0 : 1;
 }
 
 async function runStatusCommand(parsed) {
+  const compact = parsed.flags.has("--compact");
+  if (compact && !parsed.flags.has("--json")) throw new Error("Compact Status requires --json");
+  if (parsed.options["--work-item"] && !compact) throw new Error("Status --work-item requires --compact");
   const target = await assertSafeTarget(parsed.target);
   const registry = await buildCapabilityRegistry(target);
   const status = await buildStatus(target, { capabilityRegistry: registry });
+  const output = compact ? compactStatus(status, parsed.options["--work-item"]) : status;
   if (!parsed.flags.has("--no-write")) {
     await Promise.all([writeStatus(target, status), writeCapabilityRegistry(target, registry)]);
   }
-  console.log(parsed.flags.has("--json") ? JSON.stringify(status, null, 2) : renderStatusMarkdown(status));
+  console.log(parsed.flags.has("--json") ? JSON.stringify(output, null, 2) : renderStatusMarkdown(status));
   return 0;
 }
 

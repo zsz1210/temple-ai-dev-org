@@ -496,6 +496,21 @@ export async function buildStatus(target, options = {}) {
   };
 }
 
+export function compactStatus(status, workItemId) {
+  const item = workItemId ? status.work_items.items.find((entry) => entry.id === workItemId) : null;
+  if (workItemId && !item) throw new Error(`Unknown Work Item: ${workItemId}`);
+  return {
+    schema_version: "temple.status-summary/v1",
+    authority: "observation-only",
+    projection_scope: "full",
+    project: status.project,
+    work_items: { total: status.work_items.total, by_state: status.work_items.by_state },
+    selected_work_item: item,
+    attention: status.attention,
+    detail_command: "status --json --no-write"
+  };
+}
+
 export function renderStatusMarkdown(status) {
   const activeItems = status.work_items.items.filter((item) => !item.terminal && item.state !== "cancelled").length;
   const lines = [

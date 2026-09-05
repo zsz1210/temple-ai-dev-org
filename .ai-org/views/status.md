@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 180 total, 1 active
+- Work items: 181 total, 2 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 35 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -228,6 +228,7 @@
 | WI-0178 | Reduce delivery overhead with bounded context and recoverable operations | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6521fc50` | 0 | 8 | 0 |
 | WI-0179 | Compare optimized Temple against ordinary delivery | concluded | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9ef5d331` | 0 | 8 | 1 |
 | WI-0180 | Keep optional delivery sandbox tests explicit and portable | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `64d5c94a` | 0 | 4 | 0 |
+| WI-0181 | Reduce diagnostic output and clarify stage completion | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260905110845-84efc2bd | `—` | 0 | 1 | 0 |
 
 ## Codex task registry
 
@@ -316,7 +317,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 46
+- Team-visible Work Items: 47
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -389,14 +390,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-05T11:06:12.300Z | work_item_concluded | WI-0179 | agent-mog |
-| 2026-09-05T11:06:12.300Z | release_gate_completed | WI-0179 | agent-mog |
-| 2026-09-05T11:06:12.036Z | work_item_claimed | WI-0179 | human |
-| 2026-09-05T10:53:54.834Z | work_item_claim_released | WI-0179 | human |
-| 2026-09-05T10:52:23.749Z | work_item_unresolved_updated | WI-0179 | agent-mog |
-| 2026-09-05T10:20:48.153Z | work_item_unresolved_updated | WI-0179 | agent-mog |
-| 2026-09-05T10:20:47.821Z | work_item_claimed | WI-0179 | human |
-| 2026-09-05T10:12:44.104Z | work_item_claim_released | WI-0179 | human |
+| 2026-09-05T11:08:45.674Z | work_item_claimed | WI-0181 | human |
+| 2026-09-05T11:08:45.410Z | work_item_transitioned | WI-0181 | agent-tidus |
+| 2026-09-05T11:08:45.168Z | work_item_claim_released | WI-0181 | human |
+| 2026-09-05T11:08:44.936Z | work_item_claimed | WI-0181 | human |
+| 2026-09-05T11:08:44.669Z | work_item_transitioned | WI-0181 | agent-yuna |
+| 2026-09-05T11:08:44.428Z | work_item_claim_released | WI-0181 | human |
+| 2026-09-05T11:08:44.195Z | work_item_claimed | WI-0181 | human |
+| 2026-09-05T11:08:43.933Z | work_item_transitioned | WI-0181 | agent-mog |
 
 ## Assignments
 
