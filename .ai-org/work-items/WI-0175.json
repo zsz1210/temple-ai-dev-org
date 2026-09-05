@@ -1,0 +1,136 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0175",
+  "title": "Reject unsupported configure options",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-05T04:59:54.407Z",
+  "updated_at": "2026-09-05T05:00:32.752Z",
+  "scope": [
+    "Validate work-item configure options before mutation; preserve supported behavior; no affected-path editing feature or global parser rewrite"
+  ],
+  "acceptance_criteria": [
+    "Unsupported options fail with an actionable error and leave work items, events and views byte-identical; supported options and help remain usable"
+  ],
+  "affected_paths": [
+    "src/cli.mjs",
+    "test/work-item-configure-options.test.mjs",
+    ".ai-org/artifacts/WI-0175"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T04:59:54.407Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "fdc1e48",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260905050032-456b066d",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "fdc1e48",
+    "branch": "codex/wi-0175-configure-options",
+    "worktree": null,
+    "claimed_at": "2026-09-05T05:00:32.752Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260905050031-1cb69c4f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "fdc1e48",
+      "branch": "codex/wi-0175-configure-options",
+      "worktree": null,
+      "claimed_at": "2026-09-05T05:00:31.204Z",
+      "released_at": "2026-09-05T05:00:31.433Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905050031-02312c81",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "fdc1e48",
+      "branch": "codex/wi-0175-configure-options",
+      "worktree": null,
+      "claimed_at": "2026-09-05T05:00:31.717Z",
+      "released_at": "2026-09-05T05:00:31.949Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905050032-34047a38",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "fdc1e48",
+      "branch": "codex/wi-0175-configure-options",
+      "worktree": null,
+      "claimed_at": "2026-09-05T05:00:32.241Z",
+      "released_at": "2026-09-05T05:00:32.468Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905050032-456b066d",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "fdc1e48",
+      "branch": "codex/wi-0175-configure-options",
+      "worktree": null,
+      "claimed_at": "2026-09-05T05:00:32.752Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0175/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0175/work-order.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0175/work-order.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0175/work-order.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0175/work-order.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0175/work-order.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

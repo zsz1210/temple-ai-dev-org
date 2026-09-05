@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 174 total, 1 active
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Parallel plan: 0 wave(s), fresh=false
+- Work items: 175 total, 2 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 29 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 17
+- Attention signals: 18
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,7 +37,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 1 / 0
@@ -222,6 +222,7 @@
 | WI-0172 | Compare a bounded delivery and fresh recovery with and without Temple | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
 | WI-0173 | Pin handoff revisions and align published capability status | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `974d6578` | 0 | 11 | 0 |
 | WI-0174 | Return same-scope review findings to Build | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3cd0e554` | 0 | 9 | 0 |
+| WI-0175 | Reject unsupported configure options | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260905050032-456b066d | `—` | 0 | 1 | 0 |
 
 ## Codex task registry
 
@@ -297,13 +298,14 @@
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
 - worker-20260905035623-2de5700b is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 41
+- Team-visible Work Items: 42
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -376,14 +378,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-05T04:09:23.329Z | work_item_closed | WI-0174 | agent-mog |
-| 2026-09-05T04:09:23.329Z | release_gate_completed | WI-0174 | agent-mog |
-| 2026-09-05T04:09:23.057Z | work_item_claimed | WI-0174 | human |
-| 2026-09-05T04:09:22.766Z | work_item_transitioned | WI-0174 | agent-lulu |
-| 2026-09-05T04:09:22.498Z | handoff_created | WI-0174 | agent-lulu |
-| 2026-09-05T04:09:22.220Z | runtime_worker_status_changed | WI-0174 | agent-lulu |
-| 2026-09-05T04:05:47.970Z | runtime_worker_attached | WI-0174 | agent-lulu |
-| 2026-09-05T04:05:21.811Z | runtime_worker_reserved | WI-0174 | human |
+| 2026-09-05T05:00:32.752Z | work_item_claimed | WI-0175 | human |
+| 2026-09-05T05:00:32.468Z | work_item_transitioned | WI-0175 | agent-tidus |
+| 2026-09-05T05:00:32.241Z | work_item_claimed | WI-0175 | human |
+| 2026-09-05T05:00:31.949Z | work_item_transitioned | WI-0175 | agent-yuna |
+| 2026-09-05T05:00:31.717Z | work_item_claimed | WI-0175 | human |
+| 2026-09-05T05:00:31.433Z | work_item_transitioned | WI-0175 | agent-mog |
+| 2026-09-05T05:00:31.204Z | work_item_claimed | WI-0175 | human |
+| 2026-09-05T04:59:54.407Z | work_item_created | WI-0175 | agent-mog |
 
 ## Assignments
 
