@@ -56,15 +56,25 @@ export function changedPaths(target, base) {
   return [...new Set((tracked + untracked).split("\0").filter(Boolean))];
 }
 
+export function selectionOptions(group, args) {
+  const result = { base: null, list: false };
+  for (let i = 0; i < args.length; i += 1) {
+    if (args[i] === "--list" && !result.list) result.list = true;
+    else if (args[i] === "--base" && group === "changed" && result.base === null && args[i + 1] && !args[i + 1].startsWith("-")) result.base = args[++i];
+    else throw new Error(`Unknown, duplicate, or incomplete selection option: ${args[i]}`);
+  }
+  return result;
+}
+
 async function main(args) {
   const [group = "full", ...options] = args;
   const inventory = await testInventory();
   let selection;
   if (group === "changed") {
-    const index = options.indexOf("--base");
-    try { selection = selectChangedTests(changedPaths(root, index < 0 ? null : options[index + 1]), inventory); }
+    try { selection = selectChangedTests(changedPaths(root, selectionOptions(group, options).base), inventory); }
     catch (error) { selection = { mode: "full", reason: error.message, files: inventory }; }
   } else if (["core", "optional", "experiments", "fast", "full"].includes(group)) {
+    selectionOptions(group, options);
     selection = { mode: group, files: group === "fast" ? fastFiles : inventory.filter((file) => group === "full" || groupFor(file) === group) };
   } else throw new Error(`Unknown test group: ${group}`);
   if (!selection.files.length) throw new Error("Empty test selection is not verification.");

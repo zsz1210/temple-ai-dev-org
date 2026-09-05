@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
-import { testInventory, groupFor, fastFiles, selectChangedTests, changedPaths } from "../scripts/test-groups.mjs";
+import { testInventory, groupFor, fastFiles, selectChangedTests, changedPaths, selectionOptions } from "../scripts/test-groups.mjs";
 
 test("every discovered test belongs to exactly one group; new tests default to core", async () => {
   const inventory = await testInventory();
@@ -32,6 +32,25 @@ test("unknown, shared, state, fixture and deleted test paths fail toward the ful
     assert.deepEqual(selectChangedTests(paths, inventory).files, inventory);
     assert.equal(selectChangedTests(paths, inventory).mode, "full");
   }
+});
+
+test("selection options reject typos, duplicate flags and missing base values", () => {
+  assert.deepEqual(selectionOptions("changed", ["--base", "origin/main", "--list"]), { base: "origin/main", list: true });
+  for (const args of [["--unknown"], ["--base"], ["--base", "--list"], ["--base", "HEAD", "--base", "main"], ["--list", "--list"]]) {
+    assert.throws(() => selectionOptions("changed", args), /selection option/);
+  }
+  assert.throws(() => selectionOptions("core", ["--base", "HEAD"]));
+});
+
+test("CLI does not silently narrow verification after an unrecognized option", () => {
+  const changed = spawnSync(process.execPath, ["scripts/test-groups.mjs", "changed", "--base", "HEAD", "--typo", "--list"], { encoding: "utf8" });
+  assert.equal(changed.status, 0, changed.stderr);
+  const selection = JSON.parse(changed.stdout);
+  assert.equal(selection.mode, "full");
+  assert.match(selection.reason, /selection option/);
+  const explicit = spawnSync(process.execPath, ["scripts/test-groups.mjs", "fast", "--typo", "--list"], { encoding: "utf8" });
+  assert.equal(explicit.status, 1);
+  assert.match(explicit.stderr, /selection option/);
 });
 
 test("comparison includes committed, staged, unstaged, untracked and both rename paths", async (t) => {
