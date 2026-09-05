@@ -36,6 +36,7 @@ The CLI rejects rejected commits, retired evidence references (including equival
 - Release Gate or a terminal item: use the existing release/closeout decision, not this command. Closed attempts are not reopened.
 - Missing or stale specification, design, UI or risk authority: reconcile that evidence explicitly. Rework does not approve it for you.
 - Legacy symbolic candidate revisions: reconcile the exact reviewed commit before proceeding; `HEAD` is not an acceptable rejected revision.
+- Legacy handoffs without a recorded author: rework cannot infer the historical Developer from today's assignment. Continue the existing review/closeout path or authorize follow-up work; do not invent an author to reopen the candidate.
 - Active worker or resource reservation: finish the owning runtime first. Rework will not interfere with running work.
 
 ## Where the history lives

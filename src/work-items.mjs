@@ -1106,7 +1106,8 @@ export async function reworkWorkItem(target, options) {
     await assertLocalActorBinding(target, sponsor);
   }
   const developerHandoff = (item.handoffs ?? []).findLast(entry => entry.from_position === "developer");
-  if (actor === (developerHandoff?.actor ?? assignedAgentId(context, "developer"))) throw new Error("The Developer cannot return their own candidate as its reviewer");
+  if (!developerHandoff?.actor) throw new Error("Rework requires a recorded Developer handoff author; a legacy assignment is not proof of who delivered the candidate");
+  if (actor === developerHandoff.actor) throw new Error("The Developer cannot return their own candidate as its reviewer");
   const revision = String(options.inputRevision ?? "").trim();
   if (!/^[a-f0-9]{40}$/.test(revision) || revision !== item.developer_candidate_revision || revision !== developerHandoff?.input_revision) {
     throw new Error("--input-revision must be the exact current Developer handoff SHA; legacy symbolic revisions require reconciliation");

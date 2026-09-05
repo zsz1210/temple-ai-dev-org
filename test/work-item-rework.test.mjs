@@ -159,6 +159,15 @@ test("invalid CLI requests fail before Work Item, event or artifact mutation", a
     assert.notEqual(run(args).status, 0, args.join(" "));
     assert.deepEqual(await snapshot(f.target, f.id), before);
   }
+  const itemPath = path.join(f.target, `.ai-org/work-items/${f.id}.json`);
+  const original = await fs.readFile(itemPath, "utf8");
+  const legacy = JSON.parse(original);
+  delete legacy.handoffs.at(-1).actor;
+  await fs.writeFile(itemPath, JSON.stringify(legacy));
+  const legacyBefore = await snapshot(f.target, f.id);
+  assert.match(run(f.reworkArgs(f.revision)).stderr, /recorded Developer handoff author/);
+  assert.deepEqual(await snapshot(f.target, f.id), legacyBefore);
+  await fs.writeFile(itemPath, original);
   ok(["work-item", "release", f.target, "--work-item", f.id]);
   assert.match(run(f.reworkArgs(f.revision)).stderr, /active reviewer claim/);
 });
