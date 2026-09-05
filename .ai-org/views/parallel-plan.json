@@ -1,26 +1,42 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-05T12:50:09.938Z",
-  "source_fingerprint": "f77bfaf98610c531d0517e179c42a29eed5333d52c4e2252f51faa01012edce6",
+  "generated_at": "2026-09-05T13:09:16.260Z",
+  "source_fingerprint": "83f4615b8d2e0047b4ec1f5ee876036d3aef0e36714880e88e261ed346f95747",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
     "selected_work_item_ids": [
       "WI-0172",
-      "WI-0183"
+      "WI-0183",
+      "WI-0186"
     ]
   },
   "max_workers": null,
   "summary": {
-    "selected": 2,
+    "selected": 3,
     "dispatchable": 0,
-    "active": 0,
+    "active": 1,
     "sequential": 2,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
-  "active": [],
+  "active": [
+    {
+      "work_item_id": "WI-0186",
+      "title": "Scope stage material without omitting governing rules",
+      "disposition": "active",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [],
+      "claim_id": "claim-20260905130828-fa006bba",
+      "principal_id": "human",
+      "branch": "codex/wi-0186-stage-material-scope",
+      "worktree": null,
+      "base_revision": "ea8ef29799a4bbcde94c4ff296a37fdb48b031c0"
+    }
+  ],
   "sequential": [
     {
       "work_item_id": "WI-0172",

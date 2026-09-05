@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-05T12:55:11.045Z",
-  "updated_at": "2026-09-05T12:56:29.545Z",
+  "updated_at": "2026-09-05T13:18:29.610Z",
   "scope": [
     "Add opt-in stage material projection for exact managed-file observations and relevant Position definitions. Preserve whole mandatory instructions, policies and evidence, full-source freshness, conservative fallback and old packet defaults; local tests and measurements only, no live comparison."
   ],
@@ -49,22 +49,22 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "68af6ff",
-  "parallel_mode": "pending",
+  "base_revision": "ea8ef29799a4bbcde94c4ff296a37fdb48b031c0",
+  "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260905125629-8255fe7c",
+    "id": "claim-20260905131829-2f0afb20",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-rikku",
-    "base_revision": "68af6ff",
+    "base_revision": "ea8ef29799a4bbcde94c4ff296a37fdb48b031c0",
     "branch": "codex/wi-0186-stage-material-scope",
     "worktree": null,
-    "claimed_at": "2026-09-05T12:56:29.545Z",
+    "claimed_at": "2026-09-05T13:18:29.610Z",
     "released_at": null
   },
   "claims": [
@@ -98,13 +98,39 @@
     },
     {
       "id": "claim-20260905125629-8255fe7c",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "68af6ff",
       "branch": "codex/wi-0186-stage-material-scope",
       "worktree": null,
       "claimed_at": "2026-09-05T12:56:29.545Z",
+      "released_at": "2026-09-05T13:08:24.378Z",
+      "release_reason": [
+        "Exact candidate ready for independent review while full verification runs."
+      ]
+    },
+    {
+      "id": "claim-20260905130828-fa006bba",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "ea8ef29799a4bbcde94c4ff296a37fdb48b031c0",
+      "branch": "codex/wi-0186-stage-material-scope",
+      "worktree": null,
+      "claimed_at": "2026-09-05T13:08:28.461Z",
+      "released_at": "2026-09-05T13:18:29.345Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260905131829-2f0afb20",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "ea8ef29799a4bbcde94c4ff296a37fdb48b031c0",
+      "branch": "codex/wi-0186-stage-material-scope",
+      "worktree": null,
+      "claimed_at": "2026-09-05T13:18:29.610Z",
       "released_at": null
     }
   ],
@@ -127,8 +153,58 @@
   },
   "evidence": [
     ".ai-org/artifacts/WI-0186/brief.md",
-    "docs/adr/0056-stage-material-projections.md"
+    "docs/adr/0056-stage-material-projections.md",
+    ".ai-org/artifacts/WI-0186/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0186/developer-verification.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "ea8ef29799a4bbcde94c4ff296a37fdb48b031c0",
+      "artifact": ".ai-org/artifacts/WI-0186/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T13:08:23.605Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-05T13:18:29.345Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260905130828-fa006bba",
+      "rejected_revision": "ea8ef29799a4bbcde94c4ff296a37fdb48b031c0",
+      "reason": [
+        "Restore explicit full-source Context route and governing-spec reasons lost by compact authority filtering; add actual CLI regressions before acceptance."
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0186/independent-qa.md"
+      ],
+      "scope_digest": "d5e2d8bb56d4a337d9477f5e6c7a5070ac91083473ed0cb804089ad059263446",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0186/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0186/developer-verification.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "ea8ef29799a4bbcde94c4ff296a37fdb48b031c0"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0186/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ]
 }

@@ -90,6 +90,11 @@ export async function acquireContextPacket(target, options = {}) {
     const reasons = source.categories.filter(category => category !== "capability");
     for (const reason of reasons) addSource(selected, source.path, reason);
   }
+  // Compact Context separates authority paths from its categorized manifest.
+  // Recover independent requirements from its canonical route/spec references.
+  for (const route of entry.references.context_routes) {
+    for (const relative of route.paths) addSource(selected, relative, "context-route");
+  }
   addSource(selected, entry.work_item.path, "work-item");
   addSource(selected, ".agents/skills/temple-work/SKILL.md", "stage-procedure");
   addSource(selected, entry.work_item.state === "build"
@@ -103,7 +108,8 @@ export async function acquireContextPacket(target, options = {}) {
   }
   if (entry.candidate.handoff?.artifact) addSource(selected, entry.candidate.handoff.artifact, "latest-handoff");
   for (const spec of entry.references.governing_specs) {
-    if (spec.source?.kind !== "repository") problem("external-specification-required", spec.id);
+    if (spec.source?.kind === "repository") addSource(selected, spec.source.location, "specification");
+    else problem("external-specification-required", spec.id);
   }
 
   const bodies = [];

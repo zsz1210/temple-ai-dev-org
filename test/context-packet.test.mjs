@@ -13,6 +13,52 @@ function packet(f, extra = []) {
   return { result, value: JSON.parse(result.stdout) };
 }
 
+for (const referenceKind of ["context-route", "specification"]) {
+  test(`stage material preserves whole authority sources independently required by ${referenceKind}`, async t => {
+    const f = await setup(t);
+    const paths = ["temple.lock", ".ai-org/core/positions.json"];
+    const itemFile = path.join(f.target, `.ai-org/work-items/${f.item.id}.json`);
+    const item = JSON.parse(await fs.readFile(itemFile));
+    if (referenceKind === "context-route") {
+      const mapFile = path.join(f.target, ".ai-org/project/context-map.json");
+      const map = JSON.parse(await fs.readFile(mapFile));
+      map.routes.push({ id: "full-inventories", kind: "documentation", title: "Whole inventories",
+        summary: "Read complete inventory sources", paths, tags: [], positions: ["developer"],
+        work_items: [f.item.id], read_when: ["Need source records"], owner_position: "developer", status: "active" });
+      item.context_refs = ["full-inventories"];
+      await fs.writeFile(mapFile, JSON.stringify(map));
+    } else {
+      const indexFile = path.join(f.target, ".ai-org/project/spec-index.json");
+      const index = JSON.parse(await fs.readFile(indexFile));
+      for (const [offset, location] of paths.entries()) {
+        const id = `SPEC-000${offset + 1}`;
+        const content_sha256 = createHash("sha256").update(await fs.readFile(path.join(f.target, location))).digest("hex");
+        index.entries.push({ id, kind: "feature_spec", title: "Complete inventory contract",
+          authority: "temple_native", status: "approved", revision: "rev-1",
+          source: { kind: "repository", location, system: "git", content_sha256 },
+          owner_position: "product_manager", approved_by: "human", approved_at: "2026-08-29T00:00:00.000Z",
+          approval_ref: "docs/brief.md", source_refs: [], related_work_items: [f.item.id], updated_at: "2026-08-29T00:00:00.000Z" });
+        item.spec_refs.push({ id, revision: "rev-1" });
+      }
+      item.specification_mode = "indexed";
+      await fs.writeFile(indexFile, JSON.stringify(index));
+    }
+    await fs.writeFile(itemFile, JSON.stringify(item));
+    const before = await canonicalBytes(f);
+    const { result, value } = packet(f, ["--material", "stage"]);
+    assert.equal(result.status, 0, JSON.stringify(value.problems ?? value));
+    assert.equal(value.acquisition, "complete");
+    for (const relative of paths) {
+      const source = value.sources.find(row => row.path === relative);
+      assert.ok(source.reasons.includes(referenceKind));
+      assert.equal(source.representation, "whole-source");
+      assert.equal(source.representation_reason, "independently-required-whole-source");
+      assert.equal(source.body, await fs.readFile(path.join(f.target, relative), "utf8"));
+    }
+    assert.deepEqual(await canonicalBytes(f), before);
+  });
+}
+
 test("cold stage acquisition deduplicates whole sources, binds provenance and leaves all canonical bytes unchanged", async t => {
   const f = await setup(t);
   const before = await canonicalBytes(f);
