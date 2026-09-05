@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 188 total, 2 active
+- Work items: 189 total, 3 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 47 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 21
+- Attention signals: 22
 
 ## Collaboration
 
@@ -40,7 +40,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 2 / 0
+- Active / sequential / blocked: 0 / 2 / 1
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -236,6 +236,7 @@
 | WI-0186 | Scope stage material without omitting governing rules | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3cf56d80` | 0 | 9 | 0 |
 | WI-0187 | Compose Lean stage completion with truthful diagnostics and recovery | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2611def7` | 0 | 7 | 0 |
 | WI-0188 | Integrate opt-in Lean entry with bounded material and completion | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6346e026` | 0 | 9 | 0 |
+| WI-0189 | Compare single-worker and parallel Terra delivery | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 1 |
 
 ## Codex task registry
 
@@ -333,13 +334,14 @@
 - worker-20260905124032-458ce7b0 is failed
 - worker-20260905130828-87bb7969 is failed
 - worker-20260905141644-4a85d8c7 is failed
+- Parallel plan has 1 blocked Work Item(s)
 
 ## External tracker coordination
 
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 54
+- Team-visible Work Items: 55
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -412,14 +414,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-05T15:05:10.939Z | work_item_claim_released | WI-0189 | human |
+| 2026-09-05T15:05:10.642Z | work_item_unresolved_updated | WI-0189 | agent-mog |
+| 2026-09-05T15:00:29.765Z | work_item_claimed | WI-0189 | human |
+| 2026-09-05T15:00:29.162Z | work_item_created | WI-0189 | agent-mog |
 | 2026-09-05T14:32:45.164Z | work_item_closed | WI-0188 | agent-mog |
 | 2026-09-05T14:32:45.164Z | release_gate_completed | WI-0188 | agent-mog |
 | 2026-09-05T14:32:44.908Z | work_item_claimed | WI-0188 | human |
 | 2026-09-05T14:32:44.629Z | work_item_transitioned | WI-0188 | agent-lulu |
-| 2026-09-05T14:32:44.367Z | work_item_transitioned | WI-0188 | agent-lulu |
-| 2026-09-05T14:32:44.106Z | work_item_transitioned | WI-0188 | agent-lulu |
-| 2026-09-05T14:32:43.789Z | runtime_worker_status_changed | WI-0188 | agent-lulu |
-| 2026-09-05T14:28:36.660Z | runtime_worker_attached | WI-0188 | agent-lulu |
 
 ## Assignments
 

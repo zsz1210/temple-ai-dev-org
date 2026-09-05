@@ -1,0 +1,88 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0189",
+  "title": "Compare single-worker and parallel Terra delivery",
+  "state": "intake",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-05T15:00:29.162Z",
+  "updated_at": "2026-09-05T15:05:10.939Z",
+  "scope": [
+    "Prepare an isolated JSON sales-report POC with fixed contracts; compare one Terra medium Builder against three Terra medium workers plus integration, followed by fresh verification per arm. Do not change Temple core or sealed prior experiments. Live execution awaits a new bounded budget approval."
+  ],
+  "acceptance_criteria": [
+    "Both arms use identical product contracts and frozen acceptance checks; all actor, integration and verifier time and Tokens are included; actual results or a bounded stop are reported without retries or efficiency claims from preparation."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0189"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T15:00:29.161Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "7c9c1b88b96b8d334c5c0a88bd287f473ce4fc42",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260905150029-d5bcc5d0",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "7c9c1b88b96b8d334c5c0a88bd287f473ce4fc42",
+    "branch": "codex/wi-0189-parallel-sales-poc",
+    "worktree": null,
+    "claimed_at": "2026-09-05T15:00:29.765Z",
+    "released_at": "2026-09-05T15:05:10.939Z",
+    "release_reason": [
+      "Bounded work order and product contract retained; awaiting the new experiment budget decision. No actor generation, experimental result or readiness pass is claimed."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260905150029-d5bcc5d0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "7c9c1b88b96b8d334c5c0a88bd287f473ce4fc42",
+      "branch": "codex/wi-0189-parallel-sales-poc",
+      "worktree": null,
+      "claimed_at": "2026-09-05T15:00:29.765Z",
+      "released_at": "2026-09-05T15:05:10.939Z",
+      "release_reason": [
+        "Bounded work order and product contract retained; awaiting the new experiment budget decision. No actor generation, experimental result or readiness pass is claimed."
+      ]
+    }
+  ],
+  "gate_evidence": {},
+  "evidence": [],
+  "unresolved": [
+    "Product choice and pending seven-stage Terra medium envelope are recorded. Live budget approval has not been received. Executable fixtures, isolated runner readiness and frozen execution digests still require preparation before any actor turn; do not treat the pending envelope as ready or approved."
+  ],
+  "next_position": "product_manager"
+}

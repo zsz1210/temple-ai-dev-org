@@ -1,0 +1,52 @@
+{
+  "schema_version": "temple.parallel-sales-poc-envelope/v1",
+  "work_item_id": "WI-0189",
+  "status": "pending-approval-and-readiness",
+  "model": "gpt-5.6-terra",
+  "reasoning_effort": "medium",
+  "product_contract": "product-contract.md",
+  "arm_order": [
+    "single",
+    "parallel"
+  ],
+  "maximum_actor_stages": 7,
+  "maximum_concurrent_actors": 3,
+  "maximum_operational_tokens": 600000,
+  "maximum_wall_clock_ms": 2700000,
+  "stage_caps": {
+    "single_builder": {
+      "tokens": 160000,
+      "ms": 720000
+    },
+    "single_verifier": {
+      "tokens": 60000,
+      "ms": 360000
+    },
+    "parallel_workers": {
+      "count": 3,
+      "tokens_each": 80000,
+      "ms_each": 360000
+    },
+    "parallel_integrator": {
+      "tokens": 80000,
+      "ms": 360000
+    },
+    "parallel_verifier": {
+      "tokens": 60000,
+      "ms": 360000
+    }
+  },
+  "account": "existing-pro-included-allowance-only",
+  "purchase": false,
+  "refill": false,
+  "reset": false,
+  "retries": 0,
+  "fallback": false,
+  "cache": "uncontrolled",
+  "generation_performed": false,
+  "fixture_digest": null,
+  "runner_digest": null,
+  "prompt_digests": null,
+  "readiness": "not-performed",
+  "approval_ref": null
+}
