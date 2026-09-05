@@ -1,41 +1,25 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-05T11:44:56.247Z",
-  "source_fingerprint": "a1b4f96fbcebedea86a9d5a4c239a28c594aa5a848ef8c3ef61b4580242cb679",
+  "generated_at": "2026-09-05T12:11:03.991Z",
+  "source_fingerprint": "17854d29268252f2c1e522dfaf066bb75898ab022d2764bd701b3e2b833a6575",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
     "selected_work_item_ids": [
-      "WI-0172",
-      "WI-0182"
+      "WI-0172"
     ]
   },
   "max_workers": null,
   "summary": {
-    "selected": 2,
+    "selected": 1,
     "dispatchable": 0,
-    "active": 1,
+    "active": 0,
     "sequential": 1,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
-  "active": [
-    {
-      "work_item_id": "WI-0182",
-      "title": "Compare compact diagnostics in fresh delivery sessions",
-      "disposition": "active",
-      "position_id": "release_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [],
-      "claim_id": "claim-20260905114455-c56f665a",
-      "principal_id": "human",
-      "branch": "codex/wi-0182-comparison-v7",
-      "worktree": null,
-      "base_revision": "648a6b2c66df6215d40d3a6c1e19a207a1cdfe53"
-    }
-  ],
+  "active": [],
   "sequential": [
     {
       "work_item_id": "WI-0172",
@@ -51,24 +35,7 @@
     }
   ],
   "blocked": [],
-  "conflicts": [
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0172",
-      "right_work_item_id": "WI-0182",
-      "paths": [
-        {
-          "left_path": "scripts/delivery-control-pair.mjs",
-          "right_path": "scripts/delivery-control-pair.mjs"
-        },
-        {
-          "left_path": "test/delivery-control-pair.test.mjs",
-          "right_path": "test/delivery-control-pair.test.mjs"
-        }
-      ],
-      "resolution": "separate-waves"
-    }
-  ],
+  "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
     "runtime_capacity_limit": null,

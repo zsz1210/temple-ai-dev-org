@@ -44,6 +44,25 @@ for (const planned of matrix.plan.pairs) {
     return { ...pick(stage, ["arm", "stage", "status", "stop_reason", "requested_model", "acknowledged_model", "model_acknowledgement_basis", "requested_effort", "observed_thread_effort", "effective_turn_effort", "usage", "usage_finality", "total_elapsed_ms", "turn_elapsed_ms", "quality_passed", "quality_reason", "candidate_revision", "completion_agreement", "workflow", "treatment", "public_tests", "oracle", "retry_count", "fallback_count", "operations", "command_started_count", "command_completed_count", "unmatched_command_starts", "unmatched_patch_starts"]),
       command_timeline: stage.events.filter(e => e.method === "item/completed" && e.item_type === "commandExecution").map(e => ({ operation: e.classification?.operation ?? "unknown", exit_code: e.exit_code, output_bytes: e.output_bytes })) };
   });
+  for (const arm of ["ordinary", "temple"]) {
+    const rows = stages.filter(stage => stage.arm === arm);
+    assert.equal(rows.reduce((n,stage) => n+(stage.usage?.operational_tokens ?? 0), 0), run.arms[arm].operational_tokens);
+    assert.equal(rows.reduce((n,stage) => n+(stage.total_elapsed_ms ?? 0), 0), run.arms[arm].observed_stage_elapsed_ms);
+  }
+  if (run.efficiency_comparable === true) {
+    assert.equal(stages.length, 4);
+    for (const stage of stages) {
+      assert.equal(stage.quality_passed, true);
+      assert.equal(stage.public_tests.exit_code, 0);
+      assert.equal(stage.oracle.exit_code, 0);
+      assert.equal(stage.acknowledged_model, planned.model);
+      assert.equal(stage.requested_effort, planned.reasoning_effort);
+      if (stage.arm === "temple") {
+        assert.equal(stage.workflow.pass, true);
+        assert.equal(stage.treatment.pass, true);
+      }
+    }
+  }
   const comparison = run.efficiency_comparable === true ? {
     operational_tokens: delta(run.arms.ordinary.operational_tokens, run.arms.temple.operational_tokens),
     stage_elapsed_ms: delta(run.arms.ordinary.observed_stage_elapsed_ms, run.arms.temple.observed_stage_elapsed_ms)

@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0182",
   "title": "Compare compact diagnostics in fresh delivery sessions",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T11:24:57.481Z",
-  "updated_at": "2026-09-05T11:44:55.950Z",
+  "updated_at": "2026-09-05T12:10:55.005Z",
   "scope": [
     "User requested another comparison after WI-0181. Adapt new v7 command/process contract and a two-model screening matrix, rehearse without generation, independently review, then execute one fresh pair each for Terra medium and GPT-6 Astra medium within prior per-stage bounds, seal and report results. Preserve every historical lab and approval."
   ],
@@ -59,14 +59,15 @@
   ],
   "claim": {
     "id": "claim-20260905114455-c56f665a",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
     "base_revision": "648a6b2c66df6215d40d3a6c1e19a207a1cdfe53",
     "branch": "codex/wi-0182-comparison-v7",
     "worktree": null,
     "claimed_at": "2026-09-05T11:44:55.950Z",
-    "released_at": null
+    "released_at": "2026-09-05T12:10:55.005Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -139,14 +140,15 @@
     },
     {
       "id": "claim-20260905114455-c56f665a",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-mog",
       "base_revision": "648a6b2c66df6215d40d3a6c1e19a207a1cdfe53",
       "branch": "codex/wi-0182-comparison-v7",
       "worktree": null,
       "claimed_at": "2026-09-05T11:44:55.950Z",
-      "released_at": null
+      "released_at": "2026-09-05T12:10:55.005Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -175,10 +177,23 @@
       ".ai-org/artifacts/WI-0182/verification.v2.md"
     ],
     "evaluation_report": [
-      ".ai-org/artifacts/WI-0182/independent-qa.v2.md"
+      ".ai-org/artifacts/WI-0182/independent-qa.v2.md",
+      ".ai-org/artifacts/WI-0182/report.md"
     ],
     "independent_qa_pass": [
       ".ai-org/artifacts/WI-0182/independent-qa.v2.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0182/design.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0182/independent-qa.v2.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0182/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0182/approval.md"
     ]
   },
   "evidence": [
@@ -187,10 +202,12 @@
     ".ai-org/artifacts/WI-0182/verification.md",
     ".ai-org/artifacts/WI-0182/handoff-002-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0182/verification.v2.md",
-    ".ai-org/artifacts/WI-0182/independent-qa.v2.md"
+    ".ai-org/artifacts/WI-0182/independent-qa.v2.md",
+    ".ai-org/artifacts/WI-0182/release-record.md",
+    ".ai-org/artifacts/WI-0182/report.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -247,5 +264,11 @@
       ]
     }
   ],
-  "developer_candidate_revision": "648a6b2c66df6215d40d3a6c1e19a207a1cdfe53"
+  "developer_candidate_revision": "648a6b2c66df6215d40d3a6c1e19a207a1cdfe53",
+  "tested_revision": "648a6b2c66df6215d40d3a6c1e19a207a1cdfe53",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0182/approval.md"
 }

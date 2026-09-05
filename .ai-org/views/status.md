@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 182 total, 2 active
+- Work items: 182 total, 1 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 38 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -40,7 +40,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 1 / 1 / 0
+- Active / sequential / blocked: 0 / 1 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -229,7 +229,7 @@
 | WI-0179 | Compare optimized Temple against ordinary delivery | concluded | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9ef5d331` | 0 | 8 | 1 |
 | WI-0180 | Keep optional delivery sandbox tests explicit and portable | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `64d5c94a` | 0 | 4 | 0 |
 | WI-0181 | Reduce diagnostic output and clarify stage completion | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ce132142` | 0 | 5 | 0 |
-| WI-0182 | Compare compact diagnostics in fresh delivery sessions | release_gate | Release Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260905114455-c56f665a | `648a6b2c` | 0 | 6 | 0 |
+| WI-0182 | Compare compact diagnostics in fresh delivery sessions | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `648a6b2c` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -394,14 +394,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-05T12:10:55.005Z | work_item_closed | WI-0182 | agent-mog |
+| 2026-09-05T12:10:55.005Z | release_gate_completed | WI-0182 | agent-mog |
 | 2026-09-05T11:44:55.950Z | work_item_claimed | WI-0182 | human |
 | 2026-09-05T11:44:55.677Z | work_item_transitioned | WI-0182 | agent-lulu |
 | 2026-09-05T11:44:55.434Z | work_item_transitioned | WI-0182 | agent-lulu |
 | 2026-09-05T11:44:55.180Z | work_item_transitioned | WI-0182 | agent-lulu |
 | 2026-09-05T11:44:54.935Z | work_item_claim_released | WI-0182 | human |
 | 2026-09-05T11:44:54.689Z | runtime_worker_status_changed | WI-0182 | agent-lulu |
-| 2026-09-05T11:41:15.999Z | runtime_worker_attached | WI-0182 | agent-lulu |
-| 2026-09-05T11:39:53.582Z | runtime_worker_reserved | WI-0182 | human |
 
 ## Assignments
 

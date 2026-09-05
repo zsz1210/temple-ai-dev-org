@@ -1,0 +1,1635 @@
+{
+  "schema_version": "temple.compact-comparison-analysis/v1",
+  "work_item_id": "WI-0182",
+  "matrix_sha256": "sha256:ed7fe27f4f577b4c124fcc282ed16fbfd205346d57edbf5fe652d68e48c07053",
+  "source_sha256": "sha256:636be2aa04060ef05fd6507062d25eaf88661ceadc73d768e80632920f63ccb0",
+  "approval_sha256": "sha256:3e8b3e598eba2b64b6e5dfbe5980b5c14731a10d9051f628b82449d2b1340661",
+  "matrix_status": "completed",
+  "stop_reason": null,
+  "observed_operational_tokens": 327224,
+  "observed_stage_turns": 8,
+  "planned_stage_turns": 8,
+  "elapsed_ms": 1069158,
+  "pairs": [
+    {
+      "id": "terra-ordinary-first",
+      "model": "gpt-5.6-terra",
+      "order": [
+        "ordinary",
+        "temple"
+      ],
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "stop_reason": null,
+      "efficiency_comparable": true,
+      "operational_tokens": 170472,
+      "elapsed_ms": 518810,
+      "subject_turn_requests": 4,
+      "usage_complete": true,
+      "provider_cli_version": "codex-cli 0.153.1",
+      "node_version": "v24.20.0",
+      "model_release_revision": null,
+      "process_contract_sha256": "sha256:f41225f9fd3aeea9612c8c40b625ce8357f1c9f583c1e29e2156975cf3bd4b09",
+      "arms": {
+        "ordinary": {
+          "setup_elapsed_ms": 86,
+          "setup_artifact_bytes": 3068,
+          "completed_stages": 2,
+          "observed_stage_elapsed_ms": 226262,
+          "coordinator_validation_ms": 378,
+          "operational_tokens": 69410
+        },
+        "temple": {
+          "setup_elapsed_ms": 1632,
+          "setup_artifact_bytes": 355175,
+          "completed_stages": 2,
+          "observed_stage_elapsed_ms": 291537,
+          "coordinator_validation_ms": 404,
+          "operational_tokens": 101062
+        }
+      },
+      "seal": {
+        "run_sha256": "sha256:a02fc4895e995dd156944655102c33bd04a0f82876b09fb4e99a2cf9e63f6d2b",
+        "artifact_sha256": "sha256:45d8730aadbb23c9893d9c6f9e54b57ef3d73e5d370d0f380dd2710b2f6fe337",
+        "verified": true
+      },
+      "stages": [
+        {
+          "arm": "ordinary",
+          "stage": "build",
+          "status": "completed",
+          "stop_reason": null,
+          "requested_model": "gpt-5.6-terra",
+          "acknowledged_model": "gpt-5.6-terra",
+          "model_acknowledgement_basis": "direct-response-field",
+          "requested_effort": "medium",
+          "observed_thread_effort": "medium",
+          "effective_turn_effort": null,
+          "usage": {
+            "input_tokens": 335646,
+            "cached_input_tokens": 303360,
+            "output_tokens": 4685,
+            "reasoning_output_tokens": 757,
+            "total_tokens": 340331,
+            "non_cached_input_tokens": 32286,
+            "operational_tokens": 36971
+          },
+          "usage_finality": "last-observed-not-account-final",
+          "total_elapsed_ms": 142735,
+          "turn_elapsed_ms": 142560,
+          "quality_passed": true,
+          "quality_reason": null,
+          "candidate_revision": "f198006f0b0c9d49fee7dcaac42a159de689fd13",
+          "completion_agreement": {
+            "evidence_matches": true,
+            "summary_matches": false
+          },
+          "workflow": null,
+          "treatment": null,
+          "public_tests": {
+            "exit_code": 0,
+            "output_sha256": "sha256:de5415295341a880ba3b281bc7ed9f79a4c41eca5193229c80bcd65f4aa4e886",
+            "elapsed_ms": 78
+          },
+          "oracle": {
+            "exit_code": 0,
+            "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+            "elapsed_ms": 27
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "operations": {
+            "pwd": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 92,
+              "output_bytes_complete": true
+            },
+            "cat": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 3068,
+              "output_bytes_complete": true
+            },
+            "ls": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 515,
+              "output_bytes_complete": true
+            },
+            "product-tests-all": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 1122,
+              "output_bytes_complete": true
+            },
+            "git-diff": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 346,
+              "output_bytes_complete": true
+            },
+            "git-add": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 0,
+              "output_bytes_complete": false
+            },
+            "git-commit": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 141,
+              "output_bytes_complete": true
+            },
+            "git-rev-parse": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 41,
+              "output_bytes_complete": true
+            },
+            "git-status": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 31,
+              "output_bytes_complete": true
+            }
+          },
+          "command_started_count": 11,
+          "command_completed_count": 11,
+          "unmatched_command_starts": 0,
+          "unmatched_patch_starts": 0,
+          "command_timeline": [
+            {
+              "operation": "pwd",
+              "exit_code": 0,
+              "output_bytes": 92
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 2281
+            },
+            {
+              "operation": "ls",
+              "exit_code": 0,
+              "output_bytes": 515
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 787
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 561
+            },
+            {
+              "operation": "git-diff",
+              "exit_code": 0,
+              "output_bytes": 346
+            },
+            {
+              "operation": "git-add",
+              "exit_code": 0,
+              "output_bytes": null
+            },
+            {
+              "operation": "git-commit",
+              "exit_code": 0,
+              "output_bytes": 141
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 561
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "git-status",
+              "exit_code": 0,
+              "output_bytes": 31
+            }
+          ]
+        },
+        {
+          "arm": "ordinary",
+          "stage": "verify",
+          "status": "completed",
+          "stop_reason": null,
+          "requested_model": "gpt-5.6-terra",
+          "acknowledged_model": "gpt-5.6-terra",
+          "model_acknowledgement_basis": "direct-response-field",
+          "requested_effort": "medium",
+          "observed_thread_effort": "medium",
+          "effective_turn_effort": null,
+          "usage": {
+            "input_tokens": 288189,
+            "cached_input_tokens": 257536,
+            "output_tokens": 1786,
+            "reasoning_output_tokens": 399,
+            "total_tokens": 289975,
+            "non_cached_input_tokens": 30653,
+            "operational_tokens": 32439
+          },
+          "usage_finality": "last-observed-not-account-final",
+          "total_elapsed_ms": 83527,
+          "turn_elapsed_ms": 83345,
+          "quality_passed": true,
+          "quality_reason": null,
+          "candidate_revision": "f198006f0b0c9d49fee7dcaac42a159de689fd13",
+          "completion_agreement": {
+            "evidence_matches": true,
+            "summary_matches": false
+          },
+          "workflow": null,
+          "treatment": null,
+          "public_tests": {
+            "exit_code": 0,
+            "output_sha256": "sha256:7b6bcaaf3725b8dca8d0db494287b7b193037f6e2384c84ad00f8507b053c986",
+            "elapsed_ms": 81
+          },
+          "oracle": {
+            "exit_code": 0,
+            "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+            "elapsed_ms": 29
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "operations": {
+            "pwd": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 92,
+              "output_bytes_complete": true
+            },
+            "cat": {
+              "completed": 8,
+              "succeeded": 8,
+              "reported_output_bytes": 8004,
+              "output_bytes_complete": true
+            },
+            "git-status": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 31,
+              "output_bytes_complete": true
+            },
+            "git-rev-parse": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 387,
+              "output_bytes_complete": true
+            },
+            "product-tests-all": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 1118,
+              "output_bytes_complete": true
+            }
+          },
+          "command_started_count": 13,
+          "command_completed_count": 13,
+          "unmatched_command_starts": 0,
+          "unmatched_patch_starts": 0,
+          "command_timeline": [
+            {
+              "operation": "pwd",
+              "exit_code": 0,
+              "output_bytes": 92
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 319
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 1726
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 236
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 337
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 596
+            },
+            {
+              "operation": "git-status",
+              "exit_code": 0,
+              "output_bytes": 31
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 387
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 2208
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 567
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 2015
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 559
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 559
+            }
+          ]
+        },
+        {
+          "arm": "temple",
+          "stage": "build",
+          "status": "completed",
+          "stop_reason": null,
+          "requested_model": "gpt-5.6-terra",
+          "acknowledged_model": "gpt-5.6-terra",
+          "model_acknowledgement_basis": "direct-response-field",
+          "requested_effort": "medium",
+          "observed_thread_effort": "medium",
+          "effective_turn_effort": null,
+          "usage": {
+            "input_tokens": 755471,
+            "cached_input_tokens": 703744,
+            "output_tokens": 4994,
+            "reasoning_output_tokens": 962,
+            "total_tokens": 760465,
+            "non_cached_input_tokens": 51727,
+            "operational_tokens": 56721
+          },
+          "usage_finality": "last-observed-not-account-final",
+          "total_elapsed_ms": 182404,
+          "turn_elapsed_ms": 182209,
+          "quality_passed": true,
+          "quality_reason": null,
+          "candidate_revision": "1aaacb87d524331fe7fe3e070a04a6f81a6f3e9a",
+          "completion_agreement": {
+            "evidence_matches": true,
+            "summary_matches": false
+          },
+          "workflow": {
+            "observed_state": "test",
+            "expected_state": "test",
+            "exact_handoff": true,
+            "claim_status": "released",
+            "claim_agent_id": "agent-builder",
+            "pass": true
+          },
+          "treatment": {
+            "compact_context_observed": true,
+            "composed_delivery_observed": true,
+            "post_mutation_compact_status_observed": true,
+            "post_mutation_compact_doctor_observed": true,
+            "pass": true,
+            "basis": "successful-observed-commands-and-verified-lifecycle; not-inferred-from-prompt"
+          },
+          "public_tests": {
+            "exit_code": 0,
+            "output_sha256": "sha256:a93b829ed8b0cba6095fed691e5553361e87f92f211f73064fa5b180c0cd3876",
+            "elapsed_ms": 75
+          },
+          "oracle": {
+            "exit_code": 0,
+            "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+            "elapsed_ms": 29
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "operations": {
+            "pwd": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 92,
+              "output_bytes_complete": true
+            },
+            "cat": {
+              "completed": 5,
+              "succeeded": 5,
+              "reported_output_bytes": 41043,
+              "output_bytes_complete": true
+            },
+            "temple-context-compact": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 3992,
+              "output_bytes_complete": true
+            },
+            "git-current-branch": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 5,
+              "output_bytes_complete": true
+            },
+            "git-rev-parse": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 82,
+              "output_bytes_complete": true
+            },
+            "temple-claim": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 141,
+              "output_bytes_complete": true
+            },
+            "ls": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 944,
+              "output_bytes_complete": true
+            },
+            "product-tests-all": {
+              "completed": 2,
+              "succeeded": 1,
+              "reported_output_bytes": 1804,
+              "output_bytes_complete": true
+            },
+            "git-diff": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 0,
+              "output_bytes_complete": false
+            },
+            "git-add": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 0,
+              "output_bytes_complete": false
+            },
+            "git-commit": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 131,
+              "output_bytes_complete": true
+            },
+            "temple-deliver": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 658,
+              "output_bytes_complete": true
+            },
+            "temple-status-compact": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 1741,
+              "output_bytes_complete": true
+            },
+            "temple-doctor-compact": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 316,
+              "output_bytes_complete": true
+            }
+          },
+          "command_started_count": 20,
+          "command_completed_count": 20,
+          "unmatched_command_starts": 0,
+          "unmatched_patch_starts": 0,
+          "command_timeline": [
+            {
+              "operation": "pwd",
+              "exit_code": 0,
+              "output_bytes": 92
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 18983
+            },
+            {
+              "operation": "temple-context-compact",
+              "exit_code": 0,
+              "output_bytes": 3992
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 7801
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 11715
+            },
+            {
+              "operation": "git-current-branch",
+              "exit_code": 0,
+              "output_bytes": 5
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "temple-claim",
+              "exit_code": 0,
+              "output_bytes": 141
+            },
+            {
+              "operation": "ls",
+              "exit_code": 0,
+              "output_bytes": 944
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 655
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 1,
+              "output_bytes": 1345
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 459
+            },
+            {
+              "operation": "git-diff",
+              "exit_code": 0,
+              "output_bytes": null
+            },
+            {
+              "operation": "git-add",
+              "exit_code": 0,
+              "output_bytes": null
+            },
+            {
+              "operation": "git-commit",
+              "exit_code": 0,
+              "output_bytes": 131
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 1889
+            },
+            {
+              "operation": "temple-deliver",
+              "exit_code": 0,
+              "output_bytes": 658
+            },
+            {
+              "operation": "temple-status-compact",
+              "exit_code": 0,
+              "output_bytes": 1741
+            },
+            {
+              "operation": "temple-doctor-compact",
+              "exit_code": 0,
+              "output_bytes": 316
+            }
+          ]
+        },
+        {
+          "arm": "temple",
+          "stage": "verify",
+          "status": "completed",
+          "stop_reason": null,
+          "requested_model": "gpt-5.6-terra",
+          "acknowledged_model": "gpt-5.6-terra",
+          "model_acknowledgement_basis": "direct-response-field",
+          "requested_effort": "medium",
+          "observed_thread_effort": "medium",
+          "effective_turn_effort": null,
+          "usage": {
+            "input_tokens": 501310,
+            "cached_input_tokens": 459520,
+            "output_tokens": 2551,
+            "reasoning_output_tokens": 623,
+            "total_tokens": 503861,
+            "non_cached_input_tokens": 41790,
+            "operational_tokens": 44341
+          },
+          "usage_finality": "last-observed-not-account-final",
+          "total_elapsed_ms": 109133,
+          "turn_elapsed_ms": 108932,
+          "quality_passed": true,
+          "quality_reason": null,
+          "candidate_revision": "1aaacb87d524331fe7fe3e070a04a6f81a6f3e9a",
+          "completion_agreement": {
+            "evidence_matches": true,
+            "summary_matches": false
+          },
+          "workflow": {
+            "observed_state": "done",
+            "expected_state": "done",
+            "exact_handoff": true,
+            "claim_status": "released",
+            "claim_agent_id": "agent-verifier",
+            "pass": true
+          },
+          "treatment": {
+            "compact_context_observed": true,
+            "composed_delivery_observed": null,
+            "post_mutation_compact_status_observed": true,
+            "post_mutation_compact_doctor_observed": true,
+            "pass": true,
+            "basis": "successful-observed-commands-and-verified-lifecycle; not-inferred-from-prompt"
+          },
+          "public_tests": {
+            "exit_code": 0,
+            "output_sha256": "sha256:e43a439f7f21113eac464aae338752eb2155ff9439fbc9418e6d1758c6ce534a",
+            "elapsed_ms": 79
+          },
+          "oracle": {
+            "exit_code": 0,
+            "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+            "elapsed_ms": 29
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "operations": {
+            "pwd": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 92,
+              "output_bytes_complete": true
+            },
+            "cat": {
+              "completed": 4,
+              "succeeded": 4,
+              "reported_output_bytes": 33245,
+              "output_bytes_complete": true
+            },
+            "temple-context-compact": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 4470,
+              "output_bytes_complete": true
+            },
+            "git-rev-parse": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 41,
+              "output_bytes_complete": true
+            },
+            "git-current-branch": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 5,
+              "output_bytes_complete": true
+            },
+            "temple-claim": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 142,
+              "output_bytes_complete": true
+            },
+            "git-status": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 189,
+              "output_bytes_complete": true
+            },
+            "product-tests-all": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 918,
+              "output_bytes_complete": true
+            },
+            "temple-release": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 165,
+              "output_bytes_complete": true
+            },
+            "temple-transition-done": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 147,
+              "output_bytes_complete": true
+            },
+            "temple-status-compact": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 1744,
+              "output_bytes_complete": true
+            },
+            "temple-doctor-compact": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 316,
+              "output_bytes_complete": true
+            }
+          },
+          "command_started_count": 16,
+          "command_completed_count": 16,
+          "unmatched_command_starts": 0,
+          "unmatched_patch_starts": 0,
+          "command_timeline": [
+            {
+              "operation": "pwd",
+              "exit_code": 0,
+              "output_bytes": 92
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 18983
+            },
+            {
+              "operation": "temple-context-compact",
+              "exit_code": 0,
+              "output_bytes": 4470
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 4026
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 5975
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "git-current-branch",
+              "exit_code": 0,
+              "output_bytes": 5
+            },
+            {
+              "operation": "temple-claim",
+              "exit_code": 0,
+              "output_bytes": 142
+            },
+            {
+              "operation": "git-status",
+              "exit_code": 0,
+              "output_bytes": 189
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 4261
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 459
+            },
+            {
+              "operation": "temple-release",
+              "exit_code": 0,
+              "output_bytes": 165
+            },
+            {
+              "operation": "temple-transition-done",
+              "exit_code": 0,
+              "output_bytes": 147
+            },
+            {
+              "operation": "temple-status-compact",
+              "exit_code": 0,
+              "output_bytes": 1744
+            },
+            {
+              "operation": "temple-doctor-compact",
+              "exit_code": 0,
+              "output_bytes": 316
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 459
+            }
+          ]
+        }
+      ],
+      "comparison": {
+        "operational_tokens": {
+          "ordinary": 69410,
+          "temple": 101062,
+          "difference": 31652,
+          "percent": 45.601498343178214
+        },
+        "stage_elapsed_ms": {
+          "ordinary": 226262,
+          "temple": 291537,
+          "difference": 65275,
+          "percent": 28.849298600737193
+        }
+      }
+    },
+    {
+      "id": "gpt6-temple-first",
+      "model": "gpt-6-astra",
+      "order": [
+        "temple",
+        "ordinary"
+      ],
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "stop_reason": null,
+      "efficiency_comparable": true,
+      "operational_tokens": 156752,
+      "elapsed_ms": 550103,
+      "subject_turn_requests": 4,
+      "usage_complete": true,
+      "provider_cli_version": "codex-cli 0.153.1",
+      "node_version": "v24.20.0",
+      "model_release_revision": null,
+      "process_contract_sha256": "sha256:f41225f9fd3aeea9612c8c40b625ce8357f1c9f583c1e29e2156975cf3bd4b09",
+      "arms": {
+        "temple": {
+          "setup_elapsed_ms": 1634,
+          "setup_artifact_bytes": 355175,
+          "completed_stages": 2,
+          "observed_stage_elapsed_ms": 324163,
+          "coordinator_validation_ms": 406,
+          "operational_tokens": 112607
+        },
+        "ordinary": {
+          "setup_elapsed_ms": 80,
+          "setup_artifact_bytes": 3068,
+          "completed_stages": 2,
+          "observed_stage_elapsed_ms": 224897,
+          "coordinator_validation_ms": 362,
+          "operational_tokens": 44145
+        }
+      },
+      "seal": {
+        "run_sha256": "sha256:8b136a1ff55651401e7c098f30553fe2cc040517e1eb06d2cd5fbf6b30db4d42",
+        "artifact_sha256": "sha256:8318bfa46094479430e572ee1d1d09351dfc5f8c76b4c0212d4e8678c563f440",
+        "verified": true
+      },
+      "stages": [
+        {
+          "arm": "temple",
+          "stage": "build",
+          "status": "completed",
+          "stop_reason": null,
+          "requested_model": "gpt-6-astra",
+          "acknowledged_model": "gpt-6-astra",
+          "model_acknowledgement_basis": "direct-response-field",
+          "requested_effort": "medium",
+          "observed_thread_effort": "medium",
+          "effective_turn_effort": null,
+          "usage": {
+            "input_tokens": 725843,
+            "cached_input_tokens": 659200,
+            "output_tokens": 3162,
+            "reasoning_output_tokens": 61,
+            "total_tokens": 729005,
+            "non_cached_input_tokens": 66643,
+            "operational_tokens": 69805
+          },
+          "usage_finality": "last-observed-not-account-final",
+          "total_elapsed_ms": 204434,
+          "turn_elapsed_ms": 204256,
+          "quality_passed": true,
+          "quality_reason": null,
+          "candidate_revision": "76cd5058c780bb292711c68a64e37b005e24ddc4",
+          "completion_agreement": {
+            "evidence_matches": true,
+            "summary_matches": false
+          },
+          "workflow": {
+            "observed_state": "test",
+            "expected_state": "test",
+            "exact_handoff": true,
+            "claim_status": "released",
+            "claim_agent_id": "agent-builder",
+            "pass": true
+          },
+          "treatment": {
+            "compact_context_observed": true,
+            "composed_delivery_observed": true,
+            "post_mutation_compact_status_observed": true,
+            "post_mutation_compact_doctor_observed": true,
+            "pass": true,
+            "basis": "successful-observed-commands-and-verified-lifecycle; not-inferred-from-prompt"
+          },
+          "public_tests": {
+            "exit_code": 0,
+            "output_sha256": "sha256:0f6a8d79c2b260591986fa5b447f0f696483c05074f7eeafe1b4074cc8ea34ee",
+            "elapsed_ms": 81
+          },
+          "oracle": {
+            "exit_code": 0,
+            "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+            "elapsed_ms": 29
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "operations": {
+            "cat": {
+              "completed": 4,
+              "succeeded": 4,
+              "reported_output_bytes": 41809,
+              "output_bytes_complete": true
+            },
+            "temple-context-compact": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 3992,
+              "output_bytes_complete": true
+            },
+            "git-status": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 8,
+              "output_bytes_complete": true
+            },
+            "git-rev-parse": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 82,
+              "output_bytes_complete": true
+            },
+            "temple-claim": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 141,
+              "output_bytes_complete": true
+            },
+            "product-tests-all": {
+              "completed": 3,
+              "succeeded": 2,
+              "reported_output_bytes": 3055,
+              "output_bytes_complete": true
+            },
+            "git-diff": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 0,
+              "output_bytes_complete": false
+            },
+            "git-add": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 0,
+              "output_bytes_complete": false
+            },
+            "git-commit": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 177,
+              "output_bytes_complete": true
+            },
+            "temple-deliver": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 658,
+              "output_bytes_complete": true
+            },
+            "temple-status-compact": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 1741,
+              "output_bytes_complete": true
+            },
+            "temple-doctor-compact": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 313,
+              "output_bytes_complete": true
+            }
+          },
+          "command_started_count": 18,
+          "command_completed_count": 18,
+          "unmatched_command_starts": 0,
+          "unmatched_patch_starts": 0,
+          "command_timeline": [
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 18983
+            },
+            {
+              "operation": "temple-context-compact",
+              "exit_code": 0,
+              "output_bytes": 3992
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 20152
+            },
+            {
+              "operation": "git-status",
+              "exit_code": 0,
+              "output_bytes": 8
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 785
+            },
+            {
+              "operation": "temple-claim",
+              "exit_code": 0,
+              "output_bytes": 141
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 1,
+              "output_bytes": 1607
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 726
+            },
+            {
+              "operation": "git-diff",
+              "exit_code": 0,
+              "output_bytes": null
+            },
+            {
+              "operation": "git-add",
+              "exit_code": 0,
+              "output_bytes": null
+            },
+            {
+              "operation": "git-commit",
+              "exit_code": 0,
+              "output_bytes": 177
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 1889
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 722
+            },
+            {
+              "operation": "temple-deliver",
+              "exit_code": 0,
+              "output_bytes": 658
+            },
+            {
+              "operation": "temple-status-compact",
+              "exit_code": 0,
+              "output_bytes": 1741
+            },
+            {
+              "operation": "temple-doctor-compact",
+              "exit_code": 0,
+              "output_bytes": 313
+            }
+          ]
+        },
+        {
+          "arm": "temple",
+          "stage": "verify",
+          "status": "completed",
+          "stop_reason": null,
+          "requested_model": "gpt-6-astra",
+          "acknowledged_model": "gpt-6-astra",
+          "model_acknowledgement_basis": "direct-response-field",
+          "requested_effort": "medium",
+          "observed_thread_effort": "medium",
+          "effective_turn_effort": null,
+          "usage": {
+            "input_tokens": 607807,
+            "cached_input_tokens": 566144,
+            "output_tokens": 1139,
+            "reasoning_output_tokens": 15,
+            "total_tokens": 608946,
+            "non_cached_input_tokens": 41663,
+            "operational_tokens": 42802
+          },
+          "usage_finality": "last-observed-not-account-final",
+          "total_elapsed_ms": 119729,
+          "turn_elapsed_ms": 119548,
+          "quality_passed": true,
+          "quality_reason": null,
+          "candidate_revision": "76cd5058c780bb292711c68a64e37b005e24ddc4",
+          "completion_agreement": {
+            "evidence_matches": true,
+            "summary_matches": false
+          },
+          "workflow": {
+            "observed_state": "done",
+            "expected_state": "done",
+            "exact_handoff": true,
+            "claim_status": "released",
+            "claim_agent_id": "agent-verifier",
+            "pass": true
+          },
+          "treatment": {
+            "compact_context_observed": true,
+            "composed_delivery_observed": null,
+            "post_mutation_compact_status_observed": true,
+            "post_mutation_compact_doctor_observed": true,
+            "pass": true,
+            "basis": "successful-observed-commands-and-verified-lifecycle; not-inferred-from-prompt"
+          },
+          "public_tests": {
+            "exit_code": 0,
+            "output_sha256": "sha256:8678e6a7e19682f7f57d70a5cbc9cd769f0ff335260d6d4cda2eb48882b8d928",
+            "elapsed_ms": 78
+          },
+          "oracle": {
+            "exit_code": 0,
+            "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+            "elapsed_ms": 27
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "operations": {
+            "cat": {
+              "completed": 4,
+              "succeeded": 4,
+              "reported_output_bytes": 52605,
+              "output_bytes_complete": true
+            },
+            "temple-context-compact": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 4470,
+              "output_bytes_complete": true
+            },
+            "git-rev-parse": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 41,
+              "output_bytes_complete": true
+            },
+            "git-status": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 197,
+              "output_bytes_complete": true
+            },
+            "temple-claim": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 142,
+              "output_bytes_complete": true
+            },
+            "git-show": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 405,
+              "output_bytes_complete": true
+            },
+            "git-diff": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 0,
+              "output_bytes_complete": false
+            },
+            "product-tests-all": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 1447,
+              "output_bytes_complete": true
+            },
+            "temple-release": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 163,
+              "output_bytes_complete": true
+            },
+            "temple-transition-done": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 147,
+              "output_bytes_complete": true
+            },
+            "temple-status-compact": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 1744,
+              "output_bytes_complete": true
+            },
+            "temple-doctor-compact": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 313,
+              "output_bytes_complete": true
+            }
+          },
+          "command_started_count": 16,
+          "command_completed_count": 16,
+          "unmatched_command_starts": 0,
+          "unmatched_patch_starts": 0,
+          "command_timeline": [
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 18983
+            },
+            {
+              "operation": "temple-context-compact",
+              "exit_code": 0,
+              "output_bytes": 4470
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 11455
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 16563
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "git-status",
+              "exit_code": 0,
+              "output_bytes": 197
+            },
+            {
+              "operation": "temple-claim",
+              "exit_code": 0,
+              "output_bytes": 142
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 5604
+            },
+            {
+              "operation": "git-show",
+              "exit_code": 0,
+              "output_bytes": 405
+            },
+            {
+              "operation": "git-diff",
+              "exit_code": 0,
+              "output_bytes": null
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 726
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 721
+            },
+            {
+              "operation": "temple-release",
+              "exit_code": 0,
+              "output_bytes": 163
+            },
+            {
+              "operation": "temple-transition-done",
+              "exit_code": 0,
+              "output_bytes": 147
+            },
+            {
+              "operation": "temple-status-compact",
+              "exit_code": 0,
+              "output_bytes": 1744
+            },
+            {
+              "operation": "temple-doctor-compact",
+              "exit_code": 0,
+              "output_bytes": 313
+            }
+          ]
+        },
+        {
+          "arm": "ordinary",
+          "stage": "build",
+          "status": "completed",
+          "stop_reason": null,
+          "requested_model": "gpt-6-astra",
+          "acknowledged_model": "gpt-6-astra",
+          "model_acknowledgement_basis": "direct-response-field",
+          "requested_effort": "medium",
+          "observed_thread_effort": "medium",
+          "effective_turn_effort": null,
+          "usage": {
+            "input_tokens": 293541,
+            "cached_input_tokens": 276096,
+            "output_tokens": 2893,
+            "reasoning_output_tokens": 82,
+            "total_tokens": 296434,
+            "non_cached_input_tokens": 17445,
+            "operational_tokens": 20338
+          },
+          "usage_finality": "last-observed-not-account-final",
+          "total_elapsed_ms": 155735,
+          "turn_elapsed_ms": 155544,
+          "quality_passed": true,
+          "quality_reason": null,
+          "candidate_revision": "e4451172a594e6d080408d741a5b8355c1ee020d",
+          "completion_agreement": {
+            "evidence_matches": true,
+            "summary_matches": false
+          },
+          "workflow": null,
+          "treatment": null,
+          "public_tests": {
+            "exit_code": 0,
+            "output_sha256": "sha256:e288b14826706f3deb9042fd98bff1b741af59ee0c6b371c67f57582a14d87e1",
+            "elapsed_ms": 78
+          },
+          "oracle": {
+            "exit_code": 0,
+            "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+            "elapsed_ms": 28
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "operations": {
+            "cat": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 3068,
+              "output_bytes_complete": true
+            },
+            "ls": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 515,
+              "output_bytes_complete": true
+            },
+            "product-tests-all": {
+              "completed": 3,
+              "succeeded": 2,
+              "reported_output_bytes": 3298,
+              "output_bytes_complete": true
+            },
+            "git-diff": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 346,
+              "output_bytes_complete": true
+            },
+            "git-add": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 0,
+              "output_bytes_complete": false
+            },
+            "git-commit": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 177,
+              "output_bytes_complete": true
+            },
+            "git-rev-parse": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 41,
+              "output_bytes_complete": true
+            }
+          },
+          "command_started_count": 10,
+          "command_completed_count": 10,
+          "unmatched_command_starts": 0,
+          "unmatched_patch_starts": 0,
+          "command_timeline": [
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 2281
+            },
+            {
+              "operation": "ls",
+              "exit_code": 0,
+              "output_bytes": 515
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 787
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 1,
+              "output_bytes": 1685
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 801
+            },
+            {
+              "operation": "git-diff",
+              "exit_code": 0,
+              "output_bytes": 346
+            },
+            {
+              "operation": "git-add",
+              "exit_code": 0,
+              "output_bytes": null
+            },
+            {
+              "operation": "git-commit",
+              "exit_code": 0,
+              "output_bytes": 177
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 812
+            }
+          ]
+        },
+        {
+          "arm": "ordinary",
+          "stage": "verify",
+          "status": "completed",
+          "stop_reason": null,
+          "requested_model": "gpt-6-astra",
+          "acknowledged_model": "gpt-6-astra",
+          "model_acknowledgement_basis": "direct-response-field",
+          "requested_effort": "medium",
+          "observed_thread_effort": "medium",
+          "effective_turn_effort": null,
+          "usage": {
+            "input_tokens": 183057,
+            "cached_input_tokens": 159744,
+            "output_tokens": 494,
+            "reasoning_output_tokens": 23,
+            "total_tokens": 183551,
+            "non_cached_input_tokens": 23313,
+            "operational_tokens": 23807
+          },
+          "usage_finality": "last-observed-not-account-final",
+          "total_elapsed_ms": 69162,
+          "turn_elapsed_ms": 68960,
+          "quality_passed": true,
+          "quality_reason": null,
+          "candidate_revision": "e4451172a594e6d080408d741a5b8355c1ee020d",
+          "completion_agreement": {
+            "evidence_matches": true,
+            "summary_matches": false
+          },
+          "workflow": null,
+          "treatment": null,
+          "public_tests": {
+            "exit_code": 0,
+            "output_sha256": "sha256:7a8fae9a41c90ee302378bc209a5690d90591b8627e494a115b161ca36945b61",
+            "elapsed_ms": 77
+          },
+          "oracle": {
+            "exit_code": 0,
+            "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+            "elapsed_ms": 29
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "operations": {
+            "cat": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 9981,
+              "output_bytes_complete": true
+            },
+            "git-status": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 31,
+              "output_bytes_complete": true
+            },
+            "git-rev-parse": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 387,
+              "output_bytes_complete": true
+            },
+            "git-show": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 398,
+              "output_bytes_complete": true
+            },
+            "product-tests-all": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 1619,
+              "output_bytes_complete": true
+            }
+          },
+          "command_started_count": 7,
+          "command_completed_count": 7,
+          "unmatched_command_starts": 0,
+          "unmatched_patch_starts": 0,
+          "command_timeline": [
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 2281
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 7700
+            },
+            {
+              "operation": "git-status",
+              "exit_code": 0,
+              "output_bytes": 31
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 387
+            },
+            {
+              "operation": "git-show",
+              "exit_code": 0,
+              "output_bytes": 398
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 814
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 805
+            }
+          ]
+        }
+      ],
+      "comparison": {
+        "operational_tokens": {
+          "ordinary": 44145,
+          "temple": 112607,
+          "difference": 68462,
+          "percent": 155.08438101710271
+        },
+        "stage_elapsed_ms": {
+          "ordinary": 224897,
+          "temple": 324163,
+          "difference": 99266,
+          "percent": 44.13842781362134
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "One pair per model; within-model order not counterbalanced",
+    "Cache uncontrolled",
+    "Last-observed usage is not account-final",
+    "Effective effort and immutable model revision unobserved",
+    "Output bytes are not causal Token attribution",
+    "Historical runs are descriptive context only",
+    "Coordinator and reviewer model usage excluded"
+  ],
+  "recalculation_model_turns": 0,
+  "raw_prompts_or_outputs_published": false
+}
