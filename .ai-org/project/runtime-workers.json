@@ -1168,6 +1168,34 @@
       "attached_at": "2026-09-05T13:09:15.637Z",
       "completed_at": "2026-09-05T13:18:29.026Z",
       "updated_at": "2026-09-05T13:18:29.026Z"
+    },
+    {
+      "id": "worker-20260905132428-298e2e9b",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0186",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260905132428-3c855911",
+      "base_revision": "3cf56d80b27f5499f65b2357d8c3602c30cdbfbf",
+      "branch": "codex/wi-0186-stage-material-scope",
+      "worktree": null,
+      "plan_fingerprint": "361be4bb95f1f8c394670bea7e5fcaf7e8bccc340225e71f2fceb4a30ee8641a",
+      "plan_digest": "29a8b24ec6b7bbd5b609222498fb1750be9892df28dcce5c1baef2afe769eb3a",
+      "preparation_fingerprint": "bd6b4f73a7fd26dd1796b45eb9f99b9b9f428f3f10a04edfe670b801e84e352d",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/scoped_material_corrected_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "3cf56d80b27f5499f65b2357d8c3602c30cdbfbf",
+      "evidence": [
+        ".ai-org/artifacts/WI-0186/independent-qa.v2.md"
+      ],
+      "reserved_at": "2026-09-05T13:24:28.543Z",
+      "attached_at": "2026-09-05T13:24:58.103Z",
+      "completed_at": "2026-09-05T13:28:57.141Z",
+      "updated_at": "2026-09-05T13:28:57.141Z"
     }
   ]
 }

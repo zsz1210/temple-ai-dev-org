@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0186",
   "title": "Scope stage material without omitting governing rules",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T12:55:11.045Z",
-  "updated_at": "2026-09-05T13:18:29.610Z",
+  "updated_at": "2026-09-05T13:29:23.437Z",
   "scope": [
     "Add opt-in stage material projection for exact managed-file observations and relevant Position definitions. Preserve whole mandatory instructions, policies and evidence, full-source freshness, conservative fallback and old packet defaults; local tests and measurements only, no live comparison."
   ],
@@ -49,7 +49,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "ea8ef29799a4bbcde94c4ff296a37fdb48b031c0",
+  "base_revision": "3cf56d80b27f5499f65b2357d8c3602c30cdbfbf",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -57,15 +57,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260905131829-2f0afb20",
-    "status": "active",
+    "id": "claim-20260905132858-c74fde51",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "ea8ef29799a4bbcde94c4ff296a37fdb48b031c0",
+    "agent_id": "agent-mog",
+    "base_revision": "3cf56d80b27f5499f65b2357d8c3602c30cdbfbf",
     "branch": "codex/wi-0186-stage-material-scope",
     "worktree": null,
-    "claimed_at": "2026-09-05T13:18:29.610Z",
-    "released_at": null
+    "claimed_at": "2026-09-05T13:28:58.214Z",
+    "released_at": "2026-09-05T13:29:23.437Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -124,14 +125,41 @@
     },
     {
       "id": "claim-20260905131829-2f0afb20",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "ea8ef29799a4bbcde94c4ff296a37fdb48b031c0",
       "branch": "codex/wi-0186-stage-material-scope",
       "worktree": null,
       "claimed_at": "2026-09-05T13:18:29.610Z",
-      "released_at": null
+      "released_at": "2026-09-05T13:24:24.319Z",
+      "release_reason": [
+        "Corrected exact candidate handed to independent review."
+      ]
+    },
+    {
+      "id": "claim-20260905132428-3c855911",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "3cf56d80b27f5499f65b2357d8c3602c30cdbfbf",
+      "branch": "codex/wi-0186-stage-material-scope",
+      "worktree": null,
+      "claimed_at": "2026-09-05T13:24:28.634Z",
+      "released_at": "2026-09-05T13:28:57.699Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905132858-c74fde51",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "3cf56d80b27f5499f65b2357d8c3602c30cdbfbf",
+      "branch": "codex/wi-0186-stage-material-scope",
+      "worktree": null,
+      "claimed_at": "2026-09-05T13:28:58.214Z",
+      "released_at": "2026-09-05T13:29:23.437Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -149,16 +177,49 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0186/brief.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0186/handoff-002-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0186/developer-verification.v2.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0186/final-verification.v2.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0186/independent-qa.v2.md",
+      ".ai-org/artifacts/WI-0186/final-verification.v2.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0186/independent-qa.v2.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0186/brief.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0186/independent-qa.v2.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0186/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0186/brief.md",
     "docs/adr/0056-stage-material-projections.md",
     ".ai-org/artifacts/WI-0186/handoff-001-developer-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0186/developer-verification.md"
+    ".ai-org/artifacts/WI-0186/developer-verification.md",
+    ".ai-org/artifacts/WI-0186/handoff-002-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0186/developer-verification.v2.md",
+    ".ai-org/artifacts/WI-0186/final-verification.v2.md",
+    ".ai-org/artifacts/WI-0186/independent-qa.v2.md",
+    ".ai-org/artifacts/WI-0186/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -167,6 +228,14 @@
       "input_revision": "ea8ef29799a4bbcde94c4ff296a37fdb48b031c0",
       "artifact": ".ai-org/artifacts/WI-0186/handoff-001-developer-to-quality_evaluator.md",
       "created_at": "2026-09-05T13:08:23.605Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "3cf56d80b27f5499f65b2357d8c3602c30cdbfbf",
+      "artifact": ".ai-org/artifacts/WI-0186/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T13:24:23.683Z"
     }
   ],
   "rework_history": [
@@ -206,5 +275,12 @@
         ".ai-org/artifacts/WI-0186/handoff-001-developer-to-quality_evaluator.md"
       ]
     }
-  ]
+  ],
+  "developer_candidate_revision": "3cf56d80b27f5499f65b2357d8c3602c30cdbfbf",
+  "tested_revision": "3cf56d80b27f5499f65b2357d8c3602c30cdbfbf",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }
