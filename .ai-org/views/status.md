@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 190 total, 4 active
+- Work items: 191 total, 5 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 48 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -238,6 +238,7 @@
 | WI-0188 | Integrate opt-in Lean entry with bounded material and completion | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6346e026` | 0 | 9 | 0 |
 | WI-0189 | Compare single-worker and parallel Terra delivery | test | Quality & Evaluation Engineer | Lulu | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `90a5870d` | 0 | 6 | 1 |
 | WI-0190 | Clarify proportionate entry and stage completion | release_gate | Release Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `50ae4f50` | 0 | 5 | 0 |
+| WI-0191 | Evaluate proportionate routes with matched before-after scenarios | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
 
 ## Codex task registry
 
@@ -344,7 +345,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 56
+- Team-visible Work Items: 57
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -417,14 +418,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-05T23:27:30.615Z | work_item_claim_released | WI-0191 | human |
+| 2026-09-05T23:22:22.550Z | work_item_claimed | WI-0191 | human |
+| 2026-09-05T23:22:22.271Z | work_item_created | WI-0191 | agent-mog |
 | 2026-09-05T23:14:58.972Z | work_item_claim_released | WI-0190 | human |
 | 2026-09-05T23:13:01.157Z | work_item_claimed | WI-0190 | human |
 | 2026-09-05T23:07:44.875Z | work_item_claim_released | WI-0190 | human |
 | 2026-09-05T23:07:08.079Z | work_item_claimed | WI-0190 | human |
 | 2026-09-05T22:59:01.151Z | work_item_transitioned | WI-0190 | agent-lulu |
-| 2026-09-05T22:59:00.888Z | work_item_claim_released | WI-0190 | human |
-| 2026-09-05T22:58:22.186Z | runtime_worker_status_changed | WI-0190 | agent-lulu |
-| 2026-09-05T22:56:53.328Z | runtime_worker_attached | WI-0190 | agent-lulu |
 
 ## Assignments
 
