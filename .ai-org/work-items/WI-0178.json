@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0178",
   "title": "Reduce delivery overhead with bounded context and recoverable operations",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T08:01:00.069Z",
-  "updated_at": "2026-09-05T08:03:21.104Z",
+  "updated_at": "2026-09-05T08:41:33.352Z",
   "scope": [
     "Integrate the existing Lean delivery implementation without importing comparison history; add a compact read-only context entry, layered lifecycle instructions, bounded structured error recovery, and local validation. Preserve every workflow and rework guard."
   ],
@@ -59,8 +59,8 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "18c954cfe7f276c46b89a680f05224da5f80ac33",
-  "parallel_mode": "sequential",
+  "base_revision": "6521fc50047478ced59cd9fe0a65f1d4d2c4c3df",
+  "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
@@ -69,15 +69,16 @@
     "WI-0172 comparison scope is owned by the other task. Do not edit scripts/delivery-control-pair.mjs, test/delivery-control-pair.test.mjs or any comparison-branch history. Import only Lean delivery implementation and tests from bba20cc with main guards retained; branch-local WI-0178 records stay separate."
   ],
   "claim": {
-    "id": "claim-20260905080321-18eaef7d",
-    "status": "active",
+    "id": "claim-20260905084032-09a2a0c0",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "18c954cfe7f276c46b89a680f05224da5f80ac33",
+    "agent_id": "agent-mog",
+    "base_revision": "6521fc50047478ced59cd9fe0a65f1d4d2c4c3df",
     "branch": "codex/wi-0178-delivery-entry",
     "worktree": null,
-    "claimed_at": "2026-09-05T08:03:21.104Z",
-    "released_at": null
+    "claimed_at": "2026-09-05T08:40:32.514Z",
+    "released_at": "2026-09-05T08:41:33.352Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -124,14 +125,57 @@
     },
     {
       "id": "claim-20260905080321-18eaef7d",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "18c954cfe7f276c46b89a680f05224da5f80ac33",
       "branch": "codex/wi-0178-delivery-entry",
       "worktree": null,
       "claimed_at": "2026-09-05T08:03:21.104Z",
-      "released_at": null
+      "released_at": "2026-09-05T08:29:34.189Z",
+      "release_reason": [
+        "Exact candidate is ready for evaluation and independent review."
+      ]
+    },
+    {
+      "id": "claim-20260905082934-fc9c33fb",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "6521fc50047478ced59cd9fe0a65f1d4d2c4c3df",
+      "branch": "codex/wi-0178-delivery-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T08:29:34.797Z",
+      "released_at": "2026-09-05T08:29:35.371Z",
+      "release_reason": [
+        "Focused evaluation supports independent review; full suite join remains pending."
+      ]
+    },
+    {
+      "id": "claim-20260905082936-ff6e0634",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "6521fc50047478ced59cd9fe0a65f1d4d2c4c3df",
+      "branch": "codex/wi-0178-delivery-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T08:29:36.798Z",
+      "released_at": "2026-09-05T08:40:31.921Z",
+      "release_reason": [
+        "Independent QA finished; integration evidence is ready for the bounded organizational Release Gate."
+      ]
+    },
+    {
+      "id": "claim-20260905084032-09a2a0c0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "6521fc50047478ced59cd9fe0a65f1d4d2c4c3df",
+      "branch": "codex/wi-0178-delivery-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T08:40:32.514Z",
+      "released_at": "2026-09-05T08:41:33.352Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -149,11 +193,73 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0178/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0178/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0178/developer-evidence.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0178/developer-evidence.md",
+      ".ai-org/artifacts/WI-0178/integration.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0178/evaluation.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0178/independent-qa.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0178/work-order.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0178/independent-qa.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0178/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0178/work-order.md"
+    ".ai-org/artifacts/WI-0178/work-order.md",
+    ".ai-org/artifacts/WI-0178/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0178/developer-evidence.md",
+    ".ai-org/artifacts/WI-0178/evaluation.md",
+    ".ai-org/artifacts/WI-0178/handoff-002-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0178/independent-qa.md",
+    ".ai-org/artifacts/WI-0178/integration.md",
+    ".ai-org/artifacts/WI-0178/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "6521fc50047478ced59cd9fe0a65f1d4d2c4c3df",
+      "artifact": ".ai-org/artifacts/WI-0178/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T08:29:33.882Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "actor": "agent-lulu",
+      "input_revision": "6521fc50047478ced59cd9fe0a65f1d4d2c4c3df",
+      "artifact": ".ai-org/artifacts/WI-0178/handoff-002-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-05T08:40:31.587Z"
+    }
+  ],
+  "developer_candidate_revision": "6521fc50047478ced59cd9fe0a65f1d4d2c4c3df",
+  "tested_revision": "6521fc50047478ced59cd9fe0a65f1d4d2c4c3df",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [
+    "One unchanged Console refresh test timed out on the first full run; isolated and complete bounded reruns passed. The cause is unproven and no fix is claimed. Model effectiveness remains unmeasured by this local work."
+  ],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }
