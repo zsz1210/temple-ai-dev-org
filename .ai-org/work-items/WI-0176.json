@@ -1,0 +1,136 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0176",
+  "title": "Confirm owned provider process shutdown",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-05T05:21:26.358Z",
+  "updated_at": "2026-09-05T05:22:33.216Z",
+  "scope": [
+    "Bounded cleanup of the child owned by createJsonRpcProcess; never signal unrelated processes or redesign provider protocol"
+  ],
+  "acceptance_criteria": [
+    "Close waits for owned child exit, escalates ignored SIGTERM within a bound, rejects pending requests, is idempotent, and preserves normal RPC behavior"
+  ],
+  "affected_paths": [
+    "src/codex-app-server-provider.mjs",
+    "test/json-rpc-process-cleanup.test.mjs",
+    ".ai-org/artifacts/WI-0176"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T05:21:26.358Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "20f60ff",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260905052233-83c1735e",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "20f60ff",
+    "branch": "codex/wi-0176-owned-process-cleanup",
+    "worktree": null,
+    "claimed_at": "2026-09-05T05:22:33.216Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260905052231-680261a3",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "20f60ff",
+      "branch": "codex/wi-0176-owned-process-cleanup",
+      "worktree": null,
+      "claimed_at": "2026-09-05T05:22:31.620Z",
+      "released_at": "2026-09-05T05:22:31.847Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905052232-a74bdb72",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "20f60ff",
+      "branch": "codex/wi-0176-owned-process-cleanup",
+      "worktree": null,
+      "claimed_at": "2026-09-05T05:22:32.158Z",
+      "released_at": "2026-09-05T05:22:32.404Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905052232-7887b1de",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "20f60ff",
+      "branch": "codex/wi-0176-owned-process-cleanup",
+      "worktree": null,
+      "claimed_at": "2026-09-05T05:22:32.692Z",
+      "released_at": "2026-09-05T05:22:32.927Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905052233-83c1735e",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "20f60ff",
+      "branch": "codex/wi-0176-owned-process-cleanup",
+      "worktree": null,
+      "claimed_at": "2026-09-05T05:22:33.216Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0176/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0176/work-order.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0176/work-order.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0176/work-order.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0176/work-order.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0176/work-order.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
