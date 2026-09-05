@@ -5,9 +5,9 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 177 total, 1 active
+- Work items: 178 total, 1 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 32 registered, 0 reserved, 0 active
+- Runtime workers: 33 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -225,6 +225,7 @@
 | WI-0175 | Reject unsupported configure options | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `d59845c0` | 0 | 8 | 0 |
 | WI-0176 | Confirm owned provider process shutdown | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a59f62ce` | 0 | 8 | 0 |
 | WI-0177 | Align lifecycle Skill entry with effective workflow profiles | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c8fc420d` | 0 | 8 | 0 |
+| WI-0178 | Reduce delivery overhead with bounded context and recoverable operations | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6521fc50` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -279,6 +280,7 @@
 | worker-20260905050426-66e8dd4f | internal-subagent | WI-0175 | Independent QA / Lulu | completed | /root/wi0175_independent_qa | `d59845c0` | 0 |
 | worker-20260905052549-b2328dd0 | internal-subagent | WI-0176 | Independent QA / Lulu | completed | /root/wi0176_independent_qa | `a59f62ce` | 0 |
 | worker-20260905072735-79a889e8 | internal-subagent | WI-0177 | Independent QA / Lulu | completed | /root/wi0177_instruction_qa | `c8fc420d` | 0 |
+| worker-20260905082936-f5f1d2a7 | internal-subagent | WI-0178 | Independent QA / Lulu | completed | /root/wi0178_delivery_qa | `6521fc50` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -382,14 +384,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-05T07:32:39.051Z | work_item_closed | WI-0177 | agent-mog |
-| 2026-09-05T07:32:39.051Z | release_gate_completed | WI-0177 | agent-mog |
-| 2026-09-05T07:32:38.792Z | work_item_claimed | WI-0177 | human |
-| 2026-09-05T07:32:38.502Z | work_item_transitioned | WI-0177 | agent-lulu |
-| 2026-09-05T07:32:37.871Z | work_item_claim_released | WI-0177 | human |
-| 2026-09-05T07:32:37.604Z | handoff_created | WI-0177 | agent-lulu |
-| 2026-09-05T07:32:37.233Z | runtime_worker_status_changed | WI-0177 | agent-lulu |
-| 2026-09-05T07:28:10.216Z | runtime_worker_attached | WI-0177 | agent-lulu |
+| 2026-09-05T08:41:33.352Z | work_item_closed | WI-0178 | agent-mog |
+| 2026-09-05T08:41:33.352Z | release_gate_completed | WI-0178 | agent-mog |
+| 2026-09-05T08:40:32.514Z | work_item_claimed | WI-0178 | human |
+| 2026-09-05T08:40:32.213Z | work_item_transitioned | WI-0178 | agent-lulu |
+| 2026-09-05T08:40:31.921Z | work_item_claim_released | WI-0178 | human |
+| 2026-09-05T08:40:31.587Z | handoff_created | WI-0178 | agent-lulu |
+| 2026-09-05T08:36:20.001Z | runtime_worker_status_changed | WI-0178 | agent-lulu |
+| 2026-09-05T08:30:32.590Z | runtime_worker_attached | WI-0178 | agent-lulu |
 
 ## Assignments
 

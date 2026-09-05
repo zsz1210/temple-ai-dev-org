@@ -916,6 +916,34 @@
       "attached_at": "2026-09-05T07:28:10.216Z",
       "completed_at": "2026-09-05T07:32:37.233Z",
       "updated_at": "2026-09-05T07:32:37.233Z"
+    },
+    {
+      "id": "worker-20260905082936-f5f1d2a7",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0178",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260905082936-ff6e0634",
+      "base_revision": "6521fc50047478ced59cd9fe0a65f1d4d2c4c3df",
+      "branch": "codex/wi-0178-delivery-entry",
+      "worktree": null,
+      "plan_fingerprint": "d92d244e650311a3768c829cd4c41700caa3dda86f124da0672916bc489259db",
+      "plan_digest": "35b0aad0b7f0208e2cca8e716693e6235f58f3c92e122d032362a83ed582f34c",
+      "preparation_fingerprint": "908b95a87acf3c5d1e8d776d5b07fae47fcd41759c05cd97fa463ac5d67c3538",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0178_delivery_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "6521fc50047478ced59cd9fe0a65f1d4d2c4c3df",
+      "evidence": [
+        ".ai-org/artifacts/WI-0178/independent-qa.md"
+      ],
+      "reserved_at": "2026-09-05T08:29:36.785Z",
+      "attached_at": "2026-09-05T08:30:32.590Z",
+      "completed_at": "2026-09-05T08:36:20.001Z",
+      "updated_at": "2026-09-05T08:36:20.001Z"
     }
   ]
 }

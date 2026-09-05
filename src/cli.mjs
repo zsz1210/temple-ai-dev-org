@@ -11,6 +11,8 @@ import {
   writeContextCapsule
 } from "./context.mjs";
 import { runDoctor, formatDoctor } from "./doctor.mjs";
+import { deliverLeanWorkItem } from "./lean-delivery.mjs";
+import { OperationError, operationErrorResult } from "./operation-errors.mjs";
 import {
   addMembership,
   addAgentIdentity,
@@ -197,6 +199,7 @@ Usage:
   temple work-item migrate-outcomes [target] [--work-item WI-ID] [--outcome no-go|inconclusive] [--reason text] [--dry-run] [--json]
   temple work-item claim [target] --work-item WI-ID --agent-id agent-name --principal-id principal-name --base-revision ref --branch name [--worktree path]
   temple work-item release [target] --work-item WI-ID [--agent-id agent-name] [--principal-id principal-name] [--reason text]
+  temple work-item deliver [target] --work-item WI-ID --operation-id id --claim-id id --agent-id agent-name --principal-id principal-name --revision commit --completed text --evidence path [--unresolved text] [--dry-run] [--expected-plan sha256] [--json]
   temple work-item rework [target] --work-item WI-ID --same-scope --input-revision full-sha --reason text --evidence repository-path [--actor agent-name] [--json]
   temple work-item unresolved [target] --work-item WI-0001 [--resolve text] [--merge text]
   temple parallel check [target] --work-item WI-ID [--agent-id agent-name] [--json]
@@ -258,7 +261,7 @@ Usage:
   temple pack remove [target] --pack build-quality [--dry-run]
   temple capability list [target] [--json]
   temple capability find [target] --query text [--position position] [--limit number] [--json]
-  temple context resolve [target] --work-item WI-0001 [--position position] [--stage stage] [--purpose primary|integration|recovery] [--query text] [--revision ref] [--limit number] [--json] [--no-write]
+  temple context resolve [target] --work-item WI-0001 [--position position] [--stage stage] [--purpose primary|integration|recovery] [--query text] [--revision ref] [--limit number] [--json] [--no-write] [--compact (requires --no-write --json)]
   temple --version
 
 Core commands:
@@ -315,6 +318,7 @@ Only evidence leaves the chamber.`;
 
 const BOOLEAN_FLAGS = new Set([
   "--same-scope",
+  "--compact",
   "--dry-run",
   "--integrate-agents",
   "--self-host",
@@ -465,6 +469,8 @@ const VALUE_FLAGS = new Set([
   "--source-work-item",
   "--derived-from",
   "--owner-position",
+  "--operation-id",
+  "--claim-id",
   "--learning-id",
   "--proposal-id",
   "--skill-name",
@@ -2432,6 +2438,34 @@ async function runWorkItemRework(parsed) {
   return 0;
 }
 
+function assertCommandOptions(parsed, options, flags) {
+  const allowed = new Set([...options, ...flags]);
+  for (const name of [...Object.keys(parsed.options), ...parsed.flags]) {
+    if (!allowed.has(name)) throw new OperationError("INVALID_INPUT", `Unsupported ${parsed.command} ${parsed.action} option: ${name}`);
+  }
+}
+
+async function runWorkItemDeliver(parsed) {
+  assertCommandOptions(parsed,
+    ["--work-item", "--operation-id", "--claim-id", "--agent-id", "--principal-id", "--revision", "--completed", "--evidence", "--unresolved", "--expected-plan"],
+    ["--dry-run", "--json"]);
+  const target = await assertSafeTarget(parsed.target);
+  const result = await withProjectMutationLock(target, async () => {
+    const delivered = await deliverLeanWorkItem(target, {
+      workItemId: parsed.options["--work-item"], operationId: parsed.options["--operation-id"],
+      claimId: parsed.options["--claim-id"], agentId: parsed.options["--agent-id"],
+      principalId: parsed.options["--principal-id"], revision: parsed.options["--revision"],
+      completed: listOption(parsed, "--completed"), evidence: listOption(parsed, "--evidence"),
+      unresolved: listOption(parsed, "--unresolved"), dryRun: parsed.flags.has("--dry-run"),
+      expectedPlan: parsed.options["--expected-plan"]
+    });
+    if (!delivered.dry_run && delivered.status !== "already_applied") await refreshViews(target);
+    return delivered;
+  }, { leanDeliveryOperation: `${parsed.options["--work-item"]}/${parsed.options["--operation-id"]}` });
+  printResult(parsed, result, [`Lean delivery: ${result.status}`, `Work Item: ${result.work_item_id}`, `Handoff: ${result.handoff}`, result.next_action]);
+  return 0;
+}
+
 async function runWorkItemMigrateOutcomes(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const result = await withProjectMutationLock(target, async () => {
@@ -3006,6 +3040,11 @@ async function runCapability(parsed) {
 }
 
 async function runContext(parsed) {
+  if (parsed.flags.has("--compact")) {
+    assertCommandOptions(parsed, ["--work-item", "--position", "--query", "--revision", "--stage", "--purpose", "--limit"], ["--compact", "--no-write", "--json"]);
+    if (!parsed.flags.has("--no-write") || !parsed.flags.has("--json")) throw new OperationError("INVALID_INPUT", "Compact context requires --no-write and --json");
+    if (!parsed.options["--work-item"]) throw new OperationError("INVALID_INPUT", "context resolve requires --work-item");
+  }
   const target = await assertSafeTarget(parsed.target);
   if (parsed.action !== "resolve") throw new Error(`Unknown context action: ${parsed.action}`);
   if (!parsed.options["--work-item"]) throw new Error("context resolve requires --work-item");
@@ -3016,7 +3055,8 @@ async function runContext(parsed) {
     revision: parsed.options["--revision"],
     stage: parsed.options["--stage"],
     purpose: parsed.options["--purpose"],
-    limit: positiveIntegerOption(parsed, "--limit")
+    limit: positiveIntegerOption(parsed, "--limit"),
+    compact: parsed.flags.has("--compact")
   });
   const outputPath = parsed.flags.has("--no-write") ? null : await writeContextCapsule(target, capsule);
   if (parsed.flags.has("--json")) console.log(JSON.stringify(capsule, null, 2));
@@ -3040,7 +3080,7 @@ async function runContext(parsed) {
   return 0;
 }
 
-export async function main(argv) {
+async function dispatch(argv) {
   const parsed = parseCommand(argv);
   if (parsed.command === "help" || parsed.flags.has("--help")) {
     console.log(HELP);
@@ -3073,6 +3113,7 @@ export async function main(argv) {
   if (parsed.command === "work-item" && parsed.action === "configure") return runWorkItemConfigure(parsed);
   if (parsed.command === "work-item" && parsed.action === "claim") return runWorkItemClaim(parsed);
   if (parsed.command === "work-item" && parsed.action === "release") return runWorkItemRelease(parsed);
+  if (parsed.command === "work-item" && parsed.action === "deliver") return runWorkItemDeliver(parsed);
   if (parsed.command === "work-item" && parsed.action === "rework") return runWorkItemRework(parsed);
   if (parsed.command === "work-item" && parsed.action === "migrate-outcomes") return runWorkItemMigrateOutcomes(parsed);
   if (parsed.command === "work-item" && parsed.action === "unresolved") return runWorkItemUnresolved(parsed);
@@ -3097,4 +3138,31 @@ export async function main(argv) {
   if (parsed.command === "capability") return runCapability(parsed);
   if (parsed.command === "context") return runContext(parsed);
   throw new Error(`Unknown command: ${parsed.command}${parsed.action ? ` ${parsed.action}` : ""}\n\n${HELP}`);
+}
+
+export async function main(argv) {
+  const delivery = argv[0] === "work-item" && argv[1] === "deliver";
+  const compact = argv[0] === "context" && argv[1] === "resolve" && argv.includes("--compact");
+  if (!delivery && !compact) return dispatch(argv);
+  try {
+    try {
+      const seen = new Set();
+      for (let i = 2; i < argv.length; i++) {
+        const name = argv[i];
+        if (!name.startsWith("--")) continue;
+        if (seen.has(name) && !REPEATABLE_FLAGS.has(name)) throw new Error(`Duplicate option: ${name}`);
+        seen.add(name);
+        if (VALUE_FLAGS.has(name)) i++;
+      }
+      parseCommand(argv);
+    } catch (error) {
+      throw new OperationError("INVALID_INPUT", error.message);
+    }
+    return await dispatch(argv);
+  } catch (error) {
+    if (!argv.includes("--json")) throw error;
+    console.log(JSON.stringify(operationErrorResult(error, { readOnly: compact }), null, 2));
+    console.error(`Temple error: ${error.message}`);
+    return 1;
+  }
 }

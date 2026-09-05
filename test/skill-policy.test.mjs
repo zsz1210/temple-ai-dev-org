@@ -38,6 +38,15 @@ test("repository Skill set and scenario contract match the canonical registry", 
   }
   assert.equal(new Set(descriptions).size, descriptions.length);
 
+  // Reachability is structural evidence, not proof of model following or selection.
+  const deliveryRoot = path.join(skillRoot, "temple-work");
+  const entry = await fs.readFile(path.join(deliveryRoot, "SKILL.md"), "utf8");
+  const references = [...entry.matchAll(/\]\((references\/[^)]+\.md)\)/g)].map(match => match[1]);
+  assert.deepEqual(new Set(references), new Set([
+    "references/lean-delivery.md", "references/parallel-work.md", "references/assurance-and-recovery.md"
+  ]));
+  for (const reference of references) assert.ok((await fs.stat(path.join(deliveryRoot, reference))).isFile());
+
   const scenarios = JSON.parse(await fs.readFile(path.join(root, "test/fixtures/skill-scenarios.json"), "utf8"));
   const knownSkills = new Set([...REQUIRED_SKILLS, ...optionalSkills.map((entry) => entry.skillName)]);
   for (const scenario of scenarios) {

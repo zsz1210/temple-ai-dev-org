@@ -52,5 +52,7 @@
 - [ADR-0050: Publish npm packages only from published GitHub Releases](0050-release-triggered-npm-trusted-publishing.md)
 - [ADR-0051: Scope local verification and deduplicate evidence reads](0051-scope-local-verification-and-deduplicate-evidence-reads.md)
 - [ADR-0052: Resolve every new handoff to an immutable commit](0052-immutable-handoff-revisions.md)
+- [ADR-0053: Same-scope review rework](0053-review-rework.md)
+- [ADR-0054: Bound delivery entry and compose recoverable administration](0054-bounded-delivery-entry-and-recovery.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

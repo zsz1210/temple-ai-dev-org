@@ -54,6 +54,18 @@
     "repository_mutation": true
   },
   {
+    "id": "lean-composed-delivery",
+    "expected_skill": "temple-work",
+    "mode": "composed-delivery",
+    "repository_mutation": true
+  },
+  {
+    "id": "failed-delivery-inspection",
+    "expected_skill": "temple-work",
+    "mode": "bounded-recovery",
+    "repository_mutation": false
+  },
+  {
     "id": "known-work-resume",
     "expected_skill": "temple-work",
     "mode": "known-work-entry",

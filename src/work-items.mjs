@@ -949,9 +949,9 @@ export async function claimWorkItem(target, options) {
   return { item: updated, readiness };
 }
 
-export async function releaseWorkItemClaim(target, options) {
+export async function prepareClaimRelease(target, options, preparedItem = null) {
   const context = await loadProjectContext(target);
-  const item = await readWorkItem(target, options.workItemId);
+  const item = preparedItem ?? await readWorkItem(target, options.workItemId);
   if (item.claim?.status !== "active") throw new Error(`${item.id} has no active claim`);
   if (options.agentId && options.agentId !== item.claim.agent_id) throw new Error(`Claim belongs to ${item.claim.agent_id}`);
   if (options.principalId && options.principalId !== item.claim.principal_id) throw new Error(`Claim belongs to ${item.claim.principal_id}`);
@@ -964,8 +964,7 @@ export async function releaseWorkItemClaim(target, options) {
     claims: [...(item.claims ?? []).filter((entry) => entry.id !== claim.id), claim],
     updated_at: timestamp
   };
-  await writeWorkItem(target, updated);
-  await appendEvent(target, {
+  const event = {
     timestamp,
     event_type: "work_item_claim_released",
     actor: item.claim.principal_id,
@@ -973,8 +972,15 @@ export async function releaseWorkItemClaim(target, options) {
     work_item_id: item.id,
     claim_id: item.claim.id,
     refs: [`.ai-org/work-items/${item.id}.json`]
-  });
-  return updated;
+  };
+  return { item: updated, events: [event] };
+}
+
+export async function releaseWorkItemClaim(target, options) {
+  const prepared = await prepareClaimRelease(target, options);
+  await writeWorkItem(target, prepared.item);
+  for (const event of prepared.events) await appendEvent(target, event);
+  return prepared.item;
 }
 
 function parseTransition(context, item, toState) {
@@ -1022,7 +1028,7 @@ function looksLikeRepositoryArtifactReference(reference) {
   return value.includes("/") || value.includes("\\") || REPOSITORY_ARTIFACT_EXTENSIONS.has(path.extname(value).toLowerCase());
 }
 
-async function assertRepositoryGateEvidencePaths(target, gateEvidence) {
+async function assertRepositoryGateEvidencePaths(target, gateEvidence, preparedArtifacts = new Map()) {
   const references = uniqueStrings(Object.values(gateEvidence).flat()).filter(looksLikeRepositoryArtifactReference);
   if (references.length === 0) return;
 
@@ -1031,6 +1037,7 @@ async function assertRepositoryGateEvidencePaths(target, gateEvidence) {
     if (!isSafeRepositoryPath(reference)) {
       throw new Error(`Gate evidence artifact path is unsafe: ${reference}`);
     }
+    if (preparedArtifacts.has(reference)) continue;
     const artifactPath = path.resolve(target, reference);
     let stats;
     try {
@@ -1160,9 +1167,9 @@ export async function reworkWorkItem(target, options) {
   return prepared;
 }
 
-export async function transitionWorkItem(target, options) {
+export async function prepareWorkItemTransition(target, options, preparedItem = null, preparedArtifacts = new Map()) {
   const context = await loadProjectContext(target);
-  const item = await readWorkItem(target, options.workItemId);
+  const item = preparedItem ?? await readWorkItem(target, options.workItemId);
   const toState = String(options.toState ?? "").trim();
   if (!context.states.has(toState)) throw new Error(`Unknown workflow state: ${toState || "missing"}`);
   const transition = parseTransition(context, item, toState);
@@ -1206,7 +1213,7 @@ export async function transitionWorkItem(target, options) {
     throw new Error("Rework requires a new Developer handoff before review");
   }
   await assertNormalizedGateEvidence(target, item, mergedGates);
-  await assertRepositoryGateEvidencePaths(target, mergedGates);
+  await assertRepositoryGateEvidencePaths(target, mergedGates, preparedArtifacts);
   if (toState === "build") await assertUiEvidence(target, item, mergedGates, "prebuild");
   await assertHighAssuranceTransition(target, context, item, toState, mergedGates);
   const missing = (transition.requires ?? []).filter((requirement) => !(mergedGates[requirement]?.length > 0));
@@ -1257,8 +1264,7 @@ export async function transitionWorkItem(target, options) {
   if (previousState) updated.previous_state = previousState;
   if (item.state === "blocked" && toState === item.previous_state) delete updated.previous_state;
 
-  await writeWorkItem(target, updated);
-  await appendEvent(target, {
+  const events = [{
     timestamp,
     event_type: "work_item_transitioned",
     actor,
@@ -1267,9 +1273,9 @@ export async function transitionWorkItem(target, options) {
     to_state: toState,
     satisfied_requirements: transition.requires ?? [],
     refs: uniqueStrings([...Object.values(additions).flat(), ...(options.evidence ?? [])])
-  });
+  }];
   if (toState === "done") {
-    await appendEvent(target, {
+    events.push({
       timestamp,
       event_type: "work_item_closed",
       actor,
@@ -1285,8 +1291,16 @@ export async function transitionWorkItem(target, options) {
 
   return {
     item: updated,
+    events,
     suggested_title: suggestedTaskTitle(context, item.id, ownerPosition, item.title)
   };
+}
+
+export async function transitionWorkItem(target, options) {
+  const { events, ...result } = await prepareWorkItemTransition(target, options);
+  await writeWorkItem(target, result.item);
+  for (const event of events) await appendEvent(target, event);
+  return result;
 }
 
 function handoffSequence(entries) {
@@ -1302,7 +1316,7 @@ function markdownList(values, emptyValue = "None recorded.") {
   return items.length ? items.map((value) => `- ${value}`).join("\n") : emptyValue;
 }
 
-export async function createHandoff(target, options) {
+export async function prepareHandoff(target, options) {
   const context = await loadProjectContext(target);
   const item = await readWorkItem(target, options.workItemId);
   const toPosition = String(options.toPosition ?? "").trim();
@@ -1335,14 +1349,15 @@ export async function createHandoff(target, options) {
     }
   }
   const artifactDirectory = path.join(target, ".ai-org/artifacts", item.id);
-  await fs.mkdir(artifactDirectory, { recursive: true });
-  const entries = await fs.readdir(artifactDirectory, { withFileTypes: true });
+  const entries = await fs.readdir(artifactDirectory, { withFileTypes: true }).catch((error) => {
+    if (error.code === "ENOENT") return [];
+    throw error;
+  });
   const sequence = handoffSequence(entries.filter((entry) => entry.isFile()));
   const relativePath = `.ai-org/artifacts/${item.id}/handoff-${String(sequence).padStart(3, "0")}-${item.owner_position}-to-${toPosition}.md`;
   const timestamp = new Date().toISOString();
   const unresolved = uniqueStrings(options.unresolved);
   const content = `# Handoff — ${item.id}\n\n- Created: \`${timestamp}\`\n- From Position: ${positionName(context, item.owner_position)} (\`${item.owner_position}\`)\n- To Position: ${positionName(context, toPosition)} (\`${toPosition}\`)\n- Input revision: \`${inputRevision}\`\n- Actor: \`${actor}\`\n\n## Completed\n\n${markdownList(completed)}\n\n## Evidence\n\n${markdownList(evidence)}\n\n## Unresolved\n\n${markdownList(unresolved)}\n\n## Next action\n\nContinue as ${positionName(context, toPosition)} using the canonical work item and exact input revision above.\n`;
-  await atomicWrite(path.join(target, relativePath), content);
 
   const gateAdditions = {};
   if (item.owner_position === "developer") {
@@ -1369,8 +1384,7 @@ export async function createHandoff(target, options) {
     next_position: toPosition
   };
   if (item.owner_position === "developer") updated.developer_candidate_revision = inputRevision;
-  await writeWorkItem(target, updated);
-  await appendEvent(target, {
+  const event = {
     timestamp,
     event_type: "handoff_created",
     actor,
@@ -1379,13 +1393,23 @@ export async function createHandoff(target, options) {
     to_position: toPosition,
     input_revision: inputRevision,
     refs: [relativePath, ...evidence]
-  });
+  };
 
   return {
     item: updated,
     artifact: relativePath,
+    content,
+    events: [event],
     suggested_title: suggestedTaskTitle(context, item.id, toPosition, item.title)
   };
+}
+
+export async function createHandoff(target, options) {
+  const { content, events, ...result } = await prepareHandoff(target, options);
+  await atomicWrite(path.join(target, result.artifact), content);
+  await writeWorkItem(target, result.item);
+  for (const event of events) await appendEvent(target, event);
+  return result;
 }
 
 function releaseRecordMarkdown(context, item, options, timestamp, actor, gateEvidence) {

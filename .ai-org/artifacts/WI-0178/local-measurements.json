@@ -1,0 +1,885 @@
+{
+  "schema_version": "temple.lean-delivery-local-baseline/v1",
+  "measured_at": "2026-09-05T08:28:16.039Z",
+  "source": {
+    "revision": "6521fc50047478ced59cd9fe0a65f1d4d2c4c3df",
+    "source_digest": "7bc39b567403d5174cd4e6081c5b2314810e87eb6004272a4bde663aee95a6fa",
+    "files": [
+      {
+        "path": ".ai-org/artifacts/WI-0178/measure-local.mjs",
+        "sha256": "d50084dc09e44325666138c5ce3828b034351c3230b406726ca4374690f3f1a8"
+      },
+      {
+        "path": "bin/temple.mjs",
+        "sha256": "f4ddb228c39a09496bd7fd866939b38e8d047425939c0a1d57df2ae8321d2a3e"
+      },
+      {
+        "path": "package.json",
+        "sha256": "6ba1edc5ead929749b1db066fe8b54395de02399bc9f119394466382e94acce1"
+      },
+      {
+        "path": "project-overlay/.agents/skills/decision-interview/SKILL.md",
+        "sha256": "7e1c12bb642a630e480dc0d4ec677b67c58ebbdb1d270994e2455924286cc7cb"
+      },
+      {
+        "path": "project-overlay/.agents/skills/domain-modeling/SKILL.md",
+        "sha256": "5a0aff2fccd9e431f3cd6ebe36821e05f4ab88a09c004e748888a4a32c555ccc"
+      },
+      {
+        "path": "project-overlay/.agents/skills/project-documentation/SKILL.md",
+        "sha256": "fa366000d024dd67734974b909ed581fab236d266b4106cd6aa4e28f23bd0728"
+      },
+      {
+        "path": "project-overlay/.agents/skills/skill-authoring/SKILL.md",
+        "sha256": "218e2d02c86859eaf43a7d82eecbd220eef337781704bed4011ec4d5033e1da9"
+      },
+      {
+        "path": "project-overlay/.agents/skills/skill-authoring/references/authoring-contract.md",
+        "sha256": "11fb7d3a8aa9284e3c863b11c618ab3d5524e9304d1644d95b7ac09507959997"
+      },
+      {
+        "path": "project-overlay/.agents/skills/temple-init/SKILL.md",
+        "sha256": "fbe1a3b2c6944687a82732da8256973e410c5b46f5422e802235a6ae4d289f5a"
+      },
+      {
+        "path": "project-overlay/.agents/skills/temple-work/SKILL.md",
+        "sha256": "03023f5523e77b1072f208e029424892d579b7620876e070d4908d016bc7c50b"
+      },
+      {
+        "path": "project-overlay/.agents/skills/temple-work/references/assurance-and-recovery.md",
+        "sha256": "807e0fa8ef4f80e50eb519dc3518b6c5822acf02d04150548dc8be22f5c7c42f"
+      },
+      {
+        "path": "project-overlay/.agents/skills/temple-work/references/lean-delivery.md",
+        "sha256": "1aff92afd7ec6ac4bea16662b1f249023878797ab87413ede3bf2a7a4ac1efba"
+      },
+      {
+        "path": "project-overlay/.agents/skills/temple-work/references/parallel-work.md",
+        "sha256": "f0b318ccd5197c6ac4a2ee6dfe18cad15e83fe2914dc98cdad100b7752ddd362"
+      },
+      {
+        "path": "project-overlay/.ai-org/artifacts/README.md",
+        "sha256": "2119bf39059fb5e56816720f30becf1e50e2df06e526bb83cd78bd31cfe8382a"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/adversarial-scenarios.json",
+        "sha256": "b00f4d148d774492731ffa5171f4b9e453423579cb6032fac95fc49abb75afcb"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/collaboration-profiles.json",
+        "sha256": "adbc271a1f64e36ee844f71b5e9080cc65c0dd01ae738306a014d2f931f8c6f2"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/high-assurance.json",
+        "sha256": "47b580fd826d5121c41eab8e40e64ccb958935cae7498b63fe46ed64e397dd2f"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/migrations.json",
+        "sha256": "44ebe5457b3351fd509d67e7e2fe557139e510368039cc0350f95ceb7c81590b"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/policies.json",
+        "sha256": "b6b7c56c14615e887a82c86eb40428bb14d8e0fcfaeabbddc482e9e9b946a7e5"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/positions.json",
+        "sha256": "196012586b9b68da2aaf949a7715dcd213827422df449793e8f7c9f0099f529b"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/adversarial-scenarios.schema.json",
+        "sha256": "ea84c283e245148ffe3725292820c8e44a1f9efc29fe27c74008ad30f2982340"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/agents.schema.json",
+        "sha256": "74f8f7fb39cbbf536f6d832511336bbf5b30c807bee9a15e989de892390ca6fc"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/approval.schema.json",
+        "sha256": "1f818e10747958c52c4d5fc99dc6fab96cb55cdd65266593889f3c29d1bff6fe"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/assignments.schema.json",
+        "sha256": "5e860b09567cd39ab6ef0ed38faaae0b44e422ecb733709035092f7e939b5c57"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/capability-registry.schema.json",
+        "sha256": "f6d857bd2766a306e6ca37ac947f4de45369b50429f6974d5d353452e5798cb8"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/collaboration.schema.json",
+        "sha256": "baf38a2864c3cdfc6e2920f24f1f7b520cf3f6185e18f3dfe7357ed915107046"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/context-capsule.schema.json",
+        "sha256": "2cbccad6f7c637ec7d624958d055201cc0fc919d0ad80abd1f72809891a42e26"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/context-map.schema.json",
+        "sha256": "9771e28c20799ea2eaf5be82f84455d22506cfa38e3d28d866051cd5dff64201"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/control-plane-config.schema.json",
+        "sha256": "9ce04d164812ed3af28dcb14d24e343f7e142e72573c0c8a144f18d8d12fa519"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/evidence-profiles.schema.json",
+        "sha256": "661a921ea78fa35a685171557af19575c23de1ef00eee824d9a1a4884105bc28"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/evidence-registry.schema.json",
+        "sha256": "e8d9b9505cda1d5398ff80ea616b9551ffd6407bffd3e1aad4330f64966a4890"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/execution-policy.schema.json",
+        "sha256": "e33e185a698d77ac430c63e9b78c4346f59202fe6f6109a3c221aa499eab7c2e"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/execution-request.schema.json",
+        "sha256": "be8bcea41d700ad0a6088a26d85f7ee7c591fa21968f998a9624221cdb813d9b"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/execution-route.schema.json",
+        "sha256": "97b2f77fbd1811e39c2d4b346b1f9fa9f74398ead0b9f21ca4609586b371013d"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/federated-portfolio.schema.json",
+        "sha256": "88f57b061349e05a6fcef30eb0336d4b9e7c881ed862ce4c1ba52d5a993069ca"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/federation.schema.json",
+        "sha256": "0dc3f4df300895d1455ae41074d930dfa1bd2e6a99be1ec8526037356a17af90"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/high-assurance.schema.json",
+        "sha256": "55569de92977cf455815173b20ed4c06239d8211b2b703efbb757e81fbd6220b"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/init.schema.json",
+        "sha256": "71fc7bf42ef91defed6e0bafedff3d18b70fa57b9784e484f22d2268b67fb9f0"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/learning-index.schema.json",
+        "sha256": "40400b30eb53914f9885ca59a6e5c976581c5c2a24d1782a3985d54c15c41563"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/matched-model-evaluation.schema.json",
+        "sha256": "c8628071cdf854e727b486bb83d2fb76d4f66fbda25b422206b487781dea6a9b"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/model-onboarding-input.schema.json",
+        "sha256": "82b1d1efba9ddbf5166ae1494f7ac422abb259d4a56aa6efd34433b057f462a4"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/model-onboarding-plan.schema.json",
+        "sha256": "fd097947949a0847e0e9b5deb8f47794d33082355e6cd2de3aaae7175074c8b5"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/parallel-plan.schema.json",
+        "sha256": "f67ef14f4d6fce1470d299943ce7f2a70065a514e6836eb5d596cd8d87432927"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/parallel-readiness.schema.json",
+        "sha256": "55a72b4413c7112e424ace6a96bebad8e1e8f1122d0ec935827948a1b6c0ed37"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/policy-evaluation-result.schema.json",
+        "sha256": "72d35473f95a6bea700c509b76c60dcfa270aaa6ee60c191ebaf5d0ce73e54b3"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/project.schema.json",
+        "sha256": "9e7bf7d28da4bcf73a548e7f603081df3c3ac04406e9f0307162fd64016a7579"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/repository-integration.schema.json",
+        "sha256": "887487099e2f626ddab0ab6c808cb8d8b773c57ad85ea9a12dff0a524d1e994b"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/resource-registry.schema.json",
+        "sha256": "c0668ee960d2ea43a12d1e8ce9acebafffc22904e2bbdc13716097c71fb7ffe6"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/retrieval-config.schema.json",
+        "sha256": "948d84a6dba134f0fc88582756e377c1656928803882432f091e2fb746faa040"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/retrieval-provider.schema.json",
+        "sha256": "bbd780b80281f19c82446f6fbcbf49af6a21385280054f4e2627534edd8639a9"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/runtime-worker-registry.schema.json",
+        "sha256": "f79a67829cfe89a901736bbcb70fe195b71d210793ef1b4b02ad49e0cffc2d22"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/schema-catalog.json",
+        "sha256": "50f8fa12db5b83e4caac0e29fe42d370936af8f2d8b279ff0eada3f702f82513"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/spec-index.schema.json",
+        "sha256": "0aa56c54352513874408745dc0fba54709bcb2cc3753da21a6dbbfcc8cedbb6b"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/task-registry.schema.json",
+        "sha256": "89590de18740e993c5397ab2da30f3bbc13175143b85af9956d5aee41b9b7cd5"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/tracker.schema.json",
+        "sha256": "16a25e5c7a1c2ee046ae9ae43df87d14509c1d30bace82c7c4deaf8d68ebcc45"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/usage-baseline.schema.json",
+        "sha256": "435f8427660f462d0f6ef48570f398b60c074a15c2a23dbc82782aeab9486487"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/usage-policy.schema.json",
+        "sha256": "ff142b1be5f8355e58300bf31a42ecd497ed49021153415a6d079ab677ec27f6"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/validation-program-report.schema.json",
+        "sha256": "15d84148f5c8bbe0f67028df66a83564157fb2582dc030c28e63836b1693f0f6"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/validation-program.schema.json",
+        "sha256": "d2471c5d4b002a07a2b084feae74f62cc72bdd8874c36d1616bfddedc1fd3c48"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/work-item.schema.json",
+        "sha256": "6659907116cfe7c66506dfd21b286e73f0f437b97ee63f833a7b3485956d5a23"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/schemas/workflow.schema.json",
+        "sha256": "95e5b081322919e3465c71dd4ee6f576613b68a832ddec37d672a66a4910b022"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/ui-design.json",
+        "sha256": "0ee2c90fce6d26ee1c1d644e46f9fd1913d128ad524a1614893ac52882d2f89b"
+      },
+      {
+        "path": "project-overlay/.ai-org/core/workflow.json",
+        "sha256": "faf331a25d95b74d9beaecc3c0b4d6036485bf1352961b31382aa8adef42a9c1"
+      },
+      {
+        "path": "project-overlay/.ai-org/decisions/README.md",
+        "sha256": "2cf0ab9b8d1668fe4e4c1b760876abe9ca7854253aa80792e082a14ee6887845"
+      },
+      {
+        "path": "project-overlay/.ai-org/events/README.md",
+        "sha256": "1a7fa1c44378a9129e8590380487e2771e9f61b2c5ee3448326fe9500124012a"
+      },
+      {
+        "path": "project-overlay/.ai-org/learning/index.json",
+        "sha256": "aeaf1b1745bdcb99659cda8e8131c362379acde8a5bdf90685a1f1b6e311c436"
+      },
+      {
+        "path": "project-overlay/.ai-org/project/context-map.json",
+        "sha256": "b584e6318fd688bce7c61b3d27b421f84637756676ef258d4d7cd466b61fb9ab"
+      },
+      {
+        "path": "project-overlay/.ai-org/project/control-plane.json",
+        "sha256": "a34b9ac736aea763ac4b42cfa4947afd5bd6035728b8e3fb5bbd8b14aa53ccbb"
+      },
+      {
+        "path": "project-overlay/.ai-org/project/evidence-profiles.json",
+        "sha256": "347e74af4e1817105d81b13fe0eb66de70670b0c81ae8ab82a9e43f77cc86096"
+      },
+      {
+        "path": "project-overlay/.ai-org/project/evidence.json",
+        "sha256": "d3d60537cc8dae2bd2aca3cb41555e1e7fd489c0feb417175495fcb9c3a257ee"
+      },
+      {
+        "path": "project-overlay/.ai-org/project/execution-policy.json",
+        "sha256": "3d4313954a6bc5e492292c2201147780a75854aaf78a496dfd34ef6487ea7839"
+      },
+      {
+        "path": "project-overlay/.ai-org/project/federation.json",
+        "sha256": "a320ab60e0316a26cdab8be9a8d76643c01c050af1b15abda482f6dc8533764d"
+      },
+      {
+        "path": "project-overlay/.ai-org/project/resources.json",
+        "sha256": "982a06783c278c31e78088e0ce4b857ab38784dde6f653bc2309449c324f7faa"
+      },
+      {
+        "path": "project-overlay/.ai-org/project/retrieval.json",
+        "sha256": "fb9f4df76a0fdeb842d9511edc882ad876f2dfafd224040abc0511f81afc4e1c"
+      },
+      {
+        "path": "project-overlay/.ai-org/project/runtime-workers.json",
+        "sha256": "8689a9909c27d54ad6348e9e02afecba75c0a8567f278cb84fb4f66b74f6ad74"
+      },
+      {
+        "path": "project-overlay/.ai-org/project/spec-index.json",
+        "sha256": "4636b7f3f94bd3494aaa4884ee79acacf591bcd8a1de4d1b7b996f6f12c6bf07"
+      },
+      {
+        "path": "project-overlay/.ai-org/project/tracker.json",
+        "sha256": "a0333bbc6945c6971d79b730407d46ec50ac9a653d0d8529c9db4953d6e36188"
+      },
+      {
+        "path": "project-overlay/.ai-org/project/usage-policy.json",
+        "sha256": "5999ca6fa5de731d3618623b5a437d9095511b9126ea9ebc3017f5bc95a6b3a3"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/collaborative-large-scale-test-plan.md",
+        "sha256": "2534183c21738eb8abb23ed3e8d4cfd5f992e749e115312a1429ce0737645ae1"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/decision-ledger.md",
+        "sha256": "42623ff7d85b7956b4a6a80677dfc6d119680b776b9a03954d6e850e26f3c382"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/domain-glossary.md",
+        "sha256": "aca7ed884227dc4523ce0c5452e67d3e413811bbbf5b376d60dfee96b3368f8f"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/feature-spec.md",
+        "sha256": "4c40416aa9b281469a4497926a5a057d7e3e23ada989fd49ed543a911f3770d8"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/handoff.md",
+        "sha256": "f5fcade988a9bb9d17b2564df59e94e6a54f5a00961594fb1b770cd8c686a3ea"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/high-assurance-approval.example.json",
+        "sha256": "1f65e8c93f6d47df5717d0755ab4f9ad0a1e9746a6c6ad69569080ba545ca8d1"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/independent-qa-report.md",
+        "sha256": "249ee43ccc5a087ae58e242703191ce121c76996e4904cf27cdea701556d28df"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/legacy-document-audit.md",
+        "sha256": "6390a7df31720df9ed73bf310829ac09c919afddc895869f0f69051b6c600a54"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/lesson.md",
+        "sha256": "2cc63e6bb8afd4b8ab0457c51529c054376adc8bf715f67126497a0dcf4fe563"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/manager-closeout.md",
+        "sha256": "7aa2226ff11cc8c92410b6392395ea9317c0501fd1a7747fa42d814145bf6dcf"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/policy-evaluation-fixture.json",
+        "sha256": "6439be500ad44fd6ad4462658d71665b14d2b263a8ccdc7ffd7da9dd91123bd4"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/practice.md",
+        "sha256": "f0869873af2c161b68f3dad56ba01f38d5d7d541944ba5711028b98d4591c91e"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/product-charter.md",
+        "sha256": "1cd7bcdc70adf88b33146e19e5627030ed3bf6d1e549b7517d54241d43a1ce7d"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/product-requirements.md",
+        "sha256": "5029cf6230033ee8a794a5d7aa12e689e68faeff20feb9d6e0751d2eafef9398"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/release-record.md",
+        "sha256": "90eb4e0a52fcf731809ac97467a0697702946958c0cd6a0168b3f77cd68f0d5f"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/runtime-observation.json",
+        "sha256": "10142466bfc6252cf562f7df28d18657a864f12480da860910beb84bbae22197"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/task-registry.json",
+        "sha256": "3e4e21e07f8bd731c05b1183fe8fd67d508ca4493cb47fe91f604523f7bb3b95"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/test-observation.json",
+        "sha256": "52d79d801af74017c030ad4840867f8dab1c9ea0a99621814724e8a2272289d4"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/ui-design-brief.md",
+        "sha256": "f70ff5320e79244c956a6ff5291271c895b82bb80c30b1341d8de7fbbfb3bd9a"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/ui-interaction-contract.md",
+        "sha256": "2e35f05e5b7a095c877f3c6a0a34e29b4ea8e18c8d698120a56ee24599cc7cb9"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/validation-program.json",
+        "sha256": "96fc994977b63fff84370c65ba8de2e906ae2da2048c7819bfe419f77ccb2344"
+      },
+      {
+        "path": "project-overlay/.ai-org/templates/work-item.json",
+        "sha256": "ab00262df34662f32134d71cea63da759e219a553e330c3b044832482d20264e"
+      },
+      {
+        "path": "project-overlay/.ai-org/views/README.md",
+        "sha256": "c4fbc4c03735a02585b932e50a6ac6013ebf362c7f89a6accdb8e46c9f974d37"
+      },
+      {
+        "path": "project-overlay/.ai-org/work-items/README.md",
+        "sha256": "63a3b4e9cb96862b2841fc53111437aa90a9ea239295ebfc9f2d11c2706c995a"
+      },
+      {
+        "path": "project-overlay/.codex/agents/developer.toml",
+        "sha256": "645629270190917b8b5ab3a56e9a12735cb7e9d66f8d8410e1e23e64995a2969"
+      },
+      {
+        "path": "project-overlay/.codex/agents/engineering-manager.toml",
+        "sha256": "57d970fbc325fe4e7e00b0e98300cee2d524bccb029f2a520deea42eacc5e085"
+      },
+      {
+        "path": "project-overlay/.codex/agents/independent-qa.toml",
+        "sha256": "e98967b22ee56d9d1a574e6480aad81d81756f31b8abfbbf1e29a32a7449aff8"
+      },
+      {
+        "path": "project-overlay/.codex/agents/observer.toml",
+        "sha256": "93f120e7e756c1e60cbed2eb87d79ade1186e1521c4e325830541fbc79101fbf"
+      },
+      {
+        "path": "project-overlay/.codex/agents/product-manager.toml",
+        "sha256": "b24025ad9d7721a79fd5686639ac01639325f6cb7776f7f784132e447fffb01d"
+      },
+      {
+        "path": "project-overlay/.codex/agents/quality-evaluator.toml",
+        "sha256": "2783fc837ec0fdab56b1846e364a2136e91bc8635cebb099c5dd15b9a818af38"
+      },
+      {
+        "path": "project-overlay/.codex/agents/release-manager.toml",
+        "sha256": "26053e2a7038391057bf16fbbcfddf8ce988da4b6bfe8b69cec7e79163473c6c"
+      },
+      {
+        "path": "project-overlay/.codex/agents/tech-lead.toml",
+        "sha256": "28a05ac259a5b1979cc00f4999eb0a2abee823592ba8412c4eb0d474ff14eb54"
+      },
+      {
+        "path": "project-overlay/.codex/agents/ui-designer.toml",
+        "sha256": "f4cb6ce92773c3855cd53f339c04aae0f91db16c94afbc7826070cea9507e9ef"
+      },
+      {
+        "path": "project-overlay/.codex/agents/ux-designer.toml",
+        "sha256": "a305d6bd920a29c1a9adda28aedf9fb642b02fda45ff08b1fb26709b4e21b922"
+      },
+      {
+        "path": "project-overlay/AGENTS.md",
+        "sha256": "70a98c6457f417563aadb8b284f394532adf22ec557973a1e42c8fe8a82665d0"
+      },
+      {
+        "path": "project-overlay/CLAUDE.md",
+        "sha256": "336cc4fbf19beaada7ccf9986414fa91851a8d7a07dfb3ccbe800a69eed0ab49"
+      },
+      {
+        "path": "project-overlay/TEMPLE.md",
+        "sha256": "9edccf2a0d332f75a1e57cb4fb022c801454c526dddb71a55b1794b30e5aa9ad"
+      },
+      {
+        "path": "project-overlay/templew.mjs",
+        "sha256": "7dca8cbb2add57af81d023676012c83eedbed5b148014328911887c1f8868e3d"
+      },
+      {
+        "path": "src/app-server-protocol-replay.mjs",
+        "sha256": "d8091ac867b98895e6b8eca07f7d368d129ff89b459a693865f45bebefc5d5b7"
+      },
+      {
+        "path": "src/archify-adapter.mjs",
+        "sha256": "20577e3cc52eec51a411828cf6a0c42c223d261cb741a77917f602b310099b41"
+      },
+      {
+        "path": "src/assurance.mjs",
+        "sha256": "d702f53ede6dcb60a2abc3b5acbc84b62a656da29a500c81540578f2b513cb22"
+      },
+      {
+        "path": "src/audit-export.mjs",
+        "sha256": "90f8193de90e5dece6be35aacfbe0add3f3f940d1402090118a6942a0932a099"
+      },
+      {
+        "path": "src/bootstrap.mjs",
+        "sha256": "6493933892e5a38737f0317eb16abdcf4d97565b1519795840ca01720c0281e8"
+      },
+      {
+        "path": "src/cli.mjs",
+        "sha256": "b16499f63023f79a45119541c9a079ca10b2a5ecb86f2b23629b8a6d92a80863"
+      },
+      {
+        "path": "src/codex-app-server-provider.mjs",
+        "sha256": "0e8649e4f4cd948b8396777c6227be02ff5d7c15694db0ae3c1b6b78189b79e3"
+      },
+      {
+        "path": "src/collaboration.mjs",
+        "sha256": "8eed874a63533e10ce9c63d875bf74266fbbc5acb324720aaba3401b4a534dde"
+      },
+      {
+        "path": "src/constants.mjs",
+        "sha256": "cb9d666113f0f5b4fa1d7e28faaa3a3be9059b5c8c576e226eebee7e6a1d9593"
+      },
+      {
+        "path": "src/context-entry.mjs",
+        "sha256": "3dbe088ba4dd9b4c70aaf818fb1e730601645d43c67e471b8d72a74430812aea"
+      },
+      {
+        "path": "src/context.mjs",
+        "sha256": "3800fe7a8b36d3d1d9408a738439baa392439815274a7621ce24d375e554146b"
+      },
+      {
+        "path": "src/control-plane-conditions.mjs",
+        "sha256": "e1287d9207cdd1f0f1b1fc2041d86d60b309b59a9fc5f20d08a028e1f09d0a65"
+      },
+      {
+        "path": "src/control-plane-config.mjs",
+        "sha256": "a0e1151eabaeba4bb1f6ee7395424a47c29944de2caa2c61184a2c4339ed47c2"
+      },
+      {
+        "path": "src/control-plane-dashboard.mjs",
+        "sha256": "ff2d73f85306d7ee23a822bd846160b9a4137a2a144b5cf738ee74a142c4c66a"
+      },
+      {
+        "path": "src/control-plane-inbox.mjs",
+        "sha256": "808d4f046677d475ab4747ffdc39c5f94eb41649da580c35f7183efb020a5ea1"
+      },
+      {
+        "path": "src/control-plane-providers.mjs",
+        "sha256": "0df02e0deb1d144252e03c890a06d0e65cecc150ffe8825356b56ee9e7aba4bc"
+      },
+      {
+        "path": "src/control-plane-server.mjs",
+        "sha256": "8406354fd1c3de5b5edc72040e3db44b26aa9ca5b072283334b7a48ef1d9242f"
+      },
+      {
+        "path": "src/doctor.mjs",
+        "sha256": "5a7e3084e40f859c9c83bfc9f17d494a23c408a749a7c7221ad04f74fdca6fcf"
+      },
+      {
+        "path": "src/evidence-profiles.mjs",
+        "sha256": "ed7bbb3514cc640feb42e1abb4c7f9d08dda63b66e0414e723539058dd66596d"
+      },
+      {
+        "path": "src/evidence.mjs",
+        "sha256": "a8de81e73856a7fcf94f5b15b0f86a4dfab902d9c9cc4b82a3c47103904ff5a1"
+      },
+      {
+        "path": "src/execution-routing.mjs",
+        "sha256": "55f0128f46f870c64cdb25f8cbc188c97d720e4504796e12adf34fb3f11f4aec"
+      },
+      {
+        "path": "src/federation.mjs",
+        "sha256": "6b013c87896f482616139ba1118a69ebcff16d16bd1a182936791f056663f919"
+      },
+      {
+        "path": "src/files.mjs",
+        "sha256": "624d66c0921818e73979e1dcbbcaf7fb6df3245ed49365e3f53041f2bee5cc3e"
+      },
+      {
+        "path": "src/github-control-plane-provider.mjs",
+        "sha256": "fff3e79ab5143369a19386bd3d5573e1ffb44456a51c2b0ab1ea4db1e552b2be"
+      },
+      {
+        "path": "src/ids.mjs",
+        "sha256": "4c3457b84501ef2c8be6259f852088109f63e4f5ae2d36a3a3e615905da93d92"
+      },
+      {
+        "path": "src/install.mjs",
+        "sha256": "e65bbf370bdf6ceae795e5a1a17ef9d1ce46babb4b58bae35ba4815289998930"
+      },
+      {
+        "path": "src/lean-delivery-state.mjs",
+        "sha256": "5bd670a210c104575985df65b8a279a0a0d350ba1dd8daa340114dfc9fbf07ff"
+      },
+      {
+        "path": "src/lean-delivery.mjs",
+        "sha256": "edd20ad9a3d440e088eb9a5c89f5a4379274eaaaea2345eeb004acfad9353f8a"
+      },
+      {
+        "path": "src/learning.mjs",
+        "sha256": "1fe0233f58cef88b87281a55b16704f38b35b0528076e2614ca9f33e7cd78074"
+      },
+      {
+        "path": "src/live-observer.mjs",
+        "sha256": "203b5572e1aaea66b38072fefbcbc88f512f86f7e94380fc810b0f349ac2eff1"
+      },
+      {
+        "path": "src/local-identity.mjs",
+        "sha256": "a9997c20922ff626b1c0befd964697920fa4a1236e2b6949f8d81890cad55d78"
+      },
+      {
+        "path": "src/local-observer-service.mjs",
+        "sha256": "6c0540f6f4961dc005aeb855a5b02ecf9b48a90da9fb30992a502ace2f9d93dd"
+      },
+      {
+        "path": "src/management-console-server.mjs",
+        "sha256": "6dfa87eb4042dc19e39f737c06f56e32f8cdc4c1d1715f3ecc0d1cf39b19cc03"
+      },
+      {
+        "path": "src/migrations.mjs",
+        "sha256": "2e69d2a9887ee1df4d64f1a8486f14d97dd7466fbfa061c0e31dfedbc35a1550"
+      },
+      {
+        "path": "src/model-onboarding.mjs",
+        "sha256": "2b6b860fa76cf58e94599611a9d64348aac57ca7c240669bac01a9c0df41825e"
+      },
+      {
+        "path": "src/model.mjs",
+        "sha256": "e7ddae920016daff73cb5ad0faab1448d1a3d16ecaf5538eceef1796b6f41f0f"
+      },
+      {
+        "path": "src/observer.mjs",
+        "sha256": "e3d73cf7d252dbd96a8129f4a8b5e7e9b68210b23a2e2c8d0716678caf6afd65"
+      },
+      {
+        "path": "src/operation-errors.mjs",
+        "sha256": "1086a962f62e5d79548193b9f8f7c1219780b14f54cf812d2b2503baefe14e9a"
+      },
+      {
+        "path": "src/orchestration.mjs",
+        "sha256": "4fa0832746025ef3b4cfd29847552a8bb515f2801e8c5cb6a2c7fc34b36a37fc"
+      },
+      {
+        "path": "src/packs.mjs",
+        "sha256": "f88e8e51bba6f0bd400316a5c608b26c7c92c321dc35f9b2fb9185a887a5b92e"
+      },
+      {
+        "path": "src/policy-evaluation.mjs",
+        "sha256": "e38336d8bf5d4eb822121ef0a4b7e7d0d0a6e72fb66c3d34cdb5b3ed037e1e85"
+      },
+      {
+        "path": "src/private-network-viewer.mjs",
+        "sha256": "fb0d69829a6c61cc73da383e5ccc6d50c0ea13f6f4ec5b7e8e4f7a5d3c5b0ba8"
+      },
+      {
+        "path": "src/project.mjs",
+        "sha256": "46ff48b5b204a30cd24e8db0d14cbe23ba3cf8a3c6ed1049357094054f8dcddb"
+      },
+      {
+        "path": "src/publication-artifact-normalization.mjs",
+        "sha256": "2df67bb4919d48f96e19b50ae491913f3e7a1e5f981d037901d8d20cdc4b9262"
+      },
+      {
+        "path": "src/publication-audit.mjs",
+        "sha256": "495fe25be757c0d2652c2a486e90a46bf41a4ed77d1aa53c306fb5ff48d03b0b"
+      },
+      {
+        "path": "src/publication-normalization.mjs",
+        "sha256": "4e00918dc01d5363af2ff1d91c133899b53208cceb2db8868654d630c38bf941"
+      },
+      {
+        "path": "src/recovery.mjs",
+        "sha256": "bb0f6a9f68d6a0594a6bed0586973698d641172618559d37a9b49458352332a4"
+      },
+      {
+        "path": "src/repository-integration.mjs",
+        "sha256": "46e9217580286c9b251f0ca8cf61d2031d87a57b73fbe8660641aa4ca1602784"
+      },
+      {
+        "path": "src/resources.mjs",
+        "sha256": "8008f68e927a2bba255738c444a1a53f7c89759daec73f3751abe2240ea6af66"
+      },
+      {
+        "path": "src/retrieval.mjs",
+        "sha256": "25c5475422e6d86929ebd554bc2dc5b282d121f37ef743b53959efeeb9da2843"
+      },
+      {
+        "path": "src/schema-validation.mjs",
+        "sha256": "a7a3682cd9100ad4c72f692d0975231fd90c421bfbeb02bf6ee0a2ac3795833a"
+      },
+      {
+        "path": "src/specifications.mjs",
+        "sha256": "86871823ba6586010c94d1cfd5aaa7a84f53a3258d90bfde29be817f9fa520b5"
+      },
+      {
+        "path": "src/status.mjs",
+        "sha256": "87d0cf3d8b13a842d395218be4e1394204a9efaefee2bf741374e3d65d205025"
+      },
+      {
+        "path": "src/tasks.mjs",
+        "sha256": "88562d7b7f8c71162a1e34b3d1d9398c7de6cb64b28e50f3ab6e81c81d375bbe"
+      },
+      {
+        "path": "src/telemetry.mjs",
+        "sha256": "4b2b2ab940d592adfe3279d694545e15d60976922e6537b724dbc04aa4f325a6"
+      },
+      {
+        "path": "src/tracker.mjs",
+        "sha256": "0713ab73109130b308ef6cf89e93abaaad688cad2c3e3304faac396df0620aec"
+      },
+      {
+        "path": "src/upgrade.mjs",
+        "sha256": "ff8efe4b11b2aef98252837467938afb0f6cee82dd5b51237819538d3834b329"
+      },
+      {
+        "path": "src/usage-attribution.mjs",
+        "sha256": "f7c3e35c4614eb4fa604d9a8f782f3db16800bfbdc34e5b212e8eb3b6f7a2a25"
+      },
+      {
+        "path": "src/usage-collector.mjs",
+        "sha256": "8edbb500034aab650278416fa1896cb1b13758fd479a9b771c528522625bf581"
+      },
+      {
+        "path": "src/usage-policy.mjs",
+        "sha256": "5bac1266b4032cb6ef53964ac919f226c7ed37a3dc7c659326c6ced0c00dbb90"
+      },
+      {
+        "path": "src/validation-program.mjs",
+        "sha256": "c2989dc12fe1d5eeb0af97edc4c96ab41f34b003ff95b45fbd5bbab9541884c5"
+      },
+      {
+        "path": "src/work-item-rework.mjs",
+        "sha256": "71feb088b6cd1b48f6b4f405ef8fa389f16ad050705f03d4caaef218e328033a"
+      },
+      {
+        "path": "src/work-items.mjs",
+        "sha256": "994d7fbf7a261ab40517b067327217a38048a971275d8bab30d581ec428f9fc3"
+      },
+      {
+        "path": "src/workers.mjs",
+        "sha256": "1825b7f8e7863d9f8713fc51fcdcb2fa4dbcffa349fff40ecce0aa23bbf39233"
+      },
+      {
+        "path": "src/workflow.mjs",
+        "sha256": "c2b443bb213ab061f8618369f9ed4da048632823ca281250ae55bbf555bb34eb"
+      },
+      {
+        "path": "test/helpers/lean-delivery-fixture.mjs",
+        "sha256": "ff1c632ad358527c6f59f015b5939da3ff0cdfd7fb492c296b54f6d6ad13555a"
+      }
+    ]
+  },
+  "runtime": {
+    "node": "v24.20.0",
+    "platform": "darwin",
+    "architecture": "arm64"
+  },
+  "generation_performed": false,
+  "financial_cost": null,
+  "observations": [
+    {
+      "treatment": "documented-three",
+      "objective_test_entry": "pass",
+      "product_fixture_test": "pass",
+      "administrative_cli_invocations": 3,
+      "administrative_elapsed_ms": 316.5574589999999,
+      "administrative_output_bytes": 11077,
+      "setup_cli_invocations": 4,
+      "setup_cli_elapsed_ms": 764.487542,
+      "setup_scope": "Temple init and Work Item setup only; Git, product fixture construction, dependency installation, and human onboarding are not included",
+      "recovery_projection_elapsed_ms": 100.35229099999992,
+      "recovery_projection_output_bytes": 4005,
+      "recovery_source_bytes": 19561,
+      "idempotent_retry_elapsed_ms": null,
+      "idempotent_retry_outcome": "not_applicable",
+      "tool_round_trips": null,
+      "model_turns": null,
+      "provider_tokens": null,
+      "human_active_minutes": null,
+      "status": "low_level_path"
+    },
+    {
+      "treatment": "deliver",
+      "objective_test_entry": "pass",
+      "product_fixture_test": "pass",
+      "administrative_cli_invocations": 1,
+      "administrative_elapsed_ms": 299.0507499999999,
+      "administrative_output_bytes": 666,
+      "setup_cli_invocations": 4,
+      "setup_cli_elapsed_ms": 860.8885419999997,
+      "setup_scope": "Temple init and Work Item setup only; Git, product fixture construction, dependency installation, and human onboarding are not included",
+      "recovery_projection_elapsed_ms": 213.16675000000032,
+      "recovery_projection_output_bytes": 4005,
+      "recovery_source_bytes": 19513,
+      "idempotent_retry_elapsed_ms": 184.56337500000018,
+      "idempotent_retry_outcome": "already_applied",
+      "tool_round_trips": null,
+      "model_turns": null,
+      "provider_tokens": null,
+      "human_active_minutes": null,
+      "status": "applied"
+    },
+    {
+      "treatment": "existing-two",
+      "objective_test_entry": "pass",
+      "product_fixture_test": "pass",
+      "administrative_cli_invocations": 2,
+      "administrative_elapsed_ms": 406.87770699999965,
+      "administrative_output_bytes": 7533,
+      "setup_cli_invocations": 4,
+      "setup_cli_elapsed_ms": 2247.935165999999,
+      "setup_scope": "Temple init and Work Item setup only; Git, product fixture construction, dependency installation, and human onboarding are not included",
+      "recovery_projection_elapsed_ms": 143.85400000000027,
+      "recovery_projection_output_bytes": 4005,
+      "recovery_source_bytes": 19515,
+      "idempotent_retry_elapsed_ms": null,
+      "idempotent_retry_outcome": "not_applicable",
+      "tool_round_trips": null,
+      "model_turns": null,
+      "provider_tokens": null,
+      "human_active_minutes": null,
+      "status": "low_level_path"
+    },
+    {
+      "treatment": "deliver-preview",
+      "objective_test_entry": "pass",
+      "product_fixture_test": "pass",
+      "administrative_cli_invocations": 2,
+      "administrative_elapsed_ms": 757.918208000001,
+      "administrative_output_bytes": 1329,
+      "setup_cli_invocations": 4,
+      "setup_cli_elapsed_ms": 2238.5760420000006,
+      "setup_scope": "Temple init and Work Item setup only; Git, product fixture construction, dependency installation, and human onboarding are not included",
+      "recovery_projection_elapsed_ms": 167.60141699999986,
+      "recovery_projection_output_bytes": 4005,
+      "recovery_source_bytes": 19513,
+      "idempotent_retry_elapsed_ms": 201.31750000000102,
+      "idempotent_retry_outcome": "already_applied",
+      "tool_round_trips": null,
+      "model_turns": null,
+      "provider_tokens": null,
+      "human_active_minutes": null,
+      "status": "applied"
+    },
+    {
+      "treatment": "deliver",
+      "objective_test_entry": "pass",
+      "product_fixture_test": "pass",
+      "administrative_cli_invocations": 1,
+      "administrative_elapsed_ms": 493.8448329999992,
+      "administrative_output_bytes": 666,
+      "setup_cli_invocations": 4,
+      "setup_cli_elapsed_ms": 2657.2283750000006,
+      "setup_scope": "Temple init and Work Item setup only; Git, product fixture construction, dependency installation, and human onboarding are not included",
+      "recovery_projection_elapsed_ms": 213.7361669999991,
+      "recovery_projection_output_bytes": 4005,
+      "recovery_source_bytes": 19513,
+      "idempotent_retry_elapsed_ms": 230.05133300000125,
+      "idempotent_retry_outcome": "already_applied",
+      "tool_round_trips": null,
+      "model_turns": null,
+      "provider_tokens": null,
+      "human_active_minutes": null,
+      "status": "applied"
+    },
+    {
+      "treatment": "documented-three",
+      "objective_test_entry": "pass",
+      "product_fixture_test": "pass",
+      "administrative_cli_invocations": 3,
+      "administrative_elapsed_ms": 732.6862500000025,
+      "administrative_output_bytes": 11077,
+      "setup_cli_invocations": 4,
+      "setup_cli_elapsed_ms": 2534.4619170000005,
+      "setup_scope": "Temple init and Work Item setup only; Git, product fixture construction, dependency installation, and human onboarding are not included",
+      "recovery_projection_elapsed_ms": 171.570208000001,
+      "recovery_projection_output_bytes": 4005,
+      "recovery_source_bytes": 19561,
+      "idempotent_retry_elapsed_ms": null,
+      "idempotent_retry_outcome": "not_applicable",
+      "tool_round_trips": null,
+      "model_turns": null,
+      "provider_tokens": null,
+      "human_active_minutes": null,
+      "status": "low_level_path"
+    }
+  ],
+  "interpretation": {
+    "cli_consolidation": "Documented sequence 3 -> 1; existing handoff plus auto-release transition 2 -> 1; explicit preview plus apply takes 2.",
+    "batching": "A programmed caller can batch every baseline into one host tool invocation. CLI counts do not establish fewer model turns or tool round trips.",
+    "timing": "Local Node/CLI timing only. Two unchanged documented controls and two direct-operation observations expose noise; no statistical or Provider-latency claim.",
+    "output": "Default JSON output bytes are observed; baseline callers may filter output. Byte savings are not equivalent to measured Tokens.",
+    "continuity": "The recovery command projection is checked; fresh-agent understanding, guide usability, and end-to-end recovery remain unmeasured.",
+    "scope": "This is the Developer-to-Test administrative segment. It excludes full product reasoning, later Test/QA, broader setup, and future rework. No full-delivery break-even point is claimed."
+  },
+  "measurement_conditions": {
+    "other_work": "Full local verification was starting concurrently; elapsed times are not an isolated latency comparison.",
+    "interpretation": "CLI counts and state outcomes are observed; timing is descriptive only."
+  }
+}
