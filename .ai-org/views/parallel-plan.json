@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-05T11:32:36.223Z",
-  "source_fingerprint": "fae599a1eecc743bc8d369362f8208d512586f060639905a206fd76b8fb33097",
+  "generated_at": "2026-09-05T11:44:56.247Z",
+  "source_fingerprint": "a1b4f96fbcebedea86a9d5a4c239a28c594aa5a848ef8c3ef61b4580242cb679",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -13,65 +13,29 @@
   "max_workers": null,
   "summary": {
     "selected": 2,
-    "dispatchable": 1,
-    "active": 0,
+    "dispatchable": 0,
+    "active": 1,
     "sequential": 1,
     "blocked": 0,
-    "waves": 1
+    "waves": 0
   },
-  "waves": [
+  "waves": [],
+  "active": [
     {
-      "id": "wave-001",
-      "order": 1,
-      "dispatch": [
-        {
-          "work_item_id": "WI-0182",
-          "title": "Compare compact diagnostics in fresh delivery sessions",
-          "position_id": "quality_evaluator",
-          "agent_id": "agent-lulu",
-          "agent_name": "Lulu",
-          "suggested_task_title": "WI-0182 · Compare … · Quality & Evaluation Engineer (Lulu)",
-          "base_revision": "69c88ba329ff72ddd1fca5cecfde671995ae5a52",
-          "affected_paths": [
-            "scripts/delivery-command-policy.mjs",
-            "scripts/delivery-control-pair.mjs",
-            "scripts/prepare-optimized-delivery-comparison.mjs",
-            "test/delivery-command-policy.test.mjs",
-            "test/delivery-control-pair.test.mjs",
-            "test/optimized-delivery-comparison.test.mjs",
-            ".ai-org/artifacts/WI-0182"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "test",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "d9716a8ed97f2f9848fa81c5d001720249ca44e2731fca863527c32fe4cf29ad",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0182 --position quality_evaluator --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        }
-      ],
-      "join_gate": {
-        "integration_owner_agent_ids": [
-          "agent-mog"
-        ],
-        "required_evidence": [
-          "exact_candidate_revision",
-          "verification_results",
-          "unresolved_items"
-        ],
-        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
-      }
+      "work_item_id": "WI-0182",
+      "title": "Compare compact diagnostics in fresh delivery sessions",
+      "disposition": "active",
+      "position_id": "release_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [],
+      "claim_id": "claim-20260905114455-c56f665a",
+      "principal_id": "human",
+      "branch": "codex/wi-0182-comparison-v7",
+      "worktree": null,
+      "base_revision": "648a6b2c66df6215d40d3a6c1e19a207a1cdfe53"
     }
   ],
-  "active": [],
   "sequential": [
     {
       "work_item_id": "WI-0172",
