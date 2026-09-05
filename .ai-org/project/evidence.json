@@ -26457,6 +26457,36 @@
         "status": "planned",
         "procedure": ".ai-org/artifacts/WI-0168/rollback-plan.md"
       }
+    },
+    {
+      "id": "EVID-20260905T004441Z-902B08BA",
+      "work_item_id": "WI-0169",
+      "recorded_at": "2026-09-05T00:44:41.133Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "git-revision",
+      "title": "Verified validation documentation candidate",
+      "outcome": "verified",
+      "scope_revision": "cf97c1370e96df3d0a879f50b88e46eb768e923e",
+      "observed_at": "2026-09-05T00:44:41.133Z",
+      "summary": "Revision verified by the full suite; see WI-0169 verification record.",
+      "adapter": {
+        "id": "git-local",
+        "version": "1",
+        "source_ref": "cf97c1370e96df3d0a879f50b88e46eb768e923e"
+      },
+      "artifacts": [],
+      "details": {
+        "requested_revision": "cf97c1370e96df3d0a879f50b88e46eb768e923e",
+        "working_tree_dirty": false,
+        "dirty_path_count": 0,
+        "dirty_scope": "clean",
+        "affected_paths_dirty": []
+      }
     }
   ]
 }
