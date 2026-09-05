@@ -54,6 +54,36 @@
     "repository_mutation": true
   },
   {
+    "id": "known-work-resume",
+    "expected_skill": "temple-work",
+    "mode": "known-work-entry",
+    "repository_mutation": true
+  },
+  {
+    "id": "fresh-session-or-pending-bootstrap",
+    "expected_skill": "temple-work",
+    "mode": "explicit-recovery",
+    "repository_mutation": false
+  },
+  {
+    "id": "eligible-lean-test-completion",
+    "expected_skill": "temple-work",
+    "mode": "lean-closeout",
+    "repository_mutation": true
+  },
+  {
+    "id": "standard-or-high-assurance-test-completion",
+    "expected_skill": "temple-work",
+    "mode": "full-assurance",
+    "repository_mutation": true
+  },
+  {
+    "id": "unreadable-required-authority",
+    "expected_skill": "temple-work",
+    "mode": "blocked-before-mutation",
+    "repository_mutation": false
+  },
+  {
     "id": "unconfirmed-init-names",
     "expected_skill": "temple-init",
     "mode": "confirmation-gate",

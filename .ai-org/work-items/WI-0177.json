@@ -1,0 +1,151 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0177",
+  "title": "Align lifecycle Skill entry with effective workflow profiles",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-05T07:20:47.402Z",
+  "updated_at": "2026-09-05T07:22:09.075Z",
+  "scope": [
+    "Correct managed delivery instructions and task title guidance; bound known-work context entry without changing lifecycle gates or comparison fixtures."
+  ],
+  "acceptance_criteria": [
+    "Known-work entry previews context before broad reads; bootstrap and recovery remain explicit; title uses CLI suggestion; Lean and Standard instructions match existing gates; local and independent checks pass; the comparison lane is unchanged."
+  ],
+  "affected_paths": [
+    "project-overlay/AGENTS.md",
+    "project-overlay/.agents/skills/temple-work/SKILL.md",
+    "AGENTS.md",
+    ".agents/skills/temple-work/SKILL.md",
+    "temple.lock",
+    "test/skill-policy.test.mjs",
+    "test/fixtures/skill-scenarios.json",
+    "docs/extensions/skill-scenarios.md",
+    "docs/extensions/capability-catalog.md",
+    ".ai-org/artifacts/WI-0177"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T07:20:47.402Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "7d68ff125ba6ae6651732e8393ab9ab7629ed349",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "Comparison branch codex/wi-0173-comparison-diagnostics owns separate WI-0177 and WI-0178 history. No comparison ledger, protocol, fixture, report, model, or worktree is changed here. Reconcile historical ID collisions before integrating that branch."
+  ],
+  "claim": {
+    "id": "claim-20260905072209-11b622ad",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "7d68ff125ba6ae6651732e8393ab9ab7629ed349",
+    "branch": "codex/wi-0177-instruction-entry",
+    "worktree": null,
+    "claimed_at": "2026-09-05T07:22:09.075Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260905072206-35a9b779",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "7d68ff125ba6ae6651732e8393ab9ab7629ed349",
+      "branch": "codex/wi-0177-instruction-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T07:22:06.596Z",
+      "released_at": "2026-09-05T07:22:06.867Z",
+      "release_reason": [
+        "Approved bounded instruction correction; scope and design recorded in work order."
+      ]
+    },
+    {
+      "id": "claim-20260905072207-b4d36eaa",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "7d68ff125ba6ae6651732e8393ab9ab7629ed349",
+      "branch": "codex/wi-0177-instruction-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T07:22:07.469Z",
+      "released_at": "2026-09-05T07:22:07.722Z",
+      "release_reason": [
+        "Approved bounded instruction correction; scope and design recorded in work order."
+      ]
+    },
+    {
+      "id": "claim-20260905072208-d13ebe08",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "7d68ff125ba6ae6651732e8393ab9ab7629ed349",
+      "branch": "codex/wi-0177-instruction-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T07:22:08.270Z",
+      "released_at": "2026-09-05T07:22:08.523Z",
+      "release_reason": [
+        "Approved bounded instruction correction; scope and design recorded in work order."
+      ]
+    },
+    {
+      "id": "claim-20260905072209-11b622ad",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "7d68ff125ba6ae6651732e8393ab9ab7629ed349",
+      "branch": "codex/wi-0177-instruction-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T07:22:09.075Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0177/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0177/work-order.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0177/work-order.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0177/work-order.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0177/work-order.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0177/work-order.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

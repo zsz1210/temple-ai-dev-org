@@ -11,12 +11,12 @@
       "launcher": "templew.mjs",
       "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.30",
       "repository_spec": null,
-      "source_revision": "6d3a87b8b1742ab9096282ac557474452b1c8c5d",
+      "source_revision": "7d68ff125ba6ae6651732e8393ab9ab7629ed349",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-09-05T03:51:11.680Z",
+    "upgraded_at": "2026-09-05T07:24:50.287Z",
     "upgraded_from": "0.1.0-alpha.30"
   },
   "installation": {
@@ -210,7 +210,7 @@
     },
     {
       "path": ".agents/skills/temple-work/SKILL.md",
-      "sha256": "fa30628387dd332f6f8157e27ebe7e48a1c4e511405f47fec03e3015f683639b"
+      "sha256": "8253463dd004171143b4aee06d8ad01ba49269cfe1fd1af4036004e1dcba4568"
     },
     {
       "path": ".ai-org/core/adversarial-scenarios.json",
