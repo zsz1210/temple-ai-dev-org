@@ -2,6 +2,20 @@
 
 Validation records preserve bounded evidence for framework capabilities. They identify the tested revision, environment, commands, observed results, and remaining gaps. A passing record supports only its stated scope; it does not replace Independent QA for a product repository or prove untested deployment conditions.
 
+## Current evidence and next work
+
+Start with these records to understand the conclusions. The catalog below also includes historical plans, which are not current execution status.
+
+| Question | Current result | Read next |
+| --- | --- | --- |
+| Does Temple improve small coding tasks? | WI-0135: equal observed quality, 19.77% lower candidate time, 1.76% more Operational Tokens across two pairs; neutral against the registered threshold | [Lean comparison result](lean-routing-effectiveness-result.md) |
+| Does it help multi-repository delivery? | WI-0136 v16: equal observed quality; small Token and latency reductions, but slower integration and greater artifact volume in one pair | [Multi-repository comparison](representative-microservice-comparison.md) |
+| Does routed context reduce resource use? | WI-0143: eight correct candidates; opposing per-shape resource changes and failed cache balance prevent a causal savings claim | [Successor design and predecessor findings](context-capsule-successor-evaluations.md) |
+| Can a fresh Agent adopt and recover the workflow? | WI-0158: bounded delivery and cold recovery passed without Human intervention; Token totals unavailable | [Clean-room result](final-pre-alpha-clean-room.md) |
+| What should be measured after Alpha.30? | Plan prepared; new field observations and controlled runs have not started | [Post-Alpha field-validation plan](post-alpha-field-validation.md) |
+
+## Record catalog
+
 - [Alpha.12 Progressive Context Routing](alpha-12-progressive-context-routing.md)
 - [Alpha.13 Collaborative foundation](alpha-13-collaborative-foundation.md)
 - [Alpha.14 Product specification contracts](alpha-14-product-specification-contracts.md)
@@ -47,10 +61,12 @@ Validation records preserve bounded evidence for framework capabilities. They id
 - [Wave 5 controlled comparison — Wave 5A analyzed; Wave 5B clean lab and no-generation preflight prepared](wave-5-controlled-comparison-plan.md)
 - [Wave 5A overhead analysis — reproducible offline findings and Wave 5B evaluator boundary](wave-5a-overhead-analysis.md)
 - [Evidence-driven Lean Mode retrospective — observations, unsupported claims, and implemented response](evidence-driven-lean-mode.md)
-- [Representative multi-Agent microservice comparison — locally rehearsed protocol; live run not authorized](representative-microservice-comparison.md)
+- [Representative multi-Agent microservice comparison — v16 completed with mixed one-pair results; earlier protocols retained](representative-microservice-comparison.md)
 - [Temple effectiveness and adaptive-routing experiment](adaptive-execution-routing-experiment.md) — registered three-arm design and validity rules.
 - [Temple effectiveness pilot result](temple-effectiveness-pilot-result.md) — first six-candidate result, protocol deviation, measured trade-offs, and required product changes.
-- [Native Lean routing effectiveness](lean-routing-effectiveness-result.md) — corrected bounded comparison completed; static context reduced by about 39%; matched Terra confirmation prepared but not run.
-- [Context Capsule route-adherence evaluation](context-capsule-route-adherence.md) — bounded path-only acquisition measurement and counterbalanced successor protocol; live Provider run not yet approved.
+- [Native Lean routing effectiveness](lean-routing-effectiveness-result.md) — WI-0135 matched Terra confirmation completed; equal observed quality, lower latency, and slightly higher Operational Tokens.
+- [Context Capsule route-adherence evaluation](context-capsule-route-adherence.md) — WI-0141 live run completed; unknown acquisition and cache variation required follow-up.
+- [Cache-controlled Context Capsule protocol](context-capsule-cache-controlled-evaluation.md) — frozen WI-0143 design; see the successor record for the completed result.
+- [Context Capsule successor design](context-capsule-successor-evaluations.md) — completed WI-0143 findings and the unexecuted WI-0144 single- and multi-repository follow-up programs.
 - [Bounded four-repository commerce rehearsal — stopped safely at the Token ceiling](bounded-four-repository-commerce-rehearsal.md)
 - [Collaborative large-scale real-environment test plan — planned / not run](collaborative-large-scale-test-plan.md)
