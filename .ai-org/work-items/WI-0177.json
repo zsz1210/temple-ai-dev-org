@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0177",
   "title": "Align lifecycle Skill entry with effective workflow profiles",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T07:20:47.402Z",
-  "updated_at": "2026-09-05T07:22:09.075Z",
+  "updated_at": "2026-09-05T07:32:39.051Z",
   "scope": [
     "Correct managed delivery instructions and task title guidance; bound known-work context entry without changing lifecycle gates or comparison fixtures."
   ],
@@ -51,7 +51,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "7d68ff125ba6ae6651732e8393ab9ab7629ed349",
+  "base_revision": "c8fc420da7ef570c80419bc8ff771fddb22f45dc",
   "parallel_mode": "pending",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -61,15 +61,16 @@
     "Comparison branch codex/wi-0173-comparison-diagnostics owns separate WI-0177 and WI-0178 history. No comparison ledger, protocol, fixture, report, model, or worktree is changed here. Reconcile historical ID collisions before integrating that branch."
   ],
   "claim": {
-    "id": "claim-20260905072209-11b622ad",
-    "status": "active",
+    "id": "claim-20260905073238-d416837b",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "7d68ff125ba6ae6651732e8393ab9ab7629ed349",
+    "agent_id": "agent-mog",
+    "base_revision": "c8fc420da7ef570c80419bc8ff771fddb22f45dc",
     "branch": "codex/wi-0177-instruction-entry",
     "worktree": null,
-    "claimed_at": "2026-09-05T07:22:09.075Z",
-    "released_at": null
+    "claimed_at": "2026-09-05T07:32:38.792Z",
+    "released_at": "2026-09-05T07:32:39.051Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -116,14 +117,57 @@
     },
     {
       "id": "claim-20260905072209-11b622ad",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "7d68ff125ba6ae6651732e8393ab9ab7629ed349",
       "branch": "codex/wi-0177-instruction-entry",
       "worktree": null,
       "claimed_at": "2026-09-05T07:22:09.075Z",
-      "released_at": null
+      "released_at": "2026-09-05T07:27:09.461Z",
+      "release_reason": [
+        "Hand off exact candidate and focused test evidence."
+      ]
+    },
+    {
+      "id": "claim-20260905072710-8633039b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "c8fc420da7ef570c80419bc8ff771fddb22f45dc",
+      "branch": "codex/wi-0177-instruction-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T07:27:10.302Z",
+      "released_at": "2026-09-05T07:27:11.073Z",
+      "release_reason": [
+        "Focused evaluation complete; independent runtime review follows, full suite join pending."
+      ]
+    },
+    {
+      "id": "claim-20260905072735-f9aee2a0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "c8fc420da7ef570c80419bc8ff771fddb22f45dc",
+      "branch": "codex/wi-0177-instruction-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T07:27:35.967Z",
+      "released_at": "2026-09-05T07:32:37.871Z",
+      "release_reason": [
+        "Independent review complete; exact candidate evidence handed to Release Manager."
+      ]
+    },
+    {
+      "id": "claim-20260905073238-d416837b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "c8fc420da7ef570c80419bc8ff771fddb22f45dc",
+      "branch": "codex/wi-0177-instruction-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T07:32:38.792Z",
+      "released_at": "2026-09-05T07:32:39.051Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -141,11 +185,71 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0177/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0177/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0177/developer-evidence.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0177/developer-evidence.md",
+      ".ai-org/artifacts/WI-0177/integration.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0177/evaluation.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0177/independent-qa.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0177/work-order.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0177/independent-qa.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0177/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0177/work-order.md"
+    ".ai-org/artifacts/WI-0177/work-order.md",
+    ".ai-org/artifacts/WI-0177/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0177/developer-evidence.md",
+    ".ai-org/artifacts/WI-0177/evaluation.md",
+    ".ai-org/artifacts/WI-0177/handoff-002-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0177/independent-qa.md",
+    ".ai-org/artifacts/WI-0177/integration.md",
+    ".ai-org/artifacts/WI-0177/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "c8fc420da7ef570c80419bc8ff771fddb22f45dc",
+      "artifact": ".ai-org/artifacts/WI-0177/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T07:27:09.050Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "actor": "agent-lulu",
+      "input_revision": "c8fc420da7ef570c80419bc8ff771fddb22f45dc",
+      "artifact": ".ai-org/artifacts/WI-0177/handoff-002-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-05T07:32:37.604Z"
+    }
+  ],
+  "developer_candidate_revision": "c8fc420da7ef570c80419bc8ff771fddb22f45dc",
+  "tested_revision": "c8fc420da7ef570c80419bc8ff771fddb22f45dc",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }
