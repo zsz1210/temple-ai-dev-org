@@ -6,7 +6,7 @@
   "owner_position": "release_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T08:53:44.110Z",
-  "updated_at": "2026-09-05T10:12:44.104Z",
+  "updated_at": "2026-09-05T10:20:48.153Z",
   "scope": [
     "Prepare and validate a fresh matched ordinary-versus-optimized Temple comparison after PR 57. Reuse the proven synthetic task and safe runner, exercise compact Context and composed delivery, counterbalance order, preserve sealed historical results, and report quality, time, Tokens and operational behavior separately. New live-run budgets and exceptional model choices require the governing approval before generation."
   ],
@@ -48,7 +48,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "64d5c94a2fd5213c464bef054e53f401247680ce",
+  "base_revision": "1a9982cc95aedd4fe4b4e9a3ba1782542c3b66a1",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -58,18 +58,15 @@
     "WI-0180 has completed its test-only evaluation. WI-0179 resumes sequential coordinator-only readiness metadata integration; live-run approval remains unresolved, and no model or worker dispatch is permitted by this integration step. WI-0172 remains untouched in its separate historical branch."
   ],
   "claim": {
-    "id": "claim-20260905101015-bfc3b913",
-    "status": "released",
+    "id": "claim-20260905102047-3d0eca4f",
+    "status": "active",
     "principal_id": "human",
     "agent_id": "agent-mog",
-    "base_revision": "64d5c94a2fd5213c464bef054e53f401247680ce",
+    "base_revision": "1a9982cc95aedd4fe4b4e9a3ba1782542c3b66a1",
     "branch": "codex/wi-0179-optimized-comparison",
     "worktree": null,
-    "claimed_at": "2026-09-05T10:10:15.202Z",
-    "released_at": "2026-09-05T10:12:44.104Z",
-    "release_reason": [
-      "Rebound unused preparation to the evaluated test-only correction; live comparison remains pending genuine aggregate budget approval."
-    ]
+    "claimed_at": "2026-09-05T10:20:47.821Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -169,6 +166,17 @@
       "release_reason": [
         "Rebound unused preparation to the evaluated test-only correction; live comparison remains pending genuine aggregate budget approval."
       ]
+    },
+    {
+      "id": "claim-20260905102047-3d0eca4f",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "1a9982cc95aedd4fe4b4e9a3ba1782542c3b66a1",
+      "branch": "codex/wi-0179-optimized-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-05T10:20:47.821Z",
+      "released_at": null
     }
   ],
   "gate_evidence": {
@@ -211,7 +219,7 @@
     ".ai-org/artifacts/WI-0179/independent-qa.md"
   ],
   "unresolved": [
-    "Current matrix sha256:3aea9b81ed834faebccffa6376a3eb1df7a5c0d40604dbda549376ad7ab4b183 is frozen after WI-0180 exact-source prerequisite evaluation. The initial unapproved matrix remains retained and unused. Live comparison, measured analysis and closeout still require explicit aggregate maintainer approval; no run approval was created."
+    "The maintainer approved the exact v2 matrix in approval.v2.json. One-shot execution, measured analysis and evidence closeout are in progress; no retry, fallback, additional experiment or merge is authorized."
   ],
   "next_position": "engineering_manager",
   "handoffs": [
