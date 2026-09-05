@@ -1,24 +1,39 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-05T01:17:50.096Z",
-  "source_fingerprint": "d342e096f4069d319ac76f7414047df9d1f3837f2bf84abe634219b2c1beeb9c",
+  "generated_at": "2026-09-05T03:25:23.485Z",
+  "source_fingerprint": "c9a5040ba48eb72562c83a000de163c8c562d635a6230c34bc42245264495c57",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": []
+    "selected_work_item_ids": [
+      "WI-0172"
+    ]
   },
   "max_workers": 1,
   "summary": {
-    "selected": 0,
+    "selected": 1,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 0,
+    "sequential": 1,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
   "active": [],
-  "sequential": [],
+  "sequential": [
+    {
+      "work_item_id": "WI-0172",
+      "title": "Compare a bounded delivery and fresh recovery with and without Temple",
+      "disposition": "sequential",
+      "position_id": "engineering_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "base_revision_recorded",
+        "integration_owner_assigned"
+      ]
+    }
+  ],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {
