@@ -18,7 +18,7 @@ Standard profile: these instructions affect organizational behavior. Add an ADR 
 
 ## Coordination
 
-WI-0172 retains test/delivery-control-pair.test.mjs. This item adds test/proportionate-work.test.mjs and updates the explicit reference inventory in test/skill-policy.test.mjs. WI-0188 changes are inherited from the sealed WI-0189 branch chain; none of their source or experiment artifacts will be rewritten. Installed root managed files remain unchanged; edit project-overlay sources only and validate in temporary initialized projects.
+WI-0172 retains test/delivery-control-pair.test.mjs. This item adds test/proportionate-work.test.mjs and updates the explicit reference inventory in test/skill-policy.test.mjs. WI-0188 implementation and WI-0189 sealed experiment artifacts remain unchanged. The self-host consistency test requires matching installed instructions: run the reviewed pinned upgrade for managed copies/lock and synchronize only the project-owned AGENTS.md integration block. Other worktrees remain unchanged. Validate distribution in temporary initialized projects too.
 
 ## Validation plan
 

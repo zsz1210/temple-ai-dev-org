@@ -4,7 +4,7 @@ This repository's AI development organization separates responsibility from iden
 
 Before acting:
 
-1. Read `.ai-org/project/project.json`, `agents.json`, `assignments.json`, `collaboration.json`, `repository-integration.json`, `spec-index.json`, `tracker.json`, `retrieval.json`, `usage-policy.json`, `evidence.json`, and `control-plane.json` as relevant to the work.
+1. Choose inspection, delivery, governed parallel dispatch or recovery. Preserve native entrypoint and bootstrap obligations. For known work, use the bounded route below first; read current project identity, assignments, collaboration and authority needed for that operation. Read tracker records for external-work mapping, usage policy before model/resource choices and control-plane configuration for control-plane operations. This is not a universal checklist of files to reopen; required governing references still apply.
 2. Identify the Position you are acting as and the durable work item ID.
 3. Preview the bounded route with `temple context resolve . --work-item <work-item-id> --position <position> --compact --no-write --json`. Omit `--compact` for full retrieval detail. The Work Item stage and `primary` purpose are defaults; use `--purpose integration` or `--purpose recovery` deliberately. Next-operation hints are not readiness or authority.
    For explicitly selected bounded Lean execution, `context enter` with explicit Agent and Principal may replace this preview. Follow the `temple-work` Lean execution reference and all fallback reasons; returned material does not prove instruction loading or waive required reads.
@@ -32,10 +32,14 @@ Before handoff:
 Use the repository-pinned `node ./templew.mjs` launcher instead of hand-editing canonical JSON when supported:
 
 ```text
-work-item create → configure/readiness → parallel plan → parallel prepare
-                                                     ├→ internal worker attach/update
-                                                     └→ user task register/update
-                      handoff → release claim → transition → close
+Sequential delivery:
+  work-item create → configure/readiness → claim → implement/verify
+    → handoff → release claim → transition → profile-specific closeout
+
+Governed parallel delivery only:
+  configure/readiness → parallel plan → parallel prepare
+    → worker attach or user task register → execute → join evidence
+    → handoff/release/transition under the effective profile
 ```
 
 ## External tracker coordination
@@ -55,6 +59,8 @@ Treat `.ai-org/project/spec-index.json` as the project-owned registry of governi
 Use `contract_refs` for governed API or technical-design specification IDs and revisions. Use `shared_contract_refs` only to coordinate shared implementation surfaces in parallel work; those paths do not establish product authority.
 
 ## Context routing and parallel work
+
+Ordinary sequential work does not require parallel planning. For authorized informational helpers, read the `temple-work` read-only-support reference: the parent retains responsibility and helpers return findings without project writes or formal acceptance. Do not create a child lifecycle solely for support. Writes, formal verification, declared shared resources or independently recoverable ownership require the governed route. Never relabel a reserved worker to evade its obligations.
 
 Keep `.ai-org/project/context-map.json` concise and project-owned. It points to canonical files; it does not copy them. Use `temple capability find` when a reusable method may apply, but selecting a Skill never expands the request's authorization. Record planned write scope through work-item `affected_paths`. When context resolution reports overlap with another non-terminal item, coordinate the work before changing shared paths.
 

@@ -2,6 +2,8 @@
 
 Read for dispatch planning or runtime-worker changes, not ordinary sequential delivery. A plan does not authorize new scope or create claims or app tasks.
 
+This procedure governs delivery, formal verification and resource-owning workers. For informational help under a parent's authority, first apply [Read-only support](read-only-support.md). If eligibility fails, use this governed route; never relabel an existing worker to evade its obligations.
+
 1. Configure parent/dependencies, stage Disciplines/resources, exact base revision, affected paths, shared-contract status, integration owner and overlap resolutions naming conflicting Work Item IDs.
 2. Run `parallel check` for one item or `parallel plan --parent <id>` for a group. Rebuild stale plans. Never dispatch a rejected, sequential, blocked or unauthorized plan.
 3. For the first fresh safe wave, call `parallel prepare` with Agent, sponsoring Principal, exact base revision, branch, optional worktree and `internal-subagent` or `user-task`. Successful preparation reserves claim, resources and worker. Only then create the runtime.
