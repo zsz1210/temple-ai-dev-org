@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-05T15:05:11.326Z",
-  "source_fingerprint": "3650ceb6118bde8d472ffc2a6c86e719cf1c6160e710a69520c1ae29cd674364",
+  "generated_at": "2026-09-05T16:07:34.698Z",
+  "source_fingerprint": "9850e5bcef6767ff2a7cde2f27678637a93e5feab8058b2c26c4266eaf76d198",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -11,7 +11,7 @@
       "WI-0189"
     ]
   },
-  "max_workers": 1,
+  "max_workers": 3,
   "summary": {
     "selected": 3,
     "dispatchable": 0,
@@ -52,9 +52,9 @@
       "work_item_id": "WI-0189",
       "title": "Compare single-worker and parallel Terra delivery",
       "disposition": "blocked",
-      "position_id": "engineering_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": null,
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-rikku",
       "reasons": [
         "unresolved_items_cleared"
       ]
@@ -63,7 +63,7 @@
   "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 1,
+    "runtime_capacity_limit": 3,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,
