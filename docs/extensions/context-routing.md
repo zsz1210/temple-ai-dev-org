@@ -18,6 +18,18 @@ Canonical Specs / ADRs / Skills / Work Items / Learning
 
 ## Source and ownership model
 
+An opt-in `context packet` command acquires whole selected local sources for the current low-risk bounded Lean Build/Test stage, without changing the existing capsule formats:
+
+```bash
+node ./templew.mjs context packet . --work-item WI-0001 --position developer --no-write --json
+```
+
+Use the actual Work Item and its current owner Position (`quality_evaluator` at Test). The response includes deduplicated source bodies, selection reasons, hashes and byte counts. Temple emits bodies only to stdout and does not save them to views or canonical records. Caller/provider retention remains separate. Other discovered Skills remain supporting references. Current entry instructions and required nested reads still apply; a packet does not certify complete instruction coverage or authorize mutation.
+
+Missing, unsafe, non-text, oversized, unresolved or changed inputs produce an incomplete response with no source bodies and exit status 1. First-version acquisition conservatively includes authority documents and does not promise smaller prompts or lower Token usage. Limits are 256 KiB per source and 1 MiB total. Unsupported profiles, wrong stage owners, pending delivery and resolver warnings also require the existing route. External specifications and unresolved Evidence IDs are not fetched or invented.
+
+Optional `--purpose primary|integration|recovery` selects the existing route purpose. `--expected-plan <packet_digest>` rejects changed acquisition inputs; the digest does not become a mutation token or proof that a fresh Agent read the material. Revalidate before later actions. See [ADR-0055](../adr/0055-transient-stage-material.md) for the transient acquisition contract and limits.
+
 Humans and authorized Agents maintain canonical project files, the thin `.ai-org/project/spec-index.json` authority registry, and the thin `.ai-org/project/context-map.json` routing map. The specification index answers which product or interface document governs a revision; the Context Map answers when an Agent should read a source. Neither stores the source body. The CLI derives disposable views:
 
 - `.ai-org/views/capabilities.json` inventories repository Skills and their lifecycle ownership.

@@ -262,6 +262,7 @@ Usage:
   temple capability list [target] [--json]
   temple capability find [target] --query text [--position position] [--limit number] [--json]
   temple context resolve [target] --work-item WI-0001 [--position position] [--stage stage] [--purpose primary|integration|recovery] [--query text] [--revision ref] [--limit number] [--json] [--no-write] [--compact (requires --no-write --json)]
+  temple context packet [target] --work-item WI-0001 --position position --no-write --json [--purpose primary|integration|recovery] [--expected-plan digest]
   temple --version
 
 Core commands:
@@ -3045,6 +3046,18 @@ async function runCapability(parsed) {
 }
 
 async function runContext(parsed) {
+  if (parsed.action === "packet") {
+    assertCommandOptions(parsed, ["--work-item", "--position", "--purpose", "--expected-plan"], ["--no-write", "--json"]);
+    if (!parsed.flags.has("--no-write") || !parsed.flags.has("--json")) throw new OperationError("INVALID_INPUT", "Context packet requires --no-write and --json");
+    const target = await assertSafeTarget(parsed.target);
+    const { acquireContextPacket } = await import("./context-packet.mjs");
+    const packet = await acquireContextPacket(target, {
+      workItemId: parsed.options["--work-item"], position: parsed.options["--position"],
+      purpose: parsed.options["--purpose"], expectedPlan: parsed.options["--expected-plan"]
+    });
+    console.log(JSON.stringify(packet, null, 2));
+    return packet.acquisition === "complete" ? 0 : 1;
+  }
   if (parsed.flags.has("--compact")) {
     assertCommandOptions(parsed, ["--work-item", "--position", "--query", "--revision", "--stage", "--purpose", "--limit"], ["--compact", "--no-write", "--json"]);
     if (!parsed.flags.has("--no-write") || !parsed.flags.has("--json")) throw new OperationError("INVALID_INPUT", "Compact context requires --no-write and --json");
@@ -3147,7 +3160,7 @@ async function dispatch(argv) {
 
 export async function main(argv) {
   const delivery = argv[0] === "work-item" && argv[1] === "deliver";
-  const compact = argv[0] === "context" && argv[1] === "resolve" && argv.includes("--compact");
+  const compact = argv[0] === "context" && ((argv[1] === "resolve" && argv.includes("--compact")) || argv[1] === "packet");
   if (!delivery && !compact) return dispatch(argv);
   try {
     try {
