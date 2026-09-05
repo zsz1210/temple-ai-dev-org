@@ -1,20 +1,21 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-05T08:41:33.721Z",
-  "source_fingerprint": "fcf6cae58a3c52d069f5afd421a75aa2426b2d48febf26926b97650fde99c19a",
+  "generated_at": "2026-09-05T10:54:38.026Z",
+  "source_fingerprint": "ea9707867642548bbafd18777031371bb0f9e1e3481daacc09e6b0d4e3168c62",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
     "selected_work_item_ids": [
-      "WI-0172"
+      "WI-0172",
+      "WI-0179"
     ]
   },
-  "max_workers": null,
+  "max_workers": 1,
   "summary": {
-    "selected": 1,
+    "selected": 2,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 1,
+    "sequential": 2,
     "blocked": 0,
     "waves": 0
   },
@@ -32,13 +33,41 @@
         "base_revision_recorded",
         "integration_owner_assigned"
       ]
+    },
+    {
+      "work_item_id": "WI-0179",
+      "title": "Compare optimized Temple against ordinary delivery",
+      "disposition": "sequential",
+      "position_id": "release_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [
+        "requested_mode_sequential"
+      ]
     }
   ],
   "blocked": [],
-  "conflicts": [],
+  "conflicts": [
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0172",
+      "right_work_item_id": "WI-0179",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        },
+        {
+          "left_path": "test/delivery-control-pair.test.mjs",
+          "right_path": "test/delivery-control-pair.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    }
+  ],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": null,
+    "runtime_capacity_limit": 1,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

@@ -1,0 +1,46 @@
+{
+  "schema_version": "temple.delivery-pair-protocol/v2",
+  "work_item_id": "WI-0179",
+  "manifest_sha256": "sha256:c508bf1af55656cc5fb0a18c45db71c88a3cde882520805c671610a0ab67e667",
+  "source_sha256": "sha256:fb8c249ec8641487477ade184a208159a2edde672ad9f86e19a3e5dec0fe7c1e",
+  "fixture_sha256": "sha256:ce39cdfb577d8d276dd82b43149e17623d923703eef133015c3a2c97780b3e0b",
+  "command_policy_sha256": "sha256:9151dd2752205aed66eca358a0af0c8d5ff1e632fe4c22e11fd950d26038f683",
+  "output_schema_sha256": "sha256:b729df7fcd0efd4412aad46387f10dacc99c4bc84980760c814c42facc458bfb",
+  "process_contract_sha256": "sha256:96977af8fa19b6aa1e79d31ff9a60415165b4ec98d871362e765565df3abdd69",
+  "order": [
+    "temple",
+    "ordinary"
+  ],
+  "model": "gpt-5.6-terra",
+  "reasoning_effort": "medium",
+  "provider_contract_sha256": "sha256:32f85aacbaef3c649d2c805637ad6777b92921713971eefaee89f294c03363d3",
+  "readiness_review": {
+    "status": "passed",
+    "reviewer_agent_id": "agent-lulu",
+    "developer_agent_id": "agent-rikku",
+    "reviewed_source_sha256": "sha256:fb8c249ec8641487477ade184a208159a2edde672ad9f86e19a3e5dec0fe7c1e",
+    "evidence_ref": ".ai-org/artifacts/WI-0179/prerequisite-evaluation.v2.md",
+    "evidence_sha256": "sha256:ee5fcbeefa5b9e5f9ae6c1df6a8e182901043dda424533207c15f205a3399f2e",
+    "sandbox_evidence_ref": ".ai-org/artifacts/WI-0179/sandbox-readiness.v2.json",
+    "sandbox_evidence_sha256": "sha256:6ed6408151d0fb8f53b76b66bafcae22350110efdc13c4bcc5f57f719dd651e8"
+  },
+  "limits": {
+    "stages": 4,
+    "per_stage_ms": 360000,
+    "aggregate_ms": 1440000,
+    "per_stage_operational_tokens": 80000,
+    "aggregate_operational_tokens": 320000
+  },
+  "policy": {
+    "fresh_threads": true,
+    "memories": false,
+    "network": false,
+    "fallback": false,
+    "retries": 0,
+    "cache": "uncontrolled-descriptive-only",
+    "effective_turn_effort": "unknown",
+    "account": "existing-included-allowance-only",
+    "purchases": false,
+    "resets": false
+  }
+}

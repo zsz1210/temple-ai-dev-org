@@ -944,6 +944,62 @@
       "attached_at": "2026-09-05T08:30:32.590Z",
       "completed_at": "2026-09-05T08:36:20.001Z",
       "updated_at": "2026-09-05T08:36:20.001Z"
+    },
+    {
+      "id": "worker-20260905092412-f4907318",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0179",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260905092412-493ece82",
+      "base_revision": "175f7ada3821b6e57e5b176f5e7af6624144abec",
+      "branch": "codex/wi-0179-optimized-comparison",
+      "worktree": null,
+      "plan_fingerprint": "da44de04dd7c297036acbad04bae9cf2511297d370c4e0ab3760679e03d3cea3",
+      "plan_digest": "a82b61d492428e0fb7b51da228cf4d18c4bfccdb72f38fa66fd09b0247a5d644",
+      "preparation_fingerprint": "9b34d3bdb177a5b066edf3da16290f2abb4d5ce484d9b91cbc19d718ede551a9",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0179_comparison_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "175f7ada3821b6e57e5b176f5e7af6624144abec",
+      "evidence": [
+        ".ai-org/artifacts/WI-0179/independent-qa.md"
+      ],
+      "reserved_at": "2026-09-05T09:24:12.236Z",
+      "attached_at": "2026-09-05T09:25:13.791Z",
+      "completed_at": "2026-09-05T09:38:32.419Z",
+      "updated_at": "2026-09-05T09:38:32.419Z"
+    },
+    {
+      "id": "worker-20260905100011-c2e06a60",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0180",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260905100011-f28ad536",
+      "base_revision": "64d5c94a2fd5213c464bef054e53f401247680ce",
+      "branch": "codex/wi-0179-optimized-comparison",
+      "worktree": null,
+      "plan_fingerprint": "e6f1fd7ff8d99f6326777c1d934f2f8e583983ba5394f9a93be04d33a4f7f770",
+      "plan_digest": "54459de334a4d46bf6e1a0cf3fe2a0835ba615fcf349bcf57790d793f8688594",
+      "preparation_fingerprint": "b37891319f768e9512e6aac2e645ac4c0226e8e7fde0fe4c53c7b7915f6fac6d",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0180_prerequisite_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "64d5c94a2fd5213c464bef054e53f401247680ce",
+      "evidence": [
+        ".ai-org/artifacts/WI-0180/evaluation.md"
+      ],
+      "reserved_at": "2026-09-05T10:00:11.179Z",
+      "attached_at": "2026-09-05T10:02:05.355Z",
+      "completed_at": "2026-09-05T10:09:39.095Z",
+      "updated_at": "2026-09-05T10:09:39.095Z"
     }
   ]
 }

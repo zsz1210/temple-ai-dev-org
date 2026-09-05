@@ -5,9 +5,9 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 178 total, 1 active
+- Work items: 180 total, 2 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 33 registered, 0 reserved, 0 active
+- Runtime workers: 35 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -40,7 +40,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 1 / 0
+- Active / sequential / blocked: 0 / 2 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -226,6 +226,8 @@
 | WI-0176 | Confirm owned provider process shutdown | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a59f62ce` | 0 | 8 | 0 |
 | WI-0177 | Align lifecycle Skill entry with effective workflow profiles | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c8fc420d` | 0 | 8 | 0 |
 | WI-0178 | Reduce delivery overhead with bounded context and recoverable operations | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6521fc50` | 0 | 8 | 0 |
+| WI-0179 | Compare optimized Temple against ordinary delivery | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `175f7ada` | 0 | 4 | 1 |
+| WI-0180 | Keep optional delivery sandbox tests explicit and portable | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `64d5c94a` | 0 | 4 | 0 |
 
 ## Codex task registry
 
@@ -281,6 +283,8 @@
 | worker-20260905052549-b2328dd0 | internal-subagent | WI-0176 | Independent QA / Lulu | completed | /root/wi0176_independent_qa | `a59f62ce` | 0 |
 | worker-20260905072735-79a889e8 | internal-subagent | WI-0177 | Independent QA / Lulu | completed | /root/wi0177_instruction_qa | `c8fc420d` | 0 |
 | worker-20260905082936-f5f1d2a7 | internal-subagent | WI-0178 | Independent QA / Lulu | completed | /root/wi0178_delivery_qa | `6521fc50` | 0 |
+| worker-20260905092412-f4907318 | internal-subagent | WI-0179 | Independent QA / Lulu | completed | /root/wi0179_comparison_qa | `175f7ada` | 0 |
+| worker-20260905100011-c2e06a60 | internal-subagent | WI-0180 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0180_prerequisite_qa | `64d5c94a` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -311,7 +315,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 44
+- Team-visible Work Items: 46
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -384,14 +388,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-05T08:41:33.352Z | work_item_closed | WI-0178 | agent-mog |
-| 2026-09-05T08:41:33.352Z | release_gate_completed | WI-0178 | agent-mog |
-| 2026-09-05T08:40:32.514Z | work_item_claimed | WI-0178 | human |
-| 2026-09-05T08:40:32.213Z | work_item_transitioned | WI-0178 | agent-lulu |
-| 2026-09-05T08:40:31.921Z | work_item_claim_released | WI-0178 | human |
-| 2026-09-05T08:40:31.587Z | handoff_created | WI-0178 | agent-lulu |
-| 2026-09-05T08:36:20.001Z | runtime_worker_status_changed | WI-0178 | agent-lulu |
-| 2026-09-05T08:30:32.590Z | runtime_worker_attached | WI-0178 | agent-lulu |
+| 2026-09-05T10:53:54.834Z | work_item_claim_released | WI-0179 | human |
+| 2026-09-05T10:52:23.749Z | work_item_unresolved_updated | WI-0179 | agent-mog |
+| 2026-09-05T10:20:48.153Z | work_item_unresolved_updated | WI-0179 | agent-mog |
+| 2026-09-05T10:20:47.821Z | work_item_claimed | WI-0179 | human |
+| 2026-09-05T10:12:44.104Z | work_item_claim_released | WI-0179 | human |
+| 2026-09-05T10:12:43.815Z | work_item_unresolved_updated | WI-0179 | agent-mog |
+| 2026-09-05T10:10:15.202Z | work_item_claimed | WI-0179 | human |
+| 2026-09-05T10:10:14.860Z | work_item_coordination_configured | WI-0179 | agent-mog |
 
 ## Assignments
 
