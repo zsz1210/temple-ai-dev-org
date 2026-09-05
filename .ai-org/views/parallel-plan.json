@@ -1,26 +1,77 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-05T16:07:34.698Z",
-  "source_fingerprint": "9850e5bcef6767ff2a7cde2f27678637a93e5feab8058b2c26c4266eaf76d198",
+  "generated_at": "2026-09-05T22:59:01.493Z",
+  "source_fingerprint": "373611731c456e5001a8e217102dc55686e328996d74ee2d428e3f1a68295bf3",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
     "selected_work_item_ids": [
       "WI-0172",
       "WI-0183",
-      "WI-0189"
+      "WI-0189",
+      "WI-0190"
     ]
   },
-  "max_workers": 3,
+  "max_workers": 1,
   "summary": {
-    "selected": 3,
-    "dispatchable": 0,
+    "selected": 4,
+    "dispatchable": 1,
     "active": 0,
     "sequential": 2,
     "blocked": 1,
-    "waves": 0
+    "waves": 1
   },
-  "waves": [],
+  "waves": [
+    {
+      "id": "wave-001",
+      "order": 1,
+      "dispatch": [
+        {
+          "work_item_id": "WI-0190",
+          "title": "Clarify proportionate entry and stage completion",
+          "position_id": "release_manager",
+          "agent_id": "agent-mog",
+          "agent_name": "Mog",
+          "suggested_task_title": "WI-0190 · Clarify proportionate e… · Release Manager (Mog)",
+          "base_revision": "50ae4f50fcf74d8468e09956e44e1eb9da99ef71",
+          "affected_paths": [
+            "project-overlay",
+            "docs/operations",
+            "docs/extensions/skill-scenarios.md",
+            "docs/extensions/capability-catalog.md",
+            "docs/adr",
+            "test"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "release_gate",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "973ab2cb90c5040939ab17f41f0bd568b1e66d461f9841b2c8a71a3b8ab870b9",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0190 --position release_manager --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        }
+      ],
+      "join_gate": {
+        "integration_owner_agent_ids": [
+          "agent-mog"
+        ],
+        "required_evidence": [
+          "exact_candidate_revision",
+          "verification_results",
+          "unresolved_items"
+        ],
+        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
+      }
+    }
+  ],
   "active": [],
   "sequential": [
     {
@@ -60,10 +111,23 @@
       ]
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0172",
+      "right_work_item_id": "WI-0190",
+      "paths": [
+        {
+          "left_path": "test/delivery-control-pair.test.mjs",
+          "right_path": "test"
+        }
+      ],
+      "resolution": "separate-waves"
+    }
+  ],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 3,
+    "runtime_capacity_limit": 1,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,
