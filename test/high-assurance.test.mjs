@@ -145,6 +145,9 @@ test("High-Assurance scales UI, evidence, rollback, and approval gates by risk",
   const revisionId = evidenceId(revision.stdout);
   const handoff = run(["handoff", target, "--work-item", workItemId, "--to", "quality_evaluator", "--input-revision", "HEAD", "--completed", "Bounded migration implementation", "--evidence", revisionId]);
   assert.equal(handoff.status, 0, handoff.stderr || handoff.stdout);
+  const handedOff = JSON.parse(await fs.readFile(itemPath, "utf8"));
+  assert.equal(handedOff.handoffs.at(-1).input_revision, git(target, ["rev-parse", "HEAD"]).stdout.trim());
+  assert.equal(handedOff.developer_candidate_revision, handedOff.handoffs.at(-1).input_revision);
   const toTest = run(["transition", target, "--work-item", workItemId, "--to", "test", "--satisfy", `exact_candidate_revision=${revisionId}`]);
   assert.equal(toTest.status, 0, toTest.stderr || toTest.stdout);
 

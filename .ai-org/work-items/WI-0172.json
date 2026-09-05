@@ -1,0 +1,60 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0172",
+  "title": "Compare a bounded delivery and fresh recovery with and without Temple",
+  "state": "intake",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-05T03:05:47.487Z",
+  "updated_at": "2026-09-05T03:05:47.487Z",
+  "scope": [
+    "Coordinator ID reservation for the existing comparison owned by the separate workflow-efficiency task. This intake record does not import its candidate, replay its lifecycle, authorize live generation, or supersede its isolated experiment evidence. Reconcile the exact owner branch at integration."
+  ],
+  "acceptance_criteria": [
+    "Integration preserves the owner task frozen experiment evidence and resolves branch-local identity collisions without overwriting unrelated main records."
+  ],
+  "affected_paths": [
+    "scripts/delivery-control-pair.mjs",
+    "test/delivery-control-pair.test.mjs",
+    ".ai-org/artifacts/WI-0172"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T03:05:47.487Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": null,
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": null,
+  "claims": [],
+  "gate_evidence": {},
+  "evidence": [],
+  "unresolved": [],
+  "next_position": "product_manager"
+}

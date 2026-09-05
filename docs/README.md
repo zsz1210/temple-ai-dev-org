@@ -53,6 +53,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 - [Collaborative development](operations/collaboration.md) — Human Principals, specialists, Position pools, claims, and multi-maintainer boundaries.
 - [Parallel orchestration](operations/parallel-orchestration.md) — safe waves, affected paths, preparation, and integration joins.
 - [Runtime coordination](operations/runtime-coordination.md) — pinned launcher, workers, resources, task correlation, and recovery.
+- [Review rework](operations/review-rework.md) — return a rejected candidate to Build within the same approved Work Item; unreleased.
 - [Task and tracker coordination](operations/task-and-tracker-coordination.md) — company tracker, Temple Work Item, and Codex task boundaries.
 - [Evidence and Observer](operations/evidence-and-observer.md) — normalized evidence, exact revisions, stale signals, and closeout.
 - [High-Assurance profile](operations/high-assurance.md) — risk-scaled evidence, separation of duties, rollback, and human approvals.

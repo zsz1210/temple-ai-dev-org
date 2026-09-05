@@ -51,5 +51,6 @@
 - [ADR-0049: Bind reviewed adapter fixtures to installed provenance](0049-bind-reviewed-adapter-fixtures-to-provenance.md)
 - [ADR-0050: Publish npm packages only from published GitHub Releases](0050-release-triggered-npm-trusted-publishing.md)
 - [ADR-0051: Scope local verification and deduplicate evidence reads](0051-scope-local-verification-and-deduplicate-evidence-reads.md)
+- [ADR-0052: Resolve every new handoff to an immutable commit](0052-immutable-handoff-revisions.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

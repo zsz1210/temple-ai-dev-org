@@ -25,7 +25,13 @@ Temple は作業に合わせて運用の重さを変えます。小さく可逆�
 | 拡張性 | プロジェクト固有の Specification、UI Delivery Mode、Skill、Capability、任意 Integration |
 | 実行支援 | 責任や実行権限と分離した、Step 単位で説明可能なモデル・ツールの提案 |
 
-Management Console、継続的な Usage 観測、Semantic Retrieval、Provider 実行は任意の層です。中核の開発組織はこれらに依存しません。
+Management Console と継続的な Usage 観測は任意です。意味検索や Provider 実行の拡充は今後の拡張であり、中核の開発組織はこれらに依存しません。
+
+## 公開状況
+
+ソースリポジトリと **Alpha.30** は GitHub と npm で公開済みです。配布中のパッケージは初期 Alpha であり、安定版や企業環境での運用保証を意味しません。正確な公開バージョンと検証根拠は [Release readiness（英語）](release-readiness.md) を参照してください。
+
+リリース後に `main` に入った変更は、別のバージョンとして検証・公開されるまで未リリースです。開発中の修正、準備中の比較、将来の機能を、npm から導入した版の挙動や結果として扱いません。現在の Adaptive Execution Routing は実行構成を提案する機能であり、モデルを自動選択して起動するものではありません。
 
 ## マイルストーン
 
@@ -54,28 +60,31 @@ Management Console、継続的な Usage 観測、Semantic Retrieval、Provider �
 - 提案値と実際に観測した Model / Reasoning を別々に記録
 - Route 解決は Advisory に限定し、Provider 起動や Project State の変更を行わない
 
-修正後の最初の比較から得られた運用上の結論は限定的です。範囲の明確な作業では、モデルを強くする前に Acceptance Contract を明示します。低リスクの 2 ケースは Terra medium で完了し、上位 Route による客観的な正解の増加はありませんでした。この結果だけでは Automatic Routing を正当化できません。
-
-その後、同じ Fixture に対する Temple Lean の静的 Context を約 39% 削減し、Authority Contract を維持しました。4 Candidate の比較確認は準備済みですが、まだ実行していません。次はこの改善を確認し、異なる Task Shape に証拠を広げてから Default を変更します。
+限定的な比較では、観測された品質は同等でしたが、リソース消費や統合コストの増減は一様ではありませんでした。一般的な Token 削減や自動ルーティングを正当化する結果ではありません。[検証一覧（英語）](../validation/README.md) では測定済みの結果と準備中の実験を分けています。次は操作の負担を減らし、開発開始から受け渡し・検証までの全体を評価してから既定値を見直します。
 
 ### 4. 実環境での適格性確認 — 現在
 
-- 初見の利用者と新しい Agent が、過去の会話なしで Core Path を完了できるか確認
+- 限定的な新規 Agent の Core Path と会話履歴なしの復旧で得た成果を、代表的な既存プロジェクトの作業へ広げる
+- 初回導入、同じ承認範囲内のレビュー修正、起動した実行環境の後片付けを簡素化し、版の特定と権限の境界は維持する
 - Task、Model、Tool、Acceptance Test をそろえ、Temple と一般的で堅実な開発手順を比較
-- 小さくした Lean Context が、品質を落とさず Token と Latency の負担を減らすか確認
+- 文脈や操作の簡素化が品質を保ったまま負担を減らすか測定し、効果を前提にしない
 - Temple の手順を固定したまま、Adaptive Execution Route と固定 Model Route を比較
 - 実際の複数人・複数マシン・複数リポジトリ開発を検証
 - Correctness、Recovery、Rework、Human Intervention、Token、Latency、運用負荷を計測
 
 この段階で必要なのは、判断に使える証拠です。改善がない、または負担が利益を上回る場合は、その仕組みの適用範囲を狭め、簡素化し、必要なら削除します。
 
-### 5. エコシステムと公開配布 — 将来
+初めて使う人による調査は将来の使いやすさの証拠になりますが、AI 支援を前提とした限定的な Alpha の必須条件ではありません。別途検証するまで、人だけで容易に導入できるとは主張しません。
+
+既存の [実利用検証計画（英語）](../validation/post-alpha-field-validation.md) に沿って、小さな変更と新しい Task への引き継ぎから始め、既存プロジェクトへの導入、複数リポジトリの協調へ進みます。実際に観測した手順を短い User Guide の事例にまとめ、計画段階の例と検証済みの結果を区別します。
+
+### 5. エコシステムの拡張 — 将来
 
 - Trust、Protocol、Authority、Rollback の契約を検証した後に Provider Execution を追加
 - リポジトリ規模による必要性を計測してから Semantic / Local Retrieval を追加
 - 適格な比較証拠と安全な Fallback がある Task Shape だけで Automatic Routing を検討
 - 任意の運用画面や Integration を、中核依存にせず改善
-- Owner が公開判断を再開し、Candidate が Release Gate を通過した後に公開配布を準備
+- 公開 Alpha を個別に検証したリリースで改善し、マージだけでは npm に公開しない
 
 ## 詳細情報
 

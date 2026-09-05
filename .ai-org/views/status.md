@@ -5,9 +5,9 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 171 total, 0 active
+- Work items: 174 total, 1 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 27 registered, 0 reserved, 0 active
+- Runtime workers: 29 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 16
+- Attention signals: 17
 
 ## Collaboration
 
@@ -40,7 +40,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 0 / 0
+- Active / sequential / blocked: 0 / 1 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -219,6 +219,9 @@
 | WI-0169 | Prepare evidence-led post-Alpha field validation | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `cf97c137` | 0 | 4 | 0 |
 | WI-0170 | Reduce verification overhead without weakening coverage | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7716b1fe` | 0 | 6 | 0 |
 | WI-0171 | Reject ambiguous local test selection options | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7716b1fe` | 0 | 4 | 0 |
+| WI-0172 | Compare a bounded delivery and fresh recovery with and without Temple | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
+| WI-0173 | Pin handoff revisions and align published capability status | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `974d6578` | 0 | 11 | 0 |
+| WI-0174 | Return same-scope review findings to Build | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3cd0e554` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -268,6 +271,8 @@
 | worker-20260830141322-d00f540f | internal-subagent | WI-0032 | Quality & Evaluation Engineer / Lulu | completed | /root/qa_wi_0032_lulu | `8ae349e0` | 0 |
 | worker-20260830142454-8bb19075 | internal-subagent | WI-0032 | Independent QA / Lulu | completed | /root/independent_qa_wi_0032_lulu | `024af612` | 0 |
 | worker-20260905010943-d4368920 | internal-subagent | WI-0170 | Independent QA / Lulu | completed | /root/wi0170_independent_qa | `7716b1fe` | 0 |
+| worker-20260905035623-2de5700b | internal-subagent | WI-0174 | Independent QA / Lulu | failed | /root/wi0174_independent_qa | `aefa50ba` | 0 |
+| worker-20260905040521-609a929b | internal-subagent | WI-0174 | Independent QA / Lulu | completed | /root/wi0174_rework_qa | `3cd0e554` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -291,13 +296,14 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
+- worker-20260905035623-2de5700b is failed
 
 ## External tracker coordination
 
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 38
+- Team-visible Work Items: 41
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -370,14 +376,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-05T01:17:49.570Z | work_item_closed | WI-0170 | agent-mog |
-| 2026-09-05T01:17:49.570Z | release_gate_completed | WI-0170 | agent-mog |
-| 2026-09-05T01:17:49.275Z | work_item_transitioned | WI-0170 | agent-lulu |
-| 2026-09-05T01:17:14.142Z | work_item_closed | WI-0171 | agent-lulu |
-| 2026-09-05T01:17:14.142Z | work_item_transitioned | WI-0171 | agent-lulu |
-| 2026-09-05T01:17:13.880Z | work_item_claim_released | WI-0171 | human |
-| 2026-09-05T01:17:13.617Z | work_item_claimed | WI-0171 | human |
-| 2026-09-05T01:17:13.206Z | work_item_claim_released | WI-0170 | human |
+| 2026-09-05T04:09:23.329Z | work_item_closed | WI-0174 | agent-mog |
+| 2026-09-05T04:09:23.329Z | release_gate_completed | WI-0174 | agent-mog |
+| 2026-09-05T04:09:23.057Z | work_item_claimed | WI-0174 | human |
+| 2026-09-05T04:09:22.766Z | work_item_transitioned | WI-0174 | agent-lulu |
+| 2026-09-05T04:09:22.498Z | handoff_created | WI-0174 | agent-lulu |
+| 2026-09-05T04:09:22.220Z | runtime_worker_status_changed | WI-0174 | agent-lulu |
+| 2026-09-05T04:05:47.970Z | runtime_worker_attached | WI-0174 | agent-lulu |
+| 2026-09-05T04:05:21.811Z | runtime_worker_reserved | WI-0174 | human |
 
 ## Assignments
 
