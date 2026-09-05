@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-05T12:28:36.108Z",
-  "updated_at": "2026-09-05T12:30:39.070Z",
+  "updated_at": "2026-09-05T12:39:12.889Z",
   "scope": [
     "Implement WI-0183 slice A as an opt-in read-only context packet, with deterministic source inclusion, provenance, safe local acquisition, freshness checks and explicit coverage limits. Preserve current entry instructions and all frozen comparisons; no composed lifecycle extension or live model comparison."
   ],
@@ -48,7 +48,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "7174489",
+  "base_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -56,15 +56,18 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260905123039-96e0c376",
-    "status": "active",
+    "id": "claim-20260905123747-d904a6d9",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
-    "base_revision": "7174489",
+    "base_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213",
     "branch": "codex/wi-0184-stage-material",
     "worktree": null,
-    "claimed_at": "2026-09-05T12:30:39.070Z",
-    "released_at": null
+    "claimed_at": "2026-09-05T12:37:47.615Z",
+    "released_at": "2026-09-05T12:39:12.889Z",
+    "release_reason": [
+      "Temporarily hand off exact package inventory adjustment to bounded child WI-0185 before corrected candidate verification."
+    ]
   },
   "claims": [
     {
@@ -97,14 +100,43 @@
     },
     {
       "id": "claim-20260905123039-96e0c376",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "7174489",
       "branch": "codex/wi-0184-stage-material",
       "worktree": null,
       "claimed_at": "2026-09-05T12:30:39.070Z",
-      "released_at": null
+      "released_at": "2026-09-05T12:36:29.594Z",
+      "release_reason": [
+        "Handed exact candidate to Quality Evaluator for bounded independent inspection; full suite remains pending."
+      ]
+    },
+    {
+      "id": "claim-20260905123701-e7e13ef2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213",
+      "branch": "codex/wi-0184-stage-material",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:37:01.321Z",
+      "released_at": "2026-09-05T12:37:47.184Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260905123747-d904a6d9",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213",
+      "branch": "codex/wi-0184-stage-material",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:37:47.615Z",
+      "released_at": "2026-09-05T12:39:12.889Z",
+      "release_reason": [
+        "Temporarily hand off exact package inventory adjustment to bounded child WI-0185 before corrected candidate verification."
+      ]
     }
   ],
   "gate_evidence": {
@@ -126,8 +158,58 @@
   },
   "evidence": [
     ".ai-org/artifacts/WI-0184/brief.md",
-    "docs/adr/0055-transient-stage-material.md"
+    "docs/adr/0055-transient-stage-material.md",
+    ".ai-org/artifacts/WI-0184/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0184/developer-verification.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213",
+      "artifact": ".ai-org/artifacts/WI-0184/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T12:36:29.345Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-05T12:37:47.184Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260905123701-e7e13ef2",
+      "rejected_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213",
+      "reason": [
+        "Full verification stopped before tests: two intended package additions exceed the reviewed file-count ceiling. Inventory reviewed; preserve boundary checks and update exact ceiling."
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0184/packaging-review.md"
+      ],
+      "scope_digest": "132656ef2fefbf184bde086749c981d36e18b6b48cc2fe206bd557eb4ee168b6",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0184/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0184/developer-verification.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0184/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ]
 }

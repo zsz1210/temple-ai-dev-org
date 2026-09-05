@@ -51,7 +51,8 @@ const ALLOWED_TOP_LEVEL_FILES = new Set([
   "package.json"
 ]);
 const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overlay/", "src/"];
-const MAX_FILE_COUNT = 400;
+// WI-0185 reviewed exactly two additions: context-packet.mjs and ADR-0055.
+const MAX_FILE_COUNT = 402;
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {

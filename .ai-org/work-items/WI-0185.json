@@ -1,0 +1,102 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0185",
+  "title": "Account for two reviewed stage material package files",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-05T12:39:13.138Z",
+  "updated_at": "2026-09-05T12:39:14.154Z",
+  "scope": [
+    "Adjust only reviewed package count from 400 to 402 for src/context-packet.mjs and ADR-0055. Preserve all path exclusions and size limits; no publication."
+  ],
+  "acceptance_criteria": [
+    "Dry-run inventory adds exactly the two intended files and package validator regression checks pass."
+  ],
+  "affected_paths": [
+    "scripts/check-package.mjs",
+    ".ai-org/artifacts/WI-0185"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "One local reversible constant adjustment for independently enumerated package files.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T12:39:13.138Z",
+    "escalated": false
+  },
+  "parent_work_item_id": "WI-0184",
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260905123914-11616dd6",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213",
+    "branch": "codex/wi-0184-stage-material",
+    "worktree": null,
+    "claimed_at": "2026-09-05T12:39:14.154Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260905123914-11616dd6",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213",
+      "branch": "codex/wi-0184-stage-material",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:39:14.154Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0184/packaging-review.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0184/packaging-review.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0184/packaging-review.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0184/packaging-review.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0184/packaging-review.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/artifacts/WI-0184/packaging-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0184/packaging-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
