@@ -26425,6 +26425,38 @@
         "exit_code": 0,
         "started_at": "2026-09-05T00:16:20.000Z"
       }
+    },
+    {
+      "id": "EVID-20260905T002557Z-0BC00026",
+      "work_item_id": "WI-0168",
+      "recorded_at": "2026-09-05T00:25:57.035Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "rollback",
+      "title": "Rollback planned",
+      "outcome": "planned",
+      "scope_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38",
+      "observed_at": "2026-09-05T00:25:57.035Z",
+      "summary": "Disable the Release publisher and revoke npm trust only through explicit reviewed follow-up actions; preserve failed-run evidence and do not unpublish automatically.",
+      "adapter": {
+        "id": "rollback-record",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0168/rollback-plan.md"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0168/rollback-plan.md",
+          "sha256": "19fa97657c132cc156f88be004440e50de28ae3c4592457755504e2084edb2a9"
+        }
+      ],
+      "details": {
+        "status": "planned",
+        "procedure": ".ai-org/artifacts/WI-0168/rollback-plan.md"
+      }
     }
   ]
 }
