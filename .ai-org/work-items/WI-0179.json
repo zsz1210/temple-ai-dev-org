@@ -1,0 +1,148 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0179",
+  "title": "Compare optimized Temple against ordinary delivery",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-05T08:53:44.110Z",
+  "updated_at": "2026-09-05T09:03:49.979Z",
+  "scope": [
+    "Prepare and validate a fresh matched ordinary-versus-optimized Temple comparison after PR 57. Reuse the proven synthetic task and safe runner, exercise compact Context and composed delivery, counterbalance order, preserve sealed historical results, and report quality, time, Tokens and operational behavior separately. New live-run budgets and exceptional model choices require the governing approval before generation."
+  ],
+  "acceptance_criteria": [
+    "An independently reviewed, generation-free rehearsed and frozen comparison matrix can run within explicitly approved bounds; no historical lab or other task is changed, and no efficiency claim is made before matched real outcomes are measured."
+  ],
+  "affected_paths": [
+    "scripts/delivery-control-pair.mjs",
+    "scripts/delivery-command-policy.mjs",
+    "test/delivery-control-pair.test.mjs",
+    "test/delivery-command-policy.test.mjs",
+    "scripts/prepare-optimized-delivery-comparison.mjs",
+    "test/optimized-delivery-comparison.test.mjs",
+    ".ai-org/artifacts/WI-0179"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T08:53:44.109Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "0002dacce9152918f00906f4ae611e06e5c153af",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0172 remains the other task reservation. This main-derived WI-0179 copies only four runner/policy files from bba20cc into its isolated branch, without editing or merging the comparison branch, any historical Work Item, sealed lab or evidence stream. Current user approved a new comparison; old results remain branch-qualified historical references."
+  ],
+  "claim": {
+    "id": "claim-20260905090349-aceba671",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "0002dacce9152918f00906f4ae611e06e5c153af",
+    "branch": "codex/wi-0179-optimized-comparison",
+    "worktree": null,
+    "claimed_at": "2026-09-05T09:03:49.979Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260905085606-787d90e7",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "0002dacce9152918f00906f4ae611e06e5c153af",
+      "branch": "codex/wi-0179-optimized-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-05T08:56:06.729Z",
+      "released_at": "2026-09-05T09:03:19.009Z",
+      "release_reason": [
+        "Work order recorded; Product Manager takes the approved preparation scope."
+      ]
+    },
+    {
+      "id": "claim-20260905090348-87b6e851",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "0002dacce9152918f00906f4ae611e06e5c153af",
+      "branch": "codex/wi-0179-optimized-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-05T09:03:48.231Z",
+      "released_at": "2026-09-05T09:03:48.497Z",
+      "release_reason": [
+        "Scope and acceptance identify live authority as pending; no generation authorized by this document."
+      ]
+    },
+    {
+      "id": "claim-20260905090349-124ede2c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "0002dacce9152918f00906f4ae611e06e5c153af",
+      "branch": "codex/wi-0179-optimized-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-05T09:03:49.098Z",
+      "released_at": "2026-09-05T09:03:49.396Z",
+      "release_reason": [
+        "Bounded harness design and risk review recorded; sequential implementation only."
+      ]
+    },
+    {
+      "id": "claim-20260905090349-aceba671",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "0002dacce9152918f00906f4ae611e06e5c153af",
+      "branch": "codex/wi-0179-optimized-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-05T09:03:49.979Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0179/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0179/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0179/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0179/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0179/design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0179/design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
