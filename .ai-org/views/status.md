@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
-- Parallel plan: 0 wave(s), fresh=false
-- Work items: 181 total, 2 active
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Parallel plan: 0 wave(s), fresh=true
+- Work items: 181 total, 1 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 35 registered, 0 reserved, 0 active
+- Runtime workers: 36 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 18
+- Attention signals: 17
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,10 +37,10 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 2 / 0
+- Active / sequential / blocked: 0 / 1 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -228,7 +228,7 @@
 | WI-0178 | Reduce delivery overhead with bounded context and recoverable operations | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6521fc50` | 0 | 8 | 0 |
 | WI-0179 | Compare optimized Temple against ordinary delivery | concluded | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9ef5d331` | 0 | 8 | 1 |
 | WI-0180 | Keep optional delivery sandbox tests explicit and portable | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `64d5c94a` | 0 | 4 | 0 |
-| WI-0181 | Reduce diagnostic output and clarify stage completion | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260905110845-84efc2bd | `—` | 0 | 1 | 0 |
+| WI-0181 | Reduce diagnostic output and clarify stage completion | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ce132142` | 0 | 5 | 0 |
 
 ## Codex task registry
 
@@ -286,6 +286,7 @@
 | worker-20260905082936-f5f1d2a7 | internal-subagent | WI-0178 | Independent QA / Lulu | completed | /root/wi0178_delivery_qa | `6521fc50` | 0 |
 | worker-20260905092412-f4907318 | internal-subagent | WI-0179 | Independent QA / Lulu | completed | /root/wi0179_comparison_qa | `175f7ada` | 0 |
 | worker-20260905100011-c2e06a60 | internal-subagent | WI-0180 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0180_prerequisite_qa | `64d5c94a` | 0 |
+| worker-20260905111408-3ae0a8cf | internal-subagent | WI-0181 | Quality & Evaluation Engineer / Lulu | completed | /root/compact_diagnostics_qa | `ce132142` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -310,7 +311,6 @@
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
 - worker-20260905035623-2de5700b is failed
-- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -390,14 +390,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-05T11:08:45.674Z | work_item_claimed | WI-0181 | human |
-| 2026-09-05T11:08:45.410Z | work_item_transitioned | WI-0181 | agent-tidus |
-| 2026-09-05T11:08:45.168Z | work_item_claim_released | WI-0181 | human |
-| 2026-09-05T11:08:44.936Z | work_item_claimed | WI-0181 | human |
-| 2026-09-05T11:08:44.669Z | work_item_transitioned | WI-0181 | agent-yuna |
-| 2026-09-05T11:08:44.428Z | work_item_claim_released | WI-0181 | human |
-| 2026-09-05T11:08:44.195Z | work_item_claimed | WI-0181 | human |
-| 2026-09-05T11:08:43.933Z | work_item_transitioned | WI-0181 | agent-mog |
+| 2026-09-05T11:19:15.761Z | work_item_closed | WI-0181 | agent-mog |
+| 2026-09-05T11:19:15.761Z | release_gate_completed | WI-0181 | agent-mog |
+| 2026-09-05T11:19:15.522Z | work_item_claimed | WI-0181 | human |
+| 2026-09-05T11:19:15.259Z | work_item_transitioned | WI-0181 | agent-lulu |
+| 2026-09-05T11:19:15.014Z | work_item_transitioned | WI-0181 | agent-lulu |
+| 2026-09-05T11:19:14.773Z | work_item_transitioned | WI-0181 | agent-lulu |
+| 2026-09-05T11:19:14.523Z | work_item_claim_released | WI-0181 | human |
+| 2026-09-05T11:19:14.275Z | runtime_worker_status_changed | WI-0181 | agent-lulu |
 
 ## Assignments
 

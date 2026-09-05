@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0181",
   "title": "Reduce diagnostic output and clarify stage completion",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T11:07:50.115Z",
-  "updated_at": "2026-09-05T11:08:45.674Z",
+  "updated_at": "2026-09-05T11:19:15.761Z",
   "scope": [
     "Add opt-in compact Doctor and scoped Status output while preserving checks, warnings, attention and defaults; clarify stage handoff in maintained temple-work source. Local implementation and verification only; preserve sealed experiments and consumed approvals."
   ],
@@ -49,23 +49,24 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "1d5688e",
-  "parallel_mode": "pending",
-  "integration_owner_agent_id": null,
+  "base_revision": "ce132142f6d1eaf50ba0e1885e3d46aa1e6caf2b",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260905110845-84efc2bd",
-    "status": "active",
+    "id": "claim-20260905111915-46050fc2",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "1d5688e",
+    "agent_id": "agent-mog",
+    "base_revision": "ce132142f6d1eaf50ba0e1885e3d46aa1e6caf2b",
     "branch": "codex/wi-0181-compact-diagnostics",
     "worktree": null,
-    "claimed_at": "2026-09-05T11:08:45.674Z",
-    "released_at": null
+    "claimed_at": "2026-09-05T11:19:15.522Z",
+    "released_at": "2026-09-05T11:19:15.761Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -112,14 +113,43 @@
     },
     {
       "id": "claim-20260905110845-84efc2bd",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "1d5688e",
       "branch": "codex/wi-0181-compact-diagnostics",
       "worktree": null,
       "claimed_at": "2026-09-05T11:08:45.674Z",
-      "released_at": null
+      "released_at": "2026-09-05T11:13:49.478Z",
+      "release_reason": [
+        "Exact candidate handed to verification and distinct Independent QA."
+      ]
+    },
+    {
+      "id": "claim-20260905111408-5cde697e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "ce132142f6d1eaf50ba0e1885e3d46aa1e6caf2b",
+      "branch": "codex/wi-0181-compact-diagnostics",
+      "worktree": null,
+      "claimed_at": "2026-09-05T11:14:08.450Z",
+      "released_at": "2026-09-05T11:19:14.523Z",
+      "release_reason": [
+        "Independent exact-candidate verification passed; coordinator joined report and unchanged source."
+      ]
+    },
+    {
+      "id": "claim-20260905111915-46050fc2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "ce132142f6d1eaf50ba0e1885e3d46aa1e6caf2b",
+      "branch": "codex/wi-0181-compact-diagnostics",
+      "worktree": null,
+      "claimed_at": "2026-09-05T11:19:15.522Z",
+      "released_at": "2026-09-05T11:19:15.761Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -137,11 +167,59 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0181/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0181/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0181/verification.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0181/verification.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0181/independent-qa.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0181/independent-qa.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0181/design.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0181/independent-qa.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0181/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0181/design.md"
+    ".ai-org/artifacts/WI-0181/design.md",
+    ".ai-org/artifacts/WI-0181/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0181/verification.md",
+    ".ai-org/artifacts/WI-0181/independent-qa.md",
+    ".ai-org/artifacts/WI-0181/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "ce132142f6d1eaf50ba0e1885e3d46aa1e6caf2b",
+      "artifact": ".ai-org/artifacts/WI-0181/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T11:13:49.216Z"
+    }
+  ],
+  "developer_candidate_revision": "ce132142f6d1eaf50ba0e1885e3d46aa1e6caf2b",
+  "tested_revision": "ce132142f6d1eaf50ba0e1885e3d46aa1e6caf2b",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

@@ -1000,6 +1000,34 @@
       "attached_at": "2026-09-05T10:02:05.355Z",
       "completed_at": "2026-09-05T10:09:39.095Z",
       "updated_at": "2026-09-05T10:09:39.095Z"
+    },
+    {
+      "id": "worker-20260905111408-3ae0a8cf",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0181",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260905111408-5cde697e",
+      "base_revision": "ce132142f6d1eaf50ba0e1885e3d46aa1e6caf2b",
+      "branch": "codex/wi-0181-compact-diagnostics",
+      "worktree": null,
+      "plan_fingerprint": "e3841469964885e42415cd04c8af93d5b66197f721f4e992de57e16596e164cc",
+      "plan_digest": "229295f12ac1c213844a8579aa5f998e22a0eed900f3337e9e2741c994d41b97",
+      "preparation_fingerprint": "e57c33c8db670299c7250a316aad3f47845b50011596a1258ede6e210b8a52c0",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/compact_diagnostics_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "ce132142f6d1eaf50ba0e1885e3d46aa1e6caf2b",
+      "evidence": [
+        ".ai-org/artifacts/WI-0181/independent-qa.md"
+      ],
+      "reserved_at": "2026-09-05T11:14:08.438Z",
+      "attached_at": "2026-09-05T11:14:40.772Z",
+      "completed_at": "2026-09-05T11:19:14.275Z",
+      "updated_at": "2026-09-05T11:19:14.275Z"
     }
   ]
 }
