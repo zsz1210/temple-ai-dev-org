@@ -62,7 +62,7 @@ Post-stop checks ran without a model in the same command sandbox. Both public te
 1. **The task was probably too small for three independent workers plus integration.** Three worker turns used 2.10 times the Builder's Operational Tokens while reducing the longest implementation interval by only 16.29 seconds. The extra Integrator had already used another 49,144 Tokens before interruption.
 2. **Repeated sessions and handoff inspection are substantial work.** Workers issued 46 commands in total versus the single Builder's 16; the Integrator started 16 more. These operation counts support investigating repeated setup and inspection. They do not measure the causal Token contribution of each action.
 3. **Good contracts did enable clean joining.** The disjoint implementations joined without conflicts and passed the frozen objective checks. This is bounded evidence that the chosen interfaces and ownership worked.
-4. **Safety instrumentation itself needs usability testing.** Six preparation tests and 630 repository tests passed, yet a valid everyday command shape still stopped the live experiment. More tests in the abstract are not the answer; tests must target the prompt-policy mismatch and real supported command variants.
+4. **Safety instrumentation itself needs usability testing.** Six preparation tests and 630 repository tests passed, yet the live Integrator hit an unsupported option. A separate diagnostic proved that a normal read-only spelling can trigger the same rejection class; the actual rejected spelling remains unknown. More tests in the abstract are not the answer; tests must target the prompt-policy mismatch and real supported command variants.
 
 ## Recommended improvements before another live comparison
 
