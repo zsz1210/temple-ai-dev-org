@@ -1,0 +1,120 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0182",
+  "title": "Compare compact diagnostics in fresh delivery sessions",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-05T11:24:57.481Z",
+  "updated_at": "2026-09-05T11:25:56.768Z",
+  "scope": [
+    "User requested another comparison after WI-0181. Adapt new v7 command/process contract and a two-model screening matrix, rehearse without generation, independently review, then execute one fresh pair each for Terra medium and GPT-6 Astra medium within prior per-stage bounds, seal and report results. Preserve every historical lab and approval."
+  ],
+  "acceptance_criteria": [
+    "Actual supported compact Status and Doctor execute in Temple stages after final lifecycle mutation; both arms have explicit stage stops. Eight stages maximum, 80000 operational Tokens and six minutes per stage, 640000 Tokens and 48 minutes total, existing allowance only, no retry/fallback/purchase/reset. Fresh model identities and efforts, quality, time, Tokens and incomplete outcomes recorded accurately."
+  ],
+  "affected_paths": [
+    "scripts/delivery-command-policy.mjs",
+    "scripts/delivery-control-pair.mjs",
+    "scripts/prepare-optimized-delivery-comparison.mjs",
+    "test/delivery-command-policy.test.mjs",
+    "test/delivery-control-pair.test.mjs",
+    "test/optimized-delivery-comparison.test.mjs",
+    ".ai-org/artifacts/WI-0182"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T11:24:57.480Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "b54a103353c987d5e9f90e8afaf6e9b4a97c8197",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0172 is isolated in historical codex/wi-0173-comparison-diagnostics at bba20cc; its source/labs remain untouched. WI-0179 has concluded. New v7 code is owned solely by WI-0182 in this separate branch after explicit user takeover and fresh comparison request."
+  ],
+  "claim": {
+    "id": "claim-20260905112556-01f90232",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "b54a103353c987d5e9f90e8afaf6e9b4a97c8197",
+    "branch": "codex/wi-0182-comparison-v7",
+    "worktree": null,
+    "claimed_at": "2026-09-05T11:25:56.768Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260905112457-320a1bb3",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "b54a103353c987d5e9f90e8afaf6e9b4a97c8197",
+      "branch": "codex/wi-0182-comparison-v7",
+      "worktree": null,
+      "claimed_at": "2026-09-05T11:24:57.959Z",
+      "released_at": "2026-09-05T11:25:55.775Z",
+      "release_reason": [
+        "Fresh run request and bounded work order recorded."
+      ]
+    },
+    {
+      "id": "claim-20260905112556-01f90232",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "b54a103353c987d5e9f90e8afaf6e9b4a97c8197",
+      "branch": "codex/wi-0182-comparison-v7",
+      "worktree": null,
+      "claimed_at": "2026-09-05T11:25:56.768Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0182/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0182/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0182/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0182/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0182/design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0182/design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
