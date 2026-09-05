@@ -2,14 +2,20 @@ import test from "node:test";
 import crypto from "node:crypto";
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import os from "node:os";
-import { execFile as execCallback } from "node:child_process";
+import { execFile as execCallback, spawnSync } from "node:child_process";
 import { promisify } from "node:util";
 import { digest, fixture, preparePair, createProtocol, inspectReadiness, inspectProvider, validateApproval, validateProtocol, runPair, eventViolation, evaluateProduct, stageRequests, subprocessEnvironment, deliveryProcessContract, safeFailureCode, sourceDigest, deliveryTempRoot, retainedArtifactDigest } from "../scripts/delivery-control-pair.mjs";
 import {createJsonRpcProcess} from "../src/codex-app-server-provider.mjs";
 import {representativeAppServerArguments} from "../scripts/run-representative-microservice-comparison.mjs";
 const sandboxReportPath=process.env.TEMPLE_DELIVERY_SANDBOX_REPORT;
+// Installed-wire integration is optional on hosts such as the npm Release runner.
+// An explicit real-sandbox request must still fail on missing tools, never skip.
+const installedSandboxTools = existsSync("/bin/zsh") && spawnSync("codex", ["--version"], {
+  env: subprocessEnvironment(), encoding: "utf8", timeout: 5000
+}).status === 0;
 const execFile = promisify(execCallback);
 const sourceRoot = path.resolve(import.meta.dirname, "..");
 const cleanProduct = `export function quoteOrder(lines, options = {}) {
@@ -181,7 +187,9 @@ function replayFactory({ mutate, mode, calls = [], ledger = [], errors=[] } = {}
   };
 }
 
-test("delivery pair readiness and actual injected lifecycles are generation-free and evidence-bearing", async t => {
+test("delivery pair readiness and actual injected lifecycles are generation-free and evidence-bearing", {
+  skip: !sandboxReportPath && !installedSandboxTools ? "Optional installed-provider integration requires Codex CLI and zsh; portable contracts still run" : false
+}, async t => {
   const parent = await fs.mkdtemp(path.join(os.tmpdir(), "delivery-test-"));
   t.after(() => fs.rm(parent, { recursive: true, force: true }));
   const template = path.join(parent, "template"); const manifest = await preparePair({ labRoot: template, sourceRoot });
