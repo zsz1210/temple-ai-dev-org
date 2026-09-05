@@ -16,6 +16,8 @@ After rework, require a new Developer claim and exact candidate, followed by fre
 
 The operation does not change scope or reopen closed attempts. A scope change needs a separately approved Work Item; an existing Release Gate decision uses its existing closeout path. No external action is authorized.
 
+Compensate a caught audit persistence failure by restoring exact pre-operation Work Item bytes while retaining the mutation lock. A rollback failure is explicit and preserves the error context for recovery. This bounded compensation does not claim crash atomicity or replace the separate delivery-operation journal under development.
+
 ## Consequences
 
 Same-scope repairs retain one durable ID. Operators must explicitly finish runtime work and claim the next responsibility. Legacy symbolic candidate records are not guessed or rewritten. This is a local CLI contract, not a distributed lock or semantic proof that a repair fits scope. Standard repository review and human authority boundaries remain necessary.

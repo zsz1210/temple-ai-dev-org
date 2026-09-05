@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-05T03:53:28.806Z",
-  "source_fingerprint": "daf201ed365a16e1ee8f8b3fa2cbde4966078b6c4cee8783bda04b515d0e5a70",
+  "generated_at": "2026-09-05T03:56:22.802Z",
+  "source_fingerprint": "d69d38baead5acd75476e310d69fc01d8551ecef2d9e3703d5f5bc6e13be1e81",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -13,29 +13,65 @@
   "max_workers": null,
   "summary": {
     "selected": 2,
-    "dispatchable": 0,
-    "active": 1,
+    "dispatchable": 1,
+    "active": 0,
     "sequential": 1,
     "blocked": 0,
-    "waves": 0
+    "waves": 1
   },
-  "waves": [],
-  "active": [
+  "waves": [
     {
-      "work_item_id": "WI-0174",
-      "title": "Return same-scope review findings to Build",
-      "disposition": "active",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [],
-      "claim_id": "claim-20260905034149-18a513de",
-      "principal_id": "human",
-      "branch": "codex/wi-0174-review-rework",
-      "worktree": null,
-      "base_revision": "6d3a87b8b1742ab9096282ac557474452b1c8c5d"
+      "id": "wave-001",
+      "order": 1,
+      "dispatch": [
+        {
+          "work_item_id": "WI-0174",
+          "title": "Return same-scope review findings to Build",
+          "position_id": "independent_qa",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0174 · Return same-scope revie… · Independent QA (Lulu)",
+          "base_revision": "aefa50ba9fb4ca150ba4f8b86d5bbebb1010533f",
+          "affected_paths": [
+            "src/work-items.mjs",
+            "src/cli.mjs",
+            "src/work-item-rework.mjs",
+            "test/work-item-rework.test.mjs",
+            "project-overlay/.ai-org/core/schemas/work-item.schema.json",
+            "docs/operations/review-rework.md",
+            "docs/adr/0053-review-rework.md"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "independent_qa",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "f67410fac64792b30884f1f84a747b7d691b3150045378a0db79975013e720f2",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0174 --position independent_qa --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        }
+      ],
+      "join_gate": {
+        "integration_owner_agent_ids": [
+          "agent-mog"
+        ],
+        "required_evidence": [
+          "exact_candidate_revision",
+          "verification_results",
+          "unresolved_items"
+        ],
+        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
+      }
     }
   ],
+  "active": [],
   "sequential": [
     {
       "work_item_id": "WI-0172",

@@ -45,7 +45,9 @@ export async function assertFreshReworkGates(target, item, gates) {
   assertReworkScope(item);
   const retained = new Set(history.at(-1).retained_requirements);
   const referenceKey = ref => ref.startsWith("EVID-") || ref.includes(":") ? ref : path.normalize(ref);
-  const retired = new Set(history.flatMap(entry => Object.values(entry.retired_gate_evidence).flat()).map(referenceKey));
+  const retired = new Set(history.flatMap(entry => [
+    ...Object.values(entry.retired_gate_evidence).flat(), ...entry.findings, ...entry.handoff_refs
+  ]).map(referenceKey));
   let registry;
   for (const [requirement, refs] of Object.entries(gates)) {
     if (retained.has(requirement)) continue;

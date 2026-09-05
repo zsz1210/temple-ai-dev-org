@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-05T03:40:15.810Z",
-  "updated_at": "2026-09-05T03:51:04.659Z",
+  "updated_at": "2026-09-05T04:00:03.145Z",
   "scope": [
     "Same-scope review rework preserving the WI and approved boundaries; no terminal reopening, release, model experiment or onboarding work."
   ],
@@ -48,7 +48,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "6d3a87b8b1742ab9096282ac557474452b1c8c5d",
+  "base_revision": "aefa50ba9fb4ca150ba4f8b86d5bbebb1010533f",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -56,14 +56,14 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260905034149-18a513de",
+    "id": "claim-20260905040003-fda5cb0b",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-rikku",
-    "base_revision": "6d3a87b8b1742ab9096282ac557474452b1c8c5d",
+    "base_revision": "aefa50ba9fb4ca150ba4f8b86d5bbebb1010533f",
     "branch": "codex/wi-0174-review-rework",
     "worktree": null,
-    "claimed_at": "2026-09-05T03:41:49.941Z",
+    "claimed_at": "2026-09-05T04:00:03.145Z",
     "released_at": null
   },
   "claims": [
@@ -105,13 +105,49 @@
     },
     {
       "id": "claim-20260905034149-18a513de",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "6d3a87b8b1742ab9096282ac557474452b1c8c5d",
       "branch": "codex/wi-0174-review-rework",
       "worktree": null,
       "claimed_at": "2026-09-05T03:41:49.941Z",
+      "released_at": "2026-09-05T03:56:21.438Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905035621-7c142e70",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "aefa50ba9fb4ca150ba4f8b86d5bbebb1010533f",
+      "branch": "codex/wi-0174-review-rework",
+      "worktree": null,
+      "claimed_at": "2026-09-05T03:56:21.709Z",
+      "released_at": "2026-09-05T03:56:22.213Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905035623-72a1f5eb",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "aefa50ba9fb4ca150ba4f8b86d5bbebb1010533f",
+      "branch": "codex/wi-0174-review-rework",
+      "worktree": null,
+      "claimed_at": "2026-09-05T03:56:23.185Z",
+      "released_at": "2026-09-05T04:00:02.605Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260905040003-fda5cb0b",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "aefa50ba9fb4ca150ba4f8b86d5bbebb1010533f",
+      "branch": "codex/wi-0174-review-rework",
+      "worktree": null,
+      "claimed_at": "2026-09-05T04:00:03.145Z",
       "released_at": null
     }
   ],
@@ -133,8 +169,64 @@
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0174/work-order.md"
+    ".ai-org/artifacts/WI-0174/work-order.md",
+    ".ai-org/artifacts/WI-0174/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0174/developer-verification.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "aefa50ba9fb4ca150ba4f8b86d5bbebb1010533f",
+      "artifact": ".ai-org/artifacts/WI-0174/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T03:56:21.175Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-05T04:00:02.605Z",
+      "from_state": "independent_qa",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260905035623-72a1f5eb",
+      "rejected_revision": "aefa50ba9fb4ca150ba4f8b86d5bbebb1010533f",
+      "reason": [
+        "Independent QA found lifecycle mutation survives audit persistence failure; repair same-scope transactional error handling"
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0174/independent-qa.md"
+      ],
+      "scope_digest": "420f49bdb0848c8bbe79fab92bc7f79769f174e75d35172913a6b37332743fdc",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0174/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0174/developer-verification.md"
+        ],
+        "test_evidence": [
+          ".ai-org/artifacts/WI-0174/developer-verification.md"
+        ],
+        "evaluation_report": [
+          ".ai-org/artifacts/WI-0174/developer-verification.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "aefa50ba9fb4ca150ba4f8b86d5bbebb1010533f"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0174/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ]
 }

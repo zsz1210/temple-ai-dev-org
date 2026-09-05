@@ -42,4 +42,6 @@ The CLI rejects rejected commits, retired evidence references (including equival
 
 The Work Item's `rework_history` records each rejected SHA, reviewer claim, findings, retired gates and candidate pointers. The event stream records `work_item_reworked`. Prior handoff files remain unchanged. Current candidate/test/QA/release pointers are cleared until new evidence is supplied; historical records must not be treated as the current candidate.
 
+If audit persistence fails during the operation, the CLI restores the original Work Item bytes under the same mutation lock. This is in-process failure compensation, not crash-atomic storage: abrupt termination or an additional rollback I/O failure requires explicit repository recovery. After an unexpected interruption, inspect the Work Item and event stream before retrying; do not assume a failed process means nothing was written.
+
 See [runtime coordination](runtime-coordination.md), [High-Assurance](high-assurance.md), and [ADR-0053](../adr/0053-review-rework.md). This local operation does not replace branches, repository review, or cross-machine coordination.

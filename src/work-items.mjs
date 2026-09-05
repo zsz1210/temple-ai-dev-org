@@ -1138,13 +1138,24 @@ export async function reworkWorkItem(target, options) {
   prepared.item.assigned_agent_id = assignedAgentId(context, "developer");
   prepared.item.next_position = nextPositionForState(context, "build", prepared.item);
   if (context.states.get("build")?.owner_position !== "developer") throw new Error("Rework requires a Developer-owned Build state");
+  const originalBytes = await fs.readFile(workItemPath(target, item.id), "utf8");
   await writeWorkItem(target, prepared.item);
-  await appendEvent(target, {
-    timestamp: prepared.entry.returned_at, event_type: "work_item_reworked", actor,
-    work_item_id: item.id, from_state: item.state, to_state: "build",
-    rejected_revision: revision, rework_sequence: prepared.entry.sequence,
-    claim_id: item.claim.id, reason, refs: [`.ai-org/work-items/${item.id}.json`, ...findings]
-  });
+  try {
+    await appendEvent(target, {
+      timestamp: prepared.entry.returned_at, event_type: "work_item_reworked", actor,
+      work_item_id: item.id, from_state: item.state, to_state: "build",
+      rejected_revision: revision, rework_sequence: prepared.entry.sequence,
+      claim_id: item.claim.id, reason, refs: [`.ai-org/work-items/${item.id}.json`, ...findings]
+    });
+  } catch (error) {
+    // The CLI holds the mutation lock through both writes and this compensation.
+    // A crash or a second I/O failure is not covered by an in-process rollback.
+    try { await atomicWrite(workItemPath(target, item.id), originalBytes); }
+    catch (rollbackError) {
+      throw new AggregateError([error, rollbackError], "Rework audit and rollback both failed; preserve the Work Item and event stream for explicit recovery");
+    }
+    throw error;
+  }
   return prepared;
 }
 

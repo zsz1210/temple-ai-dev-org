@@ -114,7 +114,7 @@ test("a corrected candidate follows normal gates; retired evidence and rejected 
   assert.match(run(f.handoffArgs(f.revision)).stderr, /rejected rework candidate/);
   assert.deepEqual(await snapshot(f.target, f.id), claimed);
   const corrected = commit(f.target);
-  for (const ref of ["docs/old.md", "docs/./old.md"]) {
+  for (const ref of ["docs/old.md", "docs/./old.md", "docs/findings.md"]) {
     assert.match(run(f.handoffArgs(corrected, ref)).stderr, /Retired rework evidence/);
     assert.deepEqual(await snapshot(f.target, f.id), claimed);
   }
@@ -161,6 +161,28 @@ test("invalid CLI requests fail before Work Item, event or artifact mutation", a
   }
   ok(["work-item", "release", f.target, "--work-item", f.id]);
   assert.match(run(f.reworkArgs(f.revision)).stderr, /active reviewer claim/);
+});
+
+test("audit persistence failure restores exact Work Item bytes and permits one later successful rework", async t => {
+  const f = await fixture(t, "standard", "independent_qa");
+  const before = await snapshot(f.target, f.id);
+  const itemPath = path.join(f.target, `.ai-org/work-items/${f.id}.json`);
+  const originalItem = await fs.readFile(itemPath, "utf8");
+  const eventPath = path.join(f.target, ".ai-org/events/events.jsonl");
+  const savedPath = `${eventPath}.fixture-saved`;
+  await fs.rename(eventPath, savedPath);
+  await fs.mkdir(eventPath);
+  const result = run(f.reworkArgs(f.revision));
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /EISDIR/);
+  assert.equal(await fs.readFile(itemPath, "utf8"), originalItem);
+  await fs.rmdir(eventPath);
+  await fs.rename(savedPath, eventPath);
+  assert.deepEqual(await snapshot(f.target, f.id), before);
+  const applied = JSON.parse(ok(f.reworkArgs(f.revision)));
+  assert.equal(applied.entry.sequence, 1);
+  const events = (await fs.readFile(eventPath, "utf8")).trim().split("\n").map(JSON.parse);
+  assert.equal(events.filter(event => event.event_type === "work_item_reworked").length, 1);
 });
 
 test("High-Assurance rework retains risk authority and requires fresh exact-candidate evidence", async t => {
