@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0180",
   "title": "Keep optional delivery sandbox tests explicit and portable",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T09:51:45.953Z",
-  "updated_at": "2026-09-05T09:58:02.757Z",
+  "updated_at": "2026-09-05T10:09:39.592Z",
   "scope": [
     "Qualify only the installed-Codex/zsh integration test by explicit prerequisites; portable contract tests remain mandatory and an explicitly requested sandbox rehearsal must fail rather than skip. No actor prompt or production runner change."
   ],
@@ -43,8 +43,8 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "89a309b",
-  "parallel_mode": "sequential",
+  "base_revision": "64d5c94a2fd5213c464bef054e53f401247680ce",
+  "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
@@ -53,15 +53,18 @@
     "WI-0172 remains read-only in its separate historical comparison worktree; only the imported test in the WI-0179 branch changes. No sealed protocol, result, old fixture or source in that lane is mutated."
   ],
   "claim": {
-    "id": "claim-20260905095147-4b7a1656",
-    "status": "active",
+    "id": "claim-20260905100011-f28ad536",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "89a309b",
+    "agent_id": "agent-lulu",
+    "base_revision": "64d5c94a2fd5213c464bef054e53f401247680ce",
     "branch": "codex/wi-0179-optimized-comparison",
     "worktree": null,
-    "claimed_at": "2026-09-05T09:51:47.458Z",
-    "released_at": null
+    "claimed_at": "2026-09-05T10:00:11.192Z",
+    "released_at": "2026-09-05T10:09:39.347Z",
+    "release_reason": [
+      "Supplemental exact-candidate prerequisite evaluation passed; no live model approval granted."
+    ]
   },
   "claims": [
     {
@@ -80,14 +83,29 @@
     },
     {
       "id": "claim-20260905095147-4b7a1656",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "89a309b",
       "branch": "codex/wi-0179-optimized-comparison",
       "worktree": null,
       "claimed_at": "2026-09-05T09:51:47.458Z",
-      "released_at": null
+      "released_at": "2026-09-05T09:59:48.491Z",
+      "release_reason": "developer_delivery"
+    },
+    {
+      "id": "claim-20260905100011-f28ad536",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "64d5c94a2fd5213c464bef054e53f401247680ce",
+      "branch": "codex/wi-0179-optimized-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-05T10:00:11.192Z",
+      "released_at": "2026-09-05T10:09:39.347Z",
+      "release_reason": [
+        "Supplemental exact-candidate prerequisite evaluation passed; no live model approval granted."
+      ]
     }
   ],
   "gate_evidence": {
@@ -108,11 +126,41 @@
     ],
     "profile_eligibility": [
       ".ai-org/artifacts/WI-0180/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0180/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0180/verification.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0180/verification.md",
+      ".ai-org/artifacts/WI-0180/evaluation.md"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0180/evaluation.md"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0180/work-order.md"
+    ".ai-org/artifacts/WI-0180/work-order.md",
+    ".ai-org/artifacts/WI-0180/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0180/verification.md",
+    ".ai-org/artifacts/WI-0180/evaluation.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "64d5c94a2fd5213c464bef054e53f401247680ce",
+      "artifact": ".ai-org/artifacts/WI-0180/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T09:59:48.490Z"
+    }
+  ],
+  "developer_candidate_revision": "64d5c94a2fd5213c464bef054e53f401247680ce",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
 }

@@ -2,13 +2,21 @@
 
 The new comparison is prepared and frozen. **No live candidate stage has started.** The Work Item remains open; test outcomes, comparison analysis and final closeout are still pending.
 
-Frozen matrix: `sha256:1df24908d042b96b736745f9efb0a79415d3bfd66e878a3e565b9db876df511f`.
+Current frozen matrix: `sha256:3aea9b81ed834faebccffa6376a3eb1df7a5c0d40604dbda549376ad7ab4b183`.
 
-- [Matrix and aggregate limits](matrix.frozen.json)
+- [Current matrix and aggregate limits](matrix.v2.frozen.json)
 - [Design, fairness and stop conditions](design.md)
-- [Developer verification](verification.md)
-- [Independent readiness QA](independent-qa.md)
-- [Digest-bound readiness](readiness-review.json)
+- [Original harness verification](verification.md) and [current test-prerequisite verification](../WI-0180/verification.md)
+- [Original independent harness QA](independent-qa.md) and [separate exact-candidate prerequisite evaluation](prerequisite-evaluation.v2.md)
+- [Current digest-bound readiness](readiness-review.v2.json)
+
+## Why there are two preparations
+
+The initial matrix `sha256:1df24908d042b96b736745f9efb0a79415d3bfd66e878a3e565b9db876df511f` remains retained unchanged in [its original file](matrix.frozen.json) and private lab. It was never approved or run. WI-0180 then corrected one test's optional installed-Codex/zsh prerequisite declaration for hosts such as the npm Release runner. That changes the source digest, so the unused initial matrix is superseded rather than overwritten or silently reused.
+
+The current source is candidate `64d5c94a2fd5213c464bef054e53f401247680ce`, digest `sha256:fb8c249ec8641487477ade184a208159a2edde672ad9f86e19a3e5dec0fe7c1e`. The process contract, actor requests, ordinary control, product fixture and budgets are unchanged. The original independent QA covers the unchanged harness behavior. A different runtime from the Developer freshly evaluated the exact test-only delta; its report explicitly distinguishes fresh checks from reused full-suite and sandbox evidence. This supplemental Lean evaluation is not a new formal Independent QA lifecycle transition.
+
+Current verification: 568/568 local tests, no skips; a source-matched generation-free installed sandbox replay of four stages/81 operations/two denied writes; and independent missing-Codex and explicit-request negative checks. The v2 readiness record binds the supplemental report and the current sandbox report. These checks support preparation only; no live model performance or human approval is inferred.
 
 ## What this run measures
 
@@ -26,6 +34,6 @@ The private lab locator is under the Git common directory at `temple-comparisons
 
 Before execution, read the current source and protocol, confirm the matrix digest and genuine approval, recheck source/readiness/provider contracts, fresh lab state and account route, then invoke the existing `run` command with an exact approved matrix record. The exclusive matrix/pair locks prevent repetition. On a stop, retain the result; do not delete locks, replace the lab, or reuse this approval for a retry. Any new scope requires its own decision.
 
-The readiness report's one machine-home path was normalized through the supported publication operation after QA, without changing findings. Original report hash: `7229312f86439147353915f896fec7095a4e79e377e0224ad44272c1177d3c6f`; public report hash: `c0403b2765ca73c79af6fab57b7c43d2812d47c39302e5ffb8640eb1e5c3c328`. The frozen protocols bind the public report bytes. Released claim and completed worker coordinates were also removed through the supported canonical normalization.
+The original readiness report's one machine-home path was normalized through the supported publication operation after QA, without changing findings. Original report hash: `7229312f86439147353915f896fec7095a4e79e377e0224ad44272c1177d3c6f`; public report hash: `c0403b2765ca73c79af6fab57b7c43d2812d47c39302e5ffb8640eb1e5c3c328`. The initial protocols bind those public report bytes; the v2 protocols instead bind the current supplemental report named above. Released claim and completed worker coordinates were also removed through the supported canonical normalization.
 
 PR #57 was merged; its clean, merged worktree and branch were removed. Its history remains in main. The separate historical comparison branch, labs and sealed protocols remain unchanged.
