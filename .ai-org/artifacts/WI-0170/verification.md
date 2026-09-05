@@ -28,3 +28,11 @@ The acquisition-classifier test was previously about 11,099 ms within the full p
 ## Review boundary
 
 Developer evidence is not Independent QA. Exact candidate revision and independent findings are recorded at handoff. Full verification remains required for code changes made after this result. Later documentation or lifecycle records require their applicable checks without misrepresenting their revision as a separately tested code revision.
+
+## Final candidate after QA follow-up
+
+WI-0171 corrected the review advisory about ignored CLI options. Exact code candidate `7716b1fe5dc83ecfa3d52a15513d79aebeb63aaf` passed `npm run verify`: repository, link, and actual package-boundary checks plus **460 tests / 0 failures / 0 skips**, with Node test-run elapsed time **77,704.821 ms**. Production code stayed unchanged during this final run. The measured complete-suite wall time is about 6.6% below the 83,222.910 ms baseline in this single observation, despite the additional behavioral regressions. This is diagnostic evidence, not a benchmark guarantee.
+
+The changed-path helper now falls back to full verification on ambiguous options; explicit test-group commands fail on unsupported options. Independent follow-up findings are in `independent-qa.md`. No GitHub CI, merge, npm publication, or provider experiment was performed in this implementation task.
+
+After organizational closeout, the parallel plan was rebuilt and Doctor passed **37 checks / 0 warnings / 0 failures**. The previous stale-plan warning is resolved. Final evidence-only updates retain the same tested production-code candidate.

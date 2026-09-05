@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0171",
   "title": "Reject ambiguous local test selection options",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T01:13:37.590Z",
-  "updated_at": "2026-09-05T01:13:38.488Z",
+  "updated_at": "2026-09-05T01:17:14.142Z",
   "scope": [
     "Resolve WI-0170 QA advisory: unknown, duplicate or missing CLI options must not silently choose a narrow test set."
   ],
@@ -44,7 +44,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "3c23d0d",
+  "base_revision": "7716b1fe5dc83ecfa3d52a15513d79aebeb63aaf",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -54,27 +54,47 @@
     "WI-0170: QA read-only review; child owns only selector correction. No concurrent production edits."
   ],
   "claim": {
-    "id": "claim-20260905011338-223226b0",
-    "status": "active",
+    "id": "claim-20260905011713-7adefe1f",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "3c23d0d",
+    "agent_id": "agent-lulu",
+    "base_revision": "7716b1fe5dc83ecfa3d52a15513d79aebeb63aaf",
     "branch": "codex/wi-0170-test-efficiency",
     "worktree": null,
-    "claimed_at": "2026-09-05T01:13:38.488Z",
-    "released_at": null
+    "claimed_at": "2026-09-05T01:17:13.617Z",
+    "released_at": "2026-09-05T01:17:13.880Z",
+    "release_reason": [
+      "Exact correction independently reviewed through parent QA; P3 resolved."
+    ]
   },
   "claims": [
     {
       "id": "claim-20260905011338-223226b0",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "3c23d0d",
       "branch": "codex/wi-0170-test-efficiency",
       "worktree": null,
       "claimed_at": "2026-09-05T01:13:38.488Z",
-      "released_at": null
+      "released_at": "2026-09-05T01:16:18.919Z",
+      "release_reason": [
+        "Six selector tests and full 460-test verification passed; ready for quality review."
+      ]
+    },
+    {
+      "id": "claim-20260905011713-7adefe1f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "7716b1fe5dc83ecfa3d52a15513d79aebeb63aaf",
+      "branch": "codex/wi-0170-test-efficiency",
+      "worktree": null,
+      "claimed_at": "2026-09-05T01:17:13.617Z",
+      "released_at": "2026-09-05T01:17:13.880Z",
+      "release_reason": [
+        "Exact correction independently reviewed through parent QA; P3 resolved."
+      ]
     }
   ],
   "gate_evidence": {
@@ -95,11 +115,39 @@
     ],
     "profile_eligibility": [
       ".ai-org/artifacts/WI-0171/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0171/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0171/verification.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0171/verification.md"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0171/lean-closeout.md"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0171/work-order.md"
+    ".ai-org/artifacts/WI-0171/work-order.md",
+    ".ai-org/artifacts/WI-0171/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0171/verification.md",
+    ".ai-org/artifacts/WI-0171/lean-closeout.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "7716b1fe5dc83ecfa3d52a15513d79aebeb63aaf",
+      "artifact": ".ai-org/artifacts/WI-0171/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T01:16:18.659Z"
+    }
+  ],
+  "developer_candidate_revision": "7716b1fe5dc83ecfa3d52a15513d79aebeb63aaf",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
 }

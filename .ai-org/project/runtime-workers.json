@@ -748,6 +748,34 @@
       "attached_at": "2026-08-30T14:24:55.292Z",
       "completed_at": "2026-08-30T14:31:45.951Z",
       "updated_at": "2026-08-30T14:31:45.951Z"
+    },
+    {
+      "id": "worker-20260905010943-d4368920",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0170",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260905010944-4ca72043",
+      "base_revision": "3c23d0d",
+      "branch": "codex/wi-0170-test-efficiency",
+      "worktree": null,
+      "plan_fingerprint": "15c30495114ae6881a987f24768f08b0e988ecc998f93c1357cd88bbdd6280f8",
+      "plan_digest": "3b49ae3a582e3f4d40f5d833d892db519dae60e8bff94d6baedf728db42fb6f7",
+      "preparation_fingerprint": "92b8335f09213447ad78c71ce72d9101f508984e320b32017f40d3248ba4afaa",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0170_independent_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "7716b1fe5dc83ecfa3d52a15513d79aebeb63aaf",
+      "evidence": [
+        ".ai-org/artifacts/WI-0170/independent-qa.md"
+      ],
+      "reserved_at": "2026-09-05T01:09:43.994Z",
+      "attached_at": "2026-09-05T01:10:15.875Z",
+      "completed_at": "2026-09-05T01:17:12.962Z",
+      "updated_at": "2026-09-05T01:17:12.962Z"
     }
   ]
 }

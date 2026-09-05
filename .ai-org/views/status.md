@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
-- Parallel plan: 0 wave(s), fresh=false
-- Work items: 170 total, 1 active
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Parallel plan: 0 wave(s), fresh=true
+- Work items: 171 total, 0 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 26 registered, 0 reserved, 0 active
+- Runtime workers: 27 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 17
+- Attention signals: 16
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,7 +37,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
@@ -217,7 +217,8 @@
 | WI-0167 | Remediate Archify alerts and publish Alpha.30 | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `d2b2a514` | 0 | 21 | 0 |
 | WI-0168 | Publish npm only from GitHub Releases with OIDC | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a9265f7e` | 0 | 17 | 0 |
 | WI-0169 | Prepare evidence-led post-Alpha field validation | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `cf97c137` | 0 | 4 | 0 |
-| WI-0170 | Reduce verification overhead without weakening coverage | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260905010012-76c716fb | `—` | 0 | 1 | 0 |
+| WI-0170 | Reduce verification overhead without weakening coverage | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7716b1fe` | 0 | 6 | 0 |
+| WI-0171 | Reject ambiguous local test selection options | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7716b1fe` | 0 | 4 | 0 |
 
 ## Codex task registry
 
@@ -266,6 +267,7 @@
 | worker-20260830135829-d6868b66 | internal-subagent | WI-0035 | Developer / Rikku | completed | /root/wi_0035_rikku_ci | `0b02e1c5` | 0 |
 | worker-20260830141322-d00f540f | internal-subagent | WI-0032 | Quality & Evaluation Engineer / Lulu | completed | /root/qa_wi_0032_lulu | `8ae349e0` | 0 |
 | worker-20260830142454-8bb19075 | internal-subagent | WI-0032 | Independent QA / Lulu | completed | /root/independent_qa_wi_0032_lulu | `024af612` | 0 |
+| worker-20260905010943-d4368920 | internal-subagent | WI-0170 | Independent QA / Lulu | completed | /root/wi0170_independent_qa | `7716b1fe` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -289,14 +291,13 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
-- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 37
+- Team-visible Work Items: 38
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -369,14 +370,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-05T01:08:02.068Z | work_item_coordination_configured | WI-0170 | agent-rikku |
-| 2026-09-05T01:00:12.733Z | work_item_claimed | WI-0170 | human |
-| 2026-09-05T01:00:12.476Z | work_item_transitioned | WI-0170 | agent-tidus |
-| 2026-09-05T01:00:12.237Z | work_item_transitioned | WI-0170 | agent-yuna |
-| 2026-09-05T01:00:11.988Z | work_item_transitioned | WI-0170 | agent-mog |
-| 2026-09-05T00:59:30.369Z | work_item_created | WI-0170 | agent-mog |
-| 2026-09-05T00:44:41.407Z | evidence_revision_preserved | WI-0169 | human |
-| 2026-09-05T00:44:41.133Z | evidence_recorded | WI-0169 | human |
+| 2026-09-05T01:17:49.570Z | work_item_closed | WI-0170 | agent-mog |
+| 2026-09-05T01:17:49.570Z | release_gate_completed | WI-0170 | agent-mog |
+| 2026-09-05T01:17:49.275Z | work_item_transitioned | WI-0170 | agent-lulu |
+| 2026-09-05T01:17:14.142Z | work_item_closed | WI-0171 | agent-lulu |
+| 2026-09-05T01:17:14.142Z | work_item_transitioned | WI-0171 | agent-lulu |
+| 2026-09-05T01:17:13.880Z | work_item_claim_released | WI-0171 | human |
+| 2026-09-05T01:17:13.617Z | work_item_claimed | WI-0171 | human |
+| 2026-09-05T01:17:13.206Z | work_item_claim_released | WI-0170 | human |
 
 ## Assignments
 

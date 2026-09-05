@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0170",
   "title": "Reduce verification overhead without weakening coverage",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T00:59:30.369Z",
-  "updated_at": "2026-09-05T01:08:02.068Z",
+  "updated_at": "2026-09-05T01:17:49.570Z",
   "scope": [
     "Optimize per-run evidence Git reads, introduce explicit test groups and conservative change selection, shrink redundant fixtures and assertions, and align contributor test guidance. Excludes model experiments and publication."
   ],
@@ -50,35 +50,55 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "HEAD",
-  "parallel_mode": "pending",
-  "integration_owner_agent_id": null,
+  "base_revision": "3c23d0d",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260905010012-76c716fb",
-    "status": "active",
+    "id": "claim-20260905010944-4ca72043",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "HEAD",
+    "agent_id": "agent-lulu",
+    "base_revision": "3c23d0d",
     "branch": "codex/wi-0170-test-efficiency",
     "worktree": null,
-    "claimed_at": "2026-09-05T01:00:12.733Z",
-    "released_at": null
+    "claimed_at": "2026-09-05T01:09:44.006Z",
+    "released_at": "2026-09-05T01:17:13.206Z",
+    "release_reason": [
+      "Independent QA passed exact corrected candidate; no actionable findings."
+    ]
   },
   "claims": [
     {
       "id": "claim-20260905010012-76c716fb",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "HEAD",
       "branch": "codex/wi-0170-test-efficiency",
       "worktree": null,
       "claimed_at": "2026-09-05T01:00:12.733Z",
-      "released_at": null
+      "released_at": "2026-09-05T01:09:12.010Z",
+      "release_reason": [
+        "Candidate committed and ready for independent evaluation."
+      ]
+    },
+    {
+      "id": "claim-20260905010944-4ca72043",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "3c23d0d",
+      "branch": "codex/wi-0170-test-efficiency",
+      "worktree": null,
+      "claimed_at": "2026-09-05T01:09:44.006Z",
+      "released_at": "2026-09-05T01:17:13.206Z",
+      "release_reason": [
+        "Independent QA passed exact corrected candidate; no actionable findings."
+      ]
     }
   ],
   "gate_evidence": {
@@ -96,11 +116,60 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0170/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0170/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0170/verification.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0170/verification.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0170/verification.md",
+      ".ai-org/artifacts/WI-0170/integration-review.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0170/independent-qa.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0170/work-order.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0170/independent-qa.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0170/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0170/work-order.md"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0170/work-order.md"
+    ".ai-org/artifacts/WI-0170/work-order.md",
+    ".ai-org/artifacts/WI-0170/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0170/verification.md",
+    ".ai-org/artifacts/WI-0170/independent-qa.md",
+    ".ai-org/artifacts/WI-0170/release-record.md",
+    ".ai-org/artifacts/WI-0170/integration-review.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "HEAD",
+      "artifact": ".ai-org/artifacts/WI-0170/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T01:09:11.719Z"
+    }
+  ],
+  "developer_candidate_revision": "HEAD",
+  "tested_revision": "7716b1fe5dc83ecfa3d52a15513d79aebeb63aaf",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0170/work-order.md"
 }
