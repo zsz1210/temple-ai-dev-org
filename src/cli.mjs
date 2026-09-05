@@ -2286,6 +2286,25 @@ async function runCollaboration(parsed) {
 }
 
 async function runWorkItemConfigure(parsed) {
+  // Global recognition is not command support. Reject before locking or refreshing views.
+  const allowedOptions = new Set([
+    "--work-item", "--actor", "--parent", "--depends-on", "--discipline",
+    "--stage-discipline", "--stage-resource", "--clear-stage-requirement",
+    "--base-revision", "--parallel-mode", "--integration-owner", "--agent-id",
+    "--shared-contract-ref", "--contract-status", "--overlap-resolution",
+    "--spec-ref", "--ux-ref", "--ui-ref", "--contract-ref", "--spec-mode", "--ui-mode",
+    "--workflow-profile", "--risk-tier", "--scope-class", "--escalation-trigger",
+    "--profile-rationale", "--profile-evidence"
+  ]);
+  const allowedFlags = new Set([
+    "--clear-disciplines", "--replace-spec-refs", "--replace-ux-refs",
+    "--replace-ui-refs", "--replace-contract-refs", "--json"
+  ]);
+  for (const flag of [...Object.keys(parsed.options), ...parsed.flags]) {
+    if (!allowedOptions.has(flag) && !allowedFlags.has(flag)) {
+      throw new Error(`Unsupported work-item configure option: ${flag}. See temple work-item configure --help.`);
+    }
+  }
   const target = await assertSafeTarget(parsed.target);
   const result = await withProjectMutationLock(target, async () => {
     const configured = await configureWorkItem(target, {
