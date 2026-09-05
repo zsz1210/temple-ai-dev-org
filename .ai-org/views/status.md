@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
-- Parallel plan: 0 wave(s), fresh=false
-- Work items: 185 total, 3 active
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Parallel plan: 0 wave(s), fresh=true
+- Work items: 185 total, 2 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 39 registered, 0 reserved, 0 active
+- Runtime workers: 40 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 20
+- Attention signals: 19
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,10 +37,10 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 1 / 3 / 0
+- Active / sequential / blocked: 0 / 2 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -231,7 +231,7 @@
 | WI-0181 | Reduce diagnostic output and clarify stage completion | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ce132142` | 0 | 5 | 0 |
 | WI-0182 | Compare compact diagnostics in fresh delivery sessions | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `648a6b2c` | 0 | 8 | 0 |
 | WI-0183 | Design lower-overhead Lean execution after v7 comparison | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
-| WI-0184 | Acquire bounded stage material without changing workflow authority | build | Developer | Rikku | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260905124520-b7274421 | `—` | 0 | 6 | 0 |
+| WI-0184 | Acquire bounded stage material without changing workflow authority | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c0b0bcd` | 0 | 11 | 0 |
 | WI-0185 | Account for two reviewed stage material package files | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `85994e3b` | 0 | 5 | 0 |
 
 ## Codex task registry
@@ -294,6 +294,7 @@
 | worker-20260905113236-6489323b | internal-subagent | WI-0182 | Quality & Evaluation Engineer / Lulu | failed | /root/v7_readiness_qa | `69c88ba3` | 0 |
 | worker-20260905113953-ed13ebaa | internal-subagent | WI-0182 | Quality & Evaluation Engineer / Lulu | completed | /root/v7_corrected_qa | `648a6b2c` | 0 |
 | worker-20260905124032-458ce7b0 | internal-subagent | WI-0184 | Quality & Evaluation Engineer / Lulu | failed | /root/stage_material_qa | `85994e3b` | 0 |
+| worker-20260905124638-baab6f7c | internal-subagent | WI-0184 | Quality & Evaluation Engineer / Lulu | completed | /root/stage_material_corrected_qa | `1c0b0bcd` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -320,7 +321,6 @@
 - worker-20260905035623-2de5700b is failed
 - worker-20260905113236-6489323b is failed
 - worker-20260905124032-458ce7b0 is failed
-- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -400,14 +400,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-05T12:45:51.458Z | work_item_closed | WI-0185 | agent-lulu |
-| 2026-09-05T12:45:51.458Z | work_item_transitioned | WI-0185 | agent-lulu |
-| 2026-09-05T12:45:51.187Z | work_item_claimed | WI-0185 | human |
-| 2026-09-05T12:45:20.610Z | work_item_claimed | WI-0184 | human |
-| 2026-09-05T12:45:20.344Z | work_item_reworked | WI-0184 | agent-lulu |
-| 2026-09-05T12:45:20.006Z | runtime_worker_status_changed | WI-0184 | agent-lulu |
-| 2026-09-05T12:41:01.353Z | runtime_worker_attached | WI-0184 | agent-lulu |
-| 2026-09-05T12:40:32.674Z | runtime_worker_reserved | WI-0184 | human |
+| 2026-09-05T12:50:01.021Z | work_item_closed | WI-0184 | agent-mog |
+| 2026-09-05T12:50:01.021Z | release_gate_completed | WI-0184 | agent-mog |
+| 2026-09-05T12:50:00.774Z | work_item_claimed | WI-0184 | human |
+| 2026-09-05T12:50:00.326Z | work_item_transitioned | WI-0184 | agent-lulu |
+| 2026-09-05T12:50:00.079Z | work_item_transitioned | WI-0184 | agent-lulu |
+| 2026-09-05T12:49:59.826Z | work_item_transitioned | WI-0184 | agent-lulu |
+| 2026-09-05T12:49:59.512Z | runtime_worker_status_changed | WI-0184 | agent-lulu |
+| 2026-09-05T12:47:07.645Z | runtime_worker_attached | WI-0184 | agent-lulu |
 
 ## Assignments
 
