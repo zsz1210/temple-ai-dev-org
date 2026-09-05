@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 189 total, 3 active
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Parallel plan: 0 wave(s), fresh=false
+- Work items: 190 total, 4 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 47 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 22
+- Attention signals: 23
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,7 +37,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 2 / 1
@@ -237,6 +237,7 @@
 | WI-0187 | Compose Lean stage completion with truthful diagnostics and recovery | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2611def7` | 0 | 7 | 0 |
 | WI-0188 | Integrate opt-in Lean entry with bounded material and completion | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6346e026` | 0 | 9 | 0 |
 | WI-0189 | Compare single-worker and parallel Terra delivery | test | Quality & Evaluation Engineer | Lulu | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `90a5870d` | 0 | 6 | 1 |
+| WI-0190 | Clarify proportionate entry and stage completion | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260905213639-800dc30a | `—` | 0 | 1 | 0 |
 
 ## Codex task registry
 
@@ -334,6 +335,7 @@
 - worker-20260905124032-458ce7b0 is failed
 - worker-20260905130828-87bb7969 is failed
 - worker-20260905141644-4a85d8c7 is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 - Parallel plan has 1 blocked Work Item(s)
 
 ## External tracker coordination
@@ -341,7 +343,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 55
+- Team-visible Work Items: 56
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -414,14 +416,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-05T16:07:34.295Z | work_item_unresolved_updated | WI-0189 | agent-lulu |
-| 2026-09-05T16:07:34.004Z | work_item_transitioned | WI-0189 | agent-rikku |
-| 2026-09-05T16:07:33.701Z | work_item_claim_released | WI-0189 | human |
-| 2026-09-05T16:07:33.398Z | handoff_created | WI-0189 | agent-rikku |
-| 2026-09-05T15:46:34.835Z | work_item_coordination_configured | WI-0189 | agent-rikku |
-| 2026-09-05T15:46:33.942Z | work_item_unresolved_updated | WI-0189 | agent-rikku |
-| 2026-09-05T15:34:37.052Z | work_item_claimed | WI-0189 | human |
-| 2026-09-05T15:34:36.733Z | work_item_transitioned | WI-0189 | agent-tidus |
+| 2026-09-05T21:42:35.633Z | work_item_coordination_configured | WI-0190 | agent-rikku |
+| 2026-09-05T21:36:39.970Z | work_item_claimed | WI-0190 | human |
+| 2026-09-05T21:36:39.692Z | work_item_transitioned | WI-0190 | agent-tidus |
+| 2026-09-05T21:36:39.436Z | work_item_transitioned | WI-0190 | agent-yuna |
+| 2026-09-05T21:36:39.180Z | work_item_transitioned | WI-0190 | agent-mog |
+| 2026-09-05T21:36:38.924Z | work_item_claim_released | WI-0190 | human |
+| 2026-09-05T21:36:38.640Z | work_item_claimed | WI-0190 | human |
+| 2026-09-05T21:36:38.334Z | work_item_coordination_configured | WI-0190 | agent-mog |
 
 ## Assignments
 

@@ -20,6 +20,8 @@ export const REQUIRED_PACKAGE_PATHS = [
   "project-overlay/templew.mjs",
   "project-overlay/.ai-org/core/policies.json",
   "project-overlay/.agents/skills/temple-work/SKILL.md",
+  "project-overlay/.agents/skills/temple-work/references/read-only-support.md",
+  "docs/adr/0059-proportionate-work-routes.md",
   "packs/build-quality/manifest.json",
   "docs/getting-started/testing.md"
 ];
@@ -51,8 +53,8 @@ const ALLOWED_TOP_LEVEL_FILES = new Set([
   "package.json"
 ]);
 const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overlay/", "src/"];
-// WI-0188 adds the entry module, ADR-0058 and core execution reference to 406 files.
-const MAX_FILE_COUNT = 409;
+// WI-0190 adds ADR-0059 and the support reference to WI-0188's 409 files.
+const MAX_FILE_COUNT = 411;
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {

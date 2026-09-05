@@ -1,5 +1,7 @@
 # Architecture Decision Records
 
+- [ADR-0059: Proportionate work routes and stage completion](0059-proportionate-work-routes.md)
+
 - [ADR-0001: Init instead of fork](0001-init-not-fork.md)
 - [ADR-0002: Separate Position and Agent Identity](0002-position-identity-assignment.md)
 - [ADR-0003: External canonical state](0003-canonical-state-outside-chat.md)

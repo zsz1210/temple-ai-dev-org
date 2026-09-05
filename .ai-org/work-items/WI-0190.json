@@ -1,0 +1,121 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0190",
+  "title": "Clarify proportionate entry and stage completion",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-05T21:35:33.373Z",
+  "updated_at": "2026-09-05T21:42:35.633Z",
+  "scope": [
+    "Framework instruction routes, stage completion, and bounded read-only support; preserve execution guards and sealed experiments"
+  ],
+  "acceptance_criteria": [
+    "Sequential delivery does not require parallel preparation; read-only support cannot mutate or certify QA; stage receipts avoid repeated diagnostics without hiding failure"
+  ],
+  "affected_paths": [
+    "project-overlay",
+    "docs/operations",
+    "docs/extensions/skill-scenarios.md",
+    "docs/extensions/capability-catalog.md",
+    "docs/adr",
+    "test"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T21:35:33.372Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "b15b741",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [
+    "scripts/check-package.mjs"
+  ],
+  "contract_status": "stable",
+  "overlap_resolution": [
+    "WI-0172 owns test/delivery-control-pair.test.mjs; WI-0190 changes only test/proportionate-work.test.mjs and does not change that comparison or its artifacts."
+  ],
+  "claim": {
+    "id": "claim-20260905213639-800dc30a",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "b15b741",
+    "branch": "codex/wi-0190-proportionate-work",
+    "worktree": null,
+    "claimed_at": "2026-09-05T21:36:39.970Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260905213638-e5421045",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "b15b741",
+      "branch": "codex/wi-0190-proportionate-work",
+      "worktree": null,
+      "claimed_at": "2026-09-05T21:36:38.640Z",
+      "released_at": "2026-09-05T21:36:38.924Z",
+      "release_reason": [
+        "Approved bounded work order recorded"
+      ]
+    },
+    {
+      "id": "claim-20260905213639-800dc30a",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "b15b741",
+      "branch": "codex/wi-0190-proportionate-work",
+      "worktree": null,
+      "claimed_at": "2026-09-05T21:36:39.970Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0190/brief.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0190/brief.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0190/brief.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0190/brief.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0190/brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0190/brief.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
