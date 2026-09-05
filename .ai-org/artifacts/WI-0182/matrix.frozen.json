@@ -1,0 +1,63 @@
+{
+  "schema_version": "temple.optimized-delivery-matrix/v1",
+  "plan": {
+    "schema_version": "temple.optimized-delivery-matrix/v1",
+    "work_item_id": "WI-0182",
+    "selection": "screen",
+    "pairs": [
+      {
+        "id": "terra-ordinary-first",
+        "model": "gpt-5.6-terra",
+        "order": [
+          "ordinary",
+          "temple"
+        ],
+        "reasoning_effort": "medium"
+      },
+      {
+        "id": "gpt6-temple-first",
+        "model": "gpt-6-astra",
+        "order": [
+          "temple",
+          "ordinary"
+        ],
+        "reasoning_effort": "medium"
+      }
+    ],
+    "pair_limits": {
+      "stages": 4,
+      "per_stage_ms": 360000,
+      "aggregate_ms": 1440000,
+      "per_stage_operational_tokens": 80000,
+      "aggregate_operational_tokens": 320000
+    },
+    "maximum_stage_turns": 8,
+    "maximum_operational_tokens": 640000,
+    "maximum_ms": 2880000,
+    "policy": {
+      "account": "existing-included-allowance-only",
+      "purchase": false,
+      "refill": false,
+      "reset": false,
+      "retries": 0,
+      "fallback": false,
+      "cache": "uncontrolled-descriptive-only",
+      "stop_on_pair_not_comparable": true,
+      "historical_results": "context-only-not-a-causal-control"
+    }
+  },
+  "source_sha256": "sha256:636be2aa04060ef05fd6507062d25eaf88661ceadc73d768e80632920f63ccb0",
+  "pairs": [
+    {
+      "id": "terra-ordinary-first",
+      "protocol_sha256": "sha256:b78010e090ad042a5fca0a1d5e1fc7389bae5767c7a11d5f8dfac7392926597e",
+      "provider_sha256": "sha256:32f85aacbaef3c649d2c805637ad6777b92921713971eefaee89f294c03363d3"
+    },
+    {
+      "id": "gpt6-temple-first",
+      "protocol_sha256": "sha256:35f91effd6c70c986627778993883c473828b79f3210d286d8d891b75ad121ea",
+      "provider_sha256": "sha256:ea8665b86d533e2a06ba31900d7fceaf9fb11b4a04154770386205b86c851baa"
+    }
+  ],
+  "model_generation_performed": false
+}
