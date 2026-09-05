@@ -1,0 +1,277 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0168",
+  "title": "Publish npm only from GitHub Releases with OIDC",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-05T00:03:48.903Z",
+  "updated_at": "2026-09-05T00:18:17.274Z",
+  "scope": [
+    "Replace interactive npm publication with one GitHub Release-published workflow using npm Trusted Publishing",
+    "Bind every publication to the Release tag, matching package version, exact GitHub Release tarball asset, and a fresh pack digest",
+    "Route prereleases to next and stable releases to latest; PRs, pushes, merges, and manual dispatch remain non-publishing"
+  ],
+  "acceptance_criteria": [
+    "Only a published GitHub Release can trigger the npm publish job; ordinary repository events cannot",
+    "The workflow fails closed on tag, version, release-channel, npm CLI, archive, or digest mismatch and uses OIDC without an npm token",
+    "Automated tests cover release routing and artifact validation, and human-facing documentation explains one-time setup and the first live-proof boundary"
+  ],
+  "affected_paths": [
+    ".github/workflows/publish-npm.yml",
+    "scripts/validate-npm-release.mjs",
+    "test/npm-release-workflow.test.mjs",
+    "docs/adr/0050-release-triggered-npm-trusted-publishing.md",
+    "docs/adr/README.md",
+    "docs/operations/npm-release.md",
+    "docs/planning/release-readiness.md",
+    "docs/getting-started/usage.md",
+    "README.md",
+    "README.ja.md",
+    "README.zh-TW.md",
+    "CHANGELOG.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "cross-system",
+    "escalation_triggers": [
+      "independent-assurance-required"
+    ],
+    "rationale": "Release automation crosses GitHub and npm supply-chain boundaries; fail-closed validation, independent QA, and owner-controlled trusted-publisher setup are required",
+    "evidence_refs": [
+      "Owner accepted Release-only npm automation on 2026-09-05"
+    ],
+    "evaluated_at": "2026-09-05T00:03:48.903Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260905001817-b05fca01",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38",
+    "branch": "codex/wi-0168-release-only-npm-oidc",
+    "worktree": null,
+    "claimed_at": "2026-09-05T00:18:17.274Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260905000349-accb0788",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "c2e25a3b101644dfdbc66e82d65f2a489affa95c",
+      "branch": "codex/wi-0168-release-only-npm-oidc",
+      "worktree": null,
+      "claimed_at": "2026-09-05T00:03:49.444Z",
+      "released_at": "2026-09-05T00:06:00.302Z",
+      "release_reason": [
+        "Intake scope handed to Product Manager"
+      ]
+    },
+    {
+      "id": "claim-20260905000600-bbbfc246",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "c2e25a3b101644dfdbc66e82d65f2a489affa95c",
+      "branch": "codex/wi-0168-release-only-npm-oidc",
+      "worktree": null,
+      "claimed_at": "2026-09-05T00:06:00.791Z",
+      "released_at": "2026-09-05T00:06:01.488Z",
+      "release_reason": [
+        "Approved scope handed to Tech Lead"
+      ]
+    },
+    {
+      "id": "claim-20260905000601-1a35f202",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "c2e25a3b101644dfdbc66e82d65f2a489affa95c",
+      "branch": "codex/wi-0168-release-only-npm-oidc",
+      "worktree": null,
+      "claimed_at": "2026-09-05T00:06:01.994Z",
+      "released_at": "2026-09-05T00:06:12.140Z",
+      "release_reason": [
+        "Technical design handed to Developer"
+      ]
+    },
+    {
+      "id": "claim-20260905000612-20253c7e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "c2e25a3b101644dfdbc66e82d65f2a489affa95c",
+      "branch": "codex/wi-0168-release-only-npm-oidc",
+      "worktree": null,
+      "claimed_at": "2026-09-05T00:06:12.640Z",
+      "released_at": "2026-09-05T00:15:04.666Z",
+      "release_reason": [
+        "Developer candidate and verification handed to Quality Evaluator"
+      ]
+    },
+    {
+      "id": "claim-20260905001505-d1f7716d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38",
+      "branch": "codex/wi-0168-release-only-npm-oidc",
+      "worktree": null,
+      "claimed_at": "2026-09-05T00:15:05.174Z",
+      "released_at": "2026-09-05T00:15:52.961Z",
+      "release_reason": [
+        "Quality evaluation handed to Independent QA"
+      ]
+    },
+    {
+      "id": "claim-20260905001553-0d8ca8c8",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38",
+      "branch": "codex/wi-0168-release-only-npm-oidc",
+      "worktree": null,
+      "claimed_at": "2026-09-05T00:15:53.490Z",
+      "released_at": "2026-09-05T00:18:16.673Z",
+      "release_reason": [
+        "Independent QA passed and handed the candidate to Release Manager"
+      ]
+    },
+    {
+      "id": "claim-20260905001817-b05fca01",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38",
+      "branch": "codex/wi-0168-release-only-npm-oidc",
+      "worktree": null,
+      "claimed_at": "2026-09-05T00:18:17.274Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0168/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0168/approved-scope.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0168/approved-scope.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0168/technical-design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0168/technical-design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0168/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0168/developer-verification.md",
+      ".ai-org/artifacts/WI-0168/test-observation.json"
+    ],
+    "test_evidence": [
+      "EVID-20260905T001504Z-9FB745D0"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0168/quality-evaluation.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0168/independent-qa-report.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0168/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0168/work-order.md",
+    ".ai-org/artifacts/WI-0168/owner-approval.md",
+    ".ai-org/artifacts/WI-0168/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0168/approved-scope.md",
+    ".ai-org/artifacts/WI-0168/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0168/technical-design.md",
+    ".ai-org/artifacts/WI-0168/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0168/developer-verification.md",
+    ".ai-org/artifacts/WI-0168/test-observation.json",
+    "EVID-20260905T001504Z-9FB745D0",
+    ".ai-org/artifacts/WI-0168/handoff-005-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0168/quality-evaluation.md",
+    ".ai-org/artifacts/WI-0168/handoff-006-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0168/independent-qa-report.md",
+    ".ai-org/artifacts/WI-0168/independent-qa-observation.json"
+  ],
+  "unresolved": [],
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "input_revision": "c2e25a3b101644dfdbc66e82d65f2a489affa95c",
+      "artifact": ".ai-org/artifacts/WI-0168/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-05T00:06:00.024Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "input_revision": "c2e25a3b101644dfdbc66e82d65f2a489affa95c",
+      "artifact": ".ai-org/artifacts/WI-0168/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-05T00:06:01.245Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "input_revision": "c2e25a3b101644dfdbc66e82d65f2a489affa95c",
+      "artifact": ".ai-org/artifacts/WI-0168/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-05T00:06:11.863Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "input_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38",
+      "artifact": ".ai-org/artifacts/WI-0168/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T00:15:04.376Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "input_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38",
+      "artifact": ".ai-org/artifacts/WI-0168/handoff-005-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-05T00:15:52.688Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "input_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38",
+      "artifact": ".ai-org/artifacts/WI-0168/handoff-006-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-05T00:18:16.377Z"
+    }
+  ],
+  "developer_candidate_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38"
+}

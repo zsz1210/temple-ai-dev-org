@@ -1,0 +1,86 @@
+name: Publish npm package
+
+on:
+  release:
+    types: [published]
+
+concurrency:
+  group: npm-release-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    name: Publish verified Release asset
+    if: ${{ github.event.release.draft == false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out the exact Release tag
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Use Node.js 24 without a release cache
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+
+      - name: Install the exact dependency lock
+        run: npm ci --ignore-scripts
+
+      - name: Verify the exact Release source
+        run: npm run verify
+
+      - id: package
+        name: Pack and validate Release metadata
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_PRERELEASE: ${{ github.event.release.prerelease }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/fresh-package"
+          npm pack --ignore-scripts --json --pack-destination "$RUNNER_TEMP/fresh-package" > "$RUNNER_TEMP/pack-result.json"
+          node scripts/validate-npm-release.mjs prepare \
+            --package-json package.json \
+            --pack-result "$RUNNER_TEMP/pack-result.json" \
+            --pack-dir "$RUNNER_TEMP/fresh-package" \
+            --tag-name "$RELEASE_TAG" \
+            --prerelease "$RELEASE_PRERELEASE" \
+            --repository "$GITHUB_REPOSITORY" \
+            --npm-version "$(npm --version)" \
+            --github-output "$GITHUB_OUTPUT"
+
+      - name: Download the package attached to the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          ARCHIVE_FILENAME: ${{ steps.package.outputs.archive_filename }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/release-asset"
+          gh release download "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern "$ARCHIVE_FILENAME" \
+            --dir "$RUNNER_TEMP/release-asset"
+
+      - id: asset
+        name: Verify the attached package bytes
+        env:
+          ARCHIVE_FILENAME: ${{ steps.package.outputs.archive_filename }}
+        run: |
+          node scripts/validate-npm-release.mjs verify-asset \
+            --fresh "$RUNNER_TEMP/fresh-package/$ARCHIVE_FILENAME" \
+            --release "$RUNNER_TEMP/release-asset/$ARCHIVE_FILENAME" \
+            --github-output "$GITHUB_OUTPUT"
+
+      - name: Publish through npm Trusted Publishing
+        env:
+          ARCHIVE_FILENAME: ${{ steps.package.outputs.archive_filename }}
+          DIST_TAG: ${{ steps.package.outputs.dist_tag }}
+        run: npm publish "$RUNNER_TEMP/release-asset/$ARCHIVE_FILENAME" --access public --tag "$DIST_TAG"

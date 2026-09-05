@@ -26339,6 +26339,92 @@
         "exit_code": 0,
         "started_at": "2026-09-04T23:48:24.000Z"
       }
+    },
+    {
+      "id": "EVID-20260905T001504Z-9FB745D0",
+      "work_item_id": "WI-0168",
+      "recorded_at": "2026-09-05T00:15:04.175Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Developer full verification",
+      "outcome": "pass",
+      "scope_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38",
+      "observed_at": "2026-09-05T00:14:07.000Z",
+      "summary": "Exact candidate passed all 449 tests and package, documentation, and repository checks",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0168/test-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0168/test-observation.json",
+          "sha256": "9e72c11202d638b60c463a10f5f00855ab08a838becc59a08fd52f1c4f306498"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0168/developer-verification.md",
+          "sha256": "61f2ab8a70717b2558ef6ef15b6278a20b06f6ffb3636d5ab87b64f55d706148"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-05T00:12:50.000Z"
+      }
+    },
+    {
+      "id": "EVID-20260905T001816Z-6A71EB55",
+      "work_item_id": "WI-0168",
+      "recorded_at": "2026-09-05T00:18:16.149Z",
+      "recorded_by": "human",
+      "expires_at": null,
+      "invalidated_at": null,
+      "invalidated_by": null,
+      "invalidation_reason": null,
+      "external_action_performed": false,
+      "kind": "test",
+      "title": "Independent clean-worktree verification",
+      "outcome": "pass",
+      "scope_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38",
+      "observed_at": "2026-09-05T00:17:47.000Z",
+      "summary": "Independent QA installed the exact candidate and passed all 449 tests with release-policy checks",
+      "adapter": {
+        "id": "test-observation",
+        "version": "1",
+        "source_ref": ".ai-org/artifacts/WI-0168/independent-qa-observation.json"
+      },
+      "artifacts": [
+        {
+          "path": ".ai-org/artifacts/WI-0168/independent-qa-observation.json",
+          "sha256": "c3aa35b5ee4377ec8a214267e35e0ce03a567841e72c8db7fdb8069e60436566"
+        },
+        {
+          "path": ".ai-org/artifacts/WI-0168/independent-qa-report.md",
+          "sha256": "ccff10b25b42cb0530cf21038725eafe1c661a0581158f3ce2421c7c897819fc"
+        }
+      ],
+      "details": {
+        "command": [
+          "npm",
+          "ci",
+          "--ignore-scripts",
+          "&&",
+          "npm",
+          "run",
+          "verify"
+        ],
+        "exit_code": 0,
+        "started_at": "2026-09-05T00:16:20.000Z"
+      }
     }
   ]
 }

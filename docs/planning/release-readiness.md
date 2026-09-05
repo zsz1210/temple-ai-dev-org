@@ -1,6 +1,6 @@
 # Alpha release readiness
 
-> **The source repository is public.** The owner has approved the exact Alpha.30 GitHub prerelease and npm `next` package through WI-0167. Deployment, npm `latest`, and any announcement remain separate decisions.
+> **The source repository and Alpha.30 package are public.** WI-0167 records the exact GitHub prerelease, npm package, registry integrity, and clean consumer result. npm assigned both `next` and the registry-required first-version `latest` alias to Alpha.30; the owner accepted that temporary alias without treating the prerelease as stable. Deployment and any announcement remain separate decisions.
 
 Last refreshed: 2026-09-05
 
@@ -10,16 +10,16 @@ Release target: a narrowly described public Alpha, not `1.0` or production quali
 
 ## Current answer
 
-Temple has a public source repository and an owner-approved `v0.1.0-alpha.30` release path. WI-0167 is the authoritative record for the exact GitHub and npm publication outcome; the public services remain the observable source for whether each external action completed.
+Temple has a public source repository, GitHub prerelease `v0.1.0-alpha.30`, and public npm package `@zsz1210/temple-ai-dev-org@0.1.0-alpha.30`. WI-0167 is the authoritative repository record for those exact publication actions; the public services remain the observable source for their current availability.
 
 - The existing repository became public after the owner explicitly accepted the historical metadata quantified by WI-0165 and WI-0166 verified all available GitHub Actions logs.
 - The historical `v0.1.0-alpha.5` prerelease remains release history, not the current recommended build.
 - `WI-0163` and WI-0164 froze and qualified an earlier Alpha.30 candidate; later public-state documentation and dependency remediation deliberately replaced those exact package bytes.
 - WI-0167 upgrades the optional Archify adapter to upstream `v2.16.0`, applies one disclosed deterministic `fast-uri` `3.1.7` downstream security patch, and requires fresh exact-package qualification.
-- `package.json` permits public scoped publication only with the prerelease dist-tag `next`; this release does not assign `latest`.
-- GitHub prerelease and npm publication are authorized only for the exact WI-0167 candidate. A login or second-factor prompt remains a Human Principal identity boundary.
+- `package.json` keeps `next` as its conservative publication default. The npm registry nevertheless assigned `latest` to the first published package version; the owner accepted that platform constraint for Alpha.30.
+- WI-0168 replaces routine interactive publication with a Release-only npm Trusted Publishing design. It does not retroactively republish Alpha.30 or authorize another version.
 
-The approved version is `v0.1.0-alpha.30`. Its release approval does not authorize deployment, npm `latest`, an announcement, or stronger product and performance claims.
+The approved version is `v0.1.0-alpha.30`. Its release approval does not authorize deployment, an announcement, or stronger product and performance claims. Future prereleases remain on `next`; only a deliberately published stable GitHub Release may intentionally route a stable version to `latest`.
 
 ## Release surfaces
 
@@ -27,9 +27,9 @@ The approved version is `v0.1.0-alpha.30`. Its release approval does not authori
 | --- | --- | --- |
 | GitHub repository | Public at `879bcd6e`; anonymous API, Git, README, and License access verified | Keep public and observe the source surface |
 | Branch protection | Reverified after publication: strict required Node.js 24 check, one approval, Code Owner review, last-push approval, stale-review dismissal, and resolved conversations | Keep enabled and monitor public contributions |
-| GitHub Release | Alpha.30 publication is approved through WI-0167 | Verify the tag, prerelease flag, target revision, and release notes against the exact candidate |
-| Package metadata | `@zsz1210/temple-ai-dev-org@0.1.0-alpha.30`; public access and `next` are explicit | Build and requalify one exact archive from the final release revision |
-| npm | Alpha.30 publication under `next` is approved through WI-0167 | Verify registry integrity and confirm that `latest` remains unset |
+| GitHub Release | `v0.1.0-alpha.30` is published as a prerelease at exact release revision `d2b2a51` | Keep later Releases bound to an exact qualified tag and asset |
+| Package metadata | `@zsz1210/temple-ai-dev-org@0.1.0-alpha.30`; public access and conservative `next` default are explicit | Change the version only through a separately qualified release candidate |
+| npm | Alpha.30 is retrievable; `next` and the accepted first-version `latest` alias both resolve to it | Configure and prove Release-only OIDC on the next new version; do not infer stable readiness from the alias |
 | Announcement | None | Treat as a separate decision after the Release exists |
 
 The package version, a Git tag, a GitHub Release, repository visibility, and npm publication are different states. One never proves or authorizes another.
@@ -63,7 +63,7 @@ These observations span the private qualification work and the later public-sour
 - A clean Node.js `v24.20.0` consumer installed the exact local tarball and passed version, first init, idempotent re-init, installed launcher, status, and Doctor. A separate Alpha.29 fixture upgraded lock-only while 15 sampled project-owned digests remained unchanged.
 - The historical Alpha.29 work and its earlier package, installation, browser, upgrade, and hosted observations remain available in `WI-0086`. They are history, not qualification for this candidate.
 
-The exact local package bytes, manifest, consumer result, audits, test count, and browser result are now captured. Public-hosting controls must still be checked after any separately approved visibility change.
+The exact published package bytes, manifest, consumer result, audits, test count, browser result, and public registry retrieval are captured by WI-0167. Future package evidence must remain bound to its own version and revision.
 
 ## Gates for the next public Alpha
 
@@ -76,13 +76,13 @@ The exact local package bytes, manifest, consumer result, audits, test count, an
 | Full behavior suite | Passed all 443 tests at the exact candidate | Repeat only if the candidate is replaced |
 | Browser presentation | Installed-Chrome gate passed at the exact candidate | Retain the bounded platform and usability limits |
 | Package boundary | Exact 380-file manifest, sizes, integrity, and SHA-256 recorded | Preserve the archive identity in any later tag or Release review |
-| Clean consumer | Node.js 24 exact-tarball path passed | Public registry recovery remains unavailable until separately published |
+| Clean consumer | Node.js 24 exact-tarball and public-registry paths passed for Alpha.30 | Repeat against the exact package version after each release |
 | Upgrade safety | Alpha.29-to-.30 lock-only upgrade passed; 15 project-owned digests unchanged | Repeat only if the candidate or migration boundary changes |
 | Dependency and secret review | Secret alerts are zero; WI-0167 contains the reviewed optional-adapter replacement | Confirm GitHub closes the six obsolete alerts after merge and retain the zero-vulnerability audits |
 | Evidence publication boundary | Existing history accepted; all available Actions logs reviewed; public anonymous access verified; media remained explicitly excluded | Preserve the recorded limits and review any new publication surface independently |
 | Fresh-session clean-room path | Passed at the pre-freeze revision | WI-0158 completed one bounded Work Item and a separate repository-only recovery without maintainer coaching; repeat only if later candidate changes affect the Core Path |
 | Rollback | Earlier procedure exists | Bind withdrawal or superseding-release instructions to the approved immutable tag |
-| Publication authority | Repository visibility granted and exercised | Separate Human approval remains required for the immutable tag, GitHub Release, and npm publication |
+| Publication authority | Repository visibility and Alpha.30 publication were separately granted and exercised | A future GitHub Release publication remains the deliberate Human release action; OIDC must not broaden merge authority |
 
 ## Decisions reserved for the repository owner
 
@@ -90,7 +90,7 @@ The following choices cannot be inferred from passing tests:
 
 1. Whether the historical `v0.1.0-alpha.5` prerelease should remain as-is or be relabeled as an early internal preview.
 2. Whether an announcement should be made and what claims it may contain.
-3. Whether a future stable version may receive npm `latest`.
+3. When the product evidence is strong enough to publish the first intentional stable version under npm `latest`.
 4. Whether deployment or hosted services should ever be part of a later release.
 
 Approval of one item does not approve the later items.
@@ -123,30 +123,28 @@ This rehearsal validates the AI-assisted operating path. It does not establish t
 - A clean Node.js 24 consumer reproduced installation and the deterministic Core Path; the Alpha.29 comparison upgraded lock-only without changing sampled project-owned bytes.
 - Independent QA independently reproduced the same package digest, complete manifest, browser result, clean consumer, and upgrade boundary before organizational closeout.
 
-### Step 4 — publish the exact prerelease surfaces
+### Step 4 — publish the exact prerelease surfaces — completed
 
 - The owner accepted the existing history recorded by WI-0165.
 - WI-0166 reviewed every available GitHub Actions log, then published the repository and verified anonymous access.
 - Required CI, review rules, vulnerability reporting, secret scanning, push protection, and Dependabot security updates are enabled in the public state.
 - WI-0167 replaces the alerted optional adapter through a reviewed upstream pin and deterministic downstream security patch.
 - The owner separately authorized the exact immutable tag, GitHub prerelease, and npm `next` package.
-- Build, verify, and publish the same archive bytes; stop at any authentication or integrity mismatch.
-- Observe early use before considering npm `latest`, deployment, or announcement.
+- WI-0167 built, verified, published, and independently retrieved the same Alpha.30 archive bytes. npm's forced first-version `latest` alias is recorded as an accepted platform constraint, not a stable-product claim.
+- Observe early use before considering a stable release, deployment, or announcement.
 
-## npm prerelease boundary
+## npm release boundary
 
-The npm package is a second identity, access, authentication, provenance, package-content, and rollback surface. WI-0167 approves only `0.1.0-alpha.30` with public access under dist-tag `next`.
+The npm package is a separate identity, access, authentication, provenance, package-content, and rollback surface. WI-0167 authorizes only the completed Alpha.30 publication. WI-0168 introduces the future Release-only automation described in [npm release operations](../operations/npm-release.md) and [ADR-0050](../adr/0050-release-triggered-npm-trusted-publishing.md).
 
-Before any npm publication:
+Before any later npm publication:
 
-- confirm the final scoped package name;
-- keep public access and the `next` dist-tag explicit in the approved publication candidate;
-- rebuild and requalify the archive because the public-state documentation changed package bytes after WI-0164;
-- verify the pinned Archify remediation and the resulting GitHub alert state;
-- configure public scoped-package access and maintainer account protection;
-- repeat the exact tarball and clean-consumer checks;
-- verify README, license, repository metadata, executable entrypoints, and provenance;
-- bind the publish command to the already qualified tarball and verify the registry digest afterward.
+- qualify one new semantic version and exact revision;
+- attach the exact candidate archive to a draft GitHub Release;
+- make the Release prerelease flag agree with the package version;
+- publish the Release only after reviewing its tag, target, notes, and asset;
+- let the OIDC workflow fail closed on any metadata, verification, or byte mismatch;
+- verify the registry version, dist-tags, integrity, provenance, and a clean consumer after publication.
 
 ## Not required for a narrowly labeled first Alpha
 
