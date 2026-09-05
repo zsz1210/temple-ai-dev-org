@@ -4,6 +4,8 @@
 
 Accepted on 2026-09-02 by the user for WI-0099.
 
+Updated by [ADR-0051](0051-scope-local-verification-and-deduplicate-evidence-reads.md): the implemented timeout is eight minutes, Doctor includes Schema validation, and local prose-only work has a fast verification path. [ADR-0050](0050-release-triggered-npm-trusted-publishing.md) separately requires complete verification in Release publishing. The historical decision below is retained as recorded.
+
 This decision supersedes the active Node.js 22 compatibility and hosted full-suite requirements in ADR-0039 and the hosted browser requirement in ADR-0040. Their package-boundary, dependency-provenance, local browser-contract, and historical evidence decisions remain in force.
 
 ## Context

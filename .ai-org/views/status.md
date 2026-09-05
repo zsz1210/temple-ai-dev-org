@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
-- Work items: 169 total, 0 active
+- Work items: 170 total, 1 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -217,6 +217,7 @@
 | WI-0167 | Remediate Archify alerts and publish Alpha.30 | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `d2b2a514` | 0 | 21 | 0 |
 | WI-0168 | Publish npm only from GitHub Releases with OIDC | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a9265f7e` | 0 | 17 | 0 |
 | WI-0169 | Prepare evidence-led post-Alpha field validation | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `cf97c137` | 0 | 4 | 0 |
+| WI-0170 | Reduce verification overhead without weakening coverage | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260905010012-76c716fb | `—` | 0 | 1 | 0 |
 
 ## Codex task registry
 
@@ -295,7 +296,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 36
+- Team-visible Work Items: 37
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -368,14 +369,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-05T00:44:27.621Z | work_item_closed | WI-0169 | agent-lulu |
-| 2026-09-05T00:44:27.621Z | work_item_transitioned | WI-0169 | agent-lulu |
-| 2026-09-05T00:44:27.304Z | work_item_claim_released | WI-0169 | human |
-| 2026-09-05T00:44:27.065Z | work_item_claimed | WI-0169 | human |
-| 2026-09-05T00:44:26.801Z | work_item_transitioned | WI-0169 | agent-rikku |
-| 2026-09-05T00:44:26.530Z | work_item_claim_released | WI-0169 | human |
-| 2026-09-05T00:44:26.238Z | handoff_created | WI-0169 | agent-rikku |
-| 2026-09-05T00:40:53.437Z | work_item_claimed | WI-0169 | human |
+| 2026-09-05T01:08:02.068Z | work_item_coordination_configured | WI-0170 | agent-rikku |
+| 2026-09-05T01:00:12.733Z | work_item_claimed | WI-0170 | human |
+| 2026-09-05T01:00:12.476Z | work_item_transitioned | WI-0170 | agent-tidus |
+| 2026-09-05T01:00:12.237Z | work_item_transitioned | WI-0170 | agent-yuna |
+| 2026-09-05T01:00:11.988Z | work_item_transitioned | WI-0170 | agent-mog |
+| 2026-09-05T00:59:30.369Z | work_item_created | WI-0170 | agent-mog |
+| 2026-09-05T00:44:41.407Z | evidence_revision_preserved | WI-0169 | human |
+| 2026-09-05T00:44:41.133Z | evidence_recorded | WI-0169 | human |
 
 ## Assignments
 

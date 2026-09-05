@@ -17,7 +17,7 @@ This repository is the central framework. Do not add Agent names, product specif
 2. Update the relevant specification or ADR before changing a durable contract.
 3. Keep framework files generic; place no project-specific Agent names or real-project state in `project-overlay/`.
 4. Add or update tests that prove the behavior and its safety boundary.
-5. Run `npm ci --ignore-scripts` and `npm run verify`.
+5. Run `npm ci --ignore-scripts`, then `npm run verify` for a behavioral candidate or `npm run verify:fast` for prose-only changes. Follow the [testing guide](docs/getting-started/testing.md) for focused development, organization-state checks, and UI verification.
 6. Explain the user problem, the chosen boundary, verification performed, and any remaining risk in the pull request.
 
 If AI assisted the contribution, the human contributor remains responsible for reviewing the result, respecting third-party licenses, removing private data, and confirming that the submitted code and prose may be distributed under this repository's license.
@@ -28,8 +28,8 @@ By submitting a contribution, you agree that it may be distributed under the rep
 
 1. Update the relevant specification or ADR first.
 2. Update `project-overlay/`, the central documentation, or the CLI.
-3. Run `npm run verify`.
-4. Run `init -> doctor -> status` once in a temporary directory.
+3. Run the checks required by the [testing guide](docs/getting-started/testing.md); retain full verification for behavioral candidates and releases.
+4. For initialization, upgrade, packaging, or organization-contract changes, run `init -> doctor -> status` once in a temporary directory.
 5. Update the changelog before creating a version tag.
 
 When adding or modifying a Skill, follow the public contract in `docs/extensions/skill-authoring.md`, the maintainer promotion rules in `docs/extensions/skill-design.md`, and update the adoption state and third-party provenance in `docs/extensions/capability-catalog.md`.

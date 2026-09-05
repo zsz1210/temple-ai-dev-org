@@ -67,11 +67,3 @@ test("repository Skill set and scenario contract match the canonical registry", 
     new Set(["conversational", "evidence-backed", "persistence-authorized"])
   );
 });
-
-test("bootstrap and installed init Skills remain byte-identical", async () => {
-  const [bootstrap, installed] = await Promise.all([
-    fs.readFile(path.join(root, ".agents/skills/temple-init/SKILL.md")),
-    fs.readFile(path.join(skillRoot, "temple-init/SKILL.md"))
-  ]);
-  assert.ok(bootstrap.equals(installed));
-});

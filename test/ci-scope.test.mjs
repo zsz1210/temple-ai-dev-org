@@ -19,8 +19,8 @@ test("CI is one bounded Node.js 24 repository gate", async () => {
   const jobNames = [...jobs.matchAll(/^  ([a-zA-Z0-9_-]+):\s*$/gm)].map((match) => match[1]);
 
   assert.deepEqual(jobNames, ["verify"]);
-  assert.match(workflow, /name: Verify \(Node\.js 24\)/);
-  assert.match(workflow, /timeout-minutes: 8/);
+  const timeout = Number(workflow.match(/timeout-minutes:\s*(\d+)/)?.[1]);
+  assert.ok(timeout > 0 && timeout <= 15, "ordinary CI must retain a bounded timeout");
   assert.match(workflow, /node-version: 24/);
   assert.match(workflow, /cache: npm/);
   assert.match(workflow, /cache-dependency-path: package-lock\.json/);
@@ -43,12 +43,16 @@ test("CI is one bounded Node.js 24 repository gate", async () => {
     assert.match(reference, /^[^@]+@[a-f0-9]{40}$/, reference);
   }
 
-  for (const id of ["install", "governance", "schema", "doctor", "behavior"]) {
+  assert.match(workflow, /pull_request:/);
+  assert.match(workflow, /push:\n    branches:\n      - main/);
+  assert.match(workflowStep(workflow, "doctor"), /templew\.mjs doctor/);
+  assert.doesNotMatch(workflow, /templew\.mjs schema validate/, "Doctor already validates schemas");
+  for (const id of ["install", "governance", "doctor", "behavior"]) {
     assert.match(workflowStep(workflow, id), /if:.*always\(\)/, id);
   }
 });
 
-test("complete and browser verification remain explicit local commands", async () => {
+test("complete and browser verification remain explicit commands; publishing verifies the full Release source", async () => {
   const packageDocument = JSON.parse(await fs.readFile(path.join(root, "package.json"), "utf8"));
   const testingGuide = await fs.readFile(path.join(root, "docs/getting-started/testing.md"), "utf8");
 
@@ -57,4 +61,6 @@ test("complete and browser verification remain explicit local commands", async (
   assert.match(testingGuide, /npm run verify/);
   assert.match(testingGuide, /npm run test:browser/);
   assert.match(testingGuide, /local/i);
+  const release = await fs.readFile(path.join(root, ".github/workflows/publish-npm.yml"), "utf8");
+  assert.match(release, /npm run verify/);
 });

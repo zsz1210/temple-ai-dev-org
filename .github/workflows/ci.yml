@@ -36,12 +36,8 @@ jobs:
         name: Governance — repository and documentation checks
         if: ${{ always() && steps.install.outcome == 'success' }}
         run: npm run check
-      - id: schema
-        name: Governance — schema validation
-        if: ${{ always() && steps.install.outcome == 'success' }}
-        run: node ./templew.mjs schema validate . --json
       - id: doctor
-        name: Governance — Doctor
+        name: Governance — Doctor including schema validation
         if: ${{ always() && steps.install.outcome == 'success' }}
         run: node ./templew.mjs doctor . --json
       - id: behavior
@@ -53,7 +49,6 @@ jobs:
         env:
           INSTALL_OUTCOME: ${{ steps.install.outcome }}
           GOVERNANCE_OUTCOME: ${{ steps.governance.outcome }}
-          SCHEMA_OUTCOME: ${{ steps.schema.outcome }}
           DOCTOR_OUTCOME: ${{ steps.doctor.outcome }}
           BEHAVIOR_OUTCOME: ${{ steps.behavior.outcome }}
         run: |
@@ -63,18 +58,16 @@ jobs:
             echo "- Runtime: \`Node.js 24\`"
             echo "- Dependency install: \`$INSTALL_OUTCOME\`"
             echo "- Repository checks: \`$GOVERNANCE_OUTCOME\`"
-            echo "- Schema validation: \`$SCHEMA_OUTCOME\`"
-            echo "- Doctor: \`$DOCTOR_OUTCOME\`"
+            echo "- Doctor including schema validation: \`$DOCTOR_OUTCOME\`"
             echo "- Fast contracts: \`$BEHAVIOR_OUTCOME\`"
             echo
-            echo "Full and browser verification remain local release evidence."
+            echo "Behavioral candidates require local full verification; Release publishing reruns it. Browser verification remains local."
           } >> "$GITHUB_STEP_SUMMARY"
       - name: Enforce aggregated verification result
         if: ${{ always() }}
         env:
           INSTALL_OUTCOME: ${{ steps.install.outcome }}
           GOVERNANCE_OUTCOME: ${{ steps.governance.outcome }}
-          SCHEMA_OUTCOME: ${{ steps.schema.outcome }}
           DOCTOR_OUTCOME: ${{ steps.doctor.outcome }}
           BEHAVIOR_OUTCOME: ${{ steps.behavior.outcome }}
         run: |
@@ -87,7 +80,6 @@ jobs:
           }
           require_success "Dependency install" "$INSTALL_OUTCOME"
           require_success "Governance repository checks" "$GOVERNANCE_OUTCOME"
-          require_success "Governance schema validation" "$SCHEMA_OUTCOME"
           require_success "Governance Doctor" "$DOCTOR_OUTCOME"
           require_success "Bounded contract suite" "$BEHAVIOR_OUTCOME"
           exit "$failed"

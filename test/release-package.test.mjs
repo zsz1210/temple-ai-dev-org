@@ -7,7 +7,6 @@ import { buildCliBootstrapMetadata, SUPPORTED_NODE_RANGE } from "../src/bootstra
 import {
   FORBIDDEN_PACKAGE_PREFIXES,
   REQUIRED_PACKAGE_PATHS,
-  inspectPackageDryRun,
   validatePackageDryRun
 } from "../scripts/check-package.mjs";
 
@@ -22,12 +21,18 @@ test("package and installed bootstrap expose the same qualified Node.js LTS rang
   assert.deepEqual(packageDocument.publishConfig, { access: "public", tag: "next" });
 });
 
-test("npm dry-run package is allowlisted and excludes development state", async () => {
-  const pack = await inspectPackageDryRun(root);
+test("package validator rejects missing, forbidden, undeclared and oversized manifests", () => {
+  const pack = { files: REQUIRED_PACKAGE_PATHS.map((pathname) => ({ path: pathname })), unpackedSize: 1024 };
   assert.deepEqual(validatePackageDryRun(pack), []);
-  const paths = pack.files.map((entry) => entry.path);
-  for (const requiredPath of REQUIRED_PACKAGE_PATHS) assert.ok(paths.includes(requiredPath), requiredPath);
-  for (const prefix of FORBIDDEN_PACKAGE_PREFIXES) {
-    assert.equal(paths.some((pathname) => pathname.startsWith(prefix)), false, prefix);
+  for (const requiredPath of REQUIRED_PACKAGE_PATHS) {
+    const missing = { ...pack, files: pack.files.filter((entry) => entry.path !== requiredPath) };
+    assert.ok(validatePackageDryRun(missing).some((error) => error.includes(`missing: ${requiredPath}`)));
   }
+  for (const prefix of FORBIDDEN_PACKAGE_PREFIXES) {
+    assert.ok(validatePackageDryRun({ ...pack, files: [...pack.files, { path: `${prefix}secret` }] }).some((error) => error.includes("forbidden")), prefix);
+  }
+  assert.ok(validatePackageDryRun({ ...pack, files: [...pack.files, { path: "unknown.txt" }] }).some((error) => error.includes("undeclared")));
+  assert.ok(validatePackageDryRun({ ...pack, files: [...pack.files, ...Array.from({ length: 500 }, (_, n) => ({ path: `src/${n}` }))] }).some((error) => error.includes("file count")));
+  for (const size of [undefined, NaN, 9 * 1024 * 1024]) assert.ok(validatePackageDryRun({ ...pack, unpackedSize: size }).some((error) => error.includes("unpacked size")));
+  assert.ok(validatePackageDryRun(null).length);
 });

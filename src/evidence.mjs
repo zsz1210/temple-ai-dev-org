@@ -159,17 +159,83 @@ function gitArtifactAtRevision(target, revision, relativePath) {
   return { status: "found", content: result.stdout };
 }
 
+// Cache digests, not artifact bodies, and only for this validation invocation.
+// Batch framing is byte-based: blobs may contain newlines and arbitrary bytes.
+function historicalArtifactDigests(target, objects) {
+  const results = new Map();
+  const individual = (object, source) => {
+    const result = gitArtifactAtRevision(target, source.revision, source.path);
+    results.set(object, result.status === "found" ? { status: "found", digest: sha256(result.content) } : result);
+  };
+  const entries = [...objects];
+  for (let start = 0; start < entries.length; start += 64) {
+    const chunk = entries.slice(start, start + 64);
+    const batch = chunk.filter(([object]) => !/[\r\n]/.test(object));
+    for (const [object, source] of chunk.filter(([object]) => /[\r\n]/.test(object))) individual(object, source);
+    if (!batch.length) continue;
+    const result = spawnSync("git", ["-C", target, "cat-file", "--batch"], {
+      input: `${batch.map(([object]) => object).join("\n")}\n`,
+      encoding: null,
+      maxBuffer: GIT_ARTIFACT_MAX_BUFFER
+    });
+    const parsed = new Map();
+    let offset = 0;
+    let valid = result.status === 0 && !result.error && Buffer.isBuffer(result.stdout);
+    if (valid) {
+      for (const [object] of batch) {
+        const end = result.stdout.indexOf(10, offset);
+        if (end < 0) { valid = false; break; }
+        const header = result.stdout.subarray(offset, end).toString("utf8");
+        offset = end + 1;
+        if (header === `${object} missing`) {
+          parsed.set(object, { status: "absent" });
+          continue;
+        }
+        const match = /^[0-9a-f]+ blob ([0-9]+)$/.exec(header);
+        const size = match ? Number(match[1]) : NaN;
+        if (!Number.isSafeInteger(size) || size < 0 || offset + size >= result.stdout.length || result.stdout[offset + size] !== 10) {
+          valid = false; break;
+        }
+        parsed.set(object, { status: "found", digest: sha256(result.stdout.subarray(offset, offset + size)) });
+        offset += size + 1;
+      }
+      valid &&= offset === result.stdout.length;
+    }
+    if (valid) for (const [object, digest] of parsed) results.set(object, digest);
+    // Preserve the old per-object error semantics on oversized batches, unusual
+    // object types, or Git/protocol failures. Never interpret partial output as success.
+    else for (const [object, source] of batch) individual(object, source);
+  }
+  return results;
+}
+
 export async function validateEvidenceArtifacts(target, registry, workItemIds = null) {
   const errors = [];
+  const revisions = new Map();
+  const objects = new Map();
+  for (const entry of registry?.entries ?? []) {
+    if (entry.invalidated_at || !entry.scope_revision) continue;
+    const revision = entry.scope_revision;
+    if (!revisions.has(revision)) {
+      const exists = gitObjectExists(target, `${revision}^{commit}`);
+      revisions.set(revision, { exists, durability: exists ? evidenceRevisionDurability(target, revision) : null });
+    }
+    if (!revisions.get(revision).durability?.durable) continue;
+    for (const artifact of entry.artifacts ?? []) {
+      const object = `${revision}:${artifact.path.split(/[\\/]+/).join("/")}`;
+      objects.set(object, { revision, path: artifact.path });
+    }
+  }
+  const historicalDigests = historicalArtifactDigests(target, objects);
   for (const entry of registry?.entries ?? []) {
     if (workItemIds && !workItemIds.has(entry.work_item_id)) errors.push(`${entry.id}: unknown Work Item ${entry.work_item_id}`);
     if (entry.invalidated_at) continue;
-    if (entry.scope_revision && !gitObjectExists(target, `${entry.scope_revision}^{commit}`)) {
+    if (entry.scope_revision && !revisions.get(entry.scope_revision).exists) {
       errors.push(`${entry.id}: recorded revision ${entry.scope_revision} is unavailable`);
       continue;
     }
     if (entry.scope_revision) {
-      const durability = evidenceRevisionDurability(target, entry.scope_revision);
+      const durability = revisions.get(entry.scope_revision).durability;
       if (!durability.durable) {
         const tagRef = `refs/tags/${durability.tag}`;
         const conflict = durability.target_revision ? ` but that tag targets ${durability.target_revision}` : "";
@@ -181,9 +247,9 @@ export async function validateEvidenceArtifacts(target, registry, workItemIds = 
     }
     for (const artifact of entry.artifacts ?? []) {
       if (entry.scope_revision) {
-        const historical = gitArtifactAtRevision(target, entry.scope_revision, artifact.path);
+        const historical = historicalDigests.get(`${entry.scope_revision}:${artifact.path.split(/[\\/]+/).join("/")}`);
         if (historical.status === "found") {
-          if (sha256(historical.content) !== artifact.sha256) {
+          if (historical.digest !== artifact.sha256) {
             errors.push(`${entry.id}:${artifact.path} digest mismatch at recorded revision ${entry.scope_revision}`);
           }
           continue;
