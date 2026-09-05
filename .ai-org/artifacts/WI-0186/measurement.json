@@ -1,0 +1,43 @@
+{
+  "schema_version": "temple.stage-material-byte-observation/v1",
+  "model_calls": 0,
+  "method": "same-snapshot full/stage actual CLI responses on synthetic Lean Builder and fresh Verifier fixtures",
+  "limitations": [
+    "bytes are not Tokens or cost",
+    "full source acquisition remains",
+    "no model quality or delivery efficiency comparison",
+    "single fixture observation per stage"
+  ],
+  "stages": [
+    {
+      "position": "developer",
+      "full_source_bytes": 71293,
+      "stage_body_bytes": 54352,
+      "full_output_bytes": 90861,
+      "stage_output_bytes": 80975,
+      "body_reduction_percent": 23.76250122732947,
+      "output_reduction_percent": 10.88035570816962,
+      "acquired_bytes_unchanged": true,
+      "projected_sources": [
+        ".ai-org/core/positions.json",
+        "temple.lock"
+      ],
+      "mandatory_reads_waived": false
+    },
+    {
+      "position": "quality_evaluator",
+      "full_source_bytes": 73508,
+      "stage_body_bytes": 57218,
+      "full_output_bytes": 94754,
+      "stage_output_bytes": 86376,
+      "body_reduction_percent": 22.160853240463616,
+      "output_reduction_percent": 8.841843088418432,
+      "acquired_bytes_unchanged": true,
+      "projected_sources": [
+        ".ai-org/core/positions.json",
+        "temple.lock"
+      ],
+      "mandatory_reads_waived": false
+    }
+  ]
+}

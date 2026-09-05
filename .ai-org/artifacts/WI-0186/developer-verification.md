@@ -1,0 +1,9 @@
+# WI-0186 Developer handoff
+
+Implemented opt-in stage material v2 with original/emitted hashes, full-source freshness, complete applicable Position records, exact managed-entry observations and conservative per-source fallbacks. Default/full packet v1 and whole governing rules remain unchanged. The only intended package addition is ADR-0056: actual dry-run inventory compared 402 to 403 files and found exactly that addition; the 8 MiB limit and path exclusions remain unchanged.
+
+Focused packet tests passed 16/16 in 20.727 seconds before the final defensive container-shape check; the prior combined packet/package run passed 18/18. Fresh complete verification will cover the final candidate, including the container-shape regression, and is still pending at this handoff. Independent review has not yet qualified the candidate.
+
+The repeatable measure.mjs script uses synthetic actual-CLI Build and fresh Verifier fixtures, without model calls. Final serialized observations are in measurement.json. Body reductions are 23.76% and 22.16%; complete CLI-output reductions are 10.88% and 8.84%. The first local prototype's duplicated representation metadata initially reduced total output only 1.31% for Build and increased Test output 1.32%; replacing the duplicate manifest body with a digest corrected this before candidate qualification. Actual formatted CLI output is now asserted in the regression suite, not only minified JSON or document bodies.
+
+Full sources are still acquired locally, and mandatory reads are not waived. These byte results do not claim Token savings, lower model latency, delivery quality or improvement against ordinary delivery. No frozen comparison was rerun. Rollback removes the optional stage mode, its docs/tests and single package-count increment while preserving past evidence.

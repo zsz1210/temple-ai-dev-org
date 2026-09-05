@@ -1,0 +1,11 @@
+# WI-0186 stage material scope
+
+The user authorized continuing after WI-0184. Implement a bounded, opt-in `--material stage` response that reduces unrelated inventory/Position content without changing entry obligations, policy authority, workflow or model selection. Existing default full packet behavior stays compatible. No live comparison, merge, publication or external release is included.
+
+Scope: deterministic projections of `temple.lock.managed_files` and `.ai-org/core/positions.json`; all other material remains whole. Full sources are still safely acquired, hashed and rechecked. Projected output distinguishes original and emitted hashes/bytes, binds its material mode, preserves restrictions for selected Positions, and never establishes write permission or instruction comprehension.
+
+Acceptance: exact affected/source paths have explicit managed-entry observations, never prefix ownership; current, handoff and next-owner Position definitions retain every field. Unknown formats/fields, ambiguous paths, independently required full files and recovery purpose retain whole sources with an explicit fallback reason. Whole policy, workflow, collaboration, entry, Skill and evidence bodies remain byte-identical. CLI no-write, stale binding, adversarial/fallback tests and full verification pass; distinct QA reviews the exact candidate.
+
+Measure full versus stage acquisition for the same synthetic Builder and fresh Verifier without models. Report full response bytes as well as source/body bytes and the unchanged reads. These are byte observations, not Token or delivery-efficiency evidence. Stop at this implemented slice.
+
+The only intended package addition is ADR-0056; review npm dry-run inventory before updating its count ceiling from 402 to 403. Preserve exclusions and the 8 MiB limit. Risk is bounded local derived output; no authority/schema mutation to project-owned data, new retention backend, dependency or provider. Rollback reverts this optional mode/docs and its one-file count increment; preserve WI-0182/0184 evidence. Engineering Manager integrates this isolated branch; Developer and Independent QA remain distinct. No affected-path overlaps were reported at intake.

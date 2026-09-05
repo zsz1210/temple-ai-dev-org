@@ -262,7 +262,7 @@ Usage:
   temple capability list [target] [--json]
   temple capability find [target] --query text [--position position] [--limit number] [--json]
   temple context resolve [target] --work-item WI-0001 [--position position] [--stage stage] [--purpose primary|integration|recovery] [--query text] [--revision ref] [--limit number] [--json] [--no-write] [--compact (requires --no-write --json)]
-  temple context packet [target] --work-item WI-0001 --position position --no-write --json [--purpose primary|integration|recovery] [--expected-plan digest]
+  temple context packet [target] --work-item WI-0001 --position position --no-write --json [--purpose primary|integration|recovery] [--material full|stage] [--expected-plan digest]
   temple --version
 
 Core commands:
@@ -355,6 +355,7 @@ const VALUE_FLAGS = new Set([
   "--position",
   "--stage",
   "--purpose",
+  "--material",
   "--thread-id",
   "--client-thread-id",
   "--host-id",
@@ -3047,13 +3048,13 @@ async function runCapability(parsed) {
 
 async function runContext(parsed) {
   if (parsed.action === "packet") {
-    assertCommandOptions(parsed, ["--work-item", "--position", "--purpose", "--expected-plan"], ["--no-write", "--json"]);
+    assertCommandOptions(parsed, ["--work-item", "--position", "--purpose", "--material", "--expected-plan"], ["--no-write", "--json"]);
     if (!parsed.flags.has("--no-write") || !parsed.flags.has("--json")) throw new OperationError("INVALID_INPUT", "Context packet requires --no-write and --json");
     const target = await assertSafeTarget(parsed.target);
     const { acquireContextPacket } = await import("./context-packet.mjs");
     const packet = await acquireContextPacket(target, {
       workItemId: parsed.options["--work-item"], position: parsed.options["--position"],
-      purpose: parsed.options["--purpose"], expectedPlan: parsed.options["--expected-plan"]
+      purpose: parsed.options["--purpose"], material: parsed.options["--material"], expectedPlan: parsed.options["--expected-plan"]
     });
     console.log(JSON.stringify(packet, null, 2));
     return packet.acquisition === "complete" ? 0 : 1;

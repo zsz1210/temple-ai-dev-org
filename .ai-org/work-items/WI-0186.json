@@ -1,0 +1,134 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0186",
+  "title": "Scope stage material without omitting governing rules",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-05T12:55:11.045Z",
+  "updated_at": "2026-09-05T12:56:29.545Z",
+  "scope": [
+    "Add opt-in stage material projection for exact managed-file observations and relevant Position definitions. Preserve whole mandatory instructions, policies and evidence, full-source freshness, conservative fallback and old packet defaults; local tests and measurements only, no live comparison."
+  ],
+  "acceptance_criteria": [
+    "Stage output is smaller on representative synthetic Build/Test inputs while preserving all applicable restrictions and full source digests; unknown schemas, ambiguous paths, explicit full-source references and recovery fall back to whole bodies; full tests and distinct QA pass."
+  ],
+  "affected_paths": [
+    "src/context-packet.mjs",
+    "src/cli.mjs",
+    "test/context-packet.test.mjs",
+    "scripts/check-package.mjs",
+    "docs/adr/0056-stage-material-projections.md",
+    "docs/adr/README.md",
+    "docs/extensions/context-routing.md",
+    ".ai-org/artifacts/WI-0186"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T12:55:11.045Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "68af6ff",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260905125629-8255fe7c",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "68af6ff",
+    "branch": "codex/wi-0186-stage-material-scope",
+    "worktree": null,
+    "claimed_at": "2026-09-05T12:56:29.545Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260905125511-fd3edec2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "68af6ff",
+      "branch": "codex/wi-0186-stage-material-scope",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:55:11.554Z",
+      "released_at": "2026-09-05T12:56:28.020Z",
+      "release_reason": [
+        "Recorded authorized scope and acceptance for stage projections."
+      ]
+    },
+    {
+      "id": "claim-20260905125628-6cfbbced",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "68af6ff",
+      "branch": "codex/wi-0186-stage-material-scope",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:56:28.774Z",
+      "released_at": "2026-09-05T12:56:29.037Z",
+      "release_reason": [
+        "ADR-0056 bounds projections to known structured inventories, preserving all governing rules and fallback."
+      ]
+    },
+    {
+      "id": "claim-20260905125629-8255fe7c",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "68af6ff",
+      "branch": "codex/wi-0186-stage-material-scope",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:56:29.545Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0186/brief.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0186/brief.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0186/brief.md"
+    ],
+    "technical_design": [
+      "docs/adr/0056-stage-material-projections.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0186/brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0186/brief.md",
+    "docs/adr/0056-stage-material-projections.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

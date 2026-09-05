@@ -55,5 +55,6 @@
 - [ADR-0053: Same-scope review rework](0053-review-rework.md)
 - [ADR-0054: Bound delivery entry and compose recoverable administration](0054-bounded-delivery-entry-and-recovery.md)
 - [ADR-0055: Acquire transient stage material through an opt-in read-only command](0055-transient-stage-material.md)
+- [ADR-0056: Scope derived stage material without dropping governing rules](0056-stage-material-projections.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

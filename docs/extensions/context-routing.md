@@ -30,6 +30,10 @@ Missing, unsafe, non-text, oversized, unresolved or changed inputs produce an in
 
 Optional `--purpose primary|integration|recovery` selects the existing route purpose. `--expected-plan <packet_digest>` rejects changed acquisition inputs; the digest does not become a mutation token or proof that a fresh Agent read the material. Revalidate before later actions. See [ADR-0055](../adr/0055-transient-stage-material.md) for the transient acquisition contract and limits.
 
+Optional `--material stage` emits a v2 derived response. It narrows only recognized managed-file inventories and Position definitions to exact existing affected files, acquired sources, and current/handoff/next responsibilities. Original source hashes and emitted-body hashes are separate; the complete sources are still acquired and rechecked. All policies, entry instructions, Skills and evidence remain whole. This does not waive required reads or establish write permission. Omitted mode and `--material full` retain the original v1 response.
+
+Stage mode falls back to whole sources when formats or custom fields are unknown, scope includes directories/globs/missing files, the source is explicitly required by a gate/route/specification, the purpose is recovery, or the projection is not smaller. Each representation carries its reason. Negative exact managed-entry lookup does not classify ownership of unassessed paths. Expected digests bind the material mode, full sources and emitted representation. Byte reduction is diagnostic evidence, not a measured Token or delivery-time improvement. See [ADR-0056](../adr/0056-stage-material-projections.md).
+
 Humans and authorized Agents maintain canonical project files, the thin `.ai-org/project/spec-index.json` authority registry, and the thin `.ai-org/project/context-map.json` routing map. The specification index answers which product or interface document governs a revision; the Context Map answers when an Agent should read a source. Neither stores the source body. The CLI derives disposable views:
 
 - `.ai-org/views/capabilities.json` inventories repository Skills and their lifecycle ownership.
