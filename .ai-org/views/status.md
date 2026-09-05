@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 167 total, 0 active
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Parallel plan: 0 wave(s), fresh=false
+- Work items: 168 total, 1 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 26 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 16
+- Attention signals: 17
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,7 +37,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
@@ -215,6 +215,7 @@
 | WI-0165 | Audit public Git history text exposure | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `df20f2be` | 0 | 13 | 0 |
 | WI-0166 | Publish the repository as a public Alpha surface | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `879bcd6e` | 0 | 18 | 0 |
 | WI-0167 | Remediate Archify alerts and publish Alpha.30 | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `d2b2a514` | 0 | 21 | 0 |
+| WI-0168 | Publish npm only from GitHub Releases with OIDC | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260905000612-20253c7e | `—` | 0 | 7 | 0 |
 
 ## Codex task registry
 
@@ -286,6 +287,7 @@
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -365,14 +367,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-04T23:58:25.166Z | work_item_closed | WI-0167 | agent-mog |
-| 2026-09-04T23:58:25.166Z | release_gate_completed | WI-0167 | agent-mog |
-| 2026-09-04T23:58:24.889Z | work_item_unresolved_updated | WI-0167 | agent-mog |
-| 2026-09-04T23:51:24.245Z | work_item_unresolved_updated | WI-0167 | agent-mog |
-| 2026-09-04T23:51:24.056Z | evidence_recorded | WI-0167 | human |
-| 2026-09-04T23:51:23.809Z | work_item_claimed | WI-0167 | human |
-| 2026-09-04T18:52:41.377Z | work_item_transitioned | WI-0167 | agent-lulu |
-| 2026-09-04T18:52:41.125Z | work_item_claim_released | WI-0167 | human |
+| 2026-09-05T00:06:12.640Z | work_item_claimed | WI-0168 | human |
+| 2026-09-05T00:06:12.383Z | work_item_transitioned | WI-0168 | agent-tidus |
+| 2026-09-05T00:06:12.140Z | work_item_claim_released | WI-0168 | human |
+| 2026-09-05T00:06:11.863Z | handoff_created | WI-0168 | agent-tidus |
+| 2026-09-05T00:06:01.994Z | work_item_claimed | WI-0168 | human |
+| 2026-09-05T00:06:01.721Z | work_item_transitioned | WI-0168 | agent-yuna |
+| 2026-09-05T00:06:01.488Z | work_item_claim_released | WI-0168 | human |
+| 2026-09-05T00:06:01.245Z | handoff_created | WI-0168 | agent-yuna |
 
 ## Assignments
 

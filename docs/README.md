@@ -25,6 +25,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 | Understand Token usage, project calibration, or model selection | [Token Efficiency and Model Routing](operations/token-efficiency-and-model-routing.md) | [Phase 4 design](planning/phase-4.md), [ADR-0034](adr/0034-attribute-usage-before-routing-models.md) |
 | Audit a decision or claim | [ADR index](adr/README.md) | [Validation index](validation/README.md), [Research index](research/README.md) |
 | Check whether Temple is ready for public release | [Release readiness](planning/release-readiness.md) | [Roadmap](planning/roadmap.md), [Testing strategy](getting-started/testing.md) |
+| Publish a qualified npm version | [npm release operations](operations/npm-release.md) | [Release readiness](planning/release-readiness.md), [ADR-0050](adr/0050-release-triggered-npm-trusted-publishing.md) |
 
 ## Documentation map
 
@@ -66,6 +67,7 @@ The root README explains what Temple is and why it exists. This index routes imp
 - [Multi-repository federation](operations/multi-repository-federation.md) — project-owned participants, exact revisions, composite references, rollout waves, and read-only portfolio authority.
 - [Bounded validation programs](operations/validation-programs.md) — reviewed multi-repository waves, resource ceilings, durable checkpoints, write allowlists, and limitation-aware usage aggregation.
 - [Model and process evaluation](operations/model-and-process-evaluation.md) — controlled process-only, model-only, or factorial comparisons with quality gates, cache controls, frozen protocols, and reusable reports.
+- [npm release operations](operations/npm-release.md) — Release-only Trusted Publishing, exact asset checks, npm channel mapping, and recovery boundaries.
 - [Evidence-driven Lean Mode retrospective](validation/evidence-driven-lean-mode.md) — what the Wave 5 evidence supports, what it does not, and why the next experiment changes shape.
 
 ### Extensions and learning

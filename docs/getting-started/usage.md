@@ -4,6 +4,8 @@ This is the complete reference. If this is your first Work Item, follow the shor
 
 ## 1. Install the central framework
 
+For the AI-assisted first run or framework contribution, use a source checkout:
+
 ```bash
 git clone git@github.com:zsz1210/temple-ai-dev-org.git
 cd temple-ai-dev-org
@@ -15,6 +17,15 @@ temple --version
 ```
 
 Clone the central framework once and install its exact lockfile dependencies with `npm ci`. Install it into each product repository with `temple init`; no fork is required. `project-overlay/` is only the installation source inside the central repository. Its contents are installed directly at the product repository root.
+
+For CLI-only evaluation, the public Alpha is also available from npm:
+
+```bash
+npm install --global @zsz1210/temple-ai-dev-org@next
+temple --version
+```
+
+The npm installation exposes the CLI. It does not give an uninitialized project the pre-init `$temple-init` Skill context, so use the source checkout for the guided path described below.
 
 ## 2. First initialization
 

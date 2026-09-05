@@ -70,7 +70,7 @@ Work Item は、次の段階に必要な根拠がそろったときだけ先へ�
 
 必要なものは Git、Node.js 24 以降、Codex、導入先のプロジェクトディレクトリです。CI では Node.js 24 を基準環境として検証します。
 
-現在の Temple はソースからインストールします。
+以下の AI 支援付きセットアップでは、Codex が Temple のリポジトリ Skill を読めるよう、ソースをチェックアウトして使います。
 
 ```bash
 git clone https://github.com/zsz1210/temple-ai-dev-org.git
@@ -79,6 +79,8 @@ npm ci
 npm run verify
 npm link
 ```
+
+公開 Alpha の CLI は `npm install --global @zsz1210/temple-ai-dev-org@next` でも導入できます。最初の案内付きセットアップやコントリビューションにはソース版を使ってください。npm から入るのは CLI だけで、未初期化のプロジェクトに `$temple-init` の事前コンテキストまでは提供しません。
 
 Codex で Temple を開き、次のように依頼します。
 

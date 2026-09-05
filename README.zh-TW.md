@@ -70,7 +70,7 @@ Work Item 只有在下一階段需要的依據都準備好之後，才會繼續�
 
 開始前請準備 Git、Node.js 24 以上版本、Codex，以及要導入 Temple 的專案目錄。目前 CI 以 Node.js 24 為基準。
 
-目前 Temple 從原始碼安裝：
+以下的 AI 引導式安裝會使用原始碼 checkout，讓 Codex 能讀到 Temple 版本庫裡的 Skills：
 
 ```bash
 git clone https://github.com/zsz1210/temple-ai-dev-org.git
@@ -79,6 +79,8 @@ npm ci
 npm run verify
 npm link
 ```
+
+公開 Alpha 的 CLI 也可以用 `npm install --global @zsz1210/temple-ai-dev-org@next` 安裝。第一次需要 AI 引導或想參與貢獻時，仍建議使用原始碼；npm 指令只會安裝 CLI，不會預先把 `$temple-init` Skill 的內容交給尚未初始化的專案。
 
 在 Codex 裡開啟 Temple，然後提出：
 

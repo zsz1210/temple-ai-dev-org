@@ -70,7 +70,7 @@ The stages describe responsibilities, not fixed job titles. Temple currently shi
 
 Requirements: Git, Node.js 24 or later, Codex, and a project directory. Node.js 24 is the CI baseline.
 
-Temple is currently installed from source:
+For the AI-assisted setup below, use a source checkout so Codex can read Temple's repository Skills:
 
 ```bash
 git clone https://github.com/zsz1210/temple-ai-dev-org.git
@@ -79,6 +79,8 @@ npm ci
 npm run verify
 npm link
 ```
+
+The public Alpha CLI is also available as `npm install --global @zsz1210/temple-ai-dev-org@next`. Use the source path for the guided first run or when contributing; the npm command installs the CLI but does not give an uninitialized project the pre-init `$temple-init` Skill context.
 
 Open Temple in Codex, then ask:
 

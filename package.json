@@ -37,7 +37,7 @@
     "check": "node scripts/check-repo.mjs && node scripts/check-doc-links.mjs && node scripts/check-package.mjs",
     "test": "node --test",
     "test:browser": "node scripts/verify-console-browser.mjs",
-    "test:fast": "node --test test/ci-scope.test.mjs test/doc-links.test.mjs test/model.test.mjs test/publication-audit.test.mjs test/skill-policy.test.mjs test/specifications.test.mjs",
+    "test:fast": "node --test test/ci-scope.test.mjs test/doc-links.test.mjs test/model.test.mjs test/npm-release-workflow.test.mjs test/publication-audit.test.mjs test/skill-policy.test.mjs test/specifications.test.mjs",
     "test:full": "node --test",
     "verify:fast": "npm run check && npm run test:fast",
     "verify": "npm run check && npm run test:full"
