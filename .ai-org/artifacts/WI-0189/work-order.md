@@ -2,7 +2,7 @@
 
 ## Authorized outcome
 
-The maintainer delegated the choice of a small product and requested one test of fixed decomposition: one Terra Builder versus three Terra workers followed by integration. This authorizes local preparation. The live spending envelope below has been proposed separately and remains **pending**, not approved by the scope request or a preselected UI answer.
+The maintainer delegated the choice of a small product and requested one test of fixed decomposition: one Terra Builder versus three Terra workers followed by integration. The subsequent explicit response approved the unchanged seven-stage envelope; see [approval.md](approval.md). The earlier pending envelope remains a historical proposal, not the executable protocol.
 
 The selected product is a JSON sales-report generator. This is a disposable, single-repository experiment, not a new Temple feature or a new ordinary-versus-Temple run.
 
@@ -58,6 +58,8 @@ Only existing Pro included allowance is proposed. No Credits purchase/refill, re
 6. If any choice exceeds or materially changes the approved seven-stage experiment, stop rather than silently expand it.
 
 ## Stop and report
+
+The outer Work Item owns the experiment harness and its isolated subjects. These subjects deliberately receive no Temple installation or lifecycle overhead in either arm: they are measured test actors, not additional framework-development tasks. Their stage graph, individual roots, ownership, shared contract, exact candidates and join owner are frozen in the experiment protocol. The deterministic coordinator is the integration owner; the Integrator is a fresh subject with a distinct runtime, not a second authority over the outer Work Item. Core framework runtime/task registries and other ongoing experiments remain untouched.
 
 One-shot execution ends when both arms are verified or a governing safety, authority, accounting, Provider, time or Token boundary stops the run. Never delete run-once markers or restart under the same approval. Independent remaining work may proceed after an ordinary product-quality rejection only if the frozen protocol explicitly permits it within the same envelope; never after a fatal safety/accounting failure.
 
