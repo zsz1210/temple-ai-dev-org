@@ -96,6 +96,23 @@ test("Entry rejects profile, contract, ownership and actor exceptions without ma
   await assertReadOnly(f, args, "fallback");
 });
 
+test("Draft shared contracts retain the existing route until explicitly stabilized", async t => {
+  const f = await setup(t); const original = await itemState(f);
+  const preview = await assertReadOnly(f, entryArgs(f), "eligible");
+  await mutateItem(f, { ...original, contract_status: "draft", shared_contract_refs: ["docs/brief.md"] });
+  const draft = await assertReadOnly(f, entryArgs(f), "fallback");
+  assert.equal(draft.packet, null);
+  assert.ok(draft.reasons.some(reason => reason.code === "shared-contract-not-stable"));
+  const before = await canonicalBytes(f);
+  const stale = installed(f, entryArgs(f, ["--expected-plan", preview.entry_digest]), true);
+  assert.notEqual(stale.status, 0);
+  assert.equal(JSON.parse(stale.stdout).code, "STALE_PREVIEW");
+  assert.equal(JSON.parse(stale.stdout).mutation_status, "not_started");
+  assert.deepEqual(await canonicalBytes(f), before);
+  await mutateItem(f, { ...original, contract_status: "stable", shared_contract_refs: ["docs/brief.md"] });
+  await assertReadOnly(f, entryArgs(f), "eligible");
+});
+
 test("Entry reassesses current policy and collaborative sponsorship", async t => {
   const f = await setup(t);
   const workflowPath = path.join(f.target, ".ai-org/core/workflow.json"); const original = await fs.readFile(workflowPath, "utf8");

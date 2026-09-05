@@ -43,7 +43,8 @@ test("repository Skill set and scenario contract match the canonical registry", 
   const entry = await fs.readFile(path.join(deliveryRoot, "SKILL.md"), "utf8");
   const references = [...entry.matchAll(/\]\((references\/[^)]+\.md)\)/g)].map(match => match[1]);
   assert.deepEqual(new Set(references), new Set([
-    "references/lean-delivery.md", "references/parallel-work.md", "references/assurance-and-recovery.md"
+    "references/lean-delivery.md", "references/parallel-work.md", "references/assurance-and-recovery.md",
+    "references/lean-execution.md"
   ]));
   for (const reference of references) assert.ok((await fs.stat(path.join(deliveryRoot, reference))).isFile());
 

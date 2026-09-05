@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-05T14:00:33.617Z",
-  "updated_at": "2026-09-05T14:02:02.311Z",
+  "updated_at": "2026-09-05T14:23:26.636Z",
   "scope": [
     "Implement slice C after accepted B: read-only explicit-identity entry selects scoped stage material and finish guidance only within existing Lean eligibility; otherwise preserve the existing route and required instructions. Update core entry guidance through source templates and supported upgrade; deterministic installed sandbox tests only."
   ],
@@ -62,7 +62,7 @@
   ],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "76c0177",
+  "base_revision": "88ab5970b8410f3b4baa99be50ff26796bb51250",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -70,14 +70,14 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260905140202-064dea46",
+    "id": "claim-20260905142326-0799f316",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-rikku",
-    "base_revision": "76c0177",
+    "base_revision": "88ab5970b8410f3b4baa99be50ff26796bb51250",
     "branch": "codex/wi-0188-lean-entry",
     "worktree": null,
-    "claimed_at": "2026-09-05T14:02:02.311Z",
+    "claimed_at": "2026-09-05T14:23:26.636Z",
     "released_at": null
   },
   "claims": [
@@ -97,13 +97,39 @@
     },
     {
       "id": "claim-20260905140202-064dea46",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "76c0177",
       "branch": "codex/wi-0188-lean-entry",
       "worktree": null,
       "claimed_at": "2026-09-05T14:02:02.311Z",
+      "released_at": "2026-09-05T14:16:40.480Z",
+      "release_reason": [
+        "Frozen C candidate handed to distinct reviewer."
+      ]
+    },
+    {
+      "id": "claim-20260905141644-a77d6288",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "88ab5970b8410f3b4baa99be50ff26796bb51250",
+      "branch": "codex/wi-0188-lean-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T14:16:44.814Z",
+      "released_at": "2026-09-05T14:23:26.362Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260905142326-0799f316",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "88ab5970b8410f3b4baa99be50ff26796bb51250",
+      "branch": "codex/wi-0188-lean-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T14:23:26.636Z",
       "released_at": null
     }
   ],
@@ -126,8 +152,58 @@
   },
   "evidence": [
     ".ai-org/artifacts/WI-0188/brief.md",
-    "docs/adr/0058-bounded-lean-entry.md"
+    "docs/adr/0058-bounded-lean-entry.md",
+    ".ai-org/artifacts/WI-0188/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0188/developer-verification.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "88ab5970b8410f3b4baa99be50ff26796bb51250",
+      "artifact": ".ai-org/artifacts/WI-0188/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T14:16:39.749Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-05T14:23:26.362Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260905141644-a77d6288",
+      "rejected_revision": "88ab5970b8410f3b4baa99be50ff26796bb51250",
+      "reason": [
+        "Reject draft shared contracts in optional entry and update existing Skill reference reachability test for the accepted new procedure. Preserve initial failing QA and full-run evidence."
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0188/independent-qa.md"
+      ],
+      "scope_digest": "0d74dd512807010710cef64ed1bc34aae41093f708cf3f728328191539c09533",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0188/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0188/developer-verification.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "88ab5970b8410f3b4baa99be50ff26796bb51250"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0188/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ]
 }

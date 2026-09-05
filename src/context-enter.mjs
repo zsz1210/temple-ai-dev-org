@@ -61,6 +61,7 @@ async function inspect(repository, options) {
     if (item.owner_position !== options.position || !["developer", "quality_evaluator"].includes(options.position) || (options.position === "developer" ? item.state !== "build" : item.state !== "test")) problem("wrong-stage-owner");
     if (![item.scope, item.acceptance_criteria, item.affected_paths].every(nonemptyStrings)) problem("missing-task-contract");
     if (item.unresolved?.length) problem("unresolved-work");
+    if (!["stable", "not_required"].includes(item.contract_status)) problem("shared-contract-not-stable");
     try {
       const assessment = assessWorkflowProfile(workflow, { requestedProfile: "lean", riskTier: item.risk_tier, scopeClass: item.profile_assessment?.scope_class, escalationTriggers: item.profile_assessment?.escalation_triggers, collaborationProfile: collaboration.profile });
       if (assessment.effective_profile !== "lean") problem("current-policy-requires-stronger-profile");

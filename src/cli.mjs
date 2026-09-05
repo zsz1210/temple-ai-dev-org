@@ -3194,7 +3194,7 @@ async function dispatch(argv) {
 
 export async function main(argv) {
   const delivery = argv[0] === "work-item" && ["deliver", "finish"].includes(argv[1]);
-  const compact = argv[0] === "context" && ((argv[1] === "resolve" && argv.includes("--compact")) || argv[1] === "packet");
+  const compact = argv[0] === "context" && ((argv[1] === "resolve" && argv.includes("--compact")) || ["packet", "enter"].includes(argv[1]));
   if (!delivery && !compact) return dispatch(argv);
   try {
     try {
