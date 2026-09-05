@@ -1,6 +1,6 @@
-# WI-0179 — Ready to run; approval pending
+# WI-0179 — Frozen preparation and execution record
 
-The new comparison is prepared and frozen. **No live candidate stage has started.** The Work Item remains open; test outcomes, comparison analysis and final closeout are still pending.
+The maintainer approved the v2 matrix, and its one-shot execution has ended at the protocol's stop condition. **Five actor stages ran: one complete Terra pair and one interrupted GPT-6 Builder.** The matrix is not fully complete. See the [measured report and improvement priorities](report.md), [selected results](results.json), and [approval](approval.v2.json). No retry or continuation is authorized by the consumed approval.
 
 Current frozen matrix: `sha256:3aea9b81ed834faebccffa6376a3eb1df7a5c0d40604dbda549376ad7ab4b183`.
 
@@ -24,15 +24,15 @@ The current optimized Temple flow against the unchanged ordinary Git/test/handof
 
 Report product correctness, exact handoff and actual compact-context/composed-delivery use first. Then report Builder/Verifier latency, operational and all Tokens, cached input, command counts and per-operation output bytes separately. Keep setup and coordinator checks outside actor elapsed comparisons. Two pairs per model and uncontrolled cache cannot establish statistical significance or a broad causal efficiency claim. Old results are historical context only.
 
-## Approval and recovery
+## Approval and recovery record
 
-The maintainer has been asked to approve this whole matrix, including its requested routes and aggregate limits. The pending question, a selected-but-unsubmitted option, a QA pass, or a structural JSON approval validator is not human approval. Confirm the actual maintainer response before creating an approved record.
+The maintainer's actual response to the exact matrix, requested routes and aggregate limits was recorded in [approval.v2.md](approval.v2.md). The pending question, a selected-but-unsubmitted option, a QA pass, or a structural JSON approval validator would not have been human approval.
 
 Only existing plan allowance is permitted: no Credits purchase/refill, reset, retry or fallback. If Terra-only is approved, prepare and bind a different Terra-only matrix; never run the unapproved GPT-6 pairs or silently alter this frozen matrix.
 
-The private lab locator is under the Git common directory at `temple-comparisons/WI-0179.local.json`. Obtain that directory with `git rev-parse --git-common-dir`. The locator is outside tracked files and contains no approval. Raw labs and temporary runtime scratch are local-only.
+The private lab locator is under the Git common directory at `temple-comparisons/WI-0179.local.json`. Obtain that directory with `git rev-parse --git-common-dir`. The locator is outside tracked files; its reference to the recorded approval is navigation, not a new grant. Raw labs and temporary runtime scratch are local-only.
 
-Before execution, read the current source and protocol, confirm the matrix digest and genuine approval, recheck source/readiness/provider contracts, fresh lab state and account route, then invoke the existing `run` command with an exact approved matrix record. The exclusive matrix/pair locks prevent repetition. On a stop, retain the result; do not delete locks, replace the lab, or reuse this approval for a retry. Any new scope requires its own decision.
+Execution rechecked source/readiness/provider contracts, the exact matrix and genuine approval, fresh lab state and account route. The exclusive matrix/pair locks are now consumed and prevent repetition. Retain the stopped result; do not delete locks, replace the lab, resume the unstarted pairs, or reuse this approval for a retry. Any new scope requires its own decision.
 
 The original readiness report's one machine-home path was normalized through the supported publication operation after QA, without changing findings. Original report hash: `7229312f86439147353915f896fec7095a4e79e377e0224ad44272c1177d3c6f`; public report hash: `c0403b2765ca73c79af6fab57b7c43d2812d47c39302e5ffb8640eb1e5c3c328`. The initial protocols bind those public report bytes; the v2 protocols instead bind the current supplemental report named above. Released claim and completed worker coordinates were also removed through the supported canonical normalization.
 

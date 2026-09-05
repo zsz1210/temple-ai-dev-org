@@ -1,6 +1,8 @@
 # WI-0179 — Maintainer approval for the frozen live matrix
 
-The maintainer replied **"批准"** to the immediately preceding explicit request for the complete Terra medium plus GPT-6 medium comparison: 16 fresh Builder/Verifier stages, up to 1,280,000 Operational Tokens and 96 minutes, using only existing included allowance, with no Credits purchase/refill, reset, retries or fallback. The response was observed in the control task on 2026-09-05 before the approval record was created. It is an actual submitted user response, not a preselected option or an inferred approval from QA.
+The maintainer replied **"Approved"** (English translation; original response encoded as `\u6279\u51c6`) to the immediately preceding explicit request for the complete Terra medium plus GPT-6 medium comparison: 16 fresh Builder/Verifier stages, up to 1,280,000 Operational Tokens and 96 minutes, using only existing included allowance, with no Credits purchase/refill, reset, retries or fallback. The response was observed in the control task on 2026-09-05 before the approval record was created. It is an actual submitted user response, not a preselected option or an inferred approval from QA.
+
+Editorial note after execution: the original response is encoded above to follow the repository's English-only documentation rule. The initial record remains in Git history; this translation changes neither the response nor the frozen JSON approval, matrix, budget or authority.
 
 Approved matrix: `sha256:3aea9b81ed834faebccffa6376a3eb1df7a5c0d40604dbda549376ad7ab4b183`, [frozen matrix](matrix.v2.frozen.json). Requested routes are `gpt-5.6-terra / medium` and `gpt-6-astra / medium`, each with one ordinary-first and one Temple-first pair. Per-stage limits remain 80,000 Operational Tokens/six minutes; per-pair limits remain 320,000/24 minutes.
 

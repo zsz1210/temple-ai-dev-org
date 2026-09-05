@@ -1,0 +1,72 @@
+{
+  "schema_version": "temple.historical-comparison-projection/v1",
+  "classification": "historical-context-only-not-a-causal-control",
+  "source_branch": "codex/wi-0173-comparison-diagnostics",
+  "source_commit": "bba20cc140b72068827c7c858008c9768a16f067",
+  "source_report": ".ai-org/artifacts/WI-0178/comparison.json",
+  "source_report_sha256": "25b71ddfecc2e6b69a12c937c09093b8bcd9d7347cce7b7c65771ad0cf64bfc4",
+  "groups": [
+    {
+      "id": "terra",
+      "model": "gpt-5.6-terra",
+      "requested_effort": "medium",
+      "source_sha256": "sha256:d904499a10dab20c092940dd42c37dda68d34a032319250aa1dc3da6e806c334",
+      "process_contract_sha256": "sha256:9229c5aabc5fc0792d61f677bdc364a97ad2a007a39f43e5e07789e1f1b58a80",
+      "order": [
+        "ordinary",
+        "temple"
+      ],
+      "status": "completed",
+      "efficiency_comparable": true,
+      "arms": {
+        "ordinary": {
+          "setup_elapsed_ms": 103,
+          "setup_artifact_bytes": 3068,
+          "completed_stages": 2,
+          "observed_stage_elapsed_ms": 246322,
+          "coordinator_validation_ms": 368,
+          "operational_tokens": 92005
+        },
+        "temple": {
+          "setup_elapsed_ms": 1659,
+          "setup_artifact_bytes": 348682,
+          "completed_stages": 2,
+          "observed_stage_elapsed_ms": 287326,
+          "coordinator_validation_ms": 403,
+          "operational_tokens": 120844
+        }
+      }
+    },
+    {
+      "id": "gpt6",
+      "model": "gpt-6-astra",
+      "requested_effort": "medium",
+      "source_sha256": "sha256:d904499a10dab20c092940dd42c37dda68d34a032319250aa1dc3da6e806c334",
+      "process_contract_sha256": "sha256:9229c5aabc5fc0792d61f677bdc364a97ad2a007a39f43e5e07789e1f1b58a80",
+      "order": [
+        "ordinary",
+        "temple"
+      ],
+      "status": "completed",
+      "efficiency_comparable": true,
+      "arms": {
+        "ordinary": {
+          "setup_elapsed_ms": 82,
+          "setup_artifact_bytes": 3068,
+          "completed_stages": 2,
+          "observed_stage_elapsed_ms": 224755,
+          "coordinator_validation_ms": 376,
+          "operational_tokens": 52664
+        },
+        "temple": {
+          "setup_elapsed_ms": 1680,
+          "setup_artifact_bytes": 348682,
+          "completed_stages": 2,
+          "observed_stage_elapsed_ms": 346377,
+          "coordinator_validation_ms": 401,
+          "operational_tokens": 87663
+        }
+      }
+    }
+  ]
+}
