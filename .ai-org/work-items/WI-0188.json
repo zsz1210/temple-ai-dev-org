@@ -1,0 +1,133 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0188",
+  "title": "Integrate opt-in Lean entry with bounded material and completion",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-05T14:00:33.617Z",
+  "updated_at": "2026-09-05T14:02:02.311Z",
+  "scope": [
+    "Implement slice C after accepted B: read-only explicit-identity entry selects scoped stage material and finish guidance only within existing Lean eligibility; otherwise preserve the existing route and required instructions. Update core entry guidance through source templates and supported upgrade; deterministic installed sandbox tests only."
+  ],
+  "acceptance_criteria": [
+    "Positive cold Builder/fresh Verifier entry and negative risk/profile/identity/worker/conflict/recovery/missing-source cases are correct and no-write; required instruction and evidence coverage preserved; stale entry rejected; full verification and distinct QA pass."
+  ],
+  "affected_paths": [
+    "src/context-enter.mjs",
+    "src/context-packet.mjs",
+    "src/cli.mjs",
+    "test/context-enter.test.mjs",
+    "test/context-packet.test.mjs",
+    "project-overlay/AGENTS.md",
+    "project-overlay/TEMPLE.md",
+    "project-overlay/.agents/skills/temple-work/SKILL.md",
+    "project-overlay/.agents/skills/temple-work/references/lean-execution.md",
+    "AGENTS.md",
+    "TEMPLE.md",
+    ".agents/skills/temple-work",
+    "temple.lock",
+    "docs/adr/0058-bounded-lean-entry.md",
+    "docs/adr/README.md",
+    "docs/extensions/context-routing.md",
+    "docs/extensions/skill-scenarios.md",
+    "scripts/check-package.mjs",
+    ".ai-org/artifacts/WI-0188"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T14:00:33.617Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [
+    "WI-0187"
+  ],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "76c0177",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260905140202-064dea46",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "76c0177",
+    "branch": "codex/wi-0188-lean-entry",
+    "worktree": null,
+    "claimed_at": "2026-09-05T14:02:02.311Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260905140034-4b018783",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "76c0177",
+      "branch": "codex/wi-0188-lean-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T14:00:34.395Z",
+      "released_at": "2026-09-05T14:02:00.533Z",
+      "release_reason": [
+        "Dependent C scope and acceptance recorded after B passed."
+      ]
+    },
+    {
+      "id": "claim-20260905140202-064dea46",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "76c0177",
+      "branch": "codex/wi-0188-lean-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T14:02:02.311Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0188/brief.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0188/brief.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0188/brief.md"
+    ],
+    "technical_design": [
+      "docs/adr/0058-bounded-lean-entry.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0188/brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0188/brief.md",
+    "docs/adr/0058-bounded-lean-entry.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

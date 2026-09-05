@@ -7,6 +7,7 @@ Before acting:
 1. Read `.ai-org/project/project.json`, `agents.json`, `assignments.json`, `collaboration.json`, `repository-integration.json`, `spec-index.json`, `tracker.json`, `retrieval.json`, `usage-policy.json`, `evidence.json`, and `control-plane.json` as relevant to the work.
 2. Identify the Position you are acting as and the durable work item ID.
 3. Preview the bounded route with `temple context resolve . --work-item <work-item-id> --position <position> --compact --no-write --json`. Omit `--compact` for full retrieval detail. The Work Item stage and `primary` purpose are defaults; use `--purpose integration` or `--purpose recovery` deliberately. Next-operation hints are not readiness or authority.
+   For explicitly selected bounded Lean execution, `context enter` with explicit Agent and Principal may replace this preview. Follow the `temple-work` Lean execution reference and all fallback reasons; returned material does not prove instruction loading or waive required reads.
 4. Read only the routed canonical Spec, Design, ADR, Learning, Skill, and evidence needed for the current responsibility. Compare the body-free selection digest before reopening unchanged context. Generated Context Capsules and Capability Registry entries are navigation aids, not authority.
 5. Stay inside that Position's ownership and approval limits.
 6. If the work runs in a separate Codex task, use the suggested `Work Item ID · short goal · Position (Agent Name)` title and register the real task/thread ID in `.ai-org/project/tasks.json` through `temple task register`. Reserve `Project · control scope · Primary Position (Agent Name)` for the long-lived project control task.
@@ -60,6 +61,8 @@ Keep `.ai-org/project/context-map.json` concise and project-owned. It points to 
 In Collaborative or High-Assurance mode, a Human Principal sponsors an Agent Identity; Position Membership plus Disciplines determine eligibility. For dispatch and runtime operations, read the installed `temple-work` Skill's parallel reference. It owns the plan, prepare, attach, join and replan procedure. A plan alone creates no claim or app task; worker completion is not a handoff or lifecycle gate. Local locking does not coordinate separate machines: use claims, branches, PRs, CI and explicit Git conflict resolution.
 
 For eligible low-risk bounded Lean Developer work, `work-item deliver` composes handoff, release and Test entry under the same guards. Read the Skill's Lean delivery reference first. All other work keeps the existing operations. An interrupted delivery requires inspection and validated same-request recovery, not manual state repair; a receipt proves administration only. No profile bypass, QA judgment, new authority or model retry is implied.
+
+Opt-in `context enter` connects scoped material with `work-item finish` for eligible Lean Build/Test. Finish records the explicit actor's completion and runs full Status/Doctor with separate outcomes; Verifier acceptance requires a distinct Identity and existing evidence. Read the Skill's Lean execution reference for claim, evidence and recovery requirements. A diagnostic failure does not undo applied lifecycle facts, and a historical receipt is not fresh verification.
 
 ## Repository integration boundary
 

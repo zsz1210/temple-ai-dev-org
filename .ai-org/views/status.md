@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 187 total, 2 active
+- Work items: 188 total, 3 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 44 registered, 0 reserved, 0 active
+- Runtime workers: 45 registered, 0 reserved, 1 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -40,7 +40,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 2 / 0
+- Active / sequential / blocked: 1 / 2 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -235,6 +235,7 @@
 | WI-0185 | Account for two reviewed stage material package files | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `85994e3b` | 0 | 5 | 0 |
 | WI-0186 | Scope stage material without omitting governing rules | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3cf56d80` | 0 | 9 | 0 |
 | WI-0187 | Compose Lean stage completion with truthful diagnostics and recovery | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2611def7` | 0 | 7 | 0 |
+| WI-0188 | Integrate opt-in Lean entry with bounded material and completion | build | Developer | Rikku | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260905140202-064dea46 | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -301,6 +302,7 @@
 | worker-20260905132428-298e2e9b | internal-subagent | WI-0186 | Quality & Evaluation Engineer / Lulu | completed | /root/scoped_material_corrected_qa | `3cf56d80` | 0 |
 | worker-20260905133548-96d7f84f | internal-subagent | WI-0187 | Developer / Rikku | completed | /root/lean_finish_developer | `2611def7` | 0 |
 | worker-20260905135348-1690fe96 | internal-subagent | WI-0187 | Quality & Evaluation Engineer / Lulu | completed | /root/lean_finish_qa | `2611def7` | 0 |
+| worker-20260905140202-0725e6f9 | internal-subagent | WI-0188 | Developer / Rikku | active | /root/lean_entry_developer | `—` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -334,7 +336,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 53
+- Team-visible Work Items: 54
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -407,14 +409,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-05T13:59:43.629Z | work_item_closed | WI-0187 | agent-mog |
-| 2026-09-05T13:59:43.629Z | release_gate_completed | WI-0187 | agent-mog |
-| 2026-09-05T13:59:43.383Z | work_item_claimed | WI-0187 | human |
-| 2026-09-05T13:59:43.102Z | work_item_transitioned | WI-0187 | agent-lulu |
-| 2026-09-05T13:59:42.836Z | work_item_transitioned | WI-0187 | agent-lulu |
-| 2026-09-05T13:59:42.581Z | work_item_transitioned | WI-0187 | agent-lulu |
-| 2026-09-05T13:59:42.262Z | runtime_worker_status_changed | WI-0187 | agent-lulu |
-| 2026-09-05T13:54:18.595Z | runtime_worker_attached | WI-0187 | agent-lulu |
+| 2026-09-05T14:02:55.142Z | runtime_worker_attached | WI-0188 | agent-rikku |
+| 2026-09-05T14:02:02.298Z | runtime_worker_reserved | WI-0188 | human |
+| 2026-09-05T14:02:02.311Z | work_item_claimed | WI-0188 | human |
+| 2026-09-05T14:02:01.558Z | work_item_coordination_configured | WI-0188 | agent-rikku |
+| 2026-09-05T14:02:01.298Z | work_item_transitioned | WI-0188 | agent-tidus |
+| 2026-09-05T14:02:01.044Z | work_item_transitioned | WI-0188 | agent-yuna |
+| 2026-09-05T14:02:00.789Z | work_item_transitioned | WI-0188 | agent-mog |
+| 2026-09-05T14:02:00.533Z | work_item_claim_released | WI-0188 | human |
 
 ## Assignments
 

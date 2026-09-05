@@ -29,7 +29,7 @@ async function regularPath(repository, relative) {
   return current;
 }
 
-async function readSource(repository, relative) {
+export async function readContextPacketSource(repository, relative) {
   const absolute = await regularPath(repository, relative);
   const handle = await fs.open(absolute, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
   try {
@@ -53,6 +53,8 @@ async function readSource(repository, relative) {
     await handle.close();
   }
 }
+
+const readSource = readContextPacketSource;
 
 function addSource(sources, relative, reason) {
   const reasons = sources.get(relative) ?? new Set();
@@ -97,7 +99,9 @@ export async function acquireContextPacket(target, options = {}) {
   }
   addSource(selected, entry.work_item.path, "work-item");
   addSource(selected, ".agents/skills/temple-work/SKILL.md", "stage-procedure");
-  addSource(selected, entry.work_item.state === "build"
+  addSource(selected, options.leanEntryProcedure === true
+    ? ".agents/skills/temple-work/references/lean-execution.md"
+    : entry.work_item.state === "build"
     ? ".agents/skills/temple-work/references/lean-delivery.md"
     : ".agents/skills/temple-work/references/assurance-and-recovery.md", "stage-procedure");
   for (const [gate, refs] of Object.entries(item.gate_evidence ?? {})) {
