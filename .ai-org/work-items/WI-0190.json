@@ -6,7 +6,7 @@
   "owner_position": "release_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T21:35:33.373Z",
-  "updated_at": "2026-09-05T22:59:01.151Z",
+  "updated_at": "2026-09-05T23:07:44.875Z",
   "scope": [
     "Framework instruction routes, stage completion, and bounded read-only support; preserve execution guards and sealed experiments"
   ],
@@ -47,7 +47,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "50ae4f50fcf74d8468e09956e44e1eb9da99ef71",
+  "base_revision": "f897ebe",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -59,17 +59,17 @@
     "WI-0172 owns test/delivery-control-pair.test.mjs. WI-0190 adds test/proportionate-work.test.mjs and updates test/skill-policy.test.mjs reference inventory only; the comparison and its artifacts remain unchanged."
   ],
   "claim": {
-    "id": "claim-20260905225400-44ff49ee",
+    "id": "claim-20260905230708-fc4c743e",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
-    "base_revision": "50ae4f50fcf74d8468e09956e44e1eb9da99ef71",
+    "agent_id": "agent-mog",
+    "base_revision": "f897ebe",
     "branch": "codex/wi-0190-proportionate-work",
     "worktree": null,
-    "claimed_at": "2026-09-05T22:54:00.328Z",
-    "released_at": "2026-09-05T22:59:00.888Z",
+    "claimed_at": "2026-09-05T23:07:08.079Z",
+    "released_at": "2026-09-05T23:07:44.875Z",
     "release_reason": [
-      "Independent QA passed exact candidate; handoff to Release Gate with separate integration dependency"
+      "Integration chain audited; unpublished history contains local paths, pending sanitized-lineage decision"
     ]
   },
   "claims": [
@@ -127,6 +127,20 @@
       "released_at": "2026-09-05T22:59:00.888Z",
       "release_reason": [
         "Independent QA passed exact candidate; handoff to Release Gate with separate integration dependency"
+      ]
+    },
+    {
+      "id": "claim-20260905230708-fc4c743e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "f897ebe",
+      "branch": "codex/wi-0190-proportionate-work",
+      "worktree": null,
+      "claimed_at": "2026-09-05T23:07:08.079Z",
+      "released_at": "2026-09-05T23:07:44.875Z",
+      "release_reason": [
+        "Integration chain audited; unpublished history contains local paths, pending sanitized-lineage decision"
       ]
     }
   ],
