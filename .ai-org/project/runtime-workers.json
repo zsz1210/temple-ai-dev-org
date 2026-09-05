@@ -1200,7 +1200,7 @@
     {
       "id": "worker-20260905133548-96d7f84f",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0187",
       "position_id": "developer",
       "agent_id": "agent-rikku",
@@ -1216,12 +1216,42 @@
       "runtime_id": "/root/lean_finish_developer",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "2611def7db156eab8e1936f5feeefe7c51ade014",
+      "evidence": [
+        ".ai-org/artifacts/WI-0187/developer-verification.md"
+      ],
       "reserved_at": "2026-09-05T13:35:48.065Z",
       "attached_at": "2026-09-05T13:36:25.402Z",
-      "completed_at": null,
-      "updated_at": "2026-09-05T13:36:25.402Z"
+      "completed_at": "2026-09-05T13:53:41.735Z",
+      "updated_at": "2026-09-05T13:53:41.735Z"
+    },
+    {
+      "id": "worker-20260905135348-1690fe96",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0187",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260905135348-3e0916c1",
+      "base_revision": "2611def7db156eab8e1936f5feeefe7c51ade014",
+      "branch": "codex/wi-0187-lean-finish",
+      "worktree": null,
+      "plan_fingerprint": "4e039d1231b02b164819ed443b0a56eff91ef7fb6d6ad68869579398de609ab1",
+      "plan_digest": "01c6afac9348f008fa125f5fb280b53f70852d7d636df3c8440cb3238eb48e8e",
+      "preparation_fingerprint": "d8965a2ab3899e2b96c5f6008f95527e140e45524bedccb218698eda8dfb1952",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/lean_finish_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "2611def7db156eab8e1936f5feeefe7c51ade014",
+      "evidence": [
+        ".ai-org/artifacts/WI-0187/independent-qa.md"
+      ],
+      "reserved_at": "2026-09-05T13:53:48.309Z",
+      "attached_at": "2026-09-05T13:54:18.595Z",
+      "completed_at": "2026-09-05T13:59:42.262Z",
+      "updated_at": "2026-09-05T13:59:42.262Z"
     }
   ]
 }
