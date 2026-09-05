@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 177 total, 1 active
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Parallel plan: 0 wave(s), fresh=false
+- Work items: 178 total, 2 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 32 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 17
+- Attention signals: 18
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,7 +37,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 1 / 0
@@ -225,6 +225,7 @@
 | WI-0175 | Reject unsupported configure options | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `d59845c0` | 0 | 8 | 0 |
 | WI-0176 | Confirm owned provider process shutdown | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a59f62ce` | 0 | 8 | 0 |
 | WI-0177 | Align lifecycle Skill entry with effective workflow profiles | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c8fc420d` | 0 | 8 | 0 |
+| WI-0178 | Reduce delivery overhead with bounded context and recoverable operations | build | Developer | Rikku | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260905080321-18eaef7d | `—` | 0 | 1 | 0 |
 
 ## Codex task registry
 
@@ -303,6 +304,7 @@
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
 - worker-20260905035623-2de5700b is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -382,14 +384,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-05T07:32:39.051Z | work_item_closed | WI-0177 | agent-mog |
-| 2026-09-05T07:32:39.051Z | release_gate_completed | WI-0177 | agent-mog |
-| 2026-09-05T07:32:38.792Z | work_item_claimed | WI-0177 | human |
-| 2026-09-05T07:32:38.502Z | work_item_transitioned | WI-0177 | agent-lulu |
-| 2026-09-05T07:32:37.871Z | work_item_claim_released | WI-0177 | human |
-| 2026-09-05T07:32:37.604Z | handoff_created | WI-0177 | agent-lulu |
-| 2026-09-05T07:32:37.233Z | runtime_worker_status_changed | WI-0177 | agent-lulu |
-| 2026-09-05T07:28:10.216Z | runtime_worker_attached | WI-0177 | agent-lulu |
+| 2026-09-05T08:03:21.104Z | work_item_claimed | WI-0178 | human |
+| 2026-09-05T08:03:20.812Z | work_item_transitioned | WI-0178 | agent-tidus |
+| 2026-09-05T08:03:20.543Z | work_item_claim_released | WI-0178 | human |
+| 2026-09-05T08:03:20.242Z | work_item_claimed | WI-0178 | human |
+| 2026-09-05T08:03:19.953Z | work_item_transitioned | WI-0178 | agent-yuna |
+| 2026-09-05T08:03:19.686Z | work_item_claim_released | WI-0178 | human |
+| 2026-09-05T08:03:19.426Z | work_item_claimed | WI-0178 | human |
+| 2026-09-05T08:03:19.121Z | work_item_transitioned | WI-0178 | agent-mog |
 
 ## Assignments
 

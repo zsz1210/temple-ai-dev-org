@@ -7,6 +7,8 @@ import { atomicCreate, atomicWrite, formatJson, pathExists, readJson, sha256 } f
 import { emptyLearningIndex, LEARNING_INDEX_RELATIVE_PATH } from "./learning.mjs";
 import { assignedAgent, loadProjectContext } from "./project.mjs";
 import { lifecycleProjection } from "./workflow.mjs";
+import { compactContextEntry, contextAuthorityPaths } from "./context-entry.mjs";
+import { readPendingLeanDelivery } from "./lean-delivery-state.mjs";
 import { readWorkItem } from "./work-items.mjs";
 import { isWorkItemId } from "./ids.mjs";
 import { parallelExecutionForWorkItem } from "./orchestration.mjs";
@@ -930,11 +932,17 @@ export async function resolveWorkItemContext(target, options) {
     ),
     ...learningResults.map((result) => ({ path: result.source.path, category: "learning" })),
     ...capabilityResults.map((result) => ({ path: result.source.path, category: "capability" })),
+    ...(options.compact ? contextAuthorityPaths(item).map(sourcePath => ({ path: sourcePath, category: "operating-contract" })) : []),
     ...(purpose === "recovery" ? [{ path: "TEMPLE.md", category: "operating-contract" }] : [])
   ];
   const sourceManifest = await buildContextSourceManifest(target, sourceReferences);
+  if (options.compact) {
+    for (const source of sourceManifest.sources) {
+      if (source.status !== "measured") warnings.push(`Source unavailable (${source.status}): ${source.path}; resolve required authority before mutation`);
+    }
+  }
 
-  return {
+  const capsule = {
     schema_version: CONTEXT_CAPSULE_SCHEMA,
     generated_at: new Date().toISOString(),
     work_item: {
@@ -1032,6 +1040,7 @@ export async function resolveWorkItemContext(target, options) {
     source_manifest: sourceManifest,
     warnings
   };
+  return options.compact ? compactContextEntry(capsule, item, context, await readPendingLeanDelivery(target)) : capsule;
 }
 
 export async function writeContextCapsule(target, capsule) {

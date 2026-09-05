@@ -3,6 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { atomicCreate, atomicWrite, formatJson, pathExists, readJson, sha256 } from "./files.mjs";
 import { nextStateForItem } from "./workflow.mjs";
+import { assertNoPendingLeanDelivery } from "./lean-delivery-state.mjs";
 
 export async function loadProjectContext(target) {
   const lockPath = path.join(target, "temple.lock");
@@ -151,7 +152,7 @@ function wait(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-export async function withProjectMutationLock(target, operation) {
+export async function withProjectMutationLock(target, operation, { leanDeliveryOperation = null } = {}) {
   const lockPath = path.join(os.tmpdir(), `temple-mutation-${sha256(path.resolve(target)).slice(0, 20)}.lock`);
   let handle = null;
   for (let attempt = 0; attempt < 40; attempt += 1) {
@@ -174,6 +175,7 @@ export async function withProjectMutationLock(target, operation) {
   }
 
   try {
+    await assertNoPendingLeanDelivery(target, leanDeliveryOperation);
     return await operation();
   } finally {
     await handle.close();

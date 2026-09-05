@@ -1,6 +1,6 @@
 {
   "schema_version": "temple.capability-registry/v1",
-  "generated_at": "2026-09-05T07:33:07.036Z",
+  "generated_at": "2026-09-05T08:15:31.338Z",
   "project_id": "temple",
   "source_template_version": "0.1.0-alpha.30",
   "counts": {
@@ -101,7 +101,7 @@
     {
       "id": "temple-work",
       "name": "temple-work",
-      "description": "Mutate an initialized repository's canonical work-item, collaboration, claim, runtime-worker, resource, handoff, workflow, closeout, or Codex task state, and build or prepare parallel dispatch plans with the repository-pinned CLI. Use only when the request authorizes a lifecycle or runtime state change or asks for a dispatch plan; do not use for status-only reporting, implementation itself, or first-time initialization.",
+      "description": "Record authorized Work Item lifecycle and runtime state through the pinned CLI, or prepare a safe parallel dispatch plan. Not for status-only reporting, implementation itself, or first-time initialization.",
       "path": ".agents/skills/temple-work/SKILL.md",
       "lifecycle_owner": "framework",
       "distribution": "core",

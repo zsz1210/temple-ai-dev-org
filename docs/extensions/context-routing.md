@@ -117,6 +117,22 @@ The source manifest hashes selected safe regular files locally and retains no so
 
 Because `.ai-org/views/work-items/WI-####.json` remains a rebuildable latest view, a later resolution may replace an earlier Position, stage, or purpose view. Durable handoffs and evidence must cite canonical repository sources or normalized Evidence rather than using the capsule as lifecycle history.
 
+## Compact entry
+
+The source CLI adds an opt-in `temple.context-entry/v1` response for picking up current work:
+
+```bash
+node ./templew.mjs context resolve . --work-item WI-0001 --position developer --compact --no-write --json
+```
+
+`--compact` requires `--no-write --json`; it never writes or replaces the full generated capsule. The full response remains unchanged when the flag is omitted. This source addition is unreleased.
+
+The compact entry keeps scope, acceptance, current recorded owner/claim, the last handoff and Developer candidate, unresolved items, selected references and warnings. It omits retrieval scoring, repeated query text and tracker observation detail. A `candidate_operation` and the profile edge guide navigation; they are not a readiness result. Additional policy gates, claim eligibility and current evidence must still be validated by the actual operation. Explicit route stage/Position selection does not change lifecycle ownership. Terminal work has no continuation; pending delivery recovery suppresses other next-operation hints.
+
+Its body-free `source_manifest` is a compact projection, not the full manifest schema. The selection digest covers selected sources plus an authority group: entry instructions, workflow/policies, Identity/Assignment/collaboration, usage, repository integration and governing specification index. `sources` retains selected non-authority file hashes; `authority_snapshot` gives one group digest and its paths. A changed group requires rereading applicable authority; an unchanged hash never proves a source was read or remains available in the current session. Missing sources remain warnings or validation failures, never approval. Recovery and bootstrap reads still apply. Additional unselected authority remains the caller's responsibility.
+
+Neither the manifest nor compact entry is a transaction-wide snapshot, a provider observation, or a Token measurement. Validators recheck mutable state at action time. Serialized sizes depend on selected content and may not be smaller for every tiny Work Item.
+
 ## Retrieval Provider boundary
 
 Alpha.12 ships `repository-deterministic`, a local provider that uses explicit IDs, work-item references, Position hints, phrases, terms, tags, and paths. It is reproducible, requires no network, model, vector database, daemon, or embedding download, and reports `semantic: false`.
