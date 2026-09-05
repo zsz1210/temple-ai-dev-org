@@ -1028,6 +1028,34 @@
       "attached_at": "2026-09-05T11:14:40.772Z",
       "completed_at": "2026-09-05T11:19:14.275Z",
       "updated_at": "2026-09-05T11:19:14.275Z"
+    },
+    {
+      "id": "worker-20260905113236-6489323b",
+      "runtime_kind": "internal-subagent",
+      "status": "failed",
+      "work_item_id": "WI-0182",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260905113236-ef39b598",
+      "base_revision": "69c88ba329ff72ddd1fca5cecfde671995ae5a52",
+      "branch": "codex/wi-0182-comparison-v7",
+      "worktree": null,
+      "plan_fingerprint": "fae599a1eecc743bc8d369362f8208d512586f060639905a206fd76b8fb33097",
+      "plan_digest": "3e7e137097aba9f2a8ad7da27cd312e71d474339139122d93716e95267868b40",
+      "preparation_fingerprint": "d9716a8ed97f2f9848fa81c5d001720249ca44e2731fca863527c32fe4cf29ad",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/v7_readiness_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "69c88ba329ff72ddd1fca5cecfde671995ae5a52",
+      "evidence": [
+        ".ai-org/artifacts/WI-0182/independent-qa.md"
+      ],
+      "reserved_at": "2026-09-05T11:32:36.586Z",
+      "attached_at": "2026-09-05T11:33:06.056Z",
+      "completed_at": "2026-09-05T11:36:43.147Z",
+      "updated_at": "2026-09-05T11:36:43.147Z"
     }
   ]
 }

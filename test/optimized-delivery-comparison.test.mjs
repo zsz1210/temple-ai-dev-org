@@ -71,10 +71,14 @@ test("approval pins the entire selected matrix; old, partial or broader permissi
 });
 
 test("optimized treatment requires successful real operations, not a prompt, preview or product pass", () => {
-  const command = (operation, changes = {}) => ({ method: "item/completed", exit_code: 0, classification: { allowed: true, operation, dry_run: false }, ...changes });
+  const command = (operation, changes = {}) => ({ method: "item/completed", exit_code: 0, classification: { allowed: true, operation, dry_run: false, no_write: false }, ...changes });
   const observation = { arm: "temple", stage: "build", workflow: { pass: true, exact_handoff: true },
     events: [command("temple-context-compact"), command("temple-deliver"), command("temple-status-compact"), command("temple-doctor-compact")] };
   assert.equal(treatmentAdherence(observation).pass, true);
+  for (const no_write of [true, undefined]) {
+    const events = observation.events.map(e => e.classification.operation === "temple-status-compact" ? { ...e, classification: { ...e.classification, no_write } } : e);
+    assert.equal(treatmentAdherence({ ...observation, events }).pass, false, "read-only or unknown persistence does not rebuild Status");
+  }
   for (const events of [
     [], [command("temple-context")], [command("temple-context-compact")],
     [command("temple-context-compact"), command("temple-deliver", { method: "item/started" })],

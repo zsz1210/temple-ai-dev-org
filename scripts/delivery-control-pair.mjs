@@ -453,7 +453,7 @@ export function treatmentAdherence(observation) {
   const receiptMatched = observation.workflow?.exact_handoff === true && observation.workflow?.pass === true;
   const mutation = commands.findLastIndex(e => ["temple-claim", "temple-release", "temple-deliver", "temple-transition-test", "temple-transition-done"].includes(e.classification.operation));
   const afterMutation = mutation >= 0 ? commands.slice(mutation + 1) : [];
-  const compactStatus = afterMutation.some(e => e.classification.operation === "temple-status-compact");
+  const compactStatus = afterMutation.some(e => e.classification.operation === "temple-status-compact" && e.classification.no_write === false);
   const compactDoctor = afterMutation.some(e => e.classification.operation === "temple-doctor-compact");
   return { compact_context_observed: compact, composed_delivery_observed: observation.stage === "build" ? delivery : null,
     post_mutation_compact_status_observed: compactStatus, post_mutation_compact_doctor_observed: compactDoctor,

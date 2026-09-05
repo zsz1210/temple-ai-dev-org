@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-05T11:24:57.481Z",
-  "updated_at": "2026-09-05T11:25:56.768Z",
+  "updated_at": "2026-09-05T11:36:43.675Z",
   "scope": [
     "User requested another comparison after WI-0181. Adapt new v7 command/process contract and a two-model screening matrix, rehearse without generation, independently review, then execute one fresh pair each for Terra medium and GPT-6 Astra medium within prior per-stage bounds, seal and report results. Preserve every historical lab and approval."
   ],
@@ -48,9 +48,9 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "b54a103353c987d5e9f90e8afaf6e9b4a97c8197",
-  "parallel_mode": "pending",
-  "integration_owner_agent_id": null,
+  "base_revision": "69c88ba329ff72ddd1fca5cecfde671995ae5a52",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
@@ -58,14 +58,14 @@
     "WI-0172 is isolated in historical codex/wi-0173-comparison-diagnostics at bba20cc; its source/labs remain untouched. WI-0179 has concluded. New v7 code is owned solely by WI-0182 in this separate branch after explicit user takeover and fresh comparison request."
   ],
   "claim": {
-    "id": "claim-20260905112556-01f90232",
+    "id": "claim-20260905113643-0abb69ba",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-rikku",
-    "base_revision": "b54a103353c987d5e9f90e8afaf6e9b4a97c8197",
+    "base_revision": "69c88ba329ff72ddd1fca5cecfde671995ae5a52",
     "branch": "codex/wi-0182-comparison-v7",
     "worktree": null,
-    "claimed_at": "2026-09-05T11:25:56.768Z",
+    "claimed_at": "2026-09-05T11:36:43.675Z",
     "released_at": null
   },
   "claims": [
@@ -85,13 +85,39 @@
     },
     {
       "id": "claim-20260905112556-01f90232",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "b54a103353c987d5e9f90e8afaf6e9b4a97c8197",
       "branch": "codex/wi-0182-comparison-v7",
       "worktree": null,
       "claimed_at": "2026-09-05T11:25:56.768Z",
+      "released_at": "2026-09-05T11:32:35.408Z",
+      "release_reason": [
+        "Exact candidate handed to independent readiness review before generation."
+      ]
+    },
+    {
+      "id": "claim-20260905113236-ef39b598",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "69c88ba329ff72ddd1fca5cecfde671995ae5a52",
+      "branch": "codex/wi-0182-comparison-v7",
+      "worktree": null,
+      "claimed_at": "2026-09-05T11:32:36.598Z",
+      "released_at": "2026-09-05T11:36:43.407Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260905113643-0abb69ba",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "69c88ba329ff72ddd1fca5cecfde671995ae5a52",
+      "branch": "codex/wi-0182-comparison-v7",
+      "worktree": null,
+      "claimed_at": "2026-09-05T11:36:43.675Z",
       "released_at": null
     }
   ],
@@ -113,8 +139,58 @@
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0182/design.md"
+    ".ai-org/artifacts/WI-0182/design.md",
+    ".ai-org/artifacts/WI-0182/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0182/verification.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "69c88ba329ff72ddd1fca5cecfde671995ae5a52",
+      "artifact": ".ai-org/artifacts/WI-0182/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T11:32:35.135Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-05T11:36:43.407Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260905113236-ef39b598",
+      "rejected_revision": "69c88ba329ff72ddd1fca5cecfde671995ae5a52",
+      "reason": [
+        "Independent QA found no-write compact Status incorrectly satisfies required persisted Status rebuild. Preserve observation distinction and require writing variant."
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0182/independent-qa.md"
+      ],
+      "scope_digest": "c00c7d21550c57113a82cf98bad7383a82ccffa50a7cdc7f7a92a6a6a9cd0de0",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0182/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0182/verification.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "69c88ba329ff72ddd1fca5cecfde671995ae5a52"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0182/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ]
 }

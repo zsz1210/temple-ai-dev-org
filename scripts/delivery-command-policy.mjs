@@ -242,6 +242,7 @@ function templeCommand(args, state, context) {
   }
   if (name === "doctor" && found.has("compact")) state.operation = "temple-doctor-compact";
   if (name === "status") {
+    state.no_write = found.has("no-write");
     if (found.has("compact")) {
       exact(found, "json", true, "unsupported-option");
       exact(found, "work-item", "WI-0001", "temple-work-item-boundary");

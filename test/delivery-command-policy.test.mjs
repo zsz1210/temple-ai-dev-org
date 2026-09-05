@@ -28,6 +28,9 @@ test("optimized Temple literal commands bind identity, current claim and exact c
   assert.equal(classify(compact, ctx).allowed, true);
   for (const flag of ["--no-write", "--json"]) assert.equal(classify(compact.replace(flag, ""), ctx).allowed, false);
   assert.equal(classify(compact + " --compact", ctx).allowed, false);
+  const status = "node ./templew.mjs status . --compact --json --work-item WI-0001";
+  assert.equal(classify(status, ctx).no_write, false);
+  assert.equal(classify(status + " --no-write", ctx).no_write, true);
   const deliver = `node ./templew.mjs work-item deliver . --work-item WI-0001 --operation-id delivery-v6 --claim-id ${claimId} --agent-id agent-builder --principal-id human --revision ${candidate} --completed 'Feature tested' --evidence DELIVERY.json --json`;
   assert.equal(classify(deliver, ctx).allowed, true);
   assert.equal(classify(deliver, ctx).operation, "temple-deliver");

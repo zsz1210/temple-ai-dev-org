@@ -19,4 +19,4 @@ The current user request authorizes this fresh bounded comparison within existin
 
 WI-0172 survives as an intake record in this checkout but its comparison work is isolated in the historical bba20cc branch. WI-0179 is concluded and its original worktree, source, protocols, labs, locks and results remain untouched. New code is isolated on codex/wi-0182-comparison-v7. No concurrent owner is editing these paths here. No visual UI change or lifecycle policy change.
 
-Stop at the first frozen safety/quality/provider/budget failure or eight completed stages; seal and report either outcome. Do not change the experiment after seeing results. Rollback is a source commit revert for the local harness, never deletion or resealing of evidence.
+Keep the existing stop rules: safety/provider/budget interruption stops its pair; a quality failure ends that arm, and a noncomparable pair stops the matrix. Otherwise stop after eight completed stages. Seal and report either outcome. Do not change the experiment after seeing results. Rollback is a source commit revert for the local harness, never deletion or resealing of evidence.
