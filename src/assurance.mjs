@@ -21,7 +21,7 @@ export function riskEvidenceCoversTier(riskTier, evidenceSeverity) {
 function resolveGitRevision(target, revision) {
   const requested = String(revision ?? "").trim();
   if (!requested) throw new Error("A Git revision is required");
-  const result = spawnSync("git", ["-C", target, "rev-parse", "--verify", `${requested}^{commit}`], { encoding: "utf8" });
+  const result = spawnSync("git", ["-C", target, "rev-parse", "--verify", "--end-of-options", `${requested}^{commit}`], { encoding: "utf8" });
   if (result.status !== 0) throw new Error(`Git revision cannot be resolved to a commit: ${requested}`);
   const resolved = result.stdout.trim().toLowerCase();
   if (!SHA.test(resolved)) throw new Error(`Git returned an invalid commit for ${requested}`);
@@ -189,7 +189,7 @@ export async function assertHighAssuranceTransition(target, context, item, toSta
 }
 
 export async function exactHandoffRevision(target, item, revision) {
-  return item.assurance?.profile === HIGH_ASSURANCE_PROFILE ? resolveGitRevision(target, revision) : revision;
+  return resolveGitRevision(target, revision);
 }
 
 function isSafeRepositoryPath(value) {

@@ -115,6 +115,11 @@ test("Codex task goals are normalized and bounded by Unicode code points", () =>
 test("work item lifecycle, handoff, task registry, close, and observer status work together", async (context) => {
   const { temporaryRoot, target, configPath } = await fixture();
   context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  for (const args of [["init", "-q"], ["add", "."], ["-c", "user.name=Temple Tests", "-c", "user.email=temple-tests@example.invalid", "commit", "-qm", "Initial candidate"]]) {
+    const result = spawnSync("git", ["-C", target, ...args], { encoding: "utf8" });
+    assert.equal(result.status, 0, result.stderr);
+  }
+  const candidateRevision = spawnSync("git", ["-C", target, "rev-parse", "HEAD"], { encoding: "utf8" }).stdout.trim();
 
   const created = run([
     "work-item",
@@ -180,7 +185,7 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
     "--to",
     "quality_evaluator",
     "--input-revision",
-    "candidate-123",
+    "HEAD",
     "--completed",
     "Implemented accepted scope",
     "--evidence",
@@ -189,7 +194,7 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
   assert.equal(handoff.status, 0, handoff.stderr || handoff.stdout);
   const candidateStatus = run(["status", target, "--json", "--no-write"]);
   assert.equal(candidateStatus.status, 0, candidateStatus.stderr || candidateStatus.stdout);
-  assert.equal(JSON.parse(candidateStatus.stdout).work_items.items[0].latest_revision, "candidate-123");
+  assert.equal(JSON.parse(candidateStatus.stdout).work_items.items[0].latest_revision, candidateRevision);
 
   const laterTransitions = [
     ["test", []],
@@ -212,7 +217,7 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
     "--decision",
     "go",
     "--tested-revision",
-    "candidate-123",
+    candidateRevision,
     "--approval",
     "not-required",
     "--rollback",
@@ -234,7 +239,7 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
     "--status",
     "completed",
     "--revision",
-    "candidate-123",
+    candidateRevision,
     "--effective-model",
     "model-beta-v2"
   ]);
@@ -248,7 +253,7 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
   assert.equal(item.state, "done");
   assert.equal(item.release_gate_result, "go");
   assert.equal(item.lifecycle_outcome, "accepted");
-  assert.equal(item.developer_candidate_revision, "candidate-123");
+  assert.equal(item.developer_candidate_revision, candidateRevision);
   assert.ok(item.evidence.includes(".ai-org/artifacts/WI-0001/release-record.md"));
   const releaseRecord = await fs.readFile(path.join(target, ".ai-org/artifacts/WI-0001/release-record.md"), "utf8");
   assert.match(releaseRecord, /accepted_scope:/);
@@ -269,7 +274,7 @@ test("work item lifecycle, handoff, task registry, close, and observer status wo
   assert.equal(registry.tasks[0].reasoning_effort_source, "unknown");
   assert.equal(registry.tasks[0].service_tier, "priority");
   assert.equal(registry.tasks[0].launch_revision, "design-revision");
-  assert.equal(registry.tasks[0].current_revision, "candidate-123");
+  assert.equal(registry.tasks[0].current_revision, candidateRevision);
   assert.equal(registry.tasks[0].base_revision, null);
 
   const status = run(["status", target, "--json", "--no-write"]);

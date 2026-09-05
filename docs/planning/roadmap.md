@@ -25,7 +25,13 @@ Temple scales the process to the work. Small, reversible changes stay lightweigh
 | Extensibility | Project-owned specifications, UI delivery modes, Skills, capabilities, and optional integrations |
 | Execution guidance | Per-step, explainable model and tool recommendations that remain separate from responsibility and execution authority |
 
-The Management Console, continuous Usage observation, semantic retrieval, and Provider execution are optional layers. The core organization does not depend on them.
+The Management Console and continuous Usage observation are optional. Semantic retrieval and broader Provider execution remain future extensions; the core organization does not depend on them.
+
+## Availability
+
+The source repository and **Alpha.30** are public on GitHub and npm. The published package is an early Alpha, not a stable or enterprise-qualified release. See [release readiness](release-readiness.md) for the exact published version and qualification evidence.
+
+Work on `main` after a release is unreleased until a separate version is qualified and published. Development fixes, draft comparisons, and planned capabilities must not be presented as behavior or results of the installed npm package. Adaptive execution routing currently recommends a route; it does not automatically select and launch a model.
 
 ## Milestones
 
@@ -54,15 +60,14 @@ Real multi-company, multi-machine, and regulated operation still requires repres
 - requested settings remain separate from the model and reasoning actually observed
 - route resolution is advisory and does not launch a Provider or change project state
 
-The first corrected comparison supports one narrow operating rule: make the acceptance contract explicit before escalating a bounded task. Terra medium completed both low-risk cases; stronger routes added no objective correctness. This does not qualify automatic routing.
-
-Temple's static Lean context has since been reduced by about 39% for those fixtures while preserving the authority contract. A four-candidate matched confirmation is prepared but not run. The next requirement is to confirm the improvement, then expand evidence across distinct task shapes before changing defaults.
+Bounded comparisons have shown equal observed quality with mixed resource and integration costs. They do not establish general Token savings or qualify automatic routing. The [validation index](../validation/README.md) separates measured results from prepared experiments; the next priority is to reduce operating friction and evaluate end-to-end delivery before changing defaults.
 
 ### 4. Real-world qualification — current
 
-- verify that a fresh AI Agent can complete the Core Path in a disposable new project using only repository-visible instructions, with no prior Temple chat history or maintainer coaching
+- extend the demonstrated bounded fresh-Agent Core Path and cold recovery to representative existing-project work
+- simplify first use, same-scope review corrections, and owned runtime cleanup while preserving exact revisions and authority
 - compare Temple with a competent conventional workflow under matched tasks, models, tools, and acceptance tests
-- confirm that the smaller Lean context reduces measured Token and latency overhead without losing quality
+- test whether smaller context and simpler operations reduce measured overhead without losing quality; do not assume that they do
 - compare Temple's adaptive route with a fixed model route while keeping the Temple process unchanged
 - validate real multi-human, multi-machine, and multi-repository delivery
 - measure correctness, recovery, rework, human intervention, Tokens, latency, and operating overhead
@@ -71,13 +76,15 @@ This milestone succeeds only with decision-grade evidence. A neutral or negative
 
 An external first-time-human study can add broader usability evidence later, but it is not required for a narrowly labeled AI-assisted Alpha. Temple must not claim unaided beginner usability until that separate question is actually tested.
 
-### 5. Ecosystem and public distribution — later
+Follow the existing [field-validation plan](../validation/post-alpha-field-validation.md): start with bounded delivery and fresh-task recovery, then existing-project adoption and cross-repository coordination. Turn observed workflows into short User Guide examples; keep planned examples separate from tested outcomes.
+
+### 5. Ecosystem expansion — later
 
 - add Provider execution only after its trust, protocol, authority, and rollback contracts are proven
 - add semantic or local retrieval where measured repository scale shows deterministic routing is insufficient
 - consider automatic routing only for task shapes with qualified evidence and a safe fallback
 - mature optional operational views and integrations without making them framework dependencies
-- prepare public distribution after the owner reopens that decision and the candidate passes its release gates
+- evolve the public Alpha through separately qualified releases; merging changes alone does not publish to npm
 
 ## Where to follow the work
 
