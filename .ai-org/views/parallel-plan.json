@@ -1,26 +1,43 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-05T12:24:03.144Z",
-  "source_fingerprint": "6e7656c55c445dc163c5e3b12f7f18e6983e7752d45355fb53a1bda34a4e4ee6",
+  "generated_at": "2026-09-05T12:43:34.349Z",
+  "source_fingerprint": "03c8bcf2965998ae95b4de64d96d2eebd90c61676caf86fac487a921a47a3a8a",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
     "selected_work_item_ids": [
       "WI-0172",
-      "WI-0183"
+      "WI-0183",
+      "WI-0184",
+      "WI-0185"
     ]
   },
   "max_workers": null,
   "summary": {
-    "selected": 2,
+    "selected": 4,
     "dispatchable": 0,
-    "active": 0,
-    "sequential": 2,
+    "active": 1,
+    "sequential": 3,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
-  "active": [],
+  "active": [
+    {
+      "work_item_id": "WI-0184",
+      "title": "Acquire bounded stage material without changing workflow authority",
+      "disposition": "active",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [],
+      "claim_id": "claim-20260905124032-13ac5f67",
+      "principal_id": "human",
+      "branch": "codex/wi-0184-stage-material",
+      "worktree": null,
+      "base_revision": "85994e3b5e6310e0f684bc1299d1d1cb60e5b7f2"
+    }
+  ],
   "sequential": [
     {
       "work_item_id": "WI-0172",
@@ -40,6 +57,17 @@
       "disposition": "sequential",
       "position_id": "engineering_manager",
       "agent_id": "agent-mog",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0185",
+      "title": "Account for two reviewed stage material package files",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
       "integration_owner_agent_id": null,
       "reasons": [
         "integration_owner_assigned"

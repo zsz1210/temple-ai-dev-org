@@ -41,6 +41,25 @@ test("cold stage acquisition deduplicates whole sources, binds provenance and le
   assert.equal(JSON.stringify(full).includes('"body":'), false);
 });
 
+test("root-level gate evidence is acquired whole and deduplicated like nested evidence", async t => {
+  const f = await setup(t);
+  const file = path.join(f.target, `.ai-org/work-items/${f.item.id}.json`);
+  const item = JSON.parse(await fs.readFile(file));
+  const body = "# Root evidence\nValid local artifact at repository root.\n";
+  await fs.writeFile(path.join(f.target, "root-evidence.md"), body);
+  item.gate_evidence.approved_scope = ["root-evidence.md"];
+  item.gate_evidence.acceptance_criteria = ["root-evidence.md"];
+  await fs.writeFile(file, JSON.stringify(item));
+  const before = await canonicalBytes(f);
+  const { result, value } = packet(f);
+  assert.equal(result.status, 0, JSON.stringify(value.problems));
+  const sources = value.sources.filter(source => source.path === "root-evidence.md");
+  assert.equal(sources.length, 1);
+  assert.equal(sources[0].body, body);
+  assert.deepEqual(sources[0].reasons, ["gate:acceptance_criteria", "gate:approved_scope"]);
+  assert.deepEqual(await canonicalBytes(f), before);
+});
+
 test("fresh Verifier receives exact candidate, latest handoff and its own stage procedure", async t => {
   const f = await setup(t);
   const old = packet(f).value.packet_digest;

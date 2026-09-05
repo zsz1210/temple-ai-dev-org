@@ -95,7 +95,7 @@ export async function acquireContextPacket(target, options = {}) {
     : ".agents/skills/temple-work/references/assurance-and-recovery.md", "stage-procedure");
   for (const [gate, refs] of Object.entries(item.gate_evidence ?? {})) {
     for (const ref of refs) {
-      if (!safePath(ref) || /^EVID-/.test(ref) || !ref.includes("/")) problem("unresolved-evidence-reference", ref);
+      if (!safePath(ref) || /^EVID-/.test(ref)) problem("unresolved-evidence-reference", ref);
       else addSource(selected, ref, `gate:${gate}`);
     }
   }

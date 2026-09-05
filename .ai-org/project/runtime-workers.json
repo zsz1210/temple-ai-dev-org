@@ -1084,6 +1084,34 @@
       "attached_at": "2026-09-05T11:41:15.999Z",
       "completed_at": "2026-09-05T11:44:54.689Z",
       "updated_at": "2026-09-05T11:44:54.689Z"
+    },
+    {
+      "id": "worker-20260905124032-458ce7b0",
+      "runtime_kind": "internal-subagent",
+      "status": "failed",
+      "work_item_id": "WI-0184",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260905124032-13ac5f67",
+      "base_revision": "85994e3b5e6310e0f684bc1299d1d1cb60e5b7f2",
+      "branch": "codex/wi-0184-stage-material",
+      "worktree": null,
+      "plan_fingerprint": "5daf2dd82f3288b95aaa38aeb2cae3f6a35a8f1a2665bea70485702f390bc19e",
+      "plan_digest": "0b58ae6a894d653b375c8024e5a510fbfba46f8fb8d89904ef845f5927cb2f03",
+      "preparation_fingerprint": "4e18070e28b47092153d8d9a14be54a10fb8be066d8f7261aaf61b4b64e488b6",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/stage_material_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "85994e3b5e6310e0f684bc1299d1d1cb60e5b7f2",
+      "evidence": [
+        ".ai-org/artifacts/WI-0184/independent-qa.md"
+      ],
+      "reserved_at": "2026-09-05T12:40:32.674Z",
+      "attached_at": "2026-09-05T12:41:01.353Z",
+      "completed_at": "2026-09-05T12:45:20.006Z",
+      "updated_at": "2026-09-05T12:45:20.006Z"
     }
   ]
 }

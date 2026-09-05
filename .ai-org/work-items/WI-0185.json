@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0185",
   "title": "Account for two reviewed stage material package files",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T12:39:13.138Z",
-  "updated_at": "2026-09-05T12:39:14.154Z",
+  "updated_at": "2026-09-05T12:45:51.458Z",
   "scope": [
     "Adjust only reviewed package count from 400 to 402 for src/context-packet.mjs and ADR-0055. Preserve all path exclusions and size limits; no publication."
   ],
@@ -43,7 +43,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213",
+  "base_revision": "85994e3b5e6310e0f684bc1299d1d1cb60e5b7f2",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -51,27 +51,43 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260905123914-11616dd6",
-    "status": "active",
+    "id": "claim-20260905124551-dc826316",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213",
+    "agent_id": "agent-lulu",
+    "base_revision": "85994e3b5e6310e0f684bc1299d1d1cb60e5b7f2",
     "branch": "codex/wi-0184-stage-material",
     "worktree": null,
-    "claimed_at": "2026-09-05T12:39:14.154Z",
-    "released_at": null
+    "claimed_at": "2026-09-05T12:45:51.187Z",
+    "released_at": "2026-09-05T12:45:51.458Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
       "id": "claim-20260905123914-11616dd6",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213",
       "branch": "codex/wi-0184-stage-material",
       "worktree": null,
       "claimed_at": "2026-09-05T12:39:14.154Z",
-      "released_at": null
+      "released_at": "2026-09-05T12:39:58.218Z",
+      "release_reason": [
+        "Package adjustment awaits combined-candidate verification in WI-0184."
+      ]
+    },
+    {
+      "id": "claim-20260905124551-dc826316",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "85994e3b5e6310e0f684bc1299d1d1cb60e5b7f2",
+      "branch": "codex/wi-0184-stage-material",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:45:51.187Z",
+      "released_at": "2026-09-05T12:45:51.458Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -92,11 +108,41 @@
     ],
     "profile_eligibility": [
       ".ai-org/artifacts/WI-0184/packaging-review.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0185/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0185/verification.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0184/independent-qa.md"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0185/closeout.md"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0184/packaging-review.md"
+    ".ai-org/artifacts/WI-0184/packaging-review.md",
+    ".ai-org/artifacts/WI-0185/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0185/verification.md",
+    ".ai-org/artifacts/WI-0184/independent-qa.md",
+    ".ai-org/artifacts/WI-0185/closeout.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "85994e3b5e6310e0f684bc1299d1d1cb60e5b7f2",
+      "artifact": ".ai-org/artifacts/WI-0185/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T12:39:57.973Z"
+    }
+  ],
+  "developer_candidate_revision": "85994e3b5e6310e0f684bc1299d1d1cb60e5b7f2",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
 }
