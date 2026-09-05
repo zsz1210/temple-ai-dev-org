@@ -1308,6 +1308,34 @@
       "attached_at": "2026-09-05T14:17:20.445Z",
       "completed_at": "2026-09-05T14:23:26.020Z",
       "updated_at": "2026-09-05T14:23:26.020Z"
+    },
+    {
+      "id": "worker-20260905142754-3ef27975",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0188",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260905142754-11300a4b",
+      "base_revision": "6346e02656347feed6b1bfd211562ff3ba6818cf",
+      "branch": "codex/wi-0188-lean-entry",
+      "worktree": null,
+      "plan_fingerprint": "b4f2b41f757737f033fa0884721a65871829b0f87d0a53d8473bfb035a78aa59",
+      "plan_digest": "b78b6b14af4822a30a4fb9dcb5a170863deb0694222066dfa5b0db3b98d16a11",
+      "preparation_fingerprint": "de5b3b797b5c825ae1090dc886df38a19d12ab72ca9c9ceeec7630d859c03be1",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/lean_entry_corrected_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "6346e02656347feed6b1bfd211562ff3ba6818cf",
+      "evidence": [
+        ".ai-org/artifacts/WI-0188/independent-qa.v2.md"
+      ],
+      "reserved_at": "2026-09-05T14:27:54.590Z",
+      "attached_at": "2026-09-05T14:28:36.660Z",
+      "completed_at": "2026-09-05T14:32:43.789Z",
+      "updated_at": "2026-09-05T14:32:43.789Z"
     }
   ]
 }

@@ -1,42 +1,26 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-05T14:17:21.276Z",
-  "source_fingerprint": "8d362d80ae1f085de9c6fae99bbf9a92763c996a316f11a10bd308e51e28a2d0",
+  "generated_at": "2026-09-05T14:32:45.469Z",
+  "source_fingerprint": "93212da4839463a27837c36bf2990d9a92ca552326a741476cdba75057f75a4b",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
     "selected_work_item_ids": [
       "WI-0172",
-      "WI-0183",
-      "WI-0188"
+      "WI-0183"
     ]
   },
   "max_workers": null,
   "summary": {
-    "selected": 3,
+    "selected": 2,
     "dispatchable": 0,
-    "active": 1,
+    "active": 0,
     "sequential": 2,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
-  "active": [
-    {
-      "work_item_id": "WI-0188",
-      "title": "Integrate opt-in Lean entry with bounded material and completion",
-      "disposition": "active",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [],
-      "claim_id": "claim-20260905141644-a77d6288",
-      "principal_id": "human",
-      "branch": "codex/wi-0188-lean-entry",
-      "worktree": null,
-      "base_revision": "88ab5970b8410f3b4baa99be50ff26796bb51250"
-    }
-  ],
+  "active": [],
   "sequential": [
     {
       "work_item_id": "WI-0172",
