@@ -1,0 +1,239 @@
+{
+  "purpose": "Historical reference translation only; not lifecycle authority or a new QA claim. Original reports keep their original tested SHA. tree_equal establishes file-tree equality, not a fresh test result.",
+  "base": "9ef5d331858f30b2fd78fdac0e93fdc126396bd5",
+  "head": "653e6b5c96fe80f8f8cd140cc49ea81742a5949b",
+  "sanitized_head": "8504040a1604c82fb536e0d5d57303aba2c9ebe5",
+  "mappings": [
+    {
+      "original": "1d5688ed55331be530a21d4f960f48f370b9849c",
+      "sanitized": "1d5688ed55331be530a21d4f960f48f370b9849c",
+      "original_tree": "893f8adb8c1384b46bb656b93e5bfe93fa9b8e68",
+      "sanitized_tree": "893f8adb8c1384b46bb656b93e5bfe93fa9b8e68",
+      "tree_equal": true
+    },
+    {
+      "original": "ce132142f6d1eaf50ba0e1885e3d46aa1e6caf2b",
+      "sanitized": "ce132142f6d1eaf50ba0e1885e3d46aa1e6caf2b",
+      "original_tree": "9855909a54fb92b54fff4595e0acffa25140898d",
+      "sanitized_tree": "9855909a54fb92b54fff4595e0acffa25140898d",
+      "tree_equal": true
+    },
+    {
+      "original": "b54a103353c987d5e9f90e8afaf6e9b4a97c8197",
+      "sanitized": "b54a103353c987d5e9f90e8afaf6e9b4a97c8197",
+      "original_tree": "96c7ec3af6dc1cd0b23ef8489e401f04ffd6bafa",
+      "sanitized_tree": "96c7ec3af6dc1cd0b23ef8489e401f04ffd6bafa",
+      "tree_equal": true
+    },
+    {
+      "original": "69c88ba329ff72ddd1fca5cecfde671995ae5a52",
+      "sanitized": "69c88ba329ff72ddd1fca5cecfde671995ae5a52",
+      "original_tree": "d9f72d9165840b4c44f2acc3928b63bedb35d5a8",
+      "sanitized_tree": "d9f72d9165840b4c44f2acc3928b63bedb35d5a8",
+      "tree_equal": true
+    },
+    {
+      "original": "648a6b2c66df6215d40d3a6c1e19a207a1cdfe53",
+      "sanitized": "648a6b2c66df6215d40d3a6c1e19a207a1cdfe53",
+      "original_tree": "7abcb13c205d002e6859533f8e05980e1083cbcf",
+      "sanitized_tree": "7abcb13c205d002e6859533f8e05980e1083cbcf",
+      "tree_equal": true
+    },
+    {
+      "original": "d716ae5123543d4389441db07d8721d8a76799ce",
+      "sanitized": "d716ae5123543d4389441db07d8721d8a76799ce",
+      "original_tree": "99185ea78228fea6c1424e86af8006e0f1bded72",
+      "sanitized_tree": "99185ea78228fea6c1424e86af8006e0f1bded72",
+      "tree_equal": true
+    },
+    {
+      "original": "b38cb3aa8145c1437a21a617fb11261ce5d23eeb",
+      "sanitized": "b38cb3aa8145c1437a21a617fb11261ce5d23eeb",
+      "original_tree": "fa1ca1124a229a57d112fe576d87d2db95f63ee6",
+      "sanitized_tree": "fa1ca1124a229a57d112fe576d87d2db95f63ee6",
+      "tree_equal": true
+    },
+    {
+      "original": "014887404ab34b1cf60e1d43bf154a19688a7b5a",
+      "sanitized": "014887404ab34b1cf60e1d43bf154a19688a7b5a",
+      "original_tree": "1e335343e57eb09aa506acad17ba496a1db040cf",
+      "sanitized_tree": "1e335343e57eb09aa506acad17ba496a1db040cf",
+      "tree_equal": true
+    },
+    {
+      "original": "17f39f6fe637a0a3448961dd8845bc2c695896df",
+      "sanitized": "823a3195b65fe6dd9400c1a985cb9019fee8f87f",
+      "original_tree": "07b174787de994cdcf3aa40c3592a26746196e7f",
+      "sanitized_tree": "226cb93fbdab906d3d87c26d811ca84b846fcd67",
+      "tree_equal": false
+    },
+    {
+      "original": "7174489b0680e28a78d785e7d6c70c1cceef11d7",
+      "sanitized": "989b88ce6bf42a944a892a04dc7735fadf3421d7",
+      "original_tree": "e19175e11fe1ca43a60f09cdd70f89f148840331",
+      "sanitized_tree": "e19175e11fe1ca43a60f09cdd70f89f148840331",
+      "tree_equal": true
+    },
+    {
+      "original": "bc269d3feca6cf5cff3c91082f7406f601fda213",
+      "sanitized": "5e681081d2aabc7262d463247fdfdd32f3a061d5",
+      "original_tree": "9ffe8c5dd0f0a8abbf1513cc609cd380e804b26f",
+      "sanitized_tree": "9ffe8c5dd0f0a8abbf1513cc609cd380e804b26f",
+      "tree_equal": true
+    },
+    {
+      "original": "85994e3b5e6310e0f684bc1299d1d1cb60e5b7f2",
+      "sanitized": "b81add37a08d2c05afcb8a3d3e048cce6ab4c629",
+      "original_tree": "9723e213594dcd80d9b4ef744b55c195dc863d2d",
+      "sanitized_tree": "9723e213594dcd80d9b4ef744b55c195dc863d2d",
+      "tree_equal": true
+    },
+    {
+      "original": "1c0b0bcd40afa4e61d8f4a1acd11a1f993149df9",
+      "sanitized": "7c79c50703be2ad0a30b4e18630ae9b4cdd72332",
+      "original_tree": "627cf62ad17a7f6b6d1fb144ef1459e15c4210de",
+      "sanitized_tree": "627cf62ad17a7f6b6d1fb144ef1459e15c4210de",
+      "tree_equal": true
+    },
+    {
+      "original": "68af6ffb97d5a9f9b444539935f4870eff3bc1a3",
+      "sanitized": "bc0428f80c9b93b84a8d4e242c910913448295ae",
+      "original_tree": "ce67bec171d20b58365f2ad92b2da312331b3fae",
+      "sanitized_tree": "ce67bec171d20b58365f2ad92b2da312331b3fae",
+      "tree_equal": true
+    },
+    {
+      "original": "ea8ef29799a4bbcde94c4ff296a37fdb48b031c0",
+      "sanitized": "c92bf84b6d7785c9b4bb5a0a61152ddace1122ed",
+      "original_tree": "e143016ffa410ca49df8ccd68d60245a733dedd7",
+      "sanitized_tree": "e143016ffa410ca49df8ccd68d60245a733dedd7",
+      "tree_equal": true
+    },
+    {
+      "original": "3cf56d80b27f5499f65b2357d8c3602c30cdbfbf",
+      "sanitized": "808c783f92a080530190ef2a1e19598d47eb5514",
+      "original_tree": "8b731d318e00275d6d1c431480d1d6ccff86dbcf",
+      "sanitized_tree": "8b731d318e00275d6d1c431480d1d6ccff86dbcf",
+      "tree_equal": true
+    },
+    {
+      "original": "49eb1f5452c63e30eae5fdcd0389b410b9346df8",
+      "sanitized": "65846dac5bb67eaaaf5ecb09c83f5c77583b2727",
+      "original_tree": "3cf4b478aa630e71d252ce64b6f9c34ef3f93af4",
+      "sanitized_tree": "3cf4b478aa630e71d252ce64b6f9c34ef3f93af4",
+      "tree_equal": true
+    },
+    {
+      "original": "2611def7db156eab8e1936f5feeefe7c51ade014",
+      "sanitized": "ceee73113e48e2fbd668fa6bbc50dfc1ca43ac4a",
+      "original_tree": "050fb504331eee87c8f008ccb386ac71a8fc894e",
+      "sanitized_tree": "050fb504331eee87c8f008ccb386ac71a8fc894e",
+      "tree_equal": true
+    },
+    {
+      "original": "76c0177332bc4a71bce0ea6ebdc10d741844d14c",
+      "sanitized": "9c3500e1790d97471ca65915291f87fd59de4a51",
+      "original_tree": "ea35f45bbe8d2977fd787d2851d6a988992b8fb3",
+      "sanitized_tree": "ea35f45bbe8d2977fd787d2851d6a988992b8fb3",
+      "tree_equal": true
+    },
+    {
+      "original": "88ab5970b8410f3b4baa99be50ff26796bb51250",
+      "sanitized": "8fe062b1dc60e5fefbcc642d5b8236c8f60dfbb7",
+      "original_tree": "58e65bb627a2995edb0ed1a5b011e715243e5c22",
+      "sanitized_tree": "58e65bb627a2995edb0ed1a5b011e715243e5c22",
+      "tree_equal": true
+    },
+    {
+      "original": "6346e02656347feed6b1bfd211562ff3ba6818cf",
+      "sanitized": "04732da7a0c454885755b4fdc9e2f67f90c2ad5a",
+      "original_tree": "6747500621508f4edb013a44fc4ada1ba8d40f61",
+      "sanitized_tree": "6747500621508f4edb013a44fc4ada1ba8d40f61",
+      "tree_equal": true
+    },
+    {
+      "original": "7c9c1b88b96b8d334c5c0a88bd287f473ce4fc42",
+      "sanitized": "c2982c53ad4687c1c596ff60666adc93710c1ffd",
+      "original_tree": "4c2073b193c569137040d5a3f62731a5aea408ff",
+      "sanitized_tree": "4c2073b193c569137040d5a3f62731a5aea408ff",
+      "tree_equal": true
+    },
+    {
+      "original": "0fc622d755b3c02625c7f119ae87da1952876543",
+      "sanitized": "d0ffc7140114bb86cd7ba2b90b7af7b05bf10cc5",
+      "original_tree": "806f6863b1739766699bc791e8314483354d9fda",
+      "sanitized_tree": "806f6863b1739766699bc791e8314483354d9fda",
+      "tree_equal": true
+    },
+    {
+      "original": "2cae59f1adab131ba92cc27c25822490edf95304",
+      "sanitized": "735bf395eb38ab5abafab73dd0faab07eb654491",
+      "original_tree": "61463a06f65b45241381e46a11a2e599986963c5",
+      "sanitized_tree": "61463a06f65b45241381e46a11a2e599986963c5",
+      "tree_equal": true
+    },
+    {
+      "original": "bf06d8259515db8909164c8d1c46dcdb69c2fa60",
+      "sanitized": "d0f58b7ccd997db732ad838b49cd77c54ee8506b",
+      "original_tree": "557d85fa640a3d446054cbb4c8583363eb2eb5ea",
+      "sanitized_tree": "557d85fa640a3d446054cbb4c8583363eb2eb5ea",
+      "tree_equal": true
+    },
+    {
+      "original": "90a5870d993c8d5b0289571fc511db2cbb4cc3d6",
+      "sanitized": "1f79bc54727e18609802277a7bcc3e9184c4ce49",
+      "original_tree": "90bebb5127ecd029f39fdc1293fbd54016f4abac",
+      "sanitized_tree": "90bebb5127ecd029f39fdc1293fbd54016f4abac",
+      "tree_equal": true
+    },
+    {
+      "original": "b15b741aeaa2e099e7e822808454088e0f2e29d0",
+      "sanitized": "4c6a23213516eaabc4b4e184ca60115e7ab3bc21",
+      "original_tree": "2856b34ca6cf8ccbdda7e6a35fdedff983d3251c",
+      "sanitized_tree": "2856b34ca6cf8ccbdda7e6a35fdedff983d3251c",
+      "tree_equal": true
+    },
+    {
+      "original": "3aa59fb3946780ab8b4e99e628a94dfc3dcb0412",
+      "sanitized": "257c422723af8d5481c64d8b1c3e5687df6a81cc",
+      "original_tree": "aad6a7142d3c97254575f25820b45917e7f2bb54",
+      "sanitized_tree": "aad6a7142d3c97254575f25820b45917e7f2bb54",
+      "tree_equal": true
+    },
+    {
+      "original": "64750c6ded741437f52736e5fd4b0285a72778b8",
+      "sanitized": "d3cc0dfc3c1a7769151e35b4a4c62f3121e841d9",
+      "original_tree": "d9e973b5f4a1d8c7356397665d8628d3f377dc5d",
+      "sanitized_tree": "d9e973b5f4a1d8c7356397665d8628d3f377dc5d",
+      "tree_equal": true
+    },
+    {
+      "original": "50ae4f50fcf74d8468e09956e44e1eb9da99ef71",
+      "sanitized": "f9332bdca3264eebfd071607c00d7c3415f77d24",
+      "original_tree": "29f4c39fbcdc11d8c49c3dcec754aa42062fbde4",
+      "sanitized_tree": "29f4c39fbcdc11d8c49c3dcec754aa42062fbde4",
+      "tree_equal": true
+    },
+    {
+      "original": "61a2250d8c8de39f8bb51d743912b0c264fe0aa1",
+      "sanitized": "d5dc72b978cc5fcc2fa41dc1ae1391c6672451ec",
+      "original_tree": "1ed695ca468dcdd903f63491df222da197da21b8",
+      "sanitized_tree": "1ed695ca468dcdd903f63491df222da197da21b8",
+      "tree_equal": true
+    },
+    {
+      "original": "f897ebee28a99ef28941e2f10a19e3afea099799",
+      "sanitized": "ecc0bdca6522fc5ffc7d90a334221d8ce1d73158",
+      "original_tree": "5ec156f7218801a9305b127ebf363e30fabbf9f9",
+      "sanitized_tree": "5ec156f7218801a9305b127ebf363e30fabbf9f9",
+      "tree_equal": true
+    },
+    {
+      "original": "653e6b5c96fe80f8f8cd140cc49ea81742a5949b",
+      "sanitized": "8504040a1604c82fb536e0d5d57303aba2c9ebe5",
+      "original_tree": "41a312e1caadaf857c3b17a29d51187465c01129",
+      "sanitized_tree": "41a312e1caadaf857c3b17a29d51187465c01129",
+      "tree_equal": true
+    }
+  ]
+}
