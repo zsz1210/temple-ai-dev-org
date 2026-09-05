@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0176",
   "title": "Confirm owned provider process shutdown",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T05:21:26.358Z",
-  "updated_at": "2026-09-05T05:22:33.216Z",
+  "updated_at": "2026-09-05T05:29:09.089Z",
   "scope": [
     "Bounded cleanup of the child owned by createJsonRpcProcess; never signal unrelated processes or redesign provider protocol"
   ],
@@ -44,23 +44,24 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "20f60ff",
-  "parallel_mode": "pending",
+  "base_revision": "a59f62ce70697a5d38d588225b723d856a474844",
+  "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260905052233-83c1735e",
-    "status": "active",
+    "id": "claim-20260905052839-5d09081c",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "20f60ff",
+    "agent_id": "agent-mog",
+    "base_revision": "a59f62ce70697a5d38d588225b723d856a474844",
     "branch": "codex/wi-0176-owned-process-cleanup",
     "worktree": null,
-    "claimed_at": "2026-09-05T05:22:33.216Z",
-    "released_at": null
+    "claimed_at": "2026-09-05T05:28:39.356Z",
+    "released_at": "2026-09-05T05:29:09.089Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -101,14 +102,51 @@
     },
     {
       "id": "claim-20260905052233-83c1735e",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "20f60ff",
       "branch": "codex/wi-0176-owned-process-cleanup",
       "worktree": null,
       "claimed_at": "2026-09-05T05:22:33.216Z",
-      "released_at": null
+      "released_at": "2026-09-05T05:25:44.598Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905052545-8f43b57b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "a59f62c",
+      "branch": "codex/wi-0176-owned-process-cleanup",
+      "worktree": null,
+      "claimed_at": "2026-09-05T05:25:45.226Z",
+      "released_at": "2026-09-05T05:25:46.306Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905052549-073963df",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "a59f62ce70697a5d38d588225b723d856a474844",
+      "branch": "codex/wi-0176-owned-process-cleanup",
+      "worktree": null,
+      "claimed_at": "2026-09-05T05:25:49.080Z",
+      "released_at": "2026-09-05T05:28:39.090Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905052839-5d09081c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "a59f62ce70697a5d38d588225b723d856a474844",
+      "branch": "codex/wi-0176-owned-process-cleanup",
+      "worktree": null,
+      "claimed_at": "2026-09-05T05:28:39.356Z",
+      "released_at": "2026-09-05T05:29:09.089Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -126,11 +164,71 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0176/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0176/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0176/developer-evidence.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0176/developer-evidence.md",
+      ".ai-org/artifacts/WI-0176/full-verification.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0176/evaluation.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0176/independent-qa.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0176/work-order.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0176/independent-qa.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0176/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0176/work-order.md"
+    ".ai-org/artifacts/WI-0176/work-order.md",
+    ".ai-org/artifacts/WI-0176/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0176/developer-evidence.md",
+    ".ai-org/artifacts/WI-0176/evaluation.md",
+    ".ai-org/artifacts/WI-0176/handoff-002-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0176/independent-qa.md",
+    ".ai-org/artifacts/WI-0176/release-record.md",
+    ".ai-org/artifacts/WI-0176/full-verification.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "a59f62ce70697a5d38d588225b723d856a474844",
+      "artifact": ".ai-org/artifacts/WI-0176/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T05:25:43.957Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "actor": "agent-lulu",
+      "input_revision": "a59f62ce70697a5d38d588225b723d856a474844",
+      "artifact": ".ai-org/artifacts/WI-0176/handoff-002-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-05T05:28:38.849Z"
+    }
+  ],
+  "developer_candidate_revision": "a59f62ce70697a5d38d588225b723d856a474844",
+  "tested_revision": "a59f62ce70697a5d38d588225b723d856a474844",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }
