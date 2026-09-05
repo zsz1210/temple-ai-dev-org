@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0168",
   "title": "Publish npm only from GitHub Releases with OIDC",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T00:03:48.903Z",
-  "updated_at": "2026-09-05T00:18:17.274Z",
+  "updated_at": "2026-09-05T00:25:57.230Z",
   "scope": [
     "Replace interactive npm publication with one GitHub Release-published workflow using npm Trusted Publishing",
     "Bind every publication to the Release tag, matching package version, exact GitHub Release tarball asset, and a fresh pack digest",
@@ -61,7 +61,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38",
+  "base_revision": "bf608931cf62f82a15a6fac07e9a5f617801860c",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -69,15 +69,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260905001817-b05fca01",
-    "status": "active",
+    "id": "claim-20260905002345-7e9a7995",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
-    "base_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38",
-    "branch": "codex/wi-0168-release-only-npm-oidc",
+    "base_revision": "bf608931cf62f82a15a6fac07e9a5f617801860c",
+    "branch": "codex/wi-0168-release-automation-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-05T00:18:17.274Z",
-    "released_at": null
+    "claimed_at": "2026-09-05T00:23:45.889Z",
+    "released_at": "2026-09-05T00:25:57.230Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -166,14 +167,29 @@
     },
     {
       "id": "claim-20260905001817-b05fca01",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-mog",
       "base_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38",
       "branch": "codex/wi-0168-release-only-npm-oidc",
       "worktree": null,
       "claimed_at": "2026-09-05T00:18:17.274Z",
-      "released_at": null
+      "released_at": "2026-09-05T00:23:45.615Z",
+      "release_reason": [
+        "PR #49 was squash-merged and its source branch was deleted; reacquire Release Manager ownership on the integrated main revision for preservation and closeout."
+      ]
+    },
+    {
+      "id": "claim-20260905002345-7e9a7995",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "bf608931cf62f82a15a6fac07e9a5f617801860c",
+      "branch": "codex/wi-0168-release-automation-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-05T00:23:45.889Z",
+      "released_at": "2026-09-05T00:25:57.230Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -207,6 +223,18 @@
     ],
     "independent_qa_pass": [
       ".ai-org/artifacts/WI-0168/independent-qa-report.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0168/approved-scope.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0168/independent-qa-report.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0168/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0168/owner-approval.md"
     ]
   },
   "evidence": [
@@ -225,10 +253,11 @@
     ".ai-org/artifacts/WI-0168/quality-evaluation.md",
     ".ai-org/artifacts/WI-0168/handoff-006-independent_qa-to-release_manager.md",
     ".ai-org/artifacts/WI-0168/independent-qa-report.md",
-    ".ai-org/artifacts/WI-0168/independent-qa-observation.json"
+    ".ai-org/artifacts/WI-0168/independent-qa-observation.json",
+    ".ai-org/artifacts/WI-0168/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -273,5 +302,11 @@
       "created_at": "2026-09-05T00:18:16.377Z"
     }
   ],
-  "developer_candidate_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38"
+  "developer_candidate_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38",
+  "tested_revision": "a9265f7e10ecb08cec6474adfc8d35050abfca38",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0168/owner-approval.md"
 }
