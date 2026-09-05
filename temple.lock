@@ -11,13 +11,13 @@
       "launcher": "templew.mjs",
       "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.30",
       "repository_spec": null,
-      "source_revision": "a3a28e7216652b04cfdc690e68bcb64b08fd5046",
+      "source_revision": "6d3a87b8b1742ab9096282ac557474452b1c8c5d",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-09-04T16:59:55.538Z",
-    "upgraded_from": "0.1.0-alpha.29"
+    "upgraded_at": "2026-09-05T03:51:11.680Z",
+    "upgraded_from": "0.1.0-alpha.30"
   },
   "installation": {
     "mode": "toolkit-self-host",
@@ -394,7 +394,7 @@
     },
     {
       "path": ".ai-org/core/schemas/work-item.schema.json",
-      "sha256": "ccf64310e6e31665e7e28fd1b9e6dedd454dbca75ff03a82eb32f2f0f4a683ef"
+      "sha256": "6659907116cfe7c66506dfd21b286e73f0f437b97ee63f833a7b3485956d5a23"
     },
     {
       "path": ".ai-org/core/schemas/workflow.schema.json",

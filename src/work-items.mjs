@@ -26,6 +26,7 @@ import {
   validateSpecIndex
 } from "./specifications.mjs";
 import { readResourceRegistry, resourceAvailability } from "./resources.mjs";
+import { REVIEW_STATES, prebuildRequirements, prepareRework, assertReworkScope, assertFreshReworkCandidate, assertFreshReworkGates } from "./work-item-rework.mjs";
 import {
   HIGH_ASSURANCE_PROFILE,
   assertHighAssuranceCloseout,
@@ -1080,6 +1081,73 @@ async function assertNormalizedGateEvidence(target, item, gateEvidence) {
   }
 }
 
+export async function reworkWorkItem(target, options) {
+  const context = await loadProjectContext(target);
+  const item = await readWorkItem(target, options.workItemId);
+  if (!REVIEW_STATES.has(item.state)) throw new Error("Rework is available only from Test, Eval or Independent QA; closed work and Release Gate cannot be reopened");
+  if (options.sameScope !== true) throw new Error("--same-scope is required; new scope needs separately approved work");
+  assertReworkScope(item);
+  const reason = uniqueStrings(options.reason);
+  const findings = uniqueStrings(options.evidence);
+  if (!reason.length || !findings.length) throw new Error("Rework requires --reason and --evidence findings");
+  if (findings.some(ref => !looksLikeRepositoryArtifactReference(ref))) throw new Error("Rework findings must be repository artifact paths");
+  await assertRepositoryGateEvidencePaths(target, { findings });
+  if (item.claim?.status !== "active") throw new Error("Rework requires an active reviewer claim");
+  const actor = options.actor ?? item.claim.agent_id;
+  const collaboration = await readCollaborationState(target);
+  if (!["quality_evaluator", "independent_qa"].includes(item.owner_position) ||
+      context.states.get(item.state)?.owner_position !== item.owner_position ||
+      actor !== item.claim.agent_id || !agentIsEligible(collaboration, actor, item.owner_position, activeExecutionRequirements(item).disciplines)) {
+    throw new Error("Rework requires the active eligible review claimant");
+  }
+  const sponsor = sponsoredPrincipal(collaboration, actor);
+  if (["collaborative", HIGH_ASSURANCE_PROFILE].includes(collaboration.profile)) {
+    if (!sponsor || sponsor !== item.claim.principal_id) throw new Error("Rework reviewer claim has no matching Human Principal sponsor");
+    await assertLocalActorBinding(target, sponsor);
+  }
+  const developerHandoff = (item.handoffs ?? []).findLast(entry => entry.from_position === "developer");
+  if (actor === (developerHandoff?.actor ?? assignedAgentId(context, "developer"))) throw new Error("The Developer cannot return their own candidate as its reviewer");
+  const revision = String(options.inputRevision ?? "").trim();
+  if (!/^[a-f0-9]{40}$/.test(revision) || revision !== item.developer_candidate_revision || revision !== developerHandoff?.input_revision) {
+    throw new Error("--input-revision must be the exact current Developer handoff SHA; legacy symbolic revisions require reconciliation");
+  }
+  await exactHandoffRevision(target, item, revision);
+  const { listRuntimeWorkers } = await import("./workers.mjs");
+  const workers = await listRuntimeWorkers(target);
+  const resources = await readResourceRegistry(target);
+  if (workers.some(worker => worker.work_item_id === item.id && !["completed", "failed", "cancelled"].includes(worker.status)) ||
+      resources.reservations.some(reservation => reservation.work_item_id === item.id && reservation.status === "active")) {
+    throw new Error("Finish the Work Item's active runtime workers and resource reservations before rework");
+  }
+  assertSpecificationMode(item.specification_mode, item.spec_refs ?? [], true);
+  assertUiDeliveryMode(item.ui_delivery_mode, item.ui_refs ?? []);
+  const specs = await assertCurrentSpecificationReferences(target, item, "Review rework");
+  assertApprovalsForState(specs.evaluation, "build", "Review rework");
+  const uiPolicy = await readJson(path.join(target, ".ai-org/core/ui-design.json"));
+  const extra = (uiPolicy.delivery_modes ?? []).find(mode => mode.id === item.ui_delivery_mode)?.prebuild_evidence ?? [];
+  const assurancePolicy = await readHighAssurancePolicy(target);
+  const riskRequirement = assurancePolicy.transition_requirements["design->build"]?.requirement;
+  const retainedRequirements = prebuildRequirements(context.workflow, item, [...extra, ...(item.assurance?.profile === HIGH_ASSURANCE_PROFILE && riskRequirement ? [riskRequirement] : [])]);
+  const prepared = prepareRework(item, { actor, reason, findings, revision, retainedRequirements, timestamp: new Date().toISOString() });
+  const missing = retainedRequirements.filter(key => !prepared.item.gate_evidence[key]?.length);
+  if (missing.length) throw new Error(`Rework requires existing prebuild evidence: ${missing.join(", ")}`);
+  await assertRepositoryGateEvidencePaths(target, prepared.item.gate_evidence);
+  await assertNormalizedGateEvidence(target, prepared.item, prepared.item.gate_evidence);
+  await assertUiEvidence(target, prepared.item, prepared.item.gate_evidence, "prebuild");
+  await assertHighAssuranceTransition(target, context, { ...prepared.item, state: "design" }, "build", prepared.item.gate_evidence);
+  prepared.item.assigned_agent_id = assignedAgentId(context, "developer");
+  prepared.item.next_position = nextPositionForState(context, "build", prepared.item);
+  if (context.states.get("build")?.owner_position !== "developer") throw new Error("Rework requires a Developer-owned Build state");
+  await writeWorkItem(target, prepared.item);
+  await appendEvent(target, {
+    timestamp: prepared.entry.returned_at, event_type: "work_item_reworked", actor,
+    work_item_id: item.id, from_state: item.state, to_state: "build",
+    rejected_revision: revision, rework_sequence: prepared.entry.sequence,
+    claim_id: item.claim.id, reason, refs: [`.ai-org/work-items/${item.id}.json`, ...findings]
+  });
+  return prepared;
+}
+
 export async function transitionWorkItem(target, options) {
   const context = await loadProjectContext(target);
   const item = await readWorkItem(target, options.workItemId);
@@ -1121,6 +1189,10 @@ export async function transitionWorkItem(target, options) {
   );
   const additions = normalizeSatisfiedRequirements(options.satisfied);
   const mergedGates = mergeGateEvidence(item, additions);
+  await assertFreshReworkGates(target, item, mergedGates);
+  if (item.rework_history?.length && REVIEW_STATES.has(toState) && !item.developer_candidate_revision) {
+    throw new Error("Rework requires a new Developer handoff before review");
+  }
   await assertNormalizedGateEvidence(target, item, mergedGates);
   await assertRepositoryGateEvidencePaths(target, mergedGates);
   if (toState === "build") await assertUiEvidence(target, item, mergedGates, "prebuild");
@@ -1240,6 +1312,16 @@ export async function createHandoff(target, options) {
     options.actor ?? (item.claim?.status === "active" ? item.claim.agent_id : undefined),
     item.claim?.status === "active" ? [item.claim.agent_id] : []
   );
+  if (item.rework_history?.length) {
+    assertReworkScope(item);
+    if (item.owner_position === "developer") {
+      if (item.claim?.status !== "active" || item.claim.agent_id !== actor) throw new Error("Rework requires a new active Developer claim");
+      if (item.rework_history.some(entry => entry.reviewer_agent_id === actor)) throw new Error("Rework Developer must differ from the reviewer's Agent Identity");
+      assertFreshReworkCandidate(item, inputRevision);
+      await assertFreshReworkGates(target, { ...item, developer_candidate_revision: inputRevision }, { developer_evidence: evidence });
+      await assertRepositoryGateEvidencePaths(target, { developer_evidence: evidence });
+    }
+  }
   const artifactDirectory = path.join(target, ".ai-org/artifacts", item.id);
   await fs.mkdir(artifactDirectory, { recursive: true });
   const entries = await fs.readdir(artifactDirectory, { withFileTypes: true });
@@ -1263,6 +1345,7 @@ export async function createHandoff(target, options) {
       {
         from_position: item.owner_position,
         to_position: toPosition,
+        actor,
         input_revision: inputRevision,
         artifact: relativePath,
         created_at: timestamp
@@ -1339,6 +1422,12 @@ export async function closeWorkItem(target, options) {
   const actor = resolveActor(context, "release_manager", options.actor);
   const satisfied = normalizeSatisfiedRequirements(options.satisfied);
   const gateEvidence = mergeGateEvidence(item, satisfied);
+  await assertFreshReworkGates(target, item, gateEvidence);
+  if (item.rework_history?.length && options.decision === "go") {
+    const tested = await exactHandoffRevision(target, item, options.testedRevision);
+    if (tested !== item.developer_candidate_revision) throw new Error("Rework closeout must test the current Developer candidate");
+    options = { ...options, testedRevision: tested };
+  }
   await assertNormalizedGateEvidence(target, item, gateEvidence);
   await assertRepositoryGateEvidencePaths(target, gateEvidence);
   if (options.decision === "go") await assertUiEvidence(target, item, gateEvidence, "close");

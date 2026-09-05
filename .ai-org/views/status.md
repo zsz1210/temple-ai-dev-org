@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 173 total, 1 active
+- Work items: 174 total, 2 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 27 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -40,7 +40,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 1 / 0
+- Active / sequential / blocked: 1 / 1 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -221,6 +221,7 @@
 | WI-0171 | Reject ambiguous local test selection options | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7716b1fe` | 0 | 4 | 0 |
 | WI-0172 | Compare a bounded delivery and fresh recovery with and without Temple | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
 | WI-0173 | Pin handoff revisions and align published capability status | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `974d6578` | 0 | 11 | 0 |
+| WI-0174 | Return same-scope review findings to Build | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260905034149-18a513de | `—` | 0 | 1 | 0 |
 
 ## Codex task registry
 
@@ -299,7 +300,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 40
+- Team-visible Work Items: 41
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -372,14 +373,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-05T03:24:44.080Z | work_item_closed | WI-0173 | agent-mog |
-| 2026-09-05T03:24:44.080Z | release_gate_completed | WI-0173 | agent-mog |
-| 2026-09-05T03:24:43.841Z | work_item_claimed | WI-0173 | human |
-| 2026-09-05T03:24:43.573Z | work_item_transitioned | WI-0173 | agent-lulu |
-| 2026-09-05T03:24:43.322Z | work_item_claim_released | WI-0173 | human |
-| 2026-09-05T03:24:43.070Z | handoff_created | WI-0173 | agent-lulu |
-| 2026-09-05T03:24:42.818Z | work_item_claimed | WI-0173 | human |
-| 2026-09-05T03:24:42.547Z | work_item_transitioned | WI-0173 | agent-lulu |
+| 2026-09-05T03:51:04.659Z | work_item_coordination_configured | WI-0174 | agent-rikku |
+| 2026-09-05T03:41:49.941Z | work_item_claimed | WI-0174 | human |
+| 2026-09-05T03:41:49.677Z | work_item_transitioned | WI-0174 | agent-tidus |
+| 2026-09-05T03:41:49.395Z | work_item_claimed | WI-0174 | human |
+| 2026-09-05T03:41:49.126Z | work_item_transitioned | WI-0174 | agent-yuna |
+| 2026-09-05T03:41:48.888Z | work_item_claimed | WI-0174 | human |
+| 2026-09-05T03:41:48.615Z | work_item_transitioned | WI-0174 | agent-mog |
+| 2026-09-05T03:41:48.372Z | work_item_claimed | WI-0174 | human |
 
 ## Assignments
 

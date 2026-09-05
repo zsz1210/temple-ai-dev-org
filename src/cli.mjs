@@ -133,6 +133,7 @@ import {
   listUnresolvedItems,
   migrateLegacyOutcome,
   releaseWorkItemClaim,
+  reworkWorkItem,
   transitionWorkItem,
   updateUnresolvedItems
 } from "./work-items.mjs";
@@ -196,6 +197,7 @@ Usage:
   temple work-item migrate-outcomes [target] [--work-item WI-ID] [--outcome no-go|inconclusive] [--reason text] [--dry-run] [--json]
   temple work-item claim [target] --work-item WI-ID --agent-id agent-name --principal-id principal-name --base-revision ref --branch name [--worktree path]
   temple work-item release [target] --work-item WI-ID [--agent-id agent-name] [--principal-id principal-name] [--reason text]
+  temple work-item rework [target] --work-item WI-ID --same-scope --input-revision full-sha --reason text --evidence repository-path [--actor agent-name] [--json]
   temple work-item unresolved [target] --work-item WI-0001 [--resolve text] [--merge text]
   temple parallel check [target] --work-item WI-ID [--agent-id agent-name] [--json]
   temple parallel plan [target] [--parent WI-ID] [--max-workers number] [--json] [--no-write]
@@ -312,6 +314,7 @@ Inside: many Positions learn, build, challenge, and verify in parallel.
 Only evidence leaves the chamber.`;
 
 const BOOLEAN_FLAGS = new Set([
+  "--same-scope",
   "--dry-run",
   "--integrate-agents",
   "--self-host",
@@ -2390,6 +2393,26 @@ async function runWorkItemRelease(parsed) {
   return 0;
 }
 
+async function runWorkItemRework(parsed) {
+  const allowedOptions = new Set(["--work-item", "--input-revision", "--reason", "--evidence", "--actor"]);
+  const allowedFlags = new Set(["--same-scope", "--json"]);
+  for (const flag of [...Object.keys(parsed.options), ...parsed.flags]) {
+    if (!allowedOptions.has(flag) && !allowedFlags.has(flag)) throw new Error(`Unsupported rework option: ${flag}`);
+  }
+  const target = await assertSafeTarget(parsed.target);
+  const result = await withProjectMutationLock(target, async () => {
+    const reworked = await reworkWorkItem(target, {
+      workItemId: parsed.options["--work-item"], sameScope: parsed.flags.has("--same-scope"),
+      inputRevision: parsed.options["--input-revision"], actor: parsed.options["--actor"],
+      reason: listOption(parsed, "--reason"), evidence: listOption(parsed, "--evidence")
+    });
+    await refreshViews(target);
+    return reworked;
+  });
+  printResult(parsed, result, [`${result.item.id}: returned to Build (rework ${result.entry.sequence})`, `Rejected candidate: ${result.entry.rejected_revision}`, "Reviewer claim released. Claim as Developer, record a corrected commit and rerun the remaining gates."]);
+  return 0;
+}
+
 async function runWorkItemMigrateOutcomes(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const result = await withProjectMutationLock(target, async () => {
@@ -3031,6 +3054,7 @@ export async function main(argv) {
   if (parsed.command === "work-item" && parsed.action === "configure") return runWorkItemConfigure(parsed);
   if (parsed.command === "work-item" && parsed.action === "claim") return runWorkItemClaim(parsed);
   if (parsed.command === "work-item" && parsed.action === "release") return runWorkItemRelease(parsed);
+  if (parsed.command === "work-item" && parsed.action === "rework") return runWorkItemRework(parsed);
   if (parsed.command === "work-item" && parsed.action === "migrate-outcomes") return runWorkItemMigrateOutcomes(parsed);
   if (parsed.command === "work-item" && parsed.action === "unresolved") return runWorkItemUnresolved(parsed);
   if (parsed.command === "parallel") return runParallel(parsed);

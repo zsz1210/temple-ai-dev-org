@@ -1,0 +1,140 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0174",
+  "title": "Return same-scope review findings to Build",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-05T03:40:15.810Z",
+  "updated_at": "2026-09-05T03:51:04.659Z",
+  "scope": [
+    "Same-scope review rework preserving the WI and approved boundaries; no terminal reopening, release, model experiment or onboarding work."
+  ],
+  "acceptance_criteria": [
+    "Explicit reviewer return with exact candidate and findings; old downstream gates cannot approve repairs; failed requests do not mutate; focused tests, full verification and independent QA."
+  ],
+  "affected_paths": [
+    "src/work-items.mjs",
+    "src/cli.mjs",
+    "src/work-item-rework.mjs",
+    "test/work-item-rework.test.mjs",
+    "project-overlay/.ai-org/core/schemas/work-item.schema.json",
+    "docs/operations/review-rework.md",
+    "docs/adr/0053-review-rework.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T03:40:15.810Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "6d3a87b8b1742ab9096282ac557474452b1c8c5d",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260905034149-18a513de",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "6d3a87b8b1742ab9096282ac557474452b1c8c5d",
+    "branch": "codex/wi-0174-review-rework",
+    "worktree": null,
+    "claimed_at": "2026-09-05T03:41:49.941Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260905034148-a619579a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "6d3a87b8b1742ab9096282ac557474452b1c8c5d",
+      "branch": "codex/wi-0174-review-rework",
+      "worktree": null,
+      "claimed_at": "2026-09-05T03:41:48.372Z",
+      "released_at": "2026-09-05T03:41:48.615Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905034148-976f257c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "6d3a87b8b1742ab9096282ac557474452b1c8c5d",
+      "branch": "codex/wi-0174-review-rework",
+      "worktree": null,
+      "claimed_at": "2026-09-05T03:41:48.888Z",
+      "released_at": "2026-09-05T03:41:49.126Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905034149-c1cf26da",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "6d3a87b8b1742ab9096282ac557474452b1c8c5d",
+      "branch": "codex/wi-0174-review-rework",
+      "worktree": null,
+      "claimed_at": "2026-09-05T03:41:49.395Z",
+      "released_at": "2026-09-05T03:41:49.677Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905034149-18a513de",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "6d3a87b8b1742ab9096282ac557474452b1c8c5d",
+      "branch": "codex/wi-0174-review-rework",
+      "worktree": null,
+      "claimed_at": "2026-09-05T03:41:49.941Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0174/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0174/work-order.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0174/work-order.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0174/work-order.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0174/work-order.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0174/work-order.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

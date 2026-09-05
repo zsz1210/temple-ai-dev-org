@@ -1,25 +1,41 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-05T03:25:23.485Z",
-  "source_fingerprint": "c9a5040ba48eb72562c83a000de163c8c562d635a6230c34bc42245264495c57",
+  "generated_at": "2026-09-05T03:53:28.806Z",
+  "source_fingerprint": "daf201ed365a16e1ee8f8b3fa2cbde4966078b6c4cee8783bda04b515d0e5a70",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
     "selected_work_item_ids": [
-      "WI-0172"
+      "WI-0172",
+      "WI-0174"
     ]
   },
-  "max_workers": 1,
+  "max_workers": null,
   "summary": {
-    "selected": 1,
+    "selected": 2,
     "dispatchable": 0,
-    "active": 0,
+    "active": 1,
     "sequential": 1,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
-  "active": [],
+  "active": [
+    {
+      "work_item_id": "WI-0174",
+      "title": "Return same-scope review findings to Build",
+      "disposition": "active",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [],
+      "claim_id": "claim-20260905034149-18a513de",
+      "principal_id": "human",
+      "branch": "codex/wi-0174-review-rework",
+      "worktree": null,
+      "base_revision": "6d3a87b8b1742ab9096282ac557474452b1c8c5d"
+    }
+  ],
   "sequential": [
     {
       "work_item_id": "WI-0172",
@@ -38,7 +54,7 @@
   "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 1,
+    "runtime_capacity_limit": null,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,
