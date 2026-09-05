@@ -1,20 +1,21 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-05T12:11:03.991Z",
-  "source_fingerprint": "17854d29268252f2c1e522dfaf066bb75898ab022d2764bd701b3e2b833a6575",
+  "generated_at": "2026-09-05T12:22:58.792Z",
+  "source_fingerprint": "d7658c4534e8e7b1069fff4ebbc3b24f6a92ac1adff77da5546c0c5de3aeca23",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
     "selected_work_item_ids": [
-      "WI-0172"
+      "WI-0172",
+      "WI-0183"
     ]
   },
   "max_workers": null,
   "summary": {
-    "selected": 1,
+    "selected": 2,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 1,
+    "sequential": 2,
     "blocked": 0,
     "waves": 0
   },
@@ -30,6 +31,17 @@
       "integration_owner_agent_id": null,
       "reasons": [
         "base_revision_recorded",
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0183",
+      "title": "Design lower-overhead Lean execution after v7 comparison",
+      "disposition": "sequential",
+      "position_id": "engineering_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": null,
+      "reasons": [
         "integration_owner_assigned"
       ]
     }

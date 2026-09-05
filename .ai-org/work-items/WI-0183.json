@@ -1,0 +1,86 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0183",
+  "title": "Design lower-overhead Lean execution after v7 comparison",
+  "state": "intake",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-05T12:19:01.768Z",
+  "updated_at": "2026-09-05T12:22:30.186Z",
+  "scope": [
+    "Draft a reviewable design for bounded stage context, composed administration and existing Lean eligibility; preserve WI-0182 evidence. Design only, no runtime code, policy activation, new model calls, merge or release."
+  ],
+  "acceptance_criteria": [
+    "Proposal distinguishes implemented behavior from proposed interfaces, preserves authority and verification, defines failure recovery, incremental implementation boundaries and generation-free tests before a future fixed comparison."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0183"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T12:19:01.768Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "0148874",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260905121914-c8899cfc",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "0148874",
+    "branch": "codex/wi-0183-lean-execution-design",
+    "worktree": null,
+    "claimed_at": "2026-09-05T12:19:14.082Z",
+    "released_at": "2026-09-05T12:22:30.186Z",
+    "release_reason": [
+      "Bounded intake design draft completed in .ai-org/artifacts/WI-0183/design-proposal.md. Remain at intake for proposal review; no implementation or model generation authorized."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260905121914-c8899cfc",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "0148874",
+      "branch": "codex/wi-0183-lean-execution-design",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:19:14.082Z",
+      "released_at": "2026-09-05T12:22:30.186Z",
+      "release_reason": [
+        "Bounded intake design draft completed in .ai-org/artifacts/WI-0183/design-proposal.md. Remain at intake for proposal review; no implementation or model generation authorized."
+      ]
+    }
+  ],
+  "gate_evidence": {},
+  "evidence": [],
+  "unresolved": [],
+  "next_position": "product_manager"
+}
