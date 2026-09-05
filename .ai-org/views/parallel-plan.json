@@ -1,21 +1,22 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-05T08:41:33.721Z",
-  "source_fingerprint": "fcf6cae58a3c52d069f5afd421a75aa2426b2d48febf26926b97650fde99c19a",
+  "generated_at": "2026-09-05T09:41:52.818Z",
+  "source_fingerprint": "a9c98f864876fcfa475dcf6f3a57699acfc4e1111f3bdd414e9af0846247b1d8",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
     "selected_work_item_ids": [
-      "WI-0172"
+      "WI-0172",
+      "WI-0179"
     ]
   },
   "max_workers": null,
   "summary": {
-    "selected": 1,
+    "selected": 2,
     "dispatchable": 0,
     "active": 0,
     "sequential": 1,
-    "blocked": 0,
+    "blocked": 1,
     "waves": 0
   },
   "waves": [],
@@ -34,8 +35,37 @@
       ]
     }
   ],
-  "blocked": [],
-  "conflicts": [],
+  "blocked": [
+    {
+      "work_item_id": "WI-0179",
+      "title": "Compare optimized Temple against ordinary delivery",
+      "disposition": "blocked",
+      "position_id": "release_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [
+        "unresolved_items_cleared"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0172",
+      "right_work_item_id": "WI-0179",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        },
+        {
+          "left_path": "test/delivery-control-pair.test.mjs",
+          "right_path": "test/delivery-control-pair.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    }
+  ],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
     "runtime_capacity_limit": null,

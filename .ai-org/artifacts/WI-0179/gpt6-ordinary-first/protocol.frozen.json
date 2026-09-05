@@ -1,0 +1,46 @@
+{
+  "schema_version": "temple.delivery-pair-protocol/v2",
+  "work_item_id": "WI-0179",
+  "manifest_sha256": "sha256:ab839c08fa66b3b21feda7c67d022a3691df80dadeedd4927fcd7e50273c8ccd",
+  "source_sha256": "sha256:d31aff9ed119e2532d8f4ccc00d0ada1f6e2f76d676602f022c5badb7fe56e96",
+  "fixture_sha256": "sha256:ce39cdfb577d8d276dd82b43149e17623d923703eef133015c3a2c97780b3e0b",
+  "command_policy_sha256": "sha256:9151dd2752205aed66eca358a0af0c8d5ff1e632fe4c22e11fd950d26038f683",
+  "output_schema_sha256": "sha256:b729df7fcd0efd4412aad46387f10dacc99c4bc84980760c814c42facc458bfb",
+  "process_contract_sha256": "sha256:96977af8fa19b6aa1e79d31ff9a60415165b4ec98d871362e765565df3abdd69",
+  "order": [
+    "ordinary",
+    "temple"
+  ],
+  "model": "gpt-6-astra",
+  "reasoning_effort": "medium",
+  "provider_contract_sha256": "sha256:ea8665b86d533e2a06ba31900d7fceaf9fb11b4a04154770386205b86c851baa",
+  "readiness_review": {
+    "status": "passed",
+    "reviewer_agent_id": "agent-lulu",
+    "developer_agent_id": "agent-rikku",
+    "reviewed_source_sha256": "sha256:d31aff9ed119e2532d8f4ccc00d0ada1f6e2f76d676602f022c5badb7fe56e96",
+    "evidence_ref": ".ai-org/artifacts/WI-0179/independent-qa.md",
+    "evidence_sha256": "sha256:c0403b2765ca73c79af6fab57b7c43d2812d47c39302e5ffb8640eb1e5c3c328",
+    "sandbox_evidence_ref": ".ai-org/artifacts/WI-0179/sandbox-readiness.json",
+    "sandbox_evidence_sha256": "sha256:0455beea1bbcd2035cdf2ac5e0a9d7176469c3ac16e80b7c3fc1f10c55f114cc"
+  },
+  "limits": {
+    "stages": 4,
+    "per_stage_ms": 360000,
+    "aggregate_ms": 1440000,
+    "per_stage_operational_tokens": 80000,
+    "aggregate_operational_tokens": 320000
+  },
+  "policy": {
+    "fresh_threads": true,
+    "memories": false,
+    "network": false,
+    "fallback": false,
+    "retries": 0,
+    "cache": "uncontrolled-descriptive-only",
+    "effective_turn_effort": "unknown",
+    "account": "existing-included-allowance-only",
+    "purchases": false,
+    "resets": false
+  }
+}

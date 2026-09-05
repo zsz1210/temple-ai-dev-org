@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
-- Parallel plan: 0 wave(s), fresh=false
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Parallel plan: 0 wave(s), fresh=true
 - Work items: 179 total, 2 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 33 registered, 0 reserved, 0 active
+- Runtime workers: 34 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,10 +37,10 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 1 / 0
+- Active / sequential / blocked: 0 / 1 / 1
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -226,7 +226,7 @@
 | WI-0176 | Confirm owned provider process shutdown | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a59f62ce` | 0 | 8 | 0 |
 | WI-0177 | Align lifecycle Skill entry with effective workflow profiles | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c8fc420d` | 0 | 8 | 0 |
 | WI-0178 | Reduce delivery overhead with bounded context and recoverable operations | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6521fc50` | 0 | 8 | 0 |
-| WI-0179 | Compare optimized Temple against ordinary delivery | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260905090349-aceba671 | `—` | 0 | 1 | 0 |
+| WI-0179 | Compare optimized Temple against ordinary delivery | release_gate | Release Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `175f7ada` | 0 | 4 | 1 |
 
 ## Codex task registry
 
@@ -282,6 +282,7 @@
 | worker-20260905052549-b2328dd0 | internal-subagent | WI-0176 | Independent QA / Lulu | completed | /root/wi0176_independent_qa | `a59f62ce` | 0 |
 | worker-20260905072735-79a889e8 | internal-subagent | WI-0177 | Independent QA / Lulu | completed | /root/wi0177_instruction_qa | `c8fc420d` | 0 |
 | worker-20260905082936-f5f1d2a7 | internal-subagent | WI-0178 | Independent QA / Lulu | completed | /root/wi0178_delivery_qa | `6521fc50` | 0 |
+| worker-20260905092412-f4907318 | internal-subagent | WI-0179 | Independent QA / Lulu | completed | /root/wi0179_comparison_qa | `175f7ada` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -306,7 +307,7 @@
 - worker-20260830091123-8cde42d0 is failed
 - worker-20260830091123-055ffa0e is failed
 - worker-20260905035623-2de5700b is failed
-- Generated parallel plan is stale; rebuild it before dispatch
+- Parallel plan has 1 blocked Work Item(s)
 
 ## External tracker coordination
 
@@ -386,14 +387,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-05T09:03:49.979Z | work_item_claimed | WI-0179 | human |
-| 2026-09-05T09:03:49.677Z | work_item_transitioned | WI-0179 | agent-tidus |
-| 2026-09-05T09:03:49.396Z | work_item_claim_released | WI-0179 | human |
-| 2026-09-05T09:03:49.098Z | work_item_claimed | WI-0179 | human |
-| 2026-09-05T09:03:48.775Z | work_item_transitioned | WI-0179 | agent-yuna |
-| 2026-09-05T09:03:48.497Z | work_item_claim_released | WI-0179 | human |
-| 2026-09-05T09:03:48.231Z | work_item_claimed | WI-0179 | human |
-| 2026-09-05T09:03:19.285Z | work_item_transitioned | WI-0179 | agent-mog |
+| 2026-09-05T09:41:52.489Z | work_item_claim_released | WI-0179 | human |
+| 2026-09-05T09:41:52.131Z | work_item_unresolved_updated | WI-0179 | agent-mog |
+| 2026-09-05T09:39:58.908Z | publication_retained_artifacts_normalized | WI-0179 | agent-mog |
+| 2026-09-05T09:39:58.274Z | publication_canonical_state_normalized | WI-0179 | agent-mog |
+| 2026-09-05T09:39:15.159Z | work_item_claimed | WI-0179 | human |
+| 2026-09-05T09:38:33.047Z | work_item_transitioned | WI-0179 | agent-lulu |
+| 2026-09-05T09:38:32.773Z | work_item_claim_released | WI-0179 | human |
+| 2026-09-05T09:38:32.419Z | runtime_worker_status_changed | WI-0179 | agent-lulu |
 
 ## Assignments
 
