@@ -330,25 +330,31 @@ async function reducedMotionContract(browser, serverUrl) {
   }
 }
 
-export async function verifyConsoleBrowser() {
+export async function verifyConsoleBrowser({
+  startServer = startControlPlaneServer,
+  launchBrowser = () => chromium.launch({ channel: "chrome", headless: true }),
+  checkViews = async (browser, url) => {
+    for (const viewport of CONSOLE_VIEWPORTS) await runViewport(browser, url, viewport);
+    await reducedMotionContract(browser, url);
+  }
+} = {}) {
   const stateDirectory = await fs.mkdtemp(path.join(os.tmpdir(), "temple-console-browser-"));
   let controlPlane;
   let browser;
   try {
-    controlPlane = await startControlPlaneServer(repositoryRoot, {
+    controlPlane = await startServer(repositoryRoot, {
       host: "127.0.0.1",
       port: 0,
       stateDirectory,
       repositoryIntervalMs: 60_000
     });
     try {
-      browser = await chromium.launch({ channel: "chrome", headless: true });
+      browser = await launchBrowser();
     } catch (error) {
       throw new Error(`Installed Google Chrome is required for npm run test:browser. Temple does not download a browser.\n${describeError(error)}`);
     }
     console.log(`Chrome ${browser.version()} · ${controlPlane.url}`);
-    for (const viewport of CONSOLE_VIEWPORTS) await runViewport(browser, controlPlane.url, viewport);
-    await reducedMotionContract(browser, controlPlane.url);
+    await checkViews(browser, controlPlane.url);
     console.log(`Management Console browser gate passed (${CONSOLE_VIEWPORTS.length} viewports, ${PRIMARY_VIEWS.length} primary views).`);
   } finally {
     if (browser) await browser.close().catch(() => {});

@@ -2,7 +2,7 @@
 
 Temple separates the bounded remote repository gate from complete local verification. The goal is to preserve the safety guarantees of a repository-writing framework without spending several hosted runner-minutes after every push.
 
-`npm run check` validates repository structure, documentation language boundaries, and local Markdown link targets. These checks are intentionally fast and run for every change.
+`npm run check` validates repository structure, documentation language boundaries, local Markdown link targets, and the actual npm dry-run package boundary. These checks run for every change. The full suite is offline: it tests code, contracts, and simulated providers, not paid model calls.
 
 ## Local development
 
@@ -19,11 +19,35 @@ node --test test/tracker.test.mjs
 node --test test/workflow.test.mjs
 ```
 
+For a wider edit, choose an explicit local group:
+
+| Command | Coverage |
+| --- | --- |
+| `npm run test:core` | Core CLI, lifecycle, routing, recovery, governance, and mixed core/optional tests |
+| `npm run test:optional` | Console, Control Plane, and optional observer/provider integration |
+| `npm run test:experiments` | Offline experiment harnesses, acquisition classification, protocols, and analysis |
+| `npm run test:fast` | Small contracts, package-validator edge cases, and evidence Git-read behavior |
+
+The three broad groups partition the test inventory. New test files default to core. Fast tests overlap these groups intentionally; they are not another full suite.
+
+For conservative local selection against your branch base:
+
+```bash
+npm run test:changed -- --base origin/main --list
+npm run verify:changed -- --base origin/main
+```
+
+Selection includes committed changes since the merge base, staged and unstaged changes, and untracked files. Prose-only changes select fast tests; changed test files select their entire group plus fast tests. Shared source, scripts, fixtures, package metadata, canonical state, deleted tests, unknown paths, or an unavailable base select the full suite. This is deliberately a local editing aid, not a dependency graph or a hosted CI selector. The `--list` form only previews selection and does not verify anything.
+
+Prose-only changes require `npm run verify:fast` and appropriate rendered review. Changes to Agent instructions, Skills, executable examples, manifests, schemas, package contents, or behavioral contracts are not prose-only. Canonical organization-state changes also require `node ./templew.mjs doctor . --json`. Do not classify a mixed change by its smallest component.
+
 Before proposing a behavioral change, run the complete suite:
 
 ```bash
 npm run verify
 ```
+
+Run it once on the final behavioral candidate, not after every intermediate edit. Further code, fixture, dependency, or contract changes invalidate that result. Later evidence/prose-only updates require their applicable checks and an explicit link to the tested code revision; they do not turn an untested code revision into a tested one. Release verification remains complete regardless of local selection.
 
 Management Console changes also require the real-browser gate:
 
@@ -35,17 +59,16 @@ This command starts the repository-local Control Plane on loopback and opens fou
 
 ## Continuous integration
 
-GitHub Actions is intentionally a short remote consistency check, not Temple's complete test environment. Every pull request and push to `main` runs one Node.js 24 job with a five-minute ceiling. The job uses a clean checkout and performs:
+Ordinary GitHub Actions is intentionally a short remote consistency check, not Temple's complete test environment. Every pull request and push to `main` runs one Node.js 24 job with an eight-minute ceiling. The job uses a clean checkout and performs:
 
 - lockfile-strict dependency installation without lifecycle scripts;
 - repository, documentation-link, and package-boundary checks;
-- organization schema validation;
-- Temple Doctor;
+- Temple Doctor, including organization schema validation (once, not a duplicate standalone step);
 - `npm run test:fast`.
 
 The workflow reports every required result and fails if any required step fails. It uses immutable Action revisions, read-only repository permission, and cancels an older in-progress run when the same pull request receives a newer commit.
 
-GitHub Actions does not run `npm run test:full` or `npm run test:browser`. This keeps hosted use bounded and predictable, but it also means a green CI badge is only the remote repository gate. It does not prove the complete integration suite, browser behavior, Independent QA, or release readiness.
+Ordinary PR/push CI does not run `npm run test:full` or `npm run test:browser`. The separate GitHub Release publishing workflow does run `npm run verify` against the Release source before publication. A green ordinary CI badge is only the remote repository gate: it does not prove the complete integration suite, browser behavior, Independent QA, or release readiness.
 
 Complete evidence stays local and revision-specific:
 
@@ -72,3 +95,7 @@ Prefer the smallest layer that proves the risk:
 5. Explicit live validation only when a fixture cannot prove the behavior.
 
 Do not remove a safety assertion merely to shorten CI. When subprocess setup dominates runtime, keep the assertion and move shared behavior to a faster harness while retaining representative end-to-end coverage.
+
+Keep one real package-boundary check in `npm run check`; exercise invalid manifests in unit tests instead of repeating the same successful npm pack. Test cleanup by injecting startup/runtime failures, not by searching source code for a `finally` block. Avoid locking harmless copy or timeout values in tests; preserve real authority and resource boundaries.
+
+For timing comparisons, use the same runtime, candidate, and command, and separate local from hosted results. Node test files run concurrently, so summed test durations are not wall-clock time. A reduced subprocess count is structural evidence; a single elapsed-time sample is diagnostic, not a promised speedup on every machine.

@@ -345,15 +345,16 @@ test("WI-0143 profile freezes adjacent cache-matched blocks and remains approval
 
 test("bounded acquisition evidence classifies safe reads without retaining commands or output", async (context) => {
   const labRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-wi0141-acquisition-"));
-  await fs.rm(labRoot, { recursive: true, force: true });
   context.after(() => fs.rm(labRoot, { recursive: true, force: true }));
-  await prepareContextAblationLab(labRoot, {
-    providerContract: contextAblationTestProviderContract(),
-    sourceRevision: "a".repeat(40),
-    writeArtifacts: false
-  });
-  const conditionRoot = path.join(labRoot, "conditions/single-stage-aware-a");
-  const package_ = JSON.parse(await fs.readFile(path.join(conditionRoot, "CONTEXT_PACKAGE.json"), "utf8"));
+  // This classifier needs real paths and symlinks, not eight initialized Git repos.
+  // The two preparation tests above retain complete production-path coverage.
+  const conditionRoot = labRoot;
+  const package_ = { sources: [{ path: "coordinator/docs/product/idempotency.md" }], route: { fallback: { path: "TEMPLE.md" } } };
+  await fs.mkdir(path.join(conditionRoot, "coordinator/docs/product"), { recursive: true });
+  await fs.mkdir(path.join(conditionRoot, "coordinator/docs/discovery"), { recursive: true });
+  await fs.writeFile(path.join(conditionRoot, "CONTEXT_PACKAGE.json"), JSON.stringify(package_));
+  await fs.writeFile(path.join(conditionRoot, package_.sources[0].path), "product evidence");
+  await fs.writeFile(path.join(conditionRoot, "coordinator/docs/discovery/subscriptions.md"), "discovery evidence");
   const routedPath = package_.sources[0].path;
   const offRoutePath = "coordinator/docs/discovery/subscriptions.md";
   const symlinkPath = path.join(conditionRoot, "coordinator/docs/product/escaped-link");
