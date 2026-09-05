@@ -395,14 +395,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-05T12:24:02.852Z | work_item_claim_released | WI-0183 | human |
+| 2026-09-05T12:24:02.669Z | publication_canonical_state_normalized | WI-0183 | agent-mog |
+| 2026-09-05T12:23:48.690Z | work_item_claimed | WI-0183 | human |
 | 2026-09-05T12:22:30.186Z | work_item_claim_released | WI-0183 | human |
 | 2026-09-05T12:19:14.082Z | work_item_claimed | WI-0183 | human |
 | 2026-09-05T12:19:01.768Z | work_item_created | WI-0183 | agent-mog |
 | 2026-09-05T12:10:55.005Z | work_item_closed | WI-0182 | agent-mog |
 | 2026-09-05T12:10:55.005Z | release_gate_completed | WI-0182 | agent-mog |
-| 2026-09-05T11:44:55.950Z | work_item_claimed | WI-0182 | human |
-| 2026-09-05T11:44:55.677Z | work_item_transitioned | WI-0182 | agent-lulu |
-| 2026-09-05T11:44:55.434Z | work_item_transitioned | WI-0182 | agent-lulu |
 
 ## Assignments
 
