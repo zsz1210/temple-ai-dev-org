@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T02:27:04.224Z",
-  "source_fingerprint": "3660cc5f1a1a46d354417b5e9ebcedfb6c5df2af9bc0cd04f9626c2e7234a893",
+  "generated_at": "2026-09-06T03:01:47.362Z",
+  "source_fingerprint": "1da3a56eda7862186135c96861437e3c394f44674e6212d4e29e526857495041",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -15,13 +15,13 @@
       "WI-0193"
     ]
   },
-  "max_workers": 20,
+  "max_workers": 3,
   "summary": {
     "selected": 7,
-    "dispatchable": 2,
+    "dispatchable": 1,
     "active": 0,
     "sequential": 3,
-    "blocked": 2,
+    "blocked": 3,
     "waves": 1
   },
   "waves": [
@@ -55,33 +55,6 @@
           "preparation_fingerprint": "12ae0ed96259d12e46a8d0bf7087fb6c975607c0b42bf9a2f100c0a0ca86040f",
           "integration_owner_agent_id": "agent-mog",
           "context_command": "node ./templew.mjs context resolve . --work-item WI-0190 --position release_manager --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        },
-        {
-          "work_item_id": "WI-0193",
-          "title": "Run bounded native support comparison after measurement repair",
-          "position_id": "quality_evaluator",
-          "agent_id": "agent-lulu",
-          "agent_name": "Lulu",
-          "suggested_task_title": "WI-0193 · Run boun… · Quality & Evaluation Engineer (Lulu)",
-          "base_revision": "2628319f75c01d1bf9d9879569b504ab40f44b1f",
-          "affected_paths": [
-            ".ai-org/artifacts/WI-0193"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "test",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "a035bad43774f194388f21e3659e806442d0e111f1bffc395969a86dbfbdf0cb",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0193 --position quality_evaluator --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,
@@ -161,6 +134,17 @@
       "reasons": [
         "unresolved_items_cleared"
       ]
+    },
+    {
+      "work_item_id": "WI-0193",
+      "title": "Run bounded native support comparison after measurement repair",
+      "disposition": "blocked",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [
+        "unresolved_items_cleared"
+      ]
     }
   ],
   "conflicts": [
@@ -195,7 +179,7 @@
   ],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 20,
+    "runtime_capacity_limit": 3,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

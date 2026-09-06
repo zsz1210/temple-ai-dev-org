@@ -1420,6 +1420,62 @@
       "attached_at": "2026-09-06T02:28:38.462Z",
       "completed_at": "2026-09-06T02:32:26.634Z",
       "updated_at": "2026-09-06T02:32:26.634Z"
+    },
+    {
+      "id": "worker-20260906025152-46d19d94",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0194",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260906025152-0f12915c",
+      "base_revision": "HEAD",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "plan_fingerprint": "daa1f1b77ab6d4b2b04bc96c910910558d88f3ad1fdd0c27d5dcfd35a553dbab",
+      "plan_digest": "7fe5a8a929c5d630a23eac38b985caccc966dc87a76f6106a0441bfb6b783b72",
+      "preparation_fingerprint": "7d1b9258e387230c9d9ab4a25224288368702698c66c93cacf7fdcfc2a2eac02",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0194_event_review",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "c68fb23c3106302767c978727ccb05c750b5f22a",
+      "evidence": [
+        ".ai-org/artifacts/WI-0194/review.md"
+      ],
+      "reserved_at": "2026-09-06T02:51:52.476Z",
+      "attached_at": "2026-09-06T02:52:25.714Z",
+      "completed_at": "2026-09-06T02:56:47.085Z",
+      "updated_at": "2026-09-06T02:56:47.085Z"
+    },
+    {
+      "id": "worker-20260906025851-3e0d8db8",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0194",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260906025851-3728e7c9",
+      "base_revision": "f9edc11a207ffd6488102fe427e5d82c103514e5",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "plan_fingerprint": "a4f020250f6bc0d0b8faf16fa81d738947de9cd0fd1176985662fece63443f2d",
+      "plan_digest": "ac821af85c02e8ba301f1b598140ba6608bde012838c5141508c73226afef9f1",
+      "preparation_fingerprint": "2f871fd56e23af6d021d5869f82c418f77149daeaf58ae4f2726b108f5829d38",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0194_recheck",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "f9edc11a207ffd6488102fe427e5d82c103514e5",
+      "evidence": [
+        ".ai-org/artifacts/WI-0194/review-2.md"
+      ],
+      "reserved_at": "2026-09-06T02:58:51.884Z",
+      "attached_at": "2026-09-06T02:59:20.890Z",
+      "completed_at": "2026-09-06T03:01:36.600Z",
+      "updated_at": "2026-09-06T03:01:36.600Z"
     }
   ]
 }
