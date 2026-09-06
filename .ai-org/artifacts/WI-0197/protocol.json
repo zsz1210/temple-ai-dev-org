@@ -1,0 +1,39 @@
+{
+  "schema_version": "temple.native-child-compatibility-probe/v1",
+  "status": "generation-disabled-awaiting-exact-readiness-and-approval",
+  "purpose": "verify-one-parent-one-helper-observability-only",
+  "source_revision": "f9332bdca3264eebfd071607c00d7c3415f77d24",
+  "model": "gpt-5.6-terra",
+  "effort": "medium",
+  "case": {
+    "id": "support-read",
+    "arm": "after",
+    "helpers": 1
+  },
+  "success_contract": {
+    "trace_status": "observed-complete",
+    "observed_children": 1,
+    "parent_terminal": "completed",
+    "helper_terminal": "completed",
+    "usage_required_per_actor": true,
+    "cleanup_status": "observed-terminal",
+    "out_of_scope_paths": 0,
+    "answer_schema_required": true
+  },
+  "limits": {
+    "subject_arms": 1,
+    "subject_turns": 2,
+    "max_children": 1,
+    "per_actor_operational_tokens": 160000,
+    "aggregate_operational_tokens": 320000,
+    "per_actor_ms": 360000,
+    "aggregate_ms": 900000,
+    "retries": 0,
+    "fallback": false,
+    "reset": false,
+    "included_quota_only": true,
+    "purchase_credits": false,
+    "auto_topup": false
+  },
+  "live_approval": null
+}
