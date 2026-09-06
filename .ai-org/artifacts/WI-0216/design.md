@@ -29,3 +29,14 @@ needs frozen source/protocol, sandbox and independent readiness evidence.
 
 Source of decision: WI-0215/result-report.md and the user's acceptance of the
 recommendation. Thresholds are authority boundaries, not empirically optimal values.
+
+## Subsequent live-run authorization
+
+The user subsequently requested completion of preparation followed directly by
+the comparison. This authorizes one fresh four-delivery/eight-stage Full, Model,
+Model, Full comparison on Terra medium after independent readiness and sandbox
+checks. Bind the exact frozen v2 protocol to a new one-shot approval. Retain the
+limits above, subscription included allowance only, no purchase/refill/reset,
+zero retries/fallback and no extra model judge. Stop on the first protocol,
+quality, isolation or hard-limit failure; report partial results honestly.
+The consumed WI-0215 run remains immutable and cannot be resumed.
