@@ -1,21 +1,22 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T12:48:23.013Z",
-  "source_fingerprint": "57da3d8ef3927bed6c73de83672ee32131308f83260c7afc0fed149d910ab7d1",
+  "generated_at": "2026-09-06T13:36:23.275Z",
+  "source_fingerprint": "191f89a8098d2ac493c030d29c41171cdc0a16decfa297e9b34499ca20791e26",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0214",
     "selected_work_item_ids": [
-      "WI-0213"
+      "WI-0213",
+      "WI-0215"
     ]
   },
   "max_workers": null,
   "summary": {
-    "selected": 1,
+    "selected": 2,
     "dispatchable": 1,
     "active": 0,
     "sequential": 0,
-    "blocked": 0,
+    "blocked": 1,
     "waves": 1
   },
   "waves": [
@@ -69,7 +70,19 @@
   ],
   "active": [],
   "sequential": [],
-  "blocked": [],
+  "blocked": [
+    {
+      "work_item_id": "WI-0215",
+      "title": "Run bounded full versus model context comparison",
+      "disposition": "blocked",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [
+        "unresolved_items_cleared"
+      ]
+    }
+  ],
   "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
