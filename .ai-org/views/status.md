@@ -4,8 +4,8 @@
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 222 total, 22 active
+- Parallel plan: 0 wave(s), fresh=false
+- Work items: 223 total, 23 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 73 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 21
+- Attention signals: 22
 
 ## Collaboration
 
@@ -37,7 +37,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
@@ -270,6 +270,7 @@
 | WI-0220 | Run fresh format comparison with argument diagnostics | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2aef01bd` | 0 | 5 | 0 |
 | WI-0221 | Add bounded failure and source-read observations | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e8ad4b4f` | 0 | 7 | 0 |
 | WI-0222 | Independently review PR70 diagnostic evidence | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e8ad4b4f` | 0 | 6 | 0 |
+| WI-0223 | Design diagnostic Full versus Model comparison | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -393,6 +394,7 @@
 - worker-20260905124032-458ce7b0 is failed
 - worker-20260905130828-87bb7969 is failed
 - worker-20260905141644-4a85d8c7 is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -472,14 +474,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-06T23:46:45.085Z | work_item_claim_released | WI-0223 | human |
+| 2026-09-06T23:46:44.110Z | handoff_created | WI-0223 | agent-tidus |
+| 2026-09-06T23:45:46.931Z | work_item_claimed | WI-0223 | human |
+| 2026-09-06T23:45:46.636Z | work_item_transitioned | WI-0223 | agent-yuna |
+| 2026-09-06T23:45:32.214Z | work_item_transitioned | WI-0223 | agent-mog |
+| 2026-09-06T23:44:02.020Z | work_item_claimed | WI-0223 | human |
+| 2026-09-06T23:43:14.466Z | work_item_created | WI-0223 | agent-mog |
 | 2026-09-06T23:39:51.979Z | work_item_closed | WI-0222 | agent-mog |
-| 2026-09-06T23:39:51.979Z | release_gate_completed | WI-0222 | agent-mog |
-| 2026-09-06T23:39:51.708Z | work_item_transitioned | WI-0222 | agent-lulu |
-| 2026-09-06T23:39:51.433Z | work_item_transitioned | WI-0222 | agent-lulu |
-| 2026-09-06T23:39:51.158Z | work_item_transitioned | WI-0222 | agent-lulu |
-| 2026-09-06T23:39:50.880Z | work_item_closed | WI-0221 | agent-mog |
-| 2026-09-06T23:39:50.880Z | release_gate_completed | WI-0221 | agent-mog |
-| 2026-09-06T23:39:17.284Z | work_item_transitioned | WI-0221 | agent-lulu |
 
 ## Assignments
 

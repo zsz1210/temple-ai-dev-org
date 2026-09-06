@@ -145,3 +145,13 @@ WI-0223 produces this design and a design-stage handoff only. It does not claim
 Build, experiment readiness, live results or implementation acceptance. The next
 authorized local slice is fixture/instrument implementation and offline validation;
 the live generation gate stays closed until its frozen protocol is approved.
+
+## Local design-delivery checks
+
+`npm run verify`: 678/678 passed, no failures, skips or cancellations
+(160718.548041 ms). These are existing repository checks, not experiment samples
+or validation of the unimplemented Family B fixture. Planning arithmetic was
+recomputed from WI-0220 measurements: 901,810 Tokens, 33.1108 minutes, maximum prior
+stage 68,286 Tokens, proposed aggregate headroom 41.9368%. `git diff --check` passed.
+Doctor: 36 pass, zero failures, one stale generated parallel-plan warning. No
+parallel worker was dispatched; that view must be rebuilt before any future dispatch.
