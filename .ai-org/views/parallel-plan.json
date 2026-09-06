@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T06:29:24.179Z",
-  "source_fingerprint": "2c37646a11e8a765a563559cd35685bf3ffa4d1d6feb0e8d81a74e38397030da",
+  "generated_at": "2026-09-06T06:41:35.378Z",
+  "source_fingerprint": "1f1a8fa4b83c50f8e755b17cacbe92a1bdca7bb095d19772e1ec40ab99f4eb05",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -13,17 +13,17 @@
       "WI-0191",
       "WI-0192",
       "WI-0193",
-      "WI-0201",
       "WI-0202",
-      "WI-0203"
+      "WI-0203",
+      "WI-0204"
     ]
   },
   "max_workers": 4,
   "summary": {
     "selected": 10,
-    "dispatchable": 2,
-    "active": 1,
-    "sequential": 4,
+    "dispatchable": 1,
+    "active": 0,
+    "sequential": 6,
     "blocked": 3,
     "waves": 1
   },
@@ -63,33 +63,6 @@
           "task_creation_performed": false,
           "claim_performed": false,
           "external_action_performed": false
-        },
-        {
-          "work_item_id": "WI-0201",
-          "title": "Repair complete native helper observation lifecycle",
-          "position_id": "quality_evaluator",
-          "agent_id": "agent-lulu",
-          "agent_name": "Lulu",
-          "suggested_task_title": "WI-0201 · Repair c… · Quality & Evaluation Engineer (Lulu)",
-          "base_revision": "5fda83aca2c361fbe369296f0539a0957cc8a0ff",
-          "affected_paths": [
-            ".ai-org/artifacts/WI-0201"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "test",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "6dd871ac6dcc8dd8211642a6ea21edfe650ba202eeee32139006a9464742f7d6",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0201 --position quality_evaluator --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
         }
       ],
       "join_gate": {
@@ -105,22 +78,7 @@
       }
     }
   ],
-  "active": [
-    {
-      "work_item_id": "WI-0202",
-      "title": "End-to-end check of native helper lifecycle repair",
-      "disposition": "active",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
-      "integration_owner_agent_id": null,
-      "reasons": [],
-      "claim_id": "claim-20260906062318-6a533e4e",
-      "principal_id": "human",
-      "branch": "codex/wi-0191-proportionate-evaluation",
-      "worktree": null,
-      "base_revision": "ac618c029322e94a1444a14b9925124fa7a741f7"
-    }
-  ],
+  "active": [],
   "sequential": [
     {
       "work_item_id": "WI-0172",
@@ -157,6 +115,17 @@
       ]
     },
     {
+      "work_item_id": "WI-0202",
+      "title": "End-to-end check of native helper lifecycle repair",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
+    },
+    {
       "work_item_id": "WI-0203",
       "title": "Measure bounded Lean entry and finish overhead against ordinary delivery",
       "disposition": "sequential",
@@ -166,6 +135,17 @@
       "reasons": [
         "acceptance_defined",
         "base_revision_recorded",
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0204",
+      "title": "Separate root delegation from leaf instructions and cancellation state",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
         "integration_owner_assigned"
       ]
     }
@@ -230,18 +210,6 @@
         {
           "left_path": ".ai-org/artifacts/WI-0191",
           "right_path": ".ai-org/artifacts/WI-0191/live-report.md"
-        }
-      ],
-      "resolution": "separate-waves"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0201",
-      "right_work_item_id": "WI-0202",
-      "paths": [
-        {
-          "left_path": ".ai-org/artifacts/WI-0201",
-          "right_path": ".ai-org/artifacts/WI-0201/live-approval.md"
         }
       ],
       "resolution": "separate-waves"
