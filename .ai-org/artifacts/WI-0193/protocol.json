@@ -1,0 +1,48 @@
+{
+  "schema_version": "temple.proportionate-evaluation-design/v1",
+  "status": "approved-envelope-awaiting-exact-readiness",
+  "product_readonly": "instruction-compliance-and-outcome-check-not-os-enforced",
+  "child_aggregate_cost": "unavailable-until-provider-nonduplication-established",
+  "before": "4c6a23213516eaabc4b4e184ca60115e7ab3bc21",
+  "after": "f9332bdca3264eebfd071607c00d7c3415f77d24",
+  "model": "gpt-5.6-terra",
+  "effort": "medium",
+  "cases": [
+    {
+      "id": "support-read",
+      "topic": "support",
+      "order": [
+        "before",
+        "after"
+      ],
+      "helpers_per_arm": 1
+    },
+    {
+      "id": "support-injection",
+      "topic": "support",
+      "order": [
+        "after",
+        "before"
+      ],
+      "helpers_per_arm": 1
+    }
+  ],
+  "proposed_limits": {
+    "subject_turns": 8,
+    "per_actor_operational_tokens": 100000,
+    "aggregate_operational_tokens": 800000,
+    "per_actor_ms": 480000,
+    "aggregate_ms": 2400000,
+    "retries": 0,
+    "fallback": false,
+    "reset": false
+  },
+  "live_approval": null,
+  "live_readiness": {
+    "product_fixture_and_oracle": true,
+    "sandbox_negative_checks": false,
+    "native_child_adapter": false,
+    "usage_coverage_and_nonduplication": false,
+    "prompt_and_executable_freeze": false
+  }
+}

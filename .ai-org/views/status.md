@@ -5,9 +5,9 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 190 total, 4 active
+- Work items: 204 total, 10 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 48 registered, 0 reserved, 0 active
+- Runtime workers: 64 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -40,7 +40,7 @@
 - Fresh: no
 - Safe waves: 1
 - Dispatchable Work Items: 1
-- Active / sequential / blocked: 0 / 2 / 1
+- Active / sequential / blocked: 0 / 6 / 3
 - Next wave: WI-0190
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -238,6 +238,20 @@
 | WI-0188 | Integrate opt-in Lean entry with bounded material and completion | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6346e026` | 0 | 9 | 0 |
 | WI-0189 | Compare single-worker and parallel Terra delivery | test | Quality & Evaluation Engineer | Lulu | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `90a5870d` | 0 | 6 | 1 |
 | WI-0190 | Clarify proportionate entry and stage completion | release_gate | Release Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `50ae4f50` | 0 | 5 | 0 |
+| WI-0191 | Evaluate proportionate routes with matched before-after scenarios | release_gate | Release Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `85beb7ac` | 0 | 9 | 1 |
+| WI-0192 | Repair paired evaluation evidence without changing sealed results | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9e96f7bb` | 0 | 3 | 0 |
+| WI-0193 | Run bounded native support comparison after measurement repair | test | Quality & Evaluation Engineer | Lulu | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2628319f` | 0 | 2 | 1 |
+| WI-0194 | Complete native event classification and failure-path replay coverage | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f9edc11a` | 0 | 6 | 0 |
+| WI-0195 | Complete repaired native support comparison | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `879ac69f` | 0 | 9 | 0 |
+| WI-0196 | Implement two-phase native child acquisition | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fd53d7de` | 0 | 7 | 0 |
+| WI-0197 | Prepare a minimal native child compatibility probe | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `963aa834` | 0 | 6 | 0 |
+| WI-0198 | Execute the approved native child compatibility probe | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `976af541` | 0 | 11 | 0 |
+| WI-0199 | Repair ephemeral helper dispatch | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c64371d0` | 0 | 6 | 0 |
+| WI-0200 | Validate repaired ephemeral helper dispatch live | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `be3f649c` | 0 | 7 | 0 |
+| WI-0201 | Repair complete native helper observation lifecycle | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5fda83ac` | 0 | 9 | 0 |
+| WI-0202 | End-to-end check of native helper lifecycle repair | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2201b456` | 0 | 6 | 0 |
+| WI-0203 | Measure bounded Lean entry and finish overhead against ordinary delivery | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
+| WI-0204 | Separate root delegation from leaf instructions and cancellation state | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2201b456` | 0 | 4 | 0 |
 
 ## Codex task registry
 
@@ -308,6 +322,22 @@
 | worker-20260905141644-4a85d8c7 | internal-subagent | WI-0188 | Quality & Evaluation Engineer / Lulu | failed | /root/lean_entry_qa | `88ab5970` | 0 |
 | worker-20260905142754-3ef27975 | internal-subagent | WI-0188 | Quality & Evaluation Engineer / Lulu | completed | /root/lean_entry_corrected_qa | `6346e026` | 0 |
 | worker-20260905225400-a1cb7c69 | internal-subagent | WI-0190 | Independent QA / Lulu | completed | /root/wi0178_delivery_qa:wi-0190 | `50ae4f50` | 0 |
+| worker-20260906001739-1031d49e | internal-subagent | WI-0191 | Independent QA / Lulu | completed | /root/wi0191_readiness_qa | `85beb7ac` | 0 |
+| worker-20260906022705-0bb1c047 | internal-subagent | WI-0193 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0193_readiness_qa | `2628319f` | 0 |
+| worker-20260906025152-46d19d94 | internal-subagent | WI-0194 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0194_event_review | `c68fb23c` | 0 |
+| worker-20260906025851-3e0d8db8 | internal-subagent | WI-0194 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0194_recheck | `f9edc11a` | 0 |
+| worker-20260906031213-34f5fb4b | internal-subagent | WI-0195 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0195_readiness | `a21b7b24` | 0 |
+| worker-20260906031833-0034f7a7 | internal-subagent | WI-0195 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0195_recheck | `f471caa1` | 0 |
+| worker-20260906032424-dd4ad0e7 | internal-subagent | WI-0195 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0195_final_readiness | `879ac69f` | 0 |
+| worker-20260906042040-d41ce866 | internal-subagent | WI-0196 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0196_review | `832f3e48` | 0 |
+| worker-20260906043637-8877e92f | internal-subagent | WI-0196 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0196_recheck | `fd53d7de` | 0 |
+| worker-20260906051032-88be24a7 | internal-subagent | WI-0197 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0197_readiness | `371866f6` | 0 |
+| worker-20260906053024-55e498b2 | internal-subagent | WI-0198 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0198_outcome_qa | `35651d5` | 0 |
+| worker-20260906054219-4e7b014f | internal-subagent | WI-0198 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0198_recheck | `4caeebc1` | 0 |
+| worker-20260906060207-a3fb8930 | internal-subagent | WI-0199 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0199_readiness | `fd932c2f` | 0 |
+| worker-20260906060749-f73290fa | internal-subagent | WI-0200 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0200_result_review | `be3f649c` | 0 |
+| worker-20260906062143-138a5104 | internal-subagent | WI-0201 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0201_lifecycle_review | `ac618c02` | 0 |
+| worker-20260906062924-8f656fc3 | internal-subagent | WI-0201 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0201_lifecycle_recheck | `5fda83ac` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -337,14 +367,14 @@
 - worker-20260905130828-87bb7969 is failed
 - worker-20260905141644-4a85d8c7 is failed
 - Generated parallel plan is stale; rebuild it before dispatch
-- Parallel plan has 1 blocked Work Item(s)
+- Parallel plan has 3 blocked Work Item(s)
 
 ## External tracker coordination
 
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 56
+- Team-visible Work Items: 66
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -417,14 +447,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-05T23:14:58.972Z | work_item_claim_released | WI-0190 | human |
-| 2026-09-05T23:13:01.157Z | work_item_claimed | WI-0190 | human |
-| 2026-09-05T23:07:44.875Z | work_item_claim_released | WI-0190 | human |
-| 2026-09-05T23:07:08.079Z | work_item_claimed | WI-0190 | human |
-| 2026-09-05T22:59:01.151Z | work_item_transitioned | WI-0190 | agent-lulu |
-| 2026-09-05T22:59:00.888Z | work_item_claim_released | WI-0190 | human |
-| 2026-09-05T22:58:22.186Z | runtime_worker_status_changed | WI-0190 | agent-lulu |
-| 2026-09-05T22:56:53.328Z | runtime_worker_attached | WI-0190 | agent-lulu |
+| 2026-09-06T11:52:29.281Z | work_item_claim_released | WI-0190 | human |
+| 2026-09-06T11:52:14.834Z | publication_canonical_state_normalized | WI-0190 | agent-mog |
+| 2026-09-06T11:52:02.800Z | work_item_claimed | WI-0190 | human |
+| 2026-09-06T06:40:46.494Z | work_item_transitioned | WI-0204 | agent-rikku |
+| 2026-09-06T06:40:45.235Z | handoff_created | WI-0204 | agent-rikku |
+| 2026-09-06T06:40:43.923Z | work_item_transitioned | WI-0202 | agent-rikku |
+| 2026-09-06T06:40:42.441Z | handoff_created | WI-0202 | agent-rikku |
+| 2026-09-06T06:37:11.904Z | work_item_claimed | WI-0204 | human |
 
 ## Assignments
 

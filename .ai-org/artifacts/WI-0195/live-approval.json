@@ -1,0 +1,32 @@
+{
+  "schema_version": "temple.paired-evaluation-approval/v1",
+  "approved": true,
+  "approved_by": "human",
+  "authorization_source": "explicit-user-message",
+  "evidence_ref": ".ai-org/artifacts/WI-0195/approval-source.json",
+  "evidence_sha256": "90377d92989fa73613ed4a599b1e8f8cb8e7df90957a2419bc4d7fc595d1be12",
+  "protocol_sha256": "c5f2c676b43f18d610c626695caca37a07ae98483f54303a1df5672716251977",
+  "model": "gpt-5.6-terra",
+  "effort": "medium",
+  "limits": {
+    "subject_turns": 8,
+    "per_actor_operational_tokens": 100000,
+    "aggregate_operational_tokens": 800000,
+    "per_actor_ms": 480000,
+    "aggregate_ms": 2400000,
+    "retries": 0,
+    "fallback": false,
+    "reset": false
+  },
+  "included_quota_only": true,
+  "purchase_credits": false,
+  "auto_topup": false,
+  "reset": false,
+  "pre_run_reset": {
+    "authorized": true,
+    "maximum_uses": 1,
+    "applied": true,
+    "evidence_ref": ".ai-org/artifacts/WI-0195/pre-run-account-state.json"
+  },
+  "expires_at": "2026-09-07T03:58:55Z"
+}

@@ -1,0 +1,226 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0196",
+  "title": "Implement two-phase native child acquisition",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-06T04:09:16.951Z",
+  "updated_at": "2026-09-06T04:45:13.785Z",
+  "scope": [
+    "Repair native comparison observation so a bounded parent subAgentActivity hint remains quarantined until exact thread/resume identity, model, and reasoning-effort verification succeeds, then replay buffered child events without changing sealed predecessor evidence."
+  ],
+  "acceptance_criteria": [
+    "Activity alone never binds a child or attributes usage.",
+    "Exact thread/resume verification can bind one allowed child and replay buffered events when the spawn-completion envelope is absent.",
+    "Child ID, model, effort, foreign activity, duplicate spawn, write, cleanup, and usage-aggregation failure paths are deterministically tested with named stop codes.",
+    "Sealed WI-0194 and WI-0195 artifacts remain byte-identical, generation-free tests pass, and an independent reviewer evaluates the exact candidate before any live probe."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0196"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "A local-only, reversible successor artifact repair with no Provider call, external write, release, or spending in scope.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T04:09:16.950Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "fd53d7dea73ae4da6143e60e62dd60f3eb8d04f4",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906043638-e3f10432",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "fd53d7dea73ae4da6143e60e62dd60f3eb8d04f4",
+    "branch": "codex/wi-0191-proportionate-evaluation",
+    "worktree": null,
+    "claimed_at": "2026-09-06T04:36:38.003Z",
+    "released_at": "2026-09-06T04:45:13.785Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260906041013-8a7bb13b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "9aa441e3b9025ea67dd6c1a136eae7fb3abac845",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T04:10:13.354Z",
+      "released_at": "2026-09-06T04:19:03.125Z",
+      "release_reason": [
+        "Developer handoff recorded for exact candidate 832f3e483416a35a854e05d19cb775930627500f"
+      ]
+    },
+    {
+      "id": "claim-20260906042040-de668063",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "832f3e483416a35a854e05d19cb775930627500f",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T04:20:40.540Z",
+      "released_at": "2026-09-06T04:29:27.379Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260906042945-8f827b01",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "832f3e483416a35a854e05d19cb775930627500f",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T04:29:45.720Z",
+      "released_at": "2026-09-06T04:36:24.096Z",
+      "release_reason": [
+        "Corrected exact candidate fd53d7dea73ae4da6143e60e62dd60f3eb8d04f4 ready for re-review"
+      ]
+    },
+    {
+      "id": "claim-20260906043638-e3f10432",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "fd53d7dea73ae4da6143e60e62dd60f3eb8d04f4",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T04:36:38.003Z",
+      "released_at": "2026-09-06T04:45:13.785Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/work-items/WI-0196.json"
+    ],
+    "approved_scope": [
+      ".ai-org/work-items/WI-0196.json"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0196.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0196/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0196/design.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/work-items/WI-0196.json"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0196/handoff-002-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0196/rework-test-report.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0196/review-2.md"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0196/review-2.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/work-items/WI-0196.json",
+    ".ai-org/artifacts/WI-0196/design.md",
+    ".ai-org/artifacts/WI-0196/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0196/test-report.md",
+    ".ai-org/artifacts/WI-0196/handoff-002-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0196/rework-test-report.md",
+    ".ai-org/artifacts/WI-0196/review-2.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "832f3e483416a35a854e05d19cb775930627500f",
+      "artifact": ".ai-org/artifacts/WI-0196/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T04:19:02.846Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "fd53d7dea73ae4da6143e60e62dd60f3eb8d04f4",
+      "artifact": ".ai-org/artifacts/WI-0196/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T04:36:15.212Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-06T04:29:27.379Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260906042040-de668063",
+      "rejected_revision": "832f3e483416a35a854e05d19cb775930627500f",
+      "reason": [
+        "Exact resume accepted null reasoning effort and executor-level adversarial result contracts were incomplete."
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0196/review.md"
+      ],
+      "scope_digest": "17f5d141e54fe761038bf9d9c400af28c29c3bcd58d5e0098425cf09aabc2b28",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review",
+        "profile_eligibility"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0196/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0196/design.md",
+          ".ai-org/artifacts/WI-0196/test-report.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "832f3e483416a35a854e05d19cb775930627500f"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0196/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ],
+  "developer_candidate_revision": "fd53d7dea73ae4da6143e60e62dd60f3eb8d04f4",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
+}

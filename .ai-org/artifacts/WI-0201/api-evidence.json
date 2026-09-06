@@ -1,0 +1,11 @@
+{
+  "schema_version": "temple.ephemeral-api-diagnostic/v1",
+  "model_calls": 0,
+  "observations": [
+    {"method":"thread/resume","omitTurns":false,"succeeded":false,"rpc_code":-32600,"category":"rollout-unavailable"},
+    {"method":"thread/resume","omitTurns":true,"succeeded":false,"rpc_code":-32600,"category":"rollout-unavailable"},
+    {"method":"thread/read","succeeded":true,"identity_matched":true,"ephemeral":true,"configured_model":"gpt-5.6-terra","configured_effort":"medium","turns":0}
+  ],
+  "metadata_checks":{"identity":true,"ephemeral":true,"model":true,"effort":true,"cwd":true,"empty_turns":true},
+  "status":"passed"
+}

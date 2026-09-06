@@ -1,0 +1,247 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0198",
+  "title": "Execute the approved native child compatibility probe",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-06T05:25:27.511Z",
+  "updated_at": "2026-09-06T05:46:50.262Z",
+  "scope": [
+    "Execute exactly one live support-read arm from the independently reviewed WI-0197 seal, retain only bounded redacted evidence, and stop without retry or fallback."
+  ],
+  "acceptance_criteria": [
+    "The live runner accepts only the exact reviewed seal and fresh user approval, then starts at most one parent and one helper.",
+    "The retained result reports Provider compatibility or a named stopped outcome without inventing missing Token, child, cleanup, or quality evidence.",
+    "No retry, fallback, reset, Credit purchase, automatic top-up, merge, release, or broader comparison occurs."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0197/live-approval.md",
+    ".ai-org/artifacts/WI-0198"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "One sealed diagnostic arm with exact limits and fail-closed execution.",
+    "evidence_refs": [
+      ".ai-org/artifacts/WI-0197/readiness-review.md"
+    ],
+    "evaluated_at": "2026-09-06T05:25:27.511Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "976af541ad6393aa1284e6aceb03d8d642867c7f",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906054219-45e26136",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "976af541ad6393aa1284e6aceb03d8d642867c7f",
+    "branch": "codex/wi-0191-proportionate-evaluation",
+    "worktree": null,
+    "claimed_at": "2026-09-06T05:42:19.893Z",
+    "released_at": "2026-09-06T05:46:50.262Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260906052540-11bf2148",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "ae29dbd92355968612ed186910b297b44a584ed7",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T05:25:40.782Z",
+      "released_at": "2026-09-06T05:30:10.964Z",
+      "release_reason": [
+        "Live outcome recorded and handed off for independent interpretation review."
+      ]
+    },
+    {
+      "id": "claim-20260906053024-932d9f7a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "8e1d5ed8f8242370eafa79db22c07f2d5b4a4f94",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T05:30:24.577Z",
+      "released_at": "2026-09-06T05:35:58.665Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260906053610-c80128f2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "35651d5",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T05:36:10.967Z",
+      "released_at": "2026-09-06T05:40:15.116Z",
+      "release_reason": [
+        "Corrected candidate handed off for fresh independent review."
+      ]
+    },
+    {
+      "id": "claim-20260906054039-41c74e97",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "421ba884d157a78b8f5c6c76075b203cc62f1e02",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T05:40:39.584Z",
+      "released_at": "2026-09-06T05:41:33.815Z",
+      "release_reason": [
+        "Fresh corrected evidence handed off for independent re-review."
+      ]
+    },
+    {
+      "id": "claim-20260906054219-45e26136",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "976af541ad6393aa1284e6aceb03d8d642867c7f",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T05:42:19.893Z",
+      "released_at": "2026-09-06T05:46:50.262Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/work-items/WI-0198.json"
+    ],
+    "approved_scope": [
+      ".ai-org/work-items/WI-0198.json"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0198.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0197/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0197/readiness-review.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/project/usage-policy.json"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0198/handoff-002-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0198/live-report-v2.md",
+      ".ai-org/artifacts/WI-0198/live-observation-v2.json"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0198/independent-review-v2.md"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0198/independent-review-v2.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/work-items/WI-0198.json",
+    ".ai-org/artifacts/WI-0197/design.md",
+    ".ai-org/artifacts/WI-0197/readiness-review.md",
+    ".ai-org/project/usage-policy.json",
+    ".ai-org/artifacts/WI-0198/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0198/live-report.md",
+    ".ai-org/artifacts/WI-0198/live-observation.json",
+    ".ai-org/artifacts/WI-0198/handoff-002-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0198/live-report-v2.md",
+    ".ai-org/artifacts/WI-0198/live-observation-v2.json",
+    ".ai-org/artifacts/WI-0198/independent-review-v2.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "8e1d5ed8f8242370eafa79db22c07f2d5b4a4f94",
+      "artifact": ".ai-org/artifacts/WI-0198/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T05:30:10.709Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "976af541ad6393aa1284e6aceb03d8d642867c7f",
+      "artifact": ".ai-org/artifacts/WI-0198/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T05:41:33.562Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-06T05:35:58.665Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260906053024-932d9f7a",
+      "rejected_revision": "8e1d5ed8f8242370eafa79db22c07f2d5b4a4f94",
+      "reason": [
+        "Independent review found causal and transient-write overclaims plus a repository-language check failure in approval evidence."
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0198/independent-review.md"
+      ],
+      "scope_digest": "d789a3b5f770c7cc82c0b8b392f5074e389e2e5a2cf5fc7bd74058b3e1416671",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review",
+        "profile_eligibility"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0198/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0198/live-report.md",
+          ".ai-org/artifacts/WI-0198/live-observation.json"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "8e1d5ed8f8242370eafa79db22c07f2d5b4a4f94"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0198/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ],
+  "developer_candidate_revision": "976af541ad6393aa1284e6aceb03d8d642867c7f",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
+}

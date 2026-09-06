@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-05T22:59:01.493Z",
-  "source_fingerprint": "373611731c456e5001a8e217102dc55686e328996d74ee2d428e3f1a68295bf3",
+  "generated_at": "2026-09-06T06:41:35.378Z",
+  "source_fingerprint": "1f1a8fa4b83c50f8e755b17cacbe92a1bdca7bb095d19772e1ec40ab99f4eb05",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -9,16 +9,22 @@
       "WI-0172",
       "WI-0183",
       "WI-0189",
-      "WI-0190"
+      "WI-0190",
+      "WI-0191",
+      "WI-0192",
+      "WI-0193",
+      "WI-0202",
+      "WI-0203",
+      "WI-0204"
     ]
   },
-  "max_workers": 1,
+  "max_workers": 4,
   "summary": {
-    "selected": 4,
+    "selected": 10,
     "dispatchable": 1,
     "active": 0,
-    "sequential": 2,
-    "blocked": 1,
+    "sequential": 6,
+    "blocked": 3,
     "waves": 1
   },
   "waves": [
@@ -33,7 +39,7 @@
           "agent_id": "agent-mog",
           "agent_name": "Mog",
           "suggested_task_title": "WI-0190 · Clarify proportionate e… · Release Manager (Mog)",
-          "base_revision": "50ae4f50fcf74d8468e09956e44e1eb9da99ef71",
+          "base_revision": "8504040",
           "affected_paths": [
             "project-overlay",
             "docs/operations",
@@ -49,7 +55,7 @@
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "973ab2cb90c5040939ab17f41f0bd568b1e66d461f9841b2c8a71a3b8ab870b9",
+          "preparation_fingerprint": "12ae0ed96259d12e46a8d0bf7087fb6c975607c0b42bf9a2f100c0a0ca86040f",
           "integration_owner_agent_id": "agent-mog",
           "context_command": "node ./templew.mjs context resolve . --work-item WI-0190 --position release_manager --no-write --json",
           "claim_required_before_work": true,
@@ -96,6 +102,52 @@
       "reasons": [
         "integration_owner_assigned"
       ]
+    },
+    {
+      "work_item_id": "WI-0192",
+      "title": "Repair paired evaluation evidence without changing sealed results",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0202",
+      "title": "End-to-end check of native helper lifecycle repair",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0203",
+      "title": "Measure bounded Lean entry and finish overhead against ordinary delivery",
+      "disposition": "sequential",
+      "position_id": "engineering_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "acceptance_defined",
+        "base_revision_recorded",
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0204",
+      "title": "Separate root delegation from leaf instructions and cancellation state",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
     }
   ],
   "blocked": [
@@ -106,6 +158,28 @@
       "position_id": "quality_evaluator",
       "agent_id": "agent-lulu",
       "integration_owner_agent_id": "agent-rikku",
+      "reasons": [
+        "unresolved_items_cleared"
+      ]
+    },
+    {
+      "work_item_id": "WI-0191",
+      "title": "Evaluate proportionate routes with matched before-after scenarios",
+      "disposition": "blocked",
+      "position_id": "release_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [
+        "unresolved_items_cleared"
+      ]
+    },
+    {
+      "work_item_id": "WI-0193",
+      "title": "Run bounded native support comparison after measurement repair",
+      "disposition": "blocked",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-mog",
       "reasons": [
         "unresolved_items_cleared"
       ]
@@ -123,11 +197,27 @@
         }
       ],
       "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0191",
+      "right_work_item_id": "WI-0192",
+      "paths": [
+        {
+          "left_path": ".ai-org/artifacts/WI-0191",
+          "right_path": ".ai-org/artifacts/WI-0191/live-authorization.md"
+        },
+        {
+          "left_path": ".ai-org/artifacts/WI-0191",
+          "right_path": ".ai-org/artifacts/WI-0191/live-report.md"
+        }
+      ],
+      "resolution": "separate-waves"
     }
   ],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 1,
+    "runtime_capacity_limit": 4,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

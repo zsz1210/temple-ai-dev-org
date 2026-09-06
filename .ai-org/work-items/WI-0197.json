@@ -1,0 +1,155 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0197",
+  "title": "Prepare a minimal native child compatibility probe",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-06T04:58:24.120Z",
+  "updated_at": "2026-09-06T05:19:57.774Z",
+  "scope": [
+    "Create a new generation-disabled, bounded and redacted live-probe runner that imports the accepted WI-0196 two-phase acquisition executor, seals current Provider schemas and all executable inputs, and stops before model generation without exact approval."
+  ],
+  "acceptance_criteria": [
+    "The runner imports WI-0196 acquisition behavior and applies bounded path-redacting sanitization before the first persisted result.",
+    "One support-only arm is sealed with exact model, reasoning effort, child count, Token, wall-clock, retry, fallback, reset, and Credit boundaries.",
+    "Generation-free tests reject protocol drift, stale candidates, missing approval, unsafe persistence, unsupported schemas, retries, fallback, or broader execution.",
+    "A distinct Quality Evaluator reviews the exact candidate and seal before any request for live approval."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0197"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Preparation and verification are local, reversible, generation-disabled, and perform no external write, model call, Credit use, reset, release, or merge.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T04:58:24.120Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "963aa834f4b3c660bef83287e87cf7d0912192e7",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906051032-4925aaca",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "963aa834f4b3c660bef83287e87cf7d0912192e7",
+    "branch": "codex/wi-0191-proportionate-evaluation",
+    "worktree": null,
+    "claimed_at": "2026-09-06T05:10:32.882Z",
+    "released_at": "2026-09-06T05:19:57.774Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260906045950-3bf828cf",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "6a4f7f74e203dc0ca8b25adc6f4557558c4f3dd4",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T04:59:50.750Z",
+      "released_at": "2026-09-06T05:09:57.047Z",
+      "release_reason": [
+        "Developer candidate handed off for independent readiness review."
+      ]
+    },
+    {
+      "id": "claim-20260906051032-4925aaca",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "963aa834f4b3c660bef83287e87cf7d0912192e7",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T05:10:32.882Z",
+      "released_at": "2026-09-06T05:19:57.774Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/work-items/WI-0197.json"
+    ],
+    "approved_scope": [
+      ".ai-org/work-items/WI-0197.json"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0197.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0197/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0197/design.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/work-items/WI-0197.json"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0197/handoff-001-developer-to-quality_evaluator.md",
+      ".ai-org/artifacts/WI-0197/test-report.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0197/test-report.md"
+    ],
+    "implementation_revision": [
+      "963aa834f4b3c660bef83287e87cf7d0912192e7"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0197/readiness-review.md"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0197/readiness-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/work-items/WI-0197.json",
+    ".ai-org/artifacts/WI-0197/design.md",
+    ".ai-org/artifacts/WI-0197/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0197/test-report.md",
+    "963aa834f4b3c660bef83287e87cf7d0912192e7",
+    ".ai-org/artifacts/WI-0197/readiness-review.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "963aa834f4b3c660bef83287e87cf7d0912192e7",
+      "artifact": ".ai-org/artifacts/WI-0197/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T05:09:56.791Z"
+    }
+  ],
+  "developer_candidate_revision": "963aa834f4b3c660bef83287e87cf7d0912192e7",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
+}

@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "review_kind": "independent-readiness",
+  "protocol_sha256": "4e1aba74edad70caeba387cc9ce7ae98f28829fe400a1e35ed325ed1d0d75174",
+  "candidate_revision": "2628319f75c01d1bf9d9879569b504ab40f44b1f",
+  "developer_agent_id": "agent-rikku",
+  "reviewer_agent_id": "agent-lulu",
+  "reviewer_task_id": "/root/wi0193_readiness_qa",
+  "evidence_ref": ".ai-org/artifacts/WI-0193/independent-qa.md",
+  "evidence_sha256": "2fbc7c96bcd84d73fbcd1353ae41491e93acc8920ba08d0f45b4b710941de031"
+}

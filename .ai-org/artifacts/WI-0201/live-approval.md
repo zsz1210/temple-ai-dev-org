@@ -1,0 +1,5 @@
+# Integrated repair regression authorization
+
+The user's current request, translated from Chinese, asks to fix the problem completely after multiple incomplete repairs. The preceding request was to finish testing it. One bounded end-to-end regression is performed as verification of this integrated repair, not a retry of the closed WI-0200 run.
+
+The corrected successor seal is `983733542e2b772f1670ebc36346fc044e482cfea6e16dc391cc0857e1f8858f`, conditional on independent readiness review. The earlier proposed seal was rejected offline and never executed. Execution is recorded in WI-0202. One Terra medium parent and one requested helper; at most two subject turns, 160,000 Operational Tokens / six minutes per actor and 320,000 Operational Tokens / fifteen minutes overall. Stop on failure; no automatic retry, fallback, model switch, reset, Credit purchase or automatic top-up. Included Pro quota only. The limits are ceilings, not predictions or monetary prices. No merge, release or broader experiment is authorized here.

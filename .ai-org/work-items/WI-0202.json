@@ -1,0 +1,129 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0202",
+  "title": "End-to-end check of native helper lifecycle repair",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
+  "created_at": "2026-09-06T06:22:19.176Z",
+  "updated_at": "2026-09-06T06:40:43.923Z",
+  "scope": [
+    "Validate the integrated WI-0201 repair with one reviewed sealed support-read regression attempt under the current request to fix the complete path; retain honest results and stop at protocol boundaries."
+  ],
+  "acceptance_criteria": [
+    "Observe and report native helper metadata, per-actor usage, terminal and cleanup without fabricating missing facts.",
+    "Use one Terra medium arm within prior 320000 operational Token and fifteen-minute caps; no reset, purchase, fallback or retries."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0202",
+    ".ai-org/artifacts/WI-0201/live-approval.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "One bounded end-to-end regression for authorized repair",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T06:22:19.175Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "ac618c029322e94a1444a14b9925124fa7a741f7",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906062318-6a533e4e",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "ac618c029322e94a1444a14b9925124fa7a741f7",
+    "branch": "codex/wi-0191-proportionate-evaluation",
+    "worktree": null,
+    "claimed_at": "2026-09-06T06:23:18.079Z",
+    "released_at": "2026-09-06T06:40:43.923Z",
+    "release_reason": "position_transition"
+  },
+  "claims": [
+    {
+      "id": "claim-20260906062318-6a533e4e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "ac618c029322e94a1444a14b9925124fa7a741f7",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T06:23:18.079Z",
+      "released_at": "2026-09-06T06:40:43.923Z",
+      "release_reason": "position_transition"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/work-items/WI-0202.json"
+    ],
+    "approved_scope": [
+      ".ai-org/work-items/WI-0202.json"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0202.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0201/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0201/api-evidence.json"
+    ],
+    "profile_eligibility": [
+      ".ai-org/work-items/WI-0202.json"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0202/handoff-001-developer-to-quality_evaluator.md",
+      ".ai-org/artifacts/WI-0202/live-report.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0202/live-report.md",
+      ".ai-org/artifacts/WI-0202/live-observation.json"
+    ]
+  },
+  "evidence": [
+    ".ai-org/work-items/WI-0202.json",
+    ".ai-org/artifacts/WI-0201/design.md",
+    ".ai-org/artifacts/WI-0201/api-evidence.json",
+    ".ai-org/artifacts/WI-0202/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0202/live-report.md",
+    ".ai-org/artifacts/WI-0202/live-observation.json"
+  ],
+  "unresolved": [],
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "2201b456a8f910c8aac1e2557e66cf077c7bb0df",
+      "artifact": ".ai-org/artifacts/WI-0202/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T06:40:42.441Z"
+    }
+  ],
+  "developer_candidate_revision": "2201b456a8f910c8aac1e2557e66cf077c7bb0df"
+}

@@ -1,0 +1,158 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0192",
+  "title": "Repair paired evaluation evidence without changing sealed results",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
+  "created_at": "2026-09-06T01:31:25.912Z",
+  "updated_at": "2026-09-06T01:46:31.050Z",
+  "scope": [
+    "Add experiment-local generation-free evidence classifiers and receipt contract validation; archive original WI-0191 authorization bytes with English rendering; no live execution or frozen executor changes"
+  ],
+  "acceptance_criteria": [
+    "Regression cases distinguish unavailable evidence from false acceptance and scope violations; test execution uses structured receipts rather than shell guesses; sealed files unchanged; full verify passes"
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0192",
+    ".ai-org/artifacts/WI-0191/live-authorization.md",
+    ".ai-org/artifacts/WI-0191/live-report.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Bounded local experiment tooling with no live provider or production change",
+    "evidence_refs": [
+      ".ai-org/artifacts/WI-0191/live-report.md"
+    ],
+    "evaluated_at": "2026-09-06T01:31:25.912Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "976451f",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906014200-80c44803",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "976451f",
+    "branch": "codex/wi-0191-proportionate-evaluation",
+    "worktree": null,
+    "claimed_at": "2026-09-06T01:42:00.345Z",
+    "released_at": "2026-09-06T01:46:13.137Z",
+    "release_reason": [
+      "Ordinary artifact-only handoff to Quality Evaluator"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260906013158-a1f2b1e5",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "380b799",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T01:31:58.454Z",
+      "released_at": "2026-09-06T01:32:35.394Z",
+      "release_reason": [
+        "Bounded repair scope and acceptance recorded"
+      ]
+    },
+    {
+      "id": "claim-20260906013235-a8224104",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "380b799",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T01:32:35.948Z",
+      "released_at": "2026-09-06T01:38:55.563Z",
+      "release_reason": [
+        "Implementation and tests committed; artifact-only scope is ineligible for composed Lean deliver, so lifecycle remains Build pending ordinary handoff review."
+      ]
+    },
+    {
+      "id": "claim-20260906014200-80c44803",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "976451f",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T01:42:00.345Z",
+      "released_at": "2026-09-06T01:46:13.137Z",
+      "release_reason": [
+        "Ordinary artifact-only handoff to Quality Evaluator"
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0192/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0192/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0192/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0192/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0192/design.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/artifacts/WI-0192/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0192/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0192/provider-contract-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0192/design.md",
+    ".ai-org/artifacts/WI-0192/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0192/provider-contract-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "9e96f7bbb2357b5fd2706de1c567c1a8822452f8",
+      "artifact": ".ai-org/artifacts/WI-0192/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T01:46:12.851Z"
+    }
+  ],
+  "developer_candidate_revision": "9e96f7bbb2357b5fd2706de1c567c1a8822452f8"
+}

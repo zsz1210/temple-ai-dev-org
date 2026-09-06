@@ -1,0 +1,15 @@
+{
+  "schema_version": "temple.user-authorization-source/v1",
+  "received_at": "2026-09-06T03:58:55Z",
+  "original_text": "批准你剛剛說的測試，token不夠的話可以重置一次沒關係",
+  "applies_to": {
+    "work_item_id": "WI-0195",
+    "protocol_sha256": "c5f2c676b43f18d610c626695caca37a07ae98483f54303a1df5672716251977",
+    "referenced_request": "4 Terra medium parent turns and at most 4 helper turns; 800000 Operational Tokens and 40 minutes; included Pro quota only; no Credits purchase, automatic top-up, retry, or fallback"
+  },
+  "reset_authority": {
+    "maximum_uses": 1,
+    "condition": "insufficient available token quota"
+  }
+}
+

@@ -1,0 +1,239 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0194",
+  "title": "Complete native event classification and failure-path replay coverage",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-06T02:45:49.387Z",
+  "updated_at": "2026-09-06T03:01:37.115Z",
+  "scope": [
+    "Local generation-free event recorder repair with full installed item-union coverage, privacy-safe failure metadata, child ordering and cleanup tests; preserve sealed WI-0193; no live retry"
+  ],
+  "acceptance_criteria": [
+    "Every installed item type has explicit classification; unknown and invalid events retain safe diagnostics; child activity alone grants no authority; actual executor replay tests pass; full verify and distinct review complete"
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0194"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Bounded experiment-local recorder and deterministic tests; no production or model calls",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T02:45:49.386Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "f9edc11a207ffd6488102fe427e5d82c103514e5",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906025851-3728e7c9",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "f9edc11a207ffd6488102fe427e5d82c103514e5",
+    "branch": "codex/wi-0191-proportionate-evaluation",
+    "worktree": null,
+    "claimed_at": "2026-09-06T02:58:51.897Z",
+    "released_at": "2026-09-06T03:01:36.859Z",
+    "release_reason": [
+      "Distinct review accepted repaired exact candidate"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260906024549-8fed6e41",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "a6d9b49",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T02:45:49.666Z",
+      "released_at": "2026-09-06T02:46:54.795Z",
+      "release_reason": [
+        "Bounded local repair design recorded"
+      ]
+    },
+    {
+      "id": "claim-20260906024655-e781047e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "a6d9b49",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T02:46:55.332Z",
+      "released_at": "2026-09-06T02:51:47.086Z",
+      "release_reason": [
+        "Candidate ready for distinct local review"
+      ]
+    },
+    {
+      "id": "claim-20260906025152-0f12915c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "HEAD",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T02:51:52.566Z",
+      "released_at": "2026-09-06T02:56:47.354Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260906025738-438235c2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "c68fb23c3106302767c978727ccb05c750b5f22a",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T02:57:38.409Z",
+      "released_at": "2026-09-06T02:58:27.084Z",
+      "release_reason": [
+        "Repaired candidate ready for distinct review"
+      ]
+    },
+    {
+      "id": "claim-20260906025851-3728e7c9",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "f9edc11a207ffd6488102fe427e5d82c103514e5",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T02:58:51.897Z",
+      "released_at": "2026-09-06T03:01:36.859Z",
+      "release_reason": [
+        "Distinct review accepted repaired exact candidate"
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0194/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0194/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0194/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0194/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0194/design.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/artifacts/WI-0194/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0194/handoff-002-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0194/events.test.mjs"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0194/review-2.md"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0194/report.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0194/design.md",
+    ".ai-org/artifacts/WI-0194/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0194/handoff-002-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0194/events.test.mjs",
+    ".ai-org/artifacts/WI-0194/review-2.md",
+    ".ai-org/artifacts/WI-0194/report.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "c68fb23c3106302767c978727ccb05c750b5f22a",
+      "artifact": ".ai-org/artifacts/WI-0194/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T02:51:46.184Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "f9edc11a207ffd6488102fe427e5d82c103514e5",
+      "artifact": ".ai-org/artifacts/WI-0194/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T02:58:26.822Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-06T02:56:47.354Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260906025152-0f12915c",
+      "rejected_revision": "c68fb23c3106302767c978727ccb05c750b5f22a",
+      "reason": [
+        "Two reproduced failure-path defects require correction"
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0194/review.md"
+      ],
+      "scope_digest": "798c36d163f0eb6b85404e865baf9c206c13c151575223eca265b9a04145eb41",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review",
+        "profile_eligibility"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0194/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0194/design.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "c68fb23c3106302767c978727ccb05c750b5f22a"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0194/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ],
+  "developer_candidate_revision": "f9edc11a207ffd6488102fe427e5d82c103514e5",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
+}

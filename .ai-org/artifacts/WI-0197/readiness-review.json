@@ -1,0 +1,12 @@
+{
+  "schema_version": "temple.native-child-probe-review/v1",
+  "status": "passed",
+  "review_kind": "independent-readiness",
+  "protocol_sha256": "2e3817ebedce79b7a5743ec9e1533f8e4dd6f49dc8a9320144a83d83505b69fe",
+  "candidate_revision": "963aa834f4b3c660bef83287e87cf7d0912192e7",
+  "developer_agent_id": "agent-rikku",
+  "reviewer_agent_id": "agent-lulu",
+  "reviewer_runtime_id": "/root/wi0197_readiness",
+  "evidence_ref": ".ai-org/artifacts/WI-0197/readiness-review.md",
+  "evidence_sha256": "623e7f35efb6bf6d2f03d39a47ad2d8fdd58162afe33f41242864e3778161c41"
+}

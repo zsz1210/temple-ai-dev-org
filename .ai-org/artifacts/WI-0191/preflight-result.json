@@ -1,0 +1,74 @@
+{
+  "kind": "generation-free-design-preflight",
+  "model_calls": 0,
+  "source": {
+    "protected_equal": true,
+    "protected_diff": "",
+    "changed_instruction_files": [
+      {
+        "path": "project-overlay/.agents/skills/temple-work/SKILL.md",
+        "before": {
+          "bytes": 4545,
+          "sha256": "dbd26076f89b1a4fe7bf63650430a6c87990334552c5c68d71d8de71ba4c2917"
+        },
+        "after": {
+          "bytes": 5108,
+          "sha256": "b4130180a3888fa52a6f40422884a606fd349ef5e009a75207d49a7c4e7d152f"
+        }
+      },
+      {
+        "path": "project-overlay/.agents/skills/temple-work/references/parallel-work.md",
+        "before": {
+          "bytes": 1988,
+          "sha256": "f0b318ccd5197c6ac4a2ee6dfe18cad15e83fe2914dc98cdad100b7752ddd362"
+        },
+        "after": {
+          "bytes": 2283,
+          "sha256": "95e1bbbac0e29515a023ce97d6770c0f6681faa09d1bbeceb41931a2acfdaec2"
+        }
+      },
+      {
+        "path": "project-overlay/.agents/skills/temple-work/references/read-only-support.md",
+        "before": null,
+        "after": {
+          "bytes": 2271,
+          "sha256": "d6d63e68d1f440641a00c364b73b9a3d6f9c246aa9a5ec379cc610bb5fce424c"
+        }
+      },
+      {
+        "path": "project-overlay/AGENTS.md",
+        "before": {
+          "bytes": 6613,
+          "sha256": "5457a2506ac6e38668f84298f6812dcf499eac968cd854fac967c17c75403133"
+        },
+        "after": {
+          "bytes": 7086,
+          "sha256": "2dc46c464766b4fe45fb27cc3fdd29c7357fe837db9035d0c7f07c6e9864bce3"
+        }
+      },
+      {
+        "path": "project-overlay/TEMPLE.md",
+        "before": {
+          "bytes": 13575,
+          "sha256": "420d99ec292ffc5cfdae67220e4b9550299ebb9cc6802b6aa6721266a9adab20"
+        },
+        "after": {
+          "bytes": 14400,
+          "sha256": "578068095e23c915c7a8c115045b58fd422bcaf9c7f7d7300e7141b9f31412be"
+        }
+      }
+    ]
+  },
+  "live": {
+    "ready": false,
+    "blockers": [
+      "product_fixture_and_oracle",
+      "sandbox_negative_checks",
+      "native_child_adapter",
+      "usage_coverage_and_nonduplication",
+      "prompt_and_executable_freeze",
+      "live-budget-approval",
+      "executable-runner-not-implemented"
+    ]
+  }
+}

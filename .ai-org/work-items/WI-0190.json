@@ -6,7 +6,7 @@
   "owner_position": "release_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T21:35:33.373Z",
-  "updated_at": "2026-09-05T23:14:58.972Z",
+  "updated_at": "2026-09-06T11:52:29.281Z",
   "scope": [
     "Framework instruction routes, stage completion, and bounded read-only support; preserve execution guards and sealed experiments"
   ],
@@ -47,7 +47,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "8504040",
+  "base_revision": "80d25020930635c4af54e35b7231afa830483cde",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -59,17 +59,17 @@
     "WI-0172 owns test/delivery-control-pair.test.mjs. WI-0190 adds test/proportionate-work.test.mjs and updates test/skill-policy.test.mjs reference inventory only; the comparison and its artifacts remain unchanged."
   ],
   "claim": {
-    "id": "claim-20260905231301-142a40db",
+    "id": "claim-20260906115202-516ed6b3",
     "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
-    "base_revision": "8504040",
-    "branch": "codex/integration-proportionate-clean",
+    "base_revision": "80d25020930635c4af54e35b7231afa830483cde",
+    "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": null,
-    "claimed_at": "2026-09-05T23:13:01.157Z",
-    "released_at": "2026-09-05T23:14:58.972Z",
+    "claimed_at": "2026-09-06T11:52:02.800Z",
+    "released_at": "2026-09-06T11:52:29.281Z",
     "release_reason": [
-      "Sanitized lineage and identical-tree mapping verified; submit dependent PRs without merge"
+      "Integration privacy normalization complete; no behavior or sealed result change."
     ]
   },
   "claims": [
@@ -155,6 +155,20 @@
       "released_at": "2026-09-05T23:14:58.972Z",
       "release_reason": [
         "Sanitized lineage and identical-tree mapping verified; submit dependent PRs without merge"
+      ]
+    },
+    {
+      "id": "claim-20260906115202-516ed6b3",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "80d25020930635c4af54e35b7231afa830483cde",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T11:52:02.800Z",
+      "released_at": "2026-09-06T11:52:29.281Z",
+      "release_reason": [
+        "Integration privacy normalization complete; no behavior or sealed result change."
       ]
     }
   ],
