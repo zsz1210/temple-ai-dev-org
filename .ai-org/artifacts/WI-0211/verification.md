@@ -1,0 +1,13 @@
+# Integration verification
+
+Candidate: `8e410646e6497baca6e588b09414ce12b4f190b9`, based directly on public `4c11835d98202521f8dd082dceb6f832299d907f`. The original unpublished commits are not ancestors of this squash integration. Original local source and sealed runs remain untouched.
+
+`npm run verify` passed **655/655**, zero failed/skipped/cancelled, 157156.419 ms. Repository, documentation links and package boundaries passed; package inventory is 412 files. This is local deterministic verification, not another model experiment or remeasurement of efficiency. The merged instructions differ from the historical experiment snapshot; its measurements retain their original source scope.
+
+Pinned CLI upgrade synchronized the one changed managed operating contract and lock. Doctor reported 36 pass, one stale parallel-plan warning, zero failures; no dispatch used that plan. Nine released/terminal coordinate fields were normalized through the publication CLI. No active coordinates were removed.
+
+Publication audit reports two blocked-pattern findings in unchanged main fixtures: WI-0192 and WI-0193 measurement.test.mjs line 31 use the fictional `/Users/person/key` string with a sentinel to test redaction. They are not a maintainer path or credential. This is a manual fixture qualification, not a claim that the automated audit is all-green. The 68 unchanged binary review items retain the user's prior image-review exemption. Added-line scan found no actual home-path or configured credential-pattern matches; this bounded scan is not a universal secret guarantee.
+
+Canonical reconciliation retains every exact main event, adds 109 exact missing local events, and keeps main worker records plus one missing local record. WI-0203 has the same creation identity on both sides; the complete owning-branch record and referenced evidence supersede the intake snapshot. Historical Work Items and original revision references are not relabelled as new checks. ADR-0060 documents the old branch's ADR-0059 mapping.
+
+The observed WI-0210 comparison remains six accepted deliveries/twelve accepted stages, 576272 last-observed Operational Tokens, and 1435.016 seconds overall. Slim versus prior observed means are -2.43% Operational Tokens/-3.88% actor time, with inconsistent repetitions and only two samples per arm. No default activation, routing threshold, general savings claim, npm release or new experiment is part of this integration.

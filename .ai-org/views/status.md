@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
 - Work items: 211 total, 13 active
 - Codex tasks: 12 registered, 12 archive-ready
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -258,7 +258,7 @@
 | WI-0208 | Measure three-arm context minimization and design continuity scenarios | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5f019511` | 0 | 5 | 1 |
 | WI-0209 | Repair comparison readiness and run a new three-arm diagnostic | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `55a2a56f` | 0 | 7 | 3 |
 | WI-0210 | Complete frozen three-arm comparison after read-only Git compatibility repair | eval | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a12f3473` | 0 | 4 | 0 |
-| WI-0211 | Integrate completed context comparison without reintroducing old history | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260906120245-aae4805b | `—` | 0 | 1 | 0 |
+| WI-0211 | Integrate completed context comparison without reintroducing old history | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `8e410646` | 0 | 4 | 0 |
 
 ## Codex task registry
 
@@ -455,14 +455,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-06T12:07:33.753Z | work_item_transitioned | WI-0211 | agent-lulu |
+| 2026-09-06T12:07:33.479Z | work_item_transitioned | WI-0211 | agent-lulu |
+| 2026-09-06T12:06:50.261Z | work_item_transitioned | WI-0211 | agent-lulu |
+| 2026-09-06T12:06:49.983Z | work_item_transitioned | WI-0211 | agent-rikku |
+| 2026-09-06T12:06:49.706Z | work_item_claim_released | WI-0211 | human |
+| 2026-09-06T12:06:49.425Z | handoff_created | WI-0211 | agent-rikku |
+| 2026-09-06T12:03:14.965Z | publication_canonical_state_normalized | WI-0211 | agent-rikku |
 | 2026-09-06T12:02:45.297Z | work_item_claimed | WI-0211 | human |
-| 2026-09-06T12:02:45.013Z | work_item_transitioned | WI-0211 | agent-tidus |
-| 2026-09-06T12:02:44.742Z | work_item_transitioned | WI-0211 | agent-yuna |
-| 2026-09-06T12:02:44.469Z | work_item_transitioned | WI-0211 | agent-mog |
-| 2026-09-06T12:02:06.978Z | work_item_claimed | WI-0211 | human |
-| 2026-09-06T12:02:06.463Z | work_item_created | WI-0211 | agent-mog |
-| 2026-09-06T11:33:47.911Z | work_item_transitioned | WI-0210 | agent-lulu |
-| 2026-09-06T11:30:26.926Z | work_item_transitioned | WI-0210 | agent-rikku |
 
 ## Assignments
 

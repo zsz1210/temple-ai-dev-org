@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0211",
   "title": "Integrate completed context comparison without reintroducing old history",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T12:02:06.463Z",
-  "updated_at": "2026-09-06T12:02:45.297Z",
+  "updated_at": "2026-09-06T12:07:33.753Z",
   "scope": [
     "Reconcile the approved local WI-0203 and WI-0205 through WI-0210 content onto current main, preserve main features and authoritative evidence, resolve ADR numbering, normalize local metadata, verify and submit a focused PR. No model experiments or npm publication."
   ],
@@ -56,14 +56,17 @@
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260906120245-aae4805b",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "4c11835d98202521f8dd082dceb6f832299d907f",
     "branch": "codex/wi0210-clean-integration",
     "worktree": null,
     "claimed_at": "2026-09-06T12:02:45.297Z",
-    "released_at": null
+    "released_at": "2026-09-06T12:06:49.706Z",
+    "release_reason": [
+      "Exact integration candidate tested and handed off; no further source edits planned."
+    ]
   },
   "claims": [
     {
@@ -80,14 +83,17 @@
     },
     {
       "id": "claim-20260906120245-aae4805b",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "4c11835d98202521f8dd082dceb6f832299d907f",
       "branch": "codex/wi0210-clean-integration",
       "worktree": null,
       "claimed_at": "2026-09-06T12:02:45.297Z",
-      "released_at": null
+      "released_at": "2026-09-06T12:06:49.706Z",
+      "release_reason": [
+        "Exact integration candidate tested and handed off; no further source edits planned."
+      ]
     }
   ],
   "gate_evidence": {
@@ -105,11 +111,40 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0211/integration-plan.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0211/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0211/verification.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0211/verification.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0211/verification.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0211/independent-integration-review.md"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0211/integration-plan.md"
+    ".ai-org/artifacts/WI-0211/integration-plan.md",
+    ".ai-org/artifacts/WI-0211/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0211/verification.md",
+    ".ai-org/artifacts/WI-0211/independent-integration-review.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "8e410646e6497baca6e588b09414ce12b4f190b9",
+      "artifact": ".ai-org/artifacts/WI-0211/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T12:06:49.425Z"
+    }
+  ],
+  "developer_candidate_revision": "8e410646e6497baca6e588b09414ce12b4f190b9"
 }
