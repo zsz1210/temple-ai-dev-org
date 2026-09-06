@@ -1,0 +1,111 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0212",
+  "title": "Clarify product-test reruns after evidence-only edits",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-06T12:16:11.708Z",
+  "updated_at": "2026-09-06T12:16:40.452Z",
+  "scope": [
+    "Change only shared delivery benchmark prompt wording and offline regressions. Require independent exact-candidate tests and reruns after relevant product changes; evidence-only writes do not trigger automatic product retesting. No model run, frozen artifact edits, workflow guard change or package release."
+  ],
+  "acceptance_criteria": [
+    "Both ordinary and Temple Builder/Verifier prompts preserve fresh tests and exact-candidate evidence; remove final-edit ambiguity; retain test invalidation on relevant changes and fail-closed uncertainty; offline full verification passes."
+  ],
+  "affected_paths": [
+    "scripts/delivery-control-pair.mjs",
+    "test/delivery-control-pair.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T12:16:11.707Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "24a9429c34deb9d963d273d5dccd5efce52b1f94",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906121640-de918c28",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "24a9429c34deb9d963d273d5dccd5efce52b1f94",
+    "branch": "codex/evidence-only-retest-guidance",
+    "worktree": null,
+    "claimed_at": "2026-09-06T12:16:40.452Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260906121612-f5f259b5",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "24a9429c34deb9d963d273d5dccd5efce52b1f94",
+      "branch": "codex/evidence-only-retest-guidance",
+      "worktree": null,
+      "claimed_at": "2026-09-06T12:16:12.286Z",
+      "released_at": "2026-09-06T12:16:39.636Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260906121640-de918c28",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "24a9429c34deb9d963d273d5dccd5efce52b1f94",
+      "branch": "codex/evidence-only-retest-guidance",
+      "worktree": null,
+      "claimed_at": "2026-09-06T12:16:40.452Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0212/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0212/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0212/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0212/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0212/design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0212/design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
