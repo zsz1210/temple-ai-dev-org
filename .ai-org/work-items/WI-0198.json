@@ -1,0 +1,109 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0198",
+  "title": "Execute the approved native child compatibility probe",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-06T05:25:27.511Z",
+  "updated_at": "2026-09-06T05:25:40.782Z",
+  "scope": [
+    "Execute exactly one live support-read arm from the independently reviewed WI-0197 seal, retain only bounded redacted evidence, and stop without retry or fallback."
+  ],
+  "acceptance_criteria": [
+    "The live runner accepts only the exact reviewed seal and fresh user approval, then starts at most one parent and one helper.",
+    "The retained result reports Provider compatibility or a named stopped outcome without inventing missing Token, child, cleanup, or quality evidence.",
+    "No retry, fallback, reset, Credit purchase, automatic top-up, merge, release, or broader comparison occurs."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0197/live-approval.md",
+    ".ai-org/artifacts/WI-0198"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "One sealed diagnostic arm with exact limits and fail-closed execution.",
+    "evidence_refs": [
+      ".ai-org/artifacts/WI-0197/readiness-review.md"
+    ],
+    "evaluated_at": "2026-09-06T05:25:27.511Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "ae29dbd92355968612ed186910b297b44a584ed7",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906052540-11bf2148",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "ae29dbd92355968612ed186910b297b44a584ed7",
+    "branch": "codex/wi-0191-proportionate-evaluation",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+    "claimed_at": "2026-09-06T05:25:40.782Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260906052540-11bf2148",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "ae29dbd92355968612ed186910b297b44a584ed7",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+      "claimed_at": "2026-09-06T05:25:40.782Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/work-items/WI-0198.json"
+    ],
+    "approved_scope": [
+      ".ai-org/work-items/WI-0198.json"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0198.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0197/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0197/readiness-review.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/project/usage-policy.json"
+    ]
+  },
+  "evidence": [
+    ".ai-org/work-items/WI-0198.json",
+    ".ai-org/artifacts/WI-0197/design.md",
+    ".ai-org/artifacts/WI-0197/readiness-review.md",
+    ".ai-org/project/usage-policy.json"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
