@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0218",
   "title": "Explain rejected command argument shapes without retaining values",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-06T15:16:32.934Z",
-  "updated_at": "2026-09-06T15:18:45.213Z",
+  "updated_at": "2026-09-06T15:22:21.982Z",
   "scope": [
     "Add privacy-safe argument diagnostic subcodes and offline compatibility tests; assess deterministic transport without changing allowed commands or starting live experiments."
   ],
@@ -58,26 +58,32 @@
   ],
   "claim": {
     "id": "claim-20260906151706-1f2668de",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "054cb031",
     "branch": "codex/command-argument-diagnostics",
     "worktree": null,
     "claimed_at": "2026-09-06T15:17:06.739Z",
-    "released_at": null
+    "released_at": "2026-09-06T15:22:21.709Z",
+    "release_reason": [
+      "Developer implementation verified and handed off"
+    ]
   },
   "claims": [
     {
       "id": "claim-20260906151706-1f2668de",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "054cb031",
       "branch": "codex/command-argument-diagnostics",
       "worktree": null,
       "claimed_at": "2026-09-06T15:17:06.739Z",
-      "released_at": null
+      "released_at": "2026-09-06T15:22:21.709Z",
+      "release_reason": [
+        "Developer implementation verified and handed off"
+      ]
     }
   ],
   "gate_evidence": {
@@ -95,11 +101,30 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0218/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0218/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0218/verification.md"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0218/design.md"
+    ".ai-org/artifacts/WI-0218/design.md",
+    ".ai-org/artifacts/WI-0218/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0218/verification.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "a21085cceed7a64ab6e94dd1f6cca7ee4fe4ddcf",
+      "artifact": ".ai-org/artifacts/WI-0218/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T15:22:21.403Z"
+    }
+  ],
+  "developer_candidate_revision": "a21085cceed7a64ab6e94dd1f6cca7ee4fe4ddcf"
 }

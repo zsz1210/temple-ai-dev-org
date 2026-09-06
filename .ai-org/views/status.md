@@ -3,8 +3,8 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
-- Parallel plan: 1 wave(s), fresh=false
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Parallel plan: 1 wave(s), fresh=true
 - Work items: 218 total, 20 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 68 registered, 0 reserved, 0 active
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 23
+- Attention signals: 22
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,10 +37,10 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 1
 - Dispatchable Work Items: 2
-- Active / sequential / blocked: 0 / 0 / 2
+- Active / sequential / blocked: 0 / 1 / 2
 - Next wave: WI-0213, WI-0216
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -265,7 +265,7 @@
 | WI-0215 | Run bounded full versus model context comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `dbcced47` | 0 | 4 | 1 |
 | WI-0216 | Separate stage Token warnings from aggregate experiment limits | eval | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `92cb0a01` | 0 | 4 | 0 |
 | WI-0217 | Execute authorized warning-policy format comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `570a36ac` | 0 | 4 | 1 |
-| WI-0218 | Explain rejected command argument shapes without retaining values | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260906151706-1f2668de | `—` | 0 | 1 | 0 |
+| WI-0218 | Explain rejected command argument shapes without retaining values | test | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a21085cc` | 0 | 3 | 0 |
 
 ## Codex task registry
 
@@ -384,7 +384,6 @@
 - worker-20260905124032-458ce7b0 is failed
 - worker-20260905130828-87bb7969 is failed
 - worker-20260905141644-4a85d8c7 is failed
-- Generated parallel plan is stale; rebuild it before dispatch
 - Parallel plan has 2 blocked Work Item(s)
 
 ## External tracker coordination
@@ -465,14 +464,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-06T15:22:21.982Z | work_item_transitioned | WI-0218 | agent-rikku |
+| 2026-09-06T15:22:21.709Z | work_item_claim_released | WI-0218 | human |
+| 2026-09-06T15:22:21.403Z | handoff_created | WI-0218 | agent-rikku |
 | 2026-09-06T15:18:45.213Z | work_item_coordination_configured | WI-0218 | agent-rikku |
 | 2026-09-06T15:18:44.920Z | work_item_coordination_configured | WI-0215 | agent-lulu |
 | 2026-09-06T15:18:44.629Z | work_item_coordination_configured | WI-0211 | agent-mog |
 | 2026-09-06T15:18:44.341Z | work_item_coordination_configured | WI-0210 | agent-lulu |
 | 2026-09-06T15:18:44.049Z | work_item_coordination_configured | WI-0208 | agent-rikku |
-| 2026-09-06T15:18:43.746Z | work_item_coordination_configured | WI-0190 | agent-mog |
-| 2026-09-06T15:17:06.739Z | work_item_claimed | WI-0218 | human |
-| 2026-09-06T15:17:06.443Z | work_item_transitioned | WI-0218 | agent-tidus |
 
 ## Assignments
 
