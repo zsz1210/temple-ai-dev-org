@@ -1,0 +1,59 @@
+{
+  "schema_version": "temple.native-child-compatibility-observation/v1",
+  "work_item_id": "WI-0198",
+  "protocol_sha256": "2e3817ebedce79b7a5743ec9e1533f8e4dd6f49dc8a9320144a83d83505b69fe",
+  "started_at": "2026-09-06T05:27:08.995Z",
+  "recorded": 1,
+  "planned": 1,
+  "case": "support-read",
+  "arm": "after",
+  "requested_model": "gpt-5.6-terra",
+  "requested_effort": "medium",
+  "status": "incomplete",
+  "compatible": false,
+  "stop_reason": "native-helper-unobserved",
+  "conclusion": "stopped-no-retry-no-compatibility-claim",
+  "elapsed_ms": 46628,
+  "subject_elapsed_ms": 46528,
+  "expected_children": 1,
+  "observed_children": 0,
+  "parent": {
+    "terminal": "completed",
+    "tool_calls": 3,
+    "usage_scope": "per-thread-last-observed-not-account-final",
+    "usage": {
+      "total_tokens": 129728,
+      "input_tokens": 128437,
+      "cached_input_tokens": 96256,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 1291,
+      "reasoning_output_tokens": 470,
+      "operational_tokens": 33472
+    }
+  },
+  "conservative_operational_counter": 33472,
+  "counter_is_cost": false,
+  "cleanup_status": "observed-terminal",
+  "unfinished_actor_count": 0,
+  "changed_paths": [],
+  "out_of_scope_paths": [],
+  "quality_status": "unmeasurable",
+  "automatic_grade": {
+    "status": "unmeasurable",
+    "failures": [
+      "provider-incomplete"
+    ]
+  },
+  "parent_decision": "blocked",
+  "parent_summary": "Native informational-helper dispatch failed before a helper was created; the sealed zero-retry policy prevented another attempt.",
+  "raw_tool_output_retained": false,
+  "hidden_reasoning_retained": false,
+  "full_sanitized_result_sha256": "37fc233f4feebc976fc2f3d7b707326cae4978960096784715cb1e5064bd63b6",
+  "full_sanitized_subject_sha256": "d302b1b9d0db4b98d9d32c3cf34d17970a6262d2dbafc1c0d39caf1f857fbd8d",
+  "full_sanitized_result_retention": "temporary-lab-only",
+  "retry_performed": false,
+  "fallback_performed": false,
+  "reset_used": false,
+  "credits_purchased": false,
+  "automatic_topup_used": false
+}
