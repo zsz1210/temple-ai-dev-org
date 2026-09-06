@@ -1,30 +1,21 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T06:41:35.378Z",
-  "source_fingerprint": "1f1a8fa4b83c50f8e755b17cacbe92a1bdca7bb095d19772e1ec40ab99f4eb05",
+  "generated_at": "2026-09-06T12:48:23.013Z",
+  "source_fingerprint": "57da3d8ef3927bed6c73de83672ee32131308f83260c7afc0fed149d910ab7d1",
   "scope": {
-    "mode": "all-active",
-    "parent_work_item_id": null,
+    "mode": "parent-descendants",
+    "parent_work_item_id": "WI-0214",
     "selected_work_item_ids": [
-      "WI-0172",
-      "WI-0183",
-      "WI-0189",
-      "WI-0190",
-      "WI-0191",
-      "WI-0192",
-      "WI-0193",
-      "WI-0202",
-      "WI-0203",
-      "WI-0204"
+      "WI-0213"
     ]
   },
-  "max_workers": 4,
+  "max_workers": null,
   "summary": {
-    "selected": 10,
+    "selected": 1,
     "dispatchable": 1,
     "active": 0,
-    "sequential": 6,
-    "blocked": 3,
+    "sequential": 0,
+    "blocked": 0,
     "waves": 1
   },
   "waves": [
@@ -33,20 +24,18 @@
       "order": 1,
       "dispatch": [
         {
-          "work_item_id": "WI-0190",
-          "title": "Clarify proportionate entry and stage completion",
+          "work_item_id": "WI-0213",
+          "title": "Separate model-readable context from validation metadata",
           "position_id": "release_manager",
           "agent_id": "agent-mog",
           "agent_name": "Mog",
-          "suggested_task_title": "WI-0190 · Clarify proportionate e… · Release Manager (Mog)",
-          "base_revision": "8504040",
+          "suggested_task_title": "WI-0213 · Separate model-readable… · Release Manager (Mog)",
+          "base_revision": "6d15bbfde3d093a757634835d1479f23a6f530bd",
           "affected_paths": [
-            "project-overlay",
-            "docs/operations",
-            "docs/extensions/skill-scenarios.md",
-            "docs/extensions/capability-catalog.md",
-            "docs/adr",
-            "test"
+            "src/context-model-view.mjs",
+            "src/cli.mjs",
+            "test/context-enter.test.mjs",
+            "test/context-model-view.test.mjs"
           ],
           "dependencies": [],
           "required_disciplines": [],
@@ -55,9 +44,9 @@
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "12ae0ed96259d12e46a8d0bf7087fb6c975607c0b42bf9a2f100c0a0ca86040f",
+          "preparation_fingerprint": "59b11dfeefaa33294dc802e12449a4b60cb3bcba1eed5c13450906a9631c303d",
           "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0190 --position release_manager --no-write --json",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0213 --position release_manager --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,
@@ -79,145 +68,12 @@
     }
   ],
   "active": [],
-  "sequential": [
-    {
-      "work_item_id": "WI-0172",
-      "title": "Compare a bounded delivery and fresh recovery with and without Temple",
-      "disposition": "sequential",
-      "position_id": "engineering_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "base_revision_recorded",
-        "integration_owner_assigned"
-      ]
-    },
-    {
-      "work_item_id": "WI-0183",
-      "title": "Design lower-overhead Lean execution after v7 comparison",
-      "disposition": "sequential",
-      "position_id": "engineering_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "integration_owner_assigned"
-      ]
-    },
-    {
-      "work_item_id": "WI-0192",
-      "title": "Repair paired evaluation evidence without changing sealed results",
-      "disposition": "sequential",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "integration_owner_assigned"
-      ]
-    },
-    {
-      "work_item_id": "WI-0202",
-      "title": "End-to-end check of native helper lifecycle repair",
-      "disposition": "sequential",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "integration_owner_assigned"
-      ]
-    },
-    {
-      "work_item_id": "WI-0203",
-      "title": "Measure bounded Lean entry and finish overhead against ordinary delivery",
-      "disposition": "sequential",
-      "position_id": "engineering_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "acceptance_defined",
-        "base_revision_recorded",
-        "integration_owner_assigned"
-      ]
-    },
-    {
-      "work_item_id": "WI-0204",
-      "title": "Separate root delegation from leaf instructions and cancellation state",
-      "disposition": "sequential",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "integration_owner_assigned"
-      ]
-    }
-  ],
-  "blocked": [
-    {
-      "work_item_id": "WI-0189",
-      "title": "Compare single-worker and parallel Terra delivery",
-      "disposition": "blocked",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": "agent-rikku",
-      "reasons": [
-        "unresolved_items_cleared"
-      ]
-    },
-    {
-      "work_item_id": "WI-0191",
-      "title": "Evaluate proportionate routes with matched before-after scenarios",
-      "disposition": "blocked",
-      "position_id": "release_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [
-        "unresolved_items_cleared"
-      ]
-    },
-    {
-      "work_item_id": "WI-0193",
-      "title": "Run bounded native support comparison after measurement repair",
-      "disposition": "blocked",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [
-        "unresolved_items_cleared"
-      ]
-    }
-  ],
-  "conflicts": [
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0172",
-      "right_work_item_id": "WI-0190",
-      "paths": [
-        {
-          "left_path": "test/delivery-control-pair.test.mjs",
-          "right_path": "test"
-        }
-      ],
-      "resolution": "separate-waves"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0191",
-      "right_work_item_id": "WI-0192",
-      "paths": [
-        {
-          "left_path": ".ai-org/artifacts/WI-0191",
-          "right_path": ".ai-org/artifacts/WI-0191/live-authorization.md"
-        },
-        {
-          "left_path": ".ai-org/artifacts/WI-0191",
-          "right_path": ".ai-org/artifacts/WI-0191/live-report.md"
-        }
-      ],
-      "resolution": "separate-waves"
-    }
-  ],
+  "sequential": [],
+  "blocked": [],
+  "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 4,
+    "runtime_capacity_limit": null,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

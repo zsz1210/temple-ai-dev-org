@@ -6,7 +6,7 @@
   "owner_position": "release_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T21:35:33.373Z",
-  "updated_at": "2026-09-06T11:52:29.281Z",
+  "updated_at": "2026-09-06T12:45:05.785Z",
   "scope": [
     "Framework instruction routes, stage completion, and bounded read-only support; preserve execution guards and sealed experiments"
   ],
@@ -48,7 +48,7 @@
   "required_disciplines": [],
   "stage_requirements": {},
   "base_revision": "80d25020930635c4af54e35b7231afa830483cde",
-  "parallel_mode": "parallel",
+  "parallel_mode": "pending",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [
@@ -56,7 +56,8 @@
   ],
   "contract_status": "stable",
   "overlap_resolution": [
-    "WI-0172 owns test/delivery-control-pair.test.mjs. WI-0190 adds test/proportionate-work.test.mjs and updates test/skill-policy.test.mjs reference inventory only; the comparison and its artifacts remain unchanged."
+    "WI-0172 owns test/delivery-control-pair.test.mjs. WI-0190 adds test/proportionate-work.test.mjs and updates test/skill-policy.test.mjs reference inventory only; the comparison and its artifacts remain unchanged.",
+    "WI-0213 owns successor context-entry format changes and tests. WI-0190 source and evidence remain frozen; no active claim or concurrent write. Retained release-gate item has no new dispatch authorization."
   ],
   "claim": {
     "id": "claim-20260906115202-516ed6b3",
