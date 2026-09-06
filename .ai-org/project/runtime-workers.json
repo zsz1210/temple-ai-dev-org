@@ -1644,6 +1644,34 @@
       "attached_at": "2026-09-06T05:10:57.689Z",
       "completed_at": "2026-09-06T05:17:50.736Z",
       "updated_at": "2026-09-06T05:17:50.736Z"
+    },
+    {
+      "id": "worker-20260906053024-55e498b2",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0198",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260906053024-932d9f7a",
+      "base_revision": "8e1d5ed8f8242370eafa79db22c07f2d5b4a4f94",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+      "plan_fingerprint": "7c045ee71c0e17d1522ad076e6a651a81c7dcb2769c945d4b7c0443febee3ee4",
+      "plan_digest": "29543112d7ebc867095795adc349b4f21dd2ad0bfe6f4604ddc8777fd35e5bf7",
+      "preparation_fingerprint": "651e8279b7e7708a92f335c21287943809840d19d52447680193896c1b86421a",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0198_outcome_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "35651d5",
+      "evidence": [
+        ".ai-org/artifacts/WI-0198/independent-review.md"
+      ],
+      "reserved_at": "2026-09-06T05:30:24.564Z",
+      "attached_at": "2026-09-06T05:30:48.847Z",
+      "completed_at": "2026-09-06T05:35:58.400Z",
+      "updated_at": "2026-09-06T05:35:58.400Z"
     }
   ]
 }

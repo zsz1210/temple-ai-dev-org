@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-06T05:25:27.511Z",
-  "updated_at": "2026-09-06T05:25:40.782Z",
+  "updated_at": "2026-09-06T05:36:10.967Z",
   "scope": [
     "Execute exactly one live support-read arm from the independently reviewed WI-0197 seal, retain only bounded redacted evidence, and stop without retry or fallback."
   ],
@@ -47,34 +47,60 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "ae29dbd92355968612ed186910b297b44a584ed7",
-  "parallel_mode": "pending",
-  "integration_owner_agent_id": null,
+  "base_revision": "35651d5",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906052540-11bf2148",
+    "id": "claim-20260906053610-c80128f2",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-rikku",
-    "base_revision": "ae29dbd92355968612ed186910b297b44a584ed7",
+    "base_revision": "35651d5",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
-    "claimed_at": "2026-09-06T05:25:40.782Z",
+    "claimed_at": "2026-09-06T05:36:10.967Z",
     "released_at": null
   },
   "claims": [
     {
       "id": "claim-20260906052540-11bf2148",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "ae29dbd92355968612ed186910b297b44a584ed7",
       "branch": "codex/wi-0191-proportionate-evaluation",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
       "claimed_at": "2026-09-06T05:25:40.782Z",
+      "released_at": "2026-09-06T05:30:10.964Z",
+      "release_reason": [
+        "Live outcome recorded and handed off for independent interpretation review."
+      ]
+    },
+    {
+      "id": "claim-20260906053024-932d9f7a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "8e1d5ed8f8242370eafa79db22c07f2d5b4a4f94",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+      "claimed_at": "2026-09-06T05:30:24.577Z",
+      "released_at": "2026-09-06T05:35:58.665Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260906053610-c80128f2",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "35651d5",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+      "claimed_at": "2026-09-06T05:36:10.967Z",
       "released_at": null
     }
   ],
@@ -102,8 +128,61 @@
     ".ai-org/work-items/WI-0198.json",
     ".ai-org/artifacts/WI-0197/design.md",
     ".ai-org/artifacts/WI-0197/readiness-review.md",
-    ".ai-org/project/usage-policy.json"
+    ".ai-org/project/usage-policy.json",
+    ".ai-org/artifacts/WI-0198/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0198/live-report.md",
+    ".ai-org/artifacts/WI-0198/live-observation.json"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "8e1d5ed8f8242370eafa79db22c07f2d5b4a4f94",
+      "artifact": ".ai-org/artifacts/WI-0198/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T05:30:10.709Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-06T05:35:58.665Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260906053024-932d9f7a",
+      "rejected_revision": "8e1d5ed8f8242370eafa79db22c07f2d5b4a4f94",
+      "reason": [
+        "Independent review found causal and transient-write overclaims plus a repository-language check failure in approval evidence."
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0198/independent-review.md"
+      ],
+      "scope_digest": "d789a3b5f770c7cc82c0b8b392f5074e389e2e5a2cf5fc7bd74058b3e1416671",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review",
+        "profile_eligibility"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0198/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0198/live-report.md",
+          ".ai-org/artifacts/WI-0198/live-observation.json"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "8e1d5ed8f8242370eafa79db22c07f2d5b4a4f94"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0198/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ]
 }

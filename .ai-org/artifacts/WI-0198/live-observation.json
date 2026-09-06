@@ -45,7 +45,11 @@
     ]
   },
   "parent_decision": "blocked",
-  "parent_summary": "Native informational-helper dispatch failed before a helper was created; the sealed zero-retry policy prevented another attempt.",
+  "parent_reported_summary": "Native informational-helper dispatch failed before a helper was created; the sealed zero-retry policy prevented another attempt.",
+  "machine_observation": "No candidate child identity was observed before the parent completed.",
+  "native_error_count": 0,
+  "machine_classified_first_failure": null,
+  "transient_shell_writes_proven_absent": false,
   "raw_tool_output_retained": false,
   "hidden_reasoning_retained": false,
   "full_sanitized_result_sha256": "37fc233f4feebc976fc2f3d7b707326cae4978960096784715cb1e5064bd63b6",
