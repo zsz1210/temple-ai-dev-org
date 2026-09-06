@@ -6,7 +6,7 @@
   "owner_position": "release_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T23:22:22.271Z",
-  "updated_at": "2026-09-06T00:25:16.847Z",
+  "updated_at": "2026-09-06T00:40:08.196Z",
   "scope": [
     "Design and preflight an isolated WI-0190 before-after evaluation; preserve sealed experiments and require explicit live budget and verified native support before model execution"
   ],
@@ -42,7 +42,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "85beb7a",
+  "base_revision": "380b799",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -50,17 +50,17 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906002429-d82cc780",
+    "id": "claim-20260906002944-7a8f6755",
     "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
-    "base_revision": "85beb7a",
+    "base_revision": "380b799",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": null,
-    "claimed_at": "2026-09-06T00:24:29.935Z",
-    "released_at": "2026-09-06T00:25:16.847Z",
+    "claimed_at": "2026-09-06T00:29:44.610Z",
+    "released_at": "2026-09-06T00:40:08.196Z",
     "release_reason": [
-      "Prepared executor and exact-seal QA recorded; waiting for numerical live authorization without holding resources"
+      "Approved live run stopped without retry; partial results and analysis preserved in live-report.md."
     ]
   },
   "claims": [
@@ -131,6 +131,20 @@
       "release_reason": [
         "Prepared executor and exact-seal QA recorded; waiting for numerical live authorization without holding resources"
       ]
+    },
+    {
+      "id": "claim-20260906002944-7a8f6755",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "380b799",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T00:29:44.610Z",
+      "released_at": "2026-09-06T00:40:08.196Z",
+      "release_reason": [
+        "Approved live run stopped without retry; partial results and analysis preserved in live-report.md."
+      ]
     }
   ],
   "gate_evidence": {
@@ -179,7 +193,7 @@
     ".ai-org/artifacts/WI-0191/readiness-review.json"
   ],
   "unresolved": [
-    "Live matrix not started: awaiting explicit approval of seal 7ed764a6b32be2cf9e16ce192d38e841a00adae390814333cbbdc494ce72bcd7 and its numerical envelope; generation-free QA is complete"
+    "Live run stopped after 9 of 12 observations: native helper unobserved; remaining support cases untested. See live-report.md for measurement defects and partial comparisons; no retry authorized."
   ],
   "next_position": "engineering_manager",
   "handoffs": [

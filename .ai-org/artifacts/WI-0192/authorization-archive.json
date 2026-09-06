@@ -1,0 +1,11 @@
+{
+  "schema_version": "temple.authorization-archive/v1",
+  "execution_work_item": "WI-0191",
+  "original_evidence_ref": ".ai-org/artifacts/WI-0191/live-authorization.md",
+  "archived_evidence_ref": ".ai-org/artifacts/WI-0192/authorization-original.txt",
+  "evidence_sha256": "eb2764e34d76ae23bd1e90592e22dd728bf6aaf0183387f8203270c3ead6615e",
+  "original_approval_ref": ".ai-org/artifacts/WI-0191/live-approval.json",
+  "approval_sha256": "a2cc63fb4b71f9ffd2b17b472955c36ee1077dab3aabb9db98fc2c55c4f91854",
+  "publication_rendering_is_authorization": false,
+  "spent_approval_reusable": false
+}
