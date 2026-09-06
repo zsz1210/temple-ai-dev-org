@@ -12,7 +12,8 @@ export const ITEM_POLICY = Object.freeze({
   imageView:'forbidden', imageGeneration:'forbidden',
   enteredReviewMode:'forbidden', exitedReviewMode:'forbidden'
 });
-export const classifyItem = type => Object.hasOwn(ITEM_POLICY,type) ? ITEM_POLICY[type] : 'unknown';
+const knownType = type => typeof type==='string' && Object.hasOwn(ITEM_POLICY,type);
+export const classifyItem = type => knownType(type) ? ITEM_POLICY[type] : 'unknown';
 export function assertItemCoverage(schema) {
   const kinds = schema?.definitions?.ThreadItem?.oneOf?.map(x=>x.properties?.type?.enum?.[0]);
   if(!kinds || kinds.some(x=>typeof x!=='string') || new Set(kinds).size!==kinds.length)throw Error('item-schema-shape');
@@ -25,11 +26,12 @@ const codes = new Set(['unknown-item','forbidden-item','event-shape','event-thre
 const schemaErrors = new Set(['schema-invalid:ItemStartedNotification','schema-invalid:ItemCompletedNotification','schema-invalid:ThreadTokenUsageUpdatedNotification','schema-invalid:TurnStartedNotification','schema-invalid:TurnCompletedNotification']);
 function metadata(event) {
   const p=event?.params, type=p?.item?.type, method=event?.method;
-  const result={method:methods.has(method)?method:'other',item_type:Object.hasOwn(ITEM_POLICY,type)?type:(type===undefined?null:'unknown'),classification:classifyItem(type)};
+  const result={method:methods.has(method)?method:'other',item_type:knownType(type)?type:(type===undefined?null:'unknown'),classification:classifyItem(type)};
   const status=p?.item?.status??p?.turn?.status??p?.item?.kind;
   if(['inProgress','started','interacted','pendingInit','running','completed','failed','interrupted','errored','shutdown','notFound'].includes(status))result.status=status;
   for(const [label,value] of Object.entries({thread:p?.threadId,turn:p?.turnId??p?.turn?.id,item:p?.item?.id,child:p?.item?.agentThreadId}))if(typeof value==='string')result[`${label}_sha256`]=hash(value);
-  if(type!==undefined&&!Object.hasOwn(ITEM_POLICY,type))result.unknown_type_sha256=hash(type);
+  if(typeof type==='string'&&!knownType(type))result.unknown_type_sha256=hash(type);
+  else if(type!==undefined&&!knownType(type))result.invalid_type_category=type===null?'null':Array.isArray(type)?'array':typeof type;
   if(typeof method==='string'&&!methods.has(method))result.other_method_sha256=hash(method);
   return result;
 }

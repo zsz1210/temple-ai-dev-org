@@ -30,7 +30,7 @@ export function requests(f,p){
 export async function runSubject({fixture:f,protocol:p,contract,deadline,aggregateBefore=0,providerFactory=createJsonRpcProcess}){
  assertItemCoverage(contract.schemas.ItemCompletedNotification);
  const start=Date.now(),req=requests(f,p),ajv=new Ajv({strict:false,validateFormats:false}),validate=(name,obj)=>{demand(contract.schemas[name],`schema-missing:${name}`);demand(ajv.compile(contract.schemas[name])(obj),`schema-invalid:${name}`);};
- const journal=new EventJournal();
+ const journal=new EventJournal(),actorHints=new Set();let actorHintOverflow=false;
  let conn,tracker,tid,turn,stop,closing=false,answer=null,cleanup=null;const early=[],observations=[],native_errors=[],messages=[],pendingEvidence=[],subscriptions=new Set(),pendingSubscriptions=[];let wake;const done=new Promise(r=>wake=r);
  const fail=reason=>{stop??=reason;wake();};
  const process=(event,captureOnly=false)=>{
@@ -74,7 +74,11 @@ export async function runSubject({fixture:f,protocol:p,contract,deadline,aggrega
  try{
   await fs.mkdir(path.join(f.target,'.scratch'),{recursive:true});
   conn=providerFactory('codex',representativeAppServerArguments,{cwd:f.target,env:subprocessEnvironment({TEMPLE_CLI_PATH:path.join(f.source,'bin/temple.mjs'),TMPDIR:path.join(f.target,'.scratch')}),
-   onNotification:e=>{if(closing)return;journal.record(e);if(!tracker){if(early.length>=4000)fail('early-event-cap');else early.push(e);}else process(e);},
+   onNotification:e=>{if(closing)return;journal.record(e);
+    // Unvalidated identifiers preserve cleanup uncertainty only. They cannot
+    // bind actors, subscribe, interrupt, or establish terminal status.
+    for(const id of [e?.params?.threadId,e?.params?.item?.agentThreadId])if(typeof id==='string'&&id){const h=sha(id);if(!actorHints.has(h)){if(actorHints.size<64)actorHints.add(h);else {actorHintOverflow=true;fail('actor-hint-cap');}}}
+    if(!tracker){if(early.length>=4000)fail('early-event-cap');else early.push(e);}else process(e);},
    onRequest:(m,r)=>{try{r.respond(buildCodexRuntimeRequestResponse(m.method,m.params,{decision:'decline'}));}catch{}fail('runtime-approval-request');},onProtocolError:()=>fail('provider-protocol'),onExit:()=>{if(!closing)fail('provider-exit');}});
   await conn.request('initialize',{clientInfo:{name:'proportionate-evaluation',version:'1'},capabilities:{experimentalApi:true}},10000);conn.notify('initialized',{});
   const c=(await conn.request('config/read',{cwd:f.target,includeLayers:false},10000)).config;
@@ -98,7 +102,9 @@ export async function runSubject({fixture:f,protocol:p,contract,deadline,aggrega
   const unfinished=tracker?[...tracker.actors].filter(([,a])=>!a.terminal).map(([id])=>sha(id)):(tid?[sha(tid)]:[]);
   for(const id of tracker?.activityHints??[])if(!tracker.children.has(id)&&!unfinished.includes(sha(id)))unfinished.push(sha(id));
   for(const e of tracker?.pending??[])if(e.params.threadId&&!unfinished.includes(sha(e.params.threadId)))unfinished.push(sha(e.params.threadId));
-  cleanup={status:unfinished.length?'unconfirmed':'observed-terminal',unfinished_actor_ids:unfinished,interrupt_ack_is_terminal_proof:false};
+  const terminalHashes=new Set([...(tracker?.actors??[])].filter(([,a])=>a.terminal).map(([id])=>sha(id)));
+  for(const h of actorHints)if(!terminalHashes.has(h)&&!unfinished.includes(h))unfinished.push(h);
+  cleanup={status:unfinished.length||actorHintOverflow?'unconfirmed':'observed-terminal',unfinished_actor_ids:unfinished,actor_hint_overflow:actorHintOverflow,interrupt_ack_is_terminal_proof:false};
   if(unfinished.length)stop??='interrupt-unconfirmed';
   closing=true;await conn?.close().catch(()=>{stop??='cleanup-unconfirmed';});
  }

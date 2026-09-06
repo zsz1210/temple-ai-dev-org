@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import Ajv from 'ajv';
-import { ITEM_POLICY, assertItemCoverage, EventJournal } from './event-policy.mjs';
+import { ITEM_POLICY, classifyItem, assertItemCoverage, EventJournal } from './event-policy.mjs';
 import { NativeTracker } from './native-tracker.mjs';
 import { runSubject, sha } from './executor.mjs';
 
@@ -113,6 +113,30 @@ test('actual executor: malformed turn retains schema failure before handler',asy
  const {result}=await replay([ev('turn/completed','p',{id:'tp',status:'completed'})]);
  assert.equal(result.event_journal.first_failure.code,'schema-invalid:TurnCompletedNotification');
  assert.notEqual(result.status,'observed-complete');
+});
+test('malformed JSON item types never coerce or leak content, including actual executor failure paths',async()=>{
+ for(const type of [{toString:null},{toString:'SECRET'},['userMessage'],null,42,false]){
+  const event=ev('item/completed','p',{id:'x',type});const j=new EventJournal();
+  j.record(event);j.fail(event,'schema-invalid:ItemCompletedNotification');
+  assert.equal(classifyItem(type),'unknown');assert.equal(j.report().retained_events,1);
+  assert.equal(j.report().first_failure.item_type,'unknown');assert.ok(!JSON.stringify(j.report()).includes('SECRET'));
+  const {result,calls}=await replay([event]);
+  assert.equal(result.stop_reason,'schema-invalid:ItemCompletedNotification');
+  assert.equal(result.event_journal.first_failure.item_type,'unknown');
+  assert.ok(calls.includes('turn/interrupt'));assert.ok(calls.includes('close'));
+ }
+});
+test('invalid unknown actor remains uncertain after parent terminal without gaining authority',async()=>{
+ const {result,calls}=await replay([ev('item/completed','unknown-child',{id:'x',type:'SECRET'})]);
+ assert.equal(result.stop_reason,'schema-invalid:ItemCompletedNotification');
+ assert.equal(result.cleanup.status,'unconfirmed');assert.deepEqual(result.cleanup.unfinished_actor_ids,[sha('unknown-child')]);
+ assert.equal(result.trace.observed_children,0);assert.ok(!calls.includes('thread/resume'));
+ assert.equal(calls.filter(x=>x==='turn/interrupt').length,1);
+});
+test('untrusted actor hints are bounded and overflow cannot claim confirmed cleanup',async()=>{
+ const {result}=await replay(Array.from({length:70},(_,i)=>ev('item/completed',`unknown-${i}`,{id:'x',type:'SECRET'})));
+ assert.equal(result.cleanup.actor_hint_overflow,true);assert.equal(result.cleanup.status,'unconfirmed');
+ assert.ok(result.cleanup.unfinished_actor_ids.length<=64);assert.equal(result.trace.observed_children,0);
 });
 test('frozen predecessor executor and tracker are unchanged',async()=>{
  for(const name of ['native-tracker.mjs','executor.mjs']){
