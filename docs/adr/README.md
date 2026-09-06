@@ -60,5 +60,6 @@
 - [ADR-0056: Scope derived stage material without dropping governing rules](0056-stage-material-projections.md)
 - [ADR-0057: Composed Lean completion with separate diagnostics](0057-composed-lean-completion.md)
 - [ADR-0058: Opt-in bounded Lean entry](0058-bounded-lean-entry.md)
+- [ADR-0060: Task material and proportionate instructions](0060-task-material-and-proportionate-instructions.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.

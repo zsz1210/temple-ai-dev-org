@@ -53,8 +53,8 @@ const ALLOWED_TOP_LEVEL_FILES = new Set([
   "package.json"
 ]);
 const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overlay/", "src/"];
-// WI-0190 adds ADR-0059 and the support reference to WI-0188's 409 files.
-const MAX_FILE_COUNT = 411;
+// Integrates proportionate routes and optional task material.
+const MAX_FILE_COUNT = 412;
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {

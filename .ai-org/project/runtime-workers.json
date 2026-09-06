@@ -1812,6 +1812,34 @@
       "attached_at": "2026-09-06T06:30:20.685Z",
       "completed_at": "2026-09-06T06:33:29.549Z",
       "updated_at": "2026-09-06T06:33:29.549Z"
+    },
+    {
+      "id": "worker-20260906064131-16749722",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0205",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260906064131-e1bf2166",
+      "base_revision": "5fd0646",
+      "branch": "codex/lean-cost-measurement",
+      "worktree": null,
+      "plan_fingerprint": "a2e1857ba007d747fc66ad51967a11a80d5cae64c4121c669e57129f2a133429",
+      "plan_digest": "e0dea4be1e38a2fcd5503581b7ace8614716ed093a3a4c757e83c77b4d01c3e5",
+      "preparation_fingerprint": "050d6d7fef23b314b8f3b2191904d67570c3e9e0ac106a59c076fd8a2ef322d9",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/bc_measurement_readiness",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "eb6315c",
+      "evidence": [
+        ".ai-org/artifacts/WI-0205/readiness-review.v2.md"
+      ],
+      "reserved_at": "2026-09-06T06:41:31.859Z",
+      "attached_at": "2026-09-06T06:41:57.484Z",
+      "completed_at": "2026-09-06T06:49:52.351Z",
+      "updated_at": "2026-09-06T06:49:52.351Z"
     }
   ]
 }

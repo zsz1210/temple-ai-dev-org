@@ -37,7 +37,7 @@ async function write(root, name, value) { const target = path.join(root, name); 
 async function readJson(file) { return JSON.parse(await fs.readFile(file, "utf8")); }
 function within(root, candidate) { const relative = path.relative(root, candidate); return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative)); }
 function canonical(file) { try { return realpathSync(file); } catch { return path.join(canonical(path.dirname(file)), path.basename(file)); } }
-async function files(root, relative = "") {
+export async function files(root, relative = "") {
   const result = {};
   for (const entry of (await fs.readdir(path.join(root, relative), { withFileTypes: true })).sort((a, b) => a.name.localeCompare(b.name))) {
     if (entry.name === ".git") continue;
@@ -54,7 +54,7 @@ export async function sourceDigest(root) {
   return digest(Object.fromEntries(await Promise.all([...new Set(names)].sort().map(async n => [n, digest(await fs.readFile(path.join(root, n)))]))));
 }
 export async function retainedArtifactDigest(root) { const snapshot = await files(root); delete snapshot["seal.json"]; return digest(snapshot); }
-async function gitSafety(root) {
+export async function gitSafety(root) {
   const directory = path.join(root, ".git"); requireThat((await fs.lstat(directory)).isDirectory(), "git-directory-boundary");
   return digest({ config: digest(await fs.readFile(path.join(directory, "config"))), hooks: await files(path.join(directory, "hooks")), exclude: digest(await fs.readFile(path.join(directory, "info/exclude"))) });
 }
@@ -84,6 +84,7 @@ async function setupTemple(root, sourceRoot, labRoot, setup) {
     setup.push(result); requireThat(result.exit_code === 0, `temple-setup:${result.output}`);
   }
   await cli(["init", ".", "--config", path.join(labRoot, "setup/temple-init.json"), "--integrate-agents"], true);
+  await write(root, ".ai-org/project/repository-integration.json", { schema_version: "temple.repository-integration/v1", status: "confirmed", authority: "project", source: "repository-policy", policy_refs: ["BRIEF.md"], summary: "Isolated local fixture commits and fresh verification only; no merge, publication or external integration.", integration_target: "main", change_isolation: "required", review_gate: "required", recorded_at: new Date().toISOString(), recorded_by: "fixture-coordinator" });
   await cli(["work-item", "create", ".", "--title", "Deliver shipping quote", "--scope", "BRIEF.md: one bounded local feature and fresh verifier", "--acceptance", "Preserved public tests, meaningful added tests, exact Git delivery and independent accept/reject", "--affected-path", "order.mjs", "--affected-path", "test/added.test.mjs", "--spec-mode", "gate-evidence", "--ui-mode", "not-applicable", "--workflow-profile", "lean", "--risk-tier", "low", "--scope-class", "bounded", "--profile-rationale", "One local pure function; no external effects", "--profile-evidence", "BRIEF.md"]);
   await cli(["work-item", "configure", ".", "--work-item", "WI-0001", "--agent-id", "agent-builder", "--base-revision", await git(root, ["rev-parse", "HEAD"]), "--parallel-mode", "sequential"]);
   await cli(["transition", ".", "--work-item", "WI-0001", "--to", "build", ...["work_order", "approved_scope", "acceptance_criteria", "technical_design", "risk_review", "profile_eligibility"].flatMap(k => ["--satisfy", `${k}=BRIEF.md`])]);
@@ -141,11 +142,11 @@ export function validateApproval(a, p) {
 
 export function stageRequests({ root, arm, stage, protocol, threadId = "schema-preview" }) {
   const temple = arm === "temple";
-  const processGuide = temple ? "First read AGENTS.md and TEMPLE.md. Resolve WI-0001 using node ./templew.mjs context resolve . --work-item WI-0001 --position " + (stage === "build" ? "developer" : "quality_evaluator") + " --compact --no-write --json. Read .agents/skills/temple-work/SKILL.md and the routed sources needed for your responsibility. You are " + (stage === "build" ? "agent-builder. Claim before editing with principal human, current full HEAD and branch main. After committing product/tests and writing delivery evidence, read the Lean delivery reference and use work-item deliver with the current claim ID, exact candidate revision and DELIVERY.json evidence. This single operation records handoff, releases your claim and enters Test; do not separately repeat these three mutations." : "agent-verifier, distinct from Builder, acting as quality_evaluator in Lean Test. Claim WI-0001 with principal human, current full HEAD and branch main. Inspect handoff and claim state, independently verify and record VERIFICATION.json. On accept, release your claim then transition test to done with test_evidence=VERIFICATION.json and lean_closeout=VERIFICATION.json. On reject, release your claim with the rejection reason and leave Test unresolved. Do not impersonate Builder or claim formal Independent QA; this is the experiment's fresh verification.") : "Read README.md, BRIEF.md and WORK.md. Use the ordinary Git/test/handoff workflow.";
+  const processGuide = temple ? "First read AGENTS.md and TEMPLE.md. Deliberately use the optional bounded Lean entry: node ./templew.mjs context enter . --work-item WI-0001 --position " + (stage === "build" ? "developer --agent-id agent-builder" : "quality_evaluator --agent-id agent-verifier") + " --principal-id human --no-write --json. Read the returned required material and any required unselected sources. Reuse already-read unchanged whole bodies; do not reread them solely because they have another reference. Follow .agents/skills/temple-work/references/lean-execution.md. You are " + (stage === "build" ? "agent-builder. Claim before editing with principal human, current full HEAD and branch main. After committing product/tests and writing DELIVERY.json and HANDOFF.md, use work-item finish with position developer, current claim ID, exact candidate and DELIVERY.json. Inspect its mutation and diagnostics; successful current full Status/Doctor need not be repeated. Leave Test for the fresh Verifier." : "agent-verifier, distinct from Builder, acting as quality_evaluator in Lean Test. Claim the exact candidate, independently verify and write VERIFICATION.json. On accept use work-item finish with position quality_evaluator, current claim ID, exact candidate, judgment pass and VERIFICATION.json as test-evidence and lean-closeout. Inspect mutation and diagnostics. On reject release your claim and leave Test unresolved. Do not claim formal Independent QA.") : "Read README.md, BRIEF.md and WORK.md. Use the ordinary Git/test/handoff workflow.";
   const instruction = `${processGuide}\nRead BRIEF.md for the complete product contract. ${stage === "build" ? "Implement order.mjs, add meaningful test/added.test.mjs, preserve all supplied files, run node --test test/*.test.mjs, commit only implementation and tests, then write DELIVERY.json and HANDOFF.md. DELIVERY.json must have candidate_revision, test_command, test_exit_code, decision (delivered), summary and unresolved. HANDOFF.md explains exact candidate, test result and next verifier obligations. Commit evidence separately if desired." : "Fresh verification only: read DELIVERY.json and HANDOFF.md, resolve and independently test the exact candidate. Do not modify order.mjs, tests or product documentation. Write VERIFICATION.json with candidate_revision, test_command, test_exit_code, decision (accept or reject), summary and unresolved. Reject defective products. No second feature."}\nReturn a structured record matching the evidence file's candidate_revision, test_command, test_exit_code, decision and unresolved exactly; summary wording may differ. Within this turn, edit/test iterations are allowed. After the final edit, rerun the complete tests and record the actual observed exit code for the final candidate. Exact test_command: node --test test/*.test.mjs. No hidden tests or expected answers are available to you.`;
   const developer = "One bounded local actor turn; no subagents, network, external tools, installations, user questions, extra actor-turn retries or fallback. No retries means no new actor turn or experiment retry, not a ban on tests: within this turn, iterate edits and tests normally, rerun all product tests after your last edit, and truthfully record that final observed result. Stay in this repository; never read memories, other repositories, coordinator files or parent paths. Use apply_patch for writes, node --test test/*.test.mjs for tests, node ./templew.mjs for Temple, and simple git/read commands. One shell command per call; no pipes, redirects, substitutions, environment changes or arbitrary scripts. The verifier may write only VERIFICATION.json and permitted .ai-org evidence. Do not edit supplied public tests, package.json, BRIEF.md, README.md or workflow instructions. Git hooks/configuration and symlinks are forbidden.";
   const completionGuide = "Finish this assigned stage once its evidence and required checks are complete, then return the structured record immediately. Do not continue a later responsibility or whole-work closeout outside this stage.";
-  const diagnosticsGuide = temple ? "After your final lifecycle mutation (Builder deliver; Verifier release/transition), rebuild and inspect Status with node ./templew.mjs status . --compact --json --work-item WI-0001 and run node ./templew.mjs doctor . --compact. These run the required full projection/checks; investigate any failure, and do not replace them with pre-handoff checks. Then return the structured record; Builder leaves WI-0001 in Test for the fresh Verifier." : "";
+  const diagnosticsGuide = temple ? "A finish preview or historical receipt is not current diagnostics. Verify success, mutation and diagnostics.status; do not report acceptance on a diagnostic failure. Stop after your stage." : "";
   const finalInstruction = [instruction, completionGuide, diagnosticsGuide].filter(Boolean).join("\n");
   return { instruction: finalInstruction,
     thread: { model: protocol.model, cwd: root, approvalPolicy: "never", sandbox: "workspace-write", serviceName: `delivery-${stage}`, config: { model_reasoning_effort: protocol.reasoning_effort }, developerInstructions: developer, ...wave5ThreadIsolation(root) },
@@ -162,7 +163,7 @@ export function deliveryProcessContract() {
     const request = stageRequests({root:"/assigned-repository",arm,stage,protocol:{model:"model-parameter",reasoning_effort:"effort-parameter"}});
     return {arm,stage,user:request.turn.input[0].text,developer:request.thread.developerInstructions,sandbox:request.turn.sandboxPolicy};
   }));
-  return {version:"delivery-process/v7",templates,command_policy:commandPolicyContract,fixture_sha256:digest(fixture),output_schema:completionSchema,model_and_effort_are_parameters:true,temporary_environment:"stage-private-TMPDIR-in-sibling-runtime-directory; retained-separately-unsealed-operational-scratch",git_metadata:"explicit-assigned-repository-only; configuration-and-hooks-integrity-checked"};
+  return {version:"delivery-process/v8",templates,command_policy:commandPolicyContract,fixture_sha256:digest(fixture),output_schema:completionSchema,model_and_effort_are_parameters:true,temporary_environment:"stage-private-TMPDIR-in-sibling-runtime-directory; retained-separately-unsealed-operational-scratch",git_metadata:"explicit-assigned-repository-only; configuration-and-hooks-integrity-checked"};
 }
 async function validateReadinessReview(sourceRoot, protocol) {
   const review=protocol.readiness_review;
@@ -178,20 +179,20 @@ async function validateReadinessReview(sourceRoot, protocol) {
   const bytes=await fs.readFile(path.resolve(sourceRoot,ref)), sandbox=JSON.parse(bytes);
   requireThat(digest(bytes) === review.sandbox_evidence_sha256 && sandbox.status === "passed" && sandbox.model_generation_performed === false && sandbox.completed_stages === 4 && sandbox.negative_write_checks === 2 && sandbox.source_sha256 === protocol.source_sha256 && sandbox.process_contract_sha256 === protocol.process_contract_sha256,"sandbox-readiness-drift");
 }
-export async function inspectProvider({ labRoot, sourceRoot = sourceDefault, providerFactory = createJsonRpcProcess, model: requestedModel = "gpt-5.6-terra", effort = "medium" }) {
+export async function inspectProvider({ labRoot, sourceRoot = sourceDefault, providerFactory = createJsonRpcProcess, model: requestedModel = "gpt-5.6-terra", effort = "medium", serverArguments = representativeAppServerArguments }) {
   const schemaRoot = await fs.mkdtemp(path.join(os.tmpdir(), "delivery-schema-"));
   let connection;
   try {
     const version = await checked(sourceRoot, "codex", ["--version"]);
     await checked(sourceRoot, "codex", ["app-server", "generate-json-schema", "--out", schemaRoot]);
     const schemas = Object.fromEntries(await Promise.all(schemaNames.map(async name => [name, await readJson(path.join(schemaRoot, "v2", `${name}.json`))])));
-    connection = providerFactory("codex", representativeAppServerArguments, { cwd: sourceRoot, env: subprocessEnvironment() });
+    connection = providerFactory("codex", serverArguments, { cwd: sourceRoot, env: subprocessEnvironment() });
     await connection.request("initialize", { clientInfo: { name: "delivery-readiness", version: "1" }, capabilities: { experimentalApi: false } }); connection.notify("initialized", {});
     const config = await connection.request("config/read", { cwd: sourceRoot, includeLayers: false }); memoryCheck(config);
     const models = await connection.request("model/list", {});
     const model = (models.data ?? models.models ?? []).find(m => (m.model ?? m.id) === requestedModel);
     requireThat(model && (model.supportedReasoningEfforts ?? []).some(e => (e.reasoningEffort ?? e) === effort), "provider-route-unavailable");
-    const contract = { schema_version: "temple.delivery-provider/v2", cli_version: version, node_version: process.version, platform: process.platform, architecture: process.arch, arguments_sha256: digest(representativeAppServerArguments), schemas, model: requestedModel, effort, model_release_revision: null, memory_disabled: true, usage_finality_guarantee: "not-established", model_generation_performed: false };
+    const contract = { schema_version: "temple.delivery-provider/v2", cli_version: version, node_version: process.version, platform: process.platform, architecture: process.arch, arguments_sha256: digest(serverArguments), schemas, model: requestedModel, effort, model_release_revision: null, memory_disabled: true, usage_finality_guarantee: "not-established", model_generation_performed: false };
     if (labRoot) await write(labRoot, "provider-contract.json", contract); return contract;
   } finally { await connection?.close(); await fs.rm(schemaRoot, { recursive: true, force: true }); }
 }
@@ -221,6 +222,7 @@ const knownMethods = new Set(["configWarning","warning","thread/started","thread
 const failureCodes = new Set(["model-acknowledgement","effort-acknowledgement","thread-id-missing","turn-id-missing","wrong-thread-event","wrong-turn-event","provider-route-or-approval","provider-terminal","missing-token-usage","invalid-token-usage","usage-regressed","usage-identity-missing","completion-schema","wall-clock-limit","operational-token-limit","provider-protocol","provider-exit","runtime-request","event-count-limit","duplicate-item-start","duplicate-item-completion","completion-without-start","unmatched-item-start","command-outcome-missing","invalid-event-id","invalid-event-shape","command-envelope-changed","memory-isolation","aggregate-wall-clock-limit","source-drift","git-safety-drift","arm-initial-state-drift","write-scope","public-file-changed","verifier-product-write","symlink","candidate-revision","delivery-record-schema","test-command-claim","test-result-mismatch","actor-test-execution-unobserved","verifier-revision","handoff-evidence","incorrect-verifier-acceptance","completion-file-disagreement","installed-provider-drift","synthetic-review-required"]);
 export function safeFailureCode(error) {
   const value=typeof error === "string" ? error : error?.message;
+  if (["isolation-source-drift", "isolation-effective-config", "isolation-effective-tools", "isolation-missing-tool", "isolation-profile", "isolation-source", "isolation-arguments", "isolation-map", "isolation-key", "isolation-trust-root"].includes(value)) return value;
   if (failureCodes.has(value)) return value;
   for (const prefix of ["provider-wire-schema","write-scope","public-file-changed","candidate-content","product-test-write-scope","symlink"]) if (typeof value === "string" && value.startsWith(prefix+":")) return prefix;
   return "observation-invalid";
@@ -252,7 +254,12 @@ function allowedPatch(name, stage, arm) { return (stage === "build" ? ["order.mj
 function allowedWrite(name, stage, arm) { return allowedPatch(name, stage, arm) || (arm === "temple" && ([".ai-org/events/events.jsonl", ".ai-org/work-items/WI-0001.json", ".ai-org/project/evidence.json"].includes(name) || name.startsWith(".ai-org/views/"))); }
 function usageValue(params) { const u = normalizeTokenUsage(params); requireThat(u && u.cached_input_tokens <= u.input_tokens && u.reasoning_output_tokens <= u.output_tokens && u.total_tokens === u.input_tokens + u.output_tokens, "invalid-token-usage"); return { ...u, non_cached_input_tokens: u.input_tokens - u.cached_input_tokens, operational_tokens: u.input_tokens - u.cached_input_tokens + u.output_tokens }; }
 
-async function runStage({ root, arm, stage, protocol, contract, sourceRoot, providerFactory, deadline, aggregateBefore, diagnosticKey, expectedClaimRevision }) {
+export function itemDiagnostics(item, decision, contract) {
+  const enums = contract?.schemas?.ItemStartedNotification?.definitions?.ThreadItem?.oneOf?.flatMap(v => v.properties?.type?.enum ?? []) ?? [];
+  const known = typeof item?.type === "string" && /^[a-zA-Z][a-zA-Z0-9]{0,63}$/.test(item.type) && enums.includes(item.type);
+  return { observed_item_type: known ? item.type : item?.type == null ? "missing" : "unknown", item_policy: decision.allowed ? "allowed" : "denied", rejection_rule: decision.allowed ? null : decision.rule };
+}
+export async function runStage({ root, arm, stage, protocol, contract, sourceRoot, providerFactory, deadline, aggregateBefore, diagnosticKey, expectedClaimRevision, requestFactory = stageRequests, contextMaterial = false, runtimePolicy = null }) {
   const start = Date.now(), hash = value => "hmac-sha256:" + crypto.createHmac("sha256", diagnosticKey).update(String(value)).digest("hex");
   const observation = { arm, stage, status: "stopped", usage: null, usage_finality: "last-observed-not-account-final", usage_observed_at_ms: null, command_count: 0, command_started_count: 0, command_completed_count: 0, patch_started_count: 0, patch_completed_count: 0, tool_count: 0, reported_output_bytes: 0, events: [], observed_test_exit_codes: [], requested_model: protocol.model, acknowledged_model: null, model_acknowledgement: "not-observed", requested_effort: protocol.reasoning_effort, observed_thread_effort: null, effective_turn_effort: null, terminal_status: null, interrupt_requested: false, interrupt_acknowledged: false, retry_count: 0, fallback_count: 0 };
   let connection, threadId, turnId, completion, terminal, stop, turnStart, wake, abort, interruptPromise, closing = false, terminalWake;
@@ -270,7 +277,7 @@ async function runStage({ root, arm, stage, protocol, contract, sourceRoot, prov
   const fail = reason => { stop ??= reason; interrupt(); abort(); wake(); };
   const context = () => {
     const read = name => { try { const file=path.join(root,name); if (!within(canonical(root),canonical(file))) return null; return JSON.parse(readFileSync(file,"utf8")); } catch { return null; } };
-    return {root,arm,stage,threadId,turnId,expectedClaimRevision,expectedClaimId:read(".ai-org/work-items/WI-0001.json")?.claim?.id,expectedCandidateRevision:read("DELIVERY.json")?.candidate_revision,verificationDecision:read("VERIFICATION.json")?.decision};
+    return {root,arm,stage,threadId,turnId,contextMaterial,expectedClaimRevision,expectedClaimId:read(".ai-org/work-items/WI-0001.json")?.claim?.id,expectedCandidateRevision:read("DELIVERY.json")?.candidate_revision,verificationDecision:read("VERIFICATION.json")?.decision};
   };
   const processEvent = message => {
     // A stop does not close observation: correlated trailing counters and the
@@ -283,12 +290,21 @@ async function runStage({ root, arm, stage, protocol, contract, sourceRoot, prov
       const decision=eventDecision(message,context());
       if (observation.events.length >= 2000) { fail("event-count-limit"); return; }
       const event={method:knownMethods.has(method)?method:"unrecognized",item_type:itemTypes.has(item?.type)?item.type:null,item_id:validId(item?.id)?hash(item.id):null,exit_code:Number.isInteger(item?.exitCode)?item.exitCode:null};
+      if (runtimePolicy && ["item/started", "item/completed"].includes(method)) Object.assign(event, itemDiagnostics(item, decision, contract));
       if (item?.type === "commandExecution" && method === "item/started") { observation.command_count++; observation.command_started_count++; }
       if (item?.type === "commandExecution" && method === "item/completed") observation.command_completed_count++;
       if (item?.type === "fileChange" && method === "item/started") observation.patch_started_count++;
       if (item?.type === "fileChange" && method === "item/completed") observation.patch_completed_count++;
       if (item?.type === "commandExecution") Object.assign(event,{classification:decision,command_digest:hash(item.command),
         output_bytes: method === "item/completed" && typeof item.aggregatedOutput === "string" ? Buffer.byteLength(item.aggregatedOutput) : null});
+      if (method === "item/completed" && item?.type === "commandExecution" && decision.allowed) {
+        try {
+          const body = JSON.parse(item.aggregatedOutput);
+          if (decision.operation === "temple-context-enter") event.entry_eligible = body.schema_version === "temple.context-enter/v1" && body.status === "eligible" && body.packet !== null;
+          if (contextMaterial && event.entry_eligible) event.task_material = { material: body.packet.material, bytes: body.packet.measurements?.emitted_source_bytes, reuse: body.packet.reuse?.decisions ?? [] };
+          if (decision.operation === "temple-finish") event.finish_current_passed = currentFinishPassed(body, stage, context().expectedCandidateRevision);
+        } catch {}
+      }
       observation.events.push(event);
       if (!decision.allowed) { fail(decision.rule); return; }
       if (wireValidators[method]) requireThat(wireValidators[method](p),"provider-wire-schema:notification");
@@ -312,7 +328,7 @@ async function runStage({ root, arm, stage, protocol, contract, sourceRoot, prov
           if (method === "item/started") {
             requireThat(!started.has(item.id),"duplicate-item-start");
             requireThat(item.status === "inProgress","invalid-event-shape");
-            started.set(item.id,{type:item.type,fingerprint}); observation.tool_count++;
+            started.set(item.id,{type:item.type,fingerprint, at_ms:Date.now()-start}); observation.tool_count++;
           } else {
             requireThat(started.has(item.id),"completion-without-start");
             requireThat(!completed.has(item.id),"duplicate-item-completion");
@@ -322,6 +338,7 @@ async function runStage({ root, arm, stage, protocol, contract, sourceRoot, prov
               requireThat(Number.isInteger(item.exitCode),"command-outcome-missing");
               if (decision.operation === "product-tests-all") observation.observed_test_exit_codes.push(item.exitCode);
             }
+            event.elapsed_ms = Date.now()-start-started.get(item.id).at_ms;
             completed.add(item.id);
           }
         }
@@ -348,14 +365,16 @@ async function runStage({ root, arm, stage, protocol, contract, sourceRoot, prov
   const timer=setTimeout(()=>fail("wall-clock-limit"),Math.max(1,Math.min(protocol.limits.per_stage_ms,deadline-start)));
   try {
     await fs.mkdir(deliveryTempRoot(root,stage),{recursive:true});
-    connection=providerFactory("codex",representativeAppServerArguments,{cwd:root,env:subprocessEnvironment({TEMPLE_CLI_PATH:path.join(sourceRoot,"bin/temple.mjs"),TMPDIR:deliveryTempRoot(root,stage)}),onNotification,
+    runtimePolicy?.beforeStart();
+    connection=providerFactory("codex",runtimePolicy?.arguments ?? representativeAppServerArguments,{cwd:root,env:subprocessEnvironment({TEMPLE_CLI_PATH:path.join(sourceRoot,"bin/temple.mjs"),TMPDIR:deliveryTempRoot(root,stage)}),onNotification,
       onRequest(message,responder) { try { responder.respond(buildCodexRuntimeRequestResponse(message.method,message.params,{decision:"decline"})); } catch {} fail("runtime-request"); },
       onProtocolError() { fail("provider-protocol"); }, onExit() { if (!terminal && !closing) fail("provider-exit"); }
     });
     const request=(method,params)=>Promise.race([connection.request(method,params,Math.max(1,deadline-Date.now())),failed.then(()=>{throw Error(stop);})]);
     await request("initialize",{clientInfo:{name:"delivery-pair",version:"2"},capabilities:{experimentalApi:false}}); connection.notify("initialized",{});
-    memoryCheck(await request("config/read",{cwd:root,includeLayers:false}));
-    const requests=stageRequests({root,arm,stage,protocol}); schemaCheck(contract.schemas.ThreadStartParams,requests.thread);
+    const effectiveConfig = await request("config/read",{cwd:root,includeLayers:false});
+    memoryCheck(effectiveConfig); runtimePolicy?.checkConfig(effectiveConfig);
+    const requests=requestFactory({root,arm,stage,protocol}); schemaCheck(contract.schemas.ThreadStartParams,requests.thread);
     const thread=await request("thread/start",requests.thread); threadId=thread?.thread?.id;
     observation.acknowledged_model=/^gpt-[a-z0-9.-]{1,64}$/.test(thread?.model??"")?thread.model:null;
     observation.model_acknowledgement=typeof thread?.model !== "string"?"missing":thread.model === protocol.model?"matched":"mismatched";
@@ -380,7 +399,9 @@ async function runStage({ root, arm, stage, protocol, contract, sourceRoot, prov
       await Promise.race([terminalDone,new Promise(resolve=>{terminalTimer=setTimeout(resolve,2000);})]);
       clearTimeout(terminalTimer);
     }
-    closing=true; await connection?.close().catch(()=>{});
+    closing=true;
+    try { await connection?.close(); if (runtimePolicy) observation.provider_exit_confirmed = Boolean(connection); }
+    catch { if (runtimePolicy) { observation.provider_exit_confirmed = false; observation.status = "stopped"; observation.stop_reason ??= "provider-shutdown-unconfirmed"; } }
     observation.thread_id=validId(threadId)?hash(threadId):null; observation.turn_id=validId(turnId)?hash(turnId):null;
     observation.unmatched_command_starts=Math.max(observation.command_started_count-observation.command_completed_count,[...started].filter(([id,item])=>item.type === "commandExecution" && !completed.has(id)).length);
     observation.unmatched_patch_starts=Math.max(observation.patch_started_count-observation.patch_completed_count,[...started].filter(([id,item])=>item.type === "fileChange" && !completed.has(id)).length);
@@ -397,7 +418,7 @@ export async function evaluateProduct(root) {
   try { await write(oracleRoot, "oracle.mjs", script + optionEdges); const r = await command(oracleRoot, process.execPath, ["oracle.mjs"]); return { exit_code: r.exit_code, output_sha256: digest(r.output), elapsed_ms: r.elapsed_ms }; }
   finally { await fs.rm(oracleRoot, { recursive: true, force: true }); }
 }
-async function assessStage({ root, arm, stage, before, baseRevision, build, observation }) {
+export async function assessStage({ root, arm, stage, before, baseRevision, build, observation }) {
   const after = await files(root), changed = [...new Set([...Object.keys(before), ...Object.keys(after)])].filter(n => before[n] !== after[n]);
   requireThat(changed.every(n => allowedWrite(n, stage, arm)), `write-scope:${changed.filter(n => !allowedWrite(n, stage, arm)).join()}`);
   for (const [n, value] of Object.entries(fixture)) if (n !== "order.mjs") requireThat(after[n] === digest(value), `public-file-changed:${n}`);
@@ -445,19 +466,52 @@ export function operationStatistics(observation) {
   return result;
 }
 
+export function currentFinishPassed(body, stage, revision) {
+  return body?.schema_version === "temple.lean-finish-result/v1" && body.success === true &&
+    body.diagnostics?.status === "passed" && body.diagnostics?.historical === false &&
+    body.diagnostics?.status_rebuild?.status === "passed" && body.diagnostics?.doctor?.summary?.warn === 0 && body.diagnostics?.doctor?.summary?.fail === 0 &&
+    body.mutation?.status === "applied" && body.mutation?.dry_run === false &&
+    body.mutation?.work_item_id === "WI-0001" && body.mutation?.candidate_revision === revision &&
+    body.mutation?.resulting_state === (stage === "build" ? "test" : "done");
+}
+
+export function costBreakdown(observation) {
+  const categories = {}, hashes = new Map();
+  for (const event of observation.events) {
+    if (event.method !== "item/completed" || !["commandExecution", "fileChange"].includes(event.item_type)) continue;
+    const op = event.classification?.operation ?? "unknown";
+    const category = event.item_type === "fileChange" ? "implementation-patches" :
+      op.startsWith("product-tests-") ? "product-tests" : op.startsWith("git-") ? "git" :
+      op.startsWith("temple-context") || event.classification?.family === "read" ? "context-and-exploration" :
+      op.startsWith("temple-") ? "lifecycle-and-diagnostics" : "other";
+    const row = categories[category] ??= { completed: 0, observed_elapsed_ms: 0, elapsed_complete: true, output_bytes: 0, output_complete: true };
+    row.completed++;
+    if (Number.isFinite(event.elapsed_ms) && event.elapsed_ms >= 0) row.observed_elapsed_ms += event.elapsed_ms;
+    else row.elapsed_complete = false;
+    if (event.item_type === "commandExecution") {
+      if (Number.isSafeInteger(event.output_bytes) && event.output_bytes >= 0) row.output_bytes += event.output_bytes;
+      else row.output_complete = false;
+      if (event.command_digest) hashes.set(event.command_digest, (hashes.get(event.command_digest) ?? 0) + 1);
+    } else row.output_complete = false;
+  }
+  return { categories, repeated_command_completions: [...hashes.values()].reduce((n, count) => n + Math.max(0, count - 1), 0),
+    inference_token_attribution: "unavailable", duration_basis: "observed item start-to-completion; overlapping durations may not sum to wall time",
+    repetition_basis: "same-command hash only; no claim of same-state redundancy" };
+}
+
 export function treatmentAdherence(observation) {
   if (observation.arm !== "temple") return null;
   const commands = observation.events.filter(e => e.method === "item/completed" && e.exit_code === 0 && e.classification?.allowed);
-  const compact = commands.some(e => e.classification.operation === "temple-context-compact");
-  const delivery = commands.some(e => e.classification.operation === "temple-deliver" && e.classification.dry_run === false);
+  const compact = commands.some(e => e.classification.operation === "temple-context-enter" && e.entry_eligible === true);
+  const delivery = commands.some(e => e.classification.operation === "temple-finish" && e.classification.dry_run === false && e.finish_current_passed === true);
   const receiptMatched = observation.workflow?.exact_handoff === true && observation.workflow?.pass === true;
   const mutation = commands.findLastIndex(e => ["temple-claim", "temple-release", "temple-deliver", "temple-transition-test", "temple-transition-done"].includes(e.classification.operation));
   const afterMutation = mutation >= 0 ? commands.slice(mutation + 1) : [];
   const compactStatus = afterMutation.some(e => e.classification.operation === "temple-status-compact" && e.classification.no_write === false);
   const compactDoctor = afterMutation.some(e => e.classification.operation === "temple-doctor-compact");
-  return { compact_context_observed: compact, composed_delivery_observed: observation.stage === "build" ? delivery : null,
+  return { bounded_entry_observed: compact, current_finish_observed: delivery, compact_context_observed: compact, composed_delivery_observed: observation.stage === "build" ? delivery : null,
     post_mutation_compact_status_observed: compactStatus, post_mutation_compact_doctor_observed: compactDoctor,
-    pass: compact && compactStatus && compactDoctor && (observation.stage !== "build" || (delivery && receiptMatched)),
+    pass: compact && delivery && receiptMatched,
     basis: "successful-observed-commands-and-verified-lifecycle; not-inferred-from-prompt" };
 }
 
@@ -492,6 +546,7 @@ export async function runPair({ labRoot, protocol, approval, providerContract, p
         if (stage === "build") requireThat(digest(before) === digest(manifest.arms[arm].files), "arm-initial-state-drift");
         const observation = await runStage({ root, arm, stage, protocol, contract: providerContract, sourceRoot: manifest.source_root, providerFactory: providerFactory ?? createJsonRpcProcess, deadline: pairDeadline, aggregateBefore: run.operational_tokens, diagnosticKey, expectedClaimRevision:await git(root,["rev-parse","HEAD"]) });
         observation.operations = operationStatistics(observation);
+        observation.cost_breakdown = costBreakdown(observation);
         run.stages.push(observation); run.operational_tokens += observation.usage?.operational_tokens ?? 0; await save();
         requireThat(await gitSafety(root) === manifest.arms[arm].git_safety_sha256, "git-safety-drift");
         if (observation.status !== "completed") { run.stop_reason=observation.stop_reason; throw Error("stage-stopped"); }

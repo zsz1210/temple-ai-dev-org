@@ -265,7 +265,7 @@ Usage:
   temple capability find [target] --query text [--position position] [--limit number] [--json]
   temple context resolve [target] --work-item WI-0001 [--position position] [--stage stage] [--purpose primary|integration|recovery] [--query text] [--revision ref] [--limit number] [--json] [--no-write] [--compact (requires --no-write --json)]
   temple context packet [target] --work-item WI-0001 --position position --no-write --json [--purpose primary|integration|recovery] [--material full|stage] [--expected-plan digest]
-  temple context enter [target] --work-item WI-0001 --position position --agent-id agent-id --principal-id principal-id --no-write --json [--purpose primary|integration|recovery] [--expected-plan digest]
+  temple context enter [target] --work-item WI-0001 --position position --agent-id agent-id --principal-id principal-id --no-write --json [--purpose primary|integration|recovery] [--material stage|task] [--expected-plan digest] [--available-whole-sources JSON_ARRAY]
   temple --version
 
 Core commands:
@@ -344,6 +344,7 @@ const BOOLEAN_FLAGS = new Set([
   "--confirm-normalization"
 ]);
 const VALUE_FLAGS = new Set([
+  "--available-whole-sources",
   "--judgment", "--test-evidence", "--lean-closeout",
   "--config",
   "--title",
@@ -3071,11 +3072,16 @@ async function runCapability(parsed) {
 
 async function runContext(parsed) {
   if (parsed.action === "enter") {
-    assertCommandOptions(parsed, ["--work-item", "--position", "--agent-id", "--principal-id", "--purpose", "--expected-plan"], ["--no-write", "--json"]);
+    assertCommandOptions(parsed, ["--work-item", "--position", "--agent-id", "--principal-id", "--purpose", "--expected-plan", "--available-whole-sources", "--material"], ["--no-write", "--json"]);
     if (!parsed.flags.has("--no-write") || !parsed.flags.has("--json")) throw new OperationError("INVALID_INPUT", "Context enter requires --no-write and --json");
     const target = await assertSafeTarget(parsed.target);
     const { enterWorkItemContext } = await import("./context-enter.mjs");
-    const result = await enterWorkItemContext(target, { workItemId: parsed.options["--work-item"], position: parsed.options["--position"], agentId: parsed.options["--agent-id"], principalId: parsed.options["--principal-id"], purpose: parsed.options["--purpose"], expectedPlan: parsed.options["--expected-plan"] });
+    let availableWholeSources;
+    if (parsed.options["--available-whole-sources"] !== undefined) {
+      try { availableWholeSources = JSON.parse(parsed.options["--available-whole-sources"]); }
+      catch { throw new OperationError("INVALID_INPUT", "Available whole sources must be valid JSON"); }
+    }
+    const result = await enterWorkItemContext(target, { workItemId: parsed.options["--work-item"], position: parsed.options["--position"], agentId: parsed.options["--agent-id"], principalId: parsed.options["--principal-id"], purpose: parsed.options["--purpose"], expectedPlan: parsed.options["--expected-plan"], availableWholeSources, material: parsed.options["--material"] });
     console.log(JSON.stringify(result, null, 2));
     return result.status === "eligible" ? 0 : 1;
   }

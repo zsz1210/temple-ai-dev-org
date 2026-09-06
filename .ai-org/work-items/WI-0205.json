@@ -1,0 +1,152 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0205",
+  "title": "Independently review bounded B/C measurement readiness",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-06T06:40:56.385Z",
+  "updated_at": "2026-09-06T06:51:40.577Z",
+  "scope": [
+    "Read-only review of WI-0203 instrument and zero-model evidence; write only this review evidence"
+  ],
+  "acceptance_criteria": [
+    "Verify exact source, successful four-stage sandbox, receipt and cost counterexamples; report blocking defects truthfully without model actors"
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0205"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T06:40:56.384Z",
+    "escalated": false
+  },
+  "parent_work_item_id": "WI-0203",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "5fd0646",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906064131-e1bf2166",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "5fd0646",
+    "branch": "codex/lean-cost-measurement",
+    "worktree": null,
+    "claimed_at": "2026-09-06T06:41:31.928Z",
+    "released_at": "2026-09-06T06:49:52.622Z",
+    "release_reason": [
+      "Bounded independent readiness review complete"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260906064131-e1bf2166",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "5fd0646",
+      "branch": "codex/lean-cost-measurement",
+      "worktree": null,
+      "claimed_at": "2026-09-06T06:41:31.928Z",
+      "released_at": "2026-09-06T06:49:52.622Z",
+      "release_reason": [
+        "Bounded independent readiness review complete"
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0203/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0203/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0203/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0203/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0203/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0205/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0203/developer-evidence.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0205/readiness-review.v2.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0205/readiness-review.v2.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0205/readiness-review.v2.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0203/design.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0205/readiness-review.v2.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0205/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0203/design.md",
+    ".ai-org/artifacts/WI-0205/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0203/developer-evidence.md",
+    ".ai-org/artifacts/WI-0205/readiness-review.v2.md",
+    ".ai-org/artifacts/WI-0205/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "5fd0646b9d3aaba10daf6e3b8cb19c96f23afc8a",
+      "artifact": ".ai-org/artifacts/WI-0205/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T06:41:27.641Z"
+    }
+  ],
+  "developer_candidate_revision": "5fd0646b9d3aaba10daf6e3b8cb19c96f23afc8a",
+  "tested_revision": "eb6315c",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

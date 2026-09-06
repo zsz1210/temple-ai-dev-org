@@ -1,0 +1,115 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0211",
+  "title": "Integrate completed context comparison without reintroducing old history",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-06T12:02:06.463Z",
+  "updated_at": "2026-09-06T12:02:45.297Z",
+  "scope": [
+    "Reconcile the approved local WI-0203 and WI-0205 through WI-0210 content onto current main, preserve main features and authoritative evidence, resolve ADR numbering, normalize local metadata, verify and submit a focused PR. No model experiments or npm publication."
+  ],
+  "acceptance_criteria": [
+    "Both lineages retain their independent content and event records; default behavior preserved; optional task material and Git repair tested; no old unsanitized commits made reachable; full verification and independent integration review pass."
+  ],
+  "affected_paths": [
+    "src",
+    "scripts",
+    "test",
+    "docs",
+    "project-overlay",
+    ".ai-org"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T12:02:06.462Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "4c11835d98202521f8dd082dceb6f832299d907f",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906120245-aae4805b",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "4c11835d98202521f8dd082dceb6f832299d907f",
+    "branch": "codex/wi0210-clean-integration",
+    "worktree": null,
+    "claimed_at": "2026-09-06T12:02:45.297Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260906120206-6f91d9b2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "4c11835d98202521f8dd082dceb6f832299d907f",
+      "branch": "codex/wi0210-clean-integration",
+      "worktree": null,
+      "claimed_at": "2026-09-06T12:02:06.978Z",
+      "released_at": "2026-09-06T12:02:44.469Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260906120245-aae4805b",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "4c11835d98202521f8dd082dceb6f832299d907f",
+      "branch": "codex/wi0210-clean-integration",
+      "worktree": null,
+      "claimed_at": "2026-09-06T12:02:45.297Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0211/integration-plan.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0211/integration-plan.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0211/integration-plan.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0211/integration-plan.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0211/integration-plan.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0211/integration-plan.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

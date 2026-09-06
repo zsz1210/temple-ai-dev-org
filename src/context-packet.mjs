@@ -56,6 +56,47 @@ export async function readContextPacketSource(repository, relative) {
 
 const readSource = readContextPacketSource;
 
+// Caller-attested current-context availability, never a filesystem read receipt.
+export function validateAvailableWholeSources(value) {
+  if (value === undefined) return [];
+  if (!Array.isArray(value) || value.length > 256) throw new OperationError("INVALID_INPUT", "Available whole sources must be an array of at most 256 path/sha256 records");
+  const seen = new Set();
+  for (const row of value) {
+    if (!row || typeof row !== "object" || Array.isArray(row) || Object.keys(row).length !== 2 ||
+        !safePath(row.path) || typeof row.sha256 !== "string" || !/^sha256:[a-f0-9]{64}$/.test(row.sha256) || seen.has(row.path)) {
+      throw new OperationError("INVALID_INPUT", "Available whole sources require unique safe paths and exact sha256 digests");
+    }
+    seen.add(row.path);
+  }
+  return value.map(({ path, sha256 }) => ({ path, sha256 })).sort((a, b) => a.path.localeCompare(b.path));
+}
+
+export function reuseAvailableWholeSources(packet, declarations) {
+  const available = validateAvailableWholeSources(declarations);
+  if (!available.length) return packet;
+  const decisions = available.map(row => {
+    const source = packet.sources.find(source => source.path === row.path);
+    const reason = packet.acquisition !== "complete" ? "incomplete-acquisition"
+      : packet.entry.route.purpose === "recovery" ? "recovery-requires-material"
+      : !source ? "not-selected"
+      : source.representation !== "whole-source" ? "not-whole-source"
+      : source.source_sha256 !== row.sha256 ? "source-changed" : "caller-attested-available";
+    return { ...row, reason };
+  });
+  const reused = new Set(decisions.filter(row => row.reason === "caller-attested-available").map(row => row.path));
+  const sources = packet.sources.map(source => reused.has(source.path) ? {
+    ...source, representation: "available-whole-source-reference", representation_reason: "caller-attested-available",
+    body: null, body_bytes: 0
+  } : source);
+  const binding = { ...packet.binding, available_whole_sources: decisions };
+  return { ...packet, schema_version: packet.material === "task" ? "temple.context-packet/v4" : "temple.context-packet/v3", sources, binding,
+    packet_digest: sha256(JSON.stringify({ prior_packet_digest: packet.packet_digest, binding })),
+    reuse: { basis: "caller-attested-current-context-only", reading_verified: false, decisions },
+    measurements: { ...packet.measurements, emitted_source_bytes: sources.reduce((sum, source) => sum + source.body_bytes, 0),
+      reused_whole_source_count: reused.size },
+    coverage: { ...packet.coverage, note: `${packet.coverage.note} Null bodies reference caller-attested whole sources still available in this context. No read obligation is waived; reacquire if unavailable. Digests do not prove reading.` }
+  };
+}
 function addSource(sources, relative, reason) {
   const reasons = sources.get(relative) ?? new Set();
   reasons.add(reason);
@@ -179,6 +220,62 @@ const strings = value => Array.isArray(value) && value.every(entry => typeof ent
 const unique = values => new Set(values).size === values.length;
 const exactPath = relative => safePath(relative) && !/[\*?\[\]{}]/.test(relative) && !relative.endsWith("/");
 
+// Optional representation only: original sources have already been acquired,
+// validated and hashed. Never project rules or unknown inventory shapes.
+export function taskMaterialPacket(packet, { agentId, handoffActor } = {}) {
+  if (packet.acquisition !== "complete" || packet.entry.route.purpose === "recovery") return packet;
+  const read = name => {
+    try { return JSON.parse(packet.sources.find(row => row.path === name)?.body); } catch { return null; }
+  };
+  const assignments = read(".ai-org/project/assignments.json");
+  const agents = read(".ai-org/project/agents.json");
+  const workflow = read(".ai-org/core/workflow.json");
+  const edge = packet.entry.next_step.workflow_edge;
+  const positions = new Set([packet.binding.position, packet.entry.responsibility.owner_position,
+    packet.entry.candidate.handoff?.from_position, packet.entry.candidate.handoff?.to_position,
+    workflow?.states?.find(row => row.id === edge?.to)?.owner_position].filter(Boolean));
+  const knownAssignments = shape(assignments, ["schema_version", "assignments"]) && assignments.schema_version === "temple.assignments/v1" &&
+    Array.isArray(assignments.assignments) && assignments.assignments.every(row => shape(row, ["position_id", "agent_id", "active"]) &&
+      typeof row.position_id === "string" && typeof row.agent_id === "string" && typeof row.active === "boolean");
+  const selectedAssignments = knownAssignments ? assignments.assignments.filter(row => positions.has(row.position_id)) : [];
+  const actorIds = new Set([agentId, handoffActor, packet.entry.responsibility.recorded_agent.id,
+    ...selectedAssignments.map(row => row.agent_id)].filter(Boolean));
+  const knownAgents = shape(agents, ["schema_version", "naming_mode", "agents"]) && agents.schema_version === "temple.agents/v1" &&
+    typeof agents.naming_mode === "string" && Array.isArray(agents.agents) && agents.agents.every(row =>
+      shape(row, ["id", "display_name", "active", "created_at"]) && typeof row.id === "string" && typeof row.display_name === "string" &&
+      typeof row.active === "boolean" && typeof row.created_at === "string") && unique(agents.agents.map(row => row.id));
+  const completeRelations = knownAssignments && knownAgents && actorIds.size > 0 &&
+    [...positions].every(id => selectedAssignments.some(row => row.position_id === id && row.active)) &&
+    [...actorIds].every(id => agents.agents.some(row => row.id === id));
+  const historicalGates = new Set(["evaluation_report", "independent_qa_pass", "release_record"]);
+  const sources = packet.sources.map(source => {
+    const historicalOnly = ["build", "test"].includes(packet.binding.stage) && source.reasons.length > 0 && source.reasons.every(reason =>
+      reason.startsWith("gate:") && historicalGates.has(reason.slice(5)) && !(edge?.requirements ?? []).includes(reason.slice(5)));
+    if (historicalOnly) return { ...source, representation: "non-current-gate-reference", representation_reason: "not-required-by-current-edge",
+      body: null, body_bytes: 0, selection: { kind: "evidence-reference", note: "Source remains available at this path. This reference is not current gate evidence; read it if independently required." } };
+    if (source.reasons.length !== 1 || source.reasons[0] !== "authority-and-entry" || !completeRelations) return source;
+    let document = null;
+    if (source.path === ".ai-org/project/assignments.json") document = { ...assignments, assignments: selectedAssignments };
+    if (source.path === ".ai-org/project/agents.json") document = { ...agents, agents: agents.agents.filter(row => actorIds.has(row.id)) };
+    if (!document) return source;
+    const body = `${JSON.stringify(document, null, 2)}\n`;
+    const selection = { kind: "complete-relevant-records", positions: [...positions].sort(), actors: [...actorIds].sort(),
+      note: "Derived inventory selection only; all original authority checks remain. Read the full source for other responsibilities." };
+    if (Buffer.byteLength(body) + Buffer.byteLength(JSON.stringify(selection)) >= source.body_bytes) return source;
+    return { ...source, representation: "structured-projection", representation_reason: "task-actor-inventory", body,
+      body_bytes: Buffer.byteLength(body), body_sha256: `sha256:${sha256(Buffer.from(body))}`, selection };
+  });
+  const representations = sources.map(({ path, representation, representation_reason, body_sha256, selection }) =>
+    ({ path, representation, representation_reason, body_sha256, selection }));
+  const binding = { ...packet.binding, material: "task", task_representation_digest: sha256(JSON.stringify(representations)) };
+  return { ...packet, schema_version: "temple.context-packet/v4", material: "task", binding, sources,
+    packet_digest: sha256(JSON.stringify({ prior_packet_digest: packet.packet_digest, binding })),
+    measurements: { ...packet.measurements, emitted_source_bytes: sources.reduce((sum, row) => sum + row.body_bytes, 0),
+      projected_source_count: sources.filter(row => row.representation === "structured-projection").length,
+      indexed_evidence_count: sources.filter(row => row.representation === "non-current-gate-reference").length },
+    coverage: { ...packet.coverage, note: `${packet.coverage.note} Task material separates complete relevant inventory records and non-current gate references from required bodies. Explicit full-source obligations take precedence; all original source safety and freshness checks remain.` }
+  };
+}
 function projectLock(document, requestedPaths) {
   if (!shape(document, LOCK_KEYS) || document.schema_version !== "temple.lock/v1" ||
       typeof document.project_id !== "string" || !Array.isArray(document.optional_packs) ||

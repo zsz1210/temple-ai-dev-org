@@ -175,6 +175,27 @@ Read the returned whole mandatory bodies and the installed `temple-work` Lean ex
 
 Installed-template and CLI sandbox checks can verify routing, coverage and no-write behavior without model inference. They do not prove that every model will choose the route or understand the delivered instructions.
 
+## Optional task material (unreleased)
+
+`context enter --material task` adds a conservative, derived task view to the same eligible Lean entry. Omitting this option retains the existing stage packet. All original files are still checked for safety, freshness and authority before their representations are selected.
+
+- Known Agent and Assignment inventories retain complete records for the caller, recorded/handoff actors and current/handoff/next Positions. Rules, workflow, collaboration, usage, scope, specifications, risk and current handoff bodies remain complete.
+- Evidence referenced only by non-current `evaluation_report`, `independent_qa_pass` or `release_record` gates becomes a path/digest/size reference in Build/Test. It is not current gate evidence. Any additional route, specification or current requirement preserves the full body. Unknown categories remain full.
+- Unknown inventory shapes, ambiguous relations, recovery or non-smaller projections retain the original representation. An independently required full read always takes precedence, including requirements expressed in project prose that the CLI cannot infer.
+
+For already-read complete sources that remain available in this same context, `--available-whole-sources` accepts a JSON array of exact `path` and `sha256` records. The digest includes the `sha256:` prefix. This is a caller assertion, not a reading receipt; never generate it from filesystem hashes alone or carry it into a fresh/compacted context whose bodies are unavailable. Changed or missing sources do not disappear. Omit this option when unsure. A projected record cannot stand in for a whole-source acknowledgement.
+
+Task packets use `temple.context-packet/v4`; opted-in whole-source reuse on stage packets uses v3. Reference representations have null bodies and explicit reasons, retaining original provenance. Defaults remain v2. Measured body bytes are not model Tokens; no live efficiency advantage has been established.
+
+Example (substitute the actual eligible Work Item and Agent):
+
+```sh
+node ./templew.mjs context enter . --work-item WI-0001 \
+  --position developer --agent-id agent-builder --principal-id human \
+  --material task --no-write --json
+```
+
+See [ADR-0060](../adr/0060-task-material-and-proportionate-instructions.md).
 ## Retrieval evaluation
 
 Store bounded cases in project-owned JSON and run:

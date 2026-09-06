@@ -6,7 +6,7 @@ import path from "node:path";
 const limits = { command_bytes: 8192, arguments: 128, argument_bytes: 4096, actions: 32, line_count: 10000 };
 const operations = ["unknown", "pwd", "cat", "ls", "rg-search", "rg-files", "sed-print", "head", "tail", "git-status", "git-diff", "git-log", "git-show", "git-rev-parse", "git-current-branch", "git-ls-files", "git-add", "git-commit", "node-version", "product-tests-all", "product-tests-subset", "temple-help", "temple-context", "temple-context-compact", "temple-doctor", "temple-status", "temple-capability-find", "temple-capability-list", "temple-claim", "temple-release", "temple-handoff", "temple-deliver", "temple-transition-test", "temple-transition-done"];
 const rejectionRules = ["malformed-envelope", "malformed-actions", "invalid-context", "cwd-unavailable", "cwd-boundary", "command-size", "malformed-quoting", "shell-control", "shell-expansion", "shell-assignment", "unsupported-wrapper", "unsupported-command", "unsupported-option", "duplicate-option", "conflicting-options", "argument-shape", "path-boundary", "path-unavailable", "path-symlink", "git-write-scope", "revision-boundary", "test-command-boundary", "temple-arm-boundary", "temple-root-boundary", "temple-work-item-boundary", "temple-identity-boundary", "temple-principal-boundary", "temple-position-boundary", "temple-stage-boundary", "temple-evidence-boundary", "temple-decision-boundary", "policy-unavailable"];
-operations.push("temple-doctor-compact", "temple-status-compact");
+operations.push("temple-doctor-compact", "temple-status-compact", "temple-context-enter", "temple-finish");
 const guides = [
   { arms: ["ordinary", "temple"], stages: ["build", "verify"], text: "One literal command per call; optional /bin/zsh -lc 'COMMAND' wrapper, one layer. No substitution, chaining, redirects, scripts or assignments. Quote search text/messages. Read commands cat/ls/head/tail/sed may use one star in the final local filename component, for example cat test/*.test.mjs; every match must stay local without symlinks. The exact test glob below is also supported." },
   { arms: ["ordinary", "temple"], stages: ["build", "verify"], text: "Read: pwd; cat [-n] [--] PATH...; ls [-l|-a|-h|-d|-1|-la|-al|-lah|-alh|-lh] [PATH...]; rg [-n] [-i] [-F] [-l] [--hidden] [-g GLOB] [-e PATTERN] [--] PATTERN PATH...; rg --files [--hidden] [-g GLOB] [PATH...]. -e supplies the pattern instead of a positional pattern; quote GLOB filters. Paths must stay inside this repository." },
@@ -28,7 +28,16 @@ export const commandPolicyContract = freeze({
   argument_roles: ["option", "local-path", "search-pattern", "glob-filter", "print-expression", "line-count", "git-revision", "exact-revision", "commit-message", "test-path", "launcher", "work-item", "position", "agent-identity", "principal", "branch", "evidence-reference", "lifecycle-destination", "literal-text", "operation-id", "claim-id", "plan-digest"],
   guides
 });
-export function commandGuide({ arm, stage }) { return guides.filter(row => row.arms.includes(arm) && row.stages.includes(stage)).map(row => row.text).join("\n"); }
+export function commandGuide({ arm, stage }) {
+  const rows = guides.filter(row => row.arms.includes(arm) && row.stages.includes(stage) && !row.text.startsWith("Builder delivery:") && !row.text.startsWith("Verifier closeout:"));
+  const extra = arm === "temple" ? [
+    "Bounded entry: node ./templew.mjs context enter . --work-item WI-0001 --position POSITION --agent-id AGENT --principal-id human --no-write --json.",
+    stage === "build" ? "Finish: node ./templew.mjs work-item finish . --work-item WI-0001 --position developer --operation-id finish-build-v8 --claim-id CURRENT_CLAIM_ID --agent-id agent-builder --principal-id human --revision CANDIDATE_FULL_SHA --completed 'TEXT' --evidence DELIVERY.json --json." :
+    "Finish on acceptance: node ./templew.mjs work-item finish . --work-item WI-0001 --position quality_evaluator --operation-id finish-verify-v8 --claim-id CURRENT_CLAIM_ID --agent-id agent-verifier --principal-id human --revision CANDIDATE_FULL_SHA --judgment pass --test-evidence VERIFICATION.json --lean-closeout VERIFICATION.json --json.",
+    "Optional finish --dry-run and --expected-plan 64_HEX_DIGEST are supported. A preview alone does not complete the stage. Inspect full finish mutation and diagnostics results."
+  ] : [];
+  return [...rows.map(row => row.text), ...extra].join("\n");
+}
 
 class PolicyFailure extends Error { constructor(rule) { super(rule); this.rule = rule; } }
 function need(condition, rule) { if (!condition) throw new PolicyFailure(rule); }
@@ -202,7 +211,13 @@ function gitCommand(args, state, context) {
   // from arbitrary revision expressions or permit pathspec magic.
   const divider = args.indexOf("--"), prefix = divider < 0 ? args : args.slice(0, divider), suffix = divider < 0 ? [] : args.slice(divider + 1);
   const { found, rest } = options(prefix, definitions, state);
-  if (divider >= 0) { role(state, "option"); need(suffix.length > 0 && !suffix.includes("--"), "argument-shape"); paths(suffix, state, context, true); }
+  if (divider >= 0) {
+    role(state, "option"); need(!suffix.includes("--"), "argument-shape");
+    // For these already allowlisted read operations, a trailing separator with
+    // no pathspec means the same repository scope as omitting the separator.
+    // Nonempty pathspecs still pass the existing containment restrictions.
+    if (suffix.length) paths(suffix, state, context, true);
+  }
   if (found.has("count")) need(count(found.get("count")), "argument-shape");
   need(["--stat", "--name-only", "--name-status", "--check"].filter(key => found.has(key)).length <= 1, "conflicting-options");
   need(!(found.has("short") && found.has("porcelain")), "conflicting-options");
@@ -214,14 +229,16 @@ function exact(found, key, value, rule) { need(found.get(key) === value, rule); 
 function templeCommand(args, state, context) {
   state.family = "temple"; role(state, "launcher");
   need(context.arm === "temple", "temple-arm-boundary"); need(context.cwd === context.root, "temple-root-boundary"); safePath("./templew.mjs", context);
-  const helpTopics = ["context", "context resolve", "doctor", "status", "capability", "capability find", "capability list", "work-item", "work-item claim", "work-item release", "work-item deliver", "handoff", "transition"];
+  const helpTopics = ["context enter", "work-item finish", "context", "context resolve", "doctor", "status", "capability", "capability find", "capability list", "work-item", "work-item claim", "work-item release", "work-item deliver", "handoff", "transition"];
   if ((args.length === 1 && ["help", "--help"].includes(args[0])) || (args.at(-1) === "--help" && helpTopics.includes(args.slice(0, -1).join(" ")))) { state.operation = "temple-help"; return; }
   let name = args.shift(); if (["context", "capability", "work-item"].includes(name)) name += ` ${args.shift()}`;
-  const mapping = { "context resolve": "temple-context", doctor: "temple-doctor", status: "temple-status", "capability find": "temple-capability-find", "capability list": "temple-capability-list", "work-item claim": "temple-claim", "work-item release": "temple-release", "work-item deliver": "temple-deliver", handoff: "temple-handoff", transition: context.stage === "build" ? "temple-transition-test" : "temple-transition-done" };
+  const mapping = { "context enter": "temple-context-enter", "work-item finish": "temple-finish", "context resolve": "temple-context", doctor: "temple-doctor", status: "temple-status", "capability find": "temple-capability-find", "capability list": "temple-capability-list", "work-item claim": "temple-claim", "work-item release": "temple-release", "work-item deliver": "temple-deliver", handoff: "temple-handoff", transition: context.stage === "build" ? "temple-transition-test" : "temple-transition-done" };
   need(Object.hasOwn(mapping, name), "unsupported-command"); state.operation = mapping[name];
   need(args.shift() === ".", "temple-root-boundary"); role(state, "local-path");
   const wi = { "--work-item": ["work-item", "work-item"] }, identity = { "--agent-id": ["agent", "agent-identity"], "--principal-id": ["principal", "principal"] }, json = { "--json": ["json"] };
   const definitions = {
+    "context enter": { ...wi, ...identity, ...json, "--position": ["position", "position"], "--no-write": ["no-write"], ...(context.contextMaterial === true ? { "--material": ["material", "literal-text"], "--available-whole-sources": ["available", "literal-text"] } : {}) },
+    "work-item finish": { ...wi, ...identity, ...json, "--position": ["position", "position"], "--operation-id": ["operation", "operation-id"], "--claim-id": ["claim", "claim-id"], "--revision": ["revision", "exact-revision"], "--completed": ["completed", "literal-text"], "--evidence": ["evidence", "evidence-reference"], "--judgment": ["judgment", "literal-text"], "--test-evidence": ["test-evidence", "evidence-reference"], "--lean-closeout": ["lean-closeout", "evidence-reference"], "--dry-run": ["dry-run"], "--expected-plan": ["plan", "plan-digest"] },
     "context resolve": { ...wi, ...json, "--position": ["position", "position"], "--no-write": ["no-write"], "--compact": ["compact"] },
     doctor: { ...json, "--compact": ["compact"] }, status: { ...wi, ...json, "--no-write": ["no-write"], "--compact": ["compact"] },
     "capability list": json,
@@ -239,6 +256,42 @@ function templeCommand(args, state, context) {
   if (name === "context resolve") {
     exact(found, "position", position, "temple-position-boundary"); exact(found, "no-write", true, "unsupported-option");
     if (found.has("compact")) { exact(found, "json", true, "unsupported-option"); state.operation = "temple-context-compact"; }
+  }
+  if (name === "context enter" || name === "work-item finish") {
+    exact(found, "position", position, "temple-position-boundary");
+    exact(found, "agent", agent, "temple-identity-boundary");
+    exact(found, "principal", "human", "temple-principal-boundary");
+    exact(found, "json", true, "unsupported-option");
+    if (name === "context enter") {
+      exact(found, "no-write", true, "unsupported-option");
+      if (found.has("material")) exact(found, "material", "task", "unsupported-option");
+      if (found.has("available")) {
+        let rows; try { rows = JSON.parse(found.get("available")); } catch { need(false, "argument-shape"); }
+        need(Array.isArray(rows) && rows.length <= 2 && rows.every(row => row && Object.keys(row).sort().join() === "path,sha256" && ["AGENTS.md", "TEMPLE.md"].includes(row.path) && typeof row.sha256 === "string" && /^sha256:[a-f0-9]{64}$/.test(row.sha256)) && new Set(rows.map(row => row.path)).size === rows.length, "argument-shape");
+      }
+    }
+    else {
+      exact(found, "claim", context.expectedClaimId, "temple-claim-boundary");
+      need(/^claim-[a-zA-Z0-9-]{1,100}$/.test(context.expectedClaimId ?? ""), "temple-claim-boundary");
+      need(/^[a-f0-9]{40}$/.test(context.expectedCandidateRevision ?? ""), "revision-boundary");
+      exact(found, "revision", context.expectedCandidateRevision, "revision-boundary");
+      need(/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$/.test(found.get("operation") ?? ""), "argument-shape");
+      if (found.has("plan")) need(/^[a-f0-9]{64}$/.test(found.get("plan")), "argument-shape");
+      state.dry_run = found.has("dry-run");
+      if (context.stage === "build") {
+        exact(found, "evidence", "DELIVERY.json", "temple-evidence-boundary");
+        safePath("DELIVERY.json", context);
+        need(typeof found.get("completed") === "string" && found.get("completed").length > 0, "argument-shape");
+        need(!["judgment", "test-evidence", "lean-closeout"].some(k => found.has(k)), "unsupported-option");
+      } else {
+        exact(found, "judgment", "pass", "temple-decision-boundary");
+        need(context.verificationDecision === "accept", "temple-decision-boundary");
+        exact(found, "test-evidence", "VERIFICATION.json", "temple-evidence-boundary");
+        exact(found, "lean-closeout", "VERIFICATION.json", "temple-evidence-boundary");
+        safePath("VERIFICATION.json", context);
+        need(!found.has("completed") && !found.has("evidence"), "unsupported-option");
+      }
+    }
   }
   if (name === "doctor" && found.has("compact")) state.operation = "temple-doctor-compact";
   if (name === "status") {

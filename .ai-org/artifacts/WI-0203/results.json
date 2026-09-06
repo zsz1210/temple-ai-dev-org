@@ -1,0 +1,1854 @@
+{
+  "schema_version": "temple.compact-comparison-analysis/v1",
+  "work_item_id": "WI-0203",
+  "matrix_sha256": "sha256:08741a5f4cf443986a61b0840db42dba212f4570f30c2dadc5b7c349826f164d",
+  "source_sha256": "sha256:c4c7e1192717dd0780d6a1bb0d070532e4e3718403f71558376ce93e757f3ff2",
+  "approval_sha256": "sha256:f38b88d075dfe67b8531bd04d06a0bf82a0420bf8827c6c2cd99fdb859f8cfc7",
+  "matrix_status": "completed",
+  "stop_reason": null,
+  "observed_operational_tokens": 405999,
+  "observed_stage_turns": 8,
+  "planned_stage_turns": 8,
+  "elapsed_ms": 1046581,
+  "pairs": [
+    {
+      "id": "terra-ordinary-first",
+      "model": "gpt-5.6-terra",
+      "order": [
+        "ordinary",
+        "temple"
+      ],
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "stop_reason": null,
+      "efficiency_comparable": true,
+      "operational_tokens": 192898,
+      "elapsed_ms": 498135,
+      "subject_turn_requests": 4,
+      "usage_complete": true,
+      "provider_cli_version": "codex-cli 0.153.1",
+      "node_version": "v24.20.0",
+      "model_release_revision": null,
+      "process_contract_sha256": "sha256:5534554a64fd0531814acc6691acdd51d4db8fae57a79eb2c59d5ecd9c7c5301",
+      "arms": {
+        "ordinary": {
+          "setup_elapsed_ms": 89,
+          "setup_artifact_bytes": 3068,
+          "completed_stages": 2,
+          "observed_stage_elapsed_ms": 219111,
+          "coordinator_validation_ms": 373,
+          "operational_tokens": 67959
+        },
+        "temple": {
+          "setup_elapsed_ms": 1712,
+          "setup_artifact_bytes": 360880,
+          "completed_stages": 2,
+          "observed_stage_elapsed_ms": 277991,
+          "coordinator_validation_ms": 396,
+          "operational_tokens": 124939
+        }
+      },
+      "seal": {
+        "run_sha256": "sha256:fa82d41662e28f46f016a43b44950c46af4e5912e57e00d60ef1299d6c913070",
+        "artifact_sha256": "sha256:73b3e588c7f724f1354f70be5b6fef56887f026565fb65e1f5fa6db8a6036ad3",
+        "verified": true
+      },
+      "stages": [
+        {
+          "arm": "ordinary",
+          "stage": "build",
+          "status": "completed",
+          "stop_reason": null,
+          "requested_model": "gpt-5.6-terra",
+          "acknowledged_model": "gpt-5.6-terra",
+          "model_acknowledgement_basis": "direct-response-field",
+          "requested_effort": "medium",
+          "observed_thread_effort": "medium",
+          "effective_turn_effort": null,
+          "usage": {
+            "input_tokens": 355801,
+            "cached_input_tokens": 321536,
+            "output_tokens": 4997,
+            "reasoning_output_tokens": 692,
+            "total_tokens": 360798,
+            "non_cached_input_tokens": 34265,
+            "operational_tokens": 39262
+          },
+          "usage_finality": "last-observed-not-account-final",
+          "total_elapsed_ms": 148007,
+          "turn_elapsed_ms": 147823,
+          "quality_passed": true,
+          "quality_reason": null,
+          "candidate_revision": "ccaa417c17cc96eebe4c50a3fa4db5f6f9ba9de3",
+          "completion_agreement": {
+            "evidence_matches": true,
+            "summary_matches": false
+          },
+          "workflow": null,
+          "treatment": null,
+          "public_tests": {
+            "exit_code": 0,
+            "output_sha256": "sha256:4e869731f03b55ac1be5b8c524fabdec4b1f736416361775fcfb9bc14ea31bbd",
+            "elapsed_ms": 79
+          },
+          "oracle": {
+            "exit_code": 0,
+            "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+            "elapsed_ms": 29
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "operations": {
+            "pwd": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 92,
+              "output_bytes_complete": true
+            },
+            "cat": {
+              "completed": 4,
+              "succeeded": 4,
+              "reported_output_bytes": 3068,
+              "output_bytes_complete": true
+            },
+            "ls": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 515,
+              "output_bytes_complete": true
+            },
+            "product-tests-all": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 1016,
+              "output_bytes_complete": true
+            },
+            "git-diff": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 346,
+              "output_bytes_complete": true
+            },
+            "git-add": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 0,
+              "output_bytes_complete": false
+            },
+            "git-commit": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 142,
+              "output_bytes_complete": true
+            },
+            "git-rev-parse": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 41,
+              "output_bytes_complete": true
+            },
+            "git-status": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 31,
+              "output_bytes_complete": true
+            }
+          },
+          "cost_breakdown": {
+            "categories": {
+              "context-and-exploration": {
+                "completed": 6,
+                "observed_elapsed_ms": 4,
+                "elapsed_complete": true,
+                "output_bytes": 3675,
+                "output_complete": true
+              },
+              "implementation-patches": {
+                "completed": 2,
+                "observed_elapsed_ms": 275,
+                "elapsed_complete": true,
+                "output_bytes": 0,
+                "output_complete": false
+              },
+              "product-tests": {
+                "completed": 2,
+                "observed_elapsed_ms": 2,
+                "elapsed_complete": true,
+                "output_bytes": 1016,
+                "output_complete": true
+              },
+              "git": {
+                "completed": 5,
+                "observed_elapsed_ms": 1014,
+                "elapsed_complete": true,
+                "output_bytes": 560,
+                "output_complete": false
+              }
+            },
+            "repeated_command_completions": 1,
+            "inference_token_attribution": "unavailable",
+            "duration_basis": "observed item start-to-completion; overlapping durations may not sum to wall time",
+            "repetition_basis": "same-command hash only; no claim of same-state redundancy"
+          },
+          "command_started_count": 13,
+          "command_completed_count": 13,
+          "unmatched_command_starts": 0,
+          "unmatched_patch_starts": 0,
+          "command_timeline": [
+            {
+              "operation": "pwd",
+              "exit_code": 0,
+              "output_bytes": 92
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 319
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 1726
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 236
+            },
+            {
+              "operation": "ls",
+              "exit_code": 0,
+              "output_bytes": 515
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 787
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 510
+            },
+            {
+              "operation": "git-diff",
+              "exit_code": 0,
+              "output_bytes": 346
+            },
+            {
+              "operation": "git-add",
+              "exit_code": 0,
+              "output_bytes": null
+            },
+            {
+              "operation": "git-commit",
+              "exit_code": 0,
+              "output_bytes": 142
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 506
+            },
+            {
+              "operation": "git-status",
+              "exit_code": 0,
+              "output_bytes": 31
+            }
+          ]
+        },
+        {
+          "arm": "ordinary",
+          "stage": "verify",
+          "status": "completed",
+          "stop_reason": null,
+          "requested_model": "gpt-5.6-terra",
+          "acknowledged_model": "gpt-5.6-terra",
+          "model_acknowledgement_basis": "direct-response-field",
+          "requested_effort": "medium",
+          "observed_thread_effort": "medium",
+          "effective_turn_effort": null,
+          "usage": {
+            "input_tokens": 214076,
+            "cached_input_tokens": 186880,
+            "output_tokens": 1501,
+            "reasoning_output_tokens": 377,
+            "total_tokens": 215577,
+            "non_cached_input_tokens": 27196,
+            "operational_tokens": 28697
+          },
+          "usage_finality": "last-observed-not-account-final",
+          "total_elapsed_ms": 71104,
+          "turn_elapsed_ms": 70905,
+          "quality_passed": true,
+          "quality_reason": null,
+          "candidate_revision": "ccaa417c17cc96eebe4c50a3fa4db5f6f9ba9de3",
+          "completion_agreement": {
+            "evidence_matches": true,
+            "summary_matches": true
+          },
+          "workflow": null,
+          "treatment": null,
+          "public_tests": {
+            "exit_code": 0,
+            "output_sha256": "sha256:0ee58c984a4e4c59ae3b3ce430f23c1d4ab62073bc1ca41898bd29978c4d2edb",
+            "elapsed_ms": 80
+          },
+          "oracle": {
+            "exit_code": 0,
+            "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+            "elapsed_ms": 29
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "operations": {
+            "pwd": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 92,
+              "output_bytes_complete": true
+            },
+            "cat": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 8471,
+              "output_bytes_complete": true
+            },
+            "git-rev-parse": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 428,
+              "output_bytes_complete": true
+            },
+            "git-status": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 31,
+              "output_bytes_complete": true
+            },
+            "git-show": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 383,
+              "output_bytes_complete": true
+            },
+            "product-tests-all": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 1014,
+              "output_bytes_complete": true
+            }
+          },
+          "cost_breakdown": {
+            "categories": {
+              "context-and-exploration": {
+                "completed": 3,
+                "observed_elapsed_ms": 2,
+                "elapsed_complete": true,
+                "output_bytes": 8563,
+                "output_complete": true
+              },
+              "git": {
+                "completed": 4,
+                "observed_elapsed_ms": 823,
+                "elapsed_complete": true,
+                "output_bytes": 842,
+                "output_complete": true
+              },
+              "product-tests": {
+                "completed": 2,
+                "observed_elapsed_ms": 1,
+                "elapsed_complete": true,
+                "output_bytes": 1014,
+                "output_complete": true
+              },
+              "implementation-patches": {
+                "completed": 1,
+                "observed_elapsed_ms": 83,
+                "elapsed_complete": true,
+                "output_bytes": 0,
+                "output_complete": false
+              }
+            },
+            "repeated_command_completions": 1,
+            "inference_token_attribution": "unavailable",
+            "duration_basis": "observed item start-to-completion; overlapping durations may not sum to wall time",
+            "repetition_basis": "same-command hash only; no claim of same-state redundancy"
+          },
+          "command_started_count": 9,
+          "command_completed_count": 9,
+          "unmatched_command_starts": 0,
+          "unmatched_patch_starts": 0,
+          "command_timeline": [
+            {
+              "operation": "pwd",
+              "exit_code": 0,
+              "output_bytes": 92
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 3050
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 387
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "git-status",
+              "exit_code": 0,
+              "output_bytes": 31
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 5421
+            },
+            {
+              "operation": "git-show",
+              "exit_code": 0,
+              "output_bytes": 383
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 510
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 504
+            }
+          ]
+        },
+        {
+          "arm": "temple",
+          "stage": "build",
+          "status": "completed",
+          "stop_reason": null,
+          "requested_model": "gpt-5.6-terra",
+          "acknowledged_model": "gpt-5.6-terra",
+          "model_acknowledgement_basis": "direct-response-field",
+          "requested_effort": "medium",
+          "observed_thread_effort": "medium",
+          "effective_turn_effort": null,
+          "usage": {
+            "input_tokens": 822230,
+            "cached_input_tokens": 762368,
+            "output_tokens": 5638,
+            "reasoning_output_tokens": 1043,
+            "total_tokens": 827868,
+            "non_cached_input_tokens": 59862,
+            "operational_tokens": 65500
+          },
+          "usage_finality": "last-observed-not-account-final",
+          "total_elapsed_ms": 178068,
+          "turn_elapsed_ms": 177866,
+          "quality_passed": true,
+          "quality_reason": null,
+          "candidate_revision": "a4bc4512315b3b4be5eac8406b88b7e43e565362",
+          "completion_agreement": {
+            "evidence_matches": true,
+            "summary_matches": false
+          },
+          "workflow": {
+            "observed_state": "test",
+            "expected_state": "test",
+            "exact_handoff": true,
+            "claim_status": "released",
+            "claim_agent_id": "agent-builder",
+            "pass": true
+          },
+          "treatment": {
+            "bounded_entry_observed": true,
+            "current_finish_observed": true,
+            "compact_context_observed": true,
+            "composed_delivery_observed": true,
+            "post_mutation_compact_status_observed": false,
+            "post_mutation_compact_doctor_observed": false,
+            "pass": true,
+            "basis": "successful-observed-commands-and-verified-lifecycle; not-inferred-from-prompt"
+          },
+          "public_tests": {
+            "exit_code": 0,
+            "output_sha256": "sha256:01290dd9ac7f610fc366072b2261094d92a6452eeeb2de74ec016e3838d1fca0",
+            "elapsed_ms": 75
+          },
+          "oracle": {
+            "exit_code": 0,
+            "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+            "elapsed_ms": 29
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "operations": {
+            "cat": {
+              "completed": 3,
+              "succeeded": 3,
+              "reported_output_bytes": 56336,
+              "output_bytes_complete": true
+            },
+            "temple-context-enter": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 103071,
+              "output_bytes_complete": true
+            },
+            "git-rev-parse": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 82,
+              "output_bytes_complete": true
+            },
+            "git-current-branch": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 5,
+              "output_bytes_complete": true
+            },
+            "temple-claim": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 141,
+              "output_bytes_complete": true
+            },
+            "ls": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 944,
+              "output_bytes_complete": true
+            },
+            "product-tests-all": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 986,
+              "output_bytes_complete": true
+            },
+            "git-diff": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 0,
+              "output_bytes_complete": false
+            },
+            "git-add": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 0,
+              "output_bytes_complete": false
+            },
+            "git-commit": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 143,
+              "output_bytes_complete": true
+            },
+            "temple-finish": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 3289,
+              "output_bytes_complete": true
+            }
+          },
+          "cost_breakdown": {
+            "categories": {
+              "context-and-exploration": {
+                "completed": 5,
+                "observed_elapsed_ms": 1309,
+                "elapsed_complete": true,
+                "output_bytes": 160351,
+                "output_complete": true
+              },
+              "git": {
+                "completed": 6,
+                "observed_elapsed_ms": 2,
+                "elapsed_complete": true,
+                "output_bytes": 230,
+                "output_complete": false
+              },
+              "lifecycle-and-diagnostics": {
+                "completed": 2,
+                "observed_elapsed_ms": 778,
+                "elapsed_complete": true,
+                "output_bytes": 3430,
+                "output_complete": true
+              },
+              "implementation-patches": {
+                "completed": 2,
+                "observed_elapsed_ms": 257,
+                "elapsed_complete": true,
+                "output_bytes": 0,
+                "output_complete": false
+              },
+              "product-tests": {
+                "completed": 2,
+                "observed_elapsed_ms": 2,
+                "elapsed_complete": true,
+                "output_bytes": 986,
+                "output_complete": true
+              }
+            },
+            "repeated_command_completions": 2,
+            "inference_token_attribution": "unavailable",
+            "duration_basis": "observed item start-to-completion; overlapping durations may not sum to wall time",
+            "repetition_basis": "same-command hash only; no claim of same-state redundancy"
+          },
+          "command_started_count": 15,
+          "command_completed_count": 15,
+          "unmatched_command_starts": 0,
+          "unmatched_patch_starts": 0,
+          "command_timeline": [
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 20188
+            },
+            {
+              "operation": "temple-context-enter",
+              "exit_code": 0,
+              "output_bytes": 103071
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 35493
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "git-current-branch",
+              "exit_code": 0,
+              "output_bytes": 5
+            },
+            {
+              "operation": "temple-claim",
+              "exit_code": 0,
+              "output_bytes": 141
+            },
+            {
+              "operation": "ls",
+              "exit_code": 0,
+              "output_bytes": 944
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 655
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 497
+            },
+            {
+              "operation": "git-diff",
+              "exit_code": 0,
+              "output_bytes": null
+            },
+            {
+              "operation": "git-add",
+              "exit_code": 0,
+              "output_bytes": null
+            },
+            {
+              "operation": "git-commit",
+              "exit_code": 0,
+              "output_bytes": 143
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 489
+            },
+            {
+              "operation": "temple-finish",
+              "exit_code": 0,
+              "output_bytes": 3289
+            }
+          ]
+        },
+        {
+          "arm": "temple",
+          "stage": "verify",
+          "status": "completed",
+          "stop_reason": null,
+          "requested_model": "gpt-5.6-terra",
+          "acknowledged_model": "gpt-5.6-terra",
+          "model_acknowledgement_basis": "direct-response-field",
+          "requested_effort": "medium",
+          "observed_thread_effort": "medium",
+          "effective_turn_effort": null,
+          "usage": {
+            "input_tokens": 624952,
+            "cached_input_tokens": 567552,
+            "output_tokens": 2039,
+            "reasoning_output_tokens": 723,
+            "total_tokens": 626991,
+            "non_cached_input_tokens": 57400,
+            "operational_tokens": 59439
+          },
+          "usage_finality": "last-observed-not-account-final",
+          "total_elapsed_ms": 99923,
+          "turn_elapsed_ms": 99713,
+          "quality_passed": true,
+          "quality_reason": null,
+          "candidate_revision": "a4bc4512315b3b4be5eac8406b88b7e43e565362",
+          "completion_agreement": {
+            "evidence_matches": true,
+            "summary_matches": false
+          },
+          "workflow": {
+            "observed_state": "done",
+            "expected_state": "done",
+            "exact_handoff": true,
+            "claim_status": "released",
+            "claim_agent_id": "agent-verifier",
+            "pass": true
+          },
+          "treatment": {
+            "bounded_entry_observed": true,
+            "current_finish_observed": true,
+            "compact_context_observed": true,
+            "composed_delivery_observed": null,
+            "post_mutation_compact_status_observed": false,
+            "post_mutation_compact_doctor_observed": false,
+            "pass": true,
+            "basis": "successful-observed-commands-and-verified-lifecycle; not-inferred-from-prompt"
+          },
+          "public_tests": {
+            "exit_code": 0,
+            "output_sha256": "sha256:92f78cb49b28b51169cfc9b5f20350265abd7c057bbec502d810a4c0e2b3bf67",
+            "elapsed_ms": 76
+          },
+          "oracle": {
+            "exit_code": 0,
+            "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+            "elapsed_ms": 30
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "operations": {
+            "cat": {
+              "completed": 6,
+              "succeeded": 6,
+              "reported_output_bytes": 62323,
+              "output_bytes_complete": true
+            },
+            "temple-context-enter": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 94787,
+              "output_bytes_complete": true
+            },
+            "git-rev-parse": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 41,
+              "output_bytes_complete": true
+            },
+            "git-status": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 189,
+              "output_bytes_complete": true
+            },
+            "git-show": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 379,
+              "output_bytes_complete": true
+            },
+            "temple-claim": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 142,
+              "output_bytes_complete": true
+            },
+            "product-tests-all": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 992,
+              "output_bytes_complete": true
+            },
+            "temple-finish": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 3219,
+              "output_bytes_complete": true
+            }
+          },
+          "cost_breakdown": {
+            "categories": {
+              "context-and-exploration": {
+                "completed": 7,
+                "observed_elapsed_ms": 1307,
+                "elapsed_complete": true,
+                "output_bytes": 157110,
+                "output_complete": true
+              },
+              "git": {
+                "completed": 3,
+                "observed_elapsed_ms": 0,
+                "elapsed_complete": true,
+                "output_bytes": 609,
+                "output_complete": true
+              },
+              "lifecycle-and-diagnostics": {
+                "completed": 2,
+                "observed_elapsed_ms": 732,
+                "elapsed_complete": true,
+                "output_bytes": 3361,
+                "output_complete": true
+              },
+              "product-tests": {
+                "completed": 2,
+                "observed_elapsed_ms": 1,
+                "elapsed_complete": true,
+                "output_bytes": 992,
+                "output_complete": true
+              },
+              "implementation-patches": {
+                "completed": 1,
+                "observed_elapsed_ms": 83,
+                "elapsed_complete": true,
+                "output_bytes": 0,
+                "output_complete": false
+              }
+            },
+            "repeated_command_completions": 1,
+            "inference_token_attribution": "unavailable",
+            "duration_basis": "observed item start-to-completion; overlapping durations may not sum to wall time",
+            "repetition_basis": "same-command hash only; no claim of same-state redundancy"
+          },
+          "command_started_count": 14,
+          "command_completed_count": 14,
+          "unmatched_command_starts": 0,
+          "unmatched_patch_starts": 0,
+          "command_timeline": [
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 6613
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 13575
+            },
+            {
+              "operation": "temple-context-enter",
+              "exit_code": 0,
+              "output_bytes": 94787
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 8195
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 18742
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 10962
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "git-status",
+              "exit_code": 0,
+              "output_bytes": 189
+            },
+            {
+              "operation": "git-show",
+              "exit_code": 0,
+              "output_bytes": 379
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 4236
+            },
+            {
+              "operation": "temple-claim",
+              "exit_code": 0,
+              "output_bytes": 142
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 495
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 497
+            },
+            {
+              "operation": "temple-finish",
+              "exit_code": 0,
+              "output_bytes": 3219
+            }
+          ]
+        }
+      ],
+      "comparison": {
+        "operational_tokens": {
+          "ordinary": 67959,
+          "temple": 124939,
+          "difference": 56980,
+          "percent": 83.84467105166351
+        },
+        "stage_elapsed_ms": {
+          "ordinary": 219111,
+          "temple": 277991,
+          "difference": 58880,
+          "percent": 26.872224580235592
+        }
+      }
+    },
+    {
+      "id": "gpt6-temple-first",
+      "model": "gpt-6-astra",
+      "order": [
+        "temple",
+        "ordinary"
+      ],
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "stop_reason": null,
+      "efficiency_comparable": true,
+      "operational_tokens": 213101,
+      "elapsed_ms": 548192,
+      "subject_turn_requests": 4,
+      "usage_complete": true,
+      "provider_cli_version": "codex-cli 0.153.1",
+      "node_version": "v24.20.0",
+      "model_release_revision": null,
+      "process_contract_sha256": "sha256:5534554a64fd0531814acc6691acdd51d4db8fae57a79eb2c59d5ecd9c7c5301",
+      "arms": {
+        "temple": {
+          "setup_elapsed_ms": 1728,
+          "setup_artifact_bytes": 360880,
+          "completed_stages": 2,
+          "observed_stage_elapsed_ms": 309208,
+          "coordinator_validation_ms": 378,
+          "operational_tokens": 118095
+        },
+        "ordinary": {
+          "setup_elapsed_ms": 84,
+          "setup_artifact_bytes": 3068,
+          "completed_stages": 2,
+          "observed_stage_elapsed_ms": 237992,
+          "coordinator_validation_ms": 369,
+          "operational_tokens": 95006
+        }
+      },
+      "seal": {
+        "run_sha256": "sha256:a7bbdb15d3798e4498a894c4a6a9252aa55adf07444ff652f241c561d7487aa4",
+        "artifact_sha256": "sha256:117688ea84de4f7e0e4cff5fa70c8d4d56384a66a61d9e56025f5b35adc33a41",
+        "verified": true
+      },
+      "stages": [
+        {
+          "arm": "temple",
+          "stage": "build",
+          "status": "completed",
+          "stop_reason": null,
+          "requested_model": "gpt-6-astra",
+          "acknowledged_model": "gpt-6-astra",
+          "model_acknowledgement_basis": "direct-response-field",
+          "requested_effort": "medium",
+          "observed_thread_effort": "medium",
+          "effective_turn_effort": null,
+          "usage": {
+            "input_tokens": 1050075,
+            "cached_input_tokens": 988032,
+            "output_tokens": 3091,
+            "reasoning_output_tokens": 20,
+            "total_tokens": 1053166,
+            "non_cached_input_tokens": 62043,
+            "operational_tokens": 65134
+          },
+          "usage_finality": "last-observed-not-account-final",
+          "total_elapsed_ms": 200794,
+          "turn_elapsed_ms": 200618,
+          "quality_passed": true,
+          "quality_reason": null,
+          "candidate_revision": "c1f2dec4776a5931138576fbfe9c96e4d7092853",
+          "completion_agreement": {
+            "evidence_matches": true,
+            "summary_matches": false
+          },
+          "workflow": {
+            "observed_state": "test",
+            "expected_state": "test",
+            "exact_handoff": true,
+            "claim_status": "released",
+            "claim_agent_id": "agent-builder",
+            "pass": true
+          },
+          "treatment": {
+            "bounded_entry_observed": true,
+            "current_finish_observed": true,
+            "compact_context_observed": true,
+            "composed_delivery_observed": true,
+            "post_mutation_compact_status_observed": false,
+            "post_mutation_compact_doctor_observed": false,
+            "pass": true,
+            "basis": "successful-observed-commands-and-verified-lifecycle; not-inferred-from-prompt"
+          },
+          "public_tests": {
+            "exit_code": 0,
+            "output_sha256": "sha256:11bf4adbc66109b66b418fe5020e900b4ce10c6d6ba9a80ed02560237480d552",
+            "elapsed_ms": 77
+          },
+          "oracle": {
+            "exit_code": 0,
+            "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+            "elapsed_ms": 28
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "operations": {
+            "cat": {
+              "completed": 5,
+              "succeeded": 5,
+              "reported_output_bytes": 73872,
+              "output_bytes_complete": true
+            },
+            "temple-context-enter": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 103071,
+              "output_bytes_complete": true
+            },
+            "git-status": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 8,
+              "output_bytes_complete": true
+            },
+            "git-rev-parse": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 82,
+              "output_bytes_complete": true
+            },
+            "temple-claim": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 141,
+              "output_bytes_complete": true
+            },
+            "product-tests-all": {
+              "completed": 3,
+              "succeeded": 2,
+              "reported_output_bytes": 3080,
+              "output_bytes_complete": true
+            },
+            "git-diff": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 0,
+              "output_bytes_complete": false
+            },
+            "git-add": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 0,
+              "output_bytes_complete": false
+            },
+            "git-commit": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 177,
+              "output_bytes_complete": true
+            },
+            "temple-finish": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 3286,
+              "output_bytes_complete": true
+            }
+          },
+          "cost_breakdown": {
+            "categories": {
+              "context-and-exploration": {
+                "completed": 6,
+                "observed_elapsed_ms": 1130,
+                "elapsed_complete": true,
+                "output_bytes": 176943,
+                "output_complete": true
+              },
+              "git": {
+                "completed": 6,
+                "observed_elapsed_ms": 2,
+                "elapsed_complete": true,
+                "output_bytes": 267,
+                "output_complete": false
+              },
+              "lifecycle-and-diagnostics": {
+                "completed": 2,
+                "observed_elapsed_ms": 692,
+                "elapsed_complete": true,
+                "output_bytes": 3427,
+                "output_complete": true
+              },
+              "implementation-patches": {
+                "completed": 3,
+                "observed_elapsed_ms": 327,
+                "elapsed_complete": true,
+                "output_bytes": 0,
+                "output_complete": false
+              },
+              "product-tests": {
+                "completed": 3,
+                "observed_elapsed_ms": 1,
+                "elapsed_complete": true,
+                "output_bytes": 3080,
+                "output_complete": true
+              }
+            },
+            "repeated_command_completions": 3,
+            "inference_token_attribution": "unavailable",
+            "duration_basis": "observed item start-to-completion; overlapping durations may not sum to wall time",
+            "repetition_basis": "same-command hash only; no claim of same-state redundancy"
+          },
+          "command_started_count": 17,
+          "command_completed_count": 17,
+          "unmatched_command_starts": 0,
+          "unmatched_patch_starts": 0,
+          "command_timeline": [
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 20188
+            },
+            {
+              "operation": "temple-context-enter",
+              "exit_code": 0,
+              "output_bytes": 103071
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 23287
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 8832
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 20350
+            },
+            {
+              "operation": "git-status",
+              "exit_code": 0,
+              "output_bytes": 8
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 1215
+            },
+            {
+              "operation": "temple-claim",
+              "exit_code": 0,
+              "output_bytes": 141
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 1,
+              "output_bytes": 1611
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 732
+            },
+            {
+              "operation": "git-diff",
+              "exit_code": 0,
+              "output_bytes": null
+            },
+            {
+              "operation": "git-add",
+              "exit_code": 0,
+              "output_bytes": null
+            },
+            {
+              "operation": "git-commit",
+              "exit_code": 0,
+              "output_bytes": 177
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 737
+            },
+            {
+              "operation": "temple-finish",
+              "exit_code": 0,
+              "output_bytes": 3286
+            }
+          ]
+        },
+        {
+          "arm": "temple",
+          "stage": "verify",
+          "status": "completed",
+          "stop_reason": null,
+          "requested_model": "gpt-6-astra",
+          "acknowledged_model": "gpt-6-astra",
+          "model_acknowledgement_basis": "direct-response-field",
+          "requested_effort": "medium",
+          "observed_thread_effort": "medium",
+          "effective_turn_effort": null,
+          "usage": {
+            "input_tokens": 632657,
+            "cached_input_tokens": 580736,
+            "output_tokens": 1040,
+            "reasoning_output_tokens": 24,
+            "total_tokens": 633697,
+            "non_cached_input_tokens": 51921,
+            "operational_tokens": 52961
+          },
+          "usage_finality": "last-observed-not-account-final",
+          "total_elapsed_ms": 108414,
+          "turn_elapsed_ms": 108238,
+          "quality_passed": true,
+          "quality_reason": null,
+          "candidate_revision": "c1f2dec4776a5931138576fbfe9c96e4d7092853",
+          "completion_agreement": {
+            "evidence_matches": true,
+            "summary_matches": false
+          },
+          "workflow": {
+            "observed_state": "done",
+            "expected_state": "done",
+            "exact_handoff": true,
+            "claim_status": "released",
+            "claim_agent_id": "agent-verifier",
+            "pass": true
+          },
+          "treatment": {
+            "bounded_entry_observed": true,
+            "current_finish_observed": true,
+            "compact_context_observed": true,
+            "composed_delivery_observed": null,
+            "post_mutation_compact_status_observed": false,
+            "post_mutation_compact_doctor_observed": false,
+            "pass": true,
+            "basis": "successful-observed-commands-and-verified-lifecycle; not-inferred-from-prompt"
+          },
+          "public_tests": {
+            "exit_code": 0,
+            "output_sha256": "sha256:e827546e43af76f97ed2a48630efe2030fc373ef150f3f673862f0a8ddcfd0fe",
+            "elapsed_ms": 71
+          },
+          "oracle": {
+            "exit_code": 0,
+            "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+            "elapsed_ms": 26
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "operations": {
+            "cat": {
+              "completed": 5,
+              "succeeded": 5,
+              "reported_output_bytes": 61245,
+              "output_bytes_complete": true
+            },
+            "temple-context-enter": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 94766,
+              "output_bytes_complete": true
+            },
+            "git-rev-parse": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 41,
+              "output_bytes_complete": true
+            },
+            "git-status": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 189,
+              "output_bytes_complete": true
+            },
+            "git-diff": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 0,
+              "output_bytes_complete": false
+            },
+            "temple-claim": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 142,
+              "output_bytes_complete": true
+            },
+            "product-tests-all": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 1475,
+              "output_bytes_complete": true
+            },
+            "temple-finish": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 3216,
+              "output_bytes_complete": true
+            }
+          },
+          "cost_breakdown": {
+            "categories": {
+              "context-and-exploration": {
+                "completed": 6,
+                "observed_elapsed_ms": 1149,
+                "elapsed_complete": true,
+                "output_bytes": 156011,
+                "output_complete": true
+              },
+              "git": {
+                "completed": 3,
+                "observed_elapsed_ms": 2,
+                "elapsed_complete": true,
+                "output_bytes": 230,
+                "output_complete": false
+              },
+              "lifecycle-and-diagnostics": {
+                "completed": 2,
+                "observed_elapsed_ms": 724,
+                "elapsed_complete": true,
+                "output_bytes": 3358,
+                "output_complete": true
+              },
+              "product-tests": {
+                "completed": 2,
+                "observed_elapsed_ms": 2,
+                "elapsed_complete": true,
+                "output_bytes": 1475,
+                "output_complete": true
+              },
+              "implementation-patches": {
+                "completed": 1,
+                "observed_elapsed_ms": 85,
+                "elapsed_complete": true,
+                "output_bytes": 0,
+                "output_complete": false
+              }
+            },
+            "repeated_command_completions": 1,
+            "inference_token_attribution": "unavailable",
+            "duration_basis": "observed item start-to-completion; overlapping durations may not sum to wall time",
+            "repetition_basis": "same-command hash only; no claim of same-state redundancy"
+          },
+          "command_started_count": 13,
+          "command_completed_count": 13,
+          "unmatched_command_starts": 0,
+          "unmatched_patch_starts": 0,
+          "command_timeline": [
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 20188
+            },
+            {
+              "operation": "temple-context-enter",
+              "exit_code": 0,
+              "output_bytes": 94766
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 15722
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 19676
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "git-status",
+              "exit_code": 0,
+              "output_bytes": 189
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 5451
+            },
+            {
+              "operation": "git-diff",
+              "exit_code": 0,
+              "output_bytes": null
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 208
+            },
+            {
+              "operation": "temple-claim",
+              "exit_code": 0,
+              "output_bytes": 142
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 737
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 738
+            },
+            {
+              "operation": "temple-finish",
+              "exit_code": 0,
+              "output_bytes": 3216
+            }
+          ]
+        },
+        {
+          "arm": "ordinary",
+          "stage": "build",
+          "status": "completed",
+          "stop_reason": null,
+          "requested_model": "gpt-6-astra",
+          "acknowledged_model": "gpt-6-astra",
+          "model_acknowledgement_basis": "direct-response-field",
+          "requested_effort": "medium",
+          "observed_thread_effort": "medium",
+          "effective_turn_effort": null,
+          "usage": {
+            "input_tokens": 313035,
+            "cached_input_tokens": 265344,
+            "output_tokens": 2952,
+            "reasoning_output_tokens": 74,
+            "total_tokens": 315987,
+            "non_cached_input_tokens": 47691,
+            "operational_tokens": 50643
+          },
+          "usage_finality": "last-observed-not-account-final",
+          "total_elapsed_ms": 164529,
+          "turn_elapsed_ms": 164334,
+          "quality_passed": true,
+          "quality_reason": null,
+          "candidate_revision": "3166d684666b7622a65d5ea8a7ed39a2b6f170fe",
+          "completion_agreement": {
+            "evidence_matches": true,
+            "summary_matches": false
+          },
+          "workflow": null,
+          "treatment": null,
+          "public_tests": {
+            "exit_code": 0,
+            "output_sha256": "sha256:5879078814329514b5c71093537ca9282c2bc9443b688bbf586dc843b81a34b0",
+            "elapsed_ms": 78
+          },
+          "oracle": {
+            "exit_code": 0,
+            "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+            "elapsed_ms": 28
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "operations": {
+            "cat": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 3068,
+              "output_bytes_complete": true
+            },
+            "ls": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 515,
+              "output_bytes_complete": true
+            },
+            "git-status": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 0,
+              "output_bytes_complete": false
+            },
+            "product-tests-all": {
+              "completed": 3,
+              "succeeded": 2,
+              "reported_output_bytes": 3219,
+              "output_bytes_complete": true
+            },
+            "git-diff": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 346,
+              "output_bytes_complete": true
+            },
+            "git-add": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 0,
+              "output_bytes_complete": false
+            },
+            "git-commit": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 177,
+              "output_bytes_complete": true
+            },
+            "git-rev-parse": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 41,
+              "output_bytes_complete": true
+            }
+          },
+          "cost_breakdown": {
+            "categories": {
+              "context-and-exploration": {
+                "completed": 3,
+                "observed_elapsed_ms": 2,
+                "elapsed_complete": true,
+                "output_bytes": 3583,
+                "output_complete": true
+              },
+              "git": {
+                "completed": 5,
+                "observed_elapsed_ms": 823,
+                "elapsed_complete": true,
+                "output_bytes": 564,
+                "output_complete": false
+              },
+              "implementation-patches": {
+                "completed": 3,
+                "observed_elapsed_ms": 308,
+                "elapsed_complete": true,
+                "output_bytes": 0,
+                "output_complete": false
+              },
+              "product-tests": {
+                "completed": 3,
+                "observed_elapsed_ms": 1,
+                "elapsed_complete": true,
+                "output_bytes": 3219,
+                "output_complete": true
+              }
+            },
+            "repeated_command_completions": 2,
+            "inference_token_attribution": "unavailable",
+            "duration_basis": "observed item start-to-completion; overlapping durations may not sum to wall time",
+            "repetition_basis": "same-command hash only; no claim of same-state redundancy"
+          },
+          "command_started_count": 11,
+          "command_completed_count": 11,
+          "unmatched_command_starts": 0,
+          "unmatched_patch_starts": 0,
+          "command_timeline": [
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 2281
+            },
+            {
+              "operation": "ls",
+              "exit_code": 0,
+              "output_bytes": 515
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 787
+            },
+            {
+              "operation": "git-status",
+              "exit_code": 0,
+              "output_bytes": null
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 1,
+              "output_bytes": 1670
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 777
+            },
+            {
+              "operation": "git-diff",
+              "exit_code": 0,
+              "output_bytes": 346
+            },
+            {
+              "operation": "git-add",
+              "exit_code": 0,
+              "output_bytes": null
+            },
+            {
+              "operation": "git-commit",
+              "exit_code": 0,
+              "output_bytes": 177
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 772
+            }
+          ]
+        },
+        {
+          "arm": "ordinary",
+          "stage": "verify",
+          "status": "completed",
+          "stop_reason": null,
+          "requested_model": "gpt-6-astra",
+          "acknowledged_model": "gpt-6-astra",
+          "model_acknowledgement_basis": "direct-response-field",
+          "requested_effort": "medium",
+          "observed_thread_effort": "medium",
+          "effective_turn_effort": null,
+          "usage": {
+            "input_tokens": 237945,
+            "cached_input_tokens": 194176,
+            "output_tokens": 594,
+            "reasoning_output_tokens": 29,
+            "total_tokens": 238539,
+            "non_cached_input_tokens": 43769,
+            "operational_tokens": 44363
+          },
+          "usage_finality": "last-observed-not-account-final",
+          "total_elapsed_ms": 73463,
+          "turn_elapsed_ms": 73281,
+          "quality_passed": true,
+          "quality_reason": null,
+          "candidate_revision": "3166d684666b7622a65d5ea8a7ed39a2b6f170fe",
+          "completion_agreement": {
+            "evidence_matches": true,
+            "summary_matches": false
+          },
+          "workflow": null,
+          "treatment": null,
+          "public_tests": {
+            "exit_code": 0,
+            "output_sha256": "sha256:bc6b4fc9f585f08c74d29dfbce8a92eb070297ec85a4c5d1cf26aa157f305735",
+            "elapsed_ms": 84
+          },
+          "oracle": {
+            "exit_code": 0,
+            "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+            "elapsed_ms": 28
+          },
+          "retry_count": 0,
+          "fallback_count": 0,
+          "operations": {
+            "cat": {
+              "completed": 3,
+              "succeeded": 3,
+              "reported_output_bytes": 10088,
+              "output_bytes_complete": true
+            },
+            "git-status": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 31,
+              "output_bytes_complete": true
+            },
+            "git-rev-parse": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 428,
+              "output_bytes_complete": true
+            },
+            "git-show": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 399,
+              "output_bytes_complete": true
+            },
+            "ls": {
+              "completed": 1,
+              "succeeded": 1,
+              "reported_output_bytes": 638,
+              "output_bytes_complete": true
+            },
+            "product-tests-all": {
+              "completed": 2,
+              "succeeded": 2,
+              "reported_output_bytes": 1551,
+              "output_bytes_complete": true
+            }
+          },
+          "cost_breakdown": {
+            "categories": {
+              "context-and-exploration": {
+                "completed": 4,
+                "observed_elapsed_ms": 3,
+                "elapsed_complete": true,
+                "output_bytes": 10726,
+                "output_complete": true
+              },
+              "git": {
+                "completed": 4,
+                "observed_elapsed_ms": 1094,
+                "elapsed_complete": true,
+                "output_bytes": 858,
+                "output_complete": true
+              },
+              "product-tests": {
+                "completed": 2,
+                "observed_elapsed_ms": 1,
+                "elapsed_complete": true,
+                "output_bytes": 1551,
+                "output_complete": true
+              },
+              "implementation-patches": {
+                "completed": 1,
+                "observed_elapsed_ms": 83,
+                "elapsed_complete": true,
+                "output_bytes": 0,
+                "output_complete": false
+              }
+            },
+            "repeated_command_completions": 1,
+            "inference_token_attribution": "unavailable",
+            "duration_basis": "observed item start-to-completion; overlapping durations may not sum to wall time",
+            "repetition_basis": "same-command hash only; no claim of same-state redundancy"
+          },
+          "command_started_count": 10,
+          "command_completed_count": 10,
+          "unmatched_command_starts": 0,
+          "unmatched_patch_starts": 0,
+          "command_timeline": [
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 2281
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 1724
+            },
+            {
+              "operation": "git-status",
+              "exit_code": 0,
+              "output_bytes": 31
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 387
+            },
+            {
+              "operation": "git-rev-parse",
+              "exit_code": 0,
+              "output_bytes": 41
+            },
+            {
+              "operation": "git-show",
+              "exit_code": 0,
+              "output_bytes": 399
+            },
+            {
+              "operation": "ls",
+              "exit_code": 0,
+              "output_bytes": 638
+            },
+            {
+              "operation": "cat",
+              "exit_code": 0,
+              "output_bytes": 6083
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 779
+            },
+            {
+              "operation": "product-tests-all",
+              "exit_code": 0,
+              "output_bytes": 772
+            }
+          ]
+        }
+      ],
+      "comparison": {
+        "operational_tokens": {
+          "ordinary": 95006,
+          "temple": 118095,
+          "difference": 23089,
+          "percent": 24.302675620487136
+        },
+        "stage_elapsed_ms": {
+          "ordinary": 237992,
+          "temple": 309208,
+          "difference": 71216,
+          "percent": 29.92369491411475
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "One pair per model; within-model order not counterbalanced",
+    "Cache uncontrolled",
+    "Last-observed usage is not account-final",
+    "Effective effort and immutable model revision unobserved",
+    "Output bytes are not causal Token attribution",
+    "Historical runs are descriptive context only",
+    "Coordinator and reviewer model usage excluded"
+  ],
+  "recalculation_model_turns": 0,
+  "raw_prompts_or_outputs_published": false
+}

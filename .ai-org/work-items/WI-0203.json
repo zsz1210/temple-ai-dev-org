@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0203",
   "title": "Measure bounded Lean entry and finish overhead against ordinary delivery",
-  "state": "intake",
+  "state": "done",
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T06:29:05.710Z",
-  "updated_at": "2026-09-06T06:29:05.710Z",
+  "updated_at": "2026-09-06T07:10:43.920Z",
   "scope": [
     "Design, zero-model preflight and one freshly authorized ordinary versus B/C delivery comparison; isolated measurement artifacts only. Execution authority remains in the owning Codex task."
   ],
@@ -40,17 +40,213 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": null,
+  "base_revision": "eb6315c",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
-  "claim": null,
-  "claims": [],
-  "gate_evidence": {},
-  "evidence": [],
+  "claim": {
+    "id": "claim-20260906065055-aef3795a",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "eb6315c",
+    "branch": "codex/lean-cost-measurement",
+    "worktree": null,
+    "claimed_at": "2026-09-06T06:50:55.731Z",
+    "released_at": "2026-09-06T07:10:43.622Z",
+    "release_reason": [
+      "Eight-stage measurement completed and sealed; arithmetic and result reconciliation passed"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260906063012-a1144eae",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "7c9c1b88b96b8d334c5c0a88bd287f473ce4fc42",
+      "branch": "codex/lean-cost-measurement",
+      "worktree": null,
+      "claimed_at": "2026-09-06T06:30:12.019Z",
+      "released_at": "2026-09-06T06:30:12.293Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260906063013-cf6ba614",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "7c9c1b88b96b8d334c5c0a88bd287f473ce4fc42",
+      "branch": "codex/lean-cost-measurement",
+      "worktree": null,
+      "claimed_at": "2026-09-06T06:30:13.079Z",
+      "released_at": "2026-09-06T06:39:10.712Z",
+      "release_reason": [
+        "Handoff exact instrument for readiness review"
+      ]
+    },
+    {
+      "id": "claim-20260906064403-6141789d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "5fd0646",
+      "branch": "codex/lean-cost-measurement",
+      "worktree": null,
+      "claimed_at": "2026-09-06T06:44:03.370Z",
+      "released_at": "2026-09-06T06:44:23.408Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260906064423-b064aada",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "5fd0646",
+      "branch": "codex/lean-cost-measurement",
+      "worktree": null,
+      "claimed_at": "2026-09-06T06:44:23.699Z",
+      "released_at": "2026-09-06T06:49:21.461Z",
+      "release_reason": [
+        "Corrected exact candidate verified"
+      ]
+    },
+    {
+      "id": "claim-20260906065055-aef3795a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "eb6315c",
+      "branch": "codex/lean-cost-measurement",
+      "worktree": null,
+      "claimed_at": "2026-09-06T06:50:55.731Z",
+      "released_at": "2026-09-06T07:10:43.622Z",
+      "release_reason": [
+        "Eight-stage measurement completed and sealed; arithmetic and result reconciliation passed"
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0203/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0203/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0203/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0203/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0203/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0203/handoff-002-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0203/verification.v2.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0203/verification.v2.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0203/verification.v2.md",
+      ".ai-org/artifacts/WI-0203/report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0203/independent-qa.v2.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0203/design.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0203/independent-qa.v2.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0203/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0203/design.md",
+    ".ai-org/artifacts/WI-0203/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0203/developer-evidence.md",
+    ".ai-org/artifacts/WI-0203/handoff-002-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0203/verification.v2.md",
+    ".ai-org/artifacts/WI-0203/independent-qa.v2.md",
+    ".ai-org/artifacts/WI-0203/release-record.md",
+    ".ai-org/artifacts/WI-0203/report.md"
+  ],
   "unresolved": [],
-  "next_position": "product_manager"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "5fd0646b9d3aaba10daf6e3b8cb19c96f23afc8a",
+      "artifact": ".ai-org/artifacts/WI-0203/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T06:39:09.326Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "eb6315cec0fa2b16ba18e26656ade9a08dc7fd55",
+      "artifact": ".ai-org/artifacts/WI-0203/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T06:49:21.170Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-06T06:44:23.408Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260906064403-6141789d",
+      "rejected_revision": "5fd0646b9d3aaba10daf6e3b8cb19c96f23afc8a",
+      "reason": [
+        "Full verification exposed earlier finish rejection in the negative test; require exact guard evidence"
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0203/verification-attempt-1.md"
+      ],
+      "scope_digest": "70f59661371f2fa989f83b182bcdb1452fc0ae55f8c2c0bfed0e82205ab5d8c6",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0203/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0203/developer-evidence.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "5fd0646b9d3aaba10daf6e3b8cb19c96f23afc8a"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0203/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ],
+  "developer_candidate_revision": "eb6315cec0fa2b16ba18e26656ade9a08dc7fd55",
+  "tested_revision": "eb6315cec0fa2b16ba18e26656ade9a08dc7fd55",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

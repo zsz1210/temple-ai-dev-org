@@ -4,7 +4,7 @@ import { spawnSync } from "node:child_process";
 import { sha256 } from "./files.mjs";
 import { OperationError } from "./operation-errors.mjs";
 import { resolveWorkItemContext } from "./context.mjs";
-import { acquireContextPacket, readContextPacketSource } from "./context-packet.mjs";
+import { acquireContextPacket, readContextPacketSource, validateAvailableWholeSources, reuseAvailableWholeSources, taskMaterialPacket } from "./context-packet.mjs";
 import { agentIsEligible, principalStatus, sponsoredPrincipal } from "./collaboration.mjs";
 import { assertLocalActorBinding } from "./local-identity.mjs";
 import { assessWorkflowProfile } from "./workflow.mjs";
@@ -98,6 +98,8 @@ async function inspect(repository, options) {
 }
 
 export async function enterWorkItemContext(target, options = {}) {
+  const available = validateAvailableWholeSources(options.availableWholeSources);
+  if (options.material !== undefined && !["stage", "task"].includes(options.material)) throw new OperationError("INVALID_INPUT", "Entry material must be stage or task");
   if (![options.workItemId, options.position, options.agentId, options.principalId].every(value => typeof value === "string" && value.trim())) throw new OperationError("INVALID_INPUT", "Context enter requires --work-item, --position, --agent-id and --principal-id");
   if (options.expectedPlan !== undefined && !/^[a-f0-9]{64}$/.test(options.expectedPlan)) throw new OperationError("INVALID_INPUT", "Expected entry digest must be 64 lowercase hexadecimal characters");
   const repository = await fs.realpath(target);
@@ -110,6 +112,8 @@ export async function enterWorkItemContext(target, options = {}) {
   }
   const after = await inspect(repository, options);
   if (JSON.stringify(before) !== JSON.stringify(after)) { reasons.push({ code: "entry-changed-during-acquisition", source: null }); packet = null; }
+  if (packet && !reasons.length && options.material === "task") packet = taskMaterialPacket(packet, { agentId: options.agentId, handoffActor: before.item.handoffs?.at(-1)?.actor });
+  if (packet && !reasons.length) packet = reuseAvailableWholeSources(packet, available);
   const eligible = reasons.length === 0 && packet !== null;
   const operation = eligible ? before.item.claim?.status === "active" ? "work-item finish" : "work-item claim" : "context resolve";
   const binding = { repository_digest: sha256(repository), work_item_id: options.workItemId, position: options.position, agent_id: options.agentId, principal_id: options.principalId,

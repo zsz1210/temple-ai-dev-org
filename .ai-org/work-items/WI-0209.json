@@ -1,0 +1,208 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0209",
+  "title": "Repair comparison readiness and run a new three-arm diagnostic",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
+  "created_at": "2026-09-06T09:26:56.766Z",
+  "updated_at": "2026-09-06T10:47:01.578Z",
+  "scope": [
+    "Repair instrument event diagnostics, response validation and stable evidence sealing; review complete readiness; one fresh 12-stage Terra medium experiment within 960000 observed Operational Tokens and 72 minutes, per stage 80000 and 6 minutes; no retry fallback reset purchases refill or step-5 live execution"
+  ],
+  "acceptance_criteria": [
+    "Independent design and exact-candidate readiness review; local protocol replay and manifest tests; sealed comparable results or explicit bounded stop report without altering WI-0208"
+  ],
+  "affected_paths": [
+    "scripts/delivery-control-pair.mjs",
+    "scripts/context-material-comparison.mjs",
+    "test/context-material-comparison.test.mjs",
+    "test/delivery-control-pair.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T09:26:56.766Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "62081f70cd850a103cd37a033438fa24a41dc992",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906104015-cfbdab50",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "62081f70cd850a103cd37a033438fa24a41dc992",
+    "branch": "codex/context-material-minimization",
+    "worktree": null,
+    "claimed_at": "2026-09-06T10:40:15.203Z",
+    "released_at": "2026-09-06T10:47:01.310Z",
+    "release_reason": [
+      "Offline correction verified and handed off; original stopped comparison and remaining design work retained."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260906093014-552943ed",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "690e43c",
+      "branch": "codex/context-material-minimization",
+      "worktree": null,
+      "claimed_at": "2026-09-06T09:30:14.924Z",
+      "released_at": "2026-09-06T10:14:50.595Z",
+      "release_reason": [
+        "Bounded developer slice handed off with incomplete comparison and full-suite timing failure explicitly retained."
+      ]
+    },
+    {
+      "id": "claim-20260906101944-144ba219",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "0b6d99d",
+      "branch": "codex/context-material-minimization",
+      "worktree": null,
+      "claimed_at": "2026-09-06T10:19:44.580Z",
+      "released_at": "2026-09-06T10:40:14.891Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260906104015-cfbdab50",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "62081f70cd850a103cd37a033438fa24a41dc992",
+      "branch": "codex/context-material-minimization",
+      "worktree": null,
+      "claimed_at": "2026-09-06T10:40:15.203Z",
+      "released_at": "2026-09-06T10:47:01.310Z",
+      "release_reason": [
+        "Offline correction verified and handed off; original stopped comparison and remaining design work retained."
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0209/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0209/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0209/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0209/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0209/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0209/handoff-002-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0209/continuation-report.md",
+      ".ai-org/artifacts/WI-0209/continuation-independent-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0209/design.md",
+    ".ai-org/artifacts/WI-0209/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0209/result-report.md",
+    ".ai-org/artifacts/WI-0209/independent-result-review.md",
+    ".ai-org/artifacts/WI-0209/handoff-002-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0209/continuation-report.md",
+    ".ai-org/artifacts/WI-0209/continuation-independent-review.md"
+  ],
+  "unresolved": [
+    "Renewed v2 stopped at slim Verifier git-diff argument-shape; ordinary/prior complete, no completed slim or second repetitions; exact command unavailable.",
+    "Original v2 seal remains invalid; independent exact in-memory reconstruction supports qualified diagnosis only. Finalization fix passed652/652 offline, not live rerun.",
+    "Read-only Git trailing-separator compatibility needs bounded design; Console transient timing cause remains unknown despite subsequent full pass."
+  ],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "4b2410a187d2f68e37cdcd4d266223c019db8f77",
+      "artifact": ".ai-org/artifacts/WI-0209/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T10:14:38.469Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "55a2a56fb77290a6ace4aa8720e34c869973be7a",
+      "artifact": ".ai-org/artifacts/WI-0209/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T10:46:44.523Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-06T10:40:14.891Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260906101944-144ba219",
+      "rejected_revision": "4b2410a187d2f68e37cdcd4d266223c019db8f77",
+      "reason": [
+        "Fresh attempt of unchanged runtime source reproduces canonical temporary-path seal mismatch and post-seal run mutation; bounded offline correction."
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0209/continuation-findings.md"
+      ],
+      "scope_digest": "967960790b5b7aa78c746111d8fe70d92e04d22397a379ab9f5a657f5cf2f6d7",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0209/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0209/result-report.md",
+          ".ai-org/artifacts/WI-0209/independent-result-review.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "4b2410a187d2f68e37cdcd4d266223c019db8f77"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0209/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ],
+  "developer_candidate_revision": "55a2a56fb77290a6ace4aa8720e34c869973be7a"
+}
