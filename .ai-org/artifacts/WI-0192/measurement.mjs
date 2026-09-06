@@ -5,17 +5,16 @@ export const TEST_ARGS = Object.freeze(['--test', 'app.test.mjs', 'added.test.mj
 
 // Machine categories only. Never persist arbitrary provider error text.
 export function boundedNativeError(item) {
-  const error = item.error ?? null;
-  const raw = JSON.stringify(error);
-  const code = error?.code;
-  const categories = new Map([
-    ['rate_limit_exceeded', 'rate-limit'], ['insufficient_quota', 'quota'],
-    ['unsupported_model', 'unsupported-model'], ['invalid_params', 'invalid-request']
-  ]);
+  // CLI 0.153.1 exposes agentsStates, not a top-level error.code.
+  // A state message is free text, not a reliable machine error category.
+  const allowed = new Set(['pendingInit','running','interrupted','completed','errored','shutdown','notFound']);
+  const states = Object.values(item.agentsStates ?? {}).slice(0,16).map(state => ({
+    status: allowed.has(state.status) ? state.status : 'unknown',
+    message_sha256: typeof state.message === 'string' ? digest(state.message) : null
+  }));
   return {
     operation: 'spawnAgent', status: item.status === 'failed' ? 'failed' : 'unknown',
-    category: categories.get(code) ?? 'unknown',
-    error_sha256: error === null ? null : digest(raw),
+    category: 'unknown', states,
     raw_error_retained: false
   };
 }

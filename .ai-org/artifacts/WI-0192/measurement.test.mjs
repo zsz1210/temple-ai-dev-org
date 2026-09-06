@@ -9,6 +9,8 @@ import { execute } from './runner.mjs';
 import { NativeTracker } from './native-tracker.mjs';
 import { prepareSources, prepareCase } from './fixture-kit.mjs';
 import { gradeCase } from './grading.mjs';
+import os from 'node:os';
+import path from 'node:path';
 
 test('incomplete helper is not a scope violation', () => {
   assert.equal(stopReasonFor({status:'incomplete',trace:{expected_children:1,observed_children:0},out_of_scope_paths:[]}), 'native-helper-unobserved');
@@ -26,11 +28,25 @@ test('blocked missing helper is unavailable, not acceptance', () => {
   assert.equal(supportOutcome({status:'observed-complete',answer:{decision:'reported'},messages:[{role:'helper'}]}),'reported');
 });
 test('error data contains bounded categories and digest only', () => {
-  const error=boundedNativeError({status:'failed',error:{code:'insufficient_quota',message:'private /Users/person/key SECRET'}});
-  assert.equal(error.category,'quota');assert.match(error.error_sha256,/^[a-f0-9]{64}$/);
+  const error=boundedNativeError({status:'failed',agentsStates:{child:{status:'errored',message:'private /Users/person/key SECRET'}}});
+  assert.equal(error.category,'unknown');assert.match(error.states[0].message_sha256,/^[a-f0-9]{64}$/);
   assert.ok(!JSON.stringify(error).includes('SECRET'));
   assert.equal(boundedNativeError({status:'failed'}).category,'unknown');
   assert.equal(boundedNativeError({status:'failed',error:{code:'new-code'}}).category,'unknown');
+});
+
+test('installed Codex schema supports the retained fields without invented error codes', async () => {
+  const dir=await fs.mkdtemp(path.join(os.tmpdir(),'temple-contract-check-'));
+  try {
+    execFileSync('codex',['app-server','generate-json-schema','--out',dir]);
+    const schema=JSON.parse(await fs.readFile(path.join(dir,'v2/ItemCompletedNotification.json')));
+    function find(value){if(value?.title==='CollabAgentToolCallThreadItem')return value;if(value&&typeof value==='object')for(const child of Object.values(value)){const result=find(child);if(result)return result;}}
+    const item=find(schema);
+    assert.ok(item.required.includes('agentsStates'));
+    assert.equal(item.properties.error,undefined);
+    assert.ok(schema.definitions.CollabAgentState.properties.message);
+    assert.ok(schema.definitions.CollabAgentToolCallStatus.enum.includes('failed'));
+  } finally { await fs.rm(dir,{recursive:true,force:true}); }
 });
 test('evaluator receipt establishes rerun, not subject execution', async () => {
   const r=await executeProductTests(async command=>{assert.deepEqual(command.slice(1),['--test','app.test.mjs','added.test.mjs']);return {exitCode:0,stdout:'pass'};});

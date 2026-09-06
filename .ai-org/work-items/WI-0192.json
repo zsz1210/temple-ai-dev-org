@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-06T01:31:25.912Z",
-  "updated_at": "2026-09-06T01:39:12.768Z",
+  "updated_at": "2026-09-06T01:42:00.345Z",
   "scope": [
     "Add experiment-local generation-free evidence classifiers and receipt contract validation; archive original WI-0191 authorization bytes with English rendering; no live execution or frozen executor changes"
   ],
@@ -46,7 +46,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "380b799",
+  "base_revision": "976451f",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -54,18 +54,15 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906013235-a8224104",
-    "status": "released",
+    "id": "claim-20260906014200-80c44803",
+    "status": "active",
     "principal_id": "human",
     "agent_id": "agent-rikku",
-    "base_revision": "380b799",
+    "base_revision": "976451f",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": null,
-    "claimed_at": "2026-09-06T01:32:35.948Z",
-    "released_at": "2026-09-06T01:38:55.563Z",
-    "release_reason": [
-      "Implementation and tests committed; artifact-only scope is ineligible for composed Lean deliver, so lifecycle remains Build pending ordinary handoff review."
-    ]
+    "claimed_at": "2026-09-06T01:42:00.345Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -95,6 +92,17 @@
       "release_reason": [
         "Implementation and tests committed; artifact-only scope is ineligible for composed Lean deliver, so lifecycle remains Build pending ordinary handoff review."
       ]
+    },
+    {
+      "id": "claim-20260906014200-80c44803",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "976451f",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T01:42:00.345Z",
+      "released_at": null
     }
   ],
   "gate_evidence": {
@@ -120,8 +128,6 @@
   "evidence": [
     ".ai-org/artifacts/WI-0192/design.md"
   ],
-  "unresolved": [
-    "Candidate c1eafb1 implemented; 11 focused and 632 full tests passed. Artifact-only scope rejected composed Lean deliver before mutation; ordinary handoff/acceptance and installed-provider review remain. Live executor intentionally disabled."
-  ],
+  "unresolved": [],
   "next_position": "quality_evaluator"
 }
