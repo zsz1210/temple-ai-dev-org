@@ -1,212 +1,26 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T23:21:56.771Z",
-  "source_fingerprint": "9fd421bb3f39e3672a379a6fcdf166f340b6041cb2dc7fc0c5a9a2d4a27ec389",
+  "generated_at": "2026-09-06T23:40:06.463Z",
+  "source_fingerprint": "8a013e0eafa1eeb2df040c8e96cb51b1a4f1a42588c2bd13769e71cb0125bfe8",
   "scope": {
     "mode": "parent-descendants",
-    "parent_work_item_id": "WI-0214",
-    "selected_work_item_ids": [
-      "WI-0213",
-      "WI-0215",
-      "WI-0216",
-      "WI-0217",
-      "WI-0218",
-      "WI-0219",
-      "WI-0220"
-    ]
+    "parent_work_item_id": "WI-0221",
+    "selected_work_item_ids": []
   },
   "max_workers": null,
   "summary": {
-    "selected": 7,
-    "dispatchable": 2,
+    "selected": 0,
+    "dispatchable": 0,
     "active": 0,
-    "sequential": 1,
-    "blocked": 4,
-    "waves": 1
+    "sequential": 0,
+    "blocked": 0,
+    "waves": 0
   },
-  "waves": [
-    {
-      "id": "wave-001",
-      "order": 1,
-      "dispatch": [
-        {
-          "work_item_id": "WI-0213",
-          "title": "Separate model-readable context from validation metadata",
-          "position_id": "release_manager",
-          "agent_id": "agent-mog",
-          "agent_name": "Mog",
-          "suggested_task_title": "WI-0213 · Separate model-readable… · Release Manager (Mog)",
-          "base_revision": "6d15bbfde3d093a757634835d1479f23a6f530bd",
-          "affected_paths": [
-            "src/context-model-view.mjs",
-            "src/cli.mjs",
-            "test/context-enter.test.mjs",
-            "test/context-model-view.test.mjs"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "release_gate",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "d1653dbdd37b2557c9c90fed88c6de2b5ce582734e487ef38c730e225c28d373",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0213 --position release_manager --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        },
-        {
-          "work_item_id": "WI-0219",
-          "title": "Reproduce context argument failures through the installed CLI",
-          "position_id": "quality_evaluator",
-          "agent_id": "agent-lulu",
-          "agent_name": "Lulu",
-          "suggested_task_title": "WI-0219 · Reproduc… · Quality & Evaluation Engineer (Lulu)",
-          "base_revision": "2aef01bd",
-          "affected_paths": [
-            "test/context-enter.test.mjs"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "eval",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "8019e71363ee1645fa4c9171c6e09fcc8bbca2bf006cd0f860c6d2b339929815",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0219 --position quality_evaluator --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        }
-      ],
-      "join_gate": {
-        "integration_owner_agent_ids": [
-          "agent-mog"
-        ],
-        "required_evidence": [
-          "exact_candidate_revision",
-          "verification_results",
-          "unresolved_items"
-        ],
-        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
-      }
-    }
-  ],
+  "waves": [],
   "active": [],
-  "sequential": [
-    {
-      "work_item_id": "WI-0220",
-      "title": "Run fresh format comparison with argument diagnostics",
-      "disposition": "sequential",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "affected_paths_declared",
-        "integration_owner_assigned"
-      ]
-    }
-  ],
-  "blocked": [
-    {
-      "work_item_id": "WI-0215",
-      "title": "Run bounded full versus model context comparison",
-      "disposition": "blocked",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [
-        "unresolved_items_cleared"
-      ]
-    },
-    {
-      "work_item_id": "WI-0216",
-      "title": "Separate stage Token warnings from aggregate experiment limits",
-      "disposition": "blocked",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [
-        "overlap_outside_scope:WI-0221"
-      ]
-    },
-    {
-      "work_item_id": "WI-0217",
-      "title": "Execute authorized warning-policy format comparison",
-      "disposition": "blocked",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "unresolved_items_cleared"
-      ]
-    },
-    {
-      "work_item_id": "WI-0218",
-      "title": "Explain rejected command argument shapes without retaining values",
-      "disposition": "blocked",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": "agent-mog",
-      "reasons": [
-        "overlap_outside_scope:WI-0221"
-      ]
-    }
-  ],
-  "conflicts": [
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0213",
-      "right_work_item_id": "WI-0219",
-      "paths": [
-        {
-          "left_path": "test/context-enter.test.mjs",
-          "right_path": "test/context-enter.test.mjs"
-        }
-      ],
-      "resolution": "explicit-bidirectional"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0215",
-      "right_work_item_id": "WI-0216",
-      "paths": [
-        {
-          "left_path": "scripts/context-format-comparison.mjs",
-          "right_path": "scripts/context-format-comparison.mjs"
-        },
-        {
-          "left_path": "scripts/delivery-control-pair.mjs",
-          "right_path": "scripts/delivery-control-pair.mjs"
-        },
-        {
-          "left_path": "test/context-format-comparison.test.mjs",
-          "right_path": "test/context-format-comparison.test.mjs"
-        }
-      ],
-      "resolution": "explicit-bidirectional"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0215",
-      "right_work_item_id": "WI-0218",
-      "paths": [
-        {
-          "left_path": "scripts/delivery-command-policy.mjs",
-          "right_path": "scripts/delivery-command-policy.mjs"
-        }
-      ],
-      "resolution": "explicit-bidirectional"
-    }
-  ],
+  "sequential": [],
+  "blocked": [],
+  "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
     "runtime_capacity_limit": null,

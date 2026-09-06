@@ -6,7 +6,7 @@
   "owner_position": "release_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T12:02:06.463Z",
-  "updated_at": "2026-09-06T15:35:16.472Z",
+  "updated_at": "2026-09-06T23:28:38.459Z",
   "scope": [
     "Reconcile the approved local WI-0203 and WI-0205 through WI-0210 content onto current main, preserve main features and authoritative evidence, resolve ADR numbering, normalize local metadata, verify and submit a focused PR. No model experiments or npm publication."
   ],
@@ -58,7 +58,8 @@
     "WI-0215 owns the format-only successor harness and its new test; this record has no active writer and its prior source/evidence remain frozen.",
     "WI-0216: sequential successor owns warning-policy edits; prior evidence frozen; no active writer.",
     "WI-0218: no active writer; diagnostic-only successor owns edits; previous samples frozen.",
-    "WI-0219: no active writer; local compatibility test successor owns test changes."
+    "WI-0219: no active writer; local compatibility test successor owns test changes.",
+    "WI-0222: coordinated report-only PR70 review; WI-0211 has no active claim; source writes excluded and historical evidence preserved."
   ],
   "claim": {
     "id": "claim-20260906120245-aae4805b",

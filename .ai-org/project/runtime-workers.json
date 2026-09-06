@@ -2008,6 +2008,62 @@
       "attached_at": "2026-09-06T16:58:07.213Z",
       "completed_at": "2026-09-06T17:02:07.423Z",
       "updated_at": "2026-09-06T17:02:07.423Z"
+    },
+    {
+      "id": "worker-20260906232839-19f2987c",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0222",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260906232839-e7f18c4b",
+      "base_revision": "d015004d",
+      "branch": "codex/bounded-experiment-observations",
+      "worktree": null,
+      "plan_fingerprint": "cb44a4866be01e3431109244aaee8e046d5dea95769c2fd7ba71405ed79574bd",
+      "plan_digest": "59eda500cf95db60f33f800b6d8b0c3c13793ac0439229646c557401ebf89829",
+      "preparation_fingerprint": "a004a9640373a3750245f1a89e2ba59e413a597ef1fa1e110f8532e01e962a5e",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0222_review",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "d015004d",
+      "evidence": [
+        ".ai-org/artifacts/WI-0222/review.md"
+      ],
+      "reserved_at": "2026-09-06T23:28:39.479Z",
+      "attached_at": "2026-09-06T23:29:03.300Z",
+      "completed_at": "2026-09-06T23:31:53.092Z",
+      "updated_at": "2026-09-06T23:31:53.092Z"
+    },
+    {
+      "id": "worker-20260906233715-39de834c",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0222",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260906233715-c9180819",
+      "base_revision": "e8ad4b4fd9c12532c09776520cee337ef55cc829",
+      "branch": "codex/bounded-experiment-observations",
+      "worktree": null,
+      "plan_fingerprint": "57da075736bc32d6aeb0aaec7127cce70118d6081c714c3be150169e7d456bc3",
+      "plan_digest": "b93b28dbd66908edb1e696dd2a21277c8a2a117760eeeff1ed1278d58a6c7d6d",
+      "preparation_fingerprint": "21928121466ac0d7a22675cfcbddf65e8a79c3d5b6744cbc80059e8699e4853b",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0222_review#re-review-e8ad4b4",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "e8ad4b4fd9c12532c09776520cee337ef55cc829",
+      "evidence": [
+        ".ai-org/artifacts/WI-0222/review-r1.md"
+      ],
+      "reserved_at": "2026-09-06T23:37:15.790Z",
+      "attached_at": "2026-09-06T23:38:01.186Z",
+      "completed_at": "2026-09-06T23:39:16.164Z",
+      "updated_at": "2026-09-06T23:39:16.164Z"
     }
   ]
 }
