@@ -10,8 +10,9 @@ import {
   writeCapabilityRegistry,
   writeContextCapsule
 } from "./context.mjs";
-import { runDoctor, formatDoctor } from "./doctor.mjs";
+import { runDoctor, formatDoctor, compactDoctor } from "./doctor.mjs";
 import { deliverLeanWorkItem } from "./lean-delivery.mjs";
+import { finishLeanWorkItem } from "./lean-finish.mjs";
 import { OperationError, operationErrorResult } from "./operation-errors.mjs";
 import {
   addMembership,
@@ -45,7 +46,7 @@ import {
   planPackRemove
 } from "./packs.mjs";
 import { withProjectMutationLock } from "./project.mjs";
-import { buildStatus, renderStatusMarkdown, writeStatus } from "./status.mjs";
+import { buildStatus, compactStatus, renderStatusMarkdown, writeStatus } from "./status.mjs";
 import { buildObserverProjection, writeObserverProjection } from "./observer.mjs";
 import {
   ingestControlPlaneFixture,
@@ -163,8 +164,8 @@ Usage:
   temple portfolio build [target] [--allowed-root directory] [--no-write] [--json]
   temple experiment inspect [target] --manifest path --allowed-root directory [--json]
   temple experiment report [target] --manifest path --allowed-root directory [--no-write] [--json]
-  temple doctor [target] [--json]
-  temple status [target] [--json] [--no-write]
+  temple doctor [target] [--json] [--compact]
+  temple status [target] [--json] [--no-write] [--compact (requires --json)] [--work-item WI-ID (requires --compact)]
   temple observe [target] [--json] [--no-write]
   temple control-plane snapshot [target] [--state-dir path] [--json]
   temple control-plane ingest [target] --fixture path [--state-dir path] [--json]
@@ -200,6 +201,7 @@ Usage:
   temple work-item claim [target] --work-item WI-ID --agent-id agent-name --principal-id principal-name --base-revision ref --branch name [--worktree path]
   temple work-item release [target] --work-item WI-ID [--agent-id agent-name] [--principal-id principal-name] [--reason text]
   temple work-item deliver [target] --work-item WI-ID --operation-id id --claim-id id --agent-id agent-name --principal-id principal-name --revision commit --completed text --evidence path [--unresolved text] [--dry-run] [--expected-plan sha256] [--json]
+  temple work-item finish [target] --work-item WI-ID --position developer|quality_evaluator --operation-id id --claim-id id --agent-id id --principal-id id --revision commit [--completed text --evidence path | --judgment pass --test-evidence path --lean-closeout path] [--dry-run] [--expected-plan sha256] [--json]
   temple work-item rework [target] --work-item WI-ID --same-scope --input-revision full-sha --reason text --evidence repository-path [--actor agent-name] [--json]
   temple work-item unresolved [target] --work-item WI-0001 [--resolve text] [--merge text]
   temple parallel check [target] --work-item WI-ID [--agent-id agent-name] [--json]
@@ -262,6 +264,8 @@ Usage:
   temple capability list [target] [--json]
   temple capability find [target] --query text [--position position] [--limit number] [--json]
   temple context resolve [target] --work-item WI-0001 [--position position] [--stage stage] [--purpose primary|integration|recovery] [--query text] [--revision ref] [--limit number] [--json] [--no-write] [--compact (requires --no-write --json)]
+  temple context packet [target] --work-item WI-0001 --position position --no-write --json [--purpose primary|integration|recovery] [--material full|stage] [--expected-plan digest]
+  temple context enter [target] --work-item WI-0001 --position position --agent-id agent-id --principal-id principal-id --no-write --json [--purpose primary|integration|recovery] [--expected-plan digest]
   temple --version
 
 Core commands:
@@ -340,6 +344,7 @@ const BOOLEAN_FLAGS = new Set([
   "--confirm-normalization"
 ]);
 const VALUE_FLAGS = new Set([
+  "--judgment", "--test-evidence", "--lean-closeout",
   "--config",
   "--title",
   "--actor",
@@ -354,6 +359,7 @@ const VALUE_FLAGS = new Set([
   "--position",
   "--stage",
   "--purpose",
+  "--material",
   "--thread-id",
   "--client-thread-id",
   "--host-id",
@@ -509,6 +515,7 @@ const VALUE_FLAGS = new Set([
   "--max-event-bytes"
 ]);
 const REPEATABLE_FLAGS = new Set([
+  "--test-evidence", "--lean-closeout",
   "--scope",
   "--acceptance",
   "--completed",
@@ -575,6 +582,7 @@ function parseCommand(argv) {
     } else if (VALUE_FLAGS.has(token)) {
       const value = argv[index + 1];
       if (!value || value.startsWith("--")) throw new Error(`${token} requires a value`);
+      if (command === "context" && action === "enter" && Object.hasOwn(options, token)) throw new OperationError("INVALID_INPUT", `Context enter option may appear only once: ${token}`);
       if (REPEATABLE_FLAGS.has(token)) options[token] = [...(options[token] ?? []), value];
       else options[token] = value;
       index += 1;
@@ -1390,18 +1398,23 @@ async function runRestore(parsed) {
 async function runDoctorCommand(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const result = await runDoctor(target);
-  console.log(parsed.flags.has("--json") ? JSON.stringify(result, null, 2) : formatDoctor(result));
+  const output = parsed.flags.has("--compact") ? compactDoctor(result) : result;
+  console.log(parsed.flags.has("--json") ? JSON.stringify(output, null, 2) : formatDoctor(output));
   return result.healthy ? 0 : 1;
 }
 
 async function runStatusCommand(parsed) {
+  const compact = parsed.flags.has("--compact");
+  if (compact && !parsed.flags.has("--json")) throw new Error("Compact Status requires --json");
+  if (parsed.options["--work-item"] && !compact) throw new Error("Status --work-item requires --compact");
   const target = await assertSafeTarget(parsed.target);
   const registry = await buildCapabilityRegistry(target);
   const status = await buildStatus(target, { capabilityRegistry: registry });
+  const output = compact ? compactStatus(status, parsed.options["--work-item"]) : status;
   if (!parsed.flags.has("--no-write")) {
     await Promise.all([writeStatus(target, status), writeCapabilityRegistry(target, registry)]);
   }
-  console.log(parsed.flags.has("--json") ? JSON.stringify(status, null, 2) : renderStatusMarkdown(status));
+  console.log(parsed.flags.has("--json") ? JSON.stringify(output, null, 2) : renderStatusMarkdown(status));
   return 0;
 }
 
@@ -2466,6 +2479,23 @@ async function runWorkItemDeliver(parsed) {
   return 0;
 }
 
+async function runWorkItemFinish(parsed) {
+  assertCommandOptions(parsed,
+    ["--work-item", "--position", "--operation-id", "--claim-id", "--agent-id", "--principal-id", "--revision", "--completed", "--evidence", "--unresolved", "--expected-plan", "--judgment", "--test-evidence", "--lean-closeout"],
+    ["--dry-run", "--json"]);
+  const target = await assertSafeTarget(parsed.target);
+  const result = await withProjectMutationLock(target, () => finishLeanWorkItem(target, {
+    workItemId: parsed.options["--work-item"], position: parsed.options["--position"],
+    operationId: parsed.options["--operation-id"], claimId: parsed.options["--claim-id"], agentId: parsed.options["--agent-id"],
+    principalId: parsed.options["--principal-id"], revision: parsed.options["--revision"],
+    completed: listOption(parsed, "--completed"), evidence: listOption(parsed, "--evidence"), unresolved: listOption(parsed, "--unresolved"),
+    judgment: parsed.options["--judgment"], testEvidence: listOption(parsed, "--test-evidence"), leanCloseout: listOption(parsed, "--lean-closeout"),
+    dryRun: parsed.flags.has("--dry-run"), expectedPlan: parsed.options["--expected-plan"]
+  }), { leanDeliveryOperation: `${parsed.options["--work-item"]}/${parsed.options["--operation-id"]}` });
+  printResult(parsed, result, [`Lean finish: ${result.status}`, `Lifecycle: ${result.mutation.status}`, `Diagnostics: ${result.diagnostics.status}`, result.mutation.next_action]);
+  return result.success || result.mutation.dry_run ? 0 : 1;
+}
+
 async function runWorkItemMigrateOutcomes(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const result = await withProjectMutationLock(target, async () => {
@@ -3040,6 +3070,27 @@ async function runCapability(parsed) {
 }
 
 async function runContext(parsed) {
+  if (parsed.action === "enter") {
+    assertCommandOptions(parsed, ["--work-item", "--position", "--agent-id", "--principal-id", "--purpose", "--expected-plan"], ["--no-write", "--json"]);
+    if (!parsed.flags.has("--no-write") || !parsed.flags.has("--json")) throw new OperationError("INVALID_INPUT", "Context enter requires --no-write and --json");
+    const target = await assertSafeTarget(parsed.target);
+    const { enterWorkItemContext } = await import("./context-enter.mjs");
+    const result = await enterWorkItemContext(target, { workItemId: parsed.options["--work-item"], position: parsed.options["--position"], agentId: parsed.options["--agent-id"], principalId: parsed.options["--principal-id"], purpose: parsed.options["--purpose"], expectedPlan: parsed.options["--expected-plan"] });
+    console.log(JSON.stringify(result, null, 2));
+    return result.status === "eligible" ? 0 : 1;
+  }
+  if (parsed.action === "packet") {
+    assertCommandOptions(parsed, ["--work-item", "--position", "--purpose", "--material", "--expected-plan"], ["--no-write", "--json"]);
+    if (!parsed.flags.has("--no-write") || !parsed.flags.has("--json")) throw new OperationError("INVALID_INPUT", "Context packet requires --no-write and --json");
+    const target = await assertSafeTarget(parsed.target);
+    const { acquireContextPacket } = await import("./context-packet.mjs");
+    const packet = await acquireContextPacket(target, {
+      workItemId: parsed.options["--work-item"], position: parsed.options["--position"],
+      purpose: parsed.options["--purpose"], material: parsed.options["--material"], expectedPlan: parsed.options["--expected-plan"]
+    });
+    console.log(JSON.stringify(packet, null, 2));
+    return packet.acquisition === "complete" ? 0 : 1;
+  }
   if (parsed.flags.has("--compact")) {
     assertCommandOptions(parsed, ["--work-item", "--position", "--query", "--revision", "--stage", "--purpose", "--limit"], ["--compact", "--no-write", "--json"]);
     if (!parsed.flags.has("--no-write") || !parsed.flags.has("--json")) throw new OperationError("INVALID_INPUT", "Compact context requires --no-write and --json");
@@ -3114,6 +3165,7 @@ async function dispatch(argv) {
   if (parsed.command === "work-item" && parsed.action === "claim") return runWorkItemClaim(parsed);
   if (parsed.command === "work-item" && parsed.action === "release") return runWorkItemRelease(parsed);
   if (parsed.command === "work-item" && parsed.action === "deliver") return runWorkItemDeliver(parsed);
+  if (parsed.command === "work-item" && parsed.action === "finish") return runWorkItemFinish(parsed);
   if (parsed.command === "work-item" && parsed.action === "rework") return runWorkItemRework(parsed);
   if (parsed.command === "work-item" && parsed.action === "migrate-outcomes") return runWorkItemMigrateOutcomes(parsed);
   if (parsed.command === "work-item" && parsed.action === "unresolved") return runWorkItemUnresolved(parsed);
@@ -3141,8 +3193,8 @@ async function dispatch(argv) {
 }
 
 export async function main(argv) {
-  const delivery = argv[0] === "work-item" && argv[1] === "deliver";
-  const compact = argv[0] === "context" && argv[1] === "resolve" && argv.includes("--compact");
+  const delivery = argv[0] === "work-item" && ["deliver", "finish"].includes(argv[1]);
+  const compact = argv[0] === "context" && ((argv[1] === "resolve" && argv.includes("--compact")) || ["packet", "enter"].includes(argv[1]));
   if (!delivery && !compact) return dispatch(argv);
   try {
     try {

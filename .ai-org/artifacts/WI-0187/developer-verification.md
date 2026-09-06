@@ -1,0 +1,11 @@
+# WI-0187 Developer verification
+
+Implements the accepted brief and ADR-0057 with a new optional `work-item finish` command. The existing journal engine handles Developer handoff and distinct Verifier acceptance. Full Status/Doctor outcomes are separated from lifecycle application; checkout-local diagnostic state preserves pending/failed attention and validates exact repair. Developer may commit after its original claim; Verifier pins the reviewed candidate. Historical diagnostic records must match their canonical receipt.
+
+Combined focused suites: **46/46 passed**, no failures/skips, **67.388 seconds**. Log SHA-256: `05556222d67ce458711bd74c986e9f1aed986664549378d89e5d1f960b53c9de`. These include the previous 16 delivery tests and 30 new completion tests: actual CLI equivalence and preview/replay, every lifecycle persistence boundary, both diagnostic steps/persistence boundaries, terminal attention, evidence/authority/state/candidate drift, same-Identity rejection, time-dependent evidence/qualification expiry and unrelated diagnostic failures. The first development run exposed a release-reason representation mismatch in the equivalence fixture; the corrected final suite uses the shared release default and passes.
+
+`npm run check` passed. Dry-run package inventory grows from 403 to 406 files: only `src/lean-finish.mjs`, ADR-0057 and the completion guide are added. No file removal, dependency, ownership transfer or package exclusion change.
+
+`measure.mjs` ran the real CLI on synthetic Developer and fresh Verifier stages with equivalent local prerequisites. Each named separate path (completion, explicit Status inspection, Doctor) uses three commands; finish uses one. The individual completion commands also rebuild views internally. Product tests, claims, evidence creation and setup are excluded. `measurement.json` preserves local timings and output bytes, which are not uniformly lower. This is structural command-count evidence, not Token/latency superiority or an ordinary-versus-Temple delivery comparison. No model calls were used.
+
+Full exact-candidate verification and Independent QA remain required before acceptance. The coordinator records the candidate in the subsequent handoff and final verification.

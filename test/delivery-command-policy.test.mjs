@@ -28,6 +28,9 @@ test("optimized Temple literal commands bind identity, current claim and exact c
   assert.equal(classify(compact, ctx).allowed, true);
   for (const flag of ["--no-write", "--json"]) assert.equal(classify(compact.replace(flag, ""), ctx).allowed, false);
   assert.equal(classify(compact + " --compact", ctx).allowed, false);
+  const status = "node ./templew.mjs status . --compact --json --work-item WI-0001";
+  assert.equal(classify(status, ctx).no_write, false);
+  assert.equal(classify(status + " --no-write", ctx).no_write, true);
   const deliver = `node ./templew.mjs work-item deliver . --work-item WI-0001 --operation-id delivery-v6 --claim-id ${claimId} --agent-id agent-builder --principal-id human --revision ${candidate} --completed 'Feature tested' --evidence DELIVERY.json --json`;
   assert.equal(classify(deliver, ctx).allowed, true);
   assert.equal(classify(deliver, ctx).operation, "temple-deliver");
@@ -160,6 +163,9 @@ test("Temple supports complete bounded Builder and Verifier command obligations"
       ["help", "temple-help"], ["--help", "temple-help"], ["work-item claim --help", "temple-help"],
       [`context resolve . --work-item WI-0001 --position ${position} --no-write --json`, "temple-context"],
       ["doctor . --json", "temple-doctor"], ["status . --no-write --json", "temple-status"], ["capability list . --json", "temple-capability-list"],
+      ["doctor . --compact", "temple-doctor-compact"], ["doctor . --compact --json", "temple-doctor-compact"],
+      ["status . --compact --json --work-item WI-0001", "temple-status-compact"],
+      ["status . --compact --json --work-item WI-0001 --no-write", "temple-status-compact"],
       [`capability find . --query 'curl; /etc https://example.invalid' --position ${position} --limit 5 --json`, "temple-capability-find"],
       [`work-item claim . --work-item WI-0001 --agent-id ${agent} --principal-id human --base-revision ${revision} --branch main`, "temple-claim"],
       [`work-item release . --work-item WI-0001 --agent-id ${agent} --principal-id human --reason 'literal curl; /etc $x'`, "temple-release"]
@@ -191,6 +197,10 @@ test("Temple authority is semantic, including exact revisions and named evidence
     [transition.replace("--to test", "--to done"), "temple-stage-boundary"], [transition.replace("developer_evidence=DELIVERY.json", "developer_handoff=HANDOFF.md"), "temple-evidence-boundary"],
     ["context resolve . --work-item WI-0001 --position developer", "unsupported-option"], ["context resolve . --work-item WI-0001 --position independent_qa --no-write", "temple-position-boundary"],
     ["status . --json", "unsupported-option"], ["capability find . --query x --limit 999", "argument-shape"],
+    ["status . --compact --work-item WI-0001", "unsupported-option"],
+    ["status . --compact --json", "temple-work-item-boundary"],
+    ["status . --compact --json --work-item WI-0002", "temple-work-item-boundary"],
+    ["status . --no-write --json --work-item WI-0001", "unsupported-option"],
     ["work-item deliver . --work-item WI-0001", "temple-identity-boundary"], ["collaboration sponsor . --principal-id human", "unsupported-command"],
     ["transition . --work-item WI-0001 --to release_gate", "temple-stage-boundary"]
   ]) { const result = run(command); assert.equal(result.allowed, false, command); assert.equal(result.rule, rule, command); }

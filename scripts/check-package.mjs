@@ -51,7 +51,8 @@ const ALLOWED_TOP_LEVEL_FILES = new Set([
   "package.json"
 ]);
 const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overlay/", "src/"];
-const MAX_FILE_COUNT = 400;
+// WI-0188 adds the entry module, ADR-0058 and core execution reference to 406 files.
+const MAX_FILE_COUNT = 409;
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {

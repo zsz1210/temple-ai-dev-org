@@ -6,14 +6,14 @@ import path from "node:path";
 import { matrixPlan, validateMatrix, validateMatrixApproval, prepareMatrix, runMatrix } from "../scripts/prepare-optimized-delivery-comparison.mjs";
 import { digest, treatmentAdherence, operationStatistics, stageRequests } from "../scripts/delivery-control-pair.mjs";
 
-function frozen(selection = "both") {
-  const plan = matrixPlan(selection);
+function frozen(selection = "both", workItemId) {
+  const plan = matrixPlan(selection, workItemId);
   return { schema_version: "temple.optimized-delivery-matrix/v1", plan, source_sha256: digest("source"),
     pairs: plan.pairs.map(row => ({ id: row.id, protocol_sha256: digest(row), provider_sha256: digest(row.model) })),
     model_generation_performed: false };
 }
 function approval(matrix) {
-  return { schema_version: "temple.optimized-delivery-matrix-approval/v1", status: "approved", work_item_id: "WI-0179",
+  return { schema_version: "temple.optimized-delivery-matrix-approval/v1", status: "approved", work_item_id: matrix.plan.work_item_id,
     matrix_sha256: digest(matrix), approved_by: "synthetic-test-authority", evidence_ref: "test-only-never-live",
     approved_at: "2026-01-01T00:00:00Z", ...Object.fromEntries(["maximum_stage_turns", "maximum_operational_tokens", "maximum_ms"].map(k => [k, matrix.plan[k]])),
     ...Object.fromEntries(["account", "purchase", "refill", "reset", "retries", "fallback"].map(k => [k, matrix.plan.policy[k]])) };
@@ -36,6 +36,21 @@ test("matched matrix has two opposite orders per model and exact aggregate ceili
   assert.deepEqual(matrixPlan(), matrixPlan()); // Fresh values do not drift across preparations.
 });
 
+test("screening matrix binds a fresh Work Item and eight stages without enlarging stage caps", () => {
+  const matrix = frozen("screen", "WI-0182");
+  assert.equal(validateMatrix(matrix), true);
+  assert.equal(validateMatrixApproval(approval(matrix), matrix), true);
+  assert.equal(matrix.plan.maximum_stage_turns, 8);
+  assert.equal(matrix.plan.maximum_operational_tokens, 640000);
+  assert.equal(matrix.plan.maximum_ms, 2880000);
+  assert.deepEqual(matrix.plan.pair_limits, matrixPlan().pair_limits);
+  assert.deepEqual(matrix.plan.pairs.map(p => [p.model, p.order]), [
+    ["gpt-5.6-terra", ["ordinary", "temple"]], ["gpt-6-astra", ["temple", "ordinary"]]
+  ]);
+  assert.throws(() => validateMatrixApproval({ ...approval(matrix), work_item_id: "WI-0179" }, matrix), /matrix-approval-binding/);
+  assert.throws(() => matrixPlan("screen", "../WI-0182"), /matrix-work-item/);
+});
+
 test("approval pins the entire selected matrix; old, partial or broader permissions are rejected", () => {
   const matrix = frozen();
   assert.equal(validateMatrixApproval(approval(matrix), matrix), true);
@@ -56,10 +71,14 @@ test("approval pins the entire selected matrix; old, partial or broader permissi
 });
 
 test("optimized treatment requires successful real operations, not a prompt, preview or product pass", () => {
-  const command = (operation, changes = {}) => ({ method: "item/completed", exit_code: 0, classification: { allowed: true, operation, dry_run: false }, ...changes });
+  const command = (operation, changes = {}) => ({ method: "item/completed", exit_code: 0, classification: { allowed: true, operation, dry_run: false, no_write: false }, ...changes });
   const observation = { arm: "temple", stage: "build", workflow: { pass: true, exact_handoff: true },
-    events: [command("temple-context-compact"), command("temple-deliver")] };
+    events: [command("temple-context-compact"), command("temple-deliver"), command("temple-status-compact"), command("temple-doctor-compact")] };
   assert.equal(treatmentAdherence(observation).pass, true);
+  for (const no_write of [true, undefined]) {
+    const events = observation.events.map(e => e.classification.operation === "temple-status-compact" ? { ...e, classification: { ...e.classification, no_write } } : e);
+    assert.equal(treatmentAdherence({ ...observation, events }).pass, false, "read-only or unknown persistence does not rebuild Status");
+  }
   for (const events of [
     [], [command("temple-context")], [command("temple-context-compact")],
     [command("temple-context-compact"), command("temple-deliver", { method: "item/started" })],
@@ -67,11 +86,21 @@ test("optimized treatment requires successful real operations, not a prompt, pre
     [command("temple-context-compact"), command("temple-deliver", { classification: { allowed: true, operation: "temple-deliver", dry_run: true } })]
   ]) assert.equal(treatmentAdherence({ ...observation, events }).pass, false);
   assert.equal(treatmentAdherence({ ...observation, workflow: { pass: false, exact_handoff: true } }).pass, false);
-  assert.equal(treatmentAdherence({ ...observation, stage: "verify", events: [command("temple-context-compact")] }).pass, true);
+  const verification = [command("temple-context-compact"), command("temple-release"), command("temple-transition-done"), command("temple-status-compact"), command("temple-doctor-compact")];
+  assert.equal(treatmentAdherence({ ...observation, stage: "verify", events: verification }).pass, true);
+  for (const operation of ["temple-status-compact", "temple-doctor-compact"]) {
+    assert.equal(treatmentAdherence({ ...observation, events: observation.events.filter(e => e.classification.operation !== operation) }).pass, false);
+    assert.equal(treatmentAdherence({ ...observation, events: observation.events.map(e => e.classification.operation === operation ? { ...e, exit_code: 1 } : e) }).pass, false);
+  }
+  assert.equal(treatmentAdherence({ ...observation, events: [observation.events[0], ...observation.events.slice(2), observation.events[1]] }).pass, false);
+  assert.equal(treatmentAdherence({ ...observation, stage: "verify", events: [verification[0], verification[1], ...verification.slice(3), verification[2]] }).pass, false);
   assert.equal(treatmentAdherence({ ...observation, arm: "ordinary" }), null);
   const requests = arm => stageRequests({ root: "/assigned-repository", arm, stage: "build", protocol: { model: "gpt-5.6-terra", reasoning_effort: "medium" } });
   assert.match(requests("temple").instruction, /--compact --no-write --json/);
   assert.match(requests("temple").instruction, /work-item deliver/);
+  assert.match(requests("temple").instruction, /status \. --compact --json --work-item WI-0001/);
+  assert.match(requests("temple").instruction, /doctor \. --compact/);
+  for (const arm of ["ordinary", "temple"]) assert.match(requests(arm).instruction, /Finish this assigned stage/);
   assert.doesNotMatch(requests("ordinary").turn.input[0].text, /work-item deliver|--compact/);
   assert.match(requests("ordinary").instruction, /ordinary Git\/test\/handoff/);
 });

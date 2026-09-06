@@ -6,6 +6,7 @@ import path from "node:path";
 const limits = { command_bytes: 8192, arguments: 128, argument_bytes: 4096, actions: 32, line_count: 10000 };
 const operations = ["unknown", "pwd", "cat", "ls", "rg-search", "rg-files", "sed-print", "head", "tail", "git-status", "git-diff", "git-log", "git-show", "git-rev-parse", "git-current-branch", "git-ls-files", "git-add", "git-commit", "node-version", "product-tests-all", "product-tests-subset", "temple-help", "temple-context", "temple-context-compact", "temple-doctor", "temple-status", "temple-capability-find", "temple-capability-list", "temple-claim", "temple-release", "temple-handoff", "temple-deliver", "temple-transition-test", "temple-transition-done"];
 const rejectionRules = ["malformed-envelope", "malformed-actions", "invalid-context", "cwd-unavailable", "cwd-boundary", "command-size", "malformed-quoting", "shell-control", "shell-expansion", "shell-assignment", "unsupported-wrapper", "unsupported-command", "unsupported-option", "duplicate-option", "conflicting-options", "argument-shape", "path-boundary", "path-unavailable", "path-symlink", "git-write-scope", "revision-boundary", "test-command-boundary", "temple-arm-boundary", "temple-root-boundary", "temple-work-item-boundary", "temple-identity-boundary", "temple-principal-boundary", "temple-position-boundary", "temple-stage-boundary", "temple-evidence-boundary", "temple-decision-boundary", "policy-unavailable"];
+operations.push("temple-doctor-compact", "temple-status-compact");
 const guides = [
   { arms: ["ordinary", "temple"], stages: ["build", "verify"], text: "One literal command per call; optional /bin/zsh -lc 'COMMAND' wrapper, one layer. No substitution, chaining, redirects, scripts or assignments. Quote search text/messages. Read commands cat/ls/head/tail/sed may use one star in the final local filename component, for example cat test/*.test.mjs; every match must stay local without symlinks. The exact test glob below is also supported." },
   { arms: ["ordinary", "temple"], stages: ["build", "verify"], text: "Read: pwd; cat [-n] [--] PATH...; ls [-l|-a|-h|-d|-1|-la|-al|-lah|-alh|-lh] [PATH...]; rg [-n] [-i] [-F] [-l] [--hidden] [-g GLOB] [-e PATTERN] [--] PATTERN PATH...; rg --files [--hidden] [-g GLOB] [PATH...]. -e supplies the pattern instead of a positional pattern; quote GLOB filters. Paths must stay inside this repository." },
@@ -13,14 +14,14 @@ const guides = [
   { arms: ["ordinary", "temple"], stages: ["build", "verify"], text: "Tests: node --test test/*.test.mjs (unquoted shell glob), or node --test test/public.test.mjs test/added.test.mjs. A single public/added file is a subset, not full-test evidence. node --version is supported." },
   { arms: ["ordinary", "temple"], stages: ["build"], text: "Commit: git add [--] explicit paths from order.mjs, test/added.test.mjs, DELIVERY.json, HANDOFF.md; git commit -m 'MESSAGE'. Broad add, automatic staging and amend are unsupported. Commit implementation/tests before writing delivery evidence." },
   { arms: ["ordinary", "temple"], stages: ["verify"], text: "Optional verification commit: git add [--] VERIFICATION.json; git commit -m 'MESSAGE'. Product paths cannot be staged by the verifier." },
-  { arms: ["temple"], stages: ["build", "verify"], text: "Temple reads (repository root only): node ./templew.mjs help or --help; context resolve . --work-item WI-0001 --position POSITION --compact --no-write --json (omit --compact for the full view); doctor . [--json]; status . --no-write [--json]; capability list . [--json]; capability find . --query 'TEXT' [--position POSITION] [--limit N] [--json]. POSITION is developer for Builder and quality_evaluator for Verifier." },
+  { arms: ["temple"], stages: ["build", "verify"], text: "Temple reads (repository root only): node ./templew.mjs help or --help; context resolve . --work-item WI-0001 --position POSITION --compact --no-write --json (omit --compact for the full view); doctor . [--compact] [--json]; status . --compact --json --work-item WI-0001 [--no-write] (without --no-write it rebuilds full generated views); or full status . --no-write [--json]; capability list . [--json]; capability find . --query 'TEXT' [--position POSITION] [--limit N] [--json]. POSITION is developer for Builder and quality_evaluator for Verifier." },
   { arms: ["temple"], stages: ["build", "verify"], text: "Temple ownership: node ./templew.mjs work-item claim . --work-item WI-0001 --agent-id AGENT --principal-id human --base-revision CURRENT_FULL_HEAD --branch main; work-item release . --work-item WI-0001 --agent-id AGENT --principal-id human --reason 'TEXT'. AGENT is agent-builder in Build and agent-verifier in verification. Use the same node ./templew.mjs prefix for every Temple operation." },
-  { arms: ["temple"], stages: ["build"], text: "Builder delivery: node ./templew.mjs work-item deliver . --work-item WI-0001 --operation-id delivery-v6 --claim-id CURRENT_CLAIM_ID --agent-id agent-builder --principal-id human --revision CANDIDATE_FULL_SHA --completed 'TEXT' --evidence DELIVERY.json --json. Read the actual claim ID from claim output or the Work Item; candidate must match DELIVERY.json. Read .agents/skills/temple-work/references/lean-delivery.md. This single operation records handoff, claim release and Test entry; it does not perform verification. Optional --dry-run and --expected-plan 64_HEX_DIGEST are supported; a preview alone is not delivery." },
+  { arms: ["temple"], stages: ["build"], text: "Builder delivery: node ./templew.mjs work-item deliver . --work-item WI-0001 --operation-id delivery-v7 --claim-id CURRENT_CLAIM_ID --agent-id agent-builder --principal-id human --revision CANDIDATE_FULL_SHA --completed 'TEXT' --evidence DELIVERY.json --json. Read the actual claim ID from claim output or the Work Item; candidate must match DELIVERY.json. Read .agents/skills/temple-work/references/lean-delivery.md. This single operation records handoff, claim release and Test entry; it does not perform verification. Optional --dry-run and --expected-plan 64_HEX_DIGEST are supported; a preview alone is not delivery." },
   { arms: ["temple"], stages: ["verify"], text: "Verifier closeout: after writing accept in VERIFICATION.json and releasing the claim, node ./templew.mjs transition . --work-item WI-0001 --to done --satisfy test_evidence=VERIFICATION.json --satisfy lean_closeout=VERIFICATION.json. A reject record cannot transition to done." }
 ];
 function freeze(value) { if (value && typeof value === "object") { Object.values(value).forEach(freeze); Object.freeze(value); } return value; }
 export const commandPolicyContract = freeze({
-  schema_version: "temple.delivery-command-policy/v1", version: "bounded-literal-v3", limits,
+  schema_version: "temple.delivery-command-policy/v1", version: "bounded-literal-v4", limits,
   rules: [...rejectionRules, "temple-claim-boundary", ...operations.filter(x => x !== "unknown").map(x => `allow-${x}`)],
   families: ["unknown", "read", "git", "node", "temple"], operations,
   envelopes: ["unrecognized", "direct-literal", "zsh-lc-literal"],
@@ -222,7 +223,7 @@ function templeCommand(args, state, context) {
   const wi = { "--work-item": ["work-item", "work-item"] }, identity = { "--agent-id": ["agent", "agent-identity"], "--principal-id": ["principal", "principal"] }, json = { "--json": ["json"] };
   const definitions = {
     "context resolve": { ...wi, ...json, "--position": ["position", "position"], "--no-write": ["no-write"], "--compact": ["compact"] },
-    doctor: json, status: { ...json, "--no-write": ["no-write"] },
+    doctor: { ...json, "--compact": ["compact"] }, status: { ...wi, ...json, "--no-write": ["no-write"], "--compact": ["compact"] },
     "capability list": json,
     "capability find": { ...json, "--query": ["query", "literal-text"], "--position": ["position", "position"], "--limit": ["limit", "line-count"] },
     "work-item claim": { ...wi, ...identity, "--base-revision": ["revision", "exact-revision"], "--branch": ["branch", "branch"] },
@@ -234,12 +235,23 @@ function templeCommand(args, state, context) {
   const { found, rest } = options(args, definitions, state, { repeat: name === "transition" ? ["satisfy"] : [] });
   need(rest.length === 0 && !found.has("--"), "argument-shape");
   const position = context.stage === "build" ? "developer" : "quality_evaluator", agent = context.stage === "build" ? "agent-builder" : "agent-verifier";
-  if (definitions["--work-item"]) exact(found, "work-item", "WI-0001", "temple-work-item-boundary");
+  if (definitions["--work-item"] && (name !== "status" || found.has("work-item"))) exact(found, "work-item", "WI-0001", "temple-work-item-boundary");
   if (name === "context resolve") {
     exact(found, "position", position, "temple-position-boundary"); exact(found, "no-write", true, "unsupported-option");
     if (found.has("compact")) { exact(found, "json", true, "unsupported-option"); state.operation = "temple-context-compact"; }
   }
-  if (name === "status") exact(found, "no-write", true, "unsupported-option");
+  if (name === "doctor" && found.has("compact")) state.operation = "temple-doctor-compact";
+  if (name === "status") {
+    state.no_write = found.has("no-write");
+    if (found.has("compact")) {
+      exact(found, "json", true, "unsupported-option");
+      exact(found, "work-item", "WI-0001", "temple-work-item-boundary");
+      state.operation = "temple-status-compact";
+    } else {
+      need(!found.has("work-item"), "unsupported-option");
+      exact(found, "no-write", true, "unsupported-option");
+    }
+  }
   if (name === "capability find") { need(typeof found.get("query") === "string" && found.get("query").length > 0, "argument-shape"); if (found.has("position")) exact(found, "position", position, "temple-position-boundary"); if (found.has("limit")) need(/^(?:[1-9]|[1-4][0-9]|50)$/.test(found.get("limit")), "argument-shape"); }
   if (name.startsWith("work-item ")) {
     exact(found, "agent", agent, "temple-identity-boundary"); exact(found, "principal", "human", "temple-principal-boundary");

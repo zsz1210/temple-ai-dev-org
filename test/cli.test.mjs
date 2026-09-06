@@ -79,6 +79,81 @@ function shellQuote(value) {
   return `'${String(value).replaceAll("'", `'"'"'`)}'`;
 }
 
+test("compact Doctor preserves every warning, failure and exit status while running full validation", async (context) => {
+  const { temporaryRoot, target, configPath } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  assert.equal(run(["init", target, "--config", configPath]).status, 0);
+  function compare() {
+    const full = run(["doctor", target, "--json"]);
+    const compact = run(["doctor", target, "--compact", "--json"]);
+    const original = JSON.parse(full.stdout);
+    const reduced = JSON.parse(compact.stdout);
+    assert.equal(compact.status, full.status);
+    assert.equal(reduced.schema_version, "temple.doctor-summary/v1");
+    assert.equal(reduced.validation_scope, "full");
+    assert.equal(reduced.healthy, original.healthy);
+    assert.deepEqual(reduced.summary, original.summary);
+    assert.deepEqual(reduced.checks, original.checks.filter((check) => check.status !== "pass"));
+    assert.equal(reduced.omitted_passing_checks, original.summary.pass);
+    const text = run(["doctor", target, "--compact"]);
+    assert.equal(text.status, full.status);
+    for (const check of reduced.checks) assert.ok(text.stdout.includes(check.message));
+    assert.ok(!text.stdout.includes("[PASS]"));
+    return reduced;
+  }
+  const warning = compare();
+  assert.ok(warning.summary.warn > 0);
+  assert.equal(warning.summary.fail, 0);
+  const integrationPath = path.join(target, REPOSITORY_INTEGRATION_RELATIVE_PATH);
+  const integration = JSON.parse(await fs.readFile(integrationPath, "utf8"));
+  await fs.writeFile(integrationPath, formatJson({ ...integration, status: "confirmed", source: "user-confirmed", summary: "Fixture integration", integration_target: "main", change_isolation: "required", review_gate: "required" }));
+  assert.equal(compare().summary.warn, 0);
+  await fs.appendFile(path.join(target, ".agents/skills/temple-work/SKILL.md"), "\nUnexpected managed drift.\n");
+  assert.ok(compare().summary.fail > 0);
+  const missing = run(["doctor", path.join(temporaryRoot, "missing"), "--compact", "--json"]);
+  assert.equal(missing.status, 1);
+  assert.equal(JSON.parse(missing.stdout).healthy, false);
+  assert.ok(JSON.parse(missing.stdout).checks.some((check) => check.status === "fail"));
+});
+
+test("compact Status preserves global attention and full selected row without changing view writes", async (context) => {
+  const { temporaryRoot, target, configPath } = await fixture();
+  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
+  assert.equal(run(["init", target, "--config", configPath]).status, 0);
+  for (const title of ["Selected stage", "Other work"]) {
+    const created = run(["work-item", "create", target, "--title", title]);
+    assert.equal(created.status, 0, created.stderr);
+  }
+  const views = ["status.md", "capabilities.json"].map((name) => path.join(target, ".ai-org/views", name));
+  const before = await Promise.all(views.map((file) => fs.readFile(file, "utf8")));
+  const full = JSON.parse(run(["status", target, "--json", "--no-write"]).stdout);
+  const selected = run(["status", target, "--compact", "--json", "--no-write", "--work-item", "WI-0001"]);
+  assert.equal(selected.status, 0, selected.stderr);
+  const reduced = JSON.parse(selected.stdout);
+  assert.equal(reduced.schema_version, "temple.status-summary/v1");
+  assert.equal(reduced.authority, "observation-only");
+  assert.deepEqual(reduced.attention, full.attention);
+  assert.ok(reduced.attention.length > 0);
+  assert.deepEqual(reduced.selected_work_item, full.work_items.items.find((item) => item.id === "WI-0001"));
+  assert.equal(reduced.work_items.total, 2);
+  assert.deepEqual(reduced.work_items.by_state, full.work_items.by_state);
+  assert.equal(reduced.work_items.items, undefined);
+  const global = JSON.parse(run(["status", target, "--compact", "--json", "--no-write"]).stdout);
+  assert.equal(global.selected_work_item, null);
+  assert.deepEqual(global.attention, full.attention);
+  assert.deepEqual(await Promise.all(views.map((file) => fs.readFile(file, "utf8"))), before);
+  for (const options of [["--compact"], ["--work-item", "WI-0001"], ["--compact", "--json", "--work-item", "WI-9999"]]) {
+    assert.equal(run(["status", target, ...options]).status, 1);
+    assert.deepEqual(await Promise.all(views.map((file) => fs.readFile(file, "utf8"))), before);
+  }
+  await fs.writeFile(views[0], "Stale generated view\n");
+  assert.equal(run(["status", target, "--compact", "--json", "--work-item", "WI-0001"]).status, 0);
+  const written = await fs.readFile(views[0], "utf8");
+  assert.ok(written.includes("Selected stage") && written.includes("Other work"));
+  assert.match(written, /Independent QA/);
+  assert.equal(JSON.parse(run(["status", target, "--json", "--no-write"]).stdout).schema_version, "temple.status/v9");
+});
+
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);

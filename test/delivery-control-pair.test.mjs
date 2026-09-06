@@ -153,11 +153,15 @@ function replayFactory({ mutate, mode, calls = [], ledger = [], errors=[] } = {}
           if(temple) {
             await read(".agents/skills/temple-work/references/lean-delivery.md");
             const claimId=JSON.parse(await read(".ai-org/work-items/WI-0001.json")).claim.id;
-            await c(["work-item","deliver",".","--work-item","WI-0001","--operation-id","delivery-v6","--claim-id",claimId,"--agent-id","agent-builder","--principal-id","human","--revision",revision,"--completed","Feature and tests delivered","--evidence","DELIVERY.json","--json"],"temple-deliver");
+            await c(["work-item","deliver",".","--work-item","WI-0001","--operation-id","delivery-v7","--claim-id",claimId,"--agent-id","agent-builder","--principal-id","human","--revision",revision,"--completed","Feature and tests delivered","--evidence","DELIVERY.json","--json"],"temple-deliver");
           }
         } else if(temple) {
           await c(["work-item","release",".","--work-item","WI-0001","--agent-id","agent-verifier","--principal-id","human","--reason",record.decision],"temple-release");
           if(record.decision==="accept") await c(["transition",".","--work-item","WI-0001","--to","done","--satisfy","test_evidence=VERIFICATION.json","--satisfy","lean_closeout=VERIFICATION.json"],"temple-transition-done");
+        }
+        if(temple) {
+          await c(["status",".","--compact","--json","--work-item","WI-0001"],"temple-status-compact");
+          await c(["doctor",".","--compact"],"temple-doctor-compact");
         }
         if(mode!=="missing-usage") options.onNotification(usage(threadId,turnId,mode==="bad-usage"?{cachedInputTokens:101}:mode==="cap"?{inputTokens:3000,totalTokens:3020}:{}));
         const completionRecord={...record,summary:"A concise paraphrase describing the same completed fixture work"};

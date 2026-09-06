@@ -18,6 +18,22 @@ Canonical Specs / ADRs / Skills / Work Items / Learning
 
 ## Source and ownership model
 
+An opt-in `context packet` command acquires whole selected local sources for the current low-risk bounded Lean Build/Test stage, without changing the existing capsule formats:
+
+```bash
+node ./templew.mjs context packet . --work-item WI-0001 --position developer --no-write --json
+```
+
+Use the actual Work Item and its current owner Position (`quality_evaluator` at Test). The response includes deduplicated source bodies, selection reasons, hashes and byte counts. Temple emits bodies only to stdout and does not save them to views or canonical records. Caller/provider retention remains separate. Other discovered Skills remain supporting references. Current entry instructions and required nested reads still apply; a packet does not certify complete instruction coverage or authorize mutation.
+
+Missing, unsafe, non-text, oversized, unresolved or changed inputs produce an incomplete response with no source bodies and exit status 1. First-version acquisition conservatively includes authority documents and does not promise smaller prompts or lower Token usage. Limits are 256 KiB per source and 1 MiB total. Unsupported profiles, wrong stage owners, pending delivery and resolver warnings also require the existing route. External specifications and unresolved Evidence IDs are not fetched or invented.
+
+Optional `--purpose primary|integration|recovery` selects the existing route purpose. `--expected-plan <packet_digest>` rejects changed acquisition inputs; the digest does not become a mutation token or proof that a fresh Agent read the material. Revalidate before later actions. See [ADR-0055](../adr/0055-transient-stage-material.md) for the transient acquisition contract and limits.
+
+Optional `--material stage` emits a v2 derived response. It narrows only recognized managed-file inventories and Position definitions to exact existing affected files, acquired sources, and current/handoff/next responsibilities. Original source hashes and emitted-body hashes are separate; the complete sources are still acquired and rechecked. All policies, entry instructions, Skills and evidence remain whole. This does not waive required reads or establish write permission. Omitted mode and `--material full` retain the original v1 response.
+
+Stage mode falls back to whole sources when formats or custom fields are unknown, scope includes directories/globs/missing files, the source is explicitly required by a gate/route/specification, the purpose is recovery, or the projection is not smaller. Each representation carries its reason. Negative exact managed-entry lookup does not classify ownership of unassessed paths. Expected digests bind the material mode, full sources and emitted representation. Byte reduction is diagnostic evidence, not a measured Token or delivery-time improvement. See [ADR-0056](../adr/0056-stage-material-projections.md).
+
 Humans and authorized Agents maintain canonical project files, the thin `.ai-org/project/spec-index.json` authority registry, and the thin `.ai-org/project/context-map.json` routing map. The specification index answers which product or interface document governs a revision; the Context Map answers when an Agent should read a source. Neither stores the source body. The CLI derives disposable views:
 
 - `.ai-org/views/capabilities.json` inventories repository Skills and their lifecycle ownership.
@@ -140,6 +156,24 @@ Alpha.12 ships `repository-deterministic`, a local provider that uses explicit I
 The `temple.retrieval-provider/v1` contract defines an adapter boundary with `id`, `mode`, `semantic`, and `search(request)`. Alpha.19 includes an injectable local-hybrid provider contract that can combine deterministic and local semantic results through reciprocal-rank fusion. Semantic output may rank only IDs already present in the supplied canonical repository corpus; it cannot replace their paths, content, or authority metadata. The provider preserves repository-relative citations and provenance and falls back deterministically when the local semantic provider fails.
 
 The project-owned `.ai-org/project/retrieval.json` keeps `repository-deterministic` selected by default and marks local hybrid as `available_not_configured`. The framework installs no model, embeddings, vector database, daemon, or remote search. A project must supply and evaluate its own local provider before selection is considered.
+
+## Optional Lean entry
+
+For deliberate opt-in to the bounded Lean material/completion path, use:
+
+```sh
+node ./templew.mjs context enter . --work-item WI-0001 \
+  --position developer --agent-id agent-builder --principal-id human \
+  --no-write --json
+```
+
+This read-only entry reassesses the current workflow, actor, stage, ownership and recovery state. Eligible low-risk bounded Lean Build/Test work receives stage material and navigation toward an existing claim or `work-item finish`. Standard, High-Assurance, UI, recovery, conflicting or incomplete cases retain the compact route with explicit reasons. Entry does not choose a new profile, claim work, execute commands or waive required instructions.
+
+Read the returned whole mandatory bodies and the installed `temple-work` Lean execution reference. Read remaining required sources as needed; hashes alone do not prove reading. The source packet is transient and its structured inventory selections remain derived views. Native provider entry and bootstrap obligations still apply to a fresh session.
+
+`--expected-plan` compares an earlier entry digest with the current read-only selection. Actor, authority, runtime state or source changes invalidate it. This digest cannot be passed as a finish mutation preview: finish validates its own request, candidate, claim and evidence. See [ADR-0058](../adr/0058-bounded-lean-entry.md) and [completion guidance](lean-completion.md).
+
+Installed-template and CLI sandbox checks can verify routing, coverage and no-write behavior without model inference. They do not prove that every model will choose the route or understand the delivered instructions.
 
 ## Retrieval evaluation
 

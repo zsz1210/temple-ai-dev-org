@@ -1,0 +1,285 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0188",
+  "title": "Integrate opt-in Lean entry with bounded material and completion",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-05T14:00:33.617Z",
+  "updated_at": "2026-09-05T14:32:45.164Z",
+  "scope": [
+    "Implement slice C after accepted B: read-only explicit-identity entry selects scoped stage material and finish guidance only within existing Lean eligibility; otherwise preserve the existing route and required instructions. Update core entry guidance through source templates and supported upgrade; deterministic installed sandbox tests only."
+  ],
+  "acceptance_criteria": [
+    "Positive cold Builder/fresh Verifier entry and negative risk/profile/identity/worker/conflict/recovery/missing-source cases are correct and no-write; required instruction and evidence coverage preserved; stale entry rejected; full verification and distinct QA pass."
+  ],
+  "affected_paths": [
+    "src/context-enter.mjs",
+    "src/context-packet.mjs",
+    "src/cli.mjs",
+    "test/context-enter.test.mjs",
+    "test/context-packet.test.mjs",
+    "project-overlay/AGENTS.md",
+    "project-overlay/TEMPLE.md",
+    "project-overlay/.agents/skills/temple-work/SKILL.md",
+    "project-overlay/.agents/skills/temple-work/references/lean-execution.md",
+    "AGENTS.md",
+    "TEMPLE.md",
+    ".agents/skills/temple-work",
+    "temple.lock",
+    "docs/adr/0058-bounded-lean-entry.md",
+    "docs/adr/README.md",
+    "docs/extensions/context-routing.md",
+    "docs/extensions/skill-scenarios.md",
+    "scripts/check-package.mjs",
+    ".ai-org/artifacts/WI-0188"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T14:00:33.617Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [
+    "WI-0187"
+  ],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "6346e02656347feed6b1bfd211562ff3ba6818cf",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260905143244-722c58fe",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "6346e02656347feed6b1bfd211562ff3ba6818cf",
+    "branch": "codex/wi-0188-lean-entry",
+    "worktree": null,
+    "claimed_at": "2026-09-05T14:32:44.908Z",
+    "released_at": "2026-09-05T14:32:45.164Z",
+    "release_reason": "work_item_closed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260905140034-4b018783",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "76c0177",
+      "branch": "codex/wi-0188-lean-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T14:00:34.395Z",
+      "released_at": "2026-09-05T14:02:00.533Z",
+      "release_reason": [
+        "Dependent C scope and acceptance recorded after B passed."
+      ]
+    },
+    {
+      "id": "claim-20260905140202-064dea46",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "76c0177",
+      "branch": "codex/wi-0188-lean-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T14:02:02.311Z",
+      "released_at": "2026-09-05T14:16:40.480Z",
+      "release_reason": [
+        "Frozen C candidate handed to distinct reviewer."
+      ]
+    },
+    {
+      "id": "claim-20260905141644-a77d6288",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "88ab5970b8410f3b4baa99be50ff26796bb51250",
+      "branch": "codex/wi-0188-lean-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T14:16:44.814Z",
+      "released_at": "2026-09-05T14:23:26.362Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260905142326-0799f316",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "88ab5970b8410f3b4baa99be50ff26796bb51250",
+      "branch": "codex/wi-0188-lean-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T14:23:26.636Z",
+      "released_at": "2026-09-05T14:27:50.331Z",
+      "release_reason": [
+        "Corrected exact candidate handed to fresh independent review."
+      ]
+    },
+    {
+      "id": "claim-20260905142754-11300a4b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "6346e02656347feed6b1bfd211562ff3ba6818cf",
+      "branch": "codex/wi-0188-lean-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T14:27:54.670Z",
+      "released_at": "2026-09-05T14:32:44.367Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905143244-722c58fe",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "6346e02656347feed6b1bfd211562ff3ba6818cf",
+      "branch": "codex/wi-0188-lean-entry",
+      "worktree": null,
+      "claimed_at": "2026-09-05T14:32:44.908Z",
+      "released_at": "2026-09-05T14:32:45.164Z",
+      "release_reason": "work_item_closed"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0188/brief.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0188/brief.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0188/brief.md"
+    ],
+    "technical_design": [
+      "docs/adr/0058-bounded-lean-entry.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0188/brief.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0188/handoff-002-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0188/developer-verification.v2.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0188/final-verification.v2.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0188/independent-qa.v2.md",
+      ".ai-org/artifacts/WI-0188/final-verification.v2.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0188/independent-qa.v2.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0188/brief.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0188/independent-qa.v2.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0188/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0188/brief.md",
+    "docs/adr/0058-bounded-lean-entry.md",
+    ".ai-org/artifacts/WI-0188/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0188/developer-verification.md",
+    ".ai-org/artifacts/WI-0188/handoff-002-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0188/developer-verification.v2.md",
+    ".ai-org/artifacts/WI-0188/final-verification.v2.md",
+    ".ai-org/artifacts/WI-0188/independent-qa.v2.md",
+    ".ai-org/artifacts/WI-0188/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "88ab5970b8410f3b4baa99be50ff26796bb51250",
+      "artifact": ".ai-org/artifacts/WI-0188/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T14:16:39.749Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "6346e02656347feed6b1bfd211562ff3ba6818cf",
+      "artifact": ".ai-org/artifacts/WI-0188/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T14:27:49.413Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-05T14:23:26.362Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260905141644-a77d6288",
+      "rejected_revision": "88ab5970b8410f3b4baa99be50ff26796bb51250",
+      "reason": [
+        "Reject draft shared contracts in optional entry and update existing Skill reference reachability test for the accepted new procedure. Preserve initial failing QA and full-run evidence."
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0188/independent-qa.md"
+      ],
+      "scope_digest": "0d74dd512807010710cef64ed1bc34aae41093f708cf3f728328191539c09533",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0188/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0188/developer-verification.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "88ab5970b8410f3b4baa99be50ff26796bb51250"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0188/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ],
+  "developer_candidate_revision": "6346e02656347feed6b1bfd211562ff3ba6818cf",
+  "tested_revision": "6346e02656347feed6b1bfd211562ff3ba6818cf",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

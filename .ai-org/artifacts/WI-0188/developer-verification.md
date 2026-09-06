@@ -1,0 +1,13 @@
+# WI-0188 Developer verification
+
+Implements read-only `context enter` with explicit Work Item/Position/Agent/Principal. Current profile, task contract, candidate, claim, sponsorship, overlap, runtime workers and recovery/diagnostic observations select the optional stage packet or an explicit body-free fallback. Entry binds full authority, relevant runtime state, actor and purpose. Its digest is distinct from a finish preview and never grants mutation authority.
+
+The installed Lean execution reference is selected only by this entry path; ordinary full/stage packet defaults remain unchanged. Whole AGENTS, TEMPLE, Skill, policy and evidence bodies remain intact. Eligible responses avoid repeating the compact entry outside the packet. The packet's ordinary next step is explicitly labeled an existing-route alternative; outer navigation names the selected claim/finish operation.
+
+Focused entry and packet suites: **28/28 passed**, zero failures/skips, **29.308 seconds**. After the final navigation clarification, the full cold Builder/fresh Verifier installed-launcher integration case passed again, **1/1**, **4.891 seconds**. Fixtures cover no prior packet, explicit claims/finishes, actual Verifier product-test execution, candidate and Identity separation, required-source equality, no-write entry, changed digests, profile/risk/UI/contract/claim exceptions, sponsorship, overlaps, active workers, missing/unsafe source and pending lifecycle/diagnostics. Initial fixture presentation/checkpoint assumptions and duplicate actor-flag ambiguity were corrected before the passing candidate.
+
+Root source-template changes extend the existing core Skill; no new Skill or dependency. Supported `upgrade` added the execution reference and updated exact managed TEMPLE/Skill files and lock. Root AGENTS is not an exact managed entry; its existing instruction block was updated without changing project-specific instructions. Upgrade briefly made the generated parallel plan stale; a rebuilt plan and Doctor passed **37/37**, zero warnings/failures. Repository/doc/package checks passed.
+
+Actual package inventory: 406 to 409 files, only the context-enter module, ADR-0058 and core execution reference added; no removals or exclusion changes. The 8 MiB package ceiling remains unchanged.
+
+The sandbox invokes the installed version-checking `templew.mjs` through its supported `TEMPLE_CLI_PATH` targeting the candidate source. Native provider bridge installation (`CLAUDE.md` importing AGENTS) is inspected. No network or model inference is used. This verifies command routing and material coverage, not model instruction loading, comprehension or autonomous route selection. Full exact-candidate verification and distinct QA remain required before acceptance.

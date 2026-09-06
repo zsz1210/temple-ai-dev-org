@@ -1,0 +1,372 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0184",
+  "title": "Acquire bounded stage material without changing workflow authority",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-05T12:28:36.108Z",
+  "updated_at": "2026-09-05T12:50:01.021Z",
+  "scope": [
+    "Implement WI-0183 slice A as an opt-in read-only context packet, with deterministic source inclusion, provenance, safe local acquisition, freshness checks and explicit coverage limits. Preserve current entry instructions and all frozen comparisons; no composed lifecycle extension or live model comparison."
+  ],
+  "acceptance_criteria": [
+    "Whole required local sources are deduplicated and revision-bound; missing, unsafe, oversized, stale or unsupported inputs are explicit; no body persistence or mutation authority; existing context output remains compatible; full tests and distinct-Identity QA pass."
+  ],
+  "affected_paths": [
+    "src/context-packet.mjs",
+    "src/cli.mjs",
+    "test/context-packet.test.mjs",
+    "docs/adr/0055-transient-stage-material.md",
+    "docs/adr/README.md",
+    "docs/extensions/context-routing.md",
+    ".ai-org/artifacts/WI-0184"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T12:28:36.108Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "1c0b0bcd40afa4e61d8f4a1acd11a1f993149df9",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260905125000-03561eb1",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "1c0b0bcd40afa4e61d8f4a1acd11a1f993149df9",
+    "branch": "codex/wi-0184-stage-material",
+    "worktree": null,
+    "claimed_at": "2026-09-05T12:50:00.774Z",
+    "released_at": "2026-09-05T12:50:01.021Z",
+    "release_reason": "work_item_closed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260905122836-e879dc11",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "7174489",
+      "branch": "codex/wi-0184-stage-material",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:28:36.632Z",
+      "released_at": "2026-09-05T12:29:42.585Z",
+      "release_reason": [
+        "Recorded authorized bounded scope for Spec and Design."
+      ]
+    },
+    {
+      "id": "claim-20260905122943-7f7fc35e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "7174489",
+      "branch": "codex/wi-0184-stage-material",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:29:43.346Z",
+      "released_at": "2026-09-05T12:30:38.552Z",
+      "release_reason": [
+        "Bounded transient acquisition contract recorded in ADR-0055; no entry exemption."
+      ]
+    },
+    {
+      "id": "claim-20260905123039-96e0c376",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "7174489",
+      "branch": "codex/wi-0184-stage-material",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:30:39.070Z",
+      "released_at": "2026-09-05T12:36:29.594Z",
+      "release_reason": [
+        "Handed exact candidate to Quality Evaluator for bounded independent inspection; full suite remains pending."
+      ]
+    },
+    {
+      "id": "claim-20260905123701-e7e13ef2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213",
+      "branch": "codex/wi-0184-stage-material",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:37:01.321Z",
+      "released_at": "2026-09-05T12:37:47.184Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260905123747-d904a6d9",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213",
+      "branch": "codex/wi-0184-stage-material",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:37:47.615Z",
+      "released_at": "2026-09-05T12:39:12.889Z",
+      "release_reason": [
+        "Temporarily hand off exact package inventory adjustment to bounded child WI-0185 before corrected candidate verification."
+      ]
+    },
+    {
+      "id": "claim-20260905123958-bbb75ddf",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "85994e3b5e6310e0f684bc1299d1d1cb60e5b7f2",
+      "branch": "codex/wi-0184-stage-material",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:39:58.740Z",
+      "released_at": "2026-09-05T12:40:28.114Z",
+      "release_reason": [
+        "Corrected candidate handed to distinct review identity."
+      ]
+    },
+    {
+      "id": "claim-20260905124032-13ac5f67",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "85994e3b5e6310e0f684bc1299d1d1cb60e5b7f2",
+      "branch": "codex/wi-0184-stage-material",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:40:32.719Z",
+      "released_at": "2026-09-05T12:45:20.344Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260905124520-b7274421",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "85994e3b5e6310e0f684bc1299d1d1cb60e5b7f2",
+      "branch": "codex/wi-0184-stage-material",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:45:20.610Z",
+      "released_at": "2026-09-05T12:46:34.107Z",
+      "release_reason": [
+        "Corrected root-evidence candidate requires fresh review."
+      ]
+    },
+    {
+      "id": "claim-20260905124638-c031c116",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "1c0b0bcd40afa4e61d8f4a1acd11a1f993149df9",
+      "branch": "codex/wi-0184-stage-material",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:46:38.354Z",
+      "released_at": "2026-09-05T12:50:00.079Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260905125000-03561eb1",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "1c0b0bcd40afa4e61d8f4a1acd11a1f993149df9",
+      "branch": "codex/wi-0184-stage-material",
+      "worktree": null,
+      "claimed_at": "2026-09-05T12:50:00.774Z",
+      "released_at": "2026-09-05T12:50:01.021Z",
+      "release_reason": "work_item_closed"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0184/brief.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0184/brief.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0184/brief.md"
+    ],
+    "technical_design": [
+      "docs/adr/0055-transient-stage-material.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0184/brief.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0184/handoff-003-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0184/developer-verification.v3.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0184/final-verification.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0184/independent-qa.v3.md",
+      ".ai-org/artifacts/WI-0184/final-verification.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0184/independent-qa.v3.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0184/brief.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0184/independent-qa.v3.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0184/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0184/brief.md",
+    "docs/adr/0055-transient-stage-material.md",
+    ".ai-org/artifacts/WI-0184/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0184/developer-verification.md",
+    ".ai-org/artifacts/WI-0184/handoff-002-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0184/developer-verification.v2.md",
+    ".ai-org/artifacts/WI-0184/handoff-003-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0184/developer-verification.v3.md",
+    ".ai-org/artifacts/WI-0184/final-verification.md",
+    ".ai-org/artifacts/WI-0184/independent-qa.v3.md",
+    ".ai-org/artifacts/WI-0184/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213",
+      "artifact": ".ai-org/artifacts/WI-0184/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T12:36:29.345Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "85994e3b5e6310e0f684bc1299d1d1cb60e5b7f2",
+      "artifact": ".ai-org/artifacts/WI-0184/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T12:40:27.396Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "1c0b0bcd40afa4e61d8f4a1acd11a1f993149df9",
+      "artifact": ".ai-org/artifacts/WI-0184/handoff-003-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T12:46:33.519Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-05T12:37:47.184Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260905123701-e7e13ef2",
+      "rejected_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213",
+      "reason": [
+        "Full verification stopped before tests: two intended package additions exceed the reviewed file-count ceiling. Inventory reviewed; preserve boundary checks and update exact ceiling."
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0184/packaging-review.md"
+      ],
+      "scope_digest": "132656ef2fefbf184bde086749c981d36e18b6b48cc2fe206bd557eb4ee168b6",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0184/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0184/developer-verification.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "bc269d3feca6cf5cff3c91082f7406f601fda213"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0184/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    },
+    {
+      "sequence": 2,
+      "returned_at": "2026-09-05T12:45:20.344Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260905124032-13ac5f67",
+      "rejected_revision": "85994e3b5e6310e0f684bc1299d1d1cb60e5b7f2",
+      "reason": [
+        "Independent QA reproduced rejection of valid repository-root evidence solely for lacking a slash; fix whole local-source acquisition and add regression coverage."
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0184/independent-qa.md"
+      ],
+      "scope_digest": "132656ef2fefbf184bde086749c981d36e18b6b48cc2fe206bd557eb4ee168b6",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0184/handoff-002-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0184/developer-verification.v2.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "85994e3b5e6310e0f684bc1299d1d1cb60e5b7f2"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0184/handoff-001-developer-to-quality_evaluator.md",
+        ".ai-org/artifacts/WI-0184/handoff-002-developer-to-quality_evaluator.md"
+      ]
+    }
+  ],
+  "developer_candidate_revision": "1c0b0bcd40afa4e61d8f4a1acd11a1f993149df9",
+  "tested_revision": "1c0b0bcd40afa4e61d8f4a1acd11a1f993149df9",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

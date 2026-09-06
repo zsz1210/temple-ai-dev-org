@@ -1,0 +1,95 @@
+{
+  "schema_version": "temple.delivery-sandbox-readiness/v1",
+  "status": "passed",
+  "model_generation_performed": false,
+  "provider_thread_requests": 0,
+  "provider_turn_requests": 0,
+  "transport": "installed-provider-command/exec; actual-zsh-envelope; sandboxed-file-writes",
+  "source_sha256": "sha256:b594b1114ec314ec2a37a17987e0e58e1d304150ae20dc818cf9113c30db96a9",
+  "process_contract_sha256": "sha256:f41225f9fd3aeea9612c8c40b625ce8357f1c9f583c1e29e2156975cf3bd4b09",
+  "cli_version": "codex-cli 0.153.1",
+  "completed_stages": 4,
+  "negative_write_checks": 2,
+  "negatives": [
+    {
+      "exit_code": 1,
+      "denied": true
+    },
+    {
+      "exit_code": 1,
+      "denied": true
+    }
+  ],
+  "operation_count": 85,
+  "operations": [
+    "pwd",
+    "git-status",
+    "git-current-branch",
+    "cat",
+    "git-rev-parse",
+    "git-add",
+    "git-commit",
+    "product-tests-all",
+    "temple-help",
+    "temple-context-compact",
+    "temple-claim",
+    "temple-deliver",
+    "temple-status-compact",
+    "temple-doctor-compact",
+    "temple-release",
+    "temple-transition-done"
+  ],
+  "stages": [
+    {
+      "arm": "ordinary",
+      "stage": "build",
+      "quality_passed": true,
+      "workflow": null,
+      "command_started_count": 14,
+      "command_completed_count": 14,
+      "oracle_exit_code": 0
+    },
+    {
+      "arm": "ordinary",
+      "stage": "verify",
+      "quality_passed": true,
+      "workflow": null,
+      "command_started_count": 14,
+      "command_completed_count": 14,
+      "oracle_exit_code": 0
+    },
+    {
+      "arm": "temple",
+      "stage": "build",
+      "quality_passed": true,
+      "workflow": {
+        "observed_state": "test",
+        "expected_state": "test",
+        "exact_handoff": true,
+        "claim_status": "released",
+        "claim_agent_id": "agent-builder",
+        "pass": true
+      },
+      "command_started_count": 24,
+      "command_completed_count": 24,
+      "oracle_exit_code": 0
+    },
+    {
+      "arm": "temple",
+      "stage": "verify",
+      "quality_passed": true,
+      "workflow": {
+        "observed_state": "done",
+        "expected_state": "done",
+        "exact_handoff": true,
+        "claim_status": "released",
+        "claim_agent_id": "agent-verifier",
+        "pass": true
+      },
+      "command_started_count": 23,
+      "command_completed_count": 23,
+      "oracle_exit_code": 0
+    }
+  ],
+  "synthetic_usage_excluded": true
+}

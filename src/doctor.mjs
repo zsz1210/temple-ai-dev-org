@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { leanFinishAttention } from "./lean-delivery-state.mjs";
 import {
   AGENTS_MARKER_START,
   REPOSITORY_ROOT,
@@ -104,7 +105,7 @@ function hasDependencyCycle(itemId, itemsById, visiting = new Set(), visited = n
   return false;
 }
 
-export async function runDoctor(target) {
+export async function runDoctor(target, options = {}) {
   const checks = [];
   const lockPath = path.join(target, "temple.lock");
   if (!(await pathExists(lockPath))) {
@@ -918,8 +919,22 @@ export async function runDoctor(target) {
     });
   }
 
+  const finishAttention = await leanFinishAttention(target, options.settlingLeanFinish);
+  if (finishAttention.length) checks.push({ id: "lean_finish_diagnostics", status: "fail", message: finishAttention.map(entry => entry.message).join("; ") });
   const summary = summarize(checks);
   return { target, checks, summary, healthy: summary.fail === 0 };
+}
+
+export function compactDoctor(result) {
+  return {
+    schema_version: "temple.doctor-summary/v1",
+    validation_scope: "full",
+    target: result.target,
+    healthy: result.healthy,
+    summary: result.summary,
+    omitted_passing_checks: result.checks.filter((check) => check.status === "pass").length,
+    checks: result.checks.filter((check) => check.status !== "pass")
+  };
 }
 
 export function formatDoctor(result) {

@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { leanFinishAttention } from "./lean-delivery-state.mjs";
 import {
   buildCapabilityRegistry,
   CONTEXT_MAP_RELATIVE_PATH,
@@ -305,6 +306,7 @@ export async function buildStatus(target, options = {}) {
     external_action_performed: false
   };
   const attention = [
+    ...await leanFinishAttention(target, options.settlingLeanFinish),
     ...workItems
       .filter((item) => item.state === "blocked")
       .map((item) => ({ type: "blocked_work_item", work_item_id: item.id, message: `${item.id} is blocked` })),
@@ -493,6 +495,21 @@ export async function buildStatus(target, options = {}) {
     orchestration,
     cli_bootstrap: lock.template.bootstrap ?? null,
     integrations: { ...lock.integrations, archify_adapter: archifyAdapter }
+  };
+}
+
+export function compactStatus(status, workItemId) {
+  const item = workItemId ? status.work_items.items.find((entry) => entry.id === workItemId) : null;
+  if (workItemId && !item) throw new Error(`Unknown Work Item: ${workItemId}`);
+  return {
+    schema_version: "temple.status-summary/v1",
+    authority: "observation-only",
+    projection_scope: "full",
+    project: status.project,
+    work_items: { total: status.work_items.total, by_state: status.work_items.by_state },
+    selected_work_item: item,
+    attention: status.attention,
+    detail_command: "status --json --no-write"
   };
 }
 
