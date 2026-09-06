@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0195",
   "title": "Complete repaired native support comparison",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T03:06:08.740Z",
-  "updated_at": "2026-09-06T03:28:23.231Z",
+  "updated_at": "2026-09-06T04:03:25.346Z",
   "scope": [
     "Run a fresh sealed four-arm Terra medium support comparison using the reviewed WI-0194 recorder; preserve WI-0191 through WI-0194 and stop on the first mandatory failure"
   ],
@@ -50,18 +50,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906032424-cb979366",
+    "id": "claim-20260906040226-2cf9dc58",
     "status": "released",
     "principal_id": "human",
     "agent_id": "agent-lulu",
     "base_revision": "879ac69f93cec6f1333de4e220da30edb51cce01",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": null,
-    "claimed_at": "2026-09-06T03:24:24.126Z",
-    "released_at": "2026-09-06T03:28:23.231Z",
-    "release_reason": [
-      "Exact successor seal passed distinct readiness; live approval remains pending"
-    ]
+    "claimed_at": "2026-09-06T04:02:26.931Z",
+    "released_at": "2026-09-06T04:03:25.346Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -157,6 +155,18 @@
       "release_reason": [
         "Exact successor seal passed distinct readiness; live approval remains pending"
       ]
+    },
+    {
+      "id": "claim-20260906040226-2cf9dc58",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "879ac69f93cec6f1333de4e220da30edb51cce01",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T04:02:26.931Z",
+      "released_at": "2026-09-06T04:03:25.346Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -183,6 +193,12 @@
     ],
     "developer_evidence": [
       ".ai-org/artifacts/WI-0195/focused-test-3.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0195/live-results.json"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0195/live-report.md"
     ]
   },
   "evidence": [
@@ -192,10 +208,12 @@
     ".ai-org/artifacts/WI-0195/handoff-002-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0195/focused-test-2.md",
     ".ai-org/artifacts/WI-0195/handoff-003-developer-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0195/focused-test-3.md"
+    ".ai-org/artifacts/WI-0195/focused-test-3.md",
+    ".ai-org/artifacts/WI-0195/live-results.json",
+    ".ai-org/artifacts/WI-0195/live-report.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -299,5 +317,8 @@
       ]
     }
   ],
-  "developer_candidate_revision": "879ac69f93cec6f1333de4e220da30edb51cce01"
+  "developer_candidate_revision": "879ac69f93cec6f1333de4e220da30edb51cce01",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
 }

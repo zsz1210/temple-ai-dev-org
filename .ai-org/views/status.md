@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=true
-- Work items: 195 total, 8 active
+- Work items: 195 total, 7 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 55 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -39,9 +39,9 @@
 - Valid: yes
 - Fresh: yes
 - Safe waves: 1
-- Dispatchable Work Items: 2
+- Dispatchable Work Items: 1
 - Active / sequential / blocked: 0 / 3 / 3
-- Next wave: WI-0190, WI-0195
+- Next wave: WI-0190
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -242,7 +242,7 @@
 | WI-0192 | Repair paired evaluation evidence without changing sealed results | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9e96f7bb` | 0 | 3 | 0 |
 | WI-0193 | Run bounded native support comparison after measurement repair | test | Quality & Evaluation Engineer | Lulu | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2628319f` | 0 | 2 | 1 |
 | WI-0194 | Complete native event classification and failure-path replay coverage | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f9edc11a` | 0 | 6 | 0 |
-| WI-0195 | Complete repaired native support comparison | test | Quality & Evaluation Engineer | Lulu | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `879ac69f` | 0 | 7 | 0 |
+| WI-0195 | Complete repaired native support comparison | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `879ac69f` | 0 | 9 | 0 |
 
 ## Codex task registry
 
@@ -428,14 +428,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-06T04:03:25.346Z | work_item_closed | WI-0195 | agent-lulu |
+| 2026-09-06T04:03:25.346Z | work_item_transitioned | WI-0195 | agent-lulu |
+| 2026-09-06T04:02:26.931Z | work_item_claimed | WI-0195 | human |
 | 2026-09-06T03:28:23.231Z | work_item_claim_released | WI-0195 | human |
 | 2026-09-06T03:28:22.931Z | runtime_worker_status_changed | WI-0195 | agent-lulu |
 | 2026-09-06T03:24:43.197Z | runtime_worker_attached | WI-0195 | agent-lulu |
 | 2026-09-06T03:24:24.112Z | runtime_worker_reserved | WI-0195 | human |
 | 2026-09-06T03:24:24.126Z | work_item_claimed | WI-0195 | human |
-| 2026-09-06T03:24:23.172Z | work_item_coordination_configured | WI-0195 | agent-lulu |
-| 2026-09-06T03:24:22.914Z | work_item_transitioned | WI-0195 | agent-rikku |
-| 2026-09-06T03:24:22.654Z | work_item_claim_released | WI-0195 | human |
 
 ## Assignments
 
