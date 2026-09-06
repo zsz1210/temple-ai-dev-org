@@ -1,0 +1,115 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0194",
+  "title": "Complete native event classification and failure-path replay coverage",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-06T02:45:49.387Z",
+  "updated_at": "2026-09-06T02:46:55.332Z",
+  "scope": [
+    "Local generation-free event recorder repair with full installed item-union coverage, privacy-safe failure metadata, child ordering and cleanup tests; preserve sealed WI-0193; no live retry"
+  ],
+  "acceptance_criteria": [
+    "Every installed item type has explicit classification; unknown and invalid events retain safe diagnostics; child activity alone grants no authority; actual executor replay tests pass; full verify and distinct review complete"
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0194"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Bounded experiment-local recorder and deterministic tests; no production or model calls",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T02:45:49.386Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "a6d9b49",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906024655-e781047e",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "a6d9b49",
+    "branch": "codex/wi-0191-proportionate-evaluation",
+    "worktree": null,
+    "claimed_at": "2026-09-06T02:46:55.332Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260906024549-8fed6e41",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "a6d9b49",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T02:45:49.666Z",
+      "released_at": "2026-09-06T02:46:54.795Z",
+      "release_reason": [
+        "Bounded local repair design recorded"
+      ]
+    },
+    {
+      "id": "claim-20260906024655-e781047e",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "a6d9b49",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T02:46:55.332Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0194/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0194/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0194/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0194/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0194/design.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/artifacts/WI-0194/design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0194/design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
