@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0199",
   "title": "Repair ephemeral helper dispatch",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T05:50:56.959Z",
-  "updated_at": "2026-09-06T05:58:17.959Z",
+  "updated_at": "2026-09-06T06:05:29.725Z",
   "scope": [
     "Create a successor of the sealed compatibility runner that explicitly disables helper history forks, retains the historical diagnosis as redacted evidence, and verifies request and acquisition behavior without live generation."
   ],
@@ -44,23 +44,23 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "586162c2dc84b99d95cee634544924d67663ed9a",
-  "parallel_mode": "pending",
-  "integration_owner_agent_id": null,
+  "base_revision": "HEAD",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906055123-19a08952",
+    "id": "claim-20260906060207-12ef579a",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "586162c2dc84b99d95cee634544924d67663ed9a",
+    "agent_id": "agent-lulu",
+    "base_revision": "HEAD",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": null,
-    "claimed_at": "2026-09-06T05:51:23.966Z",
-    "released_at": "2026-09-06T05:58:17.959Z",
+    "claimed_at": "2026-09-06T06:02:07.836Z",
+    "released_at": "2026-09-06T06:05:29.725Z",
     "release_reason": "position_transition"
   },
   "claims": [
@@ -74,6 +74,18 @@
       "worktree": null,
       "claimed_at": "2026-09-06T05:51:23.966Z",
       "released_at": "2026-09-06T05:58:17.959Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260906060207-12ef579a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "HEAD",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T06:02:07.836Z",
+      "released_at": "2026-09-06T06:05:29.725Z",
       "release_reason": "position_transition"
     }
   ],
@@ -102,6 +114,12 @@
     ],
     "developer_evidence": [
       ".ai-org/artifacts/WI-0199/test-report.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0199/readiness-review.md"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0199/readiness-review.md"
     ]
   },
   "evidence": [
@@ -109,10 +127,11 @@
     ".ai-org/artifacts/WI-0197/design.md",
     ".ai-org/artifacts/WI-0197/readiness-review.md",
     ".ai-org/artifacts/WI-0199/handoff-001-developer-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0199/test-report.md"
+    ".ai-org/artifacts/WI-0199/test-report.md",
+    ".ai-org/artifacts/WI-0199/readiness-review.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -123,5 +142,8 @@
       "created_at": "2026-09-06T05:58:17.703Z"
     }
   ],
-  "developer_candidate_revision": "c64371d07e7d0accd25ff198378cbd05ca0ce681"
+  "developer_candidate_revision": "c64371d07e7d0accd25ff198378cbd05ca0ce681",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
 }
