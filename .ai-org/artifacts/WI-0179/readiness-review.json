@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "reviewer_agent_id": "agent-lulu",
+  "developer_agent_id": "agent-rikku",
+  "reviewed_source_sha256": "sha256:d31aff9ed119e2532d8f4ccc00d0ada1f6e2f76d676602f022c5badb7fe56e96",
+  "evidence_ref": ".ai-org/artifacts/WI-0179/independent-qa.md",
+  "evidence_sha256": "sha256:c0403b2765ca73c79af6fab57b7c43d2812d47c39302e5ffb8640eb1e5c3c328",
+  "sandbox_evidence_ref": ".ai-org/artifacts/WI-0179/sandbox-readiness.json",
+  "sandbox_evidence_sha256": "sha256:0455beea1bbcd2035cdf2ac5e0a9d7176469c3ac16e80b7c3fc1f10c55f114cc"
+}

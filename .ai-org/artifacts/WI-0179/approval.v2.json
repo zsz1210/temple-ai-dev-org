@@ -1,0 +1,18 @@
+{
+  "schema_version": "temple.optimized-delivery-matrix-approval/v1",
+  "status": "approved",
+  "work_item_id": "WI-0179",
+  "matrix_sha256": "sha256:3aea9b81ed834faebccffa6376a3eb1df7a5c0d40604dbda549376ad7ab4b183",
+  "maximum_stage_turns": 16,
+  "maximum_operational_tokens": 1280000,
+  "maximum_ms": 5760000,
+  "account": "existing-included-allowance-only",
+  "purchase": false,
+  "refill": false,
+  "reset": false,
+  "retries": 0,
+  "fallback": false,
+  "approved_by": "human",
+  "approved_at": "2026-09-05T10:18:05Z",
+  "evidence_ref": ".ai-org/artifacts/WI-0179/approval.v2.md"
+}

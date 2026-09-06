@@ -1,0 +1,93 @@
+{
+  "schema_version": "temple.delivery-sandbox-readiness/v1",
+  "status": "passed",
+  "model_generation_performed": false,
+  "provider_thread_requests": 0,
+  "provider_turn_requests": 0,
+  "transport": "installed-provider-command/exec; actual-zsh-envelope; sandboxed-file-writes",
+  "source_sha256": "sha256:d31aff9ed119e2532d8f4ccc00d0ada1f6e2f76d676602f022c5badb7fe56e96",
+  "process_contract_sha256": "sha256:96977af8fa19b6aa1e79d31ff9a60415165b4ec98d871362e765565df3abdd69",
+  "cli_version": "codex-cli 0.153.1",
+  "completed_stages": 4,
+  "negative_write_checks": 2,
+  "negatives": [
+    {
+      "exit_code": 1,
+      "denied": true
+    },
+    {
+      "exit_code": 1,
+      "denied": true
+    }
+  ],
+  "operation_count": 81,
+  "operations": [
+    "pwd",
+    "git-status",
+    "git-current-branch",
+    "cat",
+    "temple-help",
+    "temple-context-compact",
+    "git-rev-parse",
+    "temple-claim",
+    "git-add",
+    "git-commit",
+    "product-tests-all",
+    "temple-deliver",
+    "temple-release",
+    "temple-transition-done"
+  ],
+  "stages": [
+    {
+      "arm": "temple",
+      "stage": "build",
+      "quality_passed": true,
+      "workflow": {
+        "observed_state": "test",
+        "expected_state": "test",
+        "exact_handoff": true,
+        "claim_status": "released",
+        "claim_agent_id": "agent-builder",
+        "pass": true
+      },
+      "command_started_count": 22,
+      "command_completed_count": 22,
+      "oracle_exit_code": 0
+    },
+    {
+      "arm": "temple",
+      "stage": "verify",
+      "quality_passed": true,
+      "workflow": {
+        "observed_state": "done",
+        "expected_state": "done",
+        "exact_handoff": true,
+        "claim_status": "released",
+        "claim_agent_id": "agent-verifier",
+        "pass": true
+      },
+      "command_started_count": 21,
+      "command_completed_count": 21,
+      "oracle_exit_code": 0
+    },
+    {
+      "arm": "ordinary",
+      "stage": "build",
+      "quality_passed": true,
+      "workflow": null,
+      "command_started_count": 14,
+      "command_completed_count": 14,
+      "oracle_exit_code": 0
+    },
+    {
+      "arm": "ordinary",
+      "stage": "verify",
+      "quality_passed": true,
+      "workflow": null,
+      "command_started_count": 14,
+      "command_completed_count": 14,
+      "oracle_exit_code": 0
+    }
+  ],
+  "synthetic_usage_excluded": true
+}

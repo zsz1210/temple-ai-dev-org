@@ -1,0 +1,31 @@
+{
+  "schema_version": "temple.post-stop-product-diagnostic/v1",
+  "pair": "gpt6-temple-first",
+  "classification": "post-stop-diagnostic-only-not-original-stage-acceptance",
+  "candidate_revision": "2aa1ab6418ac43f76f0f93ff6fd3124d7dfd8dcf",
+  "head_matches_candidate": true,
+  "tests": {
+    "exit_code": 0,
+    "output_sha256": "sha256:f398d3bdf99baf63800fbf2589056f57af5c9e84ef0a1d623a771c804399ec0f",
+    "elapsed_ms": 76,
+    "summary": [
+      "ℹ tests 9",
+      "ℹ pass 9",
+      "ℹ fail 0",
+      "ℹ skipped 0",
+      "ℹ duration_ms 45.721708"
+    ]
+  },
+  "oracle": {
+    "exit_code": 0,
+    "output_sha256": "sha256:fb94e0a1fdce80a1d9ce1816aac5cfa2b42bc86041f9149682c9947c65d6d295",
+    "elapsed_ms": 62
+  },
+  "work_item_state": "test",
+  "claim_status": "released",
+  "exact_handoff": true,
+  "archive_unchanged": true,
+  "model_turns": 0,
+  "retry": false,
+  "changes_original_outcome": false
+}
