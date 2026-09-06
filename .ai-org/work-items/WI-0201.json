@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0201",
   "title": "Repair complete native helper observation lifecycle",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T06:13:43.874Z",
-  "updated_at": "2026-09-06T06:25:50.293Z",
+  "updated_at": "2026-09-06T06:33:29.829Z",
   "scope": [
     "Diagnose real ephemeral API behavior without generation, implement a successor lifecycle observer and adversarial tests, preserve sealed predecessors and report remaining compatibility limits."
   ],
@@ -43,7 +43,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "ac618c029322e94a1444a14b9925124fa7a741f7",
+  "base_revision": "5fda83aca2c361fbe369296f0539a0957cc8a0ff",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -53,15 +53,16 @@
     "WI-0202: successor live approval only; no concurrent implementation edits; live waits for WI-0201 acceptance"
   ],
   "claim": {
-    "id": "claim-20260906062550-d10796cd",
-    "status": "active",
+    "id": "claim-20260906062924-f30b84e3",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "ac618c029322e94a1444a14b9925124fa7a741f7",
+    "agent_id": "agent-lulu",
+    "base_revision": "5fda83aca2c361fbe369296f0539a0957cc8a0ff",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": null,
-    "claimed_at": "2026-09-06T06:25:50.293Z",
-    "released_at": null
+    "claimed_at": "2026-09-06T06:29:24.789Z",
+    "released_at": "2026-09-06T06:33:29.829Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -90,14 +91,27 @@
     },
     {
       "id": "claim-20260906062550-d10796cd",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "ac618c029322e94a1444a14b9925124fa7a741f7",
       "branch": "codex/wi-0191-proportionate-evaluation",
       "worktree": null,
       "claimed_at": "2026-09-06T06:25:50.293Z",
-      "released_at": null
+      "released_at": "2026-09-06T06:29:23.467Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260906062924-f30b84e3",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "5fda83aca2c361fbe369296f0539a0957cc8a0ff",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T06:29:24.789Z",
+      "released_at": "2026-09-06T06:33:29.829Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -118,6 +132,19 @@
     ],
     "profile_eligibility": [
       ".ai-org/work-items/WI-0201.json"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0201/handoff-002-developer-to-quality_evaluator.md",
+      ".ai-org/artifacts/WI-0201/repair-evidence-v2.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0201/repair-evidence-v2.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0201/readiness-review-v2.md"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0201/readiness-review-v2.md"
     ]
   },
   "evidence": [
@@ -126,10 +153,13 @@
     ".ai-org/artifacts/WI-0200/live-report.md",
     ".ai-org/artifacts/WI-0201/handoff-001-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0201/design.md",
-    ".ai-org/artifacts/WI-0201/api-evidence.json"
+    ".ai-org/artifacts/WI-0201/api-evidence.json",
+    ".ai-org/artifacts/WI-0201/handoff-002-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0201/repair-evidence-v2.md",
+    ".ai-org/artifacts/WI-0201/readiness-review-v2.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -138,6 +168,14 @@
       "input_revision": "ac618c029322e94a1444a14b9925124fa7a741f7",
       "artifact": ".ai-org/artifacts/WI-0201/handoff-001-developer-to-quality_evaluator.md",
       "created_at": "2026-09-06T06:21:37.046Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "5fda83aca2c361fbe369296f0539a0957cc8a0ff",
+      "artifact": ".ai-org/artifacts/WI-0201/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T06:29:23.183Z"
     }
   ],
   "rework_history": [
@@ -180,5 +218,9 @@
         ".ai-org/artifacts/WI-0201/handoff-001-developer-to-quality_evaluator.md"
       ]
     }
-  ]
+  ],
+  "developer_candidate_revision": "5fda83aca2c361fbe369296f0539a0957cc8a0ff",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
 }

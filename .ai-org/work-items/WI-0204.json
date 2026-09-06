@@ -1,0 +1,103 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0204",
+  "title": "Separate root delegation from leaf instructions and cancellation state",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-06T06:36:41.585Z",
+  "updated_at": "2026-09-06T06:37:11.904Z",
+  "scope": [
+    "Repair inherited delegation instructions and interrupted terminal accounting without another live model run. Preserve sealed WI-0202 evidence."
+  ],
+  "acceptance_criteria": [
+    "Parent-only delegation cannot be mistaken for leaf work in the request composition; native depth setting must be verified before any future live run.",
+    "Interrupted terminal events remain observable while successful completion still requires closed items."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0204"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Reversible successor harness repair, generation disabled",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T06:36:41.585Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "HEAD",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906063711-46078472",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "HEAD",
+    "branch": "codex/wi-0191-proportionate-evaluation",
+    "worktree": null,
+    "claimed_at": "2026-09-06T06:37:11.904Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260906063711-46078472",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "HEAD",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T06:37:11.904Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/work-items/WI-0204.json"
+    ],
+    "approved_scope": [
+      ".ai-org/work-items/WI-0204.json"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0204.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0202/live-report.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0202/live-report.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/work-items/WI-0204.json"
+    ]
+  },
+  "evidence": [
+    ".ai-org/work-items/WI-0204.json",
+    ".ai-org/artifacts/WI-0202/live-report.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

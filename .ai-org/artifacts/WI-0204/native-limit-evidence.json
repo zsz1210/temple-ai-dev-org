@@ -1,0 +1,7 @@
+{
+  "model_calls": 0,
+  "setting": "agents.max_concurrent_threads_per_session",
+  "configured_limit": 1,
+  "hard_enforcement_verified": false,
+  "generation_enabled": false
+}

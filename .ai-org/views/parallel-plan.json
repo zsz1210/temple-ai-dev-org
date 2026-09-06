@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T06:25:49.881Z",
-  "source_fingerprint": "33ac72f997f8afe291b3b6b678f68e9039d0517cd4a25266109b76ce8757f1aa",
+  "generated_at": "2026-09-06T06:29:24.179Z",
+  "source_fingerprint": "2c37646a11e8a765a563559cd35685bf3ffa4d1d6feb0e8d81a74e38397030da",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -14,15 +14,16 @@
       "WI-0192",
       "WI-0193",
       "WI-0201",
-      "WI-0202"
+      "WI-0202",
+      "WI-0203"
     ]
   },
   "max_workers": 4,
   "summary": {
-    "selected": 9,
+    "selected": 10,
     "dispatchable": 2,
     "active": 1,
-    "sequential": 3,
+    "sequential": 4,
     "blocked": 3,
     "waves": 1
   },
@@ -66,24 +67,24 @@
         {
           "work_item_id": "WI-0201",
           "title": "Repair complete native helper observation lifecycle",
-          "position_id": "developer",
-          "agent_id": "agent-rikku",
-          "agent_name": "Rikku",
-          "suggested_task_title": "WI-0201 · Repair complete native help… · Developer (Rikku)",
-          "base_revision": "ac618c029322e94a1444a14b9925124fa7a741f7",
+          "position_id": "quality_evaluator",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0201 · Repair c… · Quality & Evaluation Engineer (Lulu)",
+          "base_revision": "5fda83aca2c361fbe369296f0539a0957cc8a0ff",
           "affected_paths": [
             ".ai-org/artifacts/WI-0201"
           ],
           "dependencies": [],
           "required_disciplines": [],
           "active_requirements": {
-            "stage": "build",
+            "stage": "test",
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "000c4c2816bfc08f981d20109bf7c5d89317ac731e9f7860d43fb2d33a743390",
+          "preparation_fingerprint": "6dd871ac6dcc8dd8211642a6ea21edfe650ba202eeee32139006a9464742f7d6",
           "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0201 --position developer --no-write --json",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0201 --position quality_evaluator --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,
@@ -152,6 +153,19 @@
       "agent_id": "agent-lulu",
       "integration_owner_agent_id": null,
       "reasons": [
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0203",
+      "title": "Measure bounded Lean entry and finish overhead against ordinary delivery",
+      "disposition": "sequential",
+      "position_id": "engineering_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "acceptance_defined",
+        "base_revision_recorded",
         "integration_owner_assigned"
       ]
     }
