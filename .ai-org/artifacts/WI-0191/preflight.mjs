@@ -18,7 +18,7 @@ export function aggregate(actors,exclusiveCoverage) {
 export function readiness(p) {
   const blockers=Object.entries(p.live_readiness).filter(([,v])=>v!==true).map(([k])=>k);
   if(!p.live_approval)blockers.push('live-budget-approval');
-  return {ready:false,blockers:[...blockers,'executable-runner-not-implemented']};
+  return {ready:false,blockers:[...blockers,'exact-seal-and-independent-review-required']};
 }
 export function sourceCheck() {
   const protectedPaths=['src','package.json','package-lock.json','scripts/delivery-control-pair.mjs','.ai-org/artifacts/WI-0189'];

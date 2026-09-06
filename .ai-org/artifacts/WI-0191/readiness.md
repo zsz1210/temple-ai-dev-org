@@ -1,4 +1,12 @@
-# WI-0191 design readiness
+# WI-0191 readiness history
+
+## Executor implementation update
+
+This section supersedes the initial design-only status below. The executor,
+isolated product fixtures, native actor tracker and generation-free checks now
+exist. The recorded initial preflight is historical, not the current runnable
+seal. See `executor-report.md` for checked behavior and remaining gates. No live
+before/after result is claimed.
 
 ## Completed
 

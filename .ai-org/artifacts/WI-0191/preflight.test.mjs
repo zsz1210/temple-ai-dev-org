@@ -26,5 +26,5 @@ test('parent and helper require exclusive complete accounting',()=>{
 test('design cannot launch live generation by satisfying placeholder flags',()=>{
  assert.equal(readiness(protocol).ready,false);
  const fake={...protocol,live_approval:'not-real',live_readiness:{all:true}};
- assert.equal(readiness(fake).ready,false);assert(readiness(fake).blockers.includes('executable-runner-not-implemented'));
+ assert.equal(readiness(fake).ready,false);assert(readiness(fake).blockers.includes('exact-seal-and-independent-review-required'));
 });

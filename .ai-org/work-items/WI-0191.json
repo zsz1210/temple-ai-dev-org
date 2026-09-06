@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0191",
   "title": "Evaluate proportionate routes with matched before-after scenarios",
-  "state": "intake",
-  "owner_position": "engineering_manager",
-  "assigned_agent_id": "agent-mog",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-05T23:22:22.271Z",
-  "updated_at": "2026-09-05T23:27:30.615Z",
+  "updated_at": "2026-09-05T23:31:00.058Z",
   "scope": [
     "Design and preflight an isolated WI-0190 before-after evaluation; preserve sealed experiments and require explicit live budget and verified native support before model execution"
   ],
@@ -42,7 +42,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "e35f448",
+  "base_revision": "418fda6",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -50,18 +50,15 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260905232222-168466eb",
-    "status": "released",
+    "id": "claim-20260905233100-ad79e761",
+    "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-mog",
-    "base_revision": "e35f448",
+    "agent_id": "agent-rikku",
+    "base_revision": "418fda6",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": null,
-    "claimed_at": "2026-09-05T23:22:22.550Z",
-    "released_at": "2026-09-05T23:27:30.615Z",
-    "release_reason": [
-      "Design and generation-free preflight recorded; native-child instrumentation and explicit live envelope still required"
-    ]
+    "claimed_at": "2026-09-05T23:31:00.058Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -77,10 +74,40 @@
       "release_reason": [
         "Design and generation-free preflight recorded; native-child instrumentation and explicit live envelope still required"
       ]
+    },
+    {
+      "id": "claim-20260905233100-ad79e761",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "418fda6",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-05T23:31:00.058Z",
+      "released_at": null
     }
   ],
-  "gate_evidence": {},
-  "evidence": [],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0191/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0191/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0191/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0191/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0191/readiness.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0191/design.md",
+    ".ai-org/artifacts/WI-0191/readiness.md"
+  ],
   "unresolved": [],
-  "next_position": "product_manager"
+  "next_position": "quality_evaluator"
 }

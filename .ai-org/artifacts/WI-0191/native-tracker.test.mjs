@@ -1,0 +1,15 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {NativeTracker,usageValue} from './native-tracker.mjs';
+const tracker=(n=1)=>new NativeTracker({parent:'p',turn:'tp',model:'gpt-5.6-terra',effort:'medium',maxChildren:n});
+const event=(method,threadId,extra)=>({method,params:{threadId,turnId:threadId==='p'?'tp':'tc',...extra}});
+const usage=(id,n=100)=>event('thread/tokenUsage/updated',id,{tokenUsage:{total:{inputTokens:n,cachedInputTokens:40,outputTokens:20,reasoningOutputTokens:5,totalTokens:n+20}}});
+function spawn(t,id='c') {const item={id:'spawn',type:'collabAgentToolCall',senderThreadId:'p',receiverThreadIds:[id],tool:'spawnAgent',status:'completed',model:'gpt-5.6-terra',reasoningEffort:'medium',agentsStates:{}};t.event(event('item/started','p',{item:{...item,status:'inProgress'}}));t.event(event('item/completed','p',{item}));}
+test('child-before-spawn is buffered and replayed only after parent correlation',()=>{const t=tracker();t.event(event('turn/started','c',{turn:{id:'tc'}}));t.event(usage('c'));assert.equal(t.actors.size,1);spawn(t);assert.equal(t.actors.get('c').usage.operationalTokens,80);assert.equal(t.pending.length,0);});
+test('foreign thread is not counted as helper usage',()=>{const t=tracker(0);t.event(usage('foreign'));assert.equal(t.report().status,'incomplete');assert.equal(t.report().aggregate_operational_tokens,null);});
+test('unknown parent-child overlap never becomes an aggregate saving',()=>{const t=tracker();spawn(t);t.event(event('turn/started','c',{turn:{id:'tc'}}));for(const id of ['p','c']){t.event(usage(id));t.event(event('turn/completed',id,{turn:{id:id==='p'?'tp':'tc',status:'completed'}}));}assert.equal(t.report().status,'observed-complete');assert.equal(t.report().aggregate_operational_tokens,null);});
+test('parent usage after terminal updates last observed value without summing snapshots',()=>{const t=tracker(0);t.event(usage('p'));t.event(event('turn/completed','p',{turn:{id:'tp',status:'completed'}}));t.event(usage('p',110));assert.equal(t.report().aggregate_operational_tokens,90);});
+test('extra turn, counter regression, duplicate terminal and extra helper are rejected',()=>{
+ for(const action of [t=>t.event(event('turn/started','p',{turn:{id:'other'}})),t=>{t.event(usage('p'));t.event(usage('p',90));},t=>{for(let i=0;i<2;i++)t.event(event('turn/completed','p',{turn:{id:'tp',status:'completed'}}));},t=>spawn(t)]){const t=tracker(0);assert.throws(()=>action(t));assert(t.stop);}
+});
+test('invalid and inconsistent usage cannot be fabricated into zero',()=>{assert.throws(()=>usageValue({}));assert.throws(()=>usageValue({tokenUsage:{total:{inputTokens:1,cachedInputTokens:2,outputTokens:0,reasoningOutputTokens:0,totalTokens:1}}}));});
+test('all known unfinished actors are returned for cancellation',()=>{const t=tracker();spawn(t);t.event(event('turn/started','c',{turn:{id:'tc'}}));assert.deepEqual(t.active(),[{threadId:'p',turnId:'tp'},{threadId:'c',turnId:'tc'}]);});
+test('unbound event buffer is bounded',()=>{const t=tracker();assert.throws(()=>{for(let i=0;i<65;i++)t.event(usage('foreign'));},/unbound-event-cap/);});
