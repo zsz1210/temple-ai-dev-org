@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T15:41:42.417Z",
-  "source_fingerprint": "7958f189382e3e5e06c7141a244a6ce5adebf7b8e8046bb64db66cb96ef50856",
+  "generated_at": "2026-09-06T17:23:25.553Z",
+  "source_fingerprint": "484e352f5c64837f473dcd69c41b9bf93b8800d4fafda269bfd846c9b3c6804f",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0214",
@@ -11,15 +11,16 @@
       "WI-0216",
       "WI-0217",
       "WI-0218",
-      "WI-0219"
+      "WI-0219",
+      "WI-0220"
     ]
   },
   "max_workers": null,
   "summary": {
-    "selected": 6,
+    "selected": 7,
     "dispatchable": 4,
     "active": 0,
-    "sequential": 0,
+    "sequential": 1,
     "blocked": 2,
     "waves": 1
   },
@@ -122,7 +123,7 @@
           "agent_id": "agent-lulu",
           "agent_name": "Lulu",
           "suggested_task_title": "WI-0219 · Reproduc… · Quality & Evaluation Engineer (Lulu)",
-          "base_revision": "ba3bcc60",
+          "base_revision": "2aef01bd",
           "affected_paths": [
             "test/context-enter.test.mjs"
           ],
@@ -133,7 +134,7 @@
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "3e681133333217fd4c36e0527063fafbff1f087806e54b4dd816a3687603e763",
+          "preparation_fingerprint": "8019e71363ee1645fa4c9171c6e09fcc8bbca2bf006cd0f860c6d2b339929815",
           "integration_owner_agent_id": "agent-mog",
           "context_command": "node ./templew.mjs context resolve . --work-item WI-0219 --position quality_evaluator --no-write --json",
           "claim_required_before_work": true,
@@ -157,7 +158,20 @@
     }
   ],
   "active": [],
-  "sequential": [],
+  "sequential": [
+    {
+      "work_item_id": "WI-0220",
+      "title": "Run fresh format comparison with argument diagnostics",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "affected_paths_declared",
+        "integration_owner_assigned"
+      ]
+    }
+  ],
   "blocked": [
     {
       "work_item_id": "WI-0215",
