@@ -40,3 +40,11 @@ limits above, subscription included allowance only, no purchase/refill/reset,
 zero retries/fallback and no extra model judge. Stop on the first protocol,
 quality, isolation or hard-limit failure; report partial results honestly.
 The consumed WI-0215 run remains immutable and cannot be resumed.
+
+## Fresh diagnostic run: WI-0220
+
+After WI-0218 diagnostics and WI-0219 local CLI verification, the user explicitly
+approved starting the proposed new experiment. WI-0220 owns one fresh execution
+of this instrument with current diagnostic source, new fixtures and new bound
+approval. All limits, route, stop/no-retry and no-spend rules above remain. Earlier
+consumed approvals and sealed laboratories are not resumed or overwritten.

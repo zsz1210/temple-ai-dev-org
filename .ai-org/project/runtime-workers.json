@@ -1952,6 +1952,62 @@
       "attached_at": "2026-09-06T15:25:25.584Z",
       "completed_at": "2026-09-06T15:28:30.375Z",
       "updated_at": "2026-09-06T15:28:30.375Z"
+    },
+    {
+      "id": "worker-20260906153915-4f7fea45",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0219",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260906153915-0fa7785b",
+      "base_revision": "ba3bcc60",
+      "branch": "codex/context-command-e2e",
+      "worktree": null,
+      "plan_fingerprint": "e0746677d3fe9160527271f95c9c156ec2d8178d266d9af58e698a9890ea2685",
+      "plan_digest": "d1197e0e6f0fc39c1c68b0c4c0ab34fb242764b8e9afae073a76f8999792f3e5",
+      "preparation_fingerprint": "9c1c474be2609dbdd62963858e4ad2f40eb017c9ebb4d10cb539f59b101c8395",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0219_review",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "ba3bcc60",
+      "evidence": [
+        ".ai-org/artifacts/WI-0219/review.md"
+      ],
+      "reserved_at": "2026-09-06T15:39:15.622Z",
+      "attached_at": "2026-09-06T15:39:42.076Z",
+      "completed_at": "2026-09-06T15:41:41.484Z",
+      "updated_at": "2026-09-06T15:41:41.484Z"
+    },
+    {
+      "id": "worker-20260906165739-8381dc6b",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0219",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260906165739-65541f64",
+      "base_revision": "2aef01bd",
+      "branch": "codex/context-command-e2e",
+      "worktree": null,
+      "plan_fingerprint": "7bc42ae2291c66d9dd863a327f0113005bfa7fe7ddd4589caadcf6813c17eda1",
+      "plan_digest": "3cd5e31b0a89b7b97df2094f170c61df6a02bbd8901293d730ba2bd595aee58c",
+      "preparation_fingerprint": "b48e7c6953a4ef1c4bb49ad78e2495023077d7eb6330ffca82920d3aeb5a2c6f",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0220_ready",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "2aef01bd",
+      "evidence": [
+        ".ai-org/artifacts/WI-0216/wi0220-readiness.md"
+      ],
+      "reserved_at": "2026-09-06T16:57:39.573Z",
+      "attached_at": "2026-09-06T16:58:07.213Z",
+      "completed_at": "2026-09-06T17:02:07.423Z",
+      "updated_at": "2026-09-06T17:02:07.423Z"
     }
   ]
 }

@@ -1,0 +1,160 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0219",
+  "title": "Reproduce context argument failures through the installed CLI",
+  "state": "eval",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
+  "created_at": "2026-09-06T15:34:39.040Z",
+  "updated_at": "2026-09-06T17:02:07.816Z",
+  "scope": [
+    "Build local generated-prompt to shell to CLI compatibility tests for both positions and formats; distinguish synthetic reproductions from unknown historical failure; produce next comparison plan without live model calls."
+  ],
+  "acceptance_criteria": [
+    "Generated valid commands pass the policy and installed CLI; malformed variants produce safe diagnostics; required bodies/reuse semantics and canonical state remain correct; full verification and distinct review complete."
+  ],
+  "affected_paths": [
+    "test/context-enter.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T15:34:39.039Z",
+    "escalated": false
+  },
+  "parent_work_item_id": "WI-0214",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "2aef01bd",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": "agent-lulu",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0190: no active writer; test-only successor; earlier evidence frozen.",
+    "WI-0211: no active writer; test-only successor; earlier evidence frozen.",
+    "WI-0213: no active writer; test-only successor; earlier evidence frozen."
+  ],
+  "claim": {
+    "id": "claim-20260906165739-65541f64",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "2aef01bd",
+    "branch": "codex/context-command-e2e",
+    "worktree": null,
+    "claimed_at": "2026-09-06T16:57:39.588Z",
+    "released_at": "2026-09-06T17:02:07.816Z",
+    "release_reason": [
+      "Fresh readiness passed; execution claim remains WI0220 only"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260906153515-5b60bb4d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "5744c851",
+      "branch": "codex/context-command-e2e",
+      "worktree": null,
+      "claimed_at": "2026-09-06T15:35:15.898Z",
+      "released_at": "2026-09-06T15:39:12.784Z",
+      "release_reason": [
+        "Exact test candidate handed to distinct reviewer; coordinator collects running full regression"
+      ]
+    },
+    {
+      "id": "claim-20260906153915-0fa7785b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "ba3bcc60",
+      "branch": "codex/context-command-e2e",
+      "worktree": null,
+      "claimed_at": "2026-09-06T15:39:15.643Z",
+      "released_at": "2026-09-06T15:41:41.758Z",
+      "release_reason": [
+        "Independent local compatibility review passed; result integrated"
+      ]
+    },
+    {
+      "id": "claim-20260906165739-65541f64",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "2aef01bd",
+      "branch": "codex/context-command-e2e",
+      "worktree": null,
+      "claimed_at": "2026-09-06T16:57:39.588Z",
+      "released_at": "2026-09-06T17:02:07.816Z",
+      "release_reason": [
+        "Fresh readiness passed; execution claim remains WI0220 only"
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0219/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0219/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0219/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0219/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0219/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0219/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0219/verification.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0219/review.md",
+      ".ai-org/artifacts/WI-0219/verification.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0219/design.md",
+    ".ai-org/artifacts/WI-0219/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0219/verification.md",
+    ".ai-org/artifacts/WI-0219/review.md"
+  ],
+  "unresolved": [],
+  "next_position": "independent_qa",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "ba3bcc60f3836f4daa9ab3979149eee528acd541",
+      "artifact": ".ai-org/artifacts/WI-0219/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T15:39:12.354Z"
+    }
+  ],
+  "developer_candidate_revision": "ba3bcc60f3836f4daa9ab3979149eee528acd541"
+}

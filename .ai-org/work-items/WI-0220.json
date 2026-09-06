@@ -1,0 +1,141 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0220",
+  "title": "Run fresh format comparison with argument diagnostics",
+  "state": "eval",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
+  "created_at": "2026-09-06T16:56:53.060Z",
+  "updated_at": "2026-09-06T17:22:27.969Z",
+  "scope": [
+    "User-approved fresh Full Model Model Full comparison: eight Terra medium stages, 640000 operational Tokens/48 minutes aggregate, six-minute stage cap and80000 warning. No reset/retry/fallback/purchase/refill/extra judge. Reuse WI-0216 v2 instrument identity with new source/protocol/approval, preserve old labs."
+  ],
+  "acceptance_criteria": [
+    "Fresh sandbox and independent readiness pass before generation; seal and report all outcomes and diagnostic details, including any stopped sample."
+  ],
+  "affected_paths": [],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T16:56:53.060Z",
+    "escalated": false
+  },
+  "parent_work_item_id": "WI-0216",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "2aef01bd",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906165904-29bcecbf",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "2aef01bd",
+    "branch": "codex/context-command-e2e",
+    "worktree": null,
+    "claimed_at": "2026-09-06T16:59:04.588Z",
+    "released_at": "2026-09-06T17:22:27.969Z",
+    "release_reason": [
+      "Eight-stage authorized comparison completed and sealed; report and measurements recorded for evaluation."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260906165719-28db4418",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "2aef01bd",
+      "branch": "codex/context-command-e2e",
+      "worktree": null,
+      "claimed_at": "2026-09-06T16:57:19.021Z",
+      "released_at": "2026-09-06T16:59:03.936Z",
+      "release_reason": [
+        "Fresh lab preparation handed to evaluation; live start remains guarded"
+      ]
+    },
+    {
+      "id": "claim-20260906165904-29bcecbf",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "2aef01bd",
+      "branch": "codex/context-command-e2e",
+      "worktree": null,
+      "claimed_at": "2026-09-06T16:59:04.588Z",
+      "released_at": "2026-09-06T17:22:27.969Z",
+      "release_reason": [
+        "Eight-stage authorized comparison completed and sealed; report and measurements recorded for evaluation."
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0216/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0216/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0219/next-comparison.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0216/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0219/next-comparison.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0220/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0216/wi0220-approval.json",
+      ".ai-org/artifacts/WI-0219/next-comparison.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0220/result-report.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0216/design.md",
+    ".ai-org/artifacts/WI-0219/next-comparison.md",
+    ".ai-org/artifacts/WI-0220/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0216/wi0220-approval.json",
+    ".ai-org/artifacts/WI-0220/result-report.md"
+  ],
+  "unresolved": [],
+  "next_position": "independent_qa",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "2aef01bd0ff943ffb54c2462f41b7efcab42326c",
+      "artifact": ".ai-org/artifacts/WI-0220/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T16:59:03.579Z"
+    }
+  ],
+  "developer_candidate_revision": "2aef01bd0ff943ffb54c2462f41b7efcab42326c"
+}

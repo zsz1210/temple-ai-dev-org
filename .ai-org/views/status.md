@@ -5,9 +5,9 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=true
-- Work items: 218 total, 20 active
+- Work items: 220 total, 22 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 69 registered, 0 reserved, 0 active
+- Runtime workers: 71 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -39,9 +39,9 @@
 - Valid: yes
 - Fresh: yes
 - Safe waves: 1
-- Dispatchable Work Items: 3
-- Active / sequential / blocked: 0 / 0 / 2
-- Next wave: WI-0213, WI-0216, WI-0218
+- Dispatchable Work Items: 4
+- Active / sequential / blocked: 0 / 1 / 2
+- Next wave: WI-0213, WI-0216, WI-0218, WI-0219
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -266,6 +266,8 @@
 | WI-0216 | Separate stage Token warnings from aggregate experiment limits | eval | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `92cb0a01` | 0 | 4 | 0 |
 | WI-0217 | Execute authorized warning-policy format comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `570a36ac` | 0 | 4 | 1 |
 | WI-0218 | Explain rejected command argument shapes without retaining values | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a21085cc` | 0 | 4 | 0 |
+| WI-0219 | Reproduce context argument failures through the installed CLI | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ba3bcc60` | 0 | 4 | 0 |
+| WI-0220 | Run fresh format comparison with argument diagnostics | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2aef01bd` | 0 | 5 | 0 |
 
 ## Codex task registry
 
@@ -357,6 +359,8 @@
 | worker-20260906132303-266cdc8c | internal-subagent | WI-0215 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0215_readiness | `dbcced47` | 0 |
 | worker-20260906144838-75fbf2ad | internal-subagent | WI-0216 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0216_readiness | `570a36ac` | 0 |
 | worker-20260906152449-722f1d04 | internal-subagent | WI-0218 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0218_qa | `3e2b2210` | 0 |
+| worker-20260906153915-4f7fea45 | internal-subagent | WI-0219 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0219_review | `ba3bcc60` | 0 |
+| worker-20260906165739-8381dc6b | internal-subagent | WI-0219 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0220_ready | `2aef01bd` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -465,14 +469,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-06T15:28:30.915Z | work_item_transitioned | WI-0218 | agent-lulu |
-| 2026-09-06T15:28:30.645Z | work_item_claim_released | WI-0218 | human |
-| 2026-09-06T15:28:30.375Z | runtime_worker_status_changed | WI-0218 | agent-lulu |
-| 2026-09-06T15:25:25.584Z | runtime_worker_attached | WI-0218 | agent-lulu |
-| 2026-09-06T15:24:49.034Z | runtime_worker_reserved | WI-0218 | human |
-| 2026-09-06T15:24:49.048Z | work_item_claimed | WI-0218 | human |
-| 2026-09-06T15:24:48.123Z | work_item_coordination_configured | WI-0218 | agent-lulu |
-| 2026-09-06T15:22:21.982Z | work_item_transitioned | WI-0218 | agent-rikku |
+| 2026-09-06T17:22:27.969Z | work_item_claim_released | WI-0220 | human |
+| 2026-09-06T17:22:27.069Z | work_item_transitioned | WI-0220 | agent-lulu |
+| 2026-09-06T17:02:07.816Z | work_item_claim_released | WI-0219 | human |
+| 2026-09-06T17:02:07.423Z | runtime_worker_status_changed | WI-0219 | agent-lulu |
+| 2026-09-06T16:59:04.588Z | work_item_claimed | WI-0220 | human |
+| 2026-09-06T16:59:04.249Z | work_item_transitioned | WI-0220 | agent-rikku |
+| 2026-09-06T16:59:03.936Z | work_item_claim_released | WI-0220 | human |
+| 2026-09-06T16:59:03.579Z | handoff_created | WI-0220 | agent-rikku |
 
 ## Assignments
 

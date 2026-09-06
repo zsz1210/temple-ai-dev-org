@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "protocol_sha256": "sha256:307917e227bc91147bf3d56530706f74a1039c53b379099ba43f856b49d380b7",
+  "instrument_sha256": "sha256:6cc6ce18750db058b6c94e9204a701166895ff83f046893a3a8ca6985ad9ba1d",
+  "sandbox_sha256": "sha256:7c2ed0374391981161fe2ec7e0c1bd6cdb8c1629bde64ae29bec7751b6baf8e1",
+  "reviewer_agent_id": "agent-lulu",
+  "developer_agent_id": "agent-rikku",
+  "evidence_ref": ".ai-org/artifacts/WI-0216/wi0220-readiness.md",
+  "evidence_sha256": "sha256:bca15a08e237d90cb7cc91dec3c5e88deeeb1a76701717e68767f6a9ae822b86"
+}
