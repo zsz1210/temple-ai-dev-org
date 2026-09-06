@@ -1,0 +1,104 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0223",
+  "title": "Design diagnostic Full versus Model comparison",
+  "state": "design",
+  "owner_position": "tech_lead",
+  "assigned_agent_id": "agent-tidus",
+  "created_at": "2026-09-06T23:43:14.466Z",
+  "updated_at": "2026-09-06T23:45:46.931Z",
+  "scope": [
+    "Design-only successor comparison using merged bounded observations; no live runs, harness changes, defaults or sealed-lab writes."
+  ],
+  "acceptance_criteria": [
+    "Specify matched scenarios, observable metrics and limitations, ordered samples, data-derived resource proposal, readiness and stop conditions without claiming execution."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0223"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T23:43:14.465Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "29a7439e3bd4ab06d1643056e0893ccc49a70635",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906234546-adbf977a",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-tidus",
+    "base_revision": "29a7439e3bd4ab06d1643056e0893ccc49a70635",
+    "branch": "codex/diagnostic-comparison-design",
+    "worktree": null,
+    "claimed_at": "2026-09-06T23:45:46.931Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260906234402-feec7b1c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "29a7439e3bd4ab06d1643056e0893ccc49a70635",
+      "branch": "codex/diagnostic-comparison-design",
+      "worktree": null,
+      "claimed_at": "2026-09-06T23:44:02.020Z",
+      "released_at": "2026-09-06T23:45:32.214Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260906234546-adbf977a",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "29a7439e3bd4ab06d1643056e0893ccc49a70635",
+      "branch": "codex/diagnostic-comparison-design",
+      "worktree": null,
+      "claimed_at": "2026-09-06T23:45:46.931Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0223/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0223/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0223/design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0223/design.md"
+  ],
+  "unresolved": [],
+  "next_position": "developer"
+}
