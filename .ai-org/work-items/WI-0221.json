@@ -1,0 +1,101 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0221",
+  "title": "Add bounded failure and source-read observations",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-06T23:07:46.797Z",
+  "updated_at": "2026-09-06T23:08:48.260Z",
+  "scope": [
+    "Offline-only experiment diagnostics: bounded failure summaries, fixture input fingerprints and whole-source read overlap observations; preserve command policy and sealed labs; no live model calls."
+  ],
+  "acceptance_criteria": [
+    "Synthetic tests prove privacy bounds, unknown handling, changed-source distinction, observation-only behavior and unchanged command decisions."
+  ],
+  "affected_paths": [
+    "scripts/delivery-control-pair.mjs",
+    "scripts/delivery-command-policy.mjs",
+    "scripts/delivery-observations.mjs",
+    "test/delivery-observations.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T23:07:46.797Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "5ce1148f",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906230848-c4930e4f",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "5ce1148f",
+    "branch": "codex/bounded-experiment-observations",
+    "worktree": null,
+    "claimed_at": "2026-09-06T23:08:48.260Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260906230848-c4930e4f",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "5ce1148f",
+      "branch": "codex/bounded-experiment-observations",
+      "worktree": null,
+      "claimed_at": "2026-09-06T23:08:48.260Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0221/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0221/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0221/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0221/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0221/design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0221/design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

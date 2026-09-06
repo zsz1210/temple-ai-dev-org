@@ -385,3 +385,19 @@ export function classifyCommandItem(item, options = {}) {
   }
   return state;
 }
+
+// Observation only. Never used to authorize a command. Unsupported read shapes
+// return null rather than approximating their range or trusting commandActions.
+export function wholeReadTargets(item, options) {
+  try {
+    if (!classifyCommandItem(item, options).allowed) return null;
+    const tokens = recognize(item.command, {});
+    if (tokens[0].value !== "cat" || tokens.some(t => t.glob)) return null;
+    let args = tokens.slice(1).map(t => t.value);
+    if (args[0] === "--") args = args.slice(1);
+    else if (args.some(a => a.startsWith("-"))) return null;
+    if (!args.length || args.length > 16) return null;
+    const context = canonicalRoot(options.root, item.cwd);
+    return args.map(a => safePath(a, context));
+  } catch { return null; }
+}
