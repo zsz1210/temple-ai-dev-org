@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "review_kind": "independent-readiness",
+  "protocol_sha256": "c5f2c676b43f18d610c626695caca37a07ae98483f54303a1df5672716251977",
+  "candidate_revision": "879ac69f93cec6f1333de4e220da30edb51cce01",
+  "developer_agent_id": "agent-rikku",
+  "reviewer_agent_id": "agent-lulu",
+  "reviewer_task_id": "/root/wi0195_final_readiness",
+  "evidence_ref": ".ai-org/artifacts/WI-0195/readiness-review-3.md",
+  "evidence_sha256": "f9f3a886d58a2a0b7bb119f21ca5d6d134b625cef465438baef265706f309027",
+  "model_generation_performed": false,
+  "live_execution_permitted_by_review": false,
+  "remaining_gate": "fresh-exact-bound-human-approval"
+}

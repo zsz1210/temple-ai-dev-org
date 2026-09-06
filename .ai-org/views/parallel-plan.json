@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T03:18:33.166Z",
-  "source_fingerprint": "d90fcd1480bfb7c22e80ce84d736ada234a38e057e090d7d3ce3b48fecc249e0",
+  "generated_at": "2026-09-06T03:28:57.751Z",
+  "source_fingerprint": "11271a22b4cfcb66b6c545280644c506c6b3fab7dd73d43d752b083205478f16",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -69,7 +69,7 @@
           "agent_id": "agent-lulu",
           "agent_name": "Lulu",
           "suggested_task_title": "WI-0195 · Complete… · Quality & Evaluation Engineer (Lulu)",
-          "base_revision": "f471caa1662b43084b104d74961253c9ef3fca01",
+          "base_revision": "879ac69f93cec6f1333de4e220da30edb51cce01",
           "affected_paths": [
             ".ai-org/artifacts/WI-0195"
           ],
@@ -80,7 +80,7 @@
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "75ae579d8b4069f0f17a67e02e8f3ba2ca3cc6cba0655b78337ba497887546b7",
+          "preparation_fingerprint": "8d7ee061d71041cbf6c1c465c3aeb9ee050e030b4f7aa2067ca1982f222e2d3a",
           "integration_owner_agent_id": "agent-mog",
           "context_command": "node ./templew.mjs context resolve . --work-item WI-0195 --position quality_evaluator --no-write --json",
           "claim_required_before_work": true,

@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0195",
   "title": "Complete repaired native support comparison",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-06T03:06:08.740Z",
-  "updated_at": "2026-09-06T03:22:32.517Z",
+  "updated_at": "2026-09-06T03:28:23.231Z",
   "scope": [
     "Run a fresh sealed four-arm Terra medium support comparison using the reviewed WI-0194 recorder; preserve WI-0191 through WI-0194 and stop on the first mandatory failure"
   ],
@@ -42,7 +42,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "f471caa1662b43084b104d74961253c9ef3fca01",
+  "base_revision": "879ac69f93cec6f1333de4e220da30edb51cce01",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -50,15 +50,18 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906032232-dc736e93",
-    "status": "active",
+    "id": "claim-20260906032424-cb979366",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "f471caa1662b43084b104d74961253c9ef3fca01",
+    "agent_id": "agent-lulu",
+    "base_revision": "879ac69f93cec6f1333de4e220da30edb51cce01",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": null,
-    "claimed_at": "2026-09-06T03:22:32.517Z",
-    "released_at": null
+    "claimed_at": "2026-09-06T03:24:24.126Z",
+    "released_at": "2026-09-06T03:28:23.231Z",
+    "release_reason": [
+      "Exact successor seal passed distinct readiness; live approval remains pending"
+    ]
   },
   "claims": [
     {
@@ -129,14 +132,31 @@
     },
     {
       "id": "claim-20260906032232-dc736e93",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "f471caa1662b43084b104d74961253c9ef3fca01",
       "branch": "codex/wi-0191-proportionate-evaluation",
       "worktree": null,
       "claimed_at": "2026-09-06T03:22:32.517Z",
-      "released_at": null
+      "released_at": "2026-09-06T03:24:22.654Z",
+      "release_reason": [
+        "Privacy-corrected exact candidate ready for final readiness review"
+      ]
+    },
+    {
+      "id": "claim-20260906032424-cb979366",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "879ac69f93cec6f1333de4e220da30edb51cce01",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T03:24:24.126Z",
+      "released_at": "2026-09-06T03:28:23.231Z",
+      "release_reason": [
+        "Exact successor seal passed distinct readiness; live approval remains pending"
+      ]
     }
   ],
   "gate_evidence": {
@@ -157,6 +177,12 @@
     ],
     "profile_eligibility": [
       ".ai-org/artifacts/WI-0195/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0195/handoff-003-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0195/focused-test-3.md"
     ]
   },
   "evidence": [
@@ -164,10 +190,12 @@
     ".ai-org/artifacts/WI-0195/handoff-001-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0195/runner.test.mjs",
     ".ai-org/artifacts/WI-0195/handoff-002-developer-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0195/focused-test-2.md"
+    ".ai-org/artifacts/WI-0195/focused-test-2.md",
+    ".ai-org/artifacts/WI-0195/handoff-003-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0195/focused-test-3.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "developer",
@@ -184,6 +212,14 @@
       "input_revision": "f471caa1662b43084b104d74961253c9ef3fca01",
       "artifact": ".ai-org/artifacts/WI-0195/handoff-002-developer-to-quality_evaluator.md",
       "created_at": "2026-09-06T03:18:31.959Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "879ac69f93cec6f1333de4e220da30edb51cce01",
+      "artifact": ".ai-org/artifacts/WI-0195/handoff-003-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T03:24:22.389Z"
     }
   ],
   "rework_history": [
@@ -262,5 +298,6 @@
         ".ai-org/artifacts/WI-0195/handoff-002-developer-to-quality_evaluator.md"
       ]
     }
-  ]
+  ],
+  "developer_candidate_revision": "879ac69f93cec6f1333de4e220da30edb51cce01"
 }
