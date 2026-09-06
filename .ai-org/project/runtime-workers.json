@@ -1896,6 +1896,34 @@
       "attached_at": "2026-09-06T13:23:31.020Z",
       "completed_at": "2026-09-06T13:27:41.057Z",
       "updated_at": "2026-09-06T13:27:41.057Z"
+    },
+    {
+      "id": "worker-20260906144838-75fbf2ad",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0216",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260906144838-7d9ea3b3",
+      "base_revision": "570a36ac",
+      "branch": "codex/format-token-warning",
+      "worktree": null,
+      "plan_fingerprint": "378539316f194da54e24493e9fc67c8b01c9f77986efebac10764aea6fdfa9b7",
+      "plan_digest": "6b4c72f19dd808b46c9a17c5879d6403ad1a7ce770c407a5306d12f78b8dd988",
+      "preparation_fingerprint": "f302ea32f5acd2f5b5c615486ea77a205fe169b405d4ad9390e1bf8dbcd4b264",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0216_readiness",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "570a36ac",
+      "evidence": [
+        ".ai-org/artifacts/WI-0216/readiness-review.md"
+      ],
+      "reserved_at": "2026-09-06T14:48:38.447Z",
+      "attached_at": "2026-09-06T14:49:05.357Z",
+      "completed_at": "2026-09-06T14:54:13.881Z",
+      "updated_at": "2026-09-06T14:54:13.881Z"
     }
   ]
 }

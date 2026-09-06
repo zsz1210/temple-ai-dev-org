@@ -1,0 +1,182 @@
+{
+  "status": "stopped",
+  "attempted_stages": 6,
+  "operational_tokens": 316272,
+  "elapsed_ms": 757222,
+  "stop_reason": "argument-shape",
+  "protocol_sha256": "sha256:abf8d24ebc769bc4363f274e0482b781ef357630c7836db38d6f75e225b7f6ea",
+  "stages": [
+    {
+      "subject": 1,
+      "format": "full",
+      "stage": "build",
+      "status": "completed",
+      "elapsed_ms": 183449,
+      "usage": {
+        "input_tokens": 830006,
+        "cached_input_tokens": 767232,
+        "output_tokens": 5606,
+        "reasoning_output_tokens": 870,
+        "total_tokens": 835612,
+        "non_cached_input_tokens": 62774,
+        "operational_tokens": 68380
+      },
+      "quality_passed": true,
+      "test_exit_codes": [
+        0
+      ],
+      "warning": null,
+      "stop_reason": null,
+      "provider_exit_confirmed": true,
+      "interrupt_acknowledged": false,
+      "command_count": 16,
+      "context_bytes": 84529,
+      "denied": []
+    },
+    {
+      "subject": 1,
+      "format": "full",
+      "stage": "verify",
+      "status": "completed",
+      "elapsed_ms": 90100,
+      "usage": {
+        "input_tokens": 486635,
+        "cached_input_tokens": 433152,
+        "output_tokens": 2157,
+        "reasoning_output_tokens": 521,
+        "total_tokens": 488792,
+        "non_cached_input_tokens": 53483,
+        "operational_tokens": 55640
+      },
+      "quality_passed": true,
+      "test_exit_codes": [
+        0
+      ],
+      "warning": null,
+      "stop_reason": null,
+      "provider_exit_confirmed": true,
+      "interrupt_acknowledged": false,
+      "command_count": 11,
+      "context_bytes": 76179,
+      "denied": []
+    },
+    {
+      "subject": 2,
+      "format": "model",
+      "stage": "build",
+      "status": "completed",
+      "elapsed_ms": 184632,
+      "usage": {
+        "input_tokens": 790362,
+        "cached_input_tokens": 734720,
+        "output_tokens": 5029,
+        "reasoning_output_tokens": 1055,
+        "total_tokens": 795391,
+        "non_cached_input_tokens": 55642,
+        "operational_tokens": 60671
+      },
+      "quality_passed": true,
+      "test_exit_codes": [
+        0
+      ],
+      "warning": null,
+      "stop_reason": null,
+      "provider_exit_confirmed": true,
+      "interrupt_acknowledged": false,
+      "command_count": 19,
+      "context_bytes": 79542,
+      "denied": []
+    },
+    {
+      "subject": 2,
+      "format": "model",
+      "stage": "verify",
+      "status": "completed",
+      "elapsed_ms": 87174,
+      "usage": {
+        "input_tokens": 471204,
+        "cached_input_tokens": 420864,
+        "output_tokens": 2126,
+        "reasoning_output_tokens": 479,
+        "total_tokens": 473330,
+        "non_cached_input_tokens": 50340,
+        "operational_tokens": 52466
+      },
+      "quality_passed": true,
+      "test_exit_codes": [
+        0
+      ],
+      "warning": null,
+      "stop_reason": null,
+      "provider_exit_confirmed": true,
+      "interrupt_acknowledged": false,
+      "command_count": 11,
+      "context_bytes": 70545,
+      "denied": []
+    },
+    {
+      "subject": 3,
+      "format": "model",
+      "stage": "build",
+      "status": "completed",
+      "elapsed_ms": 189392,
+      "usage": {
+        "input_tokens": 1022088,
+        "cached_input_tokens": 961280,
+        "output_tokens": 6013,
+        "reasoning_output_tokens": 696,
+        "total_tokens": 1028101,
+        "non_cached_input_tokens": 60808,
+        "operational_tokens": 66821
+      },
+      "quality_passed": true,
+      "test_exit_codes": [
+        1,
+        0,
+        0
+      ],
+      "warning": null,
+      "stop_reason": null,
+      "provider_exit_confirmed": true,
+      "interrupt_acknowledged": false,
+      "command_count": 20,
+      "context_bytes": 79542,
+      "denied": []
+    },
+    {
+      "subject": 3,
+      "format": "model",
+      "stage": "verify",
+      "status": "stopped",
+      "elapsed_ms": 21245,
+      "usage": {
+        "input_tokens": 54085,
+        "cached_input_tokens": 42240,
+        "output_tokens": 449,
+        "reasoning_output_tokens": 47,
+        "total_tokens": 54534,
+        "non_cached_input_tokens": 11845,
+        "operational_tokens": 12294
+      },
+      "quality_passed": null,
+      "test_exit_codes": [],
+      "warning": null,
+      "stop_reason": "argument-shape",
+      "provider_exit_confirmed": true,
+      "interrupt_acknowledged": true,
+      "command_count": 2,
+      "context_bytes": null,
+      "denied": [
+        {
+          "rule": "argument-shape",
+          "operation": "temple-context-enter"
+        }
+      ]
+    }
+  ],
+  "seal": {
+    "run_sha256": "sha256:568c82b4cea9b6bf934653533d0889afa03274baf96f0777aeaf833e6a9dcbd4",
+    "manifest_sha256": "sha256:2bb4031b9857351005471722a8f66fcd3e2aa436cb99dc0ae84913dc6784e93f",
+    "sealed_at": "2026-09-06T15:07:07.492Z"
+  }
+}
