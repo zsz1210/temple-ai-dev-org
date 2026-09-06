@@ -8,7 +8,7 @@ The two-phase acquisition successor passes its focused fault-injection suite wit
 
 ```text
 node --test .ai-org/artifacts/WI-0196/events.test.mjs .ai-org/artifacts/WI-0194/events.test.mjs
-46 passed, 0 failed
+52 passed, 0 failed
 
 npm run verify:fast
 54 passed, 0 failed
@@ -24,7 +24,8 @@ npm run verify
 - buffered early child-event replay;
 - activity/spawn race and single late corroboration;
 - duplicate spawn and second-candidate rejection;
-- resume ID, model, effort, and transport failures with fixed stop codes;
+- resume ID, model, missing effort, effort mismatch, and transport failures with fixed stop codes;
+- executor-level nested and foreign activity, candidate overflow, duplicate spawn, and usage-integrity failures;
 - helper-write rejection;
 - interrupted-cleanup uncertainty;
 - conservative parent/child Token aggregation;

@@ -13,7 +13,7 @@ This is a generation-free successor implementation. It does not modify or reinte
 1. A schema-valid parent `subAgentActivity` item contributes one bounded candidate child ID.
 2. Events for that ID remain quarantined and do not affect messages, commands, terminal state, or usage.
 3. The executor attempts `thread/resume` once for the candidate.
-4. The response must return the same thread ID, the sealed model, and—when the Provider reports it—the sealed reasoning effort.
+4. The response must return the same thread ID, the sealed model, and the sealed reasoning effort. A missing or `null` effort is unconfirmed, not a match.
 5. Only after those checks does the tracker bind the child with acquisition basis `activity-resume` and replay its buffered events.
 6. A later valid parent spawn-completion envelope may corroborate the same child once. It cannot create another actor or replay events twice.
 
@@ -21,7 +21,7 @@ The existing spawn-completion path remains supported and records acquisition bas
 
 ## Failure semantics
 
-The first failure remains authoritative. Resume failure, child-ID mismatch, model mismatch, effort mismatch, candidate overflow, a foreign or nested spawn, duplicate spawn confirmation, helper writes, and cleanup uncertainty have fixed stop codes. An unverified candidate remains unbound in the report.
+The first failure remains authoritative. Resume failure, child-ID mismatch, model mismatch, missing effort, effort mismatch, candidate overflow, a foreign or nested spawn, duplicate spawn confirmation, helper writes, usage inconsistency or regression, and cleanup uncertainty have fixed stop codes. An unverified candidate remains unbound in the report. Executor results expose the allowlisted event-contract codes at top level; unknown tracker exceptions collapse to `event-contract-violation`.
 
 ## Limits and privacy
 

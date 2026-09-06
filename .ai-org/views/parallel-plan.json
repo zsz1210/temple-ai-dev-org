@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T04:03:25.717Z",
-  "source_fingerprint": "e6f756bcb190cd3aa88bbfca45a0b7bcf3e0fadd3959474ab8fdbaed3fbc3a1e",
+  "generated_at": "2026-09-06T04:20:31.204Z",
+  "source_fingerprint": "44af94d74bbc076a10765d510754c1fb433c3b503bbf35a76eea1521dd0b043c",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -12,13 +12,14 @@
       "WI-0190",
       "WI-0191",
       "WI-0192",
-      "WI-0193"
+      "WI-0193",
+      "WI-0196"
     ]
   },
-  "max_workers": 3,
+  "max_workers": 4,
   "summary": {
-    "selected": 7,
-    "dispatchable": 1,
+    "selected": 8,
+    "dispatchable": 2,
     "active": 0,
     "sequential": 3,
     "blocked": 3,
@@ -55,6 +56,33 @@
           "preparation_fingerprint": "12ae0ed96259d12e46a8d0bf7087fb6c975607c0b42bf9a2f100c0a0ca86040f",
           "integration_owner_agent_id": "agent-mog",
           "context_command": "node ./templew.mjs context resolve . --work-item WI-0190 --position release_manager --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        },
+        {
+          "work_item_id": "WI-0196",
+          "title": "Implement two-phase native child acquisition",
+          "position_id": "quality_evaluator",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0196 · Implemen… · Quality & Evaluation Engineer (Lulu)",
+          "base_revision": "832f3e483416a35a854e05d19cb775930627500f",
+          "affected_paths": [
+            ".ai-org/artifacts/WI-0196"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "test",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "08356064dbb46a6f1f5b5d82846500c8f96a2f01ed0d5f5dbf199304240dad9c",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0196 --position quality_evaluator --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,
@@ -179,7 +207,7 @@
   ],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 3,
+    "runtime_capacity_limit": 4,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

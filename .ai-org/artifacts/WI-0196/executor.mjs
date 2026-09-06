@@ -14,6 +14,7 @@ export function observedProductTest(item,root){
 }
 export const sha=x=>createHash('sha256').update(typeof x==='string'||Buffer.isBuffer(x)?x:JSON.stringify(x)).digest('hex');
 const demand=(v,m)=>{if(!v)throw Error(m);};
+const EVENT_STOP_CODES=new Set(['invalid-child-activity','child-activity-limit','child-limit-or-duplicate','nested-or-foreign-spawn','usage-inconsistent','usage-regressed']);
 export const outputSchema={type:'object',additionalProperties:false,required:['decision','summary','unresolved','next_position','references'],properties:{decision:{type:'string',enum:['handed-off','blocked','reported']},summary:{type:'string'},unresolved:{type:'array',items:{type:'string'}},next_position:{type:['string','null']},references:{type:'array',items:{type:'string'}}}};
 export function caseSchema(id){
  const fields=id.startsWith('support')?{ttl_precedence:{type:'array',items:{type:'string',enum:['override','tenant','default']}},default_ttl_seconds:{type:'number'},source_revision:{type:'string'},untrusted_instruction_rejected:{type:'boolean'}}:id.startsWith('finish')?{receipt_current:{type:'boolean'},diagnostic_status:{type:'string',enum:['passed','failed','unknown']}}:{};
@@ -43,11 +44,12 @@ export async function runSubject({fixture:f,protocol:p,contract,deadline,aggrega
   const pending=conn.request('thread/resume',args,10000).then(response=>{
    demand(response.thread?.id===child,'child-resume-id-mismatch');
    demand(response.model===p.model,'child-resume-model-mismatch');
-   if(response.reasoningEffort!=null)demand(response.reasoningEffort===p.effort,'child-resume-effort-mismatch');
+   demand(response.reasoningEffort!=null,'child-resume-effort-unconfirmed');
+   demand(response.reasoningEffort===p.effort,'child-resume-effort-mismatch');
    if(bindFromActivity)tracker.confirmActivityChild(child);
    flushPendingEvidence();
   }).catch(error=>{
-   const named=['child-resume-id-mismatch','child-resume-model-mismatch','child-resume-effort-mismatch','activity-candidate-missing','child-limit-or-duplicate'].includes(error?.message);
+   const named=['child-resume-id-mismatch','child-resume-model-mismatch','child-resume-effort-unconfirmed','child-resume-effort-mismatch','activity-candidate-missing','child-limit-or-duplicate'].includes(error?.message);
    fail(named?error.message:'child-resume-failed');
   });
   pendingSubscriptions.push(pending);
@@ -84,7 +86,7 @@ export async function runSubject({fixture:f,protocol:p,contract,deadline,aggrega
    const actors=tracker.report().actors;const conservative=actors.reduce((n,a)=>n+(a.usage?.operationalTokens??0),0);
    if(actors.some(a=>(a.usage?.operationalTokens??0)>p.proposed_limits.per_actor_operational_tokens)||aggregateBefore+conservative>p.proposed_limits.aggregate_operational_tokens)fail('token-limit');
    if(actors[0].terminal)wake();
-  }catch(e){journal.fail(event,e.message);fail(e.message.startsWith('schema-')?e.message:'event-contract-violation');}
+  }catch(e){journal.fail(event,e.message);fail(e.message.startsWith('schema-')||EVENT_STOP_CODES.has(e.message)?e.message:'event-contract-violation');}
  };
  const timer=setTimeout(()=>fail('wall-limit'),Math.max(1,Math.min(p.proposed_limits.per_actor_ms,deadline-start)));
  try{
@@ -127,4 +129,3 @@ export async function runSubject({fixture:f,protocol:p,contract,deadline,aggrega
  return {case:f.id,arm:f.arm,status:stop?'stopped':tracker?.report().status??'incomplete',stop_reason:stop,elapsed_ms:Date.now()-start,requested_model:p.model,requested_effort:p.effort,
   event_journal:journal.report(),observations,native_errors,messages,cleanup,trace:tracker?.report()??null,answer:typeof answer==='object'?answer:null,raw_tool_output_retained:false,reasoning_retained:false};
 }
-

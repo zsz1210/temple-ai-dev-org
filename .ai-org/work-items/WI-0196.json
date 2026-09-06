@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-06T04:09:16.951Z",
-  "updated_at": "2026-09-06T04:10:13.354Z",
+  "updated_at": "2026-09-06T04:29:45.720Z",
   "scope": [
     "Repair native comparison observation so a bounded parent subAgentActivity hint remains quarantined until exact thread/resume identity, model, and reasoning-effort verification succeeds, then replay buffered child events without changing sealed predecessor evidence."
   ],
@@ -45,34 +45,60 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "9aa441e3b9025ea67dd6c1a136eae7fb3abac845",
-  "parallel_mode": "pending",
-  "integration_owner_agent_id": null,
+  "base_revision": "832f3e483416a35a854e05d19cb775930627500f",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906041013-8a7bb13b",
+    "id": "claim-20260906042945-8f827b01",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-rikku",
-    "base_revision": "9aa441e3b9025ea67dd6c1a136eae7fb3abac845",
+    "base_revision": "832f3e483416a35a854e05d19cb775930627500f",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
-    "claimed_at": "2026-09-06T04:10:13.354Z",
+    "claimed_at": "2026-09-06T04:29:45.720Z",
     "released_at": null
   },
   "claims": [
     {
       "id": "claim-20260906041013-8a7bb13b",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "9aa441e3b9025ea67dd6c1a136eae7fb3abac845",
       "branch": "codex/wi-0191-proportionate-evaluation",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
       "claimed_at": "2026-09-06T04:10:13.354Z",
+      "released_at": "2026-09-06T04:19:03.125Z",
+      "release_reason": [
+        "Developer handoff recorded for exact candidate 832f3e483416a35a854e05d19cb775930627500f"
+      ]
+    },
+    {
+      "id": "claim-20260906042040-de668063",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "832f3e483416a35a854e05d19cb775930627500f",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+      "claimed_at": "2026-09-06T04:20:40.540Z",
+      "released_at": "2026-09-06T04:29:27.379Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260906042945-8f827b01",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "832f3e483416a35a854e05d19cb775930627500f",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+      "claimed_at": "2026-09-06T04:29:45.720Z",
       "released_at": null
     }
   ],
@@ -98,8 +124,60 @@
   },
   "evidence": [
     ".ai-org/work-items/WI-0196.json",
-    ".ai-org/artifacts/WI-0196/design.md"
+    ".ai-org/artifacts/WI-0196/design.md",
+    ".ai-org/artifacts/WI-0196/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0196/test-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "832f3e483416a35a854e05d19cb775930627500f",
+      "artifact": ".ai-org/artifacts/WI-0196/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T04:19:02.846Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-06T04:29:27.379Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260906042040-de668063",
+      "rejected_revision": "832f3e483416a35a854e05d19cb775930627500f",
+      "reason": [
+        "Exact resume accepted null reasoning effort and executor-level adversarial result contracts were incomplete."
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0196/review.md"
+      ],
+      "scope_digest": "17f5d141e54fe761038bf9d9c400af28c29c3bcd58d5e0098425cf09aabc2b28",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review",
+        "profile_eligibility"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0196/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0196/design.md",
+          ".ai-org/artifacts/WI-0196/test-report.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "832f3e483416a35a854e05d19cb775930627500f"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0196/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ]
 }

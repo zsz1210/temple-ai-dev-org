@@ -102,7 +102,7 @@ async function replay(events, { resume = {}, interruptFailure = false } = {}) {
         return {
           thread: { id: resume.id ?? params.threadId },
           model: resume.model ?? protocol.model,
-          reasoningEffort: resume.effort ?? protocol.effort
+          reasoningEffort: Object.hasOwn(resume, 'effort') ? resume.effort : protocol.effort
         };
       }
       if (method === 'turn/start') {
@@ -193,6 +193,7 @@ test('activity acquisition remains race-safe when spawn completion arrives later
 for (const [label, resume, expected] of [
   ['child ID mismatch', { id: 'wrong' }, 'child-resume-id-mismatch'],
   ['model mismatch', { model: 'gpt-5.6-luna' }, 'child-resume-model-mismatch'],
+  ['unconfirmed effort', { effort: null }, 'child-resume-effort-unconfirmed'],
   ['effort mismatch', { effort: 'high' }, 'child-resume-effort-mismatch'],
   ['transport failure', { reject: true }, 'child-resume-failed']
 ]) {
@@ -204,6 +205,68 @@ for (const [label, resume, expected] of [
     assert.equal(result.cleanup.status, 'unconfirmed');
   });
 }
+
+test('executor rejects a nested activity with its fixed public stop code', async () => {
+  const nested = { ...activity('grandchild'), id: 'nested-activity' };
+  const { result } = await replay([
+    event('item/started', 'p', activity('c')),
+    event('item/started', 'p', { ...spawn, status: 'inProgress' }),
+    event('item/completed', 'p', spawn),
+    event('turn/started', 'c', turn('c')),
+    event('item/completed', 'c', nested)
+  ]);
+  assert.equal(result.stop_reason, 'invalid-child-activity');
+  assert.equal(result.trace.observed_children, 1);
+  assert.equal(result.trace.actors.some(actor => actor.id_sha256 === sha('grandchild')), false);
+});
+
+test('executor quarantines foreign activity without resuming or attributing it', async () => {
+  const { result, calls } = await replay([
+    event('item/completed', 'foreign', activity('c')),
+    usage('p'),
+    message('p', JSON.stringify(answer)),
+    event('turn/completed', 'p', turn('p', 'completed'))
+  ]);
+  assert.equal(result.stop_reason, 'interrupt-unconfirmed');
+  assert.equal(result.trace.observed_children, 0);
+  assert.equal(result.trace.actors.some(actor => actor.role === 'helper'), false);
+  assert.equal(calls.some(call => call.method === 'thread/resume'), false);
+});
+
+test('executor rejects candidate overflow with its fixed public stop code', async () => {
+  const { result } = await replay([
+    event('item/started', 'p', activity('c')),
+    event('item/started', 'p', activity('other'))
+  ]);
+  assert.equal(result.stop_reason, 'child-activity-limit');
+  assert.equal(result.trace.actors.some(actor => actor.id_sha256 === sha('other')), false);
+});
+
+test('executor rejects duplicate spawn confirmation with its fixed public stop code', async () => {
+  const duplicate = { ...spawn, id: 'spawn-2' };
+  const { result } = await replay([
+    event('item/started', 'p', activity('c')),
+    event('item/started', 'p', { ...spawn, status: 'inProgress' }),
+    event('item/completed', 'p', spawn),
+    event('item/started', 'p', { ...duplicate, status: 'inProgress' }),
+    event('item/completed', 'p', duplicate)
+  ]);
+  assert.equal(result.stop_reason, 'child-limit-or-duplicate');
+  assert.equal(result.trace.observed_children, 1);
+});
+
+test('executor rejects inconsistent and regressing usage with fixed public stop codes', async () => {
+  const inconsistent = usage('p');
+  inconsistent.params.tokenUsage.total.totalTokens = 999;
+  const first = usage('p');
+  const regressed = usage('p');
+  regressed.params.tokenUsage.total = { inputTokens: 90, cachedInputTokens: 10, outputTokens: 15, reasoningOutputTokens: 5, totalTokens: 105 };
+  for (const [events, expected] of [[[inconsistent], 'usage-inconsistent'], [[first, regressed], 'usage-regressed']]) {
+    const { result } = await replay(events);
+    assert.equal(result.stop_reason, expected);
+    assert.equal(result.trace.observed_children, 0);
+  }
+});
 
 test('a bound helper write stops the executor', async () => {
   const fileChange = { type: 'fileChange', id: 'write', changes: [], status: 'completed' };
