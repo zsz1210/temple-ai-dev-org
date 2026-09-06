@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=true
 - Work items: 216 total, 18 active
 - Codex tasks: 12 registered, 12 archive-ready
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -40,7 +40,7 @@
 - Fresh: yes
 - Safe waves: 1
 - Dispatchable Work Items: 1
-- Active / sequential / blocked: 1 / 0 / 1
+- Active / sequential / blocked: 0 / 1 / 1
 - Next wave: WI-0213
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -263,7 +263,7 @@
 | WI-0213 | Separate model-readable context from validation metadata | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6d15bbfd` | 0 | 3 | 0 |
 | WI-0214 | Evaluate model-facing context representation | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
 | WI-0215 | Run bounded full versus model context comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `dbcced47` | 0 | 4 | 1 |
-| WI-0216 | Separate stage Token warnings from aggregate experiment limits | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260906143651-405a3b0b | `—` | 0 | 1 | 0 |
+| WI-0216 | Separate stage Token warnings from aggregate experiment limits | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `92cb0a01` | 0 | 3 | 0 |
 
 ## Codex task registry
 
@@ -461,14 +461,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-06T14:45:20.857Z | work_item_transitioned | WI-0216 | agent-rikku |
+| 2026-09-06T14:45:20.576Z | work_item_claim_released | WI-0216 | human |
+| 2026-09-06T14:45:20.301Z | handoff_created | WI-0216 | agent-rikku |
 | 2026-09-06T14:37:29.098Z | work_item_coordination_configured | WI-0216 | agent-rikku |
 | 2026-09-06T14:37:28.713Z | work_item_coordination_configured | WI-0215 | agent-lulu |
 | 2026-09-06T14:37:28.371Z | work_item_coordination_configured | WI-0212 | agent-mog |
 | 2026-09-06T14:37:28.013Z | work_item_coordination_configured | WI-0211 | agent-mog |
 | 2026-09-06T14:37:27.690Z | work_item_coordination_configured | WI-0210 | agent-lulu |
-| 2026-09-06T14:37:27.380Z | work_item_coordination_configured | WI-0209 | agent-lulu |
-| 2026-09-06T14:37:27.068Z | work_item_coordination_configured | WI-0208 | agent-rikku |
-| 2026-09-06T14:37:26.760Z | work_item_coordination_configured | WI-0190 | agent-mog |
 
 ## Assignments
 

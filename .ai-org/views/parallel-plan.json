@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T14:41:21.392Z",
-  "source_fingerprint": "129b7651118399564a086533a17771038b3e471fcf3b325a66f9cad8a345cda2",
+  "generated_at": "2026-09-06T14:45:21.216Z",
+  "source_fingerprint": "53e718adaa7fab8b06d2f27046a4d55cc59dfb662aa4153e33cb687874f601e7",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0214",
@@ -15,8 +15,8 @@
   "summary": {
     "selected": 3,
     "dispatchable": 1,
-    "active": 1,
-    "sequential": 0,
+    "active": 0,
+    "sequential": 1,
     "blocked": 1,
     "waves": 1
   },
@@ -69,23 +69,20 @@
       }
     }
   ],
-  "active": [
+  "active": [],
+  "sequential": [
     {
       "work_item_id": "WI-0216",
       "title": "Separate stage Token warnings from aggregate experiment limits",
-      "disposition": "active",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
       "integration_owner_agent_id": null,
-      "reasons": [],
-      "claim_id": "claim-20260906143651-405a3b0b",
-      "principal_id": "human",
-      "branch": "codex/format-token-warning",
-      "worktree": null,
-      "base_revision": "faa9cd76"
+      "reasons": [
+        "integration_owner_assigned"
+      ]
     }
   ],
-  "sequential": [],
   "blocked": [
     {
       "work_item_id": "WI-0215",
