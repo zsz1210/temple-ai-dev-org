@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T17:23:25.553Z",
-  "source_fingerprint": "484e352f5c64837f473dcd69c41b9bf93b8800d4fafda269bfd846c9b3c6804f",
+  "generated_at": "2026-09-06T23:21:56.771Z",
+  "source_fingerprint": "9fd421bb3f39e3672a379a6fcdf166f340b6041cb2dc7fc0c5a9a2d4a27ec389",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0214",
@@ -18,10 +18,10 @@
   "max_workers": null,
   "summary": {
     "selected": 7,
-    "dispatchable": 4,
+    "dispatchable": 2,
     "active": 0,
     "sequential": 1,
-    "blocked": 2,
+    "blocked": 4,
     "waves": 1
   },
   "waves": [
@@ -53,63 +53,6 @@
           "preparation_fingerprint": "d1653dbdd37b2557c9c90fed88c6de2b5ce582734e487ef38c730e225c28d373",
           "integration_owner_agent_id": "agent-mog",
           "context_command": "node ./templew.mjs context resolve . --work-item WI-0213 --position release_manager --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        },
-        {
-          "work_item_id": "WI-0216",
-          "title": "Separate stage Token warnings from aggregate experiment limits",
-          "position_id": "quality_evaluator",
-          "agent_id": "agent-lulu",
-          "agent_name": "Lulu",
-          "suggested_task_title": "WI-0216 · Separate… · Quality & Evaluation Engineer (Lulu)",
-          "base_revision": "570a36ac",
-          "affected_paths": [
-            "scripts/context-format-comparison.mjs",
-            "scripts/delivery-control-pair.mjs",
-            "test/context-format-comparison.test.mjs"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "eval",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "0adf2722be5950d8c920fab754c9ff4b9a2744b8afe3a2320984a5bf24ee88b0",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0216 --position quality_evaluator --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        },
-        {
-          "work_item_id": "WI-0218",
-          "title": "Explain rejected command argument shapes without retaining values",
-          "position_id": "quality_evaluator",
-          "agent_id": "agent-lulu",
-          "agent_name": "Lulu",
-          "suggested_task_title": "WI-0218 · Explain … · Quality & Evaluation Engineer (Lulu)",
-          "base_revision": "3e2b22102173f8d68452a7929ab19afc6e56ec37",
-          "affected_paths": [
-            "scripts/delivery-command-policy.mjs",
-            "test/delivery-command-policy.test.mjs"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "eval",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "b3857796cbeac6c9fe97d3e88d90e8a73052084984ef74cc5d9c30d9dc6b779d",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0218 --position quality_evaluator --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,
@@ -185,6 +128,17 @@
       ]
     },
     {
+      "work_item_id": "WI-0216",
+      "title": "Separate stage Token warnings from aggregate experiment limits",
+      "disposition": "blocked",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [
+        "overlap_outside_scope:WI-0221"
+      ]
+    },
+    {
       "work_item_id": "WI-0217",
       "title": "Execute authorized warning-policy format comparison",
       "disposition": "blocked",
@@ -193,6 +147,17 @@
       "integration_owner_agent_id": null,
       "reasons": [
         "unresolved_items_cleared"
+      ]
+    },
+    {
+      "work_item_id": "WI-0218",
+      "title": "Explain rejected command argument shapes without retaining values",
+      "disposition": "blocked",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [
+        "overlap_outside_scope:WI-0221"
       ]
     }
   ],

@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0221",
   "title": "Add bounded failure and source-read observations",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-06T23:07:46.797Z",
-  "updated_at": "2026-09-06T23:08:48.260Z",
+  "updated_at": "2026-09-06T23:21:56.361Z",
   "scope": [
     "Offline-only experiment diagnostics: bounded failure summaries, fixture input fingerprints and whole-source read overlap observations; preserve command policy and sealed labs; no live model calls."
   ],
@@ -54,26 +54,32 @@
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260906230848-c4930e4f",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "5ce1148f",
     "branch": "codex/bounded-experiment-observations",
     "worktree": null,
     "claimed_at": "2026-09-06T23:08:48.260Z",
-    "released_at": null
+    "released_at": "2026-09-06T23:21:56.088Z",
+    "release_reason": [
+      "Developer implementation and verification complete; handed to evaluation."
+    ]
   },
   "claims": [
     {
       "id": "claim-20260906230848-c4930e4f",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "5ce1148f",
       "branch": "codex/bounded-experiment-observations",
       "worktree": null,
       "claimed_at": "2026-09-06T23:08:48.260Z",
-      "released_at": null
+      "released_at": "2026-09-06T23:21:56.088Z",
+      "release_reason": [
+        "Developer implementation and verification complete; handed to evaluation."
+      ]
     }
   ],
   "gate_evidence": {
@@ -91,11 +97,30 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0221/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0221/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0221/verification.md"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0221/design.md"
+    ".ai-org/artifacts/WI-0221/design.md",
+    ".ai-org/artifacts/WI-0221/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0221/verification.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "0c673070d93334aae29870951d6d62fe2d08283c",
+      "artifact": ".ai-org/artifacts/WI-0221/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T23:21:55.788Z"
+    }
+  ],
+  "developer_candidate_revision": "0c673070d93334aae29870951d6d62fe2d08283c"
 }
