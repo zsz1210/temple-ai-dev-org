@@ -1,22 +1,24 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T13:36:23.275Z",
-  "source_fingerprint": "191f89a8098d2ac493c030d29c41171cdc0a16decfa297e9b34499ca20791e26",
+  "generated_at": "2026-09-06T15:11:08.377Z",
+  "source_fingerprint": "77d54b4df27f00ffdf88c260c24ab6f35ff502b1ffaac4d84369515b46dd6698",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0214",
     "selected_work_item_ids": [
       "WI-0213",
-      "WI-0215"
+      "WI-0215",
+      "WI-0216",
+      "WI-0217"
     ]
   },
   "max_workers": null,
   "summary": {
-    "selected": 2,
-    "dispatchable": 1,
+    "selected": 4,
+    "dispatchable": 2,
     "active": 0,
     "sequential": 0,
-    "blocked": 1,
+    "blocked": 2,
     "waves": 1
   },
   "waves": [
@@ -53,6 +55,35 @@
           "task_creation_performed": false,
           "claim_performed": false,
           "external_action_performed": false
+        },
+        {
+          "work_item_id": "WI-0216",
+          "title": "Separate stage Token warnings from aggregate experiment limits",
+          "position_id": "quality_evaluator",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0216 · Separate… · Quality & Evaluation Engineer (Lulu)",
+          "base_revision": "570a36ac",
+          "affected_paths": [
+            "scripts/context-format-comparison.mjs",
+            "scripts/delivery-control-pair.mjs",
+            "test/context-format-comparison.test.mjs"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "eval",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "0adf2722be5950d8c920fab754c9ff4b9a2744b8afe3a2320984a5bf24ee88b0",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0216 --position quality_evaluator --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
         }
       ],
       "join_gate": {
@@ -81,9 +112,41 @@
       "reasons": [
         "unresolved_items_cleared"
       ]
+    },
+    {
+      "work_item_id": "WI-0217",
+      "title": "Execute authorized warning-policy format comparison",
+      "disposition": "blocked",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "unresolved_items_cleared"
+      ]
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0215",
+      "right_work_item_id": "WI-0216",
+      "paths": [
+        {
+          "left_path": "scripts/context-format-comparison.mjs",
+          "right_path": "scripts/context-format-comparison.mjs"
+        },
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        },
+        {
+          "left_path": "test/context-format-comparison.test.mjs",
+          "right_path": "test/context-format-comparison.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    }
+  ],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
     "runtime_capacity_limit": null,

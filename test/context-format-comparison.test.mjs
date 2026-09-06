@@ -4,12 +4,12 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { schedule, limits, policy, validatePlan, validateApproval, consumeApproval, requestsFor, execute } from "../scripts/context-format-comparison.mjs";
-import { digest, contextEntryObservation } from "../scripts/delivery-control-pair.mjs";
+import { digest, contextEntryObservation, tokenBudgetDecision, recordTokenBudget } from "../scripts/delivery-control-pair.mjs";
 import { evidenceScope } from "../scripts/context-material-comparison.mjs";
 import { classifyCommandItem } from "../scripts/delivery-command-policy.mjs";
-const plan = () => ({ schema_version: "temple.format-comparison/v1", work_item_id: "WI-0215", model: "gpt-5.6-terra", reasoning_effort: "medium", schedule, limits, policy, source_revision: "revision", source_sha256: "digest", evidence_scope: evidenceScope,
+const plan = () => ({ schema_version: "temple.format-comparison/v2", work_item_id: "WI-0216", model: "gpt-5.6-terra", reasoning_effort: "medium", schedule, limits, policy, source_revision: "revision", source_sha256: "digest", evidence_scope: evidenceScope,
   subjects: schedule.map((variant, i) => ({ variant, arm: "temple", root: `/fixture-${i}`, source_revision: "revision", source_sha256: "digest" })), isolation: { schema_version: "temple.comparison-isolation/v1", sources: [{ path: "/fixture", sha256: null }], mcp_servers: [], plugins: [], apps: [], fixture_trust_roots: schedule.map((_, i) => `/fixture-${i}`) } });
-const approval = p => ({ status: "approved", approved_by: "human", work_item_id: "WI-0215", protocol_sha256: digest(p), evidence_ref: ".ai-org/artifacts/WI-0215/design.md", limits, policy });
+const approval = p => ({ status: "approved", approved_by: "human", work_item_id: "WI-0216", protocol_sha256: digest(p), evidence_ref: ".ai-org/artifacts/WI-0216/design.md", limits, policy });
 test("format protocol binds exact approved route, order, sources and one-shot envelope", async t => {
   const p = plan(); validatePlan(p); validateApproval(approval(p), p);
   for (const modify of [x => x.limits = { ...limits, stages: 9 }, x => x.policy = { ...policy, reset: true }, x => x.model = "other", x => x.reasoning_effort = "high", x => x.subjects[0].source_revision = "drift", x => x.subjects[0].variant = "model", x => x.isolation.fixture_trust_roots = []]) {
@@ -63,8 +63,42 @@ test("eight-stage executor stops on failure and preserves partial measurements w
   const initial = () => ({ status: "running", stages: [], attempted_stages: 0, operational_tokens: 0 });
   const helpers = extra => ({ deadline: 100, now: () => 0, beforeStage: async () => ({}), runOne: async (s, stage) => observe(s, stage), assessOne: async () => ({ record, quality_passed: true, workflow: { pass: true, exact_handoff: true } }), persist: async () => {}, ...extra });
   const r = initial(); await execute(plan(), r, helpers()); assert.equal(r.status, "completed"); assert.equal(r.operational_tokens, 800); assert.deepEqual(r.stages.map(s => s.variant), schedule.flatMap(s => [s, s]));
-  for (const patch of [{ status: "stopped", stop_reason: "guard-failure" }, { usage: null }, { usage: { operational_tokens: 80001 } }, { provider_exit_confirmed: false }, { events: [] }]) {
+  for (const patch of [{ status: "stopped", stop_reason: "guard-failure" }, { usage: null }, { usage: { operational_tokens: 640001 } }, { provider_exit_confirmed: false }, { events: [] }]) {
     const r = initial(); await assert.rejects(execute(plan(), r, helpers({ runOne: async (s, stage) => ({ ...observe(s, stage), ...patch }) }))); assert.equal(r.attempted_stages, 1); assert.equal(r.stages.length, 1);
   }
   const exhausted = initial(); await assert.rejects(execute(plan(), exhausted, helpers({ now: () => 100 })), /aggregate-limit/); assert.equal(exhausted.attempted_stages, 0);
+  const warning = initial();
+  await execute(plan(), warning, helpers({ runOne: async (s, stage) => ({ ...observe(s, stage), usage: { operational_tokens: warning.attempted_stages === 1 ? 80151 : 100 } }) }));
+  assert.equal(warning.status, "completed"); assert.equal(warning.stages.length, 8);
+  const total = initial();
+  await assert.rejects(execute(plan(), total, helpers({ runOne: async (s, stage) => ({ ...observe(s, stage), usage: { operational_tokens: 400000 } }) })), /usage-or-token-limit/);
+  assert.equal(total.attempted_stages, 2);
+  let clock = 0;
+  const delayed = initial();
+  await assert.rejects(execute(plan(), delayed, helpers({ now: () => clock, beforeStage: async () => { clock = 100; } })), /aggregate-limit/);
+  assert.equal(delayed.attempted_stages, 0);
+  clock = 0; const last = initial();
+  await assert.rejects(execute(plan(), last, helpers({ now: () => clock, assessOne: async () => {
+    if (last.attempted_stages === 8) clock = 100;
+    return { record, quality_passed: true, workflow: { pass: true, exact_handoff: true } };
+  } })), /aggregate-limit/);
+  assert.notEqual(last.status, "completed");
+});
+
+test("stage warnings are explicit, deduplicated and never waive aggregate limits", () => {
+  assert.deepEqual(tokenBudgetDecision(limits, 80000, 0), { warning: false, stop: false });
+  assert.deepEqual(tokenBudgetDecision(limits, 80001, 0), { warning: true, stop: false });
+  assert.equal(tokenBudgetDecision(limits, 80001, 560000).stop, true);
+  assert.equal(tokenBudgetDecision(limits, 640000, 0).stop, false);
+  assert.equal(tokenBudgetDecision(limits, 640001, 0).stop, true);
+  const legacy = { ...limits }; delete legacy.per_stage_token_action;
+  assert.equal(tokenBudgetDecision(legacy, 80001, 0).stop, true);
+  assert.throws(() => tokenBudgetDecision({ ...limits, per_stage_token_action: "ignore" }, 1, 0));
+  for (const n of [null, NaN, -1, 0.5]) assert.throws(() => tokenBudgetDecision(limits, n, 0));
+  const observation = {};
+  recordTokenBudget(observation, limits, 80151, 0, 100);
+  recordTokenBudget(observation, limits, 90000, 0, 200);
+  assert.deepEqual(observation.stage_token_warning, { threshold: 80000, observed_operational_tokens: 80151, elapsed_ms: 100 });
+  const old = { ...plan(), schema_version: "temple.format-comparison/v1", work_item_id: "WI-0215" };
+  assert.throws(() => validatePlan(old), /plan-schema/);
 });

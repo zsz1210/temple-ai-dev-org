@@ -6,7 +6,7 @@
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T03:05:47.487Z",
-  "updated_at": "2026-09-06T13:20:43.905Z",
+  "updated_at": "2026-09-06T14:37:26.431Z",
   "scope": [
     "Coordinator ID reservation for the existing comparison owned by the separate workflow-efficiency task. This intake record does not import its candidate, replay its lifecycle, authorize live generation, or supersede its isolated experiment evidence. Reconcile the exact owner branch at integration."
   ],
@@ -51,7 +51,8 @@
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
-    "WI-0215 owns the format-only successor harness and its new test; this record has no active writer and its prior source/evidence remain frozen."
+    "WI-0215 owns the format-only successor harness and its new test; this record has no active writer and its prior source/evidence remain frozen.",
+    "WI-0216: sequential successor owns warning-policy edits; prior evidence frozen; no active writer."
   ],
   "claim": null,
   "claims": [],

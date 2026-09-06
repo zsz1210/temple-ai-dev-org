@@ -264,6 +264,21 @@ export function contextEntryObservation(body, contextFormat = null) {
   const eligible = body?.schema_version === expectedSchema && body.status === "eligible" && body.packet != null;
   return { entry_eligible: eligible, ...(contextFormat && eligible ? { context_format: contextFormat } : {}) };
 }
+export function tokenBudgetDecision(limits, stageTokens, aggregateBefore) {
+  const mode = limits.per_stage_token_action ?? "stop";
+  requireThat(["stop", "warning"].includes(mode), "invalid-token-usage");
+  for (const value of [stageTokens, aggregateBefore]) requireThat(Number.isSafeInteger(value) && value >= 0, "invalid-token-usage");
+  for (const value of [limits.per_stage_operational_tokens, limits.aggregate_operational_tokens]) requireThat(Number.isSafeInteger(value) && value > 0, "invalid-token-usage");
+  const crossed = stageTokens > limits.per_stage_operational_tokens;
+  return { warning: crossed && mode === "warning", stop: (crossed && mode === "stop") || stageTokens > limits.aggregate_operational_tokens - aggregateBefore };
+}
+export function recordTokenBudget(observation, limits, stageTokens, aggregateBefore, elapsedMs) {
+  const decision = tokenBudgetDecision(limits, stageTokens, aggregateBefore);
+  if (decision.warning && !observation.stage_token_warning) observation.stage_token_warning = {
+    threshold: limits.per_stage_operational_tokens, observed_operational_tokens: stageTokens, elapsed_ms: elapsedMs
+  };
+  return decision;
+}
 export async function runStage({ root, arm, stage, protocol, contract, sourceRoot, providerFactory, deadline, aggregateBefore, diagnosticKey, expectedClaimRevision, requestFactory = stageRequests, contextMaterial = false, contextFormat = null, runtimePolicy = null }) {
   const start = Date.now(), hash = value => "hmac-sha256:" + crypto.createHmac("sha256", diagnosticKey).update(String(value)).digest("hex");
   const observation = { arm, stage, status: "stopped", usage: null, usage_finality: "last-observed-not-account-final", usage_observed_at_ms: null, command_count: 0, command_started_count: 0, command_completed_count: 0, patch_started_count: 0, patch_completed_count: 0, tool_count: 0, reported_output_bytes: 0, events: [], observed_test_exit_codes: [], requested_model: protocol.model, acknowledged_model: null, model_acknowledgement: "not-observed", requested_effort: protocol.reasoning_effort, observed_thread_effort: null, effective_turn_effort: null, terminal_status: null, interrupt_requested: false, interrupt_acknowledged: false, retry_count: 0, fallback_count: 0 };
@@ -323,7 +338,7 @@ export async function runStage({ root, arm, stage, protocol, contract, sourceRoo
         const next=usageValue(p);
         requireThat(!observation.usage || ["input_tokens","cached_input_tokens","output_tokens","reasoning_output_tokens","total_tokens"].every(key=>next[key] >= observation.usage[key]),"usage-regressed");
         observation.usage=next; observation.usage_observed_at_ms=Date.now()-start;
-        if (next.operational_tokens > protocol.limits.per_stage_operational_tokens || aggregateBefore+next.operational_tokens > protocol.limits.aggregate_operational_tokens) fail("operational-token-limit");
+        if (recordTokenBudget(observation, protocol.limits, next.operational_tokens, aggregateBefore, Date.now()-start).stop) fail("operational-token-limit");
       }
       if (["item/started","item/completed"].includes(method)) {
         requireThat(validId(item?.id),"invalid-event-id");
