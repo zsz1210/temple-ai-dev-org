@@ -1,0 +1,104 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0201",
+  "title": "Repair complete native helper observation lifecycle",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-06T06:13:43.874Z",
+  "updated_at": "2026-09-06T06:15:55.634Z",
+  "scope": [
+    "Diagnose real ephemeral API behavior without generation, implement a successor lifecycle observer and adversarial tests, preserve sealed predecessors and report remaining compatibility limits."
+  ],
+  "acceptance_criteria": [
+    "Reproduce real metadata/resume behavior without model turns; preserve bounded native RPC categories.",
+    "Cover child discovery, metadata acquisition, event buffering, usage, terminal and cleanup as one lifecycle."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0201"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Local reversible harness repair; no live generation without sealed readiness",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T06:13:43.873Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "HEAD",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906061555-86651c7d",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "HEAD",
+    "branch": "codex/wi-0191-proportionate-evaluation",
+    "worktree": null,
+    "claimed_at": "2026-09-06T06:15:55.634Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260906061555-86651c7d",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "HEAD",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T06:15:55.634Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/work-items/WI-0201.json"
+    ],
+    "approved_scope": [
+      ".ai-org/work-items/WI-0201.json"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0201.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0199/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0200/live-report.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/work-items/WI-0201.json"
+    ]
+  },
+  "evidence": [
+    ".ai-org/work-items/WI-0201.json",
+    ".ai-org/artifacts/WI-0199/design.md",
+    ".ai-org/artifacts/WI-0200/live-report.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
