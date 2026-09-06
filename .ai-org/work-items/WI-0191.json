@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0191",
   "title": "Evaluate proportionate routes with matched before-after scenarios",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T23:22:22.271Z",
-  "updated_at": "2026-09-06T00:11:50.106Z",
+  "updated_at": "2026-09-06T00:25:16.847Z",
   "scope": [
     "Design and preflight an isolated WI-0190 before-after evaluation; preserve sealed experiments and require explicit live budget and verified native support before model execution"
   ],
@@ -42,23 +42,26 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "418fda6",
-  "parallel_mode": "pending",
-  "integration_owner_agent_id": null,
+  "base_revision": "85beb7a",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260905233100-ad79e761",
-    "status": "active",
+    "id": "claim-20260906002429-d82cc780",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "418fda6",
+    "agent_id": "agent-mog",
+    "base_revision": "85beb7a",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": null,
-    "claimed_at": "2026-09-05T23:31:00.058Z",
-    "released_at": null
+    "claimed_at": "2026-09-06T00:24:29.935Z",
+    "released_at": "2026-09-06T00:25:16.847Z",
+    "release_reason": [
+      "Prepared executor and exact-seal QA recorded; waiting for numerical live authorization without holding resources"
+    ]
   },
   "claims": [
     {
@@ -77,14 +80,57 @@
     },
     {
       "id": "claim-20260905233100-ad79e761",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "418fda6",
       "branch": "codex/wi-0191-proportionate-evaluation",
       "worktree": null,
       "claimed_at": "2026-09-05T23:31:00.058Z",
-      "released_at": null
+      "released_at": "2026-09-06T00:15:43.056Z",
+      "release_reason": [
+        "Developer executor slice handed off at 85beb7a; no live generation authorized"
+      ]
+    },
+    {
+      "id": "claim-20260906001629-19197c2e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "85beb7a",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T00:16:29.199Z",
+      "released_at": "2026-09-06T00:16:29.768Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260906001739-6f053fe2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "85beb7a",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T00:17:39.801Z",
+      "released_at": "2026-09-06T00:22:33.442Z",
+      "release_reason": [
+        "Formal executor readiness QA complete; no live spending authority supplied"
+      ]
+    },
+    {
+      "id": "claim-20260906002429-d82cc780",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "85beb7a",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T00:24:29.935Z",
+      "released_at": "2026-09-06T00:25:16.847Z",
+      "release_reason": [
+        "Prepared executor and exact-seal QA recorded; waiting for numerical live authorization without holding resources"
+      ]
     }
   ],
   "gate_evidence": {
@@ -104,22 +150,38 @@
       ".ai-org/artifacts/WI-0191/readiness.md"
     ],
     "developer_handoff": [
-      ".ai-org/artifacts/WI-0191/handoff-001-developer-to-quality_evaluator.md"
+      ".ai-org/artifacts/WI-0191/handoff-001-developer-to-quality_evaluator.md",
+      ".ai-org/artifacts/WI-0191/handoff-002-developer-to-quality_evaluator.md"
     ],
     "developer_evidence": [
+      ".ai-org/artifacts/WI-0191/executor-report.md",
+      ".ai-org/artifacts/WI-0191/advisory-review.md"
+    ],
+    "test_evidence": [
       ".ai-org/artifacts/WI-0191/executor-report.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0191/executor-report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0191/independent-qa.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0191/design.md",
     ".ai-org/artifacts/WI-0191/readiness.md",
     ".ai-org/artifacts/WI-0191/handoff-001-developer-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0191/executor-report.md"
+    ".ai-org/artifacts/WI-0191/executor-report.md",
+    ".ai-org/artifacts/WI-0191/handoff-002-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0191/advisory-review.md",
+    ".ai-org/artifacts/WI-0191/handoff-003-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0191/independent-qa.md",
+    ".ai-org/artifacts/WI-0191/readiness-review.json"
   ],
   "unresolved": [
-    "Formal exact-candidate readiness review and explicit live budget remain required; no model results exist"
+    "Live matrix not started: awaiting explicit approval of seal 7ed764a6b32be2cf9e16ce192d38e841a00adae390814333cbbdc494ce72bcd7 and its numerical envelope; generation-free QA is complete"
   ],
-  "next_position": "quality_evaluator",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "developer",
@@ -128,7 +190,23 @@
       "input_revision": "ca8e37d27c42b691529b088fa82692bbfeaf1438",
       "artifact": ".ai-org/artifacts/WI-0191/handoff-001-developer-to-quality_evaluator.md",
       "created_at": "2026-09-06T00:11:50.106Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "85beb7acef3c3f9d8fe2678a66f3c3b10c45b2dd",
+      "artifact": ".ai-org/artifacts/WI-0191/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T00:15:42.766Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "actor": "agent-lulu",
+      "input_revision": "85beb7acef3c3f9d8fe2678a66f3c3b10c45b2dd",
+      "artifact": ".ai-org/artifacts/WI-0191/handoff-003-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-06T00:22:33.151Z"
     }
   ],
-  "developer_candidate_revision": "ca8e37d27c42b691529b088fa82692bbfeaf1438"
+  "developer_candidate_revision": "85beb7acef3c3f9d8fe2678a66f3c3b10c45b2dd"
 }

@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
-- Parallel plan: 1 wave(s), fresh=false
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Parallel plan: 1 wave(s), fresh=true
 - Work items: 191 total, 5 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 48 registered, 0 reserved, 0 active
+- Runtime workers: 49 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 23
+- Attention signals: 22
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,10 +37,10 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 1
 - Dispatchable Work Items: 1
-- Active / sequential / blocked: 0 / 2 / 1
+- Active / sequential / blocked: 0 / 2 / 2
 - Next wave: WI-0190
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -238,7 +238,7 @@
 | WI-0188 | Integrate opt-in Lean entry with bounded material and completion | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6346e026` | 0 | 9 | 0 |
 | WI-0189 | Compare single-worker and parallel Terra delivery | test | Quality & Evaluation Engineer | Lulu | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `90a5870d` | 0 | 6 | 1 |
 | WI-0190 | Clarify proportionate entry and stage completion | release_gate | Release Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `50ae4f50` | 0 | 5 | 0 |
-| WI-0191 | Evaluate proportionate routes with matched before-after scenarios | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260905233100-ad79e761 | `ca8e37d2` | 0 | 4 | 1 |
+| WI-0191 | Evaluate proportionate routes with matched before-after scenarios | release_gate | Release Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `85beb7ac` | 0 | 9 | 1 |
 
 ## Codex task registry
 
@@ -309,6 +309,7 @@
 | worker-20260905141644-4a85d8c7 | internal-subagent | WI-0188 | Quality & Evaluation Engineer / Lulu | failed | /root/lean_entry_qa | `88ab5970` | 0 |
 | worker-20260905142754-3ef27975 | internal-subagent | WI-0188 | Quality & Evaluation Engineer / Lulu | completed | /root/lean_entry_corrected_qa | `6346e026` | 0 |
 | worker-20260905225400-a1cb7c69 | internal-subagent | WI-0190 | Independent QA / Lulu | completed | /root/wi0178_delivery_qa:wi-0190 | `50ae4f50` | 0 |
+| worker-20260906001739-1031d49e | internal-subagent | WI-0191 | Independent QA / Lulu | completed | /root/wi0191_readiness_qa | `85beb7ac` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -337,8 +338,7 @@
 - worker-20260905124032-458ce7b0 is failed
 - worker-20260905130828-87bb7969 is failed
 - worker-20260905141644-4a85d8c7 is failed
-- Generated parallel plan is stale; rebuild it before dispatch
-- Parallel plan has 1 blocked Work Item(s)
+- Parallel plan has 2 blocked Work Item(s)
 
 ## External tracker coordination
 
@@ -418,14 +418,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-06T00:11:50.106Z | handoff_created | WI-0191 | agent-rikku |
-| 2026-09-05T23:31:00.058Z | work_item_claimed | WI-0191 | human |
-| 2026-09-05T23:30:59.784Z | work_item_transitioned | WI-0191 | agent-tidus |
-| 2026-09-05T23:30:59.526Z | work_item_transitioned | WI-0191 | agent-yuna |
-| 2026-09-05T23:30:59.263Z | work_item_transitioned | WI-0191 | agent-mog |
-| 2026-09-05T23:27:30.615Z | work_item_claim_released | WI-0191 | human |
-| 2026-09-05T23:22:22.550Z | work_item_claimed | WI-0191 | human |
-| 2026-09-05T23:22:22.271Z | work_item_created | WI-0191 | agent-mog |
+| 2026-09-06T00:25:16.847Z | work_item_claim_released | WI-0191 | human |
+| 2026-09-06T00:25:16.555Z | work_item_unresolved_updated | WI-0191 | agent-mog |
+| 2026-09-06T00:24:29.935Z | work_item_claimed | WI-0191 | human |
+| 2026-09-06T00:22:33.728Z | work_item_transitioned | WI-0191 | agent-lulu |
+| 2026-09-06T00:22:33.442Z | work_item_claim_released | WI-0191 | human |
+| 2026-09-06T00:22:33.151Z | handoff_created | WI-0191 | agent-lulu |
+| 2026-09-06T00:22:32.849Z | runtime_worker_status_changed | WI-0191 | agent-lulu |
+| 2026-09-06T00:18:31.449Z | runtime_worker_attached | WI-0191 | agent-lulu |
 
 ## Assignments
 

@@ -1364,6 +1364,34 @@
       "attached_at": "2026-09-05T22:56:53.328Z",
       "completed_at": "2026-09-05T22:58:22.186Z",
       "updated_at": "2026-09-05T22:58:22.186Z"
+    },
+    {
+      "id": "worker-20260906001739-1031d49e",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0191",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260906001739-6f053fe2",
+      "base_revision": "85beb7a",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "plan_fingerprint": "90db12fe5d30291134b5d72f88b228fe2d98b198dd8e9b4cb8d266a8ccb931c7",
+      "plan_digest": "99a50a6cbd6f1a4f0264880c307496ea820fbda6c6cb5d3d9e51203413394a96",
+      "preparation_fingerprint": "3892963c5d4a8efd5ce0819faa8bf21089286dbc3e5f37c7e74bf7762034e162",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0191_readiness_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "85beb7acef3c3f9d8fe2678a66f3c3b10c45b2dd",
+      "evidence": [
+        ".ai-org/artifacts/WI-0191/independent-qa.md"
+      ],
+      "reserved_at": "2026-09-06T00:17:39.789Z",
+      "attached_at": "2026-09-06T00:18:31.449Z",
+      "completed_at": "2026-09-06T00:22:32.849Z",
+      "updated_at": "2026-09-06T00:22:32.849Z"
     }
   ]
 }

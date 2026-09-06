@@ -7,6 +7,13 @@ framework runtime, distributed instructions and prior experiment records were
 not changed by this slice. This is executor verification, not evidence that
 WI-0190 saves time or Tokens. Live model calls performed: **0**.
 
+Formal generation-free readiness QA subsequently passed for candidate
+`85beb7acef3c3f9d8fe2678a66f3c3b10c45b2dd`; see `independent-qa.md` and
+`readiness-review.json`. Independent rerun: **32/32**, 14.484 seconds.
+The reviewed executable seal is
+`7ed764a6b32be2cf9e16ce192d38e841a00adae390814333cbbdc494ce72bcd7`.
+The implementation/preflight slice is complete; the live comparison is not.
+
 ## Observed checks
 
 - `npm run verify`: repository, documentation and package checks passed;
@@ -56,7 +63,8 @@ WI-0190 saves time or Tokens. Live model calls performed: **0**.
 
 ## Limitations that remain gates, not successful results
 
-1. Independent readiness review must evaluate the exact executable seal.
+1. Independent readiness review has passed for the exact seal above. Any
+   executable drift requires a new review; this does not approve spending.
 2. The first native helper run must establish actual child event visibility and
    subscription behavior. Mock event replays cannot establish that capability.
 3. Parent/child nonduplication and account-final usage are not established.

@@ -8,6 +8,12 @@ exist. The recorded initial preflight is historical, not the current runnable
 seal. See `executor-report.md` for checked behavior and remaining gates. No live
 before/after result is claimed.
 
+Formal readiness QA is now recorded in `independent-qa.md` for candidate
+`85beb7acef3c3f9d8fe2678a66f3c3b10c45b2dd` and the exact sealed protocol.
+The current remaining authorization boundary is the numerical live envelope
+in `approval-request.md`; no live run has started. The old sections below
+remain historical and do not override this update.
+
 ## Completed
 
 - Recorded six paired scenarios, balanced AB/BA order, authority/stale-evidence/injection counterexamples and a 16-subject-turn accounting boundary.
