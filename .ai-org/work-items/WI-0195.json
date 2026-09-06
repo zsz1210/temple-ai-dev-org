@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-06T03:06:08.740Z",
-  "updated_at": "2026-09-06T03:08:16.117Z",
+  "updated_at": "2026-09-06T03:16:35.520Z",
   "scope": [
     "Run a fresh sealed four-arm Terra medium support comparison using the reviewed WI-0194 recorder; preserve WI-0191 through WI-0194 and stop on the first mandatory failure"
   ],
@@ -42,34 +42,60 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "e243d809fdd31316df4dd88cf3570a3c6e06a4d1",
-  "parallel_mode": "pending",
-  "integration_owner_agent_id": null,
+  "base_revision": "a21b7b24ad5290d92c4139a7071900a54e387450",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906030816-da8684e4",
+    "id": "claim-20260906031635-380ba076",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-rikku",
-    "base_revision": "e243d809fdd31316df4dd88cf3570a3c6e06a4d1",
+    "base_revision": "a21b7b24ad5290d92c4139a7071900a54e387450",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": null,
-    "claimed_at": "2026-09-06T03:08:16.117Z",
+    "claimed_at": "2026-09-06T03:16:35.520Z",
     "released_at": null
   },
   "claims": [
     {
       "id": "claim-20260906030816-da8684e4",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "e243d809fdd31316df4dd88cf3570a3c6e06a4d1",
       "branch": "codex/wi-0191-proportionate-evaluation",
       "worktree": null,
       "claimed_at": "2026-09-06T03:08:16.117Z",
+      "released_at": "2026-09-06T03:11:41.676Z",
+      "release_reason": [
+        "Exact candidate and seal ready for distinct readiness review"
+      ]
+    },
+    {
+      "id": "claim-20260906031213-afbfd530",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "a21b7b24ad5290d92c4139a7071900a54e387450",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T03:12:13.674Z",
+      "released_at": "2026-09-06T03:16:35.241Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260906031635-380ba076",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "a21b7b24ad5290d92c4139a7071900a54e387450",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T03:16:35.520Z",
       "released_at": null
     }
   ],
@@ -94,8 +120,59 @@
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0195/design.md"
+    ".ai-org/artifacts/WI-0195/design.md",
+    ".ai-org/artifacts/WI-0195/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0195/runner.test.mjs"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "a21b7b24ad5290d92c4139a7071900a54e387450",
+      "artifact": ".ai-org/artifacts/WI-0195/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T03:11:41.379Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-06T03:16:35.241Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260906031213-afbfd530",
+      "rejected_revision": "a21b7b24ad5290d92c4139a7071900a54e387450",
+      "reason": [
+        "Seal omits two notification schemas required by the repaired executor"
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0195/readiness-review.md"
+      ],
+      "scope_digest": "fc972931f5dcec1fbe63e8f229ebd29e05092a11c4a76a8a1744ab957b2ce5d4",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review",
+        "profile_eligibility"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0195/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0195/runner.test.mjs"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "a21b7b24ad5290d92c4139a7071900a54e387450"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0195/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ]
 }

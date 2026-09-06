@@ -7,7 +7,7 @@
 - Parallel plan: 1 wave(s), fresh=false
 - Work items: 195 total, 8 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 52 registered, 0 reserved, 0 active
+- Runtime workers: 53 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -39,9 +39,9 @@
 - Valid: yes
 - Fresh: no
 - Safe waves: 1
-- Dispatchable Work Items: 1
+- Dispatchable Work Items: 2
 - Active / sequential / blocked: 0 / 3 / 3
-- Next wave: WI-0190
+- Next wave: WI-0190, WI-0195
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -242,7 +242,7 @@
 | WI-0192 | Repair paired evaluation evidence without changing sealed results | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9e96f7bb` | 0 | 3 | 0 |
 | WI-0193 | Run bounded native support comparison after measurement repair | test | Quality & Evaluation Engineer | Lulu | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2628319f` | 0 | 2 | 1 |
 | WI-0194 | Complete native event classification and failure-path replay coverage | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f9edc11a` | 0 | 6 | 0 |
-| WI-0195 | Complete repaired native support comparison | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260906030816-da8684e4 | `—` | 0 | 1 | 0 |
+| WI-0195 | Complete repaired native support comparison | build | Developer | Rikku | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260906031635-380ba076 | `—` | 0 | 3 | 0 |
 
 ## Codex task registry
 
@@ -317,6 +317,7 @@
 | worker-20260906022705-0bb1c047 | internal-subagent | WI-0193 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0193_readiness_qa | `2628319f` | 0 |
 | worker-20260906025152-46d19d94 | internal-subagent | WI-0194 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0194_event_review | `c68fb23c` | 0 |
 | worker-20260906025851-3e0d8db8 | internal-subagent | WI-0194 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0194_recheck | `f9edc11a` | 0 |
+| worker-20260906031213-34f5fb4b | internal-subagent | WI-0195 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0195_readiness | `a21b7b24` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -426,14 +427,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-06T03:08:16.117Z | work_item_claimed | WI-0195 | human |
-| 2026-09-06T03:08:15.810Z | work_item_transitioned | WI-0195 | agent-mog |
-| 2026-09-06T03:06:08.740Z | work_item_created | WI-0195 | agent-mog |
-| 2026-09-06T03:01:37.115Z | work_item_closed | WI-0194 | agent-lulu |
-| 2026-09-06T03:01:37.115Z | work_item_transitioned | WI-0194 | agent-lulu |
-| 2026-09-06T03:01:36.859Z | work_item_claim_released | WI-0194 | human |
-| 2026-09-06T03:01:36.600Z | runtime_worker_status_changed | WI-0194 | agent-lulu |
-| 2026-09-06T02:59:20.890Z | runtime_worker_attached | WI-0194 | agent-lulu |
+| 2026-09-06T03:16:35.520Z | work_item_claimed | WI-0195 | human |
+| 2026-09-06T03:16:35.241Z | work_item_reworked | WI-0195 | agent-lulu |
+| 2026-09-06T03:16:34.970Z | runtime_worker_status_changed | WI-0195 | agent-lulu |
+| 2026-09-06T03:12:36.028Z | runtime_worker_attached | WI-0195 | agent-lulu |
+| 2026-09-06T03:12:13.661Z | runtime_worker_reserved | WI-0195 | human |
+| 2026-09-06T03:12:13.674Z | work_item_claimed | WI-0195 | human |
+| 2026-09-06T03:12:12.709Z | work_item_coordination_configured | WI-0195 | agent-lulu |
+| 2026-09-06T03:11:41.944Z | work_item_transitioned | WI-0195 | agent-rikku |
 
 ## Assignments
 

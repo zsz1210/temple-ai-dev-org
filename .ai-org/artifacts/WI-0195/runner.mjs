@@ -1,7 +1,7 @@
-import fs from 'node:fs/promises';import path from 'node:path';import {fileURLToPath} from 'node:url';import {execFileSync} from 'node:child_process';
+import fs from 'node:fs/promises';import os from 'node:os';import path from 'node:path';import {fileURLToPath} from 'node:url';import {execFileSync} from 'node:child_process';
 import {root,protocol,sourceCheck} from './preflight.mjs';
 import {prepareSources,prepareCase} from '../WI-0193/fixture-kit.mjs';
-import {snapshot,sandboxCheck,sandboxCommand,changedOutsideScope,providerContract} from '../WI-0193/runner.mjs';
+import {snapshot,sandboxCheck,sandboxCommand,changedOutsideScope,providerContract as predecessorProviderContract} from '../WI-0193/runner.mjs';
 import {requests,runSubject,sha} from '../WI-0194/executor.mjs';
 import {gradeCase} from '../WI-0193/grading.mjs';import {stopReasonFor} from '../WI-0193/measurement.mjs';
 const here=path.dirname(fileURLToPath(import.meta.url)),demand=(v,m)=>{if(!v)throw Error(m);};
@@ -13,6 +13,14 @@ export async function bindings(){
  for(const name of ['fixture-kit.mjs','grading.mjs','measurement.mjs'])out[`.ai-org/artifacts/WI-0193/${name}`]=sha(await fs.readFile(path.join(here,'../WI-0193',name)));
  for(const name of ['src/codex-app-server-provider.mjs','scripts/delivery-control-pair.mjs','scripts/run-representative-microservice-comparison.mjs','src/app-server-protocol-replay.mjs','package-lock.json'])out[name]=sha(await fs.readFile(path.join(root,name)));
  return out;
+}
+export async function providerContract(){
+ const contract=await predecessorProviderContract(),schemaDir=await fs.mkdtemp(path.join(os.tmpdir(),'successor-schema-'));
+ try{
+  execFileSync('codex',['app-server','generate-json-schema','--out',schemaDir]);
+  for(const name of ['TurnStartedNotification','TurnCompletedNotification'])contract.schemas[name]=JSON.parse(await fs.readFile(path.join(schemaDir,'v2',`${name}.json`),'utf8'));
+  return contract;
+ }finally{await fs.rm(schemaDir,{recursive:true,force:true});}
 }
 export function approvalCheck(a,seal){
  demand(a?.schema_version==='temple.paired-evaluation-approval/v1'&&a.approved===true,'approval-required');
