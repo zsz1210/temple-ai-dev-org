@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-06T08:54:33.689Z",
-  "updated_at": "2026-09-06T14:37:27.068Z",
+  "updated_at": "2026-09-06T15:18:44.049Z",
   "scope": [
     "Approved step 4: twelve Terra medium actor stages, 960000 operational tokens and 72 minutes maximum; step 5 design only pending results; no purchases/refill/reset/retry/fallback"
   ],
@@ -53,7 +53,8 @@
   "contract_status": "not_required",
   "overlap_resolution": [
     "WI-0215 owns the format-only successor harness and its new test; this record has no active writer and its prior source/evidence remain frozen.",
-    "WI-0216: sequential successor owns warning-policy edits; prior evidence frozen; no active writer."
+    "WI-0216: sequential successor owns warning-policy edits; prior evidence frozen; no active writer.",
+    "WI-0218: no active writer; diagnostic-only successor owns edits; previous samples frozen."
   ],
   "claim": {
     "id": "claim-20260906085644-99a2e087",

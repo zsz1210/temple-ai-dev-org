@@ -267,7 +267,8 @@ test("every persisted classification value belongs to the fixed privacy manifest
   const { classify } = await fixture(t), sentinel = "PRIVATE_SENTINEL_12345";
   const results = [classify(`curl ${sentinel}`), classify(`rg '${sentinel}' .`), classify(`git commit -m '${sentinel}'`), classify("pwd", {}, { commandActions: [{ type: sentinel, command: sentinel }] }), classify("pwd", {}, { cwd: `/outside/${sentinel}` }), classify(`node ./templew.mjs work-item claim . --work-item ${sentinel}`, { arm: "temple" })];
   for (const result of results) {
-    assert.deepEqual(Object.keys(result), ["allowed", "rule", "family", "operation", "envelope", "argument_roles"]);
+    assert.deepEqual(Object.keys(result), ["allowed", "rule", "family", "operation", "envelope", "argument_roles", "argument_detail"]);
+    assert.ok(result.argument_detail === null || commandPolicyContract.argument_details.includes(result.argument_detail));
     assert.equal(typeof result.allowed, "boolean");
     for (const [key, manifestKey] of [["rule", "rules"], ["family", "families"], ["operation", "operations"], ["envelope", "envelopes"]]) assert.ok(commandPolicyContract[manifestKey].includes(result[key]), `${key}: ${result[key]}`);
     assert.ok(result.argument_roles.every(value => commandPolicyContract.argument_roles.includes(value)));
@@ -275,4 +276,33 @@ test("every persisted classification value belongs to the fixed privacy manifest
   }
   assert.ok(Object.isFrozen(commandPolicyContract)); assert.ok(Object.isFrozen(commandPolicyContract.rules)); assert.doesNotThrow(() => JSON.parse(JSON.stringify(commandPolicyContract)));
   for (const arm of ["ordinary", "temple"]) for (const stage of ["build", "verify"]) { const guide = commandGuide({ arm, stage }); assert.ok(guide.includes("node --test test/*.test.mjs")); assert.equal(guide.includes("work-item finish"), arm === "temple"); assert.equal(guide.includes("Temple reads"), arm === "temple"); }
+});
+
+test("argument diagnostics distinguish failures without retaining private values", async t => {
+  const { classify } = await fixture(t);
+  const context = { arm: "temple", contextMaterial: true, contextFormat: "model" };
+  const base = "node ./templew.mjs context enter . --work-item WI-0001 --position developer --agent-id agent-builder --principal-id human --no-write --json --material task --format model";
+  const sentinel = "PRIVATE_VALUE_DO_NOT_RETAIN";
+  const row = { path: "AGENTS.md", sha256: "sha256:" + "a".repeat(64) };
+  const cases = [
+    [`${base} --available-whole-sources`, "missing-option-value"],
+    [`${base} ${sentinel}`, "unexpected-positional"],
+    [`${base} --`, "unexpected-option-terminator"],
+    [`${base} --available-whole-sources ${quote(`{${sentinel}`)}`, "invalid-source-json"],
+    ...[null, {}, [null], [sentinel], [row, row], [{ ...row, sha256: sentinel }], [{ ...row, path: sentinel }], [{ ...row, extra: sentinel }]].map(rows => [`${base} --available-whole-sources ${quote(JSON.stringify(rows))}`, "invalid-source-rows"])
+  ];
+  for (const [command, detail] of cases) for (const text of [command, `/bin/zsh -lc ${quote(command)}`]) {
+    const result = classify(text, context);
+    assert.equal(result.allowed, false); assert.equal(result.rule, "argument-shape");
+    assert.equal(result.argument_detail, detail);
+    assert.equal(JSON.stringify(result).includes(sentinel), false);
+    assert.ok(commandPolicyContract.argument_details.includes(result.argument_detail));
+  }
+  for (const rows of [undefined, [], [row], [row, { ...row, path: "TEMPLE.md" }]]) {
+    const command = base + (rows === undefined ? "" : ` --available-whole-sources ${quote(JSON.stringify(rows))}`);
+    for (const text of [command, `/bin/zsh -lc ${quote(command)}`]) {
+      const result = classify(text, context); assert.equal(result.allowed, true); assert.equal(result.argument_detail, null);
+    }
+  }
+  assert.equal(classify("pwd extra").argument_detail, null, "unclassified shape errors do not invent detail");
 });
