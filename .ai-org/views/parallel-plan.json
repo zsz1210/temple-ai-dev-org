@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T06:02:07.301Z",
-  "source_fingerprint": "c6d56475c71343468e5e88c7d580382d5ab3e6b32b12546ad0981812480975ca",
+  "generated_at": "2026-09-06T06:10:56.925Z",
+  "source_fingerprint": "c9f3db9760c3110e82f74841b6c75b0f1c54a5cb3348b1faeac6347a69ef25b0",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -12,14 +12,13 @@
       "WI-0190",
       "WI-0191",
       "WI-0192",
-      "WI-0193",
-      "WI-0199"
+      "WI-0193"
     ]
   },
   "max_workers": 4,
   "summary": {
-    "selected": 8,
-    "dispatchable": 2,
+    "selected": 7,
+    "dispatchable": 1,
     "active": 0,
     "sequential": 3,
     "blocked": 3,
@@ -56,33 +55,6 @@
           "preparation_fingerprint": "12ae0ed96259d12e46a8d0bf7087fb6c975607c0b42bf9a2f100c0a0ca86040f",
           "integration_owner_agent_id": "agent-mog",
           "context_command": "node ./templew.mjs context resolve . --work-item WI-0190 --position release_manager --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        },
-        {
-          "work_item_id": "WI-0199",
-          "title": "Repair ephemeral helper dispatch",
-          "position_id": "quality_evaluator",
-          "agent_id": "agent-lulu",
-          "agent_name": "Lulu",
-          "suggested_task_title": "WI-0199 · Repair e… · Quality & Evaluation Engineer (Lulu)",
-          "base_revision": "HEAD",
-          "affected_paths": [
-            ".ai-org/artifacts/WI-0199"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "test",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "ee862140b3c749d80f3d9724fc51d77505bf39ce5bfb3601b88b1dcbbe8a6660",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0199 --position quality_evaluator --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,

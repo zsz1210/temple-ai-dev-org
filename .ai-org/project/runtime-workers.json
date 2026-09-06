@@ -1728,6 +1728,34 @@
       "attached_at": "2026-09-06T06:02:40.977Z",
       "completed_at": "2026-09-06T06:05:28.993Z",
       "updated_at": "2026-09-06T06:05:28.993Z"
+    },
+    {
+      "id": "worker-20260906060749-f73290fa",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0200",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260906060749-c8a1b343",
+      "base_revision": "be3f649c18dc2d861ddff9df2ce8ddcab3174023",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "plan_fingerprint": "006ea665422b5a88d4130dae0444cb8210f41279351269b30bfbcc863ee6b9b0",
+      "plan_digest": "29fa0ef1ae02d0f2aee36e4ffdb392f30c385b431293de991ac134b2773575df",
+      "preparation_fingerprint": "73aeca119ce297c035385553d352dba4f21e63f473abf77b3ceee3ee3c409f70",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0200_result_review",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "be3f649c18dc2d861ddff9df2ce8ddcab3174023",
+      "evidence": [
+        ".ai-org/artifacts/WI-0200/independent-review.md"
+      ],
+      "reserved_at": "2026-09-06T06:07:49.773Z",
+      "attached_at": "2026-09-06T06:08:15.284Z",
+      "completed_at": "2026-09-06T06:10:56.090Z",
+      "updated_at": "2026-09-06T06:10:56.090Z"
     }
   ]
 }
