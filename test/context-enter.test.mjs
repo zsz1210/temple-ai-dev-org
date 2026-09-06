@@ -11,6 +11,56 @@ import { leanDeliveryStateDirectory } from "../src/lean-delivery-state.mjs";
 import { validateRuntimeWorkerRegistry } from "../src/workers.mjs";
 import { reuseAvailableWholeSources, validateAvailableWholeSources, taskMaterialPacket } from "../src/context-packet.mjs";
 import { modelContextView } from "../src/context-enter.mjs";
+import { existsSync } from "node:fs";
+import { requestsFor as formatRequests } from "../scripts/context-format-comparison.mjs";
+import { classifyCommandItem } from "../scripts/delivery-command-policy.mjs";
+
+test("generated comparison entry survives real shell and installed CLI for both roles and formats", async t => {
+  const f = await setup(t);
+  const quote = value => "'" + value.replaceAll("'", "'\\''") + "'";
+  const shell = existsSync("/bin/zsh") ? "/bin/zsh" : "/bin/sh";
+  let executed = 0, rejected = 0;
+  for (const stage of ["build", "verify"]) {
+    if (stage === "verify") cli(deliveryArgs(f));
+    // The test driver actually acquires these complete bodies before declaring reuse.
+    for (const name of ["AGENTS.md", "TEMPLE.md"]) assert.ok((await fs.readFile(path.join(f.target, name), "utf8")).length > 0);
+    let previous;
+    for (const format of ["full", "model"]) {
+      const request = formatRequests(format, { root: f.target, arm: "temple", stage, protocol: { model: "gpt-5.6-terra", reasoning_effort: "medium" } });
+      const command = request.instruction.match(/node \.\/templew\.mjs context enter \. --work-item WI-0001[^\n]*?--available-whole-sources '[^']+'/)?.[0];
+      assert.ok(command, "test the generated literal, not a reconstructed command");
+      const classify = text => classifyCommandItem({ type: "commandExecution", id: "local-entry", status: "inProgress", cwd: f.target, command: text, commandActions: [] }, { root: f.target, arm: "temple", stage, contextMaterial: true, contextFormat: format });
+      const before = await canonicalBytes(f);
+      let direct;
+      // On non-macOS CI, exercise the direct literal through a POSIX shell;
+      // the installed-provider zsh wrapper is additionally executed where present.
+      for (const text of [command, ...(shell === "/bin/zsh" ? [`/bin/zsh -lc ${quote(command)}`] : [])]) {
+        assert.equal(classify(text).allowed, true);
+        const result = spawnSync(shell, ["-lc", text], { cwd: f.target, encoding: "utf8", env: { ...process.env, TEMPLE_CLI_PATH: path.join(root, "bin/temple.mjs") }, timeout: 30000, maxBuffer: 1024 * 1024 });
+        assert.equal(result.status, 0, result.stderr);
+        const body = JSON.parse(result.stdout); assert.equal(body.status, "eligible");
+        for (const name of ["AGENTS.md", "TEMPLE.md"]) assert.equal(body.packet.sources.find(s => s.path === name)?.body, null);
+        if (direct) assert.deepEqual(body, direct); else direct = body;
+        executed++;
+      }
+      if (previous) assert.deepEqual(direct.packet.sources, previous.packet.sources);
+      previous = direct;
+      const omitted = command.replace(/ --available-whole-sources '[^']+'/, "");
+      assert.equal(classify(omitted).allowed, true);
+      const reacquired = spawnSync(shell, ["-lc", omitted], { cwd: f.target, encoding: "utf8", env: { ...process.env, TEMPLE_CLI_PATH: path.join(root, "bin/temple.mjs") }, timeout: 30000, maxBuffer: 1024 * 1024 });
+      assert.equal(reacquired.status, 0, reacquired.stderr);
+      const fullBodies = JSON.parse(reacquired.stdout);
+      for (const name of ["AGENTS.md", "TEMPLE.md"]) assert.equal(fullBodies.packet.sources.find(s => s.path === name)?.body, await fs.readFile(path.join(f.target, name), "utf8"));
+      executed++;
+      for (const [suffix, detail] of [[" --available-whole-sources", "missing-option-value"], [" extra", "unexpected-positional"], [" --available-whole-sources '{broken'", "invalid-source-json"], [" --available-whole-sources '[{}]'", "invalid-source-rows"]]) {
+        const result = classify(omitted + suffix);
+        assert.equal(result.allowed, false); assert.equal(result.argument_detail, detail); rejected++;
+      }
+      assert.deepEqual(await canonicalBytes(f), before);
+    }
+  }
+  t.diagnostic(`${executed} real CLI executions; ${rejected} synthetic diagnostic cases; zero model turns. Historical rejected arguments remain unknown.`);
+});
 
 test("model format preserves required material, freshness and read-only behavior", async t => {
   const f = await setup(t);

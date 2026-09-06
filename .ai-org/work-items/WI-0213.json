@@ -6,7 +6,7 @@
   "owner_position": "release_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T12:32:41.389Z",
-  "updated_at": "2026-09-06T12:48:22.705Z",
+  "updated_at": "2026-09-06T15:35:16.772Z",
   "scope": [
     "Add an opt-in model JSON view after unchanged context acquisition; preserve default JSON, required bodies, authority checks and fallback. Verify offline before a separately bounded comparison; never alter frozen experiments."
   ],
@@ -53,7 +53,8 @@
   "contract_status": "not_required",
   "overlap_resolution": [
     "WI-0190: merged retained release-gate evidence; released claim; successor test edits only",
-    "WI-0211: merged retained release-gate evidence; released claim; successor src/test edits only"
+    "WI-0211: merged retained release-gate evidence; released claim; successor src/test edits only",
+    "WI-0219: no active writer; local compatibility test successor owns test changes."
   ],
   "claim": {
     "id": "claim-20260906124519-52615b60",
