@@ -97,6 +97,54 @@ async function inspect(repository, options) {
   return { entry, reasons, item, state: { inputs, head, product_status: productStatus, actor_binding_digest: sha256(JSON.stringify(actorBinding)), recovery_digest: sha256(JSON.stringify(pending)), diagnostics_digest: sha256(JSON.stringify(diagnostics)) } };
 }
 
+// Presentation only. The caller must acquire and validate the complete entry first.
+// Keep unknown contracts whole rather than silently dropping a future instruction.
+const knownKeys = (value, required, optional = []) => value && typeof value === "object" && !Array.isArray(value) &&
+  required.every(key => Object.hasOwn(value, key)) && Object.keys(value).every(key => [...required, ...optional].includes(key));
+
+export function modelContextView(result) {
+  const packet = result?.packet;
+  const entry = packet?.entry;
+  if (result?.schema_version !== "temple.context-enter/v1" || result.status !== "eligible" ||
+      !["temple.context-packet/v2", "temple.context-packet/v3", "temple.context-packet/v4"].includes(packet?.schema_version) ||
+      packet.acquisition !== "complete" || entry?.schema_version !== "temple.context-entry/v1" ||
+      entry.route?.purpose === "recovery" || entry.warnings?.length || result.reasons?.length || packet.problems?.length ||
+      !knownKeys(result.binding, ["repository_digest", "work_item_id", "position", "agent_id", "principal_id", "purpose", "state_digest", "packet_digest", "operation", "reasons"]) ||
+      !knownKeys(packet.binding, ["repository_digest", "work_item_id", "stage", "purpose", "position", "entry_digest", "sources", "material", "representation_digest"], ["task_representation_digest", "available_whole_sources"]) ||
+      !knownKeys(entry.source_manifest, ["selection_digest", "source_count", "measured_bytes", "sources", "authority_snapshot", "source_bodies_retained"]) ||
+      !knownKeys(entry.source_manifest.authority_snapshot, ["digest", "paths"]) ||
+      !Array.isArray(packet.binding.sources) || !packet.binding.sources.every(row =>
+        knownKeys(row, ["path", "reasons", "status", "bytes", "sha256"]) && row.status === "acquired") ||
+      !Array.isArray(entry.source_manifest.sources) || !entry.source_manifest.sources.every(row =>
+        knownKeys(row, ["path", "categories", "status", "bytes", "sha256"]) && row.status === "measured")) return result;
+
+  const { sources: acquisitionSources, ...packetBinding } = packet.binding;
+  const { source_manifest: manifest, ...semanticEntry } = entry;
+  // Preserve both authority paths and unselected references; a digest is not a read receipt.
+  // Only duplicated measured inventories are omitted. Source bodies/selection notes stay exact.
+  return {
+    ...result,
+    schema_version: "temple.context-model-view/v1",
+    packet: {
+      ...packet,
+      binding: packetBinding,
+      entry: {
+        ...semanticEntry,
+        source_manifest: {
+          selection_digest: manifest.selection_digest,
+          authority_snapshot: manifest.authority_snapshot,
+          source_bodies_retained: manifest.source_bodies_retained,
+          sources: manifest.sources.map(({ path, categories }) => ({ path, categories }))
+        }
+      }
+    },
+    representation: {
+      kind: "model-reading-view",
+      full_format: "--format full",
+      note: "Derived reading view, not a complete machine packet or authorization. All acquisition checks ran before rendering. Full validation metadata remains available through the full format; reacquisition may observe a newer revision. Required reads and source restrictions are unchanged."
+    }
+  };
+}
 export async function enterWorkItemContext(target, options = {}) {
   const available = validateAvailableWholeSources(options.availableWholeSources);
   if (options.material !== undefined && !["stage", "task"].includes(options.material)) throw new OperationError("INVALID_INPUT", "Entry material must be stage or task");
