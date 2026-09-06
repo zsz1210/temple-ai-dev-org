@@ -1,0 +1,148 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0218",
+  "title": "Explain rejected command argument shapes without retaining values",
+  "state": "eval",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
+  "created_at": "2026-09-06T15:16:32.934Z",
+  "updated_at": "2026-09-06T15:28:30.915Z",
+  "scope": [
+    "Add privacy-safe argument diagnostic subcodes and offline compatibility tests; assess deterministic transport without changing allowed commands or starting live experiments."
+  ],
+  "acceptance_criteria": [
+    "Existing allow/deny decisions stay unchanged; missing values, unexpected positionals, invalid source JSON and row shape are distinguishable without raw values; full verification passes."
+  ],
+  "affected_paths": [
+    "scripts/delivery-command-policy.mjs",
+    "test/delivery-command-policy.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T15:16:32.933Z",
+    "escalated": false
+  },
+  "parent_work_item_id": "WI-0214",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "3e2b22102173f8d68452a7929ab19afc6e56ec37",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": "agent-lulu",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0190: no active writer; diagnostics-only successor, earlier samples frozen.",
+    "WI-0208: no active writer; diagnostics-only successor, earlier samples frozen.",
+    "WI-0210: no active writer; diagnostics-only successor, earlier samples frozen.",
+    "WI-0211: no active writer; diagnostics-only successor, earlier samples frozen.",
+    "WI-0215: no active writer; diagnostics-only successor, earlier samples frozen."
+  ],
+  "claim": {
+    "id": "claim-20260906152449-2b383f8d",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "3e2b22102173f8d68452a7929ab19afc6e56ec37",
+    "branch": "codex/command-argument-diagnostics",
+    "worktree": null,
+    "claimed_at": "2026-09-06T15:24:49.048Z",
+    "released_at": "2026-09-06T15:28:30.645Z",
+    "release_reason": [
+      "Distinct-Identity diagnostic readiness passed and evidence returned"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260906151706-1f2668de",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "054cb031",
+      "branch": "codex/command-argument-diagnostics",
+      "worktree": null,
+      "claimed_at": "2026-09-06T15:17:06.739Z",
+      "released_at": "2026-09-06T15:22:21.709Z",
+      "release_reason": [
+        "Developer implementation verified and handed off"
+      ]
+    },
+    {
+      "id": "claim-20260906152449-2b383f8d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "3e2b22102173f8d68452a7929ab19afc6e56ec37",
+      "branch": "codex/command-argument-diagnostics",
+      "worktree": null,
+      "claimed_at": "2026-09-06T15:24:49.048Z",
+      "released_at": "2026-09-06T15:28:30.645Z",
+      "release_reason": [
+        "Distinct-Identity diagnostic readiness passed and evidence returned"
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0218/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0218/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0218/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0218/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0218/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0218/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0218/verification.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0218/independent-review.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0218/design.md",
+    ".ai-org/artifacts/WI-0218/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0218/verification.md",
+    ".ai-org/artifacts/WI-0218/independent-review.md"
+  ],
+  "unresolved": [],
+  "next_position": "independent_qa",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "a21085cceed7a64ab6e94dd1f6cca7ee4fe4ddcf",
+      "artifact": ".ai-org/artifacts/WI-0218/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T15:22:21.403Z"
+    }
+  ],
+  "developer_candidate_revision": "a21085cceed7a64ab6e94dd1f6cca7ee4fe4ddcf"
+}

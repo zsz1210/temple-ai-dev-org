@@ -21,7 +21,8 @@ const guides = [
 ];
 function freeze(value) { if (value && typeof value === "object") { Object.values(value).forEach(freeze); Object.freeze(value); } return value; }
 export const commandPolicyContract = freeze({
-  schema_version: "temple.delivery-command-policy/v1", version: "bounded-literal-v4", limits,
+  schema_version: "temple.delivery-command-policy/v1", version: "bounded-literal-v5", limits,
+  argument_details: ["missing-option-value", "unexpected-positional", "unexpected-option-terminator", "invalid-source-json", "invalid-source-rows"],
   rules: [...rejectionRules, "temple-claim-boundary", ...operations.filter(x => x !== "unknown").map(x => `allow-${x}`)],
   families: ["unknown", "read", "git", "node", "temple"], operations,
   envelopes: ["unrecognized", "direct-literal", "zsh-lc-literal"],
@@ -39,8 +40,8 @@ export function commandGuide({ arm, stage }) {
   return [...rows.map(row => row.text), ...extra].join("\n");
 }
 
-class PolicyFailure extends Error { constructor(rule) { super(rule); this.rule = rule; } }
-function need(condition, rule) { if (!condition) throw new PolicyFailure(rule); }
+class PolicyFailure extends Error { constructor(rule, detail = null) { super(rule); this.rule = rule; this.detail = detail; } }
+function need(condition, rule, detail = null) { if (!condition) throw new PolicyFailure(rule, detail); }
 function boundedString(value, maximum = limits.argument_bytes) { return typeof value === "string" && Buffer.byteLength(value) <= maximum && !/[\x00-\x08\x0a-\x1f\x7f]/.test(value); }
 
 // A deliberately small recognizer, not a shell parser. Quoting/escaping is decoded
@@ -142,7 +143,7 @@ function options(args, definitions, state, { repeat = [] } = {}) {
       role(state, "option"); const spec = definitions[arg]; need(spec, "unsupported-option");
       const [key, valueRole] = spec; need(!found.has(key) || repeat.includes(key), "duplicate-option");
       let value = true;
-      if (valueRole) { role(state, valueRole); need(i + 1 < args.length, "argument-shape"); value = args[++i]; }
+      if (valueRole) { role(state, valueRole); need(i + 1 < args.length, "argument-shape", "missing-option-value"); value = args[++i]; }
       if (repeat.includes(key)) found.set(key, [...(found.get(key) ?? []), value]); else found.set(key, value);
     } else rest.push(arg);
   }
@@ -250,7 +251,8 @@ function templeCommand(args, state, context) {
     transition: { ...wi, "--to": ["to", "lifecycle-destination"], "--satisfy": ["satisfy", "evidence-reference"] }
   }[name];
   const { found, rest } = options(args, definitions, state, { repeat: name === "transition" ? ["satisfy"] : [] });
-  need(rest.length === 0 && !found.has("--"), "argument-shape");
+  need(rest.length === 0, "argument-shape", "unexpected-positional");
+  need(!found.has("--"), "argument-shape", "unexpected-option-terminator");
   const position = context.stage === "build" ? "developer" : "quality_evaluator", agent = context.stage === "build" ? "agent-builder" : "agent-verifier";
   if (definitions["--work-item"] && (name !== "status" || found.has("work-item"))) exact(found, "work-item", "WI-0001", "temple-work-item-boundary");
   if (name === "context resolve") {
@@ -267,8 +269,8 @@ function templeCommand(args, state, context) {
       if (["full", "model"].includes(context.contextFormat)) exact(found, "format", context.contextFormat, "unsupported-option");
       if (found.has("material")) exact(found, "material", "task", "unsupported-option");
       if (found.has("available")) {
-        let rows; try { rows = JSON.parse(found.get("available")); } catch { need(false, "argument-shape"); }
-        need(Array.isArray(rows) && rows.length <= 2 && rows.every(row => row && Object.keys(row).sort().join() === "path,sha256" && ["AGENTS.md", "TEMPLE.md"].includes(row.path) && typeof row.sha256 === "string" && /^sha256:[a-f0-9]{64}$/.test(row.sha256)) && new Set(rows.map(row => row.path)).size === rows.length, "argument-shape");
+        let rows; try { rows = JSON.parse(found.get("available")); } catch { need(false, "argument-shape", "invalid-source-json"); }
+        need(Array.isArray(rows) && rows.length <= 2 && rows.every(row => row && Object.keys(row).sort().join() === "path,sha256" && ["AGENTS.md", "TEMPLE.md"].includes(row.path) && typeof row.sha256 === "string" && /^sha256:[a-f0-9]{64}$/.test(row.sha256)) && new Set(rows.map(row => row.path)).size === rows.length, "argument-shape", "invalid-source-rows");
       }
     }
     else {
@@ -351,7 +353,7 @@ function nodeCommand(tokens, state, context) {
 }
 
 export function classifyCommandItem(item, options = {}) {
-  const state = { allowed: false, rule: "malformed-envelope", family: "unknown", operation: "unknown", envelope: "unrecognized", argument_roles: [] };
+  const state = { allowed: false, rule: "malformed-envelope", family: "unknown", operation: "unknown", envelope: "unrecognized", argument_roles: [], argument_detail: null };
   try {
     need(item && typeof item === "object" && item.type === "commandExecution" && boundedString(item.id) && item.id.length > 0 && ["inProgress", "completed", "failed", "declined"].includes(item.status) && typeof item.command === "string", "malformed-envelope");
     need(["ordinary", "temple"].includes(options.arm) && ["build", "verify"].includes(options.stage), "invalid-context");
@@ -377,6 +379,9 @@ export function classifyCommandItem(item, options = {}) {
     else if (program.value === "node") nodeCommand(args, state, context);
     else throw new PolicyFailure("unsupported-command");
     state.allowed = true; state.rule = `allow-${state.operation}`;
-  } catch (error) { state.rule = error instanceof PolicyFailure ? error.rule : "policy-unavailable"; }
+  } catch (error) {
+    state.rule = error instanceof PolicyFailure ? error.rule : "policy-unavailable";
+    if (error instanceof PolicyFailure && error.rule === "argument-shape" && commandPolicyContract.argument_details.includes(error.detail)) state.argument_detail = error.detail;
+  }
   return state;
 }
