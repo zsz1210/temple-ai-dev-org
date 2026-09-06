@@ -1,0 +1,240 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0221",
+  "title": "Add bounded failure and source-read observations",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-06T23:07:46.797Z",
+  "updated_at": "2026-09-06T23:39:50.880Z",
+  "scope": [
+    "Offline-only experiment diagnostics: bounded failure summaries, fixture input fingerprints and whole-source read overlap observations; preserve command policy and sealed labs; no live model calls."
+  ],
+  "acceptance_criteria": [
+    "Synthetic tests prove privacy bounds, unknown handling, changed-source distinction, observation-only behavior and unchanged command decisions."
+  ],
+  "affected_paths": [
+    "scripts/delivery-control-pair.mjs",
+    "scripts/delivery-command-policy.mjs",
+    "scripts/delivery-observations.mjs",
+    "test/delivery-observations.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T23:07:46.797Z",
+    "escalated": false
+  },
+  "parent_work_item_id": "WI-0220",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "d015004d",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0172: historical scope, no active claim; PR70 review only, no shared source writes.",
+    "WI-0190: historical scope, no active claim; PR70 review only, no shared source writes.",
+    "WI-0208: historical scope, no active claim; PR70 review only, no shared source writes.",
+    "WI-0209: historical scope, no active claim; PR70 review only, no shared source writes.",
+    "WI-0210: historical scope, no active claim; PR70 review only, no shared source writes.",
+    "WI-0211: historical scope, no active claim; PR70 review only, no shared source writes.",
+    "WI-0212: historical scope, no active claim; PR70 review only, no shared source writes.",
+    "WI-0215: historical scope, no active claim; PR70 review only, no shared source writes.",
+    "WI-0216: historical scope, no active claim; PR70 review only, no shared source writes.",
+    "WI-0218: historical scope, no active claim; PR70 review only, no shared source writes."
+  ],
+  "claim": {
+    "id": "claim-20260906233301-ef767b92",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "d015004d",
+    "branch": "codex/bounded-experiment-observations",
+    "worktree": null,
+    "claimed_at": "2026-09-06T23:33:01.749Z",
+    "released_at": "2026-09-06T23:37:11.903Z",
+    "release_reason": [
+      "Rework source complete; independent candidate re-review."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260906230848-c4930e4f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "5ce1148f",
+      "branch": "codex/bounded-experiment-observations",
+      "worktree": null,
+      "claimed_at": "2026-09-06T23:08:48.260Z",
+      "released_at": "2026-09-06T23:21:56.088Z",
+      "release_reason": [
+        "Developer implementation and verification complete; handed to evaluation."
+      ]
+    },
+    {
+      "id": "claim-20260906233153-781162a5",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "d015004d",
+      "branch": "codex/bounded-experiment-observations",
+      "worktree": null,
+      "claimed_at": "2026-09-06T23:31:53.717Z",
+      "released_at": "2026-09-06T23:31:53.987Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260906233301-ef767b92",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "d015004d",
+      "branch": "codex/bounded-experiment-observations",
+      "worktree": null,
+      "claimed_at": "2026-09-06T23:33:01.749Z",
+      "released_at": "2026-09-06T23:37:11.903Z",
+      "release_reason": [
+        "Rework source complete; independent candidate re-review."
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0221/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0221/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0221/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0221/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0221/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0221/handoff-002-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0221/verification-r1.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0221/verification-r1.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0222/review-r1.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0222/review-r1.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0221/design.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0222/review-r1.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0221/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0221/integration-decision.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0221/design.md",
+    ".ai-org/artifacts/WI-0221/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0221/verification.md",
+    ".ai-org/artifacts/WI-0221/handoff-002-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0221/verification-r1.md",
+    ".ai-org/artifacts/WI-0222/review-r1.md",
+    ".ai-org/artifacts/WI-0221/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "0c673070d93334aae29870951d6d62fe2d08283c",
+      "artifact": ".ai-org/artifacts/WI-0221/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T23:21:55.788Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "e8ad4b4fd9c12532c09776520cee337ef55cc829",
+      "artifact": ".ai-org/artifacts/WI-0221/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T23:37:11.169Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-06T23:31:53.987Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260906233153-781162a5",
+      "rejected_revision": "0c673070d93334aae29870951d6d62fe2d08283c",
+      "reason": [
+        "Independent review found TAP completeness and outcome classification defects."
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0222/review.md"
+      ],
+      "scope_digest": "bfb44d4f50c9e9274a018633dfce727daf01e45a89521e2bac309a74c71d285f",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0221/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0221/verification.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "0c673070d93334aae29870951d6d62fe2d08283c"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0221/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ],
+  "developer_candidate_revision": "e8ad4b4fd9c12532c09776520cee337ef55cc829",
+  "tested_revision": "e8ad4b4fd9c12532c09776520cee337ef55cc829",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0221/integration-decision.md"
+}

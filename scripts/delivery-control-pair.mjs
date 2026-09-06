@@ -13,6 +13,7 @@ import { createJsonRpcProcess, buildCodexRuntimeRequestResponse } from "../src/c
 import { isolateWave5CodexEnvironment, normalizeTokenUsage, wave5ThreadIsolation } from "../src/app-server-protocol-replay.mjs";
 import { representativeAppServerArguments, representativeTurnSandboxPolicy, representativeNoToolPassiveItemTypes } from "./run-representative-microservice-comparison.mjs";
 import { commandPolicyContract, commandGuide, classifyCommandItem } from "./delivery-command-policy.mjs";
+import { createDeliveryObserver } from "./delivery-observations.mjs";
 
 const execFile = promisify(execCallback);
 const sourceDefault = path.resolve(import.meta.dirname, "..");
@@ -50,7 +51,7 @@ export async function files(root, relative = "") {
 }
 export async function sourceDigest(root) {
   const names = (await git(root, ["ls-files", "-z", "--", "bin", "src", "project-overlay", "packs", "package.json", "package-lock.json", "scripts/run-representative-microservice-comparison.mjs", "scripts/analyze-representative-microservice-comparison.mjs"])).split("\0").filter(Boolean);
-  names.push("scripts/delivery-control-pair.mjs", "test/delivery-control-pair.test.mjs", "scripts/delivery-command-policy.mjs", "test/delivery-command-policy.test.mjs", "scripts/prepare-optimized-delivery-comparison.mjs", "test/optimized-delivery-comparison.test.mjs");
+  names.push("scripts/delivery-control-pair.mjs", "test/delivery-control-pair.test.mjs", "scripts/delivery-command-policy.mjs", "test/delivery-command-policy.test.mjs", "scripts/delivery-observations.mjs", "test/delivery-observations.test.mjs", "scripts/prepare-optimized-delivery-comparison.mjs", "test/optimized-delivery-comparison.test.mjs");
   return digest(Object.fromEntries(await Promise.all([...new Set(names)].sort().map(async n => [n, digest(await fs.readFile(path.join(root, n)))]))));
 }
 export async function retainedArtifactDigest(root) { const snapshot = await files(root); delete snapshot["seal.json"]; return digest(snapshot); }
@@ -281,6 +282,7 @@ export function recordTokenBudget(observation, limits, stageTokens, aggregateBef
 }
 export async function runStage({ root, arm, stage, protocol, contract, sourceRoot, providerFactory, deadline, aggregateBefore, diagnosticKey, expectedClaimRevision, requestFactory = stageRequests, contextMaterial = false, contextFormat = null, runtimePolicy = null }) {
   const start = Date.now(), hash = value => "hmac-sha256:" + crypto.createHmac("sha256", diagnosticKey).update(String(value)).digest("hex");
+  const localObserver = createDeliveryObserver({ root, key: diagnosticKey });
   const observation = { arm, stage, status: "stopped", usage: null, usage_finality: "last-observed-not-account-final", usage_observed_at_ms: null, command_count: 0, command_started_count: 0, command_completed_count: 0, patch_started_count: 0, patch_completed_count: 0, tool_count: 0, reported_output_bytes: 0, events: [], observed_test_exit_codes: [], requested_model: protocol.model, acknowledged_model: null, model_acknowledgement: "not-observed", requested_effort: protocol.reasoning_effort, observed_thread_effort: null, effective_turn_effort: null, terminal_status: null, interrupt_requested: false, interrupt_acknowledged: false, retry_count: 0, fallback_count: 0 };
   let connection, threadId, turnId, completion, terminal, stop, turnStart, wake, abort, interruptPromise, closing = false, terminalWake;
   const terminalDone = new Promise(resolve => { terminalWake = resolve; });
@@ -327,6 +329,8 @@ export async function runStage({ root, arm, stage, protocol, contract, sourceRoo
       }
       observation.events.push(event);
       if (!decision.allowed) { fail(decision.rule); return; }
+      const detail = localObserver.observe(method, item, decision, context());
+      if (detail) event.local_observation = detail;
       if (wireValidators[method]) requireThat(wireValidators[method](p),"provider-wire-schema:notification");
       const relevant=["item/started","item/completed","thread/tokenUsage/updated","turn/started","turn/completed"].includes(method);
       if (relevant) {
