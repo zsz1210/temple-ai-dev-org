@@ -1,0 +1,131 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0210",
+  "title": "Complete frozen three-arm comparison after read-only Git compatibility repair",
+  "state": "eval",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
+  "created_at": "2026-09-06T10:50:16.007Z",
+  "updated_at": "2026-09-06T11:33:47.911Z",
+  "scope": [
+    "Repair bounded read-only Git grammar and diagnostic coverage; freeze product and treatment; run one fresh six-delivery twelve-stage Terra medium comparison under existing 960000 Operational Token and 72-minute envelope, no retries reset purchase refill fallback extra judge; retain prior evidence."
+  ],
+  "acceptance_criteria": [
+    "All local negative controls and independent readiness pass; six deliveries attempted under frozen protocol with exact evidence, honest stop/quality outcomes and comparative analysis."
+  ],
+  "affected_paths": [
+    "scripts/delivery-command-policy.mjs",
+    "test/delivery-command-policy.test.mjs",
+    "scripts/context-material-comparison.mjs",
+    "test/context-material-comparison.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T10:50:16.006Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "1794979",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906105157-af6a94d9",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "1794979",
+    "branch": "codex/context-material-minimization",
+    "worktree": null,
+    "claimed_at": "2026-09-06T10:51:57.765Z",
+    "released_at": "2026-09-06T11:30:12.837Z",
+    "release_reason": [
+      "Frozen experiment completed, results independently audited and handed to quality evaluation; no further source edits or live experiments planned."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260906105157-af6a94d9",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "1794979",
+      "branch": "codex/context-material-minimization",
+      "worktree": null,
+      "claimed_at": "2026-09-06T10:51:57.765Z",
+      "released_at": "2026-09-06T11:30:12.837Z",
+      "release_reason": [
+        "Frozen experiment completed, results independently audited and handed to quality evaluation; no further source edits or live experiments planned."
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0210/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0210/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0210/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0210/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0210/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0210/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0210/result-report.md",
+      ".ai-org/artifacts/WI-0210/launch-readiness.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0210/result-report.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0210/design.md",
+    ".ai-org/artifacts/WI-0210/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0210/result-report.md",
+    ".ai-org/artifacts/WI-0210/launch-readiness.md"
+  ],
+  "unresolved": [],
+  "next_position": "independent_qa",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "a12f3473d2bb05679b7cdb860f3776b4e137133d",
+      "artifact": ".ai-org/artifacts/WI-0210/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T11:30:12.457Z"
+    }
+  ],
+  "developer_candidate_revision": "a12f3473d2bb05679b7cdb860f3776b4e137133d"
+}

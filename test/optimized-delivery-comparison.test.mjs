@@ -70,39 +70,36 @@ test("approval pins the entire selected matrix; old, partial or broader permissi
   ]) { const altered = structuredClone(matrix); change(altered); assert.throws(() => validateMatrix(altered)); }
 });
 
-test("optimized treatment requires successful real operations, not a prompt, preview or product pass", () => {
-  const command = (operation, changes = {}) => ({ method: "item/completed", exit_code: 0, classification: { allowed: true, operation, dry_run: false, no_write: false }, ...changes });
-  const observation = { arm: "temple", stage: "build", workflow: { pass: true, exact_handoff: true },
-    events: [command("temple-context-compact"), command("temple-deliver"), command("temple-status-compact"), command("temple-doctor-compact")] };
-  assert.equal(treatmentAdherence(observation).pass, true);
-  for (const no_write of [true, undefined]) {
-    const events = observation.events.map(e => e.classification.operation === "temple-status-compact" ? { ...e, classification: { ...e.classification, no_write } } : e);
-    assert.equal(treatmentAdherence({ ...observation, events }).pass, false, "read-only or unknown persistence does not rebuild Status");
+test("bounded treatment requires current eligible entry and successful finish receipt", () => {
+  const command = (operation, changes = {}) => ({ method:"item/completed", exit_code:0, entry_eligible:true, finish_current_passed:true, classification:{allowed:true,operation,dry_run:false}, ...changes });
+  const observation={arm:"temple",stage:"build",workflow:{pass:true,exact_handoff:true},events:[command("temple-context-enter"),command("temple-finish")]};
+  for(const stage of ["build","verify"]) {
+    assert.equal(treatmentAdherence({...observation,stage}).pass,true);
+    for(const changes of [{finish_current_passed:false},{finish_current_passed:undefined},{exit_code:1},{method:"item/started"},{classification:{allowed:true,operation:"temple-finish",dry_run:true}}])
+      assert.equal(treatmentAdherence({...observation,stage,events:[observation.events[0],command("temple-finish",changes)]}).pass,false);
   }
-  for (const events of [
-    [], [command("temple-context")], [command("temple-context-compact")],
-    [command("temple-context-compact"), command("temple-deliver", { method: "item/started" })],
-    [command("temple-context-compact"), command("temple-deliver", { exit_code: 1 })],
-    [command("temple-context-compact"), command("temple-deliver", { classification: { allowed: true, operation: "temple-deliver", dry_run: true } })]
-  ]) assert.equal(treatmentAdherence({ ...observation, events }).pass, false);
-  assert.equal(treatmentAdherence({ ...observation, workflow: { pass: false, exact_handoff: true } }).pass, false);
-  const verification = [command("temple-context-compact"), command("temple-release"), command("temple-transition-done"), command("temple-status-compact"), command("temple-doctor-compact")];
-  assert.equal(treatmentAdherence({ ...observation, stage: "verify", events: verification }).pass, true);
-  for (const operation of ["temple-status-compact", "temple-doctor-compact"]) {
-    assert.equal(treatmentAdherence({ ...observation, events: observation.events.filter(e => e.classification.operation !== operation) }).pass, false);
-    assert.equal(treatmentAdherence({ ...observation, events: observation.events.map(e => e.classification.operation === operation ? { ...e, exit_code: 1 } : e) }).pass, false);
+  assert.equal(treatmentAdherence({...observation,events:[command("temple-context-enter",{entry_eligible:false}),observation.events[1]]}).pass,false);
+  assert.equal(treatmentAdherence({...observation,workflow:{pass:false,exact_handoff:true}}).pass,false);
+  assert.equal(treatmentAdherence({...observation,events:[]}).pass,false);
+  assert.equal(treatmentAdherence({...observation,arm:"ordinary"}),null);
+  const request=stageRequests({root:"/assigned-repository",arm:"temple",stage:"build",protocol:{model:"gpt-5.6-terra",reasoning_effort:"medium"}});
+  assert.match(request.instruction,/context enter/);
+  assert.match(request.instruction,/work-item finish/);
+  assert.match(request.instruction,/need not be repeated/);
+});
+
+test("cost accounting reconciles completions and never fabricates token attribution", async () => {
+  const { costBreakdown, currentFinishPassed } = await import("../scripts/delivery-control-pair.mjs");
+  const base={method:"item/completed",item_type:"commandExecution",command_digest:"same",classification:{operation:"product-tests-all",family:"node"},elapsed_ms:5,output_bytes:12};
+  const result=costBreakdown({events:[{...base,method:"item/started"},base,{...base,elapsed_ms:null,output_bytes:null}]});
+  assert.deepEqual(result.categories["product-tests"],{completed:2,observed_elapsed_ms:5,elapsed_complete:false,output_bytes:12,output_complete:false});
+  assert.equal(result.repeated_command_completions,1);
+  assert.equal(result.inference_token_attribution,"unavailable");
+  const receipt={schema_version:"temple.lean-finish-result/v1",success:true,diagnostics:{status:"passed",historical:false,status_rebuild:{status:"passed"},doctor:{summary:{warn:0,fail:0}}},mutation:{status:"applied",dry_run:false,work_item_id:"WI-0001",candidate_revision:"a".repeat(40),resulting_state:"test"}};
+  assert.equal(currentFinishPassed(receipt,"build","a".repeat(40)),true);
+  for(const mutate of [r=>r.diagnostics.historical=true,r=>r.diagnostics.doctor.summary.warn=1,r=>r.diagnostics.status="failed",r=>r.mutation.dry_run=true,r=>r.mutation.status="already_applied",r=>r.mutation.candidate_revision="b".repeat(40),r=>delete r.mutation]) {
+    const altered=structuredClone(receipt);mutate(altered);assert.equal(currentFinishPassed(altered,"build","a".repeat(40)),false);
   }
-  assert.equal(treatmentAdherence({ ...observation, events: [observation.events[0], ...observation.events.slice(2), observation.events[1]] }).pass, false);
-  assert.equal(treatmentAdherence({ ...observation, stage: "verify", events: [verification[0], verification[1], ...verification.slice(3), verification[2]] }).pass, false);
-  assert.equal(treatmentAdherence({ ...observation, arm: "ordinary" }), null);
-  const requests = arm => stageRequests({ root: "/assigned-repository", arm, stage: "build", protocol: { model: "gpt-5.6-terra", reasoning_effort: "medium" } });
-  assert.match(requests("temple").instruction, /--compact --no-write --json/);
-  assert.match(requests("temple").instruction, /work-item deliver/);
-  assert.match(requests("temple").instruction, /status \. --compact --json --work-item WI-0001/);
-  assert.match(requests("temple").instruction, /doctor \. --compact/);
-  for (const arm of ["ordinary", "temple"]) assert.match(requests(arm).instruction, /Finish this assigned stage/);
-  assert.doesNotMatch(requests("ordinary").turn.input[0].text, /work-item deliver|--compact/);
-  assert.match(requests("ordinary").instruction, /ordinary Git\/test\/handoff/);
 });
 
 test("operation volume is counted once from completion and missing output stays unknown", () => {

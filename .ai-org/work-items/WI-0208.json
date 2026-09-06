@@ -1,0 +1,144 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0208",
+  "title": "Measure three-arm context minimization and design continuity scenarios",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-06T08:54:33.689Z",
+  "updated_at": "2026-09-06T09:24:38.077Z",
+  "scope": [
+    "Approved step 4: twelve Terra medium actor stages, 960000 operational tokens and 72 minutes maximum; step 5 design only pending results; no purchases/refill/reset/retry/fallback"
+  ],
+  "acceptance_criteria": [
+    "Exact-source three-arm comparison, two reverse-order blocks, independently reviewed generation-free readiness, sealed observations and quality/cost analysis; no stronger efficiency claim from small sample"
+  ],
+  "affected_paths": [
+    "scripts/delivery-control-pair.mjs",
+    "scripts/delivery-command-policy.mjs",
+    "scripts/context-material-comparison.mjs",
+    "test/context-material-comparison.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T08:54:33.688Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "cd485a011328734e80fc0d0a7f8f9a2e06203b41",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906085644-99a2e087",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "cd485a011328734e80fc0d0a7f8f9a2e06203b41",
+    "branch": "codex/context-material-minimization",
+    "worktree": null,
+    "claimed_at": "2026-09-06T08:56:44.434Z",
+    "released_at": "2026-09-06T09:24:20.443Z",
+    "release_reason": [
+      "Approved attempt stopped and evidence retained; no retry or further model run authorized."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260906085538-46d130d6",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "cd485a011328734e80fc0d0a7f8f9a2e06203b41",
+      "branch": "codex/context-material-minimization",
+      "worktree": null,
+      "claimed_at": "2026-09-06T08:55:38.522Z",
+      "released_at": "2026-09-06T08:56:28.155Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260906085644-99a2e087",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "cd485a011328734e80fc0d0a7f8f9a2e06203b41",
+      "branch": "codex/context-material-minimization",
+      "worktree": null,
+      "claimed_at": "2026-09-06T08:56:44.434Z",
+      "released_at": "2026-09-06T09:24:20.443Z",
+      "release_reason": [
+        "Approved attempt stopped and evidence retained; no retry or further model run authorized."
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0208/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0208/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0208/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0208/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0208/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0208/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0208/report.md",
+      ".ai-org/artifacts/WI-0208/independent-result-review.md",
+      ".ai-org/artifacts/WI-0208/step-5-design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0208/design.md",
+    ".ai-org/artifacts/WI-0208/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0208/report.md",
+    ".ai-org/artifacts/WI-0208/independent-result-review.md",
+    ".ai-org/artifacts/WI-0208/step-5-design.md"
+  ],
+  "unresolved": [
+    "Approved comparison stopped after 3 attempted stages; no slim measurements; forbidden item type unavailable and whole-lab seal mismatch unresolved. No retry authority remains."
+  ],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "5f0195114c76f0ffbd0ccdd1cb61f42df2c249da",
+      "artifact": ".ai-org/artifacts/WI-0208/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T09:24:38.077Z"
+    }
+  ],
+  "developer_candidate_revision": "5f0195114c76f0ffbd0ccdd1cb61f42df2c249da"
+}

@@ -5,9 +5,9 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 204 total, 10 active
+- Work items: 211 total, 13 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 64 registered, 0 reserved, 0 active
+- Runtime workers: 65 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -250,8 +250,15 @@
 | WI-0200 | Validate repaired ephemeral helper dispatch live | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `be3f649c` | 0 | 7 | 0 |
 | WI-0201 | Repair complete native helper observation lifecycle | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5fda83ac` | 0 | 9 | 0 |
 | WI-0202 | End-to-end check of native helper lifecycle repair | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2201b456` | 0 | 6 | 0 |
-| WI-0203 | Measure bounded Lean entry and finish overhead against ordinary delivery | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
+| WI-0203 | Measure bounded Lean entry and finish overhead against ordinary delivery | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `eb6315ce` | 0 | 8 | 0 |
 | WI-0204 | Separate root delegation from leaf instructions and cancellation state | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2201b456` | 0 | 4 | 0 |
+| WI-0205 | Independently review bounded B/C measurement readiness | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `eb6315c` | 0 | 5 | 0 |
+| WI-0206 | Minimize repeated context material without weakening authority | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a746d37a` | 0 | 7 | 0 |
+| WI-0207 | Select task material and audit instruction-induced work | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `d1898b45` | 0 | 5 | 0 |
+| WI-0208 | Measure three-arm context minimization and design continuity scenarios | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5f019511` | 0 | 5 | 1 |
+| WI-0209 | Repair comparison readiness and run a new three-arm diagnostic | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `55a2a56f` | 0 | 7 | 3 |
+| WI-0210 | Complete frozen three-arm comparison after read-only Git compatibility repair | eval | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a12f3473` | 0 | 4 | 0 |
+| WI-0211 | Integrate completed context comparison without reintroducing old history | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `8e410646` | 0 | 4 | 0 |
 
 ## Codex task registry
 
@@ -338,6 +345,7 @@
 | worker-20260906060749-f73290fa | internal-subagent | WI-0200 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0200_result_review | `be3f649c` | 0 |
 | worker-20260906062143-138a5104 | internal-subagent | WI-0201 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0201_lifecycle_review | `ac618c02` | 0 |
 | worker-20260906062924-8f656fc3 | internal-subagent | WI-0201 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0201_lifecycle_recheck | `5fda83ac` | 0 |
+| worker-20260906064131-16749722 | internal-subagent | WI-0205 | Quality & Evaluation Engineer / Lulu | completed | /root/bc_measurement_readiness | `eb6315c` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -374,7 +382,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 66
+- Team-visible Work Items: 72
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -447,14 +455,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-06T11:52:29.281Z | work_item_claim_released | WI-0190 | human |
-| 2026-09-06T11:52:14.834Z | publication_canonical_state_normalized | WI-0190 | agent-mog |
-| 2026-09-06T11:52:02.800Z | work_item_claimed | WI-0190 | human |
-| 2026-09-06T06:40:46.494Z | work_item_transitioned | WI-0204 | agent-rikku |
-| 2026-09-06T06:40:45.235Z | handoff_created | WI-0204 | agent-rikku |
-| 2026-09-06T06:40:43.923Z | work_item_transitioned | WI-0202 | agent-rikku |
-| 2026-09-06T06:40:42.441Z | handoff_created | WI-0202 | agent-rikku |
-| 2026-09-06T06:37:11.904Z | work_item_claimed | WI-0204 | human |
+| 2026-09-06T12:07:33.753Z | work_item_transitioned | WI-0211 | agent-lulu |
+| 2026-09-06T12:07:33.479Z | work_item_transitioned | WI-0211 | agent-lulu |
+| 2026-09-06T12:06:50.261Z | work_item_transitioned | WI-0211 | agent-lulu |
+| 2026-09-06T12:06:49.983Z | work_item_transitioned | WI-0211 | agent-rikku |
+| 2026-09-06T12:06:49.706Z | work_item_claim_released | WI-0211 | human |
+| 2026-09-06T12:06:49.425Z | handoff_created | WI-0211 | agent-rikku |
+| 2026-09-06T12:03:14.965Z | publication_canonical_state_normalized | WI-0211 | agent-rikku |
+| 2026-09-06T12:02:45.297Z | work_item_claimed | WI-0211 | human |
 
 ## Assignments
 

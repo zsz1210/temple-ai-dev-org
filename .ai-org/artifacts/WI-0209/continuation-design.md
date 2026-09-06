@@ -1,0 +1,11 @@
+# Fresh attempt after the retained stop
+
+The user's new instruction to continue authorizes one fresh diagnostic after the previously reported stop and offline correction. Preserve the original design's envelope: twelve gpt-5.6-terra / medium stages, 80,000 observed Operational Tokens and six minutes per stage, 960,000 and 72 minutes aggregate; Pro included allowance only, no purchase/refill/reset, no retries/fallbacks/extra judge. Do not resume the consumed original lab. A second genuine runtime stop ends this fresh attempt as well. No merge or release is authorized here.
+
+The original `design.md` remains the governing scope reference. This supplement records renewed authority and readiness conditions; it does not amend the original sealed protocol or its approval. Freeze a new protocol and approval in a new exclusive lab. Preserve the old run and report.
+
+The instrument source includes the independently reviewed exact-byte trust-normalization correction `4b2410a187d2f68e37cdcd4d266223c019db8f77`. Rebuild the isolation profile from current read-only configuration sources for this new protocol; this is not repinning the old attempt. Bind only the six new canonical subject roots. Replay the normal trust-registration transition without generation, including exact accepted additions and rejected unrelated settings/invalid encoding/aliases. Perform fresh installed-schema, effective-config, sandbox and independent launch checks before the first actor.
+
+The previous Console refresh test timeout remains a retained observation. Re-run the unchanged full suite and require a passing final source check before launch; do not relax a deadline or mutate unrelated Console behavior to obtain a pass. An isolated pass alone does not establish the failure's cause. Independently assess whether this optional UI test interacts with the actor comparison; do not call a timing hypothesis a proven cause.
+
+The product task, prior revision, six-subject order, treatment prompts and evaluation remain unchanged. No model route tuning or new product feature is part of this slice. Report accepted outcomes, last-observed usage, elapsed time, treatment compliance and all stops. Two repetitions with uncontrolled cache remain diagnostic, not statistical proof.

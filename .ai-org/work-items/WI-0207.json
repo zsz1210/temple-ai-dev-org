@@ -1,0 +1,173 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0207",
+  "title": "Select task material and audit instruction-induced work",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-06T08:21:57.407Z",
+  "updated_at": "2026-09-06T08:42:51.419Z",
+  "scope": [
+    "Complete approved steps 2 and 3: optional task-focused inventory/evidence material and bounded instruction audit; preserve guards; no live experiment"
+  ],
+  "acceptance_criteria": [
+    "Known actor inventories select complete relevant records; historical-only evidence keeps provenance; independent requirements and unknown shapes retain bodies; prompt audit documents retained and removed obligations; full tests and independent review pass"
+  ],
+  "affected_paths": [
+    "src/context-packet.mjs",
+    "src/context-enter.mjs",
+    "src/cli.mjs",
+    "test/context-enter.test.mjs",
+    "project-overlay/TEMPLE.md",
+    "docs/extensions/context-routing.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T08:21:57.406Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [
+    "WI-0206"
+  ],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "a746d37",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906082448-ed93351c",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "a746d37",
+    "branch": "codex/context-material-minimization",
+    "worktree": null,
+    "claimed_at": "2026-09-06T08:24:48.117Z",
+    "released_at": "2026-09-06T08:42:34.351Z",
+    "release_reason": [
+      "Verified candidate handed to evaluation and independent review"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260906082242-1ffeac39",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "a746d37",
+      "branch": "codex/context-material-minimization",
+      "worktree": null,
+      "claimed_at": "2026-09-06T08:22:42.877Z",
+      "released_at": "2026-09-06T08:24:47.014Z",
+      "release_reason": [
+        "Design recorded; dependency closed"
+      ]
+    },
+    {
+      "id": "claim-20260906082448-ed93351c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "a746d37",
+      "branch": "codex/context-material-minimization",
+      "worktree": null,
+      "claimed_at": "2026-09-06T08:24:48.117Z",
+      "released_at": "2026-09-06T08:42:34.351Z",
+      "release_reason": [
+        "Verified candidate handed to evaluation and independent review"
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0207/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0207/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0207/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0207/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0207/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0207/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0207/verification.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0207/verification.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0207/verification.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0207/independent-review.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0207/design.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0207/independent-review.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0207/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0207/design.md",
+    ".ai-org/artifacts/WI-0207/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0207/verification.md",
+    ".ai-org/artifacts/WI-0207/independent-review.md",
+    ".ai-org/artifacts/WI-0207/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "d1898b45ab0388115d8172c46e61253cd1f84f4f",
+      "artifact": ".ai-org/artifacts/WI-0207/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T08:42:34.034Z"
+    }
+  ],
+  "developer_candidate_revision": "d1898b45ab0388115d8172c46e61253cd1f84f4f",
+  "tested_revision": "d1898b45ab0388115d8172c46e61253cd1f84f4f",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
+}

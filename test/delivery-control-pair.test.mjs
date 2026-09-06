@@ -90,7 +90,7 @@ function replayFactory({ mutate, mode, calls = [], ledger = [], errors=[] } = {}
       ledger.push({stageIndex:index,id,command,operation,exitCode});
       emit("item/completed",{...item,status:exitCode?"failed":"completed",exitCode,aggregatedOutput:(result.stdout??"")+(result.stderr??"")});
       active();
-      if(exitCode && operation!=="product-tests-all") throw Error("synthetic-command-failed:"+operation+":"+(result.stderr??result.stdout));
+      if(exitCode && operation!=="product-tests-all") throw Error("synthetic-command-failed:"+operation+":"+(result.stderr??"")+(result.stdout??""));
       return {output:result.stdout??"",exitCode};
     };
     const read=async name=>(await execute("cat",[name],"cat")).output;
@@ -125,7 +125,7 @@ function replayFactory({ mutate, mode, calls = [], ledger = [], errors=[] } = {}
         if(temple) {
           await read("AGENTS.md"); await read("TEMPLE.md"); await read(".agents/skills/temple-work/SKILL.md");
           await c(["--help"],"temple-help");
-          await c(["context","resolve",".","--work-item","WI-0001","--position",stage==="build"?"developer":"quality_evaluator","--compact","--no-write","--json"],"temple-context-compact");
+          await c(["context","enter",".","--work-item","WI-0001","--position",stage==="build"?"developer":"quality_evaluator","--agent-id",stage==="build"?"agent-builder":"agent-verifier","--principal-id","human","--no-write","--json"],"temple-context-enter");
           await read(".ai-org/project/usage-policy.json");
         } else { await read("README.md"); await read("WORK.md"); }
         await read("BRIEF.md");
@@ -153,15 +153,13 @@ function replayFactory({ mutate, mode, calls = [], ledger = [], errors=[] } = {}
           if(temple) {
             await read(".agents/skills/temple-work/references/lean-delivery.md");
             const claimId=JSON.parse(await read(".ai-org/work-items/WI-0001.json")).claim.id;
-            await c(["work-item","deliver",".","--work-item","WI-0001","--operation-id","delivery-v7","--claim-id",claimId,"--agent-id","agent-builder","--principal-id","human","--revision",revision,"--completed","Feature and tests delivered","--evidence","DELIVERY.json","--json"],"temple-deliver");
+            await c(["work-item","finish",".","--position","developer","--work-item","WI-0001","--operation-id","finish-build-v8","--claim-id",claimId,"--agent-id","agent-builder","--principal-id","human","--revision",revision,"--completed","Feature and tests delivered","--evidence","DELIVERY.json","--json"],"temple-finish");
           }
         } else if(temple) {
-          await c(["work-item","release",".","--work-item","WI-0001","--agent-id","agent-verifier","--principal-id","human","--reason",record.decision],"temple-release");
-          if(record.decision==="accept") await c(["transition",".","--work-item","WI-0001","--to","done","--satisfy","test_evidence=VERIFICATION.json","--satisfy","lean_closeout=VERIFICATION.json"],"temple-transition-done");
-        }
-        if(temple) {
-          await c(["status",".","--compact","--json","--work-item","WI-0001"],"temple-status-compact");
-          await c(["doctor",".","--compact"],"temple-doctor-compact");
+          if(record.decision==="accept") {
+            const claimId=JSON.parse(await read(".ai-org/work-items/WI-0001.json")).claim.id;
+            await c(["work-item","finish",".","--work-item","WI-0001","--position","quality_evaluator","--operation-id","finish-verify-v8","--claim-id",claimId,"--agent-id","agent-verifier","--principal-id","human","--revision",revision,"--judgment","pass","--test-evidence","VERIFICATION.json","--lean-closeout","VERIFICATION.json","--json"],"temple-finish");
+          } else await c(["work-item","release",".","--work-item","WI-0001","--agent-id","agent-verifier","--principal-id","human","--reason",record.decision],"temple-release");
         }
         if(mode!=="missing-usage") options.onNotification(usage(threadId,turnId,mode==="bad-usage"?{cachedInputTokens:101}:mode==="cap"?{inputTokens:3000,totalTokens:3020}:{}));
         const completionRecord={...record,summary:"A concise paraphrase describing the same completed fixture work"};
@@ -207,8 +205,13 @@ test("delivery pair readiness and actual injected lifecycles are generation-free
   let number = 0;
   let completeRun;
   async function run(options = {}, changeProtocol) {
-    const labRoot = path.join(parent, `run-${number++}`); await fs.cp(template, labRoot, { recursive: true });
-    const p = changeProtocol ? changeProtocol(structuredClone(protocol)) : protocol;
+    const labRoot = path.join(parent, `run-${number++}`);
+    let baseProtocol = protocol;
+    if (options.order) {
+      const ordered = await preparePair({ labRoot, sourceRoot, order: options.order });
+      baseProtocol = { ...protocol, manifest_sha256: digest(ordered), order: ordered.order };
+    } else await fs.cp(template, labRoot, { recursive: true });
+    const p = changeProtocol ? changeProtocol(structuredClone(baseProtocol)) : baseProtocol;
     const calls = [],ledger=[],errors=[]; const result = await runPair({ labRoot, protocol: p, approval: approve(p), providerContract: contract, diagnosticKey, deadline: options.deadline, providerFactory: replayFactory({ ...options, calls,ledger,errors }) });
     return { result, labRoot, calls,ledger,errors };
   }
@@ -226,7 +229,7 @@ test("delivery pair readiness and actual injected lifecycles are generation-free
     assert.equal(result.total_usage_final,null);
     assert.ok(result.stages.every(s=>s.completion_agreement.evidence_matches && !s.completion_agreement.summary_matches),"summary paraphrases do not suppress verification");
     const templeOps=ledger.filter(e=>result.stages[e.stageIndex].arm==="temple").map(e=>e.operation);
-    for(const required of ["temple-help","temple-context-compact","temple-claim","temple-deliver","temple-release","temple-transition-done"]) assert.ok(templeOps.includes(required),required);
+    for(const required of ["temple-help","temple-context-enter","temple-claim","temple-finish"]) assert.ok(templeOps.includes(required),required);
     assert.equal(result.stages.filter(s=>s.arm==="temple").every(s=>s.treatment?.pass===true),true);
     const seal = JSON.parse(await fs.readFile(path.join(labRoot, "seal.json"))); assert.equal(seal.run_sha256, digest(result));
     assert.equal(seal.archive_error,null);
@@ -279,7 +282,22 @@ test("delivery pair readiness and actual injected lifecycles are generation-free
   for (const [name, mutate] of [
     ["public tests cannot be replaced", async ({ root }) => { await fs.writeFile(path.join(root, "test/public.test.mjs"), "// removed\n"); }],
     ["fresh verifier cannot edit product", async ({ root, stage }) => { if (stage === "verify") await fs.appendFile(path.join(root, "order.mjs"), "// verifier edit\n"); }]
-  ]) await t.test(name, async () => { const { result } = await run({ mutate }); assert.equal(result.status, "stopped"); assert.match(result.stop_reason, /write-scope|public-file-changed|verifier-product/); });
+  ]) await t.test(name, async () => {
+    for (const order of [["ordinary","temple"],["temple","ordinary"]]) {
+      const { result, errors } = await run({ mutate, order });
+      assert.equal(result.status, "stopped");
+      assert.equal(result.efficiency_comparable, false);
+      if (name === "fresh verifier cannot edit product" && order[0] === "temple") {
+        assert.equal(result.stop_reason, "provider-protocol");
+        assert.ok(errors.some(e => e.includes("synthetic-command-failed:temple-finish:") && e.includes("uncommitted changes")), JSON.stringify(errors));
+        const rejected = result.stages.at(-1);
+        assert.equal(rejected.stage, "verify");
+        assert.equal(rejected.status, "stopped");
+        assert.ok(!rejected.events.some(e => e.finish_current_passed === true));
+        assert.notEqual(rejected.quality_passed, true);
+      } else assert.match(result.stop_reason, /write-scope|public-file-changed|verifier-product/);
+    }
+  });
   for (const mode of ["missing-usage", "bad-usage", "route", "missing-model", "effort", "memory", "approval", "reroute", "cap", "timeout", "pending-start","private-error","private-command","wrong-usage","early-wrong-usage","partial-usage","unmatched","duplicate-start","duplicate-completion","completion-without-start","interrupt-failure"]) await t.test(`${mode} stops pair and retains output`, async () => {
     const { result, labRoot, calls } = await run({ mode }, ["timeout", "pending-start"].includes(mode) ? p => { p.limits.per_stage_ms = 30; return p; } : undefined);
     assert.equal(result.status, "stopped", mode); assert.equal(result.stages.length, 1); assert.equal(result.efficiency_comparable, false);

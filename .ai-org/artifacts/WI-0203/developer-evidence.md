@@ -1,0 +1,7 @@
+# Measurement instrument handoff
+
+The instrument updates the private comparison process to v8 with optional bounded entry and current finish receipt verification. Product behavior remains the B/C base. The ordinary product contract, oracle, fresh-thread boundary and literal command policy remain intact. New policy tests bind entry/finish to the Work Item, actor, principal, claim, exact candidate and accepted Verifier evidence. Added cost accounting uses completed command/patch events and marks unavailable durations and model inference attribution explicitly.
+
+The first generation-free replay found an incomplete command mapping; it was repaired before any model run. The next replay exposed the fixture's unconfirmed repository-integration policy: finish correctly failed diagnostics. Setup now records the already specified local-only fixture policy before subject work, without weakening Doctor. A later focused run passed all 55 tests. Additional receipt/accounting counterexamples were added afterward and are included in the full candidate verification now running.
+
+Full verification and installed-provider sandbox readiness are pending their logs, not claimed passed here. No subject model turn has run. Independent readiness review must inspect the exact source and passing sandbox evidence before matrix preparation. The user authorized design and, if ready, measurement with the disclosed eight-stage envelope; this does not reuse historical approvals.

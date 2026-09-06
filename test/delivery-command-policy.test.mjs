@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { classifyCommandItem, commandGuide, commandPolicyContract } from "../scripts/delivery-command-policy.mjs";
 
 const revision = "a".repeat(40), candidate = "b".repeat(40), claimId = "claim-20260905123456-12345678";
@@ -19,6 +20,39 @@ async function fixture(t) {
   const context = { root, arm: "ordinary", stage: "build", expectedClaimRevision: revision, expectedClaimId: claimId, expectedCandidateRevision: candidate, verificationDecision: "accept" };
   return { root, parent, context, classify: (command, changes = {}, envelope = {}) => classifyCommandItem(item(root, command, envelope), { ...context, ...changes }) };
 }
+
+test("read-only Git trailing separators preserve semantics without widening paths or revisions", async t => {
+  const { root, classify } = await fixture(t);
+  execFileSync("git", ["init", "-q", root]);
+  execFileSync("git", ["-C", root, "add", "order.mjs"]);
+  await fs.writeFile(path.join(root,"order.mjs"), "export const value = 2;\n");
+  for (const args of [["diff"], ["diff","--stat"], ["diff","--cached"], ["diff","--name-only"], ["status","--short"], ["ls-files"]]) {
+    assert.equal(execFileSync("git",args,{cwd:root,encoding:"utf8"}),execFileSync("git",[...args,"--"],{cwd:root,encoding:"utf8"}));
+    for(const arm of ["ordinary","temple"]) for(const stage of ["build","verify"]) {
+      const command="git "+args.join(" ")+" --";
+      assert.equal(classify(command,{arm,stage}).allowed,true,command);
+      assert.equal(classify("/bin/zsh -lc "+quote(command),{arm,stage}).allowed,true,command);
+    }
+  }
+  for(const command of ["git diff -- --", "git diff -- ../secret", "git diff -- /etc/passwd", "git diff -- ':(top)*'", "git diff BADREV --", "git diff --ext-diff --", "git diff --output=secret --", "git diff --no-index --", "git add --", "git rev-parse HEAD --", "git diff --; pwd"]) assert.equal(classify(command).allowed,false,command);
+});
+
+test("bounded entry and finish preserve identity, candidate and decision checks", async t => {
+  const { classify } = await fixture(t);
+  const ctx = { arm: "temple" };
+  const entry = "node ./templew.mjs context enter . --work-item WI-0001 --position developer --agent-id agent-builder --principal-id human --no-write --json";
+  assert.equal(classify(entry, ctx).allowed, true);
+  assert.equal(classify(entry).allowed, false);
+  for (const [from,to] of [["developer","quality_evaluator"],["agent-builder","agent-verifier"],["human","other"],["WI-0001","WI-0002"],["--no-write",""],["--json",""]]) assert.equal(classify(entry.replace(from,to),ctx).allowed,false);
+  const build = `node ./templew.mjs work-item finish . --work-item WI-0001 --position developer --operation-id finish-build-v8 --claim-id ${claimId} --agent-id agent-builder --principal-id human --revision ${candidate} --completed 'Tested' --evidence DELIVERY.json --json`;
+  assert.equal(classify(build,ctx).allowed,true);
+  assert.equal(classify(build+" --dry-run",ctx).dry_run,true);
+  for(const [from,to] of [[claimId,"claim-stale"],[candidate,revision],["DELIVERY.json","../DELIVERY.json"],["developer","quality_evaluator"]]) assert.equal(classify(build.replace(from,to),ctx).allowed,false);
+  const verify = `node ./templew.mjs work-item finish . --work-item WI-0001 --position quality_evaluator --operation-id finish-verify-v8 --claim-id ${claimId} --agent-id agent-verifier --principal-id human --revision ${candidate} --judgment pass --test-evidence VERIFICATION.json --lean-closeout VERIFICATION.json --json`;
+  assert.equal(classify(verify,{arm:"temple",stage:"verify"}).allowed,true);
+  assert.equal(classify(verify,{arm:"temple",stage:"verify",verificationDecision:"reject"}).allowed,false);
+  assert.equal(classify(verify.replace("--judgment pass","--judgment fail"),{arm:"temple",stage:"verify"}).allowed,false);
+});
 
 test("optimized Temple literal commands bind identity, current claim and exact candidate", async t => {
   const { classify } = await fixture(t);
@@ -240,5 +274,5 @@ test("every persisted classification value belongs to the fixed privacy manifest
     assert.equal(JSON.stringify(result).includes(sentinel), false);
   }
   assert.ok(Object.isFrozen(commandPolicyContract)); assert.ok(Object.isFrozen(commandPolicyContract.rules)); assert.doesNotThrow(() => JSON.parse(JSON.stringify(commandPolicyContract)));
-  for (const arm of ["ordinary", "temple"]) for (const stage of ["build", "verify"]) { const guide = commandGuide({ arm, stage }); assert.ok(guide.includes("node --test test/*.test.mjs")); assert.equal(guide.includes("work-item deliver"), arm === "temple" && stage === "build"); assert.equal(guide.includes("Temple reads"), arm === "temple"); }
+  for (const arm of ["ordinary", "temple"]) for (const stage of ["build", "verify"]) { const guide = commandGuide({ arm, stage }); assert.ok(guide.includes("node --test test/*.test.mjs")); assert.equal(guide.includes("work-item finish"), arm === "temple"); assert.equal(guide.includes("Temple reads"), arm === "temple"); }
 });

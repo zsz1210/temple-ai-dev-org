@@ -10,7 +10,7 @@ Before acting:
    For explicitly selected bounded Lean execution, `context enter` with explicit Agent and Principal may replace this preview. Follow the `temple-work` Lean execution reference and all fallback reasons; returned material does not prove instruction loading or waive required reads.
 4. Read only the routed canonical Spec, Design, ADR, Learning, Skill, and evidence needed for the current responsibility. Compare the body-free selection digest before reopening unchanged context. Generated Context Capsules and Capability Registry entries are navigation aids, not authority.
 5. Stay inside that Position's ownership and approval limits.
-6. If the work runs in a separate Codex task, use the suggested `Work Item ID · short goal · Position (Agent Name)` title and register the real task/thread ID in `.ai-org/project/tasks.json` through `temple task register`. Reserve `Project · control scope · Primary Position (Agent Name)` for the long-lived project control task.
+6. Register separate Codex tasks through `temple task register`, using the CLI's suggested title and the real task ID. Continue in an existing task when no new execution boundary is needed; a change of responsibility alone does not require a new task. Distinct-Identity Independent QA and required separation remain mandatory.
 
 When the request is only to inspect, explain, diagnose, review, or report status, remain read-only. Repository mutation requires explicit authorization from the request or current work item.
 
@@ -24,12 +24,12 @@ The bootstrap result cannot prove instruction loading or model comprehension. It
 
 Before handoff:
 
-1. Update canonical project files, not only the conversation.
-2. Record revision, completed work, evidence, unresolved questions, and next Position.
+1. Update the canonical facts required by the current gate, not only the conversation. Reuse existing current evidence by reference; do not create an additional narrative report solely to repeat those facts.
+2. Record revision, completed work, evidence, unresolved questions, and next Position through the supported handoff operation. Its artifact is the handoff record; do not manually recreate a second copy.
 3. Never let the Developer certify Independent QA for the same work.
 4. Request human approval for business truth, priority, external commitments, material cost, irreversible actions, sensitive data, or high-risk release.
 
-Use the repository-pinned `node ./templew.mjs` launcher instead of hand-editing canonical JSON when supported:
+Use the repository-pinned `node ./templew.mjs` launcher instead of hand-editing canonical JSON. Plan/prepare workers only when dispatching parallel work; they are not mandatory steps for sequential delivery:
 
 ```text
 Sequential delivery:

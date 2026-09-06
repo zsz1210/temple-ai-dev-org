@@ -9,9 +9,144 @@ import { finishLeanWorkItem } from "../src/lean-finish.mjs";
 import { withProjectMutationLock } from "../src/project.mjs";
 import { leanDeliveryStateDirectory } from "../src/lean-delivery-state.mjs";
 import { validateRuntimeWorkerRegistry } from "../src/workers.mjs";
+import { reuseAvailableWholeSources, validateAvailableWholeSources, taskMaterialPacket } from "../src/context-packet.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const procedure = ".agents/skills/temple-work/references/lean-execution.md";
+
+test("available-source input rejects malformed, duplicate and unsafe records", () => {
+  const row = { path: "AGENTS.md", sha256: `sha256:${"a".repeat(64)}` };
+  for (const invalid of [null, {}, [row, row], [{ ...row, path: "../AGENTS.md" }], [{ ...row, sha256: "a" }], [{ ...row, sha256: [row.sha256] }], [{ ...row, extra: true }], Array(257).fill(row)]) {
+    assert.throws(() => validateAvailableWholeSources(invalid), { code: "INVALID_INPUT" });
+  }
+});
+
+test("installed entry omits only exact currently available whole bodies and binds its preview", async t => {
+  const f = await setup(t);
+  const original = await assertReadOnly(f, entryArgs(f), "eligible");
+  const source = original.packet.sources.find(row => row.path === "AGENTS.md");
+  const declarations = [{ path: source.path, sha256: source.source_sha256 }];
+  const extra = ["--available-whole-sources", JSON.stringify(declarations)];
+  const result = await assertReadOnly(f, entryArgs(f, extra), "eligible");
+  assert.equal(result.packet.schema_version, "temple.context-packet/v3");
+  const reused = result.packet.sources.find(row => row.path === source.path);
+  assert.equal(reused.body, null);
+  assert.equal(reused.source_sha256, source.source_sha256);
+  assert.equal(reused.body_sha256, source.body_sha256);
+  assert.equal(result.packet.measurements.emitted_source_bytes, original.packet.measurements.emitted_source_bytes - source.body_bytes);
+  t.diagnostic(`Synthetic source bytes: ${original.packet.measurements.emitted_source_bytes} -> ${result.packet.measurements.emitted_source_bytes}; omitted ${source.body_bytes} bytes, not measured Tokens`);
+  assert.equal(result.coverage.required_reads_waived, false);
+  assert.notEqual(result.entry_digest, original.entry_digest);
+  const stale = installed(f, entryArgs(f, [...extra, "--expected-plan", original.entry_digest]), true);
+  assert.notEqual(stale.status, 0);
+  assert.match(stale.stderr + stale.stdout, /STALE_PREVIEW/);
+  const unchanged = await assertReadOnly(f, entryArgs(f), "eligible");
+  assert.deepEqual(unchanged.packet, original.packet);
+  const empty = await assertReadOnly(f, entryArgs(f, ["--available-whole-sources", "[]"]), "eligible");
+  assert.deepEqual(empty.packet, original.packet);
+  const wrongActor = installed(f, entryArgs(f, extra, "missing-agent"), true);
+  assert.equal(JSON.parse(wrongActor.stdout).status, "fallback");
+  assert.equal(JSON.parse(wrongActor.stdout).packet, null);
+  const malformed = installed(f, entryArgs(f, ["--available-whole-sources", "not-json"]), true);
+  assert.equal(JSON.parse(malformed.stdout).code, "INVALID_INPUT");
+  await fs.unlink(path.join(f.target, "AGENTS.md"));
+  const missing = installed(f, entryArgs(f, extra), true);
+  assert.notEqual(missing.status, 0);
+  assert.equal(JSON.parse(missing.stdout).packet ?? null, null);
+});
+
+test("reuse preserves changed, unselected, projected, recovery and incomplete material", async t => {
+  const f = await setup(t);
+  const { packet } = await assertReadOnly(f, entryArgs(f), "eligible");
+  const source = packet.sources.find(row => row.path === "AGENTS.md");
+  const declaration = { path: source.path, sha256: source.source_sha256 };
+  const changed = reuseAvailableWholeSources(packet, [{ ...declaration, sha256: `sha256:${"0".repeat(64)}` }]);
+  assert.deepEqual(changed.sources, packet.sources);
+  assert.equal(changed.reuse.decisions[0].reason, "source-changed");
+  const unknown = reuseAvailableWholeSources(packet, [{ ...declaration, path: "unselected.md" }]);
+  assert.deepEqual(unknown.sources, packet.sources);
+  for (const modified of [
+    { ...packet, acquisition: "incomplete" },
+    { ...packet, entry: { ...packet.entry, route: { ...packet.entry.route, purpose: "recovery" } } },
+    { ...packet, sources: packet.sources.map(row => row.path === source.path ? { ...row, representation: "structured-projection" } : row) }
+  ]) assert.deepEqual(reuseAvailableWholeSources(modified, [declaration]).sources, modified.sources);
+  await fs.appendFile(path.join(f.target, "AGENTS.md"), "\nUpdated instruction.\n");
+  const fresh = await assertReadOnly(f, entryArgs(f, ["--available-whole-sources", JSON.stringify([declaration])]), "eligible");
+  assert.match(fresh.packet.sources.find(row => row.path === source.path).body, /Updated instruction/);
+});
+
+test("task material selects actor inventories, indexes only non-current evidence and preserves required sources", async t => {
+  const f = await setup(t);
+  const agentsPath = path.join(f.target, ".ai-org/project/agents.json");
+  const assignmentsPath = path.join(f.target, ".ai-org/project/assignments.json");
+  const agents = JSON.parse(await fs.readFile(agentsPath));
+  const assignments = JSON.parse(await fs.readFile(assignmentsPath));
+  for (let i = 0; i < 20; i++) {
+    agents.agents.push({ id: `extra-${i}`, display_name: `Extra ${i}`, active: true, created_at: "2026-09-01T00:00:00.000Z" });
+    assignments.assignments.push({ position_id: "observer", agent_id: `extra-${i}`, active: true });
+  }
+  await fs.writeFile(agentsPath, JSON.stringify(agents, null, 2));
+  await fs.writeFile(assignmentsPath, JSON.stringify(assignments, null, 2));
+  await fs.writeFile(path.join(f.target, "docs/old-evaluation.md"), "Prior evaluation, not current acceptance.\n".repeat(100));
+  const item = await itemState(f);
+  await mutateItem(f, { gate_evidence: { ...item.gate_evidence, evaluation_report: ["docs/old-evaluation.md"] } });
+  const original = await assertReadOnly(f, entryArgs(f), "eligible");
+  const focused = await assertReadOnly(f, entryArgs(f, ["--material", "task"]), "eligible");
+  assert.equal(focused.packet.material, "task");
+  assert.equal(focused.packet.schema_version, "temple.context-packet/v4");
+  for (const name of ["agents", "assignments"]) assert.equal(focused.packet.sources.find(row => row.path === `.ai-org/project/${name}.json`).representation, "structured-projection");
+  const old = focused.packet.sources.find(row => row.path === "docs/old-evaluation.md");
+  assert.equal(old.body, null); assert.equal(old.representation, "non-current-gate-reference");
+  for (const relative of ["AGENTS.md", "TEMPLE.md", ".ai-org/core/policies.json", ".ai-org/project/usage-policy.json", "docs/brief.md"]) {
+    assert.equal(focused.packet.sources.find(row => row.path === relative).body, original.packet.sources.find(row => row.path === relative).body);
+  }
+  assert.ok(focused.packet.measurements.emitted_source_bytes < original.packet.measurements.emitted_source_bytes);
+  assert.ok(Buffer.byteLength(JSON.stringify(focused)) < Buffer.byteLength(JSON.stringify(original)));
+  t.diagnostic(`Task synthetic body bytes ${original.packet.measurements.emitted_source_bytes} -> ${focused.packet.measurements.emitted_source_bytes}; JSON bytes ${Buffer.byteLength(JSON.stringify(original))} -> ${Buffer.byteLength(JSON.stringify(focused))}`);
+  const current = focused.packet.sources.find(row => row.path === "AGENTS.md");
+  const combined = await assertReadOnly(f, entryArgs(f, ["--material", "task", "--available-whole-sources", JSON.stringify([{path: current.path, sha256: current.source_sha256}])]), "eligible");
+  assert.equal(combined.packet.material, "task"); assert.equal(combined.packet.schema_version, "temple.context-packet/v4");
+  assert.equal(combined.packet.sources.find(row => row.path === current.path).body, null);
+  const stale = installed(f, entryArgs(f, ["--material", "task", "--expected-plan", original.entry_digest]), true);
+  assert.notEqual(stale.status, 0);
+  assert.match(stale.stdout + stale.stderr, /STALE_PREVIEW/);
+  await fs.unlink(path.join(f.target, "docs/old-evaluation.md"));
+  const missing = installed(f, entryArgs(f, ["--material", "task"]), true);
+  assert.notEqual(missing.status, 0); assert.equal(JSON.parse(missing.stdout).packet ?? null, null);
+});
+
+test("task material keeps unknown inventories and independent evidence requirements whole", async t => {
+  const f = await setup(t);
+  const { packet } = await assertReadOnly(f, entryArgs(f), "eligible");
+  const options = { agentId: f.request.agentId };
+  const base = packet.sources.find(row => row.path === "docs/brief.md");
+  for (const reason of ["context-route", "specification", "gate:approved_scope", "gate:risk_review", "gate:test_evidence", "gate:unknown-custom"]) {
+    const source = { ...base, reasons: ["gate:evaluation_report", reason] };
+    const modified = { ...packet, sources: packet.sources.map(row => row === base ? source : row) };
+    assert.deepEqual(taskMaterialPacket(modified, options).sources.find(row => row.path === base.path), source);
+  }
+  const required = { ...base, reasons: ["gate:evaluation_report"] };
+  const modified = { ...packet, sources: packet.sources.map(row => row === base ? required : row), entry: { ...packet.entry,
+    next_step: { ...packet.entry.next_step, workflow_edge: { to: "eval", requirements: ["evaluation_report"] } } } };
+  assert.deepEqual(taskMaterialPacket(modified, options).sources.find(row => row.path === base.path), required);
+  for (const inventory of ["agents", "assignments"]) {
+    const selected = packet.sources.find(row => row.path === `.ai-org/project/${inventory}.json`);
+    const unknown = { ...selected, body: JSON.stringify({ ...JSON.parse(selected.body), custom_policy: "must retain" }) };
+    const changed = { ...packet, sources: packet.sources.map(row => row === selected ? unknown : row) };
+    assert.deepEqual(taskMaterialPacket(changed, options).sources.find(row => row.path === selected.path), unknown);
+    const independent = { ...selected, reasons: [...selected.reasons, "context-route"] };
+    assert.deepEqual(taskMaterialPacket({ ...packet, sources: packet.sources.map(row => row === selected ? independent : row) }, options).sources.find(row => row.path === selected.path), independent);
+  }
+  for (const source of packet.sources.filter(row => /\/project\/(agents|assignments)\.json$/.test(row.path))) {
+    assert.deepEqual(taskMaterialPacket(packet, { agentId: "missing-actor" }).sources.find(row => row.path === source.path), source);
+  }
+  const recovery = { ...packet, entry: { ...packet.entry, route: { ...packet.entry.route, purpose: "recovery" } } };
+  assert.deepEqual(taskMaterialPacket(recovery, options), recovery);
+  assert.deepEqual(taskMaterialPacket({ ...packet, acquisition: "incomplete" }, options), { ...packet, acquisition: "incomplete" });
+  const invalid = installed(f, entryArgs(f, ["--material", "unknown"]), true);
+  assert.equal(JSON.parse(invalid.stdout).code, "INVALID_INPUT");
+  await assertReadOnly(f, entryArgs(f, ["--material", "task"], f.qualityAgent), "fallback");
+});
 function installed(f, args, allowFailure = false) {
   const result = spawnSync(process.execPath, [path.join(f.target, "templew.mjs"), ...args], { cwd: f.target, encoding: "utf8", env: { ...process.env, TEMPLE_CLI_PATH: path.join(root, "bin/temple.mjs") } });
   if (!allowFailure) assert.equal(result.status, 0, result.stderr || result.stdout);
@@ -34,7 +169,7 @@ async function assertReadOnly(f, args, status) {
   const before = await canonicalBytes(f);
   const result = installed(f, args, true);
   const output = JSON.parse(result.stdout);
-  assert.equal(output.status, status, JSON.stringify(output.reasons));
+  assert.equal(output.status, status, JSON.stringify(output));
   assert.equal(result.status, status === "eligible" ? 0 : 1);
   assert.deepEqual(await canonicalBytes(f), before);
   if (status === "fallback") assert.equal(output.packet, null);
@@ -146,8 +281,10 @@ test("Missing or unsafe required sources fail closed without partial bodies", as
   for (const relative of [procedure, "docs/brief.md"]) {
     const filename = path.join(f.target, relative); const body = await fs.readFile(filename);
     await fs.rm(filename); await assertReadOnly(f, entryArgs(f), "fallback");
+    await assertReadOnly(f, entryArgs(f, ["--material", "task"]), "fallback");
     const external = path.join(f.temporary, "external.md"); await fs.writeFile(external, body); await fs.symlink(external, filename);
-    await assertReadOnly(f, entryArgs(f), "fallback"); await fs.rm(filename); await fs.writeFile(filename, body);
+    await assertReadOnly(f, entryArgs(f), "fallback");
+    await assertReadOnly(f, entryArgs(f, ["--material", "task"]), "fallback"); await fs.rm(filename); await fs.writeFile(filename, body);
   }
 });
 
@@ -195,7 +332,12 @@ test("Entry requires explicit actor and read-only machine contract; ordinary pac
     const args = entryArgs(f); const index = args.indexOf(flag); args.splice(index, ["--no-write", "--json"].includes(flag) ? 1 : 2);
     assert.notEqual(installed(f, args, true).status, 0);
   }
-  for (const extra of [["--material", "stage"], ["--agent-id", f.request.agentId], ["--expected-plan", "invalid"]]) assert.notEqual(installed(f, entryArgs(f, extra), true).status, 0);
+  for (const extra of [["--material", "unknown"], ["--agent-id", f.request.agentId], ["--expected-plan", "invalid"]]) assert.notEqual(installed(f, entryArgs(f, extra), true).status, 0);
+  const implicit = await assertReadOnly(f, entryArgs(f), "eligible");
+  const explicit = await assertReadOnly(f, entryArgs(f, ["--material", "stage"]), "eligible");
+  assert.equal(explicit.entry_digest, implicit.entry_digest);
+  assert.deepEqual(explicit.packet.sources, implicit.packet.sources);
+  assert.equal(explicit.packet.schema_version, implicit.packet.schema_version);
   const packet = JSON.parse(installed(f, ["context", "packet", ".", "--work-item", f.item.id, "--position", "developer", "--no-write", "--json"]).stdout);
   assert.equal(packet.schema_version, "temple.context-packet/v1");
   assert.ok(packet.sources.some(source => source.path.endsWith("references/lean-delivery.md")));
