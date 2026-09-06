@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 211 total, 13 active
+- Work items: 212 total, 14 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 65 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -259,6 +259,7 @@
 | WI-0209 | Repair comparison readiness and run a new three-arm diagnostic | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `55a2a56f` | 0 | 7 | 3 |
 | WI-0210 | Complete frozen three-arm comparison after read-only Git compatibility repair | eval | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a12f3473` | 0 | 4 | 0 |
 | WI-0211 | Integrate completed context comparison without reintroducing old history | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `8e410646` | 0 | 4 | 0 |
+| WI-0212 | Clarify product-test reruns after evidence-only edits | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `944c5527` | 0 | 3 | 0 |
 
 ## Codex task registry
 
@@ -382,7 +383,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 72
+- Team-visible Work Items: 73
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -455,14 +456,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-06T12:07:33.753Z | work_item_transitioned | WI-0211 | agent-lulu |
-| 2026-09-06T12:07:33.479Z | work_item_transitioned | WI-0211 | agent-lulu |
-| 2026-09-06T12:06:50.261Z | work_item_transitioned | WI-0211 | agent-lulu |
-| 2026-09-06T12:06:49.983Z | work_item_transitioned | WI-0211 | agent-rikku |
-| 2026-09-06T12:06:49.706Z | work_item_claim_released | WI-0211 | human |
-| 2026-09-06T12:06:49.425Z | handoff_created | WI-0211 | agent-rikku |
-| 2026-09-06T12:03:14.965Z | publication_canonical_state_normalized | WI-0211 | agent-rikku |
-| 2026-09-06T12:02:45.297Z | work_item_claimed | WI-0211 | human |
+| 2026-09-06T12:20:50.591Z | work_item_transitioned | WI-0212 | agent-lulu |
+| 2026-09-06T12:20:50.319Z | work_item_transitioned | WI-0212 | agent-lulu |
+| 2026-09-06T12:20:50.048Z | work_item_transitioned | WI-0212 | agent-lulu |
+| 2026-09-06T12:20:49.763Z | work_item_transitioned | WI-0212 | agent-rikku |
+| 2026-09-06T12:20:49.441Z | work_item_claim_released | WI-0212 | human |
+| 2026-09-06T12:20:49.137Z | handoff_created | WI-0212 | agent-rikku |
+| 2026-09-06T12:16:40.452Z | work_item_claimed | WI-0212 | human |
+| 2026-09-06T12:16:40.167Z | work_item_transitioned | WI-0212 | agent-tidus |
 
 ## Assignments
 

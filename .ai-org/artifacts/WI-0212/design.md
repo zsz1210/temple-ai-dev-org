@@ -1,0 +1,9 @@
+# Evidence-only retest guidance
+
+The user approved correcting the benchmark prompt ambiguity identified in WI-0210 evaluation. Four Temple Verifiers and one ordinary Verifier ran product tests, wrote verification evidence, then repeated the same test command. This sequence supports a prompt-induced-work hypothesis, not a causal Token estimate.
+
+Scope: shared Builder/Verifier request wording and offline regression coverage only. Both ordinary and Temple receive the same rule. Each actor still runs complete product tests independently against its exact candidate. Changes to implementation, tests, relevant configuration, dependencies, or test inputs invalidate previous results; uncertain relevance cannot justify reuse. Evidence-only writes may reuse that actor's current result when tested inputs and candidate binding remain unchanged. They do not waive checks that validate the evidence itself. A Verifier still cannot change product files; unexpected relevant drift requires rejection, not unauthorized repair.
+
+Update both user and developer instruction layers to remove the ambiguous last-edit rule. Bind the changed prompt with a new process-contract version/digest; existing frozen approvals and sealed results remain unchanged and must not authorize a new run. Verify all four arm/stage combinations and unchanged command/sandbox/product guards. Run npm run verify; obtain independent review. Do not modify framework workflow, activate routing or claim measured savings.
+
+WI-0212 owns the shared prompt/test changes on its branch. WI-0210's completed run and WI-0211's integration candidate are frozen, with their source claims released; this is a separately authorized successor, not a retry or amendment of their evidence. Rollback is reverting this successor change. No live model run, reset, purchase, release or publication is included.

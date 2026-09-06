@@ -368,6 +368,32 @@ test("oracle tests actual clean and broken modules outside the actor repository"
   assert.deepEqual(await fs.readdir(root), ["order.mjs"]);
 });
 
+test("all actor prompts distinguish evidence writes from test-invalidating changes", () => {
+  const protocol = createProtocol({ order: ["ordinary", "temple"] });
+  for (const arm of ["ordinary", "temple"]) for (const stage of ["build", "verify"]) {
+    const request = stageRequests({ root: os.tmpdir(), arm, stage, protocol });
+    for (const text of [request.turn.input[0].text, request.thread.developerInstructions]) {
+      assert.doesNotMatch(text, /after (?:your last|the final) edit/i);
+      assert.match(text, /implementation, tests, relevant configuration, dependencies or test inputs/);
+      assert.match(text, /evidence.only|Writing only delivery/i);
+      assert.match(text, /candidate binding/);
+      assert.match(text, /evidence validation/);
+      assert.match(text, /uncertain/i);
+    }
+    assert.match(request.instruction, /Run the complete product tests yourself/);
+    assert.match(request.instruction, /Verifier must not substitute the Builder's result/);
+    assert.match(request.instruction, /Exact test_command: node --test test\/\*\.test\.mjs/);
+    if (stage === "verify") assert.match(request.instruction, /Do not modify order\.mjs, tests or product documentation/);
+    if (arm === "temple") assert.match(request.instruction, /do not report acceptance on a diagnostic failure/);
+  }
+  const contract = deliveryProcessContract();
+  assert.equal(contract.version, "delivery-process/v9");
+  assert.equal(contract.templates.length, 4);
+  const changed = structuredClone(contract);
+  changed.templates[0].developer += " changed";
+  assert.notEqual(digest(contract), digest(changed));
+});
+
 test("guardrails and requests contain no oracle answers or inherited test context", () => {
   const protocol = createProtocol({ order: ["ordinary", "temple"] }); assert.throws(() => validateProtocol(protocol));
   assert.equal(subprocessEnvironment({ NODE_TEST_CONTEXT: "child-v8", NODE_OPTIONS: "--bad" }).NODE_TEST_CONTEXT, undefined);
