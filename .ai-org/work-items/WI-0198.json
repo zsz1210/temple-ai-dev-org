@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0198",
   "title": "Execute the approved native child compatibility probe",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T05:25:27.511Z",
-  "updated_at": "2026-09-06T05:40:39.584Z",
+  "updated_at": "2026-09-06T05:46:50.262Z",
   "scope": [
     "Execute exactly one live support-read arm from the independently reviewed WI-0197 seal, retain only bounded redacted evidence, and stop without retry or fallback."
   ],
@@ -47,7 +47,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "421ba884d157a78b8f5c6c76075b203cc62f1e02",
+  "base_revision": "976af541ad6393aa1284e6aceb03d8d642867c7f",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -55,15 +55,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906054039-41c74e97",
-    "status": "active",
+    "id": "claim-20260906054219-45e26136",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "421ba884d157a78b8f5c6c76075b203cc62f1e02",
+    "agent_id": "agent-lulu",
+    "base_revision": "976af541ad6393aa1284e6aceb03d8d642867c7f",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
-    "claimed_at": "2026-09-06T05:40:39.584Z",
-    "released_at": null
+    "claimed_at": "2026-09-06T05:42:19.893Z",
+    "released_at": "2026-09-06T05:46:50.262Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -108,14 +109,29 @@
     },
     {
       "id": "claim-20260906054039-41c74e97",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "421ba884d157a78b8f5c6c76075b203cc62f1e02",
       "branch": "codex/wi-0191-proportionate-evaluation",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
       "claimed_at": "2026-09-06T05:40:39.584Z",
-      "released_at": null
+      "released_at": "2026-09-06T05:41:33.815Z",
+      "release_reason": [
+        "Fresh corrected evidence handed off for independent re-review."
+      ]
+    },
+    {
+      "id": "claim-20260906054219-45e26136",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "976af541ad6393aa1284e6aceb03d8d642867c7f",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+      "claimed_at": "2026-09-06T05:42:19.893Z",
+      "released_at": "2026-09-06T05:46:50.262Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -136,6 +152,19 @@
     ],
     "profile_eligibility": [
       ".ai-org/project/usage-policy.json"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0198/handoff-002-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0198/live-report-v2.md",
+      ".ai-org/artifacts/WI-0198/live-observation-v2.json"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0198/independent-review-v2.md"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0198/independent-review-v2.md"
     ]
   },
   "evidence": [
@@ -145,10 +174,14 @@
     ".ai-org/project/usage-policy.json",
     ".ai-org/artifacts/WI-0198/handoff-001-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0198/live-report.md",
-    ".ai-org/artifacts/WI-0198/live-observation.json"
+    ".ai-org/artifacts/WI-0198/live-observation.json",
+    ".ai-org/artifacts/WI-0198/handoff-002-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0198/live-report-v2.md",
+    ".ai-org/artifacts/WI-0198/live-observation-v2.json",
+    ".ai-org/artifacts/WI-0198/independent-review-v2.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -157,6 +190,14 @@
       "input_revision": "8e1d5ed8f8242370eafa79db22c07f2d5b4a4f94",
       "artifact": ".ai-org/artifacts/WI-0198/handoff-001-developer-to-quality_evaluator.md",
       "created_at": "2026-09-06T05:30:10.709Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "976af541ad6393aa1284e6aceb03d8d642867c7f",
+      "artifact": ".ai-org/artifacts/WI-0198/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T05:41:33.562Z"
     }
   ],
   "rework_history": [
@@ -198,5 +239,9 @@
         ".ai-org/artifacts/WI-0198/handoff-001-developer-to-quality_evaluator.md"
       ]
     }
-  ]
+  ],
+  "developer_candidate_revision": "976af541ad6393aa1284e6aceb03d8d642867c7f",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
 }
