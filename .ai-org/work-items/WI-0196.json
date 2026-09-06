@@ -1,0 +1,105 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0196",
+  "title": "Implement two-phase native child acquisition",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-06T04:09:16.951Z",
+  "updated_at": "2026-09-06T04:10:13.354Z",
+  "scope": [
+    "Repair native comparison observation so a bounded parent subAgentActivity hint remains quarantined until exact thread/resume identity, model, and reasoning-effort verification succeeds, then replay buffered child events without changing sealed predecessor evidence."
+  ],
+  "acceptance_criteria": [
+    "Activity alone never binds a child or attributes usage.",
+    "Exact thread/resume verification can bind one allowed child and replay buffered events when the spawn-completion envelope is absent.",
+    "Child ID, model, effort, foreign activity, duplicate spawn, write, cleanup, and usage-aggregation failure paths are deterministically tested with named stop codes.",
+    "Sealed WI-0194 and WI-0195 artifacts remain byte-identical, generation-free tests pass, and an independent reviewer evaluates the exact candidate before any live probe."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0196"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "A local-only, reversible successor artifact repair with no Provider call, external write, release, or spending in scope.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T04:09:16.950Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "9aa441e3b9025ea67dd6c1a136eae7fb3abac845",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260906041013-8a7bb13b",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "9aa441e3b9025ea67dd6c1a136eae7fb3abac845",
+    "branch": "codex/wi-0191-proportionate-evaluation",
+    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+    "claimed_at": "2026-09-06T04:10:13.354Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260906041013-8a7bb13b",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "9aa441e3b9025ea67dd6c1a136eae7fb3abac845",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+      "claimed_at": "2026-09-06T04:10:13.354Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/work-items/WI-0196.json"
+    ],
+    "approved_scope": [
+      ".ai-org/work-items/WI-0196.json"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/work-items/WI-0196.json"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0196/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0196/design.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/work-items/WI-0196.json"
+    ]
+  },
+  "evidence": [
+    ".ai-org/work-items/WI-0196.json",
+    ".ai-org/artifacts/WI-0196/design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
