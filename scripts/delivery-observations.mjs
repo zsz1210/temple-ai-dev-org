@@ -56,6 +56,7 @@ export function createDeliveryObserver({ root, key }) {
     if (!/^TAP version 13\r?$/m.test(output)) {
       const count = output.match(/^ℹ fail (\d+)\r?$/m)?.[1];
       if (count === undefined || !/^ℹ tests \d+\r?$/m.test(output)) return { status: "unsupported", failures: [] };
+      if (/^ℹ cancelled [1-9]\d*\r?$/m.test(output)) return { status: "unsupported", reporter: "node-spec", failures: [] };
       const footer = output.split(/\n✖ failing tests:\r?\n/)[1];
       const rows = []; let current = null, capped = false;
       for (const line of (footer ?? "").split(/\r?\n/)) {
@@ -70,14 +71,17 @@ export function createDeliveryObserver({ root, key }) {
       }
       return { status: capped ? "over-limit" : rows.length === Number(count) ? "recognized" : "partial", reporter: "node-spec", failures: rows };
     }
+    // Deliberately decline result semantics not represented by this schema.
+    if (/^(?:not )?ok \d+.*#\s*(?:SKIP|TODO)\b/im.test(output) || /^# cancelled [1-9]\d*\r?$/m.test(output) || /^\s+(?:not )?ok \d+/m.test(output)) return { status: "unsupported", reporter: "tap", failures: [] };
     const rows = [], lines = output.split(/\r?\n/);
-    let current = null, diagnostic = false, capped = false;
+    let current = null, diagnostic = false, capped = false, incompleteDiagnostic = false;
     for (const line of lines) {
       const failed = line.match(/^\s*not ok (\d+) - (.+)$/);
       if (failed) {
+        if (diagnostic) incompleteDiagnostic = true;
         if (rows.length >= observationLimits.failures) { capped = true; current = null; continue; }
         current = { test_id: hash(failed[2]), error_type: "unknown" }; rows.push(current); diagnostic = false;
-      } else if (/^\s*ok \d+/.test(line)) { current = null; diagnostic = false; }
+      } else if (/^\s*ok \d+/.test(line)) { if (diagnostic) incompleteDiagnostic = true; current = null; diagnostic = false; }
       else if (current && /^\s+---$/.test(line)) diagnostic = true;
       else if (/^\s+\.\.\.$/.test(line)) diagnostic = false;
       else if (current && diagnostic) {
@@ -85,7 +89,12 @@ export function createDeliveryObserver({ root, key }) {
         if (errorTypes.has(type)) current.error_type = type;
       }
     }
-    const complete = /^1\.\.\d+\r?$/m.test(output) && /^# fail \d+\r?$/m.test(output);
+    const plans = [...output.matchAll(/^1\.\.(\d+)\r?$/mg)];
+    const counts = [...output.matchAll(/^# fail (\d+)\r?$/mg)];
+    const results = [...output.matchAll(/^(?:not )?ok (\d+)(?: - .*|)\r?$/mg)].map(m=>Number(m[1]));
+    const complete = plans.length === 1 && counts.length === 1 && !diagnostic && !incompleteDiagnostic &&
+      Number.isSafeInteger(Number(plans[0][1])) && Number(plans[0][1]) === results.length &&
+      results.every((n,i)=>n===i+1) && Number(counts[0][1]) === rows.length;
     return { status: capped ? "over-limit" : complete ? "recognized" : "partial", reporter: "tap", failures: rows };
   }
   return {

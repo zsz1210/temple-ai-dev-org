@@ -70,6 +70,30 @@ test("reporter absence, truncation, size and failure count bounds remain explici
   assert.equal(get(tap.replace("AssertionError",secret)).failures[0].error_type,"unknown");
 });
 
+test("TAP count, result and diagnostic completeness cannot be inferred from footer alone",async t=>{
+  const f=await fixture(t), get=s=>f.observe(f.make("node --test test/*.test.mjs",s,1)).test;
+  for(const text of ["TAP version 13\n1..2\n# fail 2\n",tap.replace("# fail 1","# fail 2"),tap.replace("  ...\n",""),tap+"# fail 1\n",tap.replace("1..1","1..2"),tap.replace("not ok 1","not ok 2")])assert.equal(get(text).status,"partial");
+  for(const text of [tap.replace("not ok 1 - "+secret,"not ok 1 - "+secret+" # TODO planned"),tap+"# cancelled 1\n",tap.replace("not ok 1","  not ok 1"),tap.replace("not ok 1 - "+secret,"ok 1 - "+secret+" # SKIP")]){
+    const result=get(text);assert.equal(result.status,"unsupported");assert.deepEqual(result.failures,[]);
+  }
+});
+
+test("actual Node TODO, cancellation and nested TAP are explicit unsupported outcomes",async t=>{
+  const f=await fixture(t), env={...process.env};delete env.NODE_TEST_CONTEXT;delete env.NODE_OPTIONS;
+  const cases=[
+    "test('skip',{skip:true},()=>{});test('todo',{todo:true},()=>assert.equal(1,2));",
+    "test('cancel',{timeout:20},async()=>await new Promise(()=>{}));",
+    "test('parent',async t=>{await t.test('child',()=>assert.equal(1,2));});"
+  ];
+  for(const body of cases){
+    await fs.writeFile(path.join(f.root,"test/added.test.mjs"),"import test from 'node:test';import assert from 'node:assert/strict';"+body);
+    const r=spawnSync(process.execPath,["--test","--test-reporter=tap","test/added.test.mjs"],{cwd:f.root,env,encoding:"utf8",timeout:10000,maxBuffer:262144});
+    assert.ok([0,1].includes(r.status));
+    const out=f.observe(f.make("node --test test/added.test.mjs",r.stdout,r.status)).test;
+    assert.equal(out.status,"unsupported");assert.deepEqual(out.failures,[]);
+  }
+});
+
 test("literal multi-file reads expose overlap without claiming redundancy",async t=>{
   const f=await fixture(t);
   const first=f.observe(f.make("cat order.mjs test/public.test.mjs",secret+secret));
