@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0199",
   "title": "Repair ephemeral helper dispatch",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-06T05:50:56.959Z",
-  "updated_at": "2026-09-06T05:51:23.966Z",
+  "updated_at": "2026-09-06T05:58:17.959Z",
   "scope": [
     "Create a successor of the sealed compatibility runner that explicitly disables helper history forks, retains the historical diagnosis as redacted evidence, and verifies request and acquisition behavior without live generation."
   ],
@@ -53,26 +53,28 @@
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260906055123-19a08952",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "586162c2dc84b99d95cee634544924d67663ed9a",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": null,
     "claimed_at": "2026-09-06T05:51:23.966Z",
-    "released_at": null
+    "released_at": "2026-09-06T05:58:17.959Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
       "id": "claim-20260906055123-19a08952",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "586162c2dc84b99d95cee634544924d67663ed9a",
       "branch": "codex/wi-0191-proportionate-evaluation",
       "worktree": null,
       "claimed_at": "2026-09-06T05:51:23.966Z",
-      "released_at": null
+      "released_at": "2026-09-06T05:58:17.959Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -93,13 +95,33 @@
     ],
     "profile_eligibility": [
       ".ai-org/work-items/WI-0199.json"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0199/handoff-001-developer-to-quality_evaluator.md",
+      ".ai-org/artifacts/WI-0199/test-report.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0199/test-report.md"
     ]
   },
   "evidence": [
     ".ai-org/work-items/WI-0199.json",
     ".ai-org/artifacts/WI-0197/design.md",
-    ".ai-org/artifacts/WI-0197/readiness-review.md"
+    ".ai-org/artifacts/WI-0197/readiness-review.md",
+    ".ai-org/artifacts/WI-0199/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0199/test-report.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "c64371d07e7d0accd25ff198378cbd05ca0ce681",
+      "artifact": ".ai-org/artifacts/WI-0199/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T05:58:17.703Z"
+    }
+  ],
+  "developer_candidate_revision": "c64371d07e7d0accd25ff198378cbd05ca0ce681"
 }

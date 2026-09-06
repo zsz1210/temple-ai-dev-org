@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
 - Work items: 199 total, 8 active
 - Codex tasks: 12 registered, 12 archive-ready
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -246,7 +246,7 @@
 | WI-0196 | Implement two-phase native child acquisition | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fd53d7de` | 0 | 7 | 0 |
 | WI-0197 | Prepare a minimal native child compatibility probe | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `963aa834` | 0 | 6 | 0 |
 | WI-0198 | Execute the approved native child compatibility probe | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `976af541` | 0 | 11 | 0 |
-| WI-0199 | Repair ephemeral helper dispatch | build | Developer | Rikku | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260906055123-19a08952 | `—` | 0 | 3 | 0 |
+| WI-0199 | Repair ephemeral helper dispatch | test | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c64371d0` | 0 | 5 | 0 |
 
 ## Codex task registry
 
@@ -438,14 +438,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-06T05:58:17.959Z | work_item_transitioned | WI-0199 | agent-rikku |
+| 2026-09-06T05:58:17.703Z | handoff_created | WI-0199 | agent-rikku |
 | 2026-09-06T05:51:23.966Z | work_item_claimed | WI-0199 | human |
 | 2026-09-06T05:51:23.688Z | work_item_transitioned | WI-0199 | agent-mog |
 | 2026-09-06T05:50:56.959Z | work_item_created | WI-0199 | agent-mog |
 | 2026-09-06T05:46:50.262Z | work_item_closed | WI-0198 | agent-lulu |
 | 2026-09-06T05:46:50.262Z | work_item_transitioned | WI-0198 | agent-lulu |
 | 2026-09-06T05:46:48.902Z | runtime_worker_status_changed | WI-0198 | agent-lulu |
-| 2026-09-06T05:43:15.881Z | runtime_worker_status_changed | WI-0198 | agent-lulu |
-| 2026-09-06T05:43:15.626Z | runtime_worker_attached | WI-0198 | agent-lulu |
 
 ## Assignments
 
