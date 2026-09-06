@@ -1,0 +1,109 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0216",
+  "title": "Separate stage Token warnings from aggregate experiment limits",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-06T14:36:20.965Z",
+  "updated_at": "2026-09-06T14:37:29.098Z",
+  "scope": [
+    "Implement and offline-test the approved warning-only stage threshold; prepare successor design without consuming a new live experiment approval."
+  ],
+  "acceptance_criteria": [
+    "80000 stage Tokens warns once; aggregate 640000 and time limits remain hard; legacy protocols retain hard limits; old sealed evidence unchanged; no live generation."
+  ],
+  "affected_paths": [
+    "scripts/context-format-comparison.mjs",
+    "scripts/delivery-control-pair.mjs",
+    "test/context-format-comparison.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T14:36:20.965Z",
+    "escalated": false
+  },
+  "parent_work_item_id": "WI-0214",
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "faa9cd76",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0172: no active writer; earlier evidence frozen; sequential warning-policy successor.",
+    "WI-0190: no active writer; earlier evidence frozen; sequential warning-policy successor.",
+    "WI-0208: no active writer; earlier evidence frozen; sequential warning-policy successor.",
+    "WI-0209: no active writer; earlier evidence frozen; sequential warning-policy successor.",
+    "WI-0210: no active writer; earlier evidence frozen; sequential warning-policy successor.",
+    "WI-0211: no active writer; earlier evidence frozen; sequential warning-policy successor.",
+    "WI-0212: no active writer; earlier evidence frozen; sequential warning-policy successor.",
+    "WI-0215: no active writer; earlier evidence frozen; sequential warning-policy successor."
+  ],
+  "claim": {
+    "id": "claim-20260906143651-405a3b0b",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "faa9cd76",
+    "branch": "codex/format-token-warning",
+    "worktree": null,
+    "claimed_at": "2026-09-06T14:36:51.567Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260906143651-405a3b0b",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "faa9cd76",
+      "branch": "codex/format-token-warning",
+      "worktree": null,
+      "claimed_at": "2026-09-06T14:36:51.567Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0216/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0216/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0216/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0216/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0216/design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0216/design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

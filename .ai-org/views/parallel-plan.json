@@ -1,20 +1,21 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T13:36:23.275Z",
-  "source_fingerprint": "191f89a8098d2ac493c030d29c41171cdc0a16decfa297e9b34499ca20791e26",
+  "generated_at": "2026-09-06T14:41:21.392Z",
+  "source_fingerprint": "129b7651118399564a086533a17771038b3e471fcf3b325a66f9cad8a345cda2",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0214",
     "selected_work_item_ids": [
       "WI-0213",
-      "WI-0215"
+      "WI-0215",
+      "WI-0216"
     ]
   },
   "max_workers": null,
   "summary": {
-    "selected": 2,
+    "selected": 3,
     "dispatchable": 1,
-    "active": 0,
+    "active": 1,
     "sequential": 0,
     "blocked": 1,
     "waves": 1
@@ -68,7 +69,22 @@
       }
     }
   ],
-  "active": [],
+  "active": [
+    {
+      "work_item_id": "WI-0216",
+      "title": "Separate stage Token warnings from aggregate experiment limits",
+      "disposition": "active",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "integration_owner_agent_id": null,
+      "reasons": [],
+      "claim_id": "claim-20260906143651-405a3b0b",
+      "principal_id": "human",
+      "branch": "codex/format-token-warning",
+      "worktree": null,
+      "base_revision": "faa9cd76"
+    }
+  ],
   "sequential": [],
   "blocked": [
     {
@@ -83,7 +99,28 @@
       ]
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0215",
+      "right_work_item_id": "WI-0216",
+      "paths": [
+        {
+          "left_path": "scripts/context-format-comparison.mjs",
+          "right_path": "scripts/context-format-comparison.mjs"
+        },
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        },
+        {
+          "left_path": "test/context-format-comparison.test.mjs",
+          "right_path": "test/context-format-comparison.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    }
+  ],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
     "runtime_capacity_limit": null,

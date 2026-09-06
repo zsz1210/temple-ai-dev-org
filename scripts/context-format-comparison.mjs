@@ -7,7 +7,7 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { pathToFileURL } from "node:url";
 import Ajv from "ajv";
-import { digest, sourceDigest, preparePair, inspectProvider, files, gitSafety, runStage, assessStage, operationStatistics, costBreakdown, treatmentAdherence, subprocessEnvironment } from "./delivery-control-pair.mjs";
+import { digest, sourceDigest, preparePair, inspectProvider, files, gitSafety, runStage, assessStage, operationStatistics, costBreakdown, treatmentAdherence, subprocessEnvironment, tokenBudgetDecision } from "./delivery-control-pair.mjs";
 import { requestsFor as materialRequests, isolatedFactory, isolationArguments, assertIsolationSources, assertIsolatedConfig, accountCheck, commandJson, evidenceScope, finalizeEvidence, verifySeal } from "./context-material-comparison.mjs";
 import { createJsonRpcProcess } from "../src/codex-app-server-provider.mjs";
 
@@ -17,7 +17,7 @@ const json = async file => JSON.parse(await fs.readFile(file, "utf8"));
 const save = (root, name, value, exclusive = false) => fs.writeFile(path.join(root, name), JSON.stringify(value, null, 2) + "\n", exclusive ? { flag: "wx" } : {});
 const git = async (root, ...args) => (await exec("git", args, { cwd: root, env: subprocessEnvironment(), maxBuffer: 1024 * 1024 })).stdout.trim();
 export const schedule = Object.freeze(["full", "model", "model", "full"]);
-export const limits = Object.freeze({ stages: 8, per_stage_ms: 360000, aggregate_ms: 2880000, per_stage_operational_tokens: 80000, aggregate_operational_tokens: 640000 });
+export const limits = Object.freeze({ stages: 8, per_stage_ms: 360000, aggregate_ms: 2880000, per_stage_operational_tokens: 80000, per_stage_token_action: "warning", aggregate_operational_tokens: 640000 });
 export const policy = Object.freeze({ account: "chatgpt-subscription", purchase: false, refill: false, reset: false, retries: 0, fallback: false, cache: "uncontrolled", extra_judge: false });
 export function requestsFor(format, args) {
   assert(schedule.includes(format), "format-invalid");
@@ -31,7 +31,7 @@ async function instrumentDigest() {
   return digest({ source: await sourceDigest(source), extra: Object.fromEntries(await Promise.all(names.map(async n => [n, digest(await fs.readFile(path.join(source, n)))]))) });
 }
 export function validatePlan(p) {
-  assert(p?.schema_version === "temple.format-comparison/v1" && p.work_item_id === "WI-0215", "plan-schema");
+  assert(p?.schema_version === "temple.format-comparison/v2" && p.work_item_id === "WI-0216", "plan-schema");
   assert(p.model === "gpt-5.6-terra" && p.reasoning_effort === "medium", "route-boundary");
   assert(digest(p.limits) === digest(limits) && digest(p.policy) === digest(policy) && digest(p.schedule) === digest(schedule), "envelope-drift");
   assert(p.subjects?.length === 4 && p.subjects.every((s, i) => s.variant === schedule[i] && s.arm === "temple" && s.source_revision === p.source_revision && s.source_sha256 === p.source_sha256), "subject-mapping");
@@ -42,7 +42,7 @@ export function validatePlan(p) {
 export function validateApproval(a, p) {
   validatePlan(p);
   assert(a?.status === "approved" && a.approved_by === "human" && a.work_item_id === p.work_item_id && a.protocol_sha256 === digest(p), "approval-binding");
-  assert(a.evidence_ref === ".ai-org/artifacts/WI-0215/design.md" && digest(a.limits) === digest(limits) && digest(a.policy) === digest(policy), "approval-envelope");
+  assert(a.evidence_ref === ".ai-org/artifacts/WI-0216/design.md" && digest(a.limits) === digest(limits) && digest(a.policy) === digest(policy), "approval-envelope");
 }
 export async function consumeApproval(lab, p, a) {
   validateApproval(a, p);
@@ -62,7 +62,7 @@ export async function prepare(lab, isolationFile) {
   }
   isolation.fixture_trust_roots = subjects.map(s => s.root);
   const contract = await inspectProvider({ labRoot: lab, sourceRoot: source, model: "gpt-5.6-terra", effort: "medium", providerFactory: isolatedFactory(isolation), serverArguments: isolationArguments(isolation) });
-  const p = { schema_version: "temple.format-comparison/v1", work_item_id: "WI-0215", model: "gpt-5.6-terra", reasoning_effort: "medium", schedule, limits, policy, subjects, isolation, evidence_scope: evidenceScope,
+  const p = { schema_version: "temple.format-comparison/v2", work_item_id: "WI-0216", model: "gpt-5.6-terra", reasoning_effort: "medium", schedule, limits, policy, subjects, isolation, evidence_scope: evidenceScope,
     source_revision: await git(source, "rev-parse", "HEAD"), source_sha256: await sourceDigest(source), instrument_sha256: await instrumentDigest(), provider_sha256: digest(contract), account: await accountCheck(isolation) };
   validatePlan(p); await save(lab, "protocol.json", p, true); return p;
 }
@@ -122,18 +122,22 @@ export async function execute(p, result, { beforeStage, runOne, assessOne, persi
     for (const stage of ["build", "verify"]) {
       assert(now() < deadline && result.operational_tokens < limits.aggregate_operational_tokens, "aggregate-limit");
       const before = await beforeStage(s, stage);
+      assert(now() < deadline, "aggregate-limit");
       result.attempted_stages++; await persist();
       const o = await runOne(s, stage, result.operational_tokens);
       Object.assign(o, { variant: s.variant, subject: i + 1, operations: operationStatistics(o), cost_breakdown: costBreakdown(o) });
       result.stages.push(o); result.operational_tokens += o.usage?.operational_tokens ?? 0; await persist();
       assert(o.status === "completed" && o.provider_exit_confirmed === true, o.stop_reason ?? "stage-stopped");
-      assert(Number.isSafeInteger(o.usage?.operational_tokens) && o.usage.operational_tokens >= 0 && o.usage.operational_tokens <= limits.per_stage_operational_tokens && result.operational_tokens <= limits.aggregate_operational_tokens, "usage-or-token-limit");
+      assert(Number.isSafeInteger(o.usage?.operational_tokens) && o.usage.operational_tokens >= 0, "usage-or-token-limit");
+      assert(!tokenBudgetDecision(limits, o.usage.operational_tokens, result.operational_tokens - o.usage.operational_tokens).stop, "usage-or-token-limit");
+      assert(now() < deadline, "aggregate-limit");
       const q = await assessOne(s, stage, before, build, o); Object.assign(o, q); o.treatment = treatmentAdherence(o);
       assert(["candidate_revision", "test_command", "test_exit_code", "decision", "unresolved"].every(k => digest(q.record[k]) === digest(o.completion[k])), "completion-disagreement");
       assert(q.quality_passed && q.workflow?.pass && o.treatment?.pass, "noncomparable-outcome");
       assert(o.events.some(e => e.context_format === s.variant && e.entry_eligible === true && e.task_material?.material === "task"), "format-not-observed");
       if (stage === "build") build = q;
       await persist();
+      assert(now() < deadline, "aggregate-limit");
     }
   }
   result.status = "completed";
@@ -143,7 +147,7 @@ export async function run(lab, approvalFile, reviewFile) {
   validateApproval(a, p); await readiness(lab);
   assert(review.status === "passed" && review.protocol_sha256 === digest(p) && review.instrument_sha256 === p.instrument_sha256 && review.reviewer_agent_id === "agent-lulu" && review.developer_agent_id === "agent-rikku", "readiness-qa");
   assert(review.sandbox_sha256 === digest(sandbox) && sandbox.status === "passed" && sandbox.protocol_sha256 === digest(p) && sandbox.instrument_sha256 === p.instrument_sha256 && sandbox.results?.length === 4 && sandbox.results.every(r => r.entry_passed && r.bodies_identical && r.outside_write_denied) && sandbox.model_generation_performed === false && sandbox.turn_requests === 0, "sandbox-readiness");
-  assert(typeof review.evidence_ref === "string" && review.evidence_ref.startsWith(".ai-org/artifacts/WI-0215/") && !review.evidence_ref.includes("..") && review.evidence_sha256 === digest(await fs.readFile(path.join(source, review.evidence_ref))), "review-evidence-binding");
+  assert(typeof review.evidence_ref === "string" && review.evidence_ref.startsWith(".ai-org/artifacts/WI-0216/") && !review.evidence_ref.includes("..") && review.evidence_sha256 === digest(await fs.readFile(path.join(source, review.evidence_ref))), "review-evidence-binding");
   await accountCheck(p.isolation);
   assert(digest(await inspectProvider({ model: p.model, effort: p.reasoning_effort, providerFactory: isolatedFactory(p.isolation), serverArguments: isolationArguments(p.isolation) })) === p.provider_sha256, "provider-drift");
   await consumeApproval(lab, p, a);
