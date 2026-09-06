@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T03:17:56.919Z",
-  "source_fingerprint": "89d6a3d4fcbd44772691165c7e5eb160c6bc88baacbf23aeb6b15b86bf6d96a4",
+  "generated_at": "2026-09-06T03:18:33.166Z",
+  "source_fingerprint": "d90fcd1480bfb7c22e80ce84d736ada234a38e057e090d7d3ce3b48fecc249e0",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -65,24 +65,24 @@
         {
           "work_item_id": "WI-0195",
           "title": "Complete repaired native support comparison",
-          "position_id": "developer",
-          "agent_id": "agent-rikku",
-          "agent_name": "Rikku",
-          "suggested_task_title": "WI-0195 · Complete repaired native su… · Developer (Rikku)",
-          "base_revision": "1263bfc676207f123b49ec175d79748dd52de940",
+          "position_id": "quality_evaluator",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0195 · Complete… · Quality & Evaluation Engineer (Lulu)",
+          "base_revision": "f471caa1662b43084b104d74961253c9ef3fca01",
           "affected_paths": [
             ".ai-org/artifacts/WI-0195"
           ],
           "dependencies": [],
           "required_disciplines": [],
           "active_requirements": {
-            "stage": "build",
+            "stage": "test",
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "30a7914ca6a5bacdd5bbc41343a477e8c1370dbc8d7dfe0ad6230dbdd70cb8b5",
+          "preparation_fingerprint": "75ae579d8b4069f0f17a67e02e8f3ba2ca3cc6cba0655b78337ba497887546b7",
           "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0195 --position developer --no-write --json",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0195 --position quality_evaluator --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,

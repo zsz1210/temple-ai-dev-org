@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-06T03:06:08.740Z",
-  "updated_at": "2026-09-06T03:17:56.514Z",
+  "updated_at": "2026-09-06T03:22:32.517Z",
   "scope": [
     "Run a fresh sealed four-arm Terra medium support comparison using the reviewed WI-0194 recorder; preserve WI-0191 through WI-0194 and stop on the first mandatory failure"
   ],
@@ -42,7 +42,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "1263bfc676207f123b49ec175d79748dd52de940",
+  "base_revision": "f471caa1662b43084b104d74961253c9ef3fca01",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -50,18 +50,15 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906031635-380ba076",
-    "status": "released",
+    "id": "claim-20260906032232-dc736e93",
+    "status": "active",
     "principal_id": "human",
     "agent_id": "agent-rikku",
-    "base_revision": "a21b7b24ad5290d92c4139a7071900a54e387450",
+    "base_revision": "f471caa1662b43084b104d74961253c9ef3fca01",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": null,
-    "claimed_at": "2026-09-06T03:16:35.520Z",
-    "released_at": "2026-09-06T03:17:56.066Z",
-    "release_reason": [
-      "Corrected candidate and fresh seal ready for re-review"
-    ]
+    "claimed_at": "2026-09-06T03:22:32.517Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -103,6 +100,43 @@
       "release_reason": [
         "Corrected candidate and fresh seal ready for re-review"
       ]
+    },
+    {
+      "id": "claim-20260906031816-c6a458ab",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "1263bfc676207f123b49ec175d79748dd52de940",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T03:18:16.812Z",
+      "released_at": "2026-09-06T03:18:32.242Z",
+      "release_reason": [
+        "Corrected exact candidate ready for fresh readiness review"
+      ]
+    },
+    {
+      "id": "claim-20260906031833-003348e8",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "f471caa1662b43084b104d74961253c9ef3fca01",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T03:18:33.705Z",
+      "released_at": "2026-09-06T03:22:32.227Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260906032232-dc736e93",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "f471caa1662b43084b104d74961253c9ef3fca01",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T03:22:32.517Z",
+      "released_at": null
     }
   ],
   "gate_evidence": {
@@ -128,7 +162,9 @@
   "evidence": [
     ".ai-org/artifacts/WI-0195/design.md",
     ".ai-org/artifacts/WI-0195/handoff-001-developer-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0195/runner.test.mjs"
+    ".ai-org/artifacts/WI-0195/runner.test.mjs",
+    ".ai-org/artifacts/WI-0195/handoff-002-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0195/focused-test-2.md"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -140,6 +176,14 @@
       "input_revision": "a21b7b24ad5290d92c4139a7071900a54e387450",
       "artifact": ".ai-org/artifacts/WI-0195/handoff-001-developer-to-quality_evaluator.md",
       "created_at": "2026-09-06T03:11:41.379Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "f471caa1662b43084b104d74961253c9ef3fca01",
+      "artifact": ".ai-org/artifacts/WI-0195/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T03:18:31.959Z"
     }
   ],
   "rework_history": [
@@ -178,6 +222,44 @@
       },
       "handoff_refs": [
         ".ai-org/artifacts/WI-0195/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    },
+    {
+      "sequence": 2,
+      "returned_at": "2026-09-06T03:22:32.227Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260906031833-003348e8",
+      "rejected_revision": "f471caa1662b43084b104d74961253c9ef3fca01",
+      "reason": [
+        "Persisted structured answer lacks size cap and local path redaction"
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0195/readiness-review-2.md"
+      ],
+      "scope_digest": "fc972931f5dcec1fbe63e8f229ebd29e05092a11c4a76a8a1744ab957b2ce5d4",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review",
+        "profile_eligibility"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0195/handoff-002-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0195/focused-test-2.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "f471caa1662b43084b104d74961253c9ef3fca01"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0195/handoff-001-developer-to-quality_evaluator.md",
+        ".ai-org/artifacts/WI-0195/handoff-002-developer-to-quality_evaluator.md"
       ]
     }
   ]

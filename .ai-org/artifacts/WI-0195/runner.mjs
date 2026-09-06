@@ -30,6 +30,16 @@ export function approvalCheck(a,seal){
  demand(a.approved_by==='human'&&a.authorization_source==='explicit-user-message'&&Date.parse(a.expires_at)>Date.now(),'approval-provenance');
  demand(typeof a.evidence_ref==='string'&&/^[a-f0-9]{64}$/.test(a.evidence_sha256??''),'approval-evidence');
 }
+export function sanitizeResult(result,fixture){
+ const redact=value=>String(value).replaceAll(fixture.target,'<fixture>').replaceAll(fixture.source,'<source>');
+ const safe={...result,messages:(result.messages??[]).slice(-64).map(message=>({...message,text:redact(message.text).slice(0,16384)}))};
+ if(result.answer&&typeof result.answer==='object'){
+  const serialized=redact(JSON.stringify(result.answer));
+  if(Buffer.byteLength(serialized)>32768){safe.answer=null;safe.status='stopped';safe.stop_reason??='answer-metadata-cap';safe.answer_retention='rejected-over-limit';}
+  else {safe.answer=JSON.parse(serialized);safe.answer_retention='bounded-redacted';}
+ }else safe.answer=null;
+ return safe;
+}
 export async function prepare(){
  demand(sourceCheck().protected_equal,'source-arm-drift');const fixture=await prepareSources(),contract=await providerContract(),cases=[];
  for(const c of protocol.cases)for(const arm of c.order){const item=await prepareCase(fixture.lab,arm,c.id);cases.push({id:c.id,arm,prompt:item.prompt,actor:item.actor,initial:await snapshot(item.target),request_sha256:sha(requests(item,protocol))});}
@@ -54,7 +64,7 @@ export async function execute(lab,approvalPath,reviewPath){
  try{for(const c of seal.cases){
   const f={...c,target:path.join(lab,`${c.id}-${c.arm}`),source:path.join(lab,c.arm)};if(Date.now()>=deadline){stopReason='aggregate-wall-limit';break;}
   demand(sha(await snapshot(f.source,{source:true}))===sha(seal.source_snapshots[c.arm]),'archived-source-drift');demand(sha(await snapshot(f.target))===sha(c.initial),'initial-fixture-drift');demand(sha(requests(f,protocol))===c.request_sha256,'request-drift');
-  const result=await runSubject({fixture:f,protocol,contract:seal.contract,deadline,aggregateBefore:used});results.push(result);await write(path.join(lab,`subject-${results.length}.json`),result);
+  const result=sanitizeResult(await runSubject({fixture:f,protocol,contract:seal.contract,deadline,aggregateBefore:used}),f);results.push(result);await write(path.join(lab,`subject-${results.length}.json`),result);
   used+=(result.trace?.actors??[]).reduce((n,a)=>n+(a.usage?.operationalTokens??0),0);const current=await snapshot(f.target);result.changed_paths=[...new Set([...Object.keys(c.initial),...Object.keys(current)])].filter(p=>c.initial[p]!==current[p]);result.out_of_scope_paths=changedOutsideScope(c.id,result.changed_paths);
   result.case_grade=await gradeCase(f,result,{execute:cmd=>sandboxCommand(f,cmd,{readonly:true})});result.quality_status=result.case_grade.status==='unmeasurable'?'unmeasurable':result.case_grade.status==='failed'?'failed-automatic-check':'human-trace-review-required';await write(path.join(lab,`result-${results.length}.json`),result);
   const reason=stopReasonFor(result);if(reason){stopReason=reason;break;}
