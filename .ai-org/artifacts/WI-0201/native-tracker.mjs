@@ -81,7 +81,7 @@ export class NativeTracker {
   confirmActivityChild(child) {
     demand(valid(child) && this.activityHints.has(child), 'activity-candidate-missing');
     if (this.children.has(child)) return false;
-    return this._bindChild(child, 'activity-metadata');
+    return this._bindChild(child, this.spawnConfirmedChildren.has(child) ? 'spawn-metadata' : 'activity-metadata');
   }
 
   accept({ method, params } = {}) {
@@ -174,11 +174,11 @@ export class NativeTracker {
         demand(item.model === this.model && item.reasoningEffort === this.effort, 'child-route-unconfirmed');
         const child = item.receiverThreadIds[0];
         demand(valid(child) && !this.spawnConfirmedChildren.has(child), 'child-limit-or-duplicate');
-        if (this.children.has(child)) {
-          demand(this.actors.get(child)?.acquisitionBasis === 'activity-metadata', 'child-limit-or-duplicate');
-        } else {
-          this._bindChild(child, 'spawn-completion');
-        }
+        // A completed spawn confirms requested routing, not live configuration.
+        // Both native event dialects only nominate a candidate. The executor
+        // alone confirms metadata before attributing buffered child evidence.
+        this.activityHints.add(child);
+        demand(this.activityHints.size <= this.maxChildren, 'child-activity-limit');
         this.spawnConfirmedChildren.add(child);
       } else {
         demand(['wait', 'listAgents', 'closeAgent'].includes(item.tool), 'extra-child-turn');

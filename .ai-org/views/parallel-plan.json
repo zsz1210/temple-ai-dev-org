@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T06:10:56.925Z",
-  "source_fingerprint": "c9f3db9760c3110e82f74841b6c75b0f1c54a5cb3348b1faeac6347a69ef25b0",
+  "generated_at": "2026-09-06T06:25:49.881Z",
+  "source_fingerprint": "33ac72f997f8afe291b3b6b678f68e9039d0517cd4a25266109b76ce8757f1aa",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -12,14 +12,16 @@
       "WI-0190",
       "WI-0191",
       "WI-0192",
-      "WI-0193"
+      "WI-0193",
+      "WI-0201",
+      "WI-0202"
     ]
   },
   "max_workers": 4,
   "summary": {
-    "selected": 7,
-    "dispatchable": 1,
-    "active": 0,
+    "selected": 9,
+    "dispatchable": 2,
+    "active": 1,
     "sequential": 3,
     "blocked": 3,
     "waves": 1
@@ -60,6 +62,33 @@
           "task_creation_performed": false,
           "claim_performed": false,
           "external_action_performed": false
+        },
+        {
+          "work_item_id": "WI-0201",
+          "title": "Repair complete native helper observation lifecycle",
+          "position_id": "developer",
+          "agent_id": "agent-rikku",
+          "agent_name": "Rikku",
+          "suggested_task_title": "WI-0201 · Repair complete native help… · Developer (Rikku)",
+          "base_revision": "ac618c029322e94a1444a14b9925124fa7a741f7",
+          "affected_paths": [
+            ".ai-org/artifacts/WI-0201"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "build",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "000c4c2816bfc08f981d20109bf7c5d89317ac731e9f7860d43fb2d33a743390",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0201 --position developer --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
         }
       ],
       "join_gate": {
@@ -75,7 +104,22 @@
       }
     }
   ],
-  "active": [],
+  "active": [
+    {
+      "work_item_id": "WI-0202",
+      "title": "End-to-end check of native helper lifecycle repair",
+      "disposition": "active",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "integration_owner_agent_id": null,
+      "reasons": [],
+      "claim_id": "claim-20260906062318-6a533e4e",
+      "principal_id": "human",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "base_revision": "ac618c029322e94a1444a14b9925124fa7a741f7"
+    }
+  ],
   "sequential": [
     {
       "work_item_id": "WI-0172",
@@ -172,6 +216,18 @@
         {
           "left_path": ".ai-org/artifacts/WI-0191",
           "right_path": ".ai-org/artifacts/WI-0191/live-report.md"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0201",
+      "right_work_item_id": "WI-0202",
+      "paths": [
+        {
+          "left_path": ".ai-org/artifacts/WI-0201",
+          "right_path": ".ai-org/artifacts/WI-0201/live-approval.md"
         }
       ],
       "resolution": "separate-waves"

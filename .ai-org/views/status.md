@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 2 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 201 total, 8 active
+- Work items: 202 total, 9 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 62 registered, 0 reserved, 0 active
+- Runtime workers: 63 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 2
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -39,9 +39,9 @@
 - Valid: yes
 - Fresh: no
 - Safe waves: 1
-- Dispatchable Work Items: 1
-- Active / sequential / blocked: 0 / 3 / 3
-- Next wave: WI-0190
+- Dispatchable Work Items: 2
+- Active / sequential / blocked: 1 / 3 / 3
+- Next wave: WI-0190, WI-0201
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -248,7 +248,8 @@
 | WI-0198 | Execute the approved native child compatibility probe | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `976af541` | 0 | 11 | 0 |
 | WI-0199 | Repair ephemeral helper dispatch | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c64371d0` | 0 | 6 | 0 |
 | WI-0200 | Validate repaired ephemeral helper dispatch live | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `be3f649c` | 0 | 7 | 0 |
-| WI-0201 | Repair complete native helper observation lifecycle | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260906061555-86651c7d | `—` | 0 | 3 | 0 |
+| WI-0201 | Repair complete native helper observation lifecycle | build | Developer | Rikku | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260906062550-d10796cd | `—` | 0 | 6 | 0 |
+| WI-0202 | End-to-end check of native helper lifecycle repair | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260906062318-6a533e4e | `—` | 0 | 3 | 0 |
 
 ## Codex task registry
 
@@ -333,6 +334,7 @@
 | worker-20260906054219-4e7b014f | internal-subagent | WI-0198 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0198_recheck | `4caeebc1` | 0 |
 | worker-20260906060207-a3fb8930 | internal-subagent | WI-0199 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0199_readiness | `fd932c2f` | 0 |
 | worker-20260906060749-f73290fa | internal-subagent | WI-0200 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0200_result_review | `be3f649c` | 0 |
+| worker-20260906062143-138a5104 | internal-subagent | WI-0201 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0201_lifecycle_review | `ac618c02` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -369,7 +371,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 63
+- Team-visible Work Items: 64
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -442,14 +444,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-06T06:15:55.634Z | work_item_claimed | WI-0201 | human |
-| 2026-09-06T06:15:55.330Z | work_item_transitioned | WI-0201 | agent-mog |
-| 2026-09-06T06:13:43.874Z | work_item_created | WI-0201 | agent-mog |
-| 2026-09-06T06:10:56.391Z | work_item_closed | WI-0200 | agent-lulu |
-| 2026-09-06T06:10:56.391Z | work_item_transitioned | WI-0200 | agent-lulu |
-| 2026-09-06T06:10:56.090Z | runtime_worker_status_changed | WI-0200 | agent-lulu |
-| 2026-09-06T06:08:15.284Z | runtime_worker_attached | WI-0200 | agent-lulu |
-| 2026-09-06T06:07:49.773Z | runtime_worker_reserved | WI-0200 | human |
+| 2026-09-06T06:25:50.293Z | work_item_claimed | WI-0201 | human |
+| 2026-09-06T06:25:49.450Z | work_item_coordination_configured | WI-0201 | agent-rikku |
+| 2026-09-06T06:25:26.130Z | work_item_reworked | WI-0201 | agent-lulu |
+| 2026-09-06T06:25:25.848Z | runtime_worker_status_changed | WI-0201 | agent-lulu |
+| 2026-09-06T06:23:18.079Z | work_item_claimed | WI-0202 | human |
+| 2026-09-06T06:23:17.741Z | work_item_transitioned | WI-0202 | agent-mog |
+| 2026-09-06T06:22:19.176Z | work_item_created | WI-0202 | agent-mog |
+| 2026-09-06T06:22:18.343Z | runtime_worker_attached | WI-0201 | agent-lulu |
 
 ## Assignments
 

@@ -60,7 +60,7 @@ export async function runSubject({fixture:f,protocol:p,contract,deadline,aggrega
    if(bindFromActivity)tracker.confirmActivityChild(child);
    flushPendingEvidence();maybeDone();
   }).catch(error=>{
-   const named=/^child-metadata-/.test(error?.message??'');
+   const named=/^child-metadata-/.test(error?.message??'')||EVENT_STOP_CODES.has(error?.message);
    const reason=String(error?.providerReason??'');
    native_errors.push({operation:'thread/read',rpc_code:Number.isInteger(error?.rpcCode)?error.rpcCode:null,
     category:named?error.message:/no rollout found/.test(reason)?'rollout-unavailable':/not found|not loaded|no thread/.test(reason)?'thread-unavailable':/timed out/.test(error?.message??'')?'timeout':'metadata-request-failed',

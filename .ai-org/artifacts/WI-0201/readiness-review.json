@@ -1,0 +1,17 @@
+{
+  "schema_version": "temple.native-child-probe-review/v1",
+  "status": "blocked",
+  "review_kind": "independent-readiness",
+  "candidate_revision": "ac618c029322e94a1444a14b9925124fa7a741f7",
+  "protocol_sha256": "8ffe3290217e518eff307fd5e42026bf060ae3f2956df1d9d0436b152883e21a",
+  "developer_agent_id": "agent-rikku",
+  "reviewer_agent_id": "agent-lulu",
+  "reviewer_runtime_id": "/root/wi0201_lifecycle_review",
+  "evidence_ref": ".ai-org/artifacts/WI-0201/readiness-review.md",
+  "evidence_sha256": "20a88acef9998b4cf252e5820bc42d2e88136bd6982c2160fda1a0fa54a5c5a1",
+  "blockers": ["spawn-completion-bypasses-metadata-validation"],
+  "targeted_tests": {"passed": 28, "failed": 0},
+  "independent_counterexample": {"status": "observed-complete", "metadata_reads": 0, "cleanup_status": "observed-terminal"},
+  "api_probe": {"status": "passed", "model_calls": 0},
+  "live_compatibility": "not-tested"
+}

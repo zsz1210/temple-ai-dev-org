@@ -98,6 +98,7 @@ async function replay(events, { resume = {}, interruptFailure = false, lateEvent
       if (method === 'config/read') return { config: { memories: { use_memories: false, generate_memories: false }, features: { memories: false } } };
       if (method === 'thread/start') return { thread: { id: 'p' }, model: protocol.model, reasoningEffort: protocol.effort };
       if (method === 'thread/read') {
+        if(resume.delay)await new Promise(resolve=>setTimeout(resolve,resume.delay));
         if (resume.reject) throw Error('synthetic-resume-failure');
         return {
           thread: { id: resume.id ?? params.threadId,
@@ -260,7 +261,7 @@ test('executor rejects duplicate spawn confirmation with its fixed public stop c
     event('item/completed', 'p', duplicate)
   ]);
   assert.equal(result.stop_reason, 'child-limit-or-duplicate');
-  assert.equal(result.trace.observed_children, 1);
+  assert.equal(result.trace.observed_children, 0);
 });
 
 test('executor rejects inconsistent and regressing usage with fixed public stop codes', async () => {
@@ -347,4 +348,39 @@ test('a failed terminal never becomes successful completion',async()=>{
  const {result}=await replay(events);
  assert.equal(result.status,'stopped');
  assert.equal(result.stop_reason,'actor-terminal-failure');
+});
+
+function spawnOnlyTrace(beforeChild = true) {
+ const trace=completeTrace().filter(e=>e.params.item?.type!=='subAgentActivity');
+ trace.splice(beforeChild?0:3,0,event('item/started','p',{...spawn,status:'inProgress'}),event('item/completed','p',spawn));
+ return trace;
+}
+for(const beforeChild of[true,false]) {
+ test(`spawn-only discovery ${beforeChild?'before':'after'} child-start requires metadata`,async()=>{
+  const {result,calls}=await replay(spawnOnlyTrace(beforeChild),{resume:{delay:700}});
+  assert.equal(result.status,'observed-complete');
+  assert.equal(calls.filter(c=>c.method==='thread/read').length,1);
+  assert.equal(result.trace.actors[1].acquisition_basis,'spawn-metadata');
+ });
+ for(const resume of[{parent:'foreign'},{ephemeral:false},{cwd:'/'},{reject:true}]) {
+  test(`spawn-only metadata ${JSON.stringify(resume)} cannot attribute a child (${beforeChild})`,async()=>{
+   const {result}=await replay(spawnOnlyTrace(beforeChild),{resume:{...resume,delay:50}});
+   assert.equal(result.status,'stopped');
+   assert.equal(result.trace.observed_children,0);
+   assert.equal(result.messages.some(m=>m.role==='helper'),false);
+   assert.equal(result.cleanup.status,'unconfirmed');
+  });
+ }
+}
+
+test('spawn completion only proposes identity and cannot attribute early child events',()=>{
+ const tracker=makeTracker();
+ tracker.event(event('item/started','p',{...spawn,status:'inProgress'}));
+ tracker.event(event('item/completed','p',spawn));
+ tracker.event(event('turn/started','c',turn('c')));
+ tracker.event(usage('c'));
+ assert.equal(tracker.children.size,0);
+ assert.equal(tracker.report().actors.length,1);
+ tracker.confirmActivityChild('c');
+ assert.equal(tracker.report().actors[1].acquisition_basis,'spawn-metadata');
 });
