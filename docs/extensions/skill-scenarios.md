@@ -1,5 +1,23 @@
 # Skill scenario matrix
 
+## Proportionate delivery scenarios
+
+These are static contract cases, not observed model behavior or Independent QA.
+
+| Request or condition | Expected route and stopping point |
+| --- | --- |
+| Inspect the status of an existing item | Read-only inspection; no lifecycle mutation |
+| Implement one sequential bounded change | Existing claim and workflow; no parallel plan solely for sequential execution |
+| Find callers of an API using an authorized native helper | Read-only support; return source references and uncertainties to parent, no child Work Item solely for assistance |
+| Helper discovers a required edit | Stop support and return findings; obtain authority and use governed delivery before editing |
+| Helper is asked to certify acceptance or Independent QA | Not support; use assigned formal verification responsibility and existing governance |
+| Inspection requires a shared simulator or writing a report | Not support; apply resource/write authority and governed route |
+| Helper cannot maintain read-only access | Do not dispatch; inspect locally only within authority |
+| Already attached worker is called a helper | Retain its claim, resource, handoff and cleanup obligations |
+| Developer completes a successful composed finish | Inspect mutation and diagnostics; stop at next owner, no duplicate checks for unchanged verified scope |
+| Finish diagnostics fail or receipt is historical | Preserve unresolved failure or historical status; no fresh acceptance claim |
+| Context or authority changed | Reacquire required sources and invalidate stale evidence; do not reuse an old digest as permission |
+
 This matrix is the routing, authority, and completion contract for repository Skills. The machine-readable fixture in `test/fixtures/skill-scenarios.json` prevents the contract from drifting away from the canonical Skill registry.
 
 | Scenario | Expected Skill | Mode | Repository authority | Completion boundary |

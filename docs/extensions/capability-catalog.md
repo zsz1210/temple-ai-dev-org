@@ -1,5 +1,9 @@
 # Capability catalog
 
+## Proportionate work update
+
+WI-0190 revises the existing core `temple-work` source with a bounded read-only-support reference and explicit composed-finish diagnostic reuse. This is original Temple instruction text, not copied external material or a new Skill/promotion. Adoption is source-candidate only until qualification and release. Static scenarios and installation checks do not prove model adherence, Independent QA or Token savings. Existing projects retain managed ownership and receive changes through upgrade. See [ADR-0059](../adr/0059-proportionate-work-routes.md).
+
 Temple keeps installed Skills deliberately small. A Skill belongs in `project-overlay/` only when most product repositories need it and its trigger is distinct. Other useful capabilities remain here with source, version, license, intended Position, and an explicit adoption state.
 
 The Matt Pocock catalog was reviewed at commit `6654f6b60cd9d5be8b54c6fafe44346dabeb3b76` under the MIT License. Temple does not vendor or invoke that repository at runtime.

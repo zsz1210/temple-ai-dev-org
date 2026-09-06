@@ -1,5 +1,7 @@
 # Parallel orchestration
 
+For bounded informational assistance, use the installed `temple-work` read-only-support reference before delegation. Its parent-owned, read-only helper is not a governed delivery worker and cannot certify acceptance. Ordinary sequential delivery does not need a parallel plan. This document governs delivery, formal verification and resource-owning workers; its preparation and lifecycle guards remain unchanged. See [ADR-0059](../adr/0059-proportionate-work-routes.md).
+
 Parallel work is useful only when the organization can explain why the work is independent, who may perform it, what must be joined, and when the plan is no longer current. Temple therefore separates three concerns:
 
 1. the Engineering Manager decomposes product work into bounded canonical Work Items;
