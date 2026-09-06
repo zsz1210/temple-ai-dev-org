@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-06T05:25:27.511Z",
-  "updated_at": "2026-09-06T05:36:10.967Z",
+  "updated_at": "2026-09-06T05:40:39.584Z",
   "scope": [
     "Execute exactly one live support-read arm from the independently reviewed WI-0197 seal, retain only bounded redacted evidence, and stop without retry or fallback."
   ],
@@ -47,7 +47,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "35651d5",
+  "base_revision": "421ba884d157a78b8f5c6c76075b203cc62f1e02",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -55,14 +55,14 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906053610-c80128f2",
+    "id": "claim-20260906054039-41c74e97",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-rikku",
-    "base_revision": "35651d5",
+    "base_revision": "421ba884d157a78b8f5c6c76075b203cc62f1e02",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
-    "claimed_at": "2026-09-06T05:36:10.967Z",
+    "claimed_at": "2026-09-06T05:40:39.584Z",
     "released_at": null
   },
   "claims": [
@@ -94,13 +94,27 @@
     },
     {
       "id": "claim-20260906053610-c80128f2",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "35651d5",
       "branch": "codex/wi-0191-proportionate-evaluation",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
       "claimed_at": "2026-09-06T05:36:10.967Z",
+      "released_at": "2026-09-06T05:40:15.116Z",
+      "release_reason": [
+        "Corrected candidate handed off for fresh independent review."
+      ]
+    },
+    {
+      "id": "claim-20260906054039-41c74e97",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "421ba884d157a78b8f5c6c76075b203cc62f1e02",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+      "claimed_at": "2026-09-06T05:40:39.584Z",
       "released_at": null
     }
   ],

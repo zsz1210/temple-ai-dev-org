@@ -245,7 +245,7 @@
 | WI-0195 | Complete repaired native support comparison | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `879ac69f` | 0 | 9 | 0 |
 | WI-0196 | Implement two-phase native child acquisition | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fd53d7de` | 0 | 7 | 0 |
 | WI-0197 | Prepare a minimal native child compatibility probe | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `963aa834` | 0 | 6 | 0 |
-| WI-0198 | Execute the approved native child compatibility probe | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260906053610-c80128f2 | `—` | 0 | 7 | 0 |
+| WI-0198 | Execute the approved native child compatibility probe | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260906054039-41c74e97 | `—` | 0 | 7 | 0 |
 
 ## Codex task registry
 
@@ -436,14 +436,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-06T05:40:39.584Z | work_item_claimed | WI-0198 | human |
+| 2026-09-06T05:40:15.116Z | work_item_claim_released | WI-0198 | human |
 | 2026-09-06T05:36:10.967Z | work_item_claimed | WI-0198 | human |
 | 2026-09-06T05:35:58.665Z | work_item_reworked | WI-0198 | agent-lulu |
 | 2026-09-06T05:35:58.400Z | runtime_worker_status_changed | WI-0198 | agent-lulu |
 | 2026-09-06T05:30:49.102Z | runtime_worker_status_changed | WI-0198 | agent-lulu |
 | 2026-09-06T05:30:48.847Z | runtime_worker_attached | WI-0198 | agent-lulu |
 | 2026-09-06T05:30:24.564Z | runtime_worker_reserved | WI-0198 | human |
-| 2026-09-06T05:30:24.577Z | work_item_claimed | WI-0198 | human |
-| 2026-09-06T05:30:23.632Z | work_item_coordination_configured | WI-0198 | agent-lulu |
 
 ## Assignments
 
