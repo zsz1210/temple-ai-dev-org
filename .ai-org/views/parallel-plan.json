@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T15:22:22.360Z",
-  "source_fingerprint": "bbaa3fe1f282c490a4b9e05a87479c426ceeb87541d5531a8d101fdf8fdc9b67",
+  "generated_at": "2026-09-06T15:28:31.288Z",
+  "source_fingerprint": "cc08d8241ea72a5047e6fbfd9d5064e3003c7fa1f48f36a3444f2b252709a53c",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0214",
@@ -16,9 +16,9 @@
   "max_workers": null,
   "summary": {
     "selected": 5,
-    "dispatchable": 2,
+    "dispatchable": 3,
     "active": 0,
-    "sequential": 1,
+    "sequential": 0,
     "blocked": 2,
     "waves": 1
   },
@@ -85,6 +85,34 @@
           "task_creation_performed": false,
           "claim_performed": false,
           "external_action_performed": false
+        },
+        {
+          "work_item_id": "WI-0218",
+          "title": "Explain rejected command argument shapes without retaining values",
+          "position_id": "quality_evaluator",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0218 · Explain … · Quality & Evaluation Engineer (Lulu)",
+          "base_revision": "3e2b22102173f8d68452a7929ab19afc6e56ec37",
+          "affected_paths": [
+            "scripts/delivery-command-policy.mjs",
+            "test/delivery-command-policy.test.mjs"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "eval",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "b3857796cbeac6c9fe97d3e88d90e8a73052084984ef74cc5d9c30d9dc6b779d",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0218 --position quality_evaluator --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
         }
       ],
       "join_gate": {
@@ -101,19 +129,7 @@
     }
   ],
   "active": [],
-  "sequential": [
-    {
-      "work_item_id": "WI-0218",
-      "title": "Explain rejected command argument shapes without retaining values",
-      "disposition": "sequential",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "integration_owner_assigned"
-      ]
-    }
-  ],
+  "sequential": [],
   "blocked": [
     {
       "work_item_id": "WI-0215",
