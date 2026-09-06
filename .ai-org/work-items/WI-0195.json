@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-06T03:06:08.740Z",
-  "updated_at": "2026-09-06T03:16:35.520Z",
+  "updated_at": "2026-09-06T03:17:56.514Z",
   "scope": [
     "Run a fresh sealed four-arm Terra medium support comparison using the reviewed WI-0194 recorder; preserve WI-0191 through WI-0194 and stop on the first mandatory failure"
   ],
@@ -42,7 +42,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "a21b7b24ad5290d92c4139a7071900a54e387450",
+  "base_revision": "1263bfc676207f123b49ec175d79748dd52de940",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -51,14 +51,17 @@
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260906031635-380ba076",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "a21b7b24ad5290d92c4139a7071900a54e387450",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": null,
     "claimed_at": "2026-09-06T03:16:35.520Z",
-    "released_at": null
+    "released_at": "2026-09-06T03:17:56.066Z",
+    "release_reason": [
+      "Corrected candidate and fresh seal ready for re-review"
+    ]
   },
   "claims": [
     {
@@ -89,14 +92,17 @@
     },
     {
       "id": "claim-20260906031635-380ba076",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "a21b7b24ad5290d92c4139a7071900a54e387450",
       "branch": "codex/wi-0191-proportionate-evaluation",
       "worktree": null,
       "claimed_at": "2026-09-06T03:16:35.520Z",
-      "released_at": null
+      "released_at": "2026-09-06T03:17:56.066Z",
+      "release_reason": [
+        "Corrected candidate and fresh seal ready for re-review"
+      ]
     }
   ],
   "gate_evidence": {
