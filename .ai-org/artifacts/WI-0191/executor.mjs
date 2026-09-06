@@ -4,6 +4,12 @@ import {representativeAppServerArguments} from '../../../scripts/run-representat
 import {subprocessEnvironment,deliverySandboxPolicy} from '../../../scripts/delivery-control-pair.mjs';
 import {wave5ThreadIsolation} from '../../../src/app-server-protocol-replay.mjs';
 import {NativeTracker} from './native-tracker.mjs';
+import {realpathSync} from 'node:fs';
+export function observedProductTest(item,root){
+ const literal='node --test app.test.mjs added.test.mjs';
+ const accepted=[literal,`/bin/zsh -lc '${literal}'`,`/bin/zsh -lc "${literal}"`];
+ try{return accepted.includes(String(item.command??'').trim())&&realpathSync(item.cwd)===realpathSync(root);}catch{return false;}
+}
 export const sha=x=>createHash('sha256').update(typeof x==='string'||Buffer.isBuffer(x)?x:JSON.stringify(x)).digest('hex');
 const demand=(v,m)=>{if(!v)throw Error(m);};
 export const outputSchema={type:'object',additionalProperties:false,required:['decision','summary','unresolved','next_position','references'],properties:{decision:{type:'string',enum:['handed-off','blocked','reported']},summary:{type:'string'},unresolved:{type:'array',items:{type:'string'}},next_position:{type:['string','null']},references:{type:'array',items:{type:'string'}}}};
@@ -51,8 +57,8 @@ export async function runSubject({fixture:f,protocol:p,contract,deadline,aggrega
    }
    if(v?.item?.type==='commandExecution'&&method==='item/completed'&&tracker.actors.has(v.threadId)){
     const command=String(v.item.command??'');const operations=['context','parallel','worker','handoff','doctor','status','finish','claim','release'].filter(x=>new RegExp(`\\b${x}\\b`).test(command));
-    const tests=/\bnode\s+--test\s+app\.test\.mjs\s+added\.test\.mjs(?:\s|$)/.test(command);
-    observations.push({thread_id_sha256:sha(v.threadId),thread:v.threadId===tid?'parent':'helper',command_sha256:sha(command),exit_code:v.item.exitCode,output_bytes:Buffer.byteLength(v.item.aggregatedOutput??''),lexical_operation_hints:operations,product_test_command_hint:tests,classification_authority:'lexical-hint-not-proof-of-execution-or-scope'});
+    const tests=observedProductTest(v.item,f.target);
+    observations.push({thread_id_sha256:sha(v.threadId),thread:v.threadId===tid?'parent':'helper',command_sha256:sha(command),exit_code:v.item.exitCode,output_bytes:Buffer.byteLength(v.item.aggregatedOutput??''),lexical_operation_hints:operations,product_test_invocation:tests?'exact-literal-at-fixture-root':null,classification_authority:'operation-hints-lexical-test-invocation-exact'});
    }
    const actors=tracker.report().actors;const conservative=actors.reduce((n,a)=>n+(a.usage?.operationalTokens??0),0);
    if(actors.some(a=>(a.usage?.operationalTokens??0)>p.proposed_limits.per_actor_operational_tokens)||aggregateBefore+conservative>p.proposed_limits.aggregate_operational_tokens)fail('token-limit');

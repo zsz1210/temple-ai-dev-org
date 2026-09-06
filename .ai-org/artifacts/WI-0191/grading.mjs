@@ -16,7 +16,7 @@ export async function gradeCase(f,result,{execute}){
   require(await fs.access(path.join(f.target,'added.test.mjs')).then(()=>true,()=>false),'added-tests-missing');
   const tests=await execute([process.execPath,'--test','app.test.mjs','added.test.mjs']);facts.added_test_exit=tests.exitCode;
   require(tests.exitCode===0,'submitted-tests-failed');
-  require((result.observations??[]).some(x=>x.thread==='parent'&&x.product_test_command_hint&&x.exit_code===0),'subject-test-command-unobserved');
+  require((result.observations??[]).some(x=>x.thread==='parent'&&x.product_test_invocation==='exact-literal-at-fixture-root'&&x.exit_code===0),'subject-test-command-unobserved');
   require(item.state==='test'&&item.owner_position==='quality_evaluator','developer-handoff-missing');
   require(a?.decision==='handed-off'&&a?.next_position==='quality_evaluator','handoff-answer-mismatch');
  }else if(f.id==='entry-authority'){

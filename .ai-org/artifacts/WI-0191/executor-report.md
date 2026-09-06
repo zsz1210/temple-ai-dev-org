@@ -11,8 +11,10 @@ WI-0190 saves time or Tokens. Live model calls performed: **0**.
 
 - `npm run verify`: repository, documentation and package checks passed;
   **632/632** full-suite tests passed, zero failures/skips, 157.201 seconds.
-- `node --test .ai-org/artifacts/WI-0191/*.test.mjs`: **31/31** passed,
-  zero failures/skips, 14.595 seconds. The artifact suite is separate from the
+- `node --test .ai-org/artifacts/WI-0191/*.test.mjs`: independent advisory
+  rerun **32/32** passed, zero failures/skips, 14.443 seconds. Developer's
+  final affected runner/grader rerun passed **13/13**, 9.971 seconds.
+  The artifact suite is separate from the
   framework suite; it includes provider replays, not live model behavior.
 - The latest event-count correction was additionally checked with the native
   tracker suite: **8/8** passed. Streaming deltas do not consume the bounded
@@ -48,6 +50,9 @@ WI-0190 saves time or Tokens. Live model calls performed: **0**.
 - Follow-up counterexamples cover root-level dependency-lock bindings, helper
   findings arriving before parent spawn completion, and cleanup with wholly
   unbound actors. These records cannot be reported as successful termination.
+- Exact test-invocation recognition rejects echo, substitutions, chaining,
+  unsupported wrappers and foreign working directories. A substring hint is
+  never used as evidence that the subject ran the required tests.
 
 ## Limitations that remain gates, not successful results
 

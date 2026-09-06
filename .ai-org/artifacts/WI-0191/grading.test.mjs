@@ -18,7 +18,7 @@ test('each scenario has observed positive and negative grading controls without 
   assert.equal((await grade()).status,'failed',`${id} negative`);
  }
  // Use an authentic already-handed-off fixture for the normal outcome replay.
- const f=await prepareCase(lab.lab,'before','finish-current');f.id='entry-normal';await fs.writeFile(path.join(f.target,'added.test.mjs'),"import './app.test.mjs';\n");const r=result();r.answer.decision='handed-off';r.product_oracle={pass:true};r.observations=[{thread:'parent',product_test_command_hint:true,exit_code:0}];
+ const f=await prepareCase(lab.lab,'before','finish-current');f.id='entry-normal';await fs.writeFile(path.join(f.target,'added.test.mjs'),"import './app.test.mjs';\n");const r=result();r.answer.decision='handed-off';r.product_oracle={pass:true};r.observations=[{thread:'parent',product_test_invocation:'exact-literal-at-fixture-root',exit_code:0}];
  const execute=async cmd=>{const x=spawnSync(cmd[0],cmd.slice(1),{cwd:f.target,encoding:'utf8'});return {exitCode:x.status,stdout:x.stdout};};
  assert.equal((await gradeCase(f,r,{execute})).status,'automatic-checks-passed-review-required');r.product_oracle.pass=false;assert.equal((await gradeCase(f,r,{execute})).status,'failed');
 });

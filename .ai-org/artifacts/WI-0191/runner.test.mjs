@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs/promises';import os from 'node:os';import path from 'node:path';
-import {approvalCheck,snapshot,changedOutsideScope,bindings} from './runner.mjs';import {protocol,root} from './preflight.mjs';import {requests,sha,runSubject} from './executor.mjs';import {productOracle} from './fixture-kit.mjs';
+import {approvalCheck,snapshot,changedOutsideScope,bindings} from './runner.mjs';import {protocol,root} from './preflight.mjs';import {requests,sha,runSubject,observedProductTest} from './executor.mjs';import {productOracle} from './fixture-kit.mjs';
 const seal={protocol};
 test('live approval binds exact seal, route, limits, funding and expiry',()=>{
  const good={schema_version:'temple.paired-evaluation-approval/v1',approved:true,approved_by:'human',authorization_source:'explicit-user-message',evidence_ref:'synthetic-only.md',evidence_sha256:'a'.repeat(64),protocol_sha256:sha(seal),model:protocol.model,effort:protocol.effort,limits:protocol.proposed_limits,included_quota_only:true,purchase_credits:false,auto_topup:false,reset:false,expires_at:'2999-01-01T00:00:00Z'};
@@ -58,6 +58,12 @@ test('unauthorized canonical writes and nested dependency files remain visible',
 test('every frozen binding is an actual repository-relative candidate path',async()=>{
  const b=await bindings();assert(b['package-lock.json']);assert(!b['.ai-org/artifacts/WI-0191/package-lock.json']);
  for(const [name,digest] of Object.entries(b))assert.equal(sha(await fs.readFile(path.join(root,name))),digest,name);
+});
+test('test invocation recognizer rejects echo, substitutions, chaining and foreign cwd',()=>{
+ const literal='node --test app.test.mjs added.test.mjs';
+ for(const command of [literal,`/bin/zsh -lc '${literal}'`,`/bin/zsh -lc "${literal}"`])assert(observedProductTest({command,cwd:root},root));
+ for(const command of [`echo ${literal}`,`${literal}; echo ok`,`/bin/zsh -lc 'echo ${literal}'`,`env ${literal}`,`echo "$(${literal})"`])assert(!observedProductTest({command,cwd:root},root));
+ assert(!observedProductTest({command:literal,cwd:path.dirname(root)},root));
 });
 test('early helper findings survive correlation and wholly unbound actors prevent cleanup confirmation',async t=>{
  const dir=await fs.mkdtemp(path.join(os.tmpdir(),'paired-child-order-'));t.after(()=>fs.rm(dir,{recursive:true,force:true}));

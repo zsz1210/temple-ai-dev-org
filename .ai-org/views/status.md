@@ -238,7 +238,7 @@
 | WI-0188 | Integrate opt-in Lean entry with bounded material and completion | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6346e026` | 0 | 9 | 0 |
 | WI-0189 | Compare single-worker and parallel Terra delivery | test | Quality & Evaluation Engineer | Lulu | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `90a5870d` | 0 | 6 | 1 |
 | WI-0190 | Clarify proportionate entry and stage completion | release_gate | Release Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `50ae4f50` | 0 | 5 | 0 |
-| WI-0191 | Evaluate proportionate routes with matched before-after scenarios | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260905233100-ad79e761 | `—` | 0 | 2 | 0 |
+| WI-0191 | Evaluate proportionate routes with matched before-after scenarios | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260905233100-ad79e761 | `ca8e37d2` | 0 | 4 | 1 |
 
 ## Codex task registry
 
@@ -418,6 +418,7 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-06T00:11:50.106Z | handoff_created | WI-0191 | agent-rikku |
 | 2026-09-05T23:31:00.058Z | work_item_claimed | WI-0191 | human |
 | 2026-09-05T23:30:59.784Z | work_item_transitioned | WI-0191 | agent-tidus |
 | 2026-09-05T23:30:59.526Z | work_item_transitioned | WI-0191 | agent-yuna |
@@ -425,7 +426,6 @@
 | 2026-09-05T23:27:30.615Z | work_item_claim_released | WI-0191 | human |
 | 2026-09-05T23:22:22.550Z | work_item_claimed | WI-0191 | human |
 | 2026-09-05T23:22:22.271Z | work_item_created | WI-0191 | agent-mog |
-| 2026-09-05T23:14:58.972Z | work_item_claim_released | WI-0190 | human |
 
 ## Assignments
 

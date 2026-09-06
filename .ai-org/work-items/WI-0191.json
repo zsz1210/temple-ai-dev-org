@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-05T23:22:22.271Z",
-  "updated_at": "2026-09-05T23:31:00.058Z",
+  "updated_at": "2026-09-06T00:11:50.106Z",
   "scope": [
     "Design and preflight an isolated WI-0190 before-after evaluation; preserve sealed experiments and require explicit live budget and verified native support before model execution"
   ],
@@ -102,12 +102,33 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0191/readiness.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0191/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0191/executor-report.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0191/design.md",
-    ".ai-org/artifacts/WI-0191/readiness.md"
+    ".ai-org/artifacts/WI-0191/readiness.md",
+    ".ai-org/artifacts/WI-0191/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0191/executor-report.md"
   ],
-  "unresolved": [],
-  "next_position": "quality_evaluator"
+  "unresolved": [
+    "Formal exact-candidate readiness review and explicit live budget remain required; no model results exist"
+  ],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "ca8e37d27c42b691529b088fa82692bbfeaf1438",
+      "artifact": ".ai-org/artifacts/WI-0191/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T00:11:50.106Z"
+    }
+  ],
+  "developer_candidate_revision": "ca8e37d27c42b691529b088fa82692bbfeaf1438"
 }
