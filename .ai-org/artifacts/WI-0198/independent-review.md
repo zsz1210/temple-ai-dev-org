@@ -16,7 +16,7 @@ Reviewer: Quality Evaluator `agent-lulu` (Lulu), runtime `/root/wi0198_outcome_q
 - The observed measurements are: zero children where one was expected; 46,628 ms overall and 46,528 ms subject elapsed time; 33,472 parent Operational Tokens; 129,728 parent total Tokens, including 96,256 cached input Tokens. Usage is explicitly last-observed per-thread telemetry and is not account-final cost evidence.
 - The normalized stop `native-helper-unobserved` is correctly derived from an incomplete trace with one expected child and zero observed children. It is a symptom classification, not a machine-confirmed Provider failure category.
 - Cleanup is recorded as `observed-terminal`, with zero unfinished observed actors. The final fixture snapshot reports zero changed paths and zero out-of-scope paths.
-- The sanitized result retains neither raw tool output nor hidden reasoning. It contains no raw command, aggregated command output, prompt field, fixture/source absolute path, `/Users/zsz1210` path, or `/var/folders` path.
+- The sanitized result retains neither raw tool output nor hidden reasoning. It contains no raw command, aggregated command output, prompt field, fixture/source absolute path, user-home path, or macOS temporary-directory path.
 - The approval binds the same seal, `gpt-5.6-terra`, `medium`, one arm, at most one child and two subject turns, zero retries and fallback, and no reset, Credit purchase, or automatic top-up. The recorded run started before the approval expired.
 
 ## Required corrections

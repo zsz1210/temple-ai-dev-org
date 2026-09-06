@@ -59,7 +59,7 @@
     "agent_id": "agent-lulu",
     "base_revision": "fd53d7dea73ae4da6143e60e62dd60f3eb8d04f4",
     "branch": "codex/wi-0191-proportionate-evaluation",
-    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+    "worktree": null,
     "claimed_at": "2026-09-06T04:36:38.003Z",
     "released_at": "2026-09-06T04:45:13.785Z",
     "release_reason": "position_transition"
@@ -72,7 +72,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "9aa441e3b9025ea67dd6c1a136eae7fb3abac845",
       "branch": "codex/wi-0191-proportionate-evaluation",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+      "worktree": null,
       "claimed_at": "2026-09-06T04:10:13.354Z",
       "released_at": "2026-09-06T04:19:03.125Z",
       "release_reason": [
@@ -86,7 +86,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "832f3e483416a35a854e05d19cb775930627500f",
       "branch": "codex/wi-0191-proportionate-evaluation",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+      "worktree": null,
       "claimed_at": "2026-09-06T04:20:40.540Z",
       "released_at": "2026-09-06T04:29:27.379Z",
       "release_reason": "review_rework"
@@ -98,7 +98,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "832f3e483416a35a854e05d19cb775930627500f",
       "branch": "codex/wi-0191-proportionate-evaluation",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+      "worktree": null,
       "claimed_at": "2026-09-06T04:29:45.720Z",
       "released_at": "2026-09-06T04:36:24.096Z",
       "release_reason": [
@@ -112,7 +112,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "fd53d7dea73ae4da6143e60e62dd60f3eb8d04f4",
       "branch": "codex/wi-0191-proportionate-evaluation",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+      "worktree": null,
       "claimed_at": "2026-09-06T04:36:38.003Z",
       "released_at": "2026-09-06T04:45:13.785Z",
       "release_reason": "position_transition"

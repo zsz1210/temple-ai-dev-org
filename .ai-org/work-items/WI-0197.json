@@ -59,7 +59,7 @@
     "agent_id": "agent-lulu",
     "base_revision": "963aa834f4b3c660bef83287e87cf7d0912192e7",
     "branch": "codex/wi-0191-proportionate-evaluation",
-    "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+    "worktree": null,
     "claimed_at": "2026-09-06T05:10:32.882Z",
     "released_at": "2026-09-06T05:19:57.774Z",
     "release_reason": "position_transition"
@@ -72,7 +72,7 @@
       "agent_id": "agent-rikku",
       "base_revision": "6a4f7f74e203dc0ca8b25adc6f4557558c4f3dd4",
       "branch": "codex/wi-0191-proportionate-evaluation",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+      "worktree": null,
       "claimed_at": "2026-09-06T04:59:50.750Z",
       "released_at": "2026-09-06T05:09:57.047Z",
       "release_reason": [
@@ -86,7 +86,7 @@
       "agent_id": "agent-lulu",
       "base_revision": "963aa834f4b3c660bef83287e87cf7d0912192e7",
       "branch": "codex/wi-0191-proportionate-evaluation",
-      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+      "worktree": null,
       "claimed_at": "2026-09-06T05:10:32.882Z",
       "released_at": "2026-09-06T05:19:57.774Z",
       "release_reason": "position_transition"

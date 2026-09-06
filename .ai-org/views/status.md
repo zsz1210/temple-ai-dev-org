@@ -4,7 +4,7 @@
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 1 wave(s), fresh=true
+- Parallel plan: 1 wave(s), fresh=false
 - Work items: 204 total, 10 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 64 registered, 0 reserved, 0 active
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 22
+- Attention signals: 23
 
 ## Collaboration
 
@@ -37,7 +37,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 1
 - Dispatchable Work Items: 1
 - Active / sequential / blocked: 0 / 6 / 3
@@ -366,6 +366,7 @@
 - worker-20260905124032-458ce7b0 is failed
 - worker-20260905130828-87bb7969 is failed
 - worker-20260905141644-4a85d8c7 is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 - Parallel plan has 3 blocked Work Item(s)
 
 ## External tracker coordination
@@ -446,14 +447,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-06T11:52:29.281Z | work_item_claim_released | WI-0190 | human |
+| 2026-09-06T11:52:14.834Z | publication_canonical_state_normalized | WI-0190 | agent-mog |
+| 2026-09-06T11:52:02.800Z | work_item_claimed | WI-0190 | human |
 | 2026-09-06T06:40:46.494Z | work_item_transitioned | WI-0204 | agent-rikku |
 | 2026-09-06T06:40:45.235Z | handoff_created | WI-0204 | agent-rikku |
 | 2026-09-06T06:40:43.923Z | work_item_transitioned | WI-0202 | agent-rikku |
 | 2026-09-06T06:40:42.441Z | handoff_created | WI-0202 | agent-rikku |
 | 2026-09-06T06:37:11.904Z | work_item_claimed | WI-0204 | human |
-| 2026-09-06T06:37:11.611Z | work_item_transitioned | WI-0204 | agent-mog |
-| 2026-09-06T06:36:41.585Z | work_item_created | WI-0204 | agent-mog |
-| 2026-09-06T06:33:29.829Z | work_item_closed | WI-0201 | agent-lulu |
 
 ## Assignments
 
