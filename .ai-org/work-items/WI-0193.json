@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0193",
   "title": "Run bounded native support comparison after measurement repair",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-06T02:24:22.371Z",
-  "updated_at": "2026-09-06T02:25:03.111Z",
+  "updated_at": "2026-09-06T02:35:12.443Z",
   "scope": [
     "Prepare and review a fresh four-parent four-helper Terra medium support-only comparison under the user approved 800000 Operational Token and 40 minute envelope; preserve WI-0191 and WI-0192"
   ],
@@ -42,23 +42,26 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "cd1884a",
-  "parallel_mode": "pending",
-  "integration_owner_agent_id": null,
+  "base_revision": "2628319f75c01d1bf9d9879569b504ab40f44b1f",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906022503-c57e2266",
-    "status": "active",
+    "id": "claim-20260906022705-e1f83c41",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "cd1884a",
+    "agent_id": "agent-lulu",
+    "base_revision": "2628319f75c01d1bf9d9879569b504ab40f44b1f",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": null,
-    "claimed_at": "2026-09-06T02:25:03.111Z",
-    "released_at": null
+    "claimed_at": "2026-09-06T02:27:05.613Z",
+    "released_at": "2026-09-06T02:32:26.897Z",
+    "release_reason": [
+      "Readiness passed exact candidate; parent executes separately approved bounded experiment"
+    ]
   },
   "claims": [
     {
@@ -77,14 +80,31 @@
     },
     {
       "id": "claim-20260906022503-c57e2266",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "cd1884a",
       "branch": "codex/wi-0191-proportionate-evaluation",
       "worktree": null,
       "claimed_at": "2026-09-06T02:25:03.111Z",
-      "released_at": null
+      "released_at": "2026-09-06T02:25:58.949Z",
+      "release_reason": [
+        "Frozen candidate handed off for readiness review"
+      ]
+    },
+    {
+      "id": "claim-20260906022705-e1f83c41",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "2628319f75c01d1bf9d9879569b504ab40f44b1f",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": null,
+      "claimed_at": "2026-09-06T02:27:05.613Z",
+      "released_at": "2026-09-06T02:32:26.897Z",
+      "release_reason": [
+        "Readiness passed exact candidate; parent executes separately approved bounded experiment"
+      ]
     }
   ],
   "gate_evidence": {
@@ -105,11 +125,31 @@
     ],
     "profile_eligibility": [
       ".ai-org/artifacts/WI-0193/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0193/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0193/design.md"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0193/design.md"
+    ".ai-org/artifacts/WI-0193/design.md",
+    ".ai-org/artifacts/WI-0193/handoff-001-developer-to-quality_evaluator.md"
   ],
-  "unresolved": [],
-  "next_position": "quality_evaluator"
+  "unresolved": [
+    "Live first case stopped: unknown-item event rejected; unbound actor cleanup and usage unconfirmed. Three cases not run; no comparison; zero-retry approval spent. See live-report.md."
+  ],
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "2628319f75c01d1bf9d9879569b504ab40f44b1f",
+      "artifact": ".ai-org/artifacts/WI-0193/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T02:25:58.225Z"
+    }
+  ],
+  "developer_candidate_revision": "2628319f75c01d1bf9d9879569b504ab40f44b1f"
 }

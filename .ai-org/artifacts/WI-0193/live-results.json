@@ -1,0 +1,135 @@
+{
+  "protocol_sha256": "4e1aba74edad70caeba387cc9ce7ae98f28829fe400a1e35ed325ed1d0d75174",
+  "recorded": 1,
+  "planned": 4,
+  "stop_reason": "event-contract-violation",
+  "elapsed_ms": 26551,
+  "conservative_operational_counter": 27152,
+  "counter_is_cost": false,
+  "results": [
+    {
+      "case": "support-read",
+      "arm": "before",
+      "status": "stopped",
+      "stop_reason": "event-contract-violation",
+      "elapsed_ms": 26475,
+      "requested_model": "gpt-5.6-terra",
+      "requested_effort": "medium",
+      "observations": [
+        {
+          "thread_id_sha256": "071a5a2f32d221ae7dab06cb6a5e09cebedac7ef844b770f5487c5803984918b",
+          "thread": "parent",
+          "command_sha256": "8be44e3a18444d198f1876ddbc862014c58950792ed9de48c14fc34d766ac92a",
+          "exit_code": 0,
+          "output_bytes": 20515,
+          "lexical_operation_hints": [],
+          "product_test_invocation": null,
+          "classification_authority": "operation-hints-lexical-test-invocation-exact"
+        },
+        {
+          "thread_id_sha256": "071a5a2f32d221ae7dab06cb6a5e09cebedac7ef844b770f5487c5803984918b",
+          "thread": "parent",
+          "command_sha256": "0583d363ef4d2c0648aead879b31fab900bbf67ecae62a3d39978608e87c232d",
+          "exit_code": 0,
+          "output_bytes": 9261,
+          "lexical_operation_hints": [
+            "context",
+            "status"
+          ],
+          "product_test_invocation": null,
+          "classification_authority": "operation-hints-lexical-test-invocation-exact"
+        }
+      ],
+      "native_errors": [],
+      "messages": [],
+      "cleanup": {
+        "status": "unconfirmed",
+        "unfinished_actor_ids": [
+          "1580b43df91f58019ab0b425f4e051b1cb2ad97b7aaf1baa4ec8f360718afdfb"
+        ],
+        "interrupt_ack_is_terminal_proof": false
+      },
+      "trace": {
+        "actors": [
+          {
+            "id_sha256": "071a5a2f32d221ae7dab06cb6a5e09cebedac7ef844b770f5487c5803984918b",
+            "role": "parent",
+            "terminal": "interrupted",
+            "usage": {
+              "totalTokens": 67600,
+              "inputTokens": 66944,
+              "cachedInputTokens": 40448,
+              "cacheWriteInputTokens": 0,
+              "outputTokens": 656,
+              "reasoningOutputTokens": 194,
+              "operationalTokens": 27152
+            },
+            "tool_calls": 2,
+            "output_bytes": 29776
+          }
+        ],
+        "unknown_event_count": 1,
+        "expected_children": 1,
+        "observed_children": 0,
+        "status": "stopped",
+        "stop_reason": "unknown-item",
+        "usage_scope": "per-thread-last-observed-not-account-final",
+        "aggregate_operational_tokens": 27152,
+        "aggregate_reason": null
+      },
+      "answer": null,
+      "raw_tool_output_retained": false,
+      "reasoning_retained": false,
+      "changed_paths": [
+        ".git/index"
+      ],
+      "out_of_scope_paths": [],
+      "product_oracle": null,
+      "automatic_grade_ms": 0,
+      "case_grade": {
+        "status": "unmeasurable",
+        "failures": [
+          "structured-answer-missing",
+          "provider-incomplete"
+        ],
+        "facts": {
+          "state": "build",
+          "owner_position": "developer",
+          "claim_status": null,
+          "parent_messages": [],
+          "helper_messages": [],
+          "lexical_operations": [
+            {
+              "thread_id_sha256": "071a5a2f32d221ae7dab06cb6a5e09cebedac7ef844b770f5487c5803984918b",
+              "thread": "parent",
+              "command_sha256": "8be44e3a18444d198f1876ddbc862014c58950792ed9de48c14fc34d766ac92a",
+              "exit_code": 0,
+              "output_bytes": 20515,
+              "lexical_operation_hints": [],
+              "product_test_invocation": null,
+              "classification_authority": "operation-hints-lexical-test-invocation-exact"
+            },
+            {
+              "thread_id_sha256": "071a5a2f32d221ae7dab06cb6a5e09cebedac7ef844b770f5487c5803984918b",
+              "thread": "parent",
+              "command_sha256": "0583d363ef4d2c0648aead879b31fab900bbf67ecae62a3d39978608e87c232d",
+              "exit_code": 0,
+              "output_bytes": 9261,
+              "lexical_operation_hints": [
+                "context",
+                "status"
+              ],
+              "product_test_invocation": null,
+              "classification_authority": "operation-hints-lexical-test-invocation-exact"
+            }
+          ],
+          "support": "unavailable"
+        },
+        "independent_review_required": true,
+        "transient_shell_writes_proven_absent": false
+      },
+      "quality_status": "unmeasurable"
+    }
+  ],
+  "conclusion": "pending-quality-review-no-efficiency-claim"
+}

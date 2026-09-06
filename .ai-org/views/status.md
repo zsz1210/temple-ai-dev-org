@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
 - Work items: 193 total, 7 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 49 registered, 0 reserved, 0 active
+- Runtime workers: 50 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -39,9 +39,9 @@
 - Valid: yes
 - Fresh: no
 - Safe waves: 1
-- Dispatchable Work Items: 1
-- Active / sequential / blocked: 0 / 2 / 2
-- Next wave: WI-0190
+- Dispatchable Work Items: 2
+- Active / sequential / blocked: 0 / 3 / 2
+- Next wave: WI-0190, WI-0193
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -240,7 +240,7 @@
 | WI-0190 | Clarify proportionate entry and stage completion | release_gate | Release Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `50ae4f50` | 0 | 5 | 0 |
 | WI-0191 | Evaluate proportionate routes with matched before-after scenarios | release_gate | Release Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `85beb7ac` | 0 | 9 | 1 |
 | WI-0192 | Repair paired evaluation evidence without changing sealed results | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9e96f7bb` | 0 | 3 | 0 |
-| WI-0193 | Run bounded native support comparison after measurement repair | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260906022503-c57e2266 | `—` | 0 | 1 | 0 |
+| WI-0193 | Run bounded native support comparison after measurement repair | test | Quality & Evaluation Engineer | Lulu | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2628319f` | 0 | 2 | 1 |
 
 ## Codex task registry
 
@@ -312,6 +312,7 @@
 | worker-20260905142754-3ef27975 | internal-subagent | WI-0188 | Quality & Evaluation Engineer / Lulu | completed | /root/lean_entry_corrected_qa | `6346e026` | 0 |
 | worker-20260905225400-a1cb7c69 | internal-subagent | WI-0190 | Independent QA / Lulu | completed | /root/wi0178_delivery_qa:wi-0190 | `50ae4f50` | 0 |
 | worker-20260906001739-1031d49e | internal-subagent | WI-0191 | Independent QA / Lulu | completed | /root/wi0191_readiness_qa | `85beb7ac` | 0 |
+| worker-20260906022705-0bb1c047 | internal-subagent | WI-0193 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0193_readiness_qa | `2628319f` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -421,14 +422,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-06T02:25:03.111Z | work_item_claimed | WI-0193 | human |
-| 2026-09-06T02:25:02.834Z | work_item_transitioned | WI-0193 | agent-mog |
-| 2026-09-06T02:25:02.575Z | work_item_claim_released | WI-0193 | human |
-| 2026-09-06T02:24:22.653Z | work_item_claimed | WI-0193 | human |
-| 2026-09-06T02:24:22.371Z | work_item_created | WI-0193 | agent-mog |
-| 2026-09-06T01:46:31.050Z | work_item_transitioned | WI-0192 | agent-rikku |
-| 2026-09-06T01:46:13.137Z | work_item_claim_released | WI-0192 | human |
-| 2026-09-06T01:46:12.851Z | handoff_created | WI-0192 | agent-rikku |
+| 2026-09-06T02:35:12.443Z | work_item_unresolved_updated | WI-0193 | agent-lulu |
+| 2026-09-06T02:32:26.897Z | work_item_claim_released | WI-0193 | human |
+| 2026-09-06T02:32:26.634Z | runtime_worker_status_changed | WI-0193 | agent-lulu |
+| 2026-09-06T02:28:38.462Z | runtime_worker_attached | WI-0193 | agent-lulu |
+| 2026-09-06T02:27:05.566Z | runtime_worker_reserved | WI-0193 | human |
+| 2026-09-06T02:27:05.613Z | work_item_claimed | WI-0193 | human |
+| 2026-09-06T02:26:11.781Z | work_item_coordination_configured | WI-0193 | agent-lulu |
+| 2026-09-06T02:25:59.877Z | work_item_transitioned | WI-0193 | agent-rikku |
 
 ## Assignments
 

@@ -1,0 +1,17 @@
+{
+  "schema_version": "temple.paired-evaluation-approval/v1",
+  "approved": true,
+  "approved_by": "human",
+  "authorization_source": "explicit-user-message",
+  "evidence_ref": ".ai-org/artifacts/WI-0193/live-authorization.md",
+  "evidence_sha256": "ce6cf07dd878a06bf5a1ddc45578ccb576a607d38a06cf289f88e5bfb11e9dc2",
+  "protocol_sha256": "4e1aba74edad70caeba387cc9ce7ae98f28829fe400a1e35ed325ed1d0d75174",
+  "model": "gpt-5.6-terra",
+  "effort": "medium",
+  "limits": {"subject_turns":8,"per_actor_operational_tokens":100000,"aggregate_operational_tokens":800000,"per_actor_ms":480000,"aggregate_ms":2400000,"retries":0,"fallback":false,"reset":false},
+  "included_quota_only": true,
+  "purchase_credits": false,
+  "auto_topup": false,
+  "reset": false,
+  "expires_at": "2026-09-07T02:28:00Z"
+}
