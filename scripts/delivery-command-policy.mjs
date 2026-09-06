@@ -237,7 +237,7 @@ function templeCommand(args, state, context) {
   need(args.shift() === ".", "temple-root-boundary"); role(state, "local-path");
   const wi = { "--work-item": ["work-item", "work-item"] }, identity = { "--agent-id": ["agent", "agent-identity"], "--principal-id": ["principal", "principal"] }, json = { "--json": ["json"] };
   const definitions = {
-    "context enter": { ...wi, ...identity, ...json, "--position": ["position", "position"], "--no-write": ["no-write"], ...(context.contextMaterial === true ? { "--material": ["material", "literal-text"], "--available-whole-sources": ["available", "literal-text"] } : {}) },
+    "context enter": { ...wi, ...identity, ...json, "--position": ["position", "position"], "--no-write": ["no-write"], ...(context.contextMaterial === true ? { "--material": ["material", "literal-text"], "--available-whole-sources": ["available", "literal-text"] } : {}), ...(["full", "model"].includes(context.contextFormat) ? { "--format": ["format", "literal-text"] } : {}) },
     "work-item finish": { ...wi, ...identity, ...json, "--position": ["position", "position"], "--operation-id": ["operation", "operation-id"], "--claim-id": ["claim", "claim-id"], "--revision": ["revision", "exact-revision"], "--completed": ["completed", "literal-text"], "--evidence": ["evidence", "evidence-reference"], "--judgment": ["judgment", "literal-text"], "--test-evidence": ["test-evidence", "evidence-reference"], "--lean-closeout": ["lean-closeout", "evidence-reference"], "--dry-run": ["dry-run"], "--expected-plan": ["plan", "plan-digest"] },
     "context resolve": { ...wi, ...json, "--position": ["position", "position"], "--no-write": ["no-write"], "--compact": ["compact"] },
     doctor: { ...json, "--compact": ["compact"] }, status: { ...wi, ...json, "--no-write": ["no-write"], "--compact": ["compact"] },
@@ -264,6 +264,7 @@ function templeCommand(args, state, context) {
     exact(found, "json", true, "unsupported-option");
     if (name === "context enter") {
       exact(found, "no-write", true, "unsupported-option");
+      if (["full", "model"].includes(context.contextFormat)) exact(found, "format", context.contextFormat, "unsupported-option");
       if (found.has("material")) exact(found, "material", "task", "unsupported-option");
       if (found.has("available")) {
         let rows; try { rows = JSON.parse(found.get("available")); } catch { need(false, "argument-shape"); }

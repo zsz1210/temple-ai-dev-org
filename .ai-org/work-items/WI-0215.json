@@ -1,0 +1,168 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0215",
+  "title": "Run bounded full versus model context comparison",
+  "state": "eval",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
+  "created_at": "2026-09-06T13:12:40.862Z",
+  "updated_at": "2026-09-06T13:36:22.699Z",
+  "scope": [
+    "Implement and verify a format-only successor harness, then execute the user-approved four deliveries/eight Terra medium stages within 640000 operational Tokens and 48 minutes; no retries, fallback, reset, purchase or refill."
+  ],
+  "acceptance_criteria": [
+    "Preserve isolation and frozen earlier labs; independently review readiness; consume one frozen approval; report quality, Tokens, latency and limitations even if stopped."
+  ],
+  "affected_paths": [
+    "scripts/context-format-comparison.mjs",
+    "scripts/context-material-comparison.mjs",
+    "scripts/delivery-control-pair.mjs",
+    "scripts/delivery-command-policy.mjs",
+    "test/context-format-comparison.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T13:12:40.861Z",
+    "escalated": false
+  },
+  "parent_work_item_id": "WI-0214",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "dbcced471e9fc47fd4a422135c7e9eeae3c6e858",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": "agent-lulu",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0172: no active writer; prior evidence frozen, successor harness edits owned by WI-0215.",
+    "WI-0190: no active writer; prior evidence frozen, successor harness edits owned by WI-0215.",
+    "WI-0208: no active writer; prior evidence frozen, successor harness edits owned by WI-0215.",
+    "WI-0209: no active writer; prior evidence frozen, successor harness edits owned by WI-0215.",
+    "WI-0210: no active writer; prior evidence frozen, successor harness edits owned by WI-0215.",
+    "WI-0211: no active writer; prior evidence frozen, successor harness edits owned by WI-0215.",
+    "WI-0212: no active writer; prior evidence frozen, successor harness edits owned by WI-0215."
+  ],
+  "claim": {
+    "id": "claim-20260906132303-5d8e5676",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "dbcced471e9fc47fd4a422135c7e9eeae3c6e858",
+    "branch": "codex/context-format-comparison",
+    "worktree": null,
+    "claimed_at": "2026-09-06T13:23:03.713Z",
+    "released_at": "2026-09-06T13:27:41.336Z",
+    "release_reason": [
+      "Readiness passed; frozen experiment handed to coordinator for approved execution"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260906131241-66c47628",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "786c2eff",
+      "branch": "codex/context-format-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-06T13:12:41.386Z",
+      "released_at": "2026-09-06T13:13:15.609Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260906131316-18da88cc",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "786c2eff",
+      "branch": "codex/context-format-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-06T13:13:16.444Z",
+      "released_at": "2026-09-06T13:23:02.316Z",
+      "release_reason": [
+        "Frozen harness handed off for readiness review and experiment evaluation"
+      ]
+    },
+    {
+      "id": "claim-20260906132303-5d8e5676",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "dbcced471e9fc47fd4a422135c7e9eeae3c6e858",
+      "branch": "codex/context-format-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-06T13:23:03.713Z",
+      "released_at": "2026-09-06T13:27:41.336Z",
+      "release_reason": [
+        "Readiness passed; frozen experiment handed to coordinator for approved execution"
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0215/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0215/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0215/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0215/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0215/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0215/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0215/verification.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0215/verification.md",
+      ".ai-org/artifacts/WI-0215/result-report.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0215/design.md",
+    ".ai-org/artifacts/WI-0215/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0215/verification.md",
+    ".ai-org/artifacts/WI-0215/result-report.md"
+  ],
+  "unresolved": [
+    "Live comparison inconclusive: first Full Verifier interrupted at 80151 operational Tokens above 80000 stage ceiling. Approval consumed; six stages unexecuted; new stopping design requires approval. See result-report.md."
+  ],
+  "next_position": "independent_qa",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "dbcced471e9fc47fd4a422135c7e9eeae3c6e858",
+      "artifact": ".ai-org/artifacts/WI-0215/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T13:23:02.022Z"
+    }
+  ],
+  "developer_candidate_revision": "dbcced471e9fc47fd4a422135c7e9eeae3c6e858"
+}

@@ -259,7 +259,12 @@ export function itemDiagnostics(item, decision, contract) {
   const known = typeof item?.type === "string" && /^[a-zA-Z][a-zA-Z0-9]{0,63}$/.test(item.type) && enums.includes(item.type);
   return { observed_item_type: known ? item.type : item?.type == null ? "missing" : "unknown", item_policy: decision.allowed ? "allowed" : "denied", rejection_rule: decision.allowed ? null : decision.rule };
 }
-export async function runStage({ root, arm, stage, protocol, contract, sourceRoot, providerFactory, deadline, aggregateBefore, diagnosticKey, expectedClaimRevision, requestFactory = stageRequests, contextMaterial = false, runtimePolicy = null }) {
+export function contextEntryObservation(body, contextFormat = null) {
+  const expectedSchema = contextFormat === "model" ? "temple.context-model-view/v1" : "temple.context-enter/v1";
+  const eligible = body?.schema_version === expectedSchema && body.status === "eligible" && body.packet != null;
+  return { entry_eligible: eligible, ...(contextFormat && eligible ? { context_format: contextFormat } : {}) };
+}
+export async function runStage({ root, arm, stage, protocol, contract, sourceRoot, providerFactory, deadline, aggregateBefore, diagnosticKey, expectedClaimRevision, requestFactory = stageRequests, contextMaterial = false, contextFormat = null, runtimePolicy = null }) {
   const start = Date.now(), hash = value => "hmac-sha256:" + crypto.createHmac("sha256", diagnosticKey).update(String(value)).digest("hex");
   const observation = { arm, stage, status: "stopped", usage: null, usage_finality: "last-observed-not-account-final", usage_observed_at_ms: null, command_count: 0, command_started_count: 0, command_completed_count: 0, patch_started_count: 0, patch_completed_count: 0, tool_count: 0, reported_output_bytes: 0, events: [], observed_test_exit_codes: [], requested_model: protocol.model, acknowledged_model: null, model_acknowledgement: "not-observed", requested_effort: protocol.reasoning_effort, observed_thread_effort: null, effective_turn_effort: null, terminal_status: null, interrupt_requested: false, interrupt_acknowledged: false, retry_count: 0, fallback_count: 0 };
   let connection, threadId, turnId, completion, terminal, stop, turnStart, wake, abort, interruptPromise, closing = false, terminalWake;
@@ -277,7 +282,7 @@ export async function runStage({ root, arm, stage, protocol, contract, sourceRoo
   const fail = reason => { stop ??= reason; interrupt(); abort(); wake(); };
   const context = () => {
     const read = name => { try { const file=path.join(root,name); if (!within(canonical(root),canonical(file))) return null; return JSON.parse(readFileSync(file,"utf8")); } catch { return null; } };
-    return {root,arm,stage,threadId,turnId,contextMaterial,expectedClaimRevision,expectedClaimId:read(".ai-org/work-items/WI-0001.json")?.claim?.id,expectedCandidateRevision:read("DELIVERY.json")?.candidate_revision,verificationDecision:read("VERIFICATION.json")?.decision};
+    return {root,arm,stage,threadId,turnId,contextMaterial,contextFormat,expectedClaimRevision,expectedClaimId:read(".ai-org/work-items/WI-0001.json")?.claim?.id,expectedCandidateRevision:read("DELIVERY.json")?.candidate_revision,verificationDecision:read("VERIFICATION.json")?.decision};
   };
   const processEvent = message => {
     // A stop does not close observation: correlated trailing counters and the
@@ -300,7 +305,7 @@ export async function runStage({ root, arm, stage, protocol, contract, sourceRoo
       if (method === "item/completed" && item?.type === "commandExecution" && decision.allowed) {
         try {
           const body = JSON.parse(item.aggregatedOutput);
-          if (decision.operation === "temple-context-enter") event.entry_eligible = body.schema_version === "temple.context-enter/v1" && body.status === "eligible" && body.packet !== null;
+          if (decision.operation === "temple-context-enter") Object.assign(event, contextEntryObservation(body, contextFormat));
           if (contextMaterial && event.entry_eligible) event.task_material = { material: body.packet.material, bytes: body.packet.measurements?.emitted_source_bytes, reuse: body.packet.reuse?.decisions ?? [] };
           if (decision.operation === "temple-finish") event.finish_current_passed = currentFinishPassed(body, stage, context().expectedCandidateRevision);
         } catch {}

@@ -1,0 +1,24 @@
+{
+  "status": "approved",
+  "approved_by": "human",
+  "work_item_id": "WI-0215",
+  "protocol_sha256": "sha256:e40436e50df05a1037341fc5418d52867a99a8f4930b10e69ce6f10645472cc1",
+  "evidence_ref": ".ai-org/artifacts/WI-0215/design.md",
+  "limits": {
+    "stages": 8,
+    "per_stage_ms": 360000,
+    "aggregate_ms": 2880000,
+    "per_stage_operational_tokens": 80000,
+    "aggregate_operational_tokens": 640000
+  },
+  "policy": {
+    "account": "chatgpt-subscription",
+    "purchase": false,
+    "refill": false,
+    "reset": false,
+    "retries": 0,
+    "fallback": false,
+    "cache": "uncontrolled",
+    "extra_judge": false
+  }
+}

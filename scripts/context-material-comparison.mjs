@@ -76,7 +76,7 @@ export function assertIsolatedConfig(reply, profile) {
     assert(profile[field].every(k => Object.hasOwn(c[field], k) && c[field][k].enabled === false), "isolation-missing-tool");
   }
 }
-function isolatedFactory(profile) {
+export function isolatedFactory(profile) {
   return (program, args, options) => {
     assertIsolationSources(profile);
     assert(digest(args) === digest(isolationArguments(profile)), "isolation-arguments");
@@ -193,7 +193,7 @@ export function requestsFor(variant, args) {
 async function instrumentDigest() {
   return digest({ base: await sourceDigest(instrument), runner: digest(await fs.readFile(new URL(import.meta.url))), tests: digest(await fs.readFile(path.join(instrument, "test/context-material-comparison.test.mjs"))) });
 }
-async function accountCheck(profile) {
+export async function accountCheck(profile) {
   const c = isolatedFactory(profile)("codex", isolationArguments(profile), { cwd: instrument, env: subprocessEnvironment() });
   try {
     await c.request("initialize", { clientInfo: { name: "context-comparison", version: "1" }, capabilities: { experimentalApi: false } }); c.notify("initialized", {});

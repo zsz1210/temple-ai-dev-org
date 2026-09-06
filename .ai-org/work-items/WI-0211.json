@@ -6,7 +6,7 @@
   "owner_position": "release_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T12:02:06.463Z",
-  "updated_at": "2026-09-06T12:44:36.672Z",
+  "updated_at": "2026-09-06T13:20:47.896Z",
   "scope": [
     "Reconcile the approved local WI-0203 and WI-0205 through WI-0210 content onto current main, preserve main features and authoritative evidence, resolve ADR numbering, normalize local metadata, verify and submit a focused PR. No model experiments or npm publication."
   ],
@@ -54,7 +54,8 @@
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
-    "WI-0213 owns successor src/context-enter.mjs, src/cli.mjs and test/context-enter.test.mjs changes. WI-0211 integration evidence remains frozen; no active claim or concurrent write."
+    "WI-0213 owns successor src/context-enter.mjs, src/cli.mjs and test/context-enter.test.mjs changes. WI-0211 integration evidence remains frozen; no active claim or concurrent write.",
+    "WI-0215 owns the format-only successor harness and its new test; this record has no active writer and its prior source/evidence remain frozen."
   ],
   "claim": {
     "id": "claim-20260906120245-aae4805b",

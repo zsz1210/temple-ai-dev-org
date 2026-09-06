@@ -5,9 +5,9 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=true
-- Work items: 214 total, 16 active
+- Work items: 215 total, 17 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 66 registered, 0 reserved, 0 active
+- Runtime workers: 67 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 21
+- Attention signals: 22
 
 ## Collaboration
 
@@ -40,7 +40,7 @@
 - Fresh: yes
 - Safe waves: 1
 - Dispatchable Work Items: 1
-- Active / sequential / blocked: 0 / 0 / 0
+- Active / sequential / blocked: 0 / 0 / 1
 - Next wave: WI-0213
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -262,6 +262,7 @@
 | WI-0212 | Clarify product-test reruns after evidence-only edits | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `944c5527` | 0 | 3 | 0 |
 | WI-0213 | Separate model-readable context from validation metadata | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6d15bbfd` | 0 | 3 | 0 |
 | WI-0214 | Evaluate model-facing context representation | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
+| WI-0215 | Run bounded full versus model context comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `dbcced47` | 0 | 4 | 1 |
 
 ## Codex task registry
 
@@ -350,6 +351,7 @@
 | worker-20260906062924-8f656fc3 | internal-subagent | WI-0201 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0201_lifecycle_recheck | `5fda83ac` | 0 |
 | worker-20260906064131-16749722 | internal-subagent | WI-0205 | Quality & Evaluation Engineer / Lulu | completed | /root/bc_measurement_readiness | `eb6315c` | 0 |
 | worker-20260906124519-de0a6952 | internal-subagent | WI-0213 | Independent QA / Lulu | completed | /root/wi0213_format_qa | `6d15bbfd` | 0 |
+| worker-20260906132303-266cdc8c | internal-subagent | WI-0215 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0215_readiness | `dbcced47` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -378,6 +380,7 @@
 - worker-20260905124032-458ce7b0 is failed
 - worker-20260905130828-87bb7969 is failed
 - worker-20260905141644-4a85d8c7 is failed
+- Parallel plan has 1 blocked Work Item(s)
 
 ## External tracker coordination
 
@@ -457,14 +460,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-06T12:48:22.705Z | work_item_transitioned | WI-0213 | agent-lulu |
-| 2026-09-06T12:48:22.437Z | work_item_claim_released | WI-0213 | human |
-| 2026-09-06T12:48:22.159Z | runtime_worker_status_changed | WI-0213 | agent-lulu |
-| 2026-09-06T12:46:26.028Z | runtime_worker_attached | WI-0213 | agent-lulu |
-| 2026-09-06T12:45:19.199Z | runtime_worker_reserved | WI-0213 | human |
-| 2026-09-06T12:45:19.215Z | work_item_claimed | WI-0213 | human |
-| 2026-09-06T12:45:18.477Z | work_item_coordination_configured | WI-0213 | agent-lulu |
-| 2026-09-06T12:45:05.785Z | work_item_coordination_configured | WI-0190 | agent-mog |
+| 2026-09-06T13:36:22.699Z | work_item_unresolved_updated | WI-0215 | agent-lulu |
+| 2026-09-06T13:36:22.438Z | work_item_transitioned | WI-0215 | agent-lulu |
+| 2026-09-06T13:27:41.336Z | work_item_claim_released | WI-0215 | human |
+| 2026-09-06T13:27:41.057Z | runtime_worker_status_changed | WI-0215 | agent-lulu |
+| 2026-09-06T13:23:31.020Z | runtime_worker_attached | WI-0215 | agent-lulu |
+| 2026-09-06T13:23:03.699Z | runtime_worker_reserved | WI-0215 | human |
+| 2026-09-06T13:23:03.713Z | work_item_claimed | WI-0215 | human |
+| 2026-09-06T13:23:02.895Z | work_item_coordination_configured | WI-0215 | agent-lulu |
 
 ## Assignments
 
