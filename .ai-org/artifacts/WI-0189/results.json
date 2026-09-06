@@ -1,0 +1,320 @@
+{
+  "schema_version": "temple.parallel-sales-poc-summary/v1",
+  "protocol_sha256": "sha256:0283881373ffbf51fa2d82d9146fc898e128f9ab38e4453d52a32e8a2c99eb8c",
+  "source_revision": "2cae59f1adab131ba92cc27c25822490edf95304",
+  "status": "stopped",
+  "stop_reason": "unsupported-option",
+  "operational_tokens_last_observed": 302132,
+  "matrix_elapsed_ms": 609495,
+  "completed_actor_stages": 5,
+  "started_actor_stages": 6,
+  "planned_actor_stages": 7,
+  "arms": {
+    "single": {
+      "elapsed_ms": 328535,
+      "oracle": {
+        "exit_code": 0,
+        "output_sha256": "sha256:b8524d0d1a97fa8f6388b7d045232e3d21bc2498d0c223cf78adc38fe2e5b91d"
+      }
+    }
+  },
+  "join": {
+    "elapsed_ms": 93,
+    "revision": "0ed25f7d06573e8df9cfa6d985c46341c1d290c2",
+    "workers": [
+      {
+        "module": "validate",
+        "revision": "a7e882d2d716953f3270cd41b1d73dd9a9bd6929"
+      },
+      {
+        "module": "summarize",
+        "revision": "6fecab4939e58ee1c9ea0b57f90899384680f1be"
+      },
+      {
+        "module": "render",
+        "revision": "1f468424144b4bdf1656f97abbe40a1fe768cfff"
+      }
+    ],
+    "conflicts": 0
+  },
+  "stages": [
+    {
+      "id": "single_builder",
+      "status": "completed",
+      "started_at_ms": 10,
+      "ended_at_ms": 210996,
+      "total_elapsed_ms": 210985,
+      "usage": {
+        "input_tokens": 447464,
+        "cached_input_tokens": 385280,
+        "output_tokens": 7341,
+        "reasoning_output_tokens": 877,
+        "total_tokens": 454805,
+        "non_cached_input_tokens": 62184,
+        "operational_tokens": 69525
+      },
+      "completion": {
+        "candidate_revision": "ac6c2fc43b2aac942660e1a22e3fd89fc6d22480",
+        "test_command": "node --test test/*.test.mjs",
+        "test_exit_code": 0,
+        "decision": "delivered",
+        "summary": "Implemented validation, aggregation, Markdown rendering, and focused module tests.",
+        "unresolved": []
+      },
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_effort": "medium",
+      "observed_thread_effort": "medium",
+      "effective_turn_effort": null,
+      "command_started_count": 16,
+      "command_completed_count": 16,
+      "patch_completed_count": 3,
+      "output_bytes": 9726,
+      "stop_reason": null,
+      "terminal_status": "completed",
+      "interrupt_acknowledged": false,
+      "tests": [
+        {
+          "operation": "product-tests-all",
+          "exit_code": 1
+        },
+        {
+          "operation": "product-tests-all",
+          "exit_code": 0
+        }
+      ],
+      "failure_classification": null
+    },
+    {
+      "id": "single_verifier",
+      "status": "completed",
+      "started_at_ms": 211114,
+      "ended_at_ms": 328443,
+      "total_elapsed_ms": 117329,
+      "usage": {
+        "input_tokens": 410104,
+        "cached_input_tokens": 374784,
+        "output_tokens": 1890,
+        "reasoning_output_tokens": 289,
+        "total_tokens": 411994,
+        "non_cached_input_tokens": 35320,
+        "operational_tokens": 37210
+      },
+      "completion": {
+        "candidate_revision": "ac6c2fc43b2aac942660e1a22e3fd89fc6d22480",
+        "test_command": "node --test test/*.test.mjs",
+        "test_exit_code": 0,
+        "decision": "accept",
+        "summary": "Candidate matches handoff and contract; all 10 tests passed.",
+        "unresolved": []
+      },
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_effort": "medium",
+      "observed_thread_effort": "medium",
+      "effective_turn_effort": null,
+      "command_started_count": 19,
+      "command_completed_count": 19,
+      "patch_completed_count": 1,
+      "output_bytes": 15711,
+      "stop_reason": null,
+      "terminal_status": "completed",
+      "interrupt_acknowledged": false,
+      "tests": [
+        {
+          "operation": "product-tests-all",
+          "exit_code": 0
+        }
+      ],
+      "failure_classification": null
+    },
+    {
+      "id": "worker_render",
+      "status": "completed",
+      "started_at_ms": 328777,
+      "ended_at_ms": 431734,
+      "total_elapsed_ms": 102957,
+      "usage": {
+        "input_tokens": 302689,
+        "cached_input_tokens": 272640,
+        "output_tokens": 2706,
+        "reasoning_output_tokens": 288,
+        "total_tokens": 305395,
+        "non_cached_input_tokens": 30049,
+        "operational_tokens": 32755
+      },
+      "completion": {
+        "candidate_revision": "1f468424144b4bdf1656f97abbe40a1fe768cfff",
+        "test_command": "node --test test/render-added.test.mjs",
+        "test_exit_code": 0,
+        "decision": "delivered",
+        "summary": "Implemented exact Markdown sales report rendering with integer-cent formatting and focused tests.",
+        "unresolved": []
+      },
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_effort": "medium",
+      "observed_thread_effort": "medium",
+      "effective_turn_effort": null,
+      "command_started_count": 13,
+      "command_completed_count": 13,
+      "patch_completed_count": 2,
+      "output_bytes": 6818,
+      "stop_reason": null,
+      "terminal_status": "completed",
+      "interrupt_acknowledged": false,
+      "tests": [
+        {
+          "operation": "product-tests-subset",
+          "exit_code": 0
+        }
+      ],
+      "failure_classification": null
+    },
+    {
+      "id": "worker_summarize",
+      "status": "completed",
+      "started_at_ms": 328730,
+      "ended_at_ms": 491070,
+      "total_elapsed_ms": 162340,
+      "usage": {
+        "input_tokens": 446018,
+        "cached_input_tokens": 384256,
+        "output_tokens": 5074,
+        "reasoning_output_tokens": 624,
+        "total_tokens": 451092,
+        "non_cached_input_tokens": 61762,
+        "operational_tokens": 66836
+      },
+      "completion": {
+        "candidate_revision": "6fecab4939e58ee1c9ea0b57f90899384680f1be",
+        "test_command": "node --test test/summarize-added.test.mjs",
+        "test_exit_code": 0,
+        "decision": "delivered",
+        "summary": "Implemented safe sales aggregation with deterministic category ordering and focused coverage.",
+        "unresolved": []
+      },
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_effort": "medium",
+      "observed_thread_effort": "medium",
+      "effective_turn_effort": null,
+      "command_started_count": 16,
+      "command_completed_count": 16,
+      "patch_completed_count": 3,
+      "output_bytes": 13007,
+      "stop_reason": null,
+      "terminal_status": "completed",
+      "interrupt_acknowledged": false,
+      "tests": [
+        {
+          "operation": "product-tests-subset",
+          "exit_code": 1
+        },
+        {
+          "operation": "product-tests-subset",
+          "exit_code": 0
+        }
+      ],
+      "failure_classification": null
+    },
+    {
+      "id": "worker_validate",
+      "status": "completed",
+      "started_at_ms": 328689,
+      "ended_at_ms": 523384,
+      "total_elapsed_ms": 194695,
+      "usage": {
+        "input_tokens": 483268,
+        "cached_input_tokens": 442880,
+        "output_tokens": 6274,
+        "reasoning_output_tokens": 589,
+        "total_tokens": 489542,
+        "non_cached_input_tokens": 40388,
+        "operational_tokens": 46662
+      },
+      "completion": {
+        "candidate_revision": "a7e882d2d716953f3270cd41b1d73dd9a9bd6929",
+        "test_command": "node --test test/validate-added.test.mjs",
+        "test_exit_code": 0,
+        "decision": "delivered",
+        "summary": "Implemented validateSales with contract validation and focused tests.",
+        "unresolved": []
+      },
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_effort": "medium",
+      "observed_thread_effort": "medium",
+      "effective_turn_effort": null,
+      "command_started_count": 17,
+      "command_completed_count": 17,
+      "patch_completed_count": 3,
+      "output_bytes": 13431,
+      "stop_reason": null,
+      "terminal_status": "completed",
+      "interrupt_acknowledged": false,
+      "tests": [
+        {
+          "operation": "product-tests-subset",
+          "exit_code": 0
+        },
+        {
+          "operation": "product-tests-subset",
+          "exit_code": 0
+        }
+      ],
+      "failure_classification": null
+    },
+    {
+      "id": "parallel_integrator",
+      "status": "stopped",
+      "started_at_ms": 523590,
+      "ended_at_ms": 609492,
+      "total_elapsed_ms": 85901,
+      "usage": {
+        "input_tokens": 330277,
+        "cached_input_tokens": 282624,
+        "output_tokens": 1491,
+        "reasoning_output_tokens": 302,
+        "total_tokens": 331768,
+        "non_cached_input_tokens": 47653,
+        "operational_tokens": 49144
+      },
+      "completion": null,
+      "requested_model": "gpt-5.6-terra",
+      "acknowledged_model": "gpt-5.6-terra",
+      "requested_effort": "medium",
+      "observed_thread_effort": "medium",
+      "effective_turn_effort": null,
+      "command_started_count": 16,
+      "command_completed_count": 15,
+      "patch_completed_count": 0,
+      "output_bytes": 19090,
+      "stop_reason": "unsupported-option",
+      "terminal_status": "interrupted",
+      "interrupt_acknowledged": true,
+      "tests": [],
+      "failure_classification": {
+        "allowed": false,
+        "rule": "unsupported-option",
+        "family": "git",
+        "operation": "git-log",
+        "envelope": "zsh-lc-literal",
+        "argument_roles": [
+          "option"
+        ]
+      }
+    }
+  ],
+  "post_stop_checks": {
+    "model_generation_performed": false,
+    "classification": "diagnostic-not-fresh-verification",
+    "public_exit_code": 0,
+    "heldout_exit_code": 0
+  },
+  "retry_count": 0,
+  "fallback_count": 0,
+  "parent_inference_tokens": "unattributed",
+  "preparation_elapsed_ms": null,
+  "usage_finality": "last-observed-not-account-final"
+}

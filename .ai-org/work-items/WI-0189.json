@@ -1,0 +1,160 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0189",
+  "title": "Compare single-worker and parallel Terra delivery",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
+  "created_at": "2026-09-05T15:00:29.162Z",
+  "updated_at": "2026-09-05T16:07:34.295Z",
+  "scope": [
+    "Prepare an isolated JSON sales-report POC with fixed contracts; compare one Terra medium Builder against three Terra medium workers plus integration, followed by fresh verification per arm. Do not change Temple core or sealed prior experiments. Live execution awaits a new bounded budget approval."
+  ],
+  "acceptance_criteria": [
+    "Both arms use identical product contracts and frozen acceptance checks; all actor, integration and verifier time and Tokens are included; actual results or a bounded stop are reported without retries or efficiency claims from preparation."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0189"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-05T15:00:29.161Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "0fc622d",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-rikku",
+  "planned_agent_id": null,
+  "shared_contract_refs": [
+    ".ai-org/artifacts/WI-0189/product-contract.md"
+  ],
+  "contract_status": "stable",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260905153437-0a374829",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "0fc622d",
+    "branch": "codex/wi-0189-parallel-sales-poc",
+    "worktree": null,
+    "claimed_at": "2026-09-05T15:34:37.052Z",
+    "released_at": "2026-09-05T16:07:33.701Z",
+    "release_reason": [
+      "Bounded experiment stopped and report handed off; no model retry or continuation authorized."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260905150029-d5bcc5d0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "7c9c1b88b96b8d334c5c0a88bd287f473ce4fc42",
+      "branch": "codex/wi-0189-parallel-sales-poc",
+      "worktree": null,
+      "claimed_at": "2026-09-05T15:00:29.765Z",
+      "released_at": "2026-09-05T15:05:10.939Z",
+      "release_reason": [
+        "Bounded work order and product contract retained; awaiting the new experiment budget decision. No actor generation, experimental result or readiness pass is claimed."
+      ]
+    },
+    {
+      "id": "claim-20260905151044-9ccb72fc",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "0fc622d",
+      "branch": "codex/wi-0189-parallel-sales-poc",
+      "worktree": null,
+      "claimed_at": "2026-09-05T15:10:44.392Z",
+      "released_at": "2026-09-05T15:34:17.469Z",
+      "release_reason": [
+        "Approved scope and product contract are ready for Standard Spec and Design review."
+      ]
+    },
+    {
+      "id": "claim-20260905153437-0a374829",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "0fc622d",
+      "branch": "codex/wi-0189-parallel-sales-poc",
+      "worktree": null,
+      "claimed_at": "2026-09-05T15:34:37.052Z",
+      "released_at": "2026-09-05T16:07:33.701Z",
+      "release_reason": [
+        "Bounded experiment stopped and report handed off; no model retry or continuation authorized."
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0189/work-order.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0189/approval.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0189/product-contract.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0189/work-order.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0189/work-order.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0189/handoff-001-developer-to-quality_evaluator.md",
+      ".ai-org/artifacts/WI-0189/handoff.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0189/handoff.md",
+      ".ai-org/artifacts/WI-0189/results.json"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0189/work-order.md",
+    ".ai-org/artifacts/WI-0189/approval.md",
+    ".ai-org/artifacts/WI-0189/product-contract.md",
+    ".ai-org/artifacts/WI-0189/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0189/handoff.md",
+    ".ai-org/artifacts/WI-0189/results.json"
+  ],
+  "unresolved": [
+    "Parallel Integrator stopped at unsupported Git-log option; final Verifier unstarted. Review retained report; no retry or efficiency claim. Formal outer QA pending."
+  ],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "90a5870d993c8d5b0289571fc511db2cbb4cc3d6",
+      "artifact": ".ai-org/artifacts/WI-0189/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-05T16:07:33.398Z"
+    }
+  ],
+  "developer_candidate_revision": "90a5870d993c8d5b0289571fc511db2cbb4cc3d6"
+}
