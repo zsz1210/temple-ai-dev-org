@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0196",
   "title": "Implement two-phase native child acquisition",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T04:09:16.951Z",
-  "updated_at": "2026-09-06T04:29:45.720Z",
+  "updated_at": "2026-09-06T04:45:13.785Z",
   "scope": [
     "Repair native comparison observation so a bounded parent subAgentActivity hint remains quarantined until exact thread/resume identity, model, and reasoning-effort verification succeeds, then replay buffered child events without changing sealed predecessor evidence."
   ],
@@ -45,7 +45,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "832f3e483416a35a854e05d19cb775930627500f",
+  "base_revision": "fd53d7dea73ae4da6143e60e62dd60f3eb8d04f4",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -53,15 +53,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906042945-8f827b01",
-    "status": "active",
+    "id": "claim-20260906043638-e3f10432",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "832f3e483416a35a854e05d19cb775930627500f",
+    "agent_id": "agent-lulu",
+    "base_revision": "fd53d7dea73ae4da6143e60e62dd60f3eb8d04f4",
     "branch": "codex/wi-0191-proportionate-evaluation",
     "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
-    "claimed_at": "2026-09-06T04:29:45.720Z",
-    "released_at": null
+    "claimed_at": "2026-09-06T04:36:38.003Z",
+    "released_at": "2026-09-06T04:45:13.785Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -92,14 +93,29 @@
     },
     {
       "id": "claim-20260906042945-8f827b01",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "832f3e483416a35a854e05d19cb775930627500f",
       "branch": "codex/wi-0191-proportionate-evaluation",
       "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
       "claimed_at": "2026-09-06T04:29:45.720Z",
-      "released_at": null
+      "released_at": "2026-09-06T04:36:24.096Z",
+      "release_reason": [
+        "Corrected exact candidate fd53d7dea73ae4da6143e60e62dd60f3eb8d04f4 ready for re-review"
+      ]
+    },
+    {
+      "id": "claim-20260906043638-e3f10432",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "fd53d7dea73ae4da6143e60e62dd60f3eb8d04f4",
+      "branch": "codex/wi-0191-proportionate-evaluation",
+      "worktree": "/Users/zsz1210/Documents/ChatGPT/temple-wi-0191-evaluation",
+      "claimed_at": "2026-09-06T04:36:38.003Z",
+      "released_at": "2026-09-06T04:45:13.785Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -120,16 +136,31 @@
     ],
     "profile_eligibility": [
       ".ai-org/work-items/WI-0196.json"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0196/handoff-002-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0196/rework-test-report.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0196/review-2.md"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0196/review-2.md"
     ]
   },
   "evidence": [
     ".ai-org/work-items/WI-0196.json",
     ".ai-org/artifacts/WI-0196/design.md",
     ".ai-org/artifacts/WI-0196/handoff-001-developer-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0196/test-report.md"
+    ".ai-org/artifacts/WI-0196/test-report.md",
+    ".ai-org/artifacts/WI-0196/handoff-002-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0196/rework-test-report.md",
+    ".ai-org/artifacts/WI-0196/review-2.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -138,6 +169,14 @@
       "input_revision": "832f3e483416a35a854e05d19cb775930627500f",
       "artifact": ".ai-org/artifacts/WI-0196/handoff-001-developer-to-quality_evaluator.md",
       "created_at": "2026-09-06T04:19:02.846Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "fd53d7dea73ae4da6143e60e62dd60f3eb8d04f4",
+      "artifact": ".ai-org/artifacts/WI-0196/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T04:36:15.212Z"
     }
   ],
   "rework_history": [
@@ -179,5 +218,9 @@
         ".ai-org/artifacts/WI-0196/handoff-001-developer-to-quality_evaluator.md"
       ]
     }
-  ]
+  ],
+  "developer_candidate_revision": "fd53d7dea73ae4da6143e60e62dd60f3eb8d04f4",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
 }
