@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0213",
   "title": "Separate model-readable context from validation metadata",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T12:32:41.389Z",
-  "updated_at": "2026-09-06T12:39:06.434Z",
+  "updated_at": "2026-09-06T12:48:22.705Z",
   "scope": [
     "Add an opt-in model JSON view after unchanged context acquisition; preserve default JSON, required bodies, authority checks and fallback. Verify offline before a separately bounded comparison; never alter frozen experiments."
   ],
@@ -38,14 +38,14 @@
     "evaluated_at": "2026-09-06T12:32:41.389Z",
     "escalated": false
   },
-  "parent_work_item_id": null,
+  "parent_work_item_id": "WI-0214",
   "tracker_visibility": "team-visible",
   "tracker_refs": [],
   "tracker_reconciliations": [],
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "f3f23d648d6ade3d37019769c3dadf6a8ae09f4f",
+  "base_revision": "6d15bbfde3d093a757634835d1479f23a6f530bd",
   "parallel_mode": "pending",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -56,15 +56,18 @@
     "WI-0211: merged retained release-gate evidence; released claim; successor src/test edits only"
   ],
   "claim": {
-    "id": "claim-20260906123331-d0ccf059",
-    "status": "active",
+    "id": "claim-20260906124519-52615b60",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "f3f23d648d6ade3d37019769c3dadf6a8ae09f4f",
+    "agent_id": "agent-lulu",
+    "base_revision": "6d15bbfde3d093a757634835d1479f23a6f530bd",
     "branch": "codex/model-context-render",
     "worktree": null,
-    "claimed_at": "2026-09-06T12:33:31.171Z",
-    "released_at": null
+    "claimed_at": "2026-09-06T12:45:19.215Z",
+    "released_at": "2026-09-06T12:48:22.437Z",
+    "release_reason": [
+      "Independent QA passed exact candidate; no further reviewer work"
+    ]
   },
   "claims": [
     {
@@ -81,14 +84,31 @@
     },
     {
       "id": "claim-20260906123331-d0ccf059",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "f3f23d648d6ade3d37019769c3dadf6a8ae09f4f",
       "branch": "codex/model-context-render",
       "worktree": null,
       "claimed_at": "2026-09-06T12:33:31.171Z",
-      "released_at": null
+      "released_at": "2026-09-06T12:42:01.021Z",
+      "release_reason": [
+        "Candidate frozen for independent review"
+      ]
+    },
+    {
+      "id": "claim-20260906124519-52615b60",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "6d15bbfde3d093a757634835d1479f23a6f530bd",
+      "branch": "codex/model-context-render",
+      "worktree": null,
+      "claimed_at": "2026-09-06T12:45:19.215Z",
+      "released_at": "2026-09-06T12:48:22.437Z",
+      "release_reason": [
+        "Independent QA passed exact candidate; no further reviewer work"
+      ]
     }
   ],
   "gate_evidence": {
@@ -106,11 +126,39 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0213/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0213/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0213/verification.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0213/verification.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0213/verification.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0213/verification.md"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0213/design.md"
+    ".ai-org/artifacts/WI-0213/design.md",
+    ".ai-org/artifacts/WI-0213/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0213/verification.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "engineering_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "6d15bbfde3d093a757634835d1479f23a6f530bd",
+      "artifact": ".ai-org/artifacts/WI-0213/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-06T12:42:00.699Z"
+    }
+  ],
+  "developer_candidate_revision": "6d15bbfde3d093a757634835d1479f23a6f530bd"
 }

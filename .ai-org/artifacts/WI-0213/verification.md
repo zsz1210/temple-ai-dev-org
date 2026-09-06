@@ -1,0 +1,9 @@
+# Verification
+
+Candidate: `6d15bbfde3d093a757634835d1479f23a6f530bd`.
+
+Developer: agent-rikku. Full `npm run verify` passed: 658 tests, zero failures, cancellations or skips; 153842.338708 ms. The installed model-format test measured 89265 full JSON bytes versus 84432 model JSON bytes (5.41% reduction), with identical source bodies, source restrictions, navigation and semantic entry. These are synthetic bytes, not live model Tokens. Explicit full equals the previous default, stale expected-plan fails, invalid format fails before execution, fallback remains full and both formats are read-only. Unknown omitted metadata fields and recovery preserve the original object.
+
+During editing, the new option initially lacked global parser registration; the installed CLI regression caught this before any model run and it was corrected. A separate renderer file exceeded the reviewed package file count; the small pure renderer was placed beside its producer instead, with the package boundary unchanged. Final full verification passed after both corrections. No live experiment, release, reset or purchase was performed.
+
+Independent review: passed by agent-lulu in the distinct `wi0213_format_qa` runtime against the exact candidate above. Independently ran `node --test test/context-enter.test.mjs test/context-packet.test.mjs`: 36 passed, zero failures, cancellations or skips; 47715 ms. No blocking findings. Verified unchanged acquisition/default serialization/exit status, source bodies/hashes/restrictions, navigation/coverage, unknown-field/schema/warning/recovery full fallback, and stale/read-only guards. The new root schema and derived-view notice distinguish this from a complete machine packet; retained packet digests identify underlying acquisition, not the rendered view. Consumers must recognize the new root schema. This review establishes neither measured efficiency nor live-experiment approval.

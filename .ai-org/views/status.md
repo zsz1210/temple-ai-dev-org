@@ -4,10 +4,10 @@
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 1 wave(s), fresh=false
-- Work items: 212 total, 14 active
+- Parallel plan: 1 wave(s), fresh=true
+- Work items: 214 total, 16 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 65 registered, 0 reserved, 0 active
+- Runtime workers: 66 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 23
+- Attention signals: 21
 
 ## Collaboration
 
@@ -37,11 +37,11 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 1
 - Dispatchable Work Items: 1
-- Active / sequential / blocked: 0 / 6 / 3
-- Next wave: WI-0190
+- Active / sequential / blocked: 0 / 0 / 0
+- Next wave: WI-0213
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -237,7 +237,7 @@
 | WI-0187 | Compose Lean stage completion with truthful diagnostics and recovery | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2611def7` | 0 | 7 | 0 |
 | WI-0188 | Integrate opt-in Lean entry with bounded material and completion | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6346e026` | 0 | 9 | 0 |
 | WI-0189 | Compare single-worker and parallel Terra delivery | test | Quality & Evaluation Engineer | Lulu | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `90a5870d` | 0 | 6 | 1 |
-| WI-0190 | Clarify proportionate entry and stage completion | release_gate | Release Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `50ae4f50` | 0 | 5 | 0 |
+| WI-0190 | Clarify proportionate entry and stage completion | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `50ae4f50` | 0 | 5 | 0 |
 | WI-0191 | Evaluate proportionate routes with matched before-after scenarios | release_gate | Release Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `85beb7ac` | 0 | 9 | 1 |
 | WI-0192 | Repair paired evaluation evidence without changing sealed results | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9e96f7bb` | 0 | 3 | 0 |
 | WI-0193 | Run bounded native support comparison after measurement repair | test | Quality & Evaluation Engineer | Lulu | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2628319f` | 0 | 2 | 1 |
@@ -260,6 +260,8 @@
 | WI-0210 | Complete frozen three-arm comparison after read-only Git compatibility repair | eval | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a12f3473` | 0 | 4 | 0 |
 | WI-0211 | Integrate completed context comparison without reintroducing old history | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `8e410646` | 0 | 4 | 0 |
 | WI-0212 | Clarify product-test reruns after evidence-only edits | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `944c5527` | 0 | 3 | 0 |
+| WI-0213 | Separate model-readable context from validation metadata | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6d15bbfd` | 0 | 3 | 0 |
+| WI-0214 | Evaluate model-facing context representation | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
 
 ## Codex task registry
 
@@ -347,6 +349,7 @@
 | worker-20260906062143-138a5104 | internal-subagent | WI-0201 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0201_lifecycle_review | `ac618c02` | 0 |
 | worker-20260906062924-8f656fc3 | internal-subagent | WI-0201 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0201_lifecycle_recheck | `5fda83ac` | 0 |
 | worker-20260906064131-16749722 | internal-subagent | WI-0205 | Quality & Evaluation Engineer / Lulu | completed | /root/bc_measurement_readiness | `eb6315c` | 0 |
+| worker-20260906124519-de0a6952 | internal-subagent | WI-0213 | Independent QA / Lulu | completed | /root/wi0213_format_qa | `6d15bbfd` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -375,15 +378,13 @@
 - worker-20260905124032-458ce7b0 is failed
 - worker-20260905130828-87bb7969 is failed
 - worker-20260905141644-4a85d8c7 is failed
-- Generated parallel plan is stale; rebuild it before dispatch
-- Parallel plan has 3 blocked Work Item(s)
 
 ## External tracker coordination
 
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 73
+- Team-visible Work Items: 75
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -456,14 +457,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-06T12:20:50.591Z | work_item_transitioned | WI-0212 | agent-lulu |
-| 2026-09-06T12:20:50.319Z | work_item_transitioned | WI-0212 | agent-lulu |
-| 2026-09-06T12:20:50.048Z | work_item_transitioned | WI-0212 | agent-lulu |
-| 2026-09-06T12:20:49.763Z | work_item_transitioned | WI-0212 | agent-rikku |
-| 2026-09-06T12:20:49.441Z | work_item_claim_released | WI-0212 | human |
-| 2026-09-06T12:20:49.137Z | handoff_created | WI-0212 | agent-rikku |
-| 2026-09-06T12:16:40.452Z | work_item_claimed | WI-0212 | human |
-| 2026-09-06T12:16:40.167Z | work_item_transitioned | WI-0212 | agent-tidus |
+| 2026-09-06T12:48:22.705Z | work_item_transitioned | WI-0213 | agent-lulu |
+| 2026-09-06T12:48:22.437Z | work_item_claim_released | WI-0213 | human |
+| 2026-09-06T12:48:22.159Z | runtime_worker_status_changed | WI-0213 | agent-lulu |
+| 2026-09-06T12:46:26.028Z | runtime_worker_attached | WI-0213 | agent-lulu |
+| 2026-09-06T12:45:19.199Z | runtime_worker_reserved | WI-0213 | human |
+| 2026-09-06T12:45:19.215Z | work_item_claimed | WI-0213 | human |
+| 2026-09-06T12:45:18.477Z | work_item_coordination_configured | WI-0213 | agent-lulu |
+| 2026-09-06T12:45:05.785Z | work_item_coordination_configured | WI-0190 | agent-mog |
 
 ## Assignments
 

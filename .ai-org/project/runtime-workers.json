@@ -1840,6 +1840,34 @@
       "attached_at": "2026-09-06T06:41:57.484Z",
       "completed_at": "2026-09-06T06:49:52.351Z",
       "updated_at": "2026-09-06T06:49:52.351Z"
+    },
+    {
+      "id": "worker-20260906124519-de0a6952",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0213",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260906124519-52615b60",
+      "base_revision": "6d15bbfde3d093a757634835d1479f23a6f530bd",
+      "branch": "codex/model-context-render",
+      "worktree": null,
+      "plan_fingerprint": "875e4ba1b262f5f0e99718b40a439919f40efb2e8086a7f6eedbe4ab5a1ebc18",
+      "plan_digest": "bdb53e2aa8e972dd64c533d16b915ed74e245dc88b492df70b07b7cd3db68890",
+      "preparation_fingerprint": "f59797fafbaa99bcaf7d7f22c87bd1c112560342cc8201290f19d2be8d0d439b",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0213_format_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "6d15bbfde3d093a757634835d1479f23a6f530bd",
+      "evidence": [
+        ".ai-org/artifacts/WI-0213/verification.md"
+      ],
+      "reserved_at": "2026-09-06T12:45:19.199Z",
+      "attached_at": "2026-09-06T12:46:26.028Z",
+      "completed_at": "2026-09-06T12:48:22.159Z",
+      "updated_at": "2026-09-06T12:48:22.159Z"
     }
   ]
 }
