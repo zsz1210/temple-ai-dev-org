@@ -1,0 +1,122 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0215",
+  "title": "Run bounded full versus model context comparison",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-06T13:12:40.862Z",
+  "updated_at": "2026-09-06T13:20:49.601Z",
+  "scope": [
+    "Implement and verify a format-only successor harness, then execute the user-approved four deliveries/eight Terra medium stages within 640000 operational Tokens and 48 minutes; no retries, fallback, reset, purchase or refill."
+  ],
+  "acceptance_criteria": [
+    "Preserve isolation and frozen earlier labs; independently review readiness; consume one frozen approval; report quality, Tokens, latency and limitations even if stopped."
+  ],
+  "affected_paths": [
+    "scripts/context-format-comparison.mjs",
+    "scripts/context-material-comparison.mjs",
+    "scripts/delivery-control-pair.mjs",
+    "scripts/delivery-command-policy.mjs",
+    "test/context-format-comparison.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T13:12:40.861Z",
+    "escalated": false
+  },
+  "parent_work_item_id": "WI-0214",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "786c2eff",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0172: no active writer; prior evidence frozen, successor harness edits owned by WI-0215.",
+    "WI-0190: no active writer; prior evidence frozen, successor harness edits owned by WI-0215.",
+    "WI-0208: no active writer; prior evidence frozen, successor harness edits owned by WI-0215.",
+    "WI-0209: no active writer; prior evidence frozen, successor harness edits owned by WI-0215.",
+    "WI-0210: no active writer; prior evidence frozen, successor harness edits owned by WI-0215.",
+    "WI-0211: no active writer; prior evidence frozen, successor harness edits owned by WI-0215.",
+    "WI-0212: no active writer; prior evidence frozen, successor harness edits owned by WI-0215."
+  ],
+  "claim": {
+    "id": "claim-20260906131316-18da88cc",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "786c2eff",
+    "branch": "codex/context-format-comparison",
+    "worktree": null,
+    "claimed_at": "2026-09-06T13:13:16.444Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260906131241-66c47628",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "786c2eff",
+      "branch": "codex/context-format-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-06T13:12:41.386Z",
+      "released_at": "2026-09-06T13:13:15.609Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260906131316-18da88cc",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "786c2eff",
+      "branch": "codex/context-format-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-06T13:13:16.444Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0215/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0215/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0215/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0215/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0215/design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0215/design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
