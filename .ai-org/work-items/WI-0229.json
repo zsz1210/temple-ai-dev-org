@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-07T03:48:39.045Z",
-  "updated_at": "2026-09-07T03:50:04.996Z",
+  "updated_at": "2026-09-07T04:09:51.646Z",
   "scope": [
     "Implement WI-0225 mechanical exception as explicit opt-in for preapproved exact replacement in non-normative plain text only. Preserve normal Lean Verifier and all Standard/High-Assurance gates; use existing recoverable finish transaction. Include ADR, contract, migration review, offline tests, documentation and independent QA. No model experiments or publication."
   ],
@@ -49,7 +49,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "520450bcc7a142d45824a4a9b60566fa0a9ae56a",
+  "base_revision": "ef4f6cd34279ab11a3410876d84688b7a2ff68a3",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -61,14 +61,14 @@
     "WI-0213: released claim; add one explicit finish option without changing existing context behavior or historical evidence."
   ],
   "claim": {
-    "id": "claim-20260907035004-36064dcd",
+    "id": "claim-20260907040951-787d782d",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-rikku",
-    "base_revision": "520450bcc7a142d45824a4a9b60566fa0a9ae56a",
+    "base_revision": "ef4f6cd34279ab11a3410876d84688b7a2ff68a3",
     "branch": "codex/mechanical-completion",
     "worktree": null,
-    "claimed_at": "2026-09-07T03:50:04.996Z",
+    "claimed_at": "2026-09-07T04:09:51.646Z",
     "released_at": null
   },
   "claims": [
@@ -86,13 +86,53 @@
     },
     {
       "id": "claim-20260907035004-36064dcd",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "520450bcc7a142d45824a4a9b60566fa0a9ae56a",
       "branch": "codex/mechanical-completion",
       "worktree": null,
       "claimed_at": "2026-09-07T03:50:04.996Z",
+      "released_at": "2026-09-07T04:05:20.088Z",
+      "release_reason": [
+        "Exact candidate and full verification handed to distinct reviewer"
+      ]
+    },
+    {
+      "id": "claim-20260907040605-c626b635",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "ef4f6cd34279ab11a3410876d84688b7a2ff68a3",
+      "branch": "codex/mechanical-completion",
+      "worktree": null,
+      "claimed_at": "2026-09-07T04:06:05.155Z",
+      "released_at": "2026-09-07T04:08:25.498Z",
+      "release_reason": [
+        "Test finding recorded; retain Test for supported same-scope rework, no acceptance."
+      ]
+    },
+    {
+      "id": "claim-20260907040951-ec1a1ee1",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "ef4f6cd34279ab11a3410876d84688b7a2ff68a3",
+      "branch": "codex/mechanical-completion",
+      "worktree": null,
+      "claimed_at": "2026-09-07T04:09:51.051Z",
+      "released_at": "2026-09-07T04:09:51.344Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260907040951-787d782d",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "ef4f6cd34279ab11a3410876d84688b7a2ff68a3",
+      "branch": "codex/mechanical-completion",
+      "worktree": null,
+      "claimed_at": "2026-09-07T04:09:51.646Z",
       "released_at": null
     }
   ],
@@ -115,8 +155,71 @@
   },
   "evidence": [
     ".ai-org/artifacts/WI-0229/brief.md",
-    "docs/adr/0061-exact-text-mechanical-completion.md"
+    "docs/adr/0061-exact-text-mechanical-completion.md",
+    ".ai-org/artifacts/WI-0229/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0229/report.md",
+    ".ai-org/artifacts/WI-0229/handoff-002-quality_evaluator-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0229/qa.md"
   ],
-  "unresolved": [],
-  "next_position": "quality_evaluator"
+  "unresolved": [
+    "P2: mechanical ownership guard uses object-key lookup although temple.lock.managed_files is an array; fix exact entry-path exclusion and add a real-format regression before acceptance."
+  ],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "ef4f6cd34279ab11a3410876d84688b7a2ff68a3",
+      "artifact": ".ai-org/artifacts/WI-0229/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-07T04:05:10.859Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "quality_evaluator",
+      "actor": "agent-lulu",
+      "input_revision": "ef4f6cd34279ab11a3410876d84688b7a2ff68a3",
+      "artifact": ".ai-org/artifacts/WI-0229/handoff-002-quality_evaluator-to-quality_evaluator.md",
+      "created_at": "2026-09-07T04:08:25.180Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-07T04:09:51.344Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260907040951-ec1a1ee1",
+      "rejected_revision": "ef4f6cd34279ab11a3410876d84688b7a2ff68a3",
+      "reason": [
+        "Correct exact managed-file ownership lookup and real-format regression after independent QA rejection"
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0229/qa.md"
+      ],
+      "scope_digest": "be75db37679088d5d482b1298b44a7fcb9ce7cf13e64cc2339610c185c554c28",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0229/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0229/report.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "ef4f6cd34279ab11a3410876d84688b7a2ff68a3"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0229/handoff-001-developer-to-quality_evaluator.md",
+        ".ai-org/artifacts/WI-0229/handoff-002-quality_evaluator-to-quality_evaluator.md"
+      ]
+    }
+  ]
 }

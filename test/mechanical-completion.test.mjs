@@ -4,6 +4,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { sha256 } from "../src/files.mjs";
 import { finishLeanWorkItem } from "../src/lean-finish.mjs";
+import { verifyMechanicalCompletion } from "../src/mechanical-completion.mjs";
 import { withProjectMutationLock } from "../src/project.mjs";
 import { fixture, cli, git, itemState, canonicalBytes } from "./helpers/lean-delivery-fixture.mjs";
 
@@ -96,7 +97,18 @@ test("extra committed or dirty product changes, wrong replacement, and executabl
 test("managed, authority-indexed and non-Solo files retain ordinary verification", async t => {
   const f = await setup(t);
   const lock = JSON.parse(await fs.readFile(path.join(f.target, "temple.lock")));
-  await f.write("temple.lock", { ...lock, managed_files: { ...lock.managed_files, [f.note]: sha256("A small note.\n") } }); await rejectsWithoutWrites(f);
+  const verify = async () => verifyMechanicalCompletion(f.target, await itemState(f), {
+    claim_id: f.request.claimId, agent_id: f.request.agentId, principal_id: "human", position: "developer",
+    candidate_revision: f.request.revision, mechanical_contract: f.contractRef
+  });
+  // Assert the ownership guard itself, not a later dirty-lock or Doctor rejection.
+  assert.ok(Array.isArray(lock.managed_files));
+  await f.write("temple.lock", { ...lock, managed_files: [...lock.managed_files, { path: f.note, sha256: sha256("A small note.\n") }] });
+  await assert.rejects(verify, /managed content excluded/); await rejectsWithoutWrites(f);
+  for (const managed_files of [undefined, {}, [null], [{ path: f.note }]]) {
+    await f.write("temple.lock", { ...lock, managed_files });
+    await assert.rejects(verify, /valid managed-file inventory required/); await rejectsWithoutWrites(f);
+  }
   await f.write("temple.lock", lock);
   const indexRef = ".ai-org/project/spec-index.json", index = JSON.parse(await fs.readFile(path.join(f.target, indexRef)));
   await f.write(indexRef, { ...index, entries: [{ source: { location: f.note } }] }); await rejectsWithoutWrites(f);

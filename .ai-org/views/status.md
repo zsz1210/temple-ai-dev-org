@@ -276,7 +276,7 @@
 | WI-0226 | Implement bounded Lean procedure routing and offline evaluation reliability | cancelled | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 6 | 2 |
 | WI-0227 | Reduce always-loaded operating instructions without weakening gates | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f7062396` | 0 | 8 | 0 |
 | WI-0228 | Accept retained offline evaluation reliability independently of rejected Lean prototype | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 7 | 0 |
-| WI-0229 | Add opt-in exact-text mechanical completion with fail-closed boundaries | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260907035004-36064dcd | `—` | 0 | 2 | 0 |
+| WI-0229 | Add opt-in exact-text mechanical completion with fail-closed boundaries | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260907040951-787d782d | `—` | 0 | 6 | 1 |
 
 ## Codex task registry
 
@@ -482,14 +482,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-07T03:50:04.996Z | work_item_claimed | WI-0229 | human |
-| 2026-09-07T03:50:04.698Z | work_item_transitioned | WI-0229 | agent-tidus |
-| 2026-09-07T03:50:04.422Z | work_item_transitioned | WI-0229 | agent-yuna |
-| 2026-09-07T03:50:04.137Z | work_item_transitioned | WI-0229 | agent-mog |
-| 2026-09-07T03:50:03.807Z | work_item_claimed | WI-0229 | human |
-| 2026-09-07T03:50:03.394Z | work_item_coordination_configured | WI-0229 | agent-mog |
-| 2026-09-07T03:48:39.045Z | work_item_created | WI-0229 | agent-mog |
-| 2026-09-07T03:36:46.253Z | work_item_closed | WI-0228 | agent-mog |
+| 2026-09-07T04:09:51.646Z | work_item_claimed | WI-0229 | human |
+| 2026-09-07T04:09:51.344Z | work_item_reworked | WI-0229 | agent-lulu |
+| 2026-09-07T04:09:51.051Z | work_item_claimed | WI-0229 | human |
+| 2026-09-07T04:08:25.498Z | work_item_claim_released | WI-0229 | human |
+| 2026-09-07T04:08:25.180Z | handoff_created | WI-0229 | agent-lulu |
+| 2026-09-07T04:06:05.155Z | work_item_claimed | WI-0229 | human |
+| 2026-09-07T04:05:20.444Z | work_item_transitioned | WI-0229 | agent-rikku |
+| 2026-09-07T04:05:20.088Z | work_item_claim_released | WI-0229 | human |
 
 ## Assignments
 

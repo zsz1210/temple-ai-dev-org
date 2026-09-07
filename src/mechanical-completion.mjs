@@ -65,7 +65,9 @@ export async function verifyMechanicalCompletion(root, item, request) {
   const collaboration = JSON.parse(await fs.readFile(path.join(root, ".ai-org/project/collaboration.json")));
   requireThat(collaboration.profile === "solo", "ordinary verification required outside Solo");
   const lock = JSON.parse(await fs.readFile(path.join(root, "temple.lock")));
-  requireThat(!Object.hasOwn(lock.managed_files ?? {}, contract.file), "managed content excluded");
+  requireThat(Array.isArray(lock.managed_files) && lock.managed_files.every(entry =>
+    entry && typeof entry.path === "string" && typeof entry.sha256 === "string"), "valid managed-file inventory required");
+  requireThat(!lock.managed_files.some(entry => entry.path === contract.file), "managed content excluded");
   const index = JSON.parse(await fs.readFile(path.join(root, ".ai-org/project/spec-index.json")));
   requireThat(!(index.entries ?? []).some(e => e.source?.location === contract.file || e.approval_ref === contract.file), "authority-indexed content excluded");
   requireThat((item.affected_paths ?? []).filter(p => !p.startsWith(".ai-org/")).join("\n") === contract.file, "one exact affected note required");
