@@ -42,6 +42,10 @@ Use ADR-0062 for the authored-contract decision. Lulu performs separate exact-
 candidate verification; Mog joins evidence and owns integration. No UI applies.
 The supporting `scripts/check-package.mjs` file-count ceiling increases by one
 for that reviewed ADR only; preserve all package exclusions and size limits.
+The supporting `test/skill-policy.test.mjs` and `test/context.test.mjs` assertions
+follow obligations to their retained owner; do not require the old repeated
+paragraph layout. Keep their real workflow/installation assertions and all
+missing-source, identity, profile and recovery behavioral tests.
 WI-0190/WI-0211/WI-0234/WI-0236 have released claims and recorded reciprocal scope
 coordination. Their artifacts, historical revisions and outcomes are not edited.
 

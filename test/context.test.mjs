@@ -169,22 +169,17 @@ test("fresh initialization installs a compact authority-equivalent instruction r
   assert.equal(installed, distribution);
   assert.equal(toolkit.match(marker)?.[0], distribution.trim());
   assert.ok(Buffer.byteLength(installed, "utf8") < 9310);
-  for (const invariant of [
-    "Repository files and recorded evidence are canonical",
-    "Position, Agent Identity, Assignment, Discipline, Human Principal",
-    "node ./templew.mjs context resolve",
-    "result is not evidence of instruction loading, comprehension, authority, or lifecycle progress",
-    "Only exact `temple.lock.managed_files` entries are framework-managed",
-    "Spec → Design → Build → Test → Eval → Independent QA → Release Gate",
-    "Developer and Independent QA must be different Agent Identities",
-    "A pilot, example, template validation, or bounded experiment stops",
-    ".ai-org/project/usage-policy.json",
-    ".ai-org/core/high-assurance.json",
-    "work-item claim/release",
-    "UI Designer Assignment"
-  ]) {
-    assert.match(installed, new RegExp(invariant.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
-  }
+  // Structural reachability, not semantic equivalence proven by text matching.
+  assert.match(installed, /Read the whole `TEMPLE.md` operating contract/);
+  const contract=(await fs.readFile(path.join(target,"TEMPLE.md"),"utf8")).replace(/\s+/g," ");
+  for(const invariant of [/Repository files and exact evidence are canonical/,/node \.\/templew\.mjs context resolve/,
+    /claim before/,/Never make Developer and Independent QA the same Agent Identity/])assert.match(installed,invariant);
+  for(const invariant of [/Position is not an Identity, Assignment, Discipline or authority grant/,
+    /loading, comprehension, permission or lifecycle progress/,
+    /Only exact `temple.lock.managed_files` entries are framework-managed/,
+    /Standard retains Spec, Design, Build, Test, Eval, Independent QA and Release Gate/,
+    /Before a pilot\/example\/experiment, record purpose, observable stop/,
+    /\.ai-org\/project\/usage-policy\.json/,/\.ai-org\/core\/high-assurance\.json/,/Resolve UI Designer/])assert.match(contract,invariant);
 });
 
 test("fresh bounded Lean fixture does not route unrelated Skills from generic task wording", async (context) => {

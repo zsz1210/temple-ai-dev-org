@@ -5,6 +5,8 @@ in `AGENTS.md`; lifecycle mechanics are in [temple-work](.agents/skills/temple-w
 Read procedures when their trigger applies, not the entire catalog. Required
 unselected and nested sources still apply. Reuse only whole bodies actually read,
 still available and unchanged; a digest proves neither reading nor comprehension.
+An unreadable required source blocks mutation. An incomplete route or unclear
+authority requires recovery, not a best-effort substitute.
 
 ## Authority and scope
 
@@ -44,7 +46,7 @@ their exact evidence before dependent work; follow the Work Skill's parallel pro
 | High-Assurance | Read `.ai-org/core/high-assurance.json` and [assurance](.agents/skills/temple-work/references/assurance-and-recovery.md). Preserve risk tier, sponsors, normalized revision-matched evidence, distinct Human Principals, rollback and approvals; Developer differs from QA and Release Manager. |
 | External trackers/references | First read `.ai-org/project/tracker.json`. Keep repository Work Items, execution tasks and company items distinct. Inspect/reconcile do not write externally. Never store credentials, infer write-back permission or let external done/cancelled satisfy gates. |
 | Console/control plane | Read its project configuration before operating it. Provider usage/health/events and views cannot satisfy gates; unsupported capabilities stay unknown. An Observer/Console is optional, not required for ordinary delivery. |
-| Separate Codex task | Use the suggested `WI-#### · short goal · Position (Agent Name)` or `Project · control scope · Primary Position (Agent Name)` title and register its stable ID. A custom-agent name identifies Position configuration, not display name. Registration does not create/rename/resume/archive tasks; those actions need actual app operations. |
+| Separate Codex task | Use the CLI's `suggested_title` verbatim: `WI-#### · short goal · Position (Agent Name)` or `Project · control scope · Primary Position (Agent Name)`. Register its stable ID. A custom-agent name identifies Position configuration, not display name. Registration does not create/rename/resume/archive tasks; those actions need actual app operations. |
 | Open decision, domain ambiguity, documentation or Skill authoring | Use the applicable [decision](.agents/skills/decision-interview/SKILL.md), [domain](.agents/skills/domain-modeling/SKILL.md), [documentation](.agents/skills/project-documentation/SKILL.md) or [authoring](.agents/skills/skill-authoring/SKILL.md) Skill. Discovery is not authority to perform or promote the capability. |
 
 ## Initialization and recovery
