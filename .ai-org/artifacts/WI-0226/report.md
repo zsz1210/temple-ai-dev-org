@@ -68,9 +68,40 @@ change the consumed WI-0224 protocol or authorize continuing its run.
 - Independent read-only review found two P2 issues in the retained sequence:
   cleanup incorrectly left usage complete, and generic runtime stops discarded
   diagnostics. Both received targeted regression checks before final qualification.
+- Follow-up review found one additional P2 conjunction: a stopped runtime that
+  also exhausted the aggregate budget could bypass incomplete-usage marking.
+  Candidate `5aca59ce9058877576c4d06542680fc5f71984b1` marks incompleteness before
+  persistence and early limit returns. Both stopped-plus-token-overrun and
+  stopped-plus-deadline regressions preserve the known subtotal, invalid sample
+  status and original diagnostic without dispatching another stage.
+- The separate reviewer reproduced both conjunctions on that candidate and found
+  no remaining concrete P1/P2 blocker in the bounded recheck. This is informational
+  review, not formal Independent QA acceptance or an efficiency endorsement.
 - The bundled Skill Python validator lacked PyYAML; no dependency was installed.
   There is no final Skill change; the repository's existing Skill checks apply.
-- Final candidate verification and separate review are pending below.
+- The preceding retained candidate `ed62a967` passed full local verification
+  (695/695). It is superseded by the final conjunction fix, whose full result is
+  recorded separately below; the earlier pass does not validate a later revision.
+- Final behavioral candidate `5aca59ce9058877576c4d06542680fc5f71984b1`:
+  `npm run verify` exited 0; **696/696 tests passed**, zero failed/skipped/cancelled
+  (test duration 171,302 ms). Repository checks, documentation links and package
+  boundary passed (412 files). The suite includes disposable init/Doctor/Status/
+  idempotent re-init and injected real Builder/Verifier lifecycle checks. These
+  are local, generation-free tests, not a live-model efficiency comparison.
+- Subsequent report and handoff changes are evidence/state only. This full result
+  applies to the exact behavioral candidate above, not an untested later code edit.
+- Developer ownership was released and the Work Item entered Test with Quality
+  Evaluator ownership. Post-handoff Doctor: 36 pass, 1 warning, 0 fail. The warning
+  is the existing stale generated parallel plan; no parallel runtime was dispatched
+  from it. Formal Test/Eval/Independent QA and integration remain pending.
+
+## Delivery boundary
+
+The original efficiency acceptance criterion remains unresolved: the only Lean
+prototype measured here was rejected and withdrawn. Do not mark the full Work
+Item accepted merely because its reliability subset passes. Test/Eval must assess
+that limited subset and retain the negative result; formal Independent QA and
+integration are separate gates. This report does not authorize another live run.
 
 ## Next decision
 
