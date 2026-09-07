@@ -21,8 +21,9 @@ const guides = [
 ];
 function freeze(value) { if (value && typeof value === "object") { Object.values(value).forEach(freeze); Object.freeze(value); } return value; }
 export const commandPolicyContract = freeze({
-  schema_version: "temple.delivery-command-policy/v1", version: "bounded-literal-v5", limits,
+  schema_version: "temple.delivery-command-policy/v1", version: "bounded-literal-v6", limits,
   argument_details: ["missing-option-value", "unexpected-positional", "unexpected-option-terminator", "invalid-source-json", "invalid-source-rows"],
+  revision_categories: ["head", "full-sha", "abbreviated-sha", "bounded-head-ancestor", "commit-assertion", "revision-range", "unsupported-ancestry", "named-ref", "unsupported-revision"],
   rules: [...rejectionRules, "temple-claim-boundary", ...operations.filter(x => x !== "unknown").map(x => `allow-${x}`)],
   families: ["unknown", "read", "git", "node", "temple"], operations,
   envelopes: ["unrecognized", "direct-literal", "zsh-lc-literal"],
@@ -37,7 +38,7 @@ export function commandGuide({ arm, stage }) {
     "Finish on acceptance: node ./templew.mjs work-item finish . --work-item WI-0001 --position quality_evaluator --operation-id finish-verify-v8 --claim-id CURRENT_CLAIM_ID --agent-id agent-verifier --principal-id human --revision CANDIDATE_FULL_SHA --judgment pass --test-evidence VERIFICATION.json --lean-closeout VERIFICATION.json --json.",
     "Optional finish --dry-run and --expected-plan 64_HEX_DIGEST are supported. A preview alone does not complete the stage. Inspect full finish mutation and diagnostics results."
   ] : [];
-  return [...rows.map(row => row.text), ...extra].join("\n");
+  return [...rows.map(row => row.text.replace("HEAD|FULL_SHA", "HEAD|SHA|HEAD^|HEAD~N").replace("Revisions are HEAD or a full SHA;", "Read revisions are HEAD, a 7..40 lowercase hex SHA, HEAD^ or HEAD~N (1..999); lifecycle revisions remain exact full SHAs;")), ...extra].join("\n");
 }
 
 class PolicyFailure extends Error { constructor(rule, detail = null) { super(rule); this.rule = rule; this.detail = detail; } }
@@ -182,7 +183,14 @@ function gitRevision(value, state, context, allowBlob = false) {
   role(state, "git-revision");
   let revision = value;
   if (allowBlob && value.includes(":")) { const index = value.indexOf(":"); revision = value.slice(0, index); paths([value.slice(index + 1)], state, { ...context, cwd: context.root }, true); }
-  need(/^(?:HEAD|[0-9a-f]{40})(?:\^\{commit\})?$/.test(revision), "revision-boundary");
+  const category = revision === "HEAD" ? "head" : /^[0-9a-f]{40}$/.test(revision) ? "full-sha"
+    : /^[0-9a-f]{7,39}$/.test(revision) ? "abbreviated-sha" : /^HEAD(?:\^|~[1-9][0-9]{0,2})(?:\^\{commit\})?$/.test(revision) ? "bounded-head-ancestor"
+    : /^(HEAD|[0-9a-f]{7,40})\^\{commit\}$/.test(revision) ? "commit-assertion"
+    : revision.includes("..") ? "revision-range" : /[~^]/.test(revision) ? "unsupported-ancestry"
+    : /^[A-Za-z_][A-Za-z0-9_/-]*$/.test(revision) ? "named-ref" : "unsupported-revision";
+  state.revision_category = category;
+  state.argument_index = context.commandArguments?.indexOf(value) ?? -1;
+  need(["head", "full-sha", "abbreviated-sha", "bounded-head-ancestor", "commit-assertion"].includes(category), "revision-boundary");
 }
 function gitCommand(args, state, context) {
   state.family = "git"; const name = args.shift();
@@ -238,7 +246,7 @@ function templeCommand(args, state, context) {
   need(args.shift() === ".", "temple-root-boundary"); role(state, "local-path");
   const wi = { "--work-item": ["work-item", "work-item"] }, identity = { "--agent-id": ["agent", "agent-identity"], "--principal-id": ["principal", "principal"] }, json = { "--json": ["json"] };
   const definitions = {
-    "context enter": { ...wi, ...identity, ...json, "--position": ["position", "position"], "--no-write": ["no-write"], ...(context.contextMaterial === true ? { "--material": ["material", "literal-text"], "--available-whole-sources": ["available", "literal-text"] } : {}), ...(["full", "model"].includes(context.contextFormat) ? { "--format": ["format", "literal-text"] } : {}) },
+    "context enter": { ...wi, ...identity, ...json, "--position": ["position", "position"], "--no-write": ["no-write"], ...([true, "operation"].includes(context.contextMaterial) ? { "--material": ["material", "literal-text"], "--available-whole-sources": ["available", "literal-text"] } : {}), ...(["full", "model"].includes(context.contextFormat) ? { "--format": ["format", "literal-text"] } : {}) },
     "work-item finish": { ...wi, ...identity, ...json, "--position": ["position", "position"], "--operation-id": ["operation", "operation-id"], "--claim-id": ["claim", "claim-id"], "--revision": ["revision", "exact-revision"], "--completed": ["completed", "literal-text"], "--evidence": ["evidence", "evidence-reference"], "--judgment": ["judgment", "literal-text"], "--test-evidence": ["test-evidence", "evidence-reference"], "--lean-closeout": ["lean-closeout", "evidence-reference"], "--dry-run": ["dry-run"], "--expected-plan": ["plan", "plan-digest"] },
     "context resolve": { ...wi, ...json, "--position": ["position", "position"], "--no-write": ["no-write"], "--compact": ["compact"] },
     doctor: { ...json, "--compact": ["compact"] }, status: { ...wi, ...json, "--no-write": ["no-write"], "--compact": ["compact"] },
@@ -267,7 +275,7 @@ function templeCommand(args, state, context) {
     if (name === "context enter") {
       exact(found, "no-write", true, "unsupported-option");
       if (["full", "model"].includes(context.contextFormat)) exact(found, "format", context.contextFormat, "unsupported-option");
-      if (found.has("material")) exact(found, "material", "task", "unsupported-option");
+      if (found.has("material")) exact(found, "material", context.contextMaterial === "operation" ? "operation" : "task", "unsupported-option");
       if (found.has("available")) {
         let rows; try { rows = JSON.parse(found.get("available")); } catch { need(false, "argument-shape", "invalid-source-json"); }
         need(Array.isArray(rows) && rows.length <= 2 && rows.every(row => row && Object.keys(row).sort().join() === "path,sha256" && ["AGENTS.md", "TEMPLE.md"].includes(row.path) && typeof row.sha256 === "string" && /^sha256:[a-f0-9]{64}$/.test(row.sha256)) && new Set(rows.map(row => row.path)).size === rows.length, "argument-shape", "invalid-source-rows");
@@ -353,13 +361,15 @@ function nodeCommand(tokens, state, context) {
 }
 
 export function classifyCommandItem(item, options = {}) {
-  const state = { allowed: false, rule: "malformed-envelope", family: "unknown", operation: "unknown", envelope: "unrecognized", argument_roles: [], argument_detail: null };
+  const state = { allowed: false, rule: "malformed-envelope", family: "unknown", operation: "unknown", envelope: "unrecognized", argument_roles: [], argument_detail: null, argument_index: null, revision_category: null };
   try {
     need(item && typeof item === "object" && item.type === "commandExecution" && boundedString(item.id) && item.id.length > 0 && ["inProgress", "completed", "failed", "declined"].includes(item.status) && typeof item.command === "string", "malformed-envelope");
     need(["ordinary", "temple"].includes(options.arm) && ["build", "verify"].includes(options.stage), "invalid-context");
     const context = { ...options, ...canonicalRoot(options.root, item.cwd) };
     validateActions(item.commandActions);
     const tokens = recognize(item.command, state), [program, ...rawArgs] = tokens;
+    // Transient argv exists only during classification; never return operands.
+    context.commandArguments = tokens.map(token => token.value);
     need(!program.glob, "shell-expansion");
     const args = rawArgs.flatMap((token, i) => {
       if (!token.glob) return [token];

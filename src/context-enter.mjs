@@ -106,11 +106,11 @@ export function modelContextView(result) {
   const packet = result?.packet;
   const entry = packet?.entry;
   if (result?.schema_version !== "temple.context-enter/v1" || result.status !== "eligible" ||
-      !["temple.context-packet/v2", "temple.context-packet/v3", "temple.context-packet/v4"].includes(packet?.schema_version) ||
+      !["temple.context-packet/v2", "temple.context-packet/v3", "temple.context-packet/v4", "temple.context-packet/v5"].includes(packet?.schema_version) ||
       packet.acquisition !== "complete" || entry?.schema_version !== "temple.context-entry/v1" ||
       entry.route?.purpose === "recovery" || entry.warnings?.length || result.reasons?.length || packet.problems?.length ||
       !knownKeys(result.binding, ["repository_digest", "work_item_id", "position", "agent_id", "principal_id", "purpose", "state_digest", "packet_digest", "operation", "reasons"]) ||
-      !knownKeys(packet.binding, ["repository_digest", "work_item_id", "stage", "purpose", "position", "entry_digest", "sources", "material", "representation_digest"], ["task_representation_digest", "available_whole_sources"]) ||
+      !knownKeys(packet.binding, ["repository_digest", "work_item_id", "stage", "purpose", "position", "entry_digest", "sources", "material", "representation_digest"], ["task_representation_digest", "available_whole_sources", "operation_procedure"]) ||
       !knownKeys(entry.source_manifest, ["selection_digest", "source_count", "measured_bytes", "sources", "authority_snapshot", "source_bodies_retained"]) ||
       !knownKeys(entry.source_manifest.authority_snapshot, ["digest", "paths"]) ||
       !Array.isArray(packet.binding.sources) || !packet.binding.sources.every(row =>
@@ -147,7 +147,7 @@ export function modelContextView(result) {
 }
 export async function enterWorkItemContext(target, options = {}) {
   const available = validateAvailableWholeSources(options.availableWholeSources);
-  if (options.material !== undefined && !["stage", "task"].includes(options.material)) throw new OperationError("INVALID_INPUT", "Entry material must be stage or task");
+  if (options.material !== undefined && !["stage", "task", "operation"].includes(options.material)) throw new OperationError("INVALID_INPUT", "Entry material must be stage, task or operation");
   if (![options.workItemId, options.position, options.agentId, options.principalId].every(value => typeof value === "string" && value.trim())) throw new OperationError("INVALID_INPUT", "Context enter requires --work-item, --position, --agent-id and --principal-id");
   if (options.expectedPlan !== undefined && !/^[a-f0-9]{64}$/.test(options.expectedPlan)) throw new OperationError("INVALID_INPUT", "Expected entry digest must be 64 lowercase hexadecimal characters");
   const repository = await fs.realpath(target);
@@ -155,7 +155,7 @@ export async function enterWorkItemContext(target, options = {}) {
   let packet = null;
   const reasons = [...before.reasons];
   if (!reasons.length) {
-    packet = await acquireContextPacket(repository, { workItemId: options.workItemId, position: options.position, purpose: options.purpose, material: "stage", leanEntryProcedure: true });
+    packet = await acquireContextPacket(repository, { workItemId: options.workItemId, position: options.position, purpose: options.purpose, material: "stage", leanEntryProcedure: true, operationProcedure: options.material === "operation" });
     if (packet.acquisition !== "complete") { reasons.push(...packet.problems); packet = null; }
   }
   const after = await inspect(repository, options);

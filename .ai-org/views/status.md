@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 225 total, 25 active
+- Work items: 226 total, 26 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 75 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -273,6 +273,7 @@
 | WI-0223 | Design diagnostic Full versus Model comparison | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 | WI-0224 | Implement two-family diagnostic comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `df40202b` | 0 | 4 | 0 |
 | WI-0225 | Design proportionate small-task delivery and reliable evaluation | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 1 |
+| WI-0226 | Implement bounded Lean procedure routing and offline evaluation reliability | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260907015502-90187b6f | `—` | 0 | 1 | 0 |
 
 ## Codex task registry
 
@@ -405,7 +406,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 77
+- Team-visible Work Items: 78
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -478,14 +479,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-07T01:41:44.314Z | handoff_created | WI-0225 | agent-tidus |
-| 2026-09-07T01:41:11.516Z | work_item_claim_released | WI-0225 | human |
-| 2026-09-07T01:40:55.907Z | work_item_unresolved_updated | WI-0225 | agent-tidus |
-| 2026-09-07T01:36:36.038Z | work_item_claimed | WI-0225 | human |
-| 2026-09-07T01:36:35.626Z | work_item_transitioned | WI-0225 | agent-yuna |
-| 2026-09-07T01:36:35.270Z | work_item_claimed | WI-0225 | human |
-| 2026-09-07T01:36:34.861Z | work_item_transitioned | WI-0225 | agent-mog |
-| 2026-09-07T01:33:23.859Z | work_item_claimed | WI-0225 | human |
+| 2026-09-07T01:55:02.230Z | work_item_claimed | WI-0226 | human |
+| 2026-09-07T01:55:01.811Z | work_item_transitioned | WI-0226 | agent-tidus |
+| 2026-09-07T01:55:01.424Z | work_item_claimed | WI-0226 | human |
+| 2026-09-07T01:55:01.013Z | work_item_transitioned | WI-0226 | agent-yuna |
+| 2026-09-07T01:55:00.639Z | work_item_claimed | WI-0226 | human |
+| 2026-09-07T01:55:00.192Z | work_item_transitioned | WI-0226 | agent-mog |
+| 2026-09-07T01:54:03.171Z | work_item_claimed | WI-0226 | human |
+| 2026-09-07T01:54:02.714Z | work_item_coordination_configured | WI-0226 | agent-mog |
 
 ## Assignments
 

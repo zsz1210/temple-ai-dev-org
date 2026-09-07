@@ -265,7 +265,7 @@ Usage:
   temple capability find [target] --query text [--position position] [--limit number] [--json]
   temple context resolve [target] --work-item WI-0001 [--position position] [--stage stage] [--purpose primary|integration|recovery] [--query text] [--revision ref] [--limit number] [--json] [--no-write] [--compact (requires --no-write --json)]
   temple context packet [target] --work-item WI-0001 --position position --no-write --json [--purpose primary|integration|recovery] [--material full|stage] [--expected-plan digest]
-  temple context enter [target] --work-item WI-0001 --position position --agent-id agent-id --principal-id principal-id --no-write --json [--purpose primary|integration|recovery] [--material stage|task] [--format full|model] [--expected-plan digest] [--available-whole-sources JSON_ARRAY]
+  temple context enter [target] --work-item WI-0001 --position position --agent-id agent-id --principal-id principal-id --no-write --json [--purpose primary|integration|recovery] [--material stage|task|operation] [--format full|model] [--expected-plan digest] [--available-whole-sources JSON_ARRAY]
   temple --version
 
 Core commands:

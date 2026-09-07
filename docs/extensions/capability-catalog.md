@@ -1,5 +1,12 @@
 # Capability catalog
 
+WI-0226 adds opt-in operation-scoped Lean procedure modules to the existing
+`temple-work` distribution source. The text is original Temple material, with no
+new external dependency or Skill promotion. Default entry and distinct-Identity
+verification remain unchanged. Source-candidate adoption is subject to local
+qualification and review; it is not a claim of model adherence or Token savings.
+See [ADR-0061](../adr/0061-operation-scoped-lean-procedures.md).
+
 ## Proportionate work update
 
 WI-0190 revises the existing core `temple-work` source with a bounded read-only-support reference and explicit composed-finish diagnostic reuse. This is original Temple instruction text, not copied external material or a new Skill/promotion. Adoption is source-candidate only until qualification and release. Static scenarios and installation checks do not prove model adherence, Independent QA or Token savings. Existing projects retain managed ownership and receive changes through upgrade. See [ADR-0059](../adr/0059-proportionate-work-routes.md).
