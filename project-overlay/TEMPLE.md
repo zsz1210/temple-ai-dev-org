@@ -119,7 +119,7 @@ task registration. No observer or dashboard is mandatory for ordinary delivery.
 Follow `.ai-org/project/repository-integration.json` and its authoritative policy
 references/confirmed target. It is routing, not merge/release permission or branch
 protection. For `unconfirmed`, inspect project policy and ask only consequential
-missing choices; for `deferred`, respect its decision trigger. Temple imposes no
+missing choices; for `deferred`, respect its decision trigger. The framework imposes no
 GitHub Flow and configures no repository permissions. Never infer permission to
 merge, deploy, publish or change hosting.
 
