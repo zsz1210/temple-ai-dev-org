@@ -1,7 +1,7 @@
 # Proactive Engineering Learning Loop
 
 Status: proposed design, not installed or implemented. Owner: Engineering Manager.
-Governing boundaries: [Engineering Learning](../../../../docs/extensions/engineering-learning.md).
+Governing boundaries: [Engineering Learning](../../../docs/extensions/engineering-learning.md).
 This proposal adds operational follow-through, not model training or a new Position.
 
 ## Intended outcome
