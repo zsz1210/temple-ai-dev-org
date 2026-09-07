@@ -1,0 +1,187 @@
+{
+  "schema_version": "wi0240-evidence-inventory/v1",
+  "scope": "quote-shipping-takeover",
+  "meaning": "References only; original scores and usage remain in immutable source exports. No pooling or new samples.",
+  "items": [
+    {
+      "source": ".ai-org/artifacts/WI-0234/comparison-v2.json",
+      "sha256": "a3ec680b0c2606cb173112380b74bfdfd7f692c0ca7a53f5132b969c58712ee4",
+      "source_revision": "87466e5d298efee0479e0499fddba8ce7aecaef8",
+      "original_seal": {
+        "protocol_sha256": "sha256:73fd8ea310fd7f8785c4c54eba2451bbd71aa7fe282e3cc0060e22093b66f887",
+        "run_sha256": "sha256:c8be1d4a36aaa697b3e50f694b16c721bb66ac77a55b6f4ab2d952e9c1e6e356",
+        "sealed_at": "2026-09-07T08:07:44.848Z"
+      },
+      "rows": [
+        {
+          "index": 1,
+          "condition": "stable",
+          "treatment": "ordinary",
+          "usage_complete": true,
+          "reuse": "historical-reference",
+          "new_execution": false
+        },
+        {
+          "index": 2,
+          "condition": "stable",
+          "treatment": "temple",
+          "usage_complete": true,
+          "reuse": "historical-reference",
+          "new_execution": false
+        },
+        {
+          "index": 3,
+          "condition": "stable",
+          "treatment": "temple",
+          "usage_complete": true,
+          "reuse": "historical-reference",
+          "new_execution": false
+        },
+        {
+          "index": 4,
+          "condition": "stable",
+          "treatment": "ordinary",
+          "usage_complete": true,
+          "reuse": "historical-reference",
+          "new_execution": false
+        },
+        {
+          "index": 5,
+          "condition": "changed-spec",
+          "treatment": "ordinary",
+          "usage_complete": true,
+          "reuse": "historical-reference",
+          "new_execution": false
+        },
+        {
+          "index": 6,
+          "condition": "changed-spec",
+          "treatment": "temple",
+          "usage_complete": true,
+          "reuse": "historical-reference",
+          "new_execution": false
+        },
+        {
+          "index": 7,
+          "condition": "changed-spec",
+          "treatment": "temple",
+          "usage_complete": true,
+          "reuse": "historical-reference",
+          "new_execution": false
+        },
+        {
+          "index": 8,
+          "condition": "changed-spec",
+          "treatment": "ordinary",
+          "usage_complete": true,
+          "reuse": "historical-reference",
+          "new_execution": false
+        }
+      ]
+    },
+    {
+      "source": ".ai-org/artifacts/WI-0236/comparison.json",
+      "sha256": "9efe2ca87d5be4e360a4f603b0fd528d52ca729aece1b752406736a27600a0cf",
+      "source_revision": "1f922e99508d76455a645a1b8683df34e7b7616d",
+      "original_seal": {
+        "protocol_sha256": "sha256:91cdbcc310e3679f0d781a484c7acc6e05bb02de033c1690611c9d4d61205898",
+        "run_sha256": "sha256:6ce9ace40d9b4aa73c3b3194aa249f58d486c206ad05c9b6fc5e6c328dc31203",
+        "sealed_at": "2026-09-07T09:29:14.488Z"
+      },
+      "rows": [
+        {
+          "index": 1,
+          "condition": "stable",
+          "treatment": "ordinary",
+          "usage_complete": true,
+          "reuse": "historical-reference",
+          "new_execution": false
+        },
+        {
+          "index": 2,
+          "condition": "stable",
+          "treatment": "temple",
+          "usage_complete": true,
+          "reuse": "historical-reference",
+          "new_execution": false
+        },
+        {
+          "index": 3,
+          "condition": "changed-spec",
+          "treatment": "temple",
+          "usage_complete": true,
+          "reuse": "historical-usage-and-rejection",
+          "new_execution": false
+        },
+        {
+          "index": 4,
+          "condition": "changed-spec",
+          "treatment": "ordinary",
+          "usage_complete": false,
+          "reuse": "missing-observation",
+          "new_execution": false
+        }
+      ]
+    },
+    {
+      "source": ".ai-org/artifacts/WI-0239/comparison.json",
+      "sha256": "5ce54e68d4e6f2895953d38f52c0ac324b8389f91a62edc813de881caefc0c15",
+      "source_revision": "af5a984aee6706ab308c693d95e138134162d5d6",
+      "original_seal": {
+        "protocol_sha256": "sha256:dafc7fa80cdb274770c8bb339df2bb74a5067f615ce783c02856e80b5804cd27",
+        "run_sha256": "sha256:f989e35cd9e0f22c67623397434ebd5603a8a38493b076fd77b8ea2d4e216bd3",
+        "sealed_at": "2026-09-07T13:07:48.755Z"
+      },
+      "rows": [
+        {
+          "index": 1,
+          "condition": "stable",
+          "treatment": "ordinary",
+          "usage_complete": true,
+          "reuse": "historical-reference",
+          "new_execution": false
+        },
+        {
+          "index": 2,
+          "condition": "stable",
+          "treatment": "temple_previous",
+          "usage_complete": false,
+          "reuse": "censored-diagnostic-only",
+          "new_execution": false
+        },
+        {
+          "index": 3,
+          "condition": "stable",
+          "treatment": "temple",
+          "usage_complete": false,
+          "reuse": "missing-observation",
+          "new_execution": false
+        },
+        {
+          "index": 4,
+          "condition": "changed-spec",
+          "treatment": "temple",
+          "usage_complete": false,
+          "reuse": "missing-observation",
+          "new_execution": false
+        },
+        {
+          "index": 5,
+          "condition": "changed-spec",
+          "treatment": "temple_previous",
+          "usage_complete": false,
+          "reuse": "missing-observation",
+          "new_execution": false
+        },
+        {
+          "index": 6,
+          "condition": "changed-spec",
+          "treatment": "ordinary",
+          "usage_complete": false,
+          "reuse": "missing-observation",
+          "new_execution": false
+        }
+      ]
+    }
+  ]
+}

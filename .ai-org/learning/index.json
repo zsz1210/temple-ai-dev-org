@@ -190,6 +190,164 @@
         ],
         "history": []
       }
+    },
+    {
+      "id": "LESSON-0005",
+      "kind": "lesson",
+      "title": "Global experiment stops can erase comparative coverage",
+      "summary": "In Temple quote-shipping comparisons WI-0236 and WI-0239, a stopped subject prevented later cells from being observed. Review stop causes and missing-treatment coverage before another run; never bypass uncertain usage, cleanup or source validity. WI-0234 completed all cells, so the lesson is conditional, not a prohibition on shared stops.",
+      "status": "validated",
+      "confidence": "medium",
+      "tags": [
+        "experiment",
+        "comparison",
+        "coverage"
+      ],
+      "applies_to": [
+        "experiment-design"
+      ],
+      "source_work_items": [
+        "WI-0236",
+        "WI-0239"
+      ],
+      "path": ".ai-org/learning/lessons/LESSON-0005.md",
+      "updated_at": "2026-09-07T13:39:21.930Z",
+      "last_validated_at": "2026-09-07T13:39:21.930Z",
+      "promotion": {
+        "target": "none",
+        "status": "none",
+        "reference": null
+      },
+      "derived_from": [],
+      "owner_position": null,
+      "revalidation": {
+        "last_result": "confirmed",
+        "review_after": "2026-10-07T00:00:00Z",
+        "evidence_refs": [
+          ".ai-org/artifacts/WI-0236/comparison-report.md",
+          ".ai-org/artifacts/WI-0239/report.md",
+          ".ai-org/artifacts/WI-0240/plan.md",
+          ".ai-org/artifacts/WI-0234/comparison-v2-report.md"
+        ],
+        "history": [
+          {
+            "result": "confirmed",
+            "validated_at": "2026-09-07T13:39:21.930Z",
+            "validated_by": "agent-mog",
+            "evidence_refs": [
+              ".ai-org/artifacts/WI-0240/plan.md",
+              ".ai-org/artifacts/WI-0234/comparison-v2-report.md"
+            ],
+            "review_after": "2026-10-07T00:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "LESSON-0006",
+      "kind": "lesson",
+      "title": "Reuse historical experiment evidence without pooling incompatible results",
+      "summary": "The quote-shipping studies retain usable ordinary and Temple product, usage and timing evidence despite later reporting and oracle changes. Inventory task seeds and each measurement contract before rerunning controls; use historical references with explicit limits, preserve original failed scores, and record offline rechecks separately. New compact behavior still requires a new observation.",
+      "status": "validated",
+      "confidence": "medium",
+      "tags": [
+        "experiment",
+        "evidence-reuse",
+        "baseline"
+      ],
+      "applies_to": [
+        "experiment-design"
+      ],
+      "source_work_items": [
+        "WI-0234",
+        "WI-0236",
+        "WI-0239"
+      ],
+      "path": ".ai-org/learning/lessons/LESSON-0006.md",
+      "updated_at": "2026-09-07T13:39:22.134Z",
+      "last_validated_at": "2026-09-07T13:39:22.134Z",
+      "promotion": {
+        "target": "none",
+        "status": "none",
+        "reference": null
+      },
+      "derived_from": [],
+      "owner_position": null,
+      "revalidation": {
+        "last_result": "confirmed",
+        "review_after": "2026-10-07T00:00:00Z",
+        "evidence_refs": [
+          ".ai-org/artifacts/WI-0240/plan.md",
+          ".ai-org/artifacts/WI-0240/inventory.json",
+          ".ai-org/artifacts/WI-0236/comparison-report.md"
+        ],
+        "history": [
+          {
+            "result": "confirmed",
+            "validated_at": "2026-09-07T13:39:22.134Z",
+            "validated_by": "agent-mog",
+            "evidence_refs": [
+              ".ai-org/artifacts/WI-0240/inventory.json",
+              ".ai-org/artifacts/WI-0236/comparison-report.md"
+            ],
+            "review_after": "2026-10-07T00:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": "PRACTICE-0002",
+      "kind": "practice",
+      "title": "Plan incremental experiments from retained evidence",
+      "summary": "For Temple quote-shipping experiment design, first read the WI-0240 inventory and plan: classify reusable historical references versus missing or censored evidence; verify pre-work seed, model/runtime, prompt and acceptance compatibility; name the decision each new subject can change; review shared-stop and missing-treatment coverage offline. Prefer measuring the missing treatment to automatically rerunning every control. Preserve unknown accounting and cleanup stops. This project guidance grants no live execution authority and must be reconsidered when the task, provider or measurement contract changes.",
+      "status": "active",
+      "confidence": "medium",
+      "tags": [
+        "experiment",
+        "comparison",
+        "evidence-reuse",
+        "baseline"
+      ],
+      "applies_to": [
+        "experiment-design"
+      ],
+      "source_work_items": [
+        "WI-0236",
+        "WI-0239"
+      ],
+      "path": ".ai-org/learning/practices/PRACTICE-0002.md",
+      "updated_at": "2026-09-07T13:39:22.536Z",
+      "last_validated_at": "2026-09-07T13:39:22.536Z",
+      "promotion": {
+        "target": "none",
+        "status": "none",
+        "reference": null
+      },
+      "derived_from": [
+        "LESSON-0005",
+        "LESSON-0006"
+      ],
+      "owner_position": "engineering_manager",
+      "revalidation": {
+        "last_result": "confirmed",
+        "review_after": "2026-10-07T00:00:00Z",
+        "evidence_refs": [
+          ".ai-org/artifacts/WI-0240/plan.md",
+          ".ai-org/artifacts/WI-0240/inventory.json"
+        ],
+        "history": [
+          {
+            "result": "confirmed",
+            "validated_at": "2026-09-07T13:39:22.536Z",
+            "validated_by": "agent-mog",
+            "evidence_refs": [
+              ".ai-org/artifacts/WI-0240/plan.md",
+              ".ai-org/artifacts/WI-0240/inventory.json"
+            ],
+            "review_after": "2026-10-07T00:00:00Z"
+          }
+        ]
+      }
     }
   ]
 }

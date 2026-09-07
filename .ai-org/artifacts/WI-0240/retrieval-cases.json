@@ -1,0 +1,7 @@
+{
+  "schema_version": "temple.retrieval-evaluation/v1",
+  "cases": [
+    {"id":"reuse-baseline","kind":"learning","query":"experiment evidence-reuse baseline","position":"tech_lead","expected_ids":["PRACTICE-0002","LESSON-0006"],"limit":3},
+    {"id":"stop-coverage","kind":"learning","query":"experiment comparison coverage","position":"quality_evaluator","expected_ids":["PRACTICE-0002","LESSON-0005"],"limit":3}
+  ]
+}

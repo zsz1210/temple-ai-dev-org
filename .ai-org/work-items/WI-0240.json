@@ -1,0 +1,118 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0240",
+  "title": "Reuse experiment evidence and activate scoped learning",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-07T13:35:56.026Z",
+  "updated_at": "2026-09-07T13:37:47.130Z",
+  "scope": [
+    "Inventory existing evidence, validate narrowly scoped experiment Lessons and Practice, and design incremental validation with offline coverage checks. No new live experiment, runtime or framework instruction change."
+  ],
+  "acceptance_criteria": [
+    "Classify historical evidence with provenance and reuse limits; active scoped learning is retrieved in relevant contexts and not promoted globally; offline cases cover retained baselines, missing treatment and shared stop boundaries; report remaining live execution as not authorized."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0240",
+    ".ai-org/learning"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "lean",
+  "risk_tier": "low",
+  "profile_assessment": {
+    "requested_profile": "lean",
+    "effective_profile": "lean",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Reversible project-owned evidence, learning and design only; no executable framework or experiment protocol change.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-07T13:35:56.025Z",
+    "escalated": false
+  },
+  "parent_work_item_id": "WI-0239",
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "debd39e3d27e0ab30f43f7763b4b17dd9c4a814a",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0211: released predecessor claim; WI-0240 owns only new experiment-reuse artifacts and project Learning updates; historical integration source and evidence remain unchanged."
+  ],
+  "claim": {
+    "id": "claim-20260907133747-0dbb068f",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "debd39e3d27e0ab30f43f7763b4b17dd9c4a814a",
+    "branch": "codex/evidence-reuse-learning",
+    "worktree": null,
+    "claimed_at": "2026-09-07T13:37:47.130Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260907133614-3b72900e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "debd39e3d27e0ab30f43f7763b4b17dd9c4a814a",
+      "branch": "codex/evidence-reuse-learning",
+      "worktree": null,
+      "claimed_at": "2026-09-07T13:36:14.462Z",
+      "released_at": "2026-09-07T13:37:46.120Z",
+      "release_reason": [
+        "Approved bounded evidence-reuse plan recorded."
+      ]
+    },
+    {
+      "id": "claim-20260907133747-0dbb068f",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "debd39e3d27e0ab30f43f7763b4b17dd9c4a814a",
+      "branch": "codex/evidence-reuse-learning",
+      "worktree": null,
+      "claimed_at": "2026-09-07T13:37:47.130Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0240/plan.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0240/plan.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0240/plan.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0240/plan.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0240/plan.md"
+    ],
+    "profile_eligibility": [
+      ".ai-org/artifacts/WI-0240/plan.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0240/plan.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
