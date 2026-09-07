@@ -272,7 +272,7 @@
 | WI-0222 | Independently review PR70 diagnostic evidence | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e8ad4b4f` | 0 | 6 | 0 |
 | WI-0223 | Design diagnostic Full versus Model comparison | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 | WI-0224 | Implement two-family diagnostic comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `df40202b` | 0 | 4 | 0 |
-| WI-0225 | Design proportionate small-task delivery and reliable evaluation | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 1 |
+| WI-0225 | Design proportionate small-task delivery and reliable evaluation | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 4 | 2 |
 | WI-0226 | Implement bounded Lean procedure routing and offline evaluation reliability | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 3 | 2 |
 
 ## Codex task registry
@@ -479,14 +479,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-07T02:37:32.862Z | work_item_claim_released | WI-0225 | human |
+| 2026-09-07T02:37:32.569Z | handoff_created | WI-0225 | agent-tidus |
+| 2026-09-07T02:33:13.530Z | work_item_claimed | WI-0225 | human |
 | 2026-09-07T02:28:37.450Z | work_item_transitioned | WI-0226 | agent-rikku |
 | 2026-09-07T02:28:37.156Z | work_item_claim_released | WI-0226 | human |
 | 2026-09-07T02:28:36.718Z | handoff_created | WI-0226 | agent-rikku |
 | 2026-09-07T02:18:36.759Z | work_item_unresolved_updated | WI-0226 | agent-rikku |
 | 2026-09-07T01:55:02.230Z | work_item_claimed | WI-0226 | human |
-| 2026-09-07T01:55:01.811Z | work_item_transitioned | WI-0226 | agent-tidus |
-| 2026-09-07T01:55:01.424Z | work_item_claimed | WI-0226 | human |
-| 2026-09-07T01:55:01.013Z | work_item_transitioned | WI-0226 | agent-yuna |
 
 ## Assignments
 

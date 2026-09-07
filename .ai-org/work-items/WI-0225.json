@@ -6,7 +6,7 @@
   "owner_position": "tech_lead",
   "assigned_agent_id": "agent-tidus",
   "created_at": "2026-09-07T01:32:28.524Z",
-  "updated_at": "2026-09-07T02:33:13.530Z",
+  "updated_at": "2026-09-07T02:37:32.862Z",
   "scope": [
     "Design only: reduce bounded Lean task overhead and specify offline-first experiment reliability; no runtime changes, model runs, policy adoption, release or publication."
   ],
@@ -53,14 +53,17 @@
   ],
   "claim": {
     "id": "claim-20260907023313-91a7582b",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-tidus",
     "base_revision": "f56b8512",
     "branch": "codex/small-task-lean-design",
     "worktree": null,
     "claimed_at": "2026-09-07T02:33:13.530Z",
-    "released_at": null
+    "released_at": "2026-09-07T02:37:32.862Z",
+    "release_reason": [
+      "Bounded composition audit and updated design handoff complete; formal contract implementation remains separate."
+    ]
   },
   "claims": [
     {
@@ -103,14 +106,17 @@
     },
     {
       "id": "claim-20260907023313-91a7582b",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-tidus",
       "base_revision": "f56b8512",
       "branch": "codex/small-task-lean-design",
       "worktree": null,
       "claimed_at": "2026-09-07T02:33:13.530Z",
-      "released_at": null
+      "released_at": "2026-09-07T02:37:32.862Z",
+      "release_reason": [
+        "Bounded composition audit and updated design handoff complete; formal contract implementation remains separate."
+      ]
     }
   ],
   "gate_evidence": {
@@ -126,10 +132,13 @@
   },
   "evidence": [
     ".ai-org/artifacts/WI-0225/design.md",
-    ".ai-org/artifacts/WI-0225/handoff-001-tech_lead-to-developer.md"
+    ".ai-org/artifacts/WI-0225/handoff-001-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0225/handoff-002-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0225/composition-audit.md"
   ],
   "unresolved": [
-    "Design ready for maintainer review. Recommended first slice keeps a distinct Verifier; the mechanical single-Agent exception remains a separate unapproved proposal. Implementation and a future finite live protocol are not authorized by this design."
+    "Design ready for maintainer review. Recommended first slice keeps a distinct Verifier; the mechanical single-Agent exception remains a separate unapproved proposal. Implementation and a future finite live protocol are not authorized by this design.",
+    "WI-0226 operation-module prototype was withdrawn; use the follow-up obligation map rather than implementing that rejected split. No instruction change or live-model run has been performed by this design follow-up."
   ],
   "next_position": "developer",
   "handoffs": [
@@ -140,6 +149,14 @@
       "input_revision": "9b01108037eb694f6368429b79277c79124dc021",
       "artifact": ".ai-org/artifacts/WI-0225/handoff-001-tech_lead-to-developer.md",
       "created_at": "2026-09-07T01:41:44.314Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "actor": "agent-tidus",
+      "input_revision": "58c8178efd1ca99fd44ddf992ce181112b29c14c",
+      "artifact": ".ai-org/artifacts/WI-0225/handoff-002-tech_lead-to-developer.md",
+      "created_at": "2026-09-07T02:37:32.569Z"
     }
   ]
 }
