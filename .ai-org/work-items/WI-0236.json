@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0236",
   "title": "Review and integrate bounded delivery, then run a minimal comparison",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-07T08:50:52.863Z",
-  "updated_at": "2026-09-07T09:12:33.277Z",
+  "updated_at": "2026-09-07T09:33:42.775Z",
   "scope": [
     "Complete WI-0235 independent review, prepare a public-safe integration PR, and perform one four-subject matched diagnostic of ordinary versus refined Temple delivery."
   ],
@@ -53,14 +53,17 @@
   "overlap_resolution": [],
   "claim": {
     "id": "claim-20260907091233-df27c42b",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "1f922e99",
     "branch": "codex/bounded-delivery-comparison",
     "worktree": null,
     "claimed_at": "2026-09-07T09:12:33.277Z",
-    "released_at": null
+    "released_at": "2026-09-07T09:33:42.486Z",
+    "release_reason": [
+      "Approved batch has stopped and sealed; analysis and public-safe report delivered. No further generation or source repair is inferred."
+    ]
   },
   "claims": [
     {
@@ -93,14 +96,17 @@
     },
     {
       "id": "claim-20260907091233-df27c42b",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "1f922e99",
       "branch": "codex/bounded-delivery-comparison",
       "worktree": null,
       "claimed_at": "2026-09-07T09:12:33.277Z",
-      "released_at": null
+      "released_at": "2026-09-07T09:33:42.486Z",
+      "release_reason": [
+        "Approved batch has stopped and sealed; analysis and public-safe report delivered. No further generation or source repair is inferred."
+      ]
     }
   ],
   "gate_evidence": {
@@ -118,11 +124,38 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0236/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0236/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0236/verification.md",
+      ".ai-org/artifacts/WI-0236/comparison-report.md",
+      ".ai-org/artifacts/WI-0236/comparison.json"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0236/design.md"
+    ".ai-org/artifacts/WI-0236/design.md",
+    ".ai-org/artifacts/WI-0236/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0236/verification.md",
+    ".ai-org/artifacts/WI-0236/comparison-report.md",
+    ".ai-org/artifacts/WI-0236/comparison.json"
   ],
-  "unresolved": [],
-  "next_position": "quality_evaluator"
+  "unresolved": [
+    "Main merge awaits required repository review; no administrator bypass authorized.",
+    "Changed-spec pair remains incomplete: frozen oracle conflates product candidate and final bookkeeping revision. Retain original stop and missing fourth subject; no replacement run authorized by this receipt.",
+    "All native command categories were unknown, so category-level attribution is unavailable. Stable pair shows higher Temple Token use and time, not an efficiency gain."
+  ],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "1f922e99508d76455a645a1b8683df34e7b7616d",
+      "artifact": ".ai-org/artifacts/WI-0236/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-07T09:33:42.189Z"
+    }
+  ],
+  "developer_candidate_revision": "1f922e99508d76455a645a1b8683df34e7b7616d"
 }

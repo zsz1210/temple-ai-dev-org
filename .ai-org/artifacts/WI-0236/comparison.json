@@ -1,0 +1,305 @@
+{
+  "version": "continuity-public-result/v2",
+  "source": "1f922e99508d76455a645a1b8683df34e7b7616d",
+  "status": "stopped",
+  "planned_subjects": 4,
+  "attempts": 3,
+  "operational_tokens": 168951,
+  "elapsed_ms": 769032,
+  "first_stop": "candidate-production-unverified",
+  "unknown_usage": false,
+  "seal": {
+    "protocol_sha256": "sha256:91cdbcc310e3679f0d781a484c7acc6e05bb02de033c1690611c9d4d61205898",
+    "run_sha256": "sha256:6ce9ace40d9b4aa73c3b3194aa249f58d486c206ad05c9b6fc5e6c328dc31203",
+    "sealed_at": "2026-09-07T09:29:14.488Z"
+  },
+  "rows": [
+    {
+      "index": 1,
+      "pair": 1,
+      "state": "stable",
+      "arm": "ordinary",
+      "provider_status": "completed",
+      "oracle": {
+        "passed": true,
+        "revision": "ad2bd4a5dd8db09d5283111ddf2e4bc6c95aad67",
+        "state": "stable",
+        "case_count": 46,
+        "exit_code": 0,
+        "reason": "accepted",
+        "product_scope_only": true,
+        "live_sandbox_qualified": false
+      },
+      "completion_assessment": {
+        "schema_valid": true,
+        "product_passed": true,
+        "handoff_valid": true,
+        "build_accepted": true,
+        "accepted": true
+      },
+      "administration_complete": null,
+      "usage": {
+        "input_tokens": 104663,
+        "cached_input_tokens": 87808,
+        "output_tokens": 2417,
+        "reasoning_output_tokens": 316,
+        "total_tokens": 107080,
+        "operational_tokens": 19272
+      },
+      "usage_status": "observed-completed-turn",
+      "setup_ms": 960,
+      "turn_ms": 135652,
+      "elapsed_ms": 136612,
+      "command_observations": {
+        "schema_version": "continuity-command-observations/v1",
+        "completed_items": 8,
+        "categories": {
+          "reading": 0,
+          "context_navigation": 0,
+          "testing": 0,
+          "git": 0,
+          "administration": 0,
+          "diagnostics": 0,
+          "editing": 0,
+          "unknown": 8
+        },
+        "observed_output_bytes": 4442,
+        "output_bytes_by_category": {
+          "reading": 0,
+          "context_navigation": 0,
+          "testing": 0,
+          "git": 0,
+          "administration": 0,
+          "diagnostics": 0,
+          "editing": 0,
+          "unknown": 4442
+        },
+        "output_unavailable": 0,
+        "output_capped": 0,
+        "duplicate_events": 0,
+        "unidentified_events": 0,
+        "limit_reached": false
+      },
+      "request_bytes": {
+        "schema_version": "continuity-request-bytes/v1",
+        "authored_user_text": {
+          "bytes": 1070,
+          "status": "observed-field"
+        },
+        "authored_developer_text": {
+          "bytes": 624,
+          "status": "observed-field"
+        },
+        "output_schema": {
+          "bytes": 678,
+          "status": "observed-field"
+        },
+        "native_context_bytes": null,
+        "total_model_context_bytes": null
+      },
+      "candidate": "ad2bd4a5dd8db09d5283111ddf2e4bc6c95aad67",
+      "blockers": [],
+      "next_owner": "reviewer",
+      "not_performed": [
+        "Downstream code review and acceptance."
+      ],
+      "server_exit_confirmed": true,
+      "terminals_empty": true,
+      "first_stop": null
+    },
+    {
+      "index": 2,
+      "pair": 1,
+      "state": "stable",
+      "arm": "temple",
+      "provider_status": "completed",
+      "oracle": {
+        "passed": true,
+        "revision": "5bee51d7f4063ef1c4d7cec5b81debb73f1e2495",
+        "state": "stable",
+        "case_count": 46,
+        "exit_code": 0,
+        "reason": "accepted",
+        "product_scope_only": true,
+        "live_sandbox_qualified": false
+      },
+      "completion_assessment": {
+        "schema_valid": true,
+        "product_passed": true,
+        "handoff_valid": true,
+        "build_accepted": true,
+        "accepted": true
+      },
+      "administration_complete": true,
+      "usage": {
+        "input_tokens": 417682,
+        "cached_input_tokens": 347648,
+        "output_tokens": 5399,
+        "reasoning_output_tokens": 1872,
+        "total_tokens": 423081,
+        "operational_tokens": 75433
+      },
+      "usage_status": "observed-completed-turn",
+      "setup_ms": 788,
+      "turn_ms": 354102,
+      "elapsed_ms": 354890,
+      "command_observations": {
+        "schema_version": "continuity-command-observations/v1",
+        "completed_items": 12,
+        "categories": {
+          "reading": 0,
+          "context_navigation": 0,
+          "testing": 0,
+          "git": 0,
+          "administration": 0,
+          "diagnostics": 0,
+          "editing": 0,
+          "unknown": 12
+        },
+        "observed_output_bytes": 70469,
+        "output_bytes_by_category": {
+          "reading": 0,
+          "context_navigation": 0,
+          "testing": 0,
+          "git": 0,
+          "administration": 0,
+          "diagnostics": 0,
+          "editing": 0,
+          "unknown": 70469
+        },
+        "output_unavailable": 1,
+        "output_capped": 0,
+        "duplicate_events": 0,
+        "unidentified_events": 0,
+        "limit_reached": false
+      },
+      "request_bytes": {
+        "schema_version": "continuity-request-bytes/v1",
+        "authored_user_text": {
+          "bytes": 1846,
+          "status": "observed-field"
+        },
+        "authored_developer_text": {
+          "bytes": 624,
+          "status": "observed-field"
+        },
+        "output_schema": {
+          "bytes": 678,
+          "status": "observed-field"
+        },
+        "native_context_bytes": null,
+        "total_model_context_bytes": null
+      },
+      "candidate": "5bee51d7f4063ef1c4d7cec5b81debb73f1e2495",
+      "blockers": [],
+      "next_owner": "quality_evaluator",
+      "not_performed": [
+        "Quality Evaluator verification and Lean closeout",
+        "Independent QA",
+        "Release Gate"
+      ],
+      "server_exit_confirmed": true,
+      "terminals_empty": true,
+      "first_stop": null
+    },
+    {
+      "index": 3,
+      "pair": 2,
+      "state": "changed-spec",
+      "arm": "temple",
+      "provider_status": "completed",
+      "oracle": {
+        "passed": false,
+        "reason": "candidate-not-current"
+      },
+      "completion_assessment": {
+        "schema_valid": true,
+        "product_passed": false,
+        "handoff_valid": true,
+        "build_accepted": false,
+        "accepted": false
+      },
+      "administration_complete": true,
+      "usage": {
+        "input_tokens": 415561,
+        "cached_input_tokens": 346368,
+        "output_tokens": 5053,
+        "reasoning_output_tokens": 1857,
+        "total_tokens": 420614,
+        "operational_tokens": 74246
+      },
+      "usage_status": "observed-completed-turn",
+      "setup_ms": 713,
+      "turn_ms": 274750,
+      "elapsed_ms": 275463,
+      "command_observations": {
+        "schema_version": "continuity-command-observations/v1",
+        "completed_items": 12,
+        "categories": {
+          "reading": 0,
+          "context_navigation": 0,
+          "testing": 0,
+          "git": 0,
+          "administration": 0,
+          "diagnostics": 0,
+          "editing": 0,
+          "unknown": 12
+        },
+        "observed_output_bytes": 74812,
+        "output_bytes_by_category": {
+          "reading": 0,
+          "context_navigation": 0,
+          "testing": 0,
+          "git": 0,
+          "administration": 0,
+          "diagnostics": 0,
+          "editing": 0,
+          "unknown": 74812
+        },
+        "output_unavailable": 0,
+        "output_capped": 0,
+        "duplicate_events": 0,
+        "unidentified_events": 0,
+        "limit_reached": false
+      },
+      "request_bytes": {
+        "schema_version": "continuity-request-bytes/v1",
+        "authored_user_text": {
+          "bytes": 1846,
+          "status": "observed-field"
+        },
+        "authored_developer_text": {
+          "bytes": 624,
+          "status": "observed-field"
+        },
+        "output_schema": {
+          "bytes": 678,
+          "status": "observed-field"
+        },
+        "native_context_bytes": null,
+        "total_model_context_bytes": null
+      },
+      "candidate": "d049f9e1e1ffe8e6ac7dbd2fd1277dbd6114d7b9",
+      "blockers": [],
+      "next_owner": "quality_evaluator",
+      "not_performed": [
+        "Quality Evaluator acceptance verification",
+        "Lean Test closeout",
+        "Independent QA",
+        "Release Gate"
+      ],
+      "server_exit_confirmed": true,
+      "terminals_empty": true,
+      "first_stop": null
+    },
+    {
+      "index": 4,
+      "pair": 2,
+      "state": "changed-spec",
+      "arm": "ordinary",
+      "provider_status": "not-run",
+      "usage": null,
+      "reason": "batch-stopped-before-dispatch"
+    }
+  ]
+}
