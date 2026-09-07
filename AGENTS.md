@@ -39,8 +39,9 @@ Repository files and exact evidence are canonical. Chat memory/titles, external
 observations and generated views are not lifecycle authority. Context, discovery,
 plans and runtime completion grant no permission and do not satisfy a gate.
 
-Record affected paths, coordinate named Work Item overlaps, then claim before
-writing. Sequential work needs no parallel plan. Before governed parallel execution, follow
+Record affected paths and explicit routes with `--context-ref`, coordinate named
+Work Item overlaps, then claim before writing. Sequential work needs no parallel plan.
+Before governed parallel execution, follow
 the Work Skill's parallel reference: prepare only a fresh safe wave, attach actual
 runtimes, and join exact evidence. Informational helpers use its read-only-support reference
 only when eligible and authorized. A Position change needs no new task.

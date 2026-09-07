@@ -11,12 +11,12 @@
       "launcher": "templew.mjs",
       "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.30",
       "repository_spec": null,
-      "source_revision": "1d849ade2f51faa19ad15b8ff0c72357eee1e22c",
+      "source_revision": "173f43e1becdca8c3f1e672b173497b95441cd71",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-09-07T12:11:04.792Z",
+    "upgraded_at": "2026-09-07T12:34:19.970Z",
     "upgraded_from": "0.1.0-alpha.30"
   },
   "installation": {
@@ -210,7 +210,7 @@
     },
     {
       "path": ".agents/skills/temple-work/SKILL.md",
-      "sha256": "1d285c0b0521e571b5dcaaaf2fa6013c727cb2b8b86fa40590572cf5c42a6a78"
+      "sha256": "e83004d5a7a7ad8c18cb6c1bbde21213c949eb76872c62099a02c04bfbb341e4"
     },
     {
       "path": ".agents/skills/temple-work/references/assurance-and-recovery.md",
@@ -558,7 +558,7 @@
     },
     {
       "path": "TEMPLE.md",
-      "sha256": "5033f74d16ad8ad8df912e71530b1186ae3e87613ebe2c54cf912c8dbfd36f19"
+      "sha256": "2cb0d0200c7dce5510578eaec0cf6f55333fd37dfaf820d032111b2901065095"
     },
     {
       "path": "templew.mjs",

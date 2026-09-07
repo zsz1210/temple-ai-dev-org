@@ -9,7 +9,9 @@ review, not evidence that a model has read or understood instructions.
 | Canonical repository evidence, not chat titles/views/external observations; discovery grants no permission | AGENTS canonical paragraph; TEMPLE authority/task table |
 | Known Work Item compact preview; deliberate integration/recovery purpose; optional entry replaces preview; capability discovery | AGENTS navigation; Lean read/claim |
 | Position/Identity/Assignment/Discipline/Principal separation; eligible sponsored claims | TEMPLE authority |
-| Explicit scope, affected paths, named overlap coordination, current claim, revision | AGENTS ownership; Skill scope; Lean read/claim |
+| Explicit scope, affected paths, explicit routes with `--context-ref`, named overlap coordination, current claim, revision | AGENTS ownership; Skill scope; Lean read/claim |
+| Release active ownership on handoff or abandonment with applicable worker cleanup | Skill scope; lifecycle operation row |
+| Changed scope, risk or ownership stops the narrow route before further mutation | TEMPLE task opening |
 | Sequential work needs no worker plan; informational helper eligibility; fresh safe parallel wave, attach and join | AGENTS ownership; TEMPLE task opening; Skill operation table; unchanged parallel/support references |
 | Standard gates, eligible Lean distinct Verifier, Developer/Independent QA separation; no profile downgrade | TEMPLE authority; AGENTS final paragraph; Skill finish; Lean eligibility |
 | Business truth, budget, cost, sensitive/irreversible/external actions; usage policy; samples not routing authority | TEMPLE authority |
@@ -24,6 +26,7 @@ review, not evidence that a model has read or understood instructions.
 | Human task title, stable registration, Position vs display name, no implicit app operation | TEMPLE Codex-task row |
 | Decision/domain/docs/Skill triggers, no forced unrelated skill or automatic promotion | TEMPLE final task row |
 | Init bootstrap, fresh session preference, explicit reads and Doctor/Status/Context before continuity mutation; native CLAUDE conflicts and import limits | TEMPLE initialization |
+| First initialization requires temple-init before writes, combined confirmation and existing-file conflict resolution | TEMPLE first-initialization row; unchanged temple-init Skill |
 | Failed operation/missing authority/uncertain write; same-request recovery, no journal deletion or invented result | TEMPLE recovery; Skill failure; Lean result; unchanged assurance reference |
 | Exact tested candidate, real evidence and independent judgment, actual blockers vs next-owner work | Skill finish; Lean finish; TEMPLE completion |
 | One handoff/finish, optional dry-run/digest, unchanged-state diagnostics reuse, failed diagnostics unresolved, required project tests | Skill finish; Lean complete/result |
@@ -43,7 +46,16 @@ Existing user-owned instructions can increase the read set and remain authoritat
 Read-only inspection grants no mutation/delegation; Lean delivery uses only its
 current actor/stage. Standard/High-Assurance retain full gates and distinct QA.
 UI and trackers trigger their existing configuration, evidence and approval rules.
-Fresh init cannot mutate before bootstrap. Changed specifications require current
+First initialization follows temple-init's pre-write confirmation and conflict rules;
+subsequent governed work waits for bootstrap. Changed scope/risk/ownership stops
+the narrow route before mutation. Abandonment releases ownership. Changed specifications require current
 approval reconciliation; old evidence remains historical. Unknown writes require
 receipt/journal investigation, not an automatic model retry. Parallel work still
 requires a fresh authorized plan; sequential work does not acquire that overhead.
+
+## Review correction
+
+Independent QA rejected candidate `173f43e1` for the four explicit obligations
+above (F1–F3 in `independent-qa.md`). They are restored, not removed as duplication.
+Installed-contract tests now cover the six core Skill entrypoints and each missing
+trigger; these checks establish structural reachability, not model comprehension.

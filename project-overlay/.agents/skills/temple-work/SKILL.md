@@ -22,6 +22,7 @@ or replace a failed pinned launcher. Navigation and read/reuse rules are in
 
 For new/recovered work resolve authority and bootstrap before `work-item create` or
 mutation. Scope claims with affected paths and coordinate named overlaps first.
+Release ownership on handoff or abandonment, after applicable worker cleanup.
 Discovery, a candidate operation and a prepared plan do not grant authority.
 
 ## Finish the assigned stage

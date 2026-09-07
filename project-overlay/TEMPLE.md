@@ -37,9 +37,12 @@ authority requires recovery, not a best-effort substitute.
 Sequential delivery: one active owner, no parallel preparation required.
 Governed parallel delivery only: reserve eligible workers before dispatch and join
 their exact evidence before dependent work; follow the Work Skill's parallel procedure.
+If scope, risk or ownership changes, stop the narrow path before further mutation
+and resolve the applicable route.
 
 | When relevant | Required source or rule |
 | --- | --- |
+| First initialization | Read [temple-init](.agents/skills/temple-init/SKILL.md) before writes. Obtain its combined confirmation of names, mappings and integration policy; resolve existing-file conflicts before initialization. Post-init bootstrap does not replace this pre-write boundary. |
 | Product authority | Read approved current scope/acceptance and supporting UX/UI/API/technical specs. `.ai-org/project/spec-index.json` is an authority registry, not copied documents. Indexed work pins approved repository-native SHA-256 revisions before Design; gate-evidence work cites named approved scope/acceptance without claiming indexed protection. Reconcile stale, derived, unapproved or drifted references before intentionally repinning. `contract_refs` governs API/technical specs; `shared_contract_refs` coordinates implementation, not product authority. |
 | Context and repeated work | Keep `.ai-org/project/context-map.json` concise and reference-only. Search active Practices and matching validated Lessons. Learning routes knowledge, never permission or automatic promotion. Authorized capture/revalidation uses the Learning CLI and current learning index. |
 | UI delivery | Read `.ai-org/core/ui-design.json` and `.ai-org/templates/ui-design-brief.md`. Resolve UI Designer; choose code-first, preview-first or design-led before Build. Record mode/rationale/references and required evidence; preview/design-led pins approved UI revisions and runtime visual checks remain. Use `not-applicable` with no `ui_refs` only without UI. No vendor is mandatory. |
