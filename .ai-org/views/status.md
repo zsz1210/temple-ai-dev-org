@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 230 total, 25 active
+- Work items: 231 total, 26 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 75 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -278,6 +278,7 @@
 | WI-0228 | Accept retained offline evaluation reliability independently of rejected Lean prototype | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 7 | 0 |
 | WI-0229 | Add opt-in exact-text mechanical completion with fail-closed boundaries | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e9c9ade2` | 0 | 13 | 0 |
 | WI-0230 | Design a decision-oriented fresh-Agent continuity comparison | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3c39cca2` | 0 | 5 | 0 |
+| WI-0231 | Implement and qualify offline continuity fixtures and oracle | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260907045252-c871318a | `—` | 0 | 1 | 0 |
 
 ## Codex task registry
 
@@ -410,7 +411,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 82
+- Team-visible Work Items: 83
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -483,14 +484,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-07T04:44:24.096Z | work_item_closed | WI-0230 | agent-lulu |
-| 2026-09-07T04:44:24.096Z | work_item_transitioned | WI-0230 | agent-lulu |
-| 2026-09-07T04:44:23.798Z | work_item_claim_released | WI-0230 | human |
-| 2026-09-07T04:44:23.480Z | handoff_created | WI-0230 | agent-lulu |
-| 2026-09-07T04:43:21.048Z | work_item_claimed | WI-0230 | human |
-| 2026-09-07T04:42:28.799Z | work_item_transitioned | WI-0230 | agent-rikku |
-| 2026-09-07T04:42:28.521Z | work_item_claim_released | WI-0230 | human |
-| 2026-09-07T04:42:28.244Z | handoff_created | WI-0230 | agent-rikku |
+| 2026-09-07T04:52:52.302Z | work_item_claimed | WI-0231 | human |
+| 2026-09-07T04:52:51.999Z | work_item_transitioned | WI-0231 | agent-tidus |
+| 2026-09-07T04:52:51.721Z | work_item_transitioned | WI-0231 | agent-yuna |
+| 2026-09-07T04:52:51.449Z | work_item_transitioned | WI-0231 | agent-mog |
+| 2026-09-07T04:52:51.173Z | work_item_claim_released | WI-0231 | human |
+| 2026-09-07T04:52:50.861Z | work_item_coordination_configured | WI-0231 | agent-mog |
+| 2026-09-07T04:51:53.650Z | work_item_claimed | WI-0231 | human |
+| 2026-09-07T04:51:38.363Z | work_item_created | WI-0231 | agent-mog |
 
 ## Assignments
 

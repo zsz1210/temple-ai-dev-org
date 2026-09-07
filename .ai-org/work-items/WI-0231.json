@@ -1,0 +1,117 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0231",
+  "title": "Implement and qualify offline continuity fixtures and oracle",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-07T04:51:38.363Z",
+  "updated_at": "2026-09-07T04:52:52.302Z",
+  "scope": [
+    "Implement WI-0230 single-repository stable and changed-spec checkpoints, fair ordinary/Temple fixture generation, exact-candidate product oracle, deterministic negative controls and offline harness reuse checks. No live provider dispatch, budget approval, source-route change or package publication."
+  ],
+  "acceptance_criteria": [
+    "Both arms share decisive facts and product checkpoints; real historical checks are revision-bound. Correct reference completions pass and stale threshold, damaged completed module, scope/test/revision drift fail. Isolated scratch cleanup and bounded subprocesses tested; existing stop/usage/revision replays pass. Report live isolation and launch requirements explicitly, with full verification and distinct Independent QA."
+  ],
+  "affected_paths": [
+    "scripts/continuity-fixture.mjs",
+    "test/continuity-fixture.test.mjs",
+    ".ai-org/artifacts/WI-0231"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Executable offline evaluation instrument; no external side effects or model runs",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-07T04:51:38.363Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "f4392f9b2411ae076931d595df3d09a2519a1ca9",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0190: claim released; only new continuity fixture test, no retained source/evidence touched.",
+    "WI-0211: claim released; only new fixture script/test and WI-0231 records, no integration sources touched."
+  ],
+  "claim": {
+    "id": "claim-20260907045252-c871318a",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "f4392f9b2411ae076931d595df3d09a2519a1ca9",
+    "branch": "codex/continuity-offline-fixture",
+    "worktree": null,
+    "claimed_at": "2026-09-07T04:52:52.302Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260907045153-baf24646",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "f4392f9b2411ae076931d595df3d09a2519a1ca9",
+      "branch": "codex/continuity-offline-fixture",
+      "worktree": null,
+      "claimed_at": "2026-09-07T04:51:53.650Z",
+      "released_at": "2026-09-07T04:52:51.173Z",
+      "release_reason": [
+        "Bounded offline implementation scoped"
+      ]
+    },
+    {
+      "id": "claim-20260907045252-c871318a",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "f4392f9b2411ae076931d595df3d09a2519a1ca9",
+      "branch": "codex/continuity-offline-fixture",
+      "worktree": null,
+      "claimed_at": "2026-09-07T04:52:52.302Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0231/brief.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0231/brief.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0231/brief.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0231/brief.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0231/brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0231/brief.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
