@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-07T15:25:06.970Z",
-  "source_fingerprint": "6a6933f13c1d690b1d13db70665df9ba60fc1d1652e6a73c90ba154f78cf389b",
+  "generated_at": "2026-09-07T15:52:50.718Z",
+  "source_fingerprint": "d3ed81fffae663342722b88bf5cfb5e67e0f7e9b12ec3303653e2c3ae5d8d13a",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -32,14 +32,15 @@
       "WI-0224",
       "WI-0225",
       "WI-0234",
-      "WI-0236"
+      "WI-0236",
+      "WI-0246"
     ]
   },
   "max_workers": null,
   "summary": {
-    "selected": 27,
+    "selected": 28,
     "dispatchable": 6,
-    "active": 0,
+    "active": 1,
     "sequential": 13,
     "blocked": 8,
     "waves": 1
@@ -72,7 +73,7 @@
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "7f14f186668ae68cf302046ec89fc04c8f2e662c9576d82a99e98da018015c03",
+          "preparation_fingerprint": "d4c6db0f264cba0f3ead5daf0df8b423b65a559777129f5923f0d9d7dc57fa6d",
           "integration_owner_agent_id": "agent-mog",
           "context_command": "node ./templew.mjs context resolve . --work-item WI-0190 --position release_manager --no-write --json",
           "claim_required_before_work": true,
@@ -239,7 +240,22 @@
       }
     }
   ],
-  "active": [],
+  "active": [
+    {
+      "work_item_id": "WI-0246",
+      "title": "Measure bounded context read-scope guidance on retained takeover scenarios",
+      "disposition": "active",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [],
+      "claim_id": "claim-20260907155241-502e7646",
+      "principal_id": "human",
+      "branch": "codex/context-read-scope-experiment",
+      "worktree": null,
+      "base_revision": "3bfae21d8b2cc39df325f025b0e02f4a2ab61669"
+    }
+  ],
   "sequential": [
     {
       "work_item_id": "WI-0172",
@@ -678,7 +694,7 @@
           "right_path": "test"
         }
       ],
-      "resolution": "separate-waves"
+      "resolution": "explicit-bidirectional"
     },
     {
       "kind": "affected-path",
@@ -1347,6 +1363,18 @@
         }
       ],
       "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0211",
+      "right_work_item_id": "WI-0246",
+      "paths": [
+        {
+          "left_path": ".ai-org",
+          "right_path": ".ai-org/artifacts/WI-0246"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
     },
     {
       "kind": "affected-path",
