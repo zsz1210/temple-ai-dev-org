@@ -1,10 +1,10 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-07T11:34:09.865Z",
-  "source_fingerprint": "1360c671fd88338e7b77942a1d64d3e2e3785bdf72652a81e4e8dd7430f56ee3",
+  "generated_at": "2026-09-07T12:49:09.186Z",
+  "source_fingerprint": "72c29fa5492ece36b130a6a2f9a118d82bf0e533f67805f40047d5fee763a2fb",
   "scope": {
     "mode": "parent-descendants",
-    "parent_work_item_id": "WI-0236",
+    "parent_work_item_id": "WI-0237",
     "selected_work_item_ids": []
   },
   "max_workers": 1,

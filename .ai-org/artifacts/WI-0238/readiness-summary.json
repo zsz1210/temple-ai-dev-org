@@ -1,0 +1,174 @@
+{
+  "candidate_revision": "af5a984aee6706ab308c693d95e138134162d5d6",
+  "protocol_version": "continuity-instructions-approved/v1",
+  "protocol_sha256": "sha256:dafc7fa80cdb274770c8bb339df2bb74a5067f615ce783c02856e80b5804cd27",
+  "supersedes_protocol_sha256": "sha256:5291b060d39a21618adbb48de9c31da489b306655fea693a96fcfb45adc3b5e8",
+  "supersession_reason": "QA F1-F3 restored required conditional instructions; previous candidate rejected.",
+  "proposed_envelope": {
+    "model": "gpt-5.6-terra",
+    "effort": "medium",
+    "subjects": 6,
+    "subject_tokens": 100000,
+    "subject_ms": 480000,
+    "total_tokens": 600000,
+    "total_ms": 3600000,
+    "retries": 0,
+    "fallback": false,
+    "purchase": false,
+    "reset": false
+  },
+  "model_generation_performed": false,
+  "live_run_started": false,
+  "approval_consumed": false,
+  "treatment": {
+    "previous_revision": "4c606f7113600caeec04daf29477daa17b07409c",
+    "changed_paths": [
+      "project-overlay/.agents/skills/temple-work/SKILL.md",
+      "project-overlay/.agents/skills/temple-work/references/lean-execution.md",
+      "project-overlay/AGENTS.md",
+      "project-overlay/TEMPLE.md"
+    ],
+    "instructions": [
+      {
+        "path": "project-overlay/AGENTS.md",
+        "current": "sha256:6060013de1a85028a7929b1a63b86e13a95937aaabac770285b191ad70b4afd0",
+        "previous": "sha256:2dc46c464766b4fe45fb27cc3fdd29c7357fe837db9035d0c7f07c6e9864bce3"
+      },
+      {
+        "path": "project-overlay/TEMPLE.md",
+        "current": "sha256:2cb0d0200c7dce5510578eaec0cf6f55333fd37dfaf820d032111b2901065095",
+        "previous": "sha256:eb77e0a0d26c449814f57dde268c7eb6cec5ac2db55014af3669a6bb04eda080"
+      },
+      {
+        "path": "project-overlay/.agents/skills/temple-work/SKILL.md",
+        "current": "sha256:e83004d5a7a7ad8c18cb6c1bbde21213c949eb76872c62099a02c04bfbb341e4",
+        "previous": "sha256:4defd368c3e174b1b8787a502750f74cf2cfd1e56e55845d6c90f9c4221b81c1"
+      },
+      {
+        "path": "project-overlay/.agents/skills/temple-work/references/lean-execution.md",
+        "current": "sha256:3f599ffd9055b451236b3e682b6deb0635f3c064850458c3094af712347c8c88",
+        "previous": "sha256:3bc607450923004f4f19798dad0e30a060e7d86945c7454f480988930dcf399d"
+      }
+    ],
+    "bundle_sha256": "sha256:eadf806d728767d8aa829c7f3e8de4fbffe2ffcb60841f01d3f9e23dec1e1922"
+  },
+  "current_bundle_sha256": "sha256:ddbf85b0a72e5c4a7bee0816f3e6c746c6d70fdd44263da1286535400f582ef6",
+  "instrument_sha256": "sha256:dc0d0f17e1d4ce4ab85937e8b1cd773ee29978007e706d06a2dff86428000124",
+  "qualification": {
+    "current": "thread-configured",
+    "current_runtime": "passed",
+    "current_server_exit": true,
+    "previous": "thread-configured",
+    "previous_runtime": "passed",
+    "previous_server_exit": true,
+    "oracle": {
+      "status": "passed",
+      "model_generation_performed": false,
+      "observations": [
+        {
+          "arm": "ordinary",
+          "current_requirement": true,
+          "passed": true,
+          "reason": "accepted"
+        },
+        {
+          "arm": "ordinary",
+          "current_requirement": false,
+          "passed": false,
+          "reason": "product-mismatch"
+        },
+        {
+          "arm": "temple",
+          "current_requirement": true,
+          "passed": true,
+          "reason": "accepted"
+        },
+        {
+          "arm": "temple",
+          "current_requirement": false,
+          "passed": false,
+          "reason": "product-mismatch"
+        }
+      ],
+      "recordOracle": {
+        "passed": true,
+        "revision": "b486e3121e51a7931ac18e094459b4a1d946916a",
+        "delivery_revision": "16905cc837b3cbb2634ffc96ff7d4b03adfe6833",
+        "state": "changed-spec",
+        "case_count": 46,
+        "exit_code": 0,
+        "reason": "accepted",
+        "product_scope_only": true,
+        "live_sandbox_qualified": false
+      },
+      "previousRecordOracle": {
+        "passed": true,
+        "revision": "f314d304502b19bba146fc7920348d20840391cd",
+        "delivery_revision": "829000a90356e426d4ef7fa0d4a101208f069be0",
+        "state": "changed-spec",
+        "case_count": 46,
+        "exit_code": 0,
+        "reason": "accepted",
+        "product_scope_only": true,
+        "live_sandbox_qualified": false
+      }
+    },
+    "observation": {
+      "schema_version": "continuity-observation-qualification/v1",
+      "status": "passed",
+      "matched_cases": 9,
+      "total_cases": 9,
+      "raw_data_retained": false,
+      "model_generation_performed": false,
+      "runtime_coverage": "not-measured",
+      "per_command_tokens": "not-observed"
+    }
+  },
+  "audits": [
+    {
+      "state": "stable",
+      "variant": "temple_previous",
+      "instructions": 27200,
+      "whole_source_bodies": 74500,
+      "optional_full_entry_json": 103515,
+      "compact_navigation": 4806,
+      "product_facts": 1333,
+      "provider_tokens": null
+    },
+    {
+      "state": "stable",
+      "variant": "temple",
+      "instructions": 15934,
+      "whole_source_bodies": 63234,
+      "optional_full_entry_json": 92213,
+      "compact_navigation": 4806,
+      "product_facts": 1333,
+      "provider_tokens": null
+    },
+    {
+      "state": "changed-spec",
+      "variant": "temple",
+      "instructions": 15934,
+      "whole_source_bodies": 63322,
+      "optional_full_entry_json": 92322,
+      "compact_navigation": 4827,
+      "product_facts": 1400,
+      "provider_tokens": null
+    },
+    {
+      "state": "changed-spec",
+      "variant": "temple_previous",
+      "instructions": 27200,
+      "whole_source_bodies": 74588,
+      "optional_full_entry_json": 103624,
+      "compact_navigation": 4827,
+      "product_facts": 1400,
+      "provider_tokens": null
+    }
+  ],
+  "limitations": [
+    "Body/serialized bytes are not provider Tokens.",
+    "No live read order, latency or quality effect observed.",
+    "One planned sample per treatment/condition, diagnostic only."
+  ]
+}

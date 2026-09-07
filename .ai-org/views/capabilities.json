@@ -1,6 +1,6 @@
 {
   "schema_version": "temple.capability-registry/v1",
-  "generated_at": "2026-09-07T11:34:10.140Z",
+  "generated_at": "2026-09-07T12:49:09.499Z",
   "project_id": "temple",
   "source_template_version": "0.1.0-alpha.30",
   "counts": {
@@ -101,7 +101,7 @@
     {
       "id": "temple-work",
       "name": "temple-work",
-      "description": "Record authorized Work Item lifecycle and runtime state through the pinned CLI, or prepare a safe parallel dispatch plan. Not for status-only reporting, implementation itself, or first-time initialization.",
+      "description": "Record authorized Work Item lifecycle, ownership and runtime changes with the pinned CLI. Use for handoff, verification or closeout records and safe dispatch preparation; not implementation, status-only reporting or first initialization.",
       "path": ".agents/skills/temple-work/SKILL.md",
       "lifecycle_owner": "framework",
       "distribution": "core",

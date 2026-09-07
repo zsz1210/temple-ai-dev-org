@@ -2286,6 +2286,62 @@
       "attached_at": "2026-09-07T11:26:26.978Z",
       "completed_at": "2026-09-07T11:32:01.870Z",
       "updated_at": "2026-09-07T11:32:01.870Z"
+    },
+    {
+      "id": "worker-20260907122239-523a6a13",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0238",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260907122239-548e4186",
+      "base_revision": "173f43e1becdca8c3f1e672b173497b95441cd71",
+      "branch": "codex/small-task-operating-contract",
+      "worktree": null,
+      "plan_fingerprint": "88c3d4f687d107385d92e96fd3f1af0c01a131bc01c7e03a6cf5e421ab2c7e9e",
+      "plan_digest": "b6710992a4623ed96eef9da1fda2fcd534879320249146be43813ac28b739027",
+      "preparation_fingerprint": "d4f05c3c095a09c7275b0386360de1d86c9f0770a851dff504dd92fdcd6c6c13",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0238_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "173f43e1becdca8c3f1e672b173497b95441cd71",
+      "evidence": [
+        ".ai-org/artifacts/WI-0238/independent-qa.md"
+      ],
+      "reserved_at": "2026-09-07T12:22:39.234Z",
+      "attached_at": "2026-09-07T12:23:14.835Z",
+      "completed_at": "2026-09-07T12:33:14.692Z",
+      "updated_at": "2026-09-07T12:33:14.692Z"
+    },
+    {
+      "id": "worker-20260907124026-08601f87",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0238",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260907124026-74a5ec7c",
+      "base_revision": "af5a984aee6706ab308c693d95e138134162d5d6",
+      "branch": "codex/small-task-operating-contract",
+      "worktree": null,
+      "plan_fingerprint": "3a98b8bdef741c41213025e209c016c4fa0f19bc8c5803df649ecd7e935a1fe8",
+      "plan_digest": "397d0acbf22294b5e0c6e04ec27a85c82b07aed7c58371d209f9b634505c43d3",
+      "preparation_fingerprint": "39b260402dc550e341fdc6cedd796702e949bc6c60215ab9e076db19233b6eb7",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0238_qa_r1",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "af5a984aee6706ab308c693d95e138134162d5d6",
+      "evidence": [
+        ".ai-org/artifacts/WI-0238/independent-qa-r1.md"
+      ],
+      "reserved_at": "2026-09-07T12:40:26.465Z",
+      "attached_at": "2026-09-07T12:41:06.019Z",
+      "completed_at": "2026-09-07T12:48:48.396Z",
+      "updated_at": "2026-09-07T12:48:48.396Z"
     }
   ]
 }
