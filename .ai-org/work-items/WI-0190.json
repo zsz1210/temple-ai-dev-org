@@ -6,7 +6,7 @@
   "owner_position": "release_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T21:35:33.373Z",
-  "updated_at": "2026-09-07T15:13:13.207Z",
+  "updated_at": "2026-09-07T15:42:55.995Z",
   "scope": [
     "Framework instruction routes, stage completion, and bounded read-only support; preserve execution guards and sealed experiments"
   ],
@@ -68,7 +68,8 @@
     "WI-0238: isolated authorized successor on codex/small-task-operating-contract from 4c606f71; owns instruction-source and future readiness changes only, preserves prior candidates and artifacts; no concurrent writer; see WI-0238/design.md.",
     "WI-0241: sequential successor owns continuity runner/tests and new design artifacts; this predecessor has no active writer. Preserve frozen candidates, protocols and outcomes.",
     "WI-0243: successor repository-only baseline-reference repair; this predecessor has released ownership and no concurrent writer. Frozen reports and other source stay unchanged.",
-    "WI-0244: released predecessor has no concurrent writer; successor changes observation reason counters/test only and new evidence, preserving old source outside declared paths."
+    "WI-0244: released predecessor has no concurrent writer; successor changes observation reason counters/test only and new evidence, preserving old source outside declared paths.",
+    "WI-0245: context read-policy only plus focused test/evidence; WI-0190 and WI-0211 are released predecessors, no concurrent writer."
   ],
   "claim": {
     "id": "claim-20260906115202-516ed6b3",

@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 1 wave(s), fresh=true
-- Work items: 244 total, 27 active
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Parallel plan: 1 wave(s), fresh=false
+- Work items: 245 total, 28 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 89 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 23
+- Attention signals: 24
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,7 +37,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 1
 - Dispatchable Work Items: 6
 - Active / sequential / blocked: 0 / 13 / 8
@@ -292,6 +292,7 @@
 | WI-0242 | Measure two missing compact continuity conditions | concluded | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `56de97b3` | 0 | 9 | 0 |
 | WI-0243 | Validate continuity baseline commit identity | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `68620faa` | 0 | 7 | 0 |
 | WI-0244 | Audit retained cost evidence and explain unknown observations | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b0a87c88` | 0 | 7 | 0 |
+| WI-0245 | Clarify context inventory versus required reading and qualify an incremental experiment | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260907154321-5f714ae3 | `—` | 0 | 1 | 0 |
 
 ## Codex task registry
 
@@ -432,6 +433,7 @@
 - worker-20260905130828-87bb7969 is failed
 - worker-20260905141644-4a85d8c7 is failed
 - 3 learning entries require revalidation
+- Generated parallel plan is stale; rebuild it before dispatch
 - Parallel plan has 8 blocked Work Item(s)
 
 ## External tracker coordination
@@ -439,7 +441,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 96
+- Team-visible Work Items: 97
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -512,14 +514,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-07T15:24:53.300Z | work_item_closed | WI-0244 | agent-mog |
-| 2026-09-07T15:24:53.300Z | release_gate_completed | WI-0244 | agent-mog |
-| 2026-09-07T15:24:53.041Z | work_item_claimed | WI-0244 | human |
-| 2026-09-07T15:24:52.756Z | work_item_transitioned | WI-0244 | agent-lulu |
-| 2026-09-07T15:24:52.495Z | work_item_claim_released | WI-0244 | human |
-| 2026-09-07T15:24:52.213Z | handoff_created | WI-0244 | agent-lulu |
-| 2026-09-07T15:24:51.497Z | runtime_worker_status_changed | WI-0244 | agent-lulu |
-| 2026-09-07T15:22:01.072Z | runtime_worker_attached | WI-0244 | agent-lulu |
+| 2026-09-07T15:43:21.072Z | work_item_claimed | WI-0245 | human |
+| 2026-09-07T15:43:20.732Z | work_item_transitioned | WI-0245 | agent-tidus |
+| 2026-09-07T15:42:57.215Z | work_item_transitioned | WI-0245 | agent-yuna |
+| 2026-09-07T15:42:56.940Z | work_item_transitioned | WI-0245 | agent-mog |
+| 2026-09-07T15:42:56.633Z | work_item_coordination_configured | WI-0245 | agent-mog |
+| 2026-09-07T15:42:56.326Z | work_item_coordination_configured | WI-0211 | agent-mog |
+| 2026-09-07T15:42:55.995Z | work_item_coordination_configured | WI-0190 | agent-mog |
+| 2026-09-07T15:42:10.471Z | work_item_claimed | WI-0245 | human |
 
 ## Assignments
 

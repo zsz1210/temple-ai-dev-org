@@ -86,7 +86,7 @@ export function compactContextEntry(capsule, item, context, pending = null) {
       },
       source_bodies_retained: false
     },
-    read_policy: "Hashes do not prove reading. Reuse only already-read, available, unchanged bodies. Recheck changed authority groups. Bootstrap, recovery and required unselected sources still apply.",
+    read_policy: "Read current scope, acceptance, candidate evidence and applicable instructions. authority_snapshot.paths lists CLI freshness inputs, not a blanket reading checklist. Explicit native/project, bootstrap, recovery and required selected/unselected reading obligations still apply; resolve missing or unclear authority. Hashes do not prove reading. Reuse only already-read, available, unchanged bodies. Recheck changed authority groups.",
     warnings: capsule.warnings
   };
 }

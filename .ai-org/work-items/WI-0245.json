@@ -1,0 +1,114 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0245",
+  "title": "Clarify context inventory versus required reading and qualify an incremental experiment",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-07T15:41:56.557Z",
+  "updated_at": "2026-09-07T15:43:21.072Z",
+  "scope": [
+    "Clarify the existing compact read policy without removing required instructions, authority or verification; qualify two fresh isolated Terra medium subjects after independent review."
+  ],
+  "acceptance_criteria": [
+    "Only reading-scope guidance changes; context facts and guards remain identical. Full offline verification and distinct QA before the approved two-subject experiment; preserve historical results and privacy, no retries or external publication."
+  ],
+  "affected_paths": [
+    "src/context-entry.mjs",
+    "test/delivery-entry.test.mjs",
+    ".ai-org/artifacts/WI-0245"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-07T15:41:56.557Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "c68aaf66d182b9b2d8b8003df5e5d602fc7234d7",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0245: context read-policy only plus focused test/evidence; WI-0190 and WI-0211 are released predecessors, no concurrent writer."
+  ],
+  "claim": {
+    "id": "claim-20260907154321-5f714ae3",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "c68aaf66d182b9b2d8b8003df5e5d602fc7234d7",
+    "branch": "codex/context-read-scope-experiment",
+    "worktree": null,
+    "claimed_at": "2026-09-07T15:43:21.072Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260907154210-89517619",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "c68aaf66",
+      "branch": "codex/context-read-scope-experiment",
+      "worktree": null,
+      "claimed_at": "2026-09-07T15:42:10.471Z",
+      "released_at": "2026-09-07T15:42:56.940Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260907154321-5f714ae3",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "c68aaf66d182b9b2d8b8003df5e5d602fc7234d7",
+      "branch": "codex/context-read-scope-experiment",
+      "worktree": null,
+      "claimed_at": "2026-09-07T15:43:21.072Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0245/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0245/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0245/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0245/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0245/design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0245/design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
