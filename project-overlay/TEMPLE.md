@@ -80,19 +80,20 @@ route. These triggers do not replace independent required reads.
 | Model, reasoning, Credits or calibration choices | `.ai-org/project/usage-policy.json` | Approved reversible local allowlisted budgets only; ask at exceptions and every governing boundary. Diagnostic samples are not statistical proof. |
 | Learning capture/revalidation | Current learning index and Learning CLI | Authorized add-lesson/add-practice/revalidate maintain records; validate and intentionally adopt before promotion. Never auto-promote one Lesson. |
 
-Ordinary sequential delivery needs no parallel plan. Plans create no claim or app
+Sequential delivery: no parallel plan is required.
+Governed parallel delivery only: follow the linked dispatch procedure. Plans create no claim or app
 task; runtime completion is not a gate. Local locking is not distributed: separate
 machines coordinate through Git, branches, review, CI and conflict resolution.
 Registration never creates, renames, resumes or archives app tasks; archive
 readiness still requires an explicit app action.
 
-## Bootstrap is a blocking condition
+## Agent-led initialization continuity
 
 After `temple init` in this session, resolve `TEMPLE_BOOTSTRAP_REQUIRED` before
 governed mutation. Prefer a fresh session after pending native entrypoint merges
 are resolved and the provider is known to load its supported entrypoint. The CLI
-does not detect the executing provider or make `AGENTS.md` universal. For Claude
-Code, an absent project-owned `CLAUDE.md` imports `@AGENTS.md`; compatible existing
+does not detect the executing provider or claim `AGENTS.md` is universal. For Claude
+Code, it creates an absent project-owned `CLAUDE.md` containing only `@AGENTS.md`; compatible existing
 content is preserved, incompatible content remains a pending merge via
 `.ai-org/project/CLAUDE.temple.md`. Import compatibility does not prove loading.
 
