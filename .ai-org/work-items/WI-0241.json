@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0241",
   "title": "Design proactive learning and qualify incremental compact experiment",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-07T14:06:55.713Z",
-  "updated_at": "2026-09-07T14:27:56.463Z",
+  "updated_at": "2026-09-07T14:29:18.897Z",
   "scope": [
     "Design an evidence-triggered project Learning loop without activating it; qualify a fresh two-subject compact-only continuity protocol reusing historical references, with offline checks and exact readiness. No live dispatch until the new digest and bounded envelope are approved; no old lab mutation, merge or release."
   ],
@@ -57,18 +57,16 @@
     "WI-0236: released predecessor, no concurrent writer; this successor owns only named runner/test paths and new artifacts. Existing evidence remains frozen."
   ],
   "claim": {
-    "id": "claim-20260907142321-49c3b663",
+    "id": "claim-20260907142918-e3ac47b6",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
+    "agent_id": "agent-mog",
     "base_revision": "afb048d10a7c1554afa75b8121d733d753b0a49b",
     "branch": "codex/learning-loop-incremental",
     "worktree": null,
-    "claimed_at": "2026-09-07T14:23:21.691Z",
-    "released_at": "2026-09-07T14:27:56.175Z",
-    "release_reason": [
-      "Independent review joined; preparation accepted for release-gate record, not publication."
-    ]
+    "claimed_at": "2026-09-07T14:29:18.586Z",
+    "released_at": "2026-09-07T14:29:18.897Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -126,6 +124,18 @@
       "release_reason": [
         "Independent review joined; preparation accepted for release-gate record, not publication."
       ]
+    },
+    {
+      "id": "claim-20260907142918-e3ac47b6",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "afb048d10a7c1554afa75b8121d733d753b0a49b",
+      "branch": "codex/learning-loop-incremental",
+      "worktree": null,
+      "claimed_at": "2026-09-07T14:29:18.586Z",
+      "released_at": "2026-09-07T14:29:18.897Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -159,6 +169,21 @@
     ],
     "independent_qa_pass": [
       ".ai-org/artifacts/WI-0241/independent-qa.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0241/design.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0241/independent-qa.md"
+    ],
+    "release_record": [
+      ".ai-org/artifacts/WI-0241/release-record.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0241/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -169,10 +194,11 @@
     ".ai-org/artifacts/WI-0241/handoff-002-quality_evaluator-to-independent_qa.md",
     ".ai-org/artifacts/WI-0241/test-eval.md",
     ".ai-org/artifacts/WI-0241/handoff-003-independent_qa-to-release_manager.md",
-    ".ai-org/artifacts/WI-0241/independent-qa.md"
+    ".ai-org/artifacts/WI-0241/independent-qa.md",
+    ".ai-org/artifacts/WI-0241/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -199,5 +225,11 @@
       "created_at": "2026-09-07T14:27:55.863Z"
     }
   ],
-  "developer_candidate_revision": "afb048d10a7c1554afa75b8121d733d753b0a49b"
+  "developer_candidate_revision": "afb048d10a7c1554afa75b8121d733d753b0a49b",
+  "tested_revision": "afb048d10a7c1554afa75b8121d733d753b0a49b",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

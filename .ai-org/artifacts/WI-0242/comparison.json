@@ -1,0 +1,144 @@
+{
+  "schema_version": "wi0242-incremental-report/v1",
+  "instrument_candidate": "afb048d10a7c1554afa75b8121d733d753b0a49b",
+  "execution_revision": "2ef970b6",
+  "protocol": "continuity-incremental-approved/v1",
+  "seal": {
+    "protocol_sha256": "sha256:3568e1f6ec0bf33665d0275661829a9c10c8a0ccde4b3f2fc4dfa453d2333dc2",
+    "run_sha256": "sha256:6b6fb0db1c0848be30d99432ed0106e642f0a613fda3a2f321b5945378ddb6be",
+    "sealed_at": "2026-09-07T14:30:57.651Z"
+  },
+  "run_status": "stopped",
+  "first_stop": "shared-validity-unconfirmed",
+  "planned_subjects": 2,
+  "attempted_subjects": 1,
+  "observed_operational_tokens": 62917,
+  "aggregate_usage_complete": true,
+  "batch_elapsed_ms": 141223,
+  "envelope": {
+    "model": "gpt-5.6-terra",
+    "effort": "medium",
+    "subjects": 2,
+    "subject_tokens": 100000,
+    "subject_ms": 480000,
+    "total_tokens": 200000,
+    "total_ms": 1200000,
+    "retries": 0,
+    "fallback": false,
+    "purchase": false,
+    "reset": false
+  },
+  "rows": [
+    {
+      "index": 1,
+      "state": "stable",
+      "treatment": "compact-temple",
+      "status": "completed",
+      "original_oracle": {
+        "passed": false,
+        "reason": "delivery-record-invalid"
+      },
+      "original_product_result": "not_evaluated",
+      "accepted": false,
+      "administration_complete": true,
+      "model": "gpt-5.6-terra",
+      "effort": "medium",
+      "usage": {
+        "input_tokens": 521089,
+        "cached_input_tokens": 462848,
+        "output_tokens": 4676,
+        "reasoning_output_tokens": 895,
+        "total_tokens": 525765,
+        "operational_tokens": 62917
+      },
+      "usage_status": "observed-completed-turn",
+      "setup_ms": 827,
+      "turn_ms": 140035,
+      "attempt_ms": 140862,
+      "commands": 14,
+      "command_observations": {
+        "schema_version": "continuity-command-observations/v2",
+        "completed_items": 14,
+        "categories": {
+          "reading": 0,
+          "context_navigation": 1,
+          "testing": 0,
+          "git": 0,
+          "administration": 1,
+          "diagnostics": 0,
+          "editing": 0,
+          "unknown": 12
+        },
+        "observed_output_bytes": 100487,
+        "output_bytes_by_category": {
+          "reading": 0,
+          "context_navigation": 451,
+          "testing": 0,
+          "git": 0,
+          "administration": 3347,
+          "diagnostics": 0,
+          "editing": 0,
+          "unknown": 96689
+        },
+        "output_unavailable": 0,
+        "output_capped": 0,
+        "duplicate_events": 0,
+        "unidentified_events": 0,
+        "limit_reached": false
+      },
+      "nonzero_command_exits": 1,
+      "candidate_revision": "1d7a4126137a0f941f49317d316db36279ed35f4",
+      "server_exit_confirmed": true,
+      "terminals_empty": true,
+      "sequence_decision": {
+        "outcome": "invalid",
+        "stop": "shared-validity-unconfirmed"
+      },
+      "request_bytes": {
+        "schema_version": "continuity-request-bytes/v1",
+        "authored_user_text": {
+          "bytes": 2107,
+          "status": "observed-field"
+        },
+        "authored_developer_text": {
+          "bytes": 624,
+          "status": "observed-field"
+        },
+        "output_schema": {
+          "bytes": 678,
+          "status": "observed-field"
+        },
+        "native_context_bytes": null,
+        "total_model_context_bytes": null
+      }
+    },
+    {
+      "index": 2,
+      "state": "changed-spec",
+      "treatment": "compact-temple",
+      "status": "not_run",
+      "reason": "shared-validity-unconfirmed",
+      "usage": null,
+      "attempt_ms": null,
+      "original_product_result": "not_evaluated",
+      "accepted": null
+    }
+  ],
+  "post_hoc_diagnosis": {
+    "kind": "git-equivalent-baseline-reference-recheck",
+    "original_result_preserved": true,
+    "short_reference": "6a1ba6b",
+    "resolved_baseline": "6a1ba6b71be2c922212a043ebe1b2f2c728d7a01",
+    "in_memory_override": "checkpoint.arms.temple.baseline",
+    "framework_and_frozen_lab_modified": false,
+    "model_generation_performed": false,
+    "isolated_product_cases": 46,
+    "product_passed": true,
+    "regression_passed": true,
+    "candidate_revision": "1d7a4126137a0f941f49317d316db36279ed35f4",
+    "delivery_revision": "23ae1d786a0ed48a023abc55e193d98f62e3043c",
+    "seals_still_valid": true,
+    "classification": "instrument-reference-representation-mismatch",
+    "not_original_protocol_acceptance": true
+  }
+}
