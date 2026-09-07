@@ -273,7 +273,7 @@
 | WI-0223 | Design diagnostic Full versus Model comparison | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 | WI-0224 | Implement two-family diagnostic comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `df40202b` | 0 | 4 | 0 |
 | WI-0225 | Design proportionate small-task delivery and reliable evaluation | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 4 | 2 |
-| WI-0226 | Implement bounded Lean procedure routing and offline evaluation reliability | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 3 | 2 |
+| WI-0226 | Implement bounded Lean procedure routing and offline evaluation reliability | eval | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 5 | 2 |
 | WI-0227 | Reduce always-loaded operating instructions without weakening gates | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f7062396` | 0 | 7 | 0 |
 
 ## Codex task registry
@@ -480,14 +480,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-07T03:21:28.463Z | work_item_transitioned | WI-0226 | agent-lulu |
+| 2026-09-07T03:21:28.031Z | work_item_claim_released | WI-0226 | human |
+| 2026-09-07T03:21:08.875Z | handoff_created | WI-0226 | agent-lulu |
+| 2026-09-07T03:18:45.342Z | work_item_claimed | WI-0226 | human |
 | 2026-09-07T03:06:33.880Z | work_item_transitioned | WI-0227 | agent-lulu |
 | 2026-09-07T03:06:33.453Z | work_item_claim_released | WI-0227 | human |
 | 2026-09-07T03:06:33.032Z | handoff_created | WI-0227 | agent-lulu |
 | 2026-09-07T03:06:32.480Z | work_item_claimed | WI-0227 | human |
-| 2026-09-07T03:06:02.615Z | work_item_transitioned | WI-0227 | agent-lulu |
-| 2026-09-07T03:06:02.187Z | work_item_claim_released | WI-0227 | human |
-| 2026-09-07T03:06:01.748Z | handoff_created | WI-0227 | agent-lulu |
-| 2026-09-07T03:05:40.992Z | work_item_transitioned | WI-0227 | agent-lulu |
 
 ## Assignments
 
