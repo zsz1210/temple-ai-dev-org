@@ -42,7 +42,8 @@ Use ADR-0062 for the authored-contract decision. Lulu performs separate exact-
 candidate verification; Mog joins evidence and owns integration. No UI applies.
 The supporting `scripts/check-package.mjs` file-count ceiling increases by one
 for that reviewed ADR only; preserve all package exclusions and size limits.
-The supporting `test/skill-policy.test.mjs` and `test/context.test.mjs` assertions
+The supporting `test/skill-policy.test.mjs`, `test/context.test.mjs` and
+`test/phase4-installation.test.mjs` assertions
 follow obligations to their retained owner; do not require the old repeated
 paragraph layout. Keep their real workflow/installation assertions and all
 missing-source, identity, profile and recovery behavioral tests.
