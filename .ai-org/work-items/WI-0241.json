@@ -1,0 +1,119 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0241",
+  "title": "Design proactive learning and qualify incremental compact experiment",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-07T14:06:55.713Z",
+  "updated_at": "2026-09-07T14:10:19.511Z",
+  "scope": [
+    "Design an evidence-triggered project Learning loop without activating it; qualify a fresh two-subject compact-only continuity protocol reusing historical references, with offline checks and exact readiness. No live dispatch until the new digest and bounded envelope are approved; no old lab mutation, merge or release."
+  ],
+  "acceptance_criteria": [
+    "Specify retrospective triggers, deduplication, applicability and outcome feedback with explicit authority and non-triggers; enforce two compact conditions, retain strict old protocols, preserve historical evidence and report exact readiness."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0241",
+    "scripts/continuity-live-runner.mjs",
+    "test/continuity-live-runner.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-07T14:06:55.713Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "c65e72a8",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0211: predecessor claim released; this sequential successor owns only WI-0241 artifacts and continuity runner/test edits; old source candidates and evidence remain frozen.",
+    "WI-0190: released predecessor, no concurrent writer; this successor owns only named runner/test paths and new artifacts. Existing evidence remains frozen.",
+    "WI-0234: released predecessor, no concurrent writer; this successor owns only named runner/test paths and new artifacts. Existing evidence remains frozen.",
+    "WI-0236: released predecessor, no concurrent writer; this successor owns only named runner/test paths and new artifacts. Existing evidence remains frozen."
+  ],
+  "claim": {
+    "id": "claim-20260907141019-54342dfa",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "c65e72a8",
+    "branch": "codex/learning-loop-incremental",
+    "worktree": null,
+    "claimed_at": "2026-09-07T14:10:19.511Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260907140708-0ca001d6",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "c65e72a8",
+      "branch": "codex/learning-loop-incremental",
+      "worktree": null,
+      "claimed_at": "2026-09-07T14:07:08.872Z",
+      "released_at": "2026-09-07T14:10:18.363Z",
+      "release_reason": [
+        "Work order recorded; proceed through specification and design."
+      ]
+    },
+    {
+      "id": "claim-20260907141019-54342dfa",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "c65e72a8",
+      "branch": "codex/learning-loop-incremental",
+      "worktree": null,
+      "claimed_at": "2026-09-07T14:10:19.511Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0241/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0241/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0241/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0241/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0241/design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0241/design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

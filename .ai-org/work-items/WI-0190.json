@@ -6,7 +6,7 @@
   "owner_position": "release_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T21:35:33.373Z",
-  "updated_at": "2026-09-07T11:45:16.174Z",
+  "updated_at": "2026-09-07T14:09:21.778Z",
   "scope": [
     "Framework instruction routes, stage completion, and bounded read-only support; preserve execution guards and sealed experiments"
   ],
@@ -65,7 +65,8 @@
     "WI-0224: coordinated new diagnostic runner/test paths only; historical owners have released claims; prior evidence and sources remain unchanged.",
     "WI-0235 independent exact-candidate review may write its own evidence only; no concurrent source changes. WI-0236 waits for review before instrument edits; historical candidates and outcomes remain unchanged.",
     "WI-0237: authorized isolated successor and exact-candidate review on codex/evaluation-reliability-review. No active writer here; prior outcomes, candidate and artifacts stay frozen. Scope: WI-0237/design.md.",
-    "WI-0238: isolated authorized successor on codex/small-task-operating-contract from 4c606f71; owns instruction-source and future readiness changes only, preserves prior candidates and artifacts; no concurrent writer; see WI-0238/design.md."
+    "WI-0238: isolated authorized successor on codex/small-task-operating-contract from 4c606f71; owns instruction-source and future readiness changes only, preserves prior candidates and artifacts; no concurrent writer; see WI-0238/design.md.",
+    "WI-0241: sequential successor owns continuity runner/tests and new design artifacts; this predecessor has no active writer. Preserve frozen candidates, protocols and outcomes."
   ],
   "claim": {
     "id": "claim-20260906115202-516ed6b3",

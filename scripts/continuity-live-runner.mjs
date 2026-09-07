@@ -25,11 +25,17 @@ export const envelope = Object.freeze({ model:'gpt-5.6-terra', effort:'medium', 
 export const matrixConditions=Object.freeze(['stable','changed-spec']);
 export const instructionComparisonProtocol = 'continuity-instructions-approved/v1';
 export const instructionComparisonEnvelope = Object.freeze({...envelope,subjects:6,total_tokens:600000,total_ms:3600000});
+// Missing-treatment screen only. Historical controls remain separate evidence;
+// this never resumes a sealed matrix or grants an arbitrary subject selection.
+export const incrementalProtocol = 'continuity-incremental-approved/v1';
+export const incrementalEnvelope = Object.freeze({...envelope,subjects:2,total_tokens:200000,total_ms:1200000});
 export const previousInstructionRevision = '4c606f7113600caeec04daf29477daa17b07409c';
 export const instructionPaths = Object.freeze(['AGENTS.md','TEMPLE.md','.agents/skills/temple-work/SKILL.md',
   '.agents/skills/temple-work/references/lean-execution.md']);
 const instructionMatrix = p => p.version === instructionComparisonProtocol;
-const matrixArms = (p,index) => instructionMatrix(p)
+const incrementalMatrix = p => p.version === incrementalProtocol;
+const matrixLimits = p => incrementalMatrix(p) ? incrementalEnvelope : instructionMatrix(p) ? instructionComparisonEnvelope : envelope;
+const matrixArms = (p,index) => incrementalMatrix(p) ? ['temple'] : instructionMatrix(p)
   ? (index===0?['ordinary','temple_previous','temple']:['temple','temple_previous','ordinary'])
   : (index===0?['ordinary','temple']:['temple','ordinary']);
 const fixtureKey = s => s.variant ?? s.arm;
@@ -55,9 +61,11 @@ export async function preparePreviousInstructionRuntime(bundle, target) {
   return {...assertInstructionOnlyRuntimes(current,previous),bundle_root:target,bundle_sha256:digest(previous)};
 }
 export function assertContinuityMatrix(protocol) {
-  const width=instructionMatrix(protocol)?3:2;
+  const width=incrementalMatrix(protocol)?1:instructionMatrix(protocol)?3:2;
   check(Array.isArray(protocol.subjects)&&protocol.subjects.length===width*2&&
     Array.isArray(protocol.pairs)&&protocol.pairs.length===matrixConditions.length,'matrix-size');
+  if(incrementalMatrix(protocol))check(!protocol.instruction_comparison&&
+    new Set(protocol.subjects.map(s=>s.root)).size===2,'matrix-layout');
   for(const [index,state] of matrixConditions.entries()) {
     for(const [offset,key] of matrixArms(protocol,index).entries()) {
       const arm=key==='ordinary'?'ordinary':'temple';
@@ -82,7 +90,8 @@ export const liveCompletion = structuredClone(deliveryCompletion);
 const safeKey = x => typeof x==='string' && /^[a-zA-Z0-9_@-]{1,160}$/.test(x);
 const absolute = x => typeof x==='string' && path.isAbsolute(x) && path.normalize(x)===x && x!==path.parse(x).root;
 
-export async function prepareContinuityRuntime({scratchParent=os.tmpdir(),instructionComparison=false}={}) {
+export async function prepareContinuityRuntime({scratchParent=os.tmpdir(),instructionComparison=false,incremental=false}={}) {
+  check(!(instructionComparison&&incremental),'incompatible-matrix-modes');
   const source=path.resolve(import.meta.dirname,'..');
   const lab=await fs.realpath(await fs.mkdtemp(path.join(scratchParent,'temple-continuity-live-')));
   const bundle=path.join(lab,'runtime');await fs.mkdir(bundle);
@@ -112,7 +121,8 @@ export async function prepareContinuityRuntime({scratchParent=os.tmpdir(),instru
       GIT_CONFIG_NOSYSTEM:'1',GIT_CONFIG_GLOBAL:'/dev/null',GIT_TERMINAL_PROMPT:'0',
       GIT_AUTHOR_NAME:'Fixture',GIT_AUTHOR_EMAIL:'fixture@example.invalid',GIT_COMMITTER_NAME:'Fixture',GIT_COMMITTER_EMAIL:'fixture@example.invalid'}};
   Object.assign(runtime,await discoverRuntime({root}));
-  const prepared={lab,runtime,subject:{root,arm:'temple',itemId:pair.arms.temple.item_id,agentId},bundle_sha256:digest(bundleManifest)};
+  const prepared={lab,runtime,subject:{root,arm:'temple',itemId:pair.arms.temple.item_id,agentId},bundle_sha256:digest(bundleManifest),
+    ...(incremental?{incremental:true}:{})};
   if(instructionComparison)prepared.instruction_comparison=previous;
   await fs.writeFile(path.join(lab,'qualification-runtime.json'),JSON.stringify(prepared,null,2)+'\n',{flag:'wx',mode:0o600});
   return prepared;
@@ -468,8 +478,9 @@ export async function prepareContinuityMatrix(prepared) {
   check(observationQualification.status==='passed','observation-qualification-failed');
   const installed=await readInstalledContinuitySchemas({binary:prepared.runtime.binary});
   const comparison=prepared.instruction_comparison;
+  check(!(comparison&&prepared.incremental),'incompatible-matrix-modes');
   if(comparison)check(oracleQualification.previousRecordOracle?.passed===true,'previous-oracle-qualification-missing');
-  const version=comparison?instructionComparisonProtocol:deliveryProtocol;
+  const version=prepared.incremental?incrementalProtocol:comparison?instructionComparisonProtocol:deliveryProtocol;
   const pairs=[],subjects=[];
   for(const [index,state] of matrixConditions.entries()) {
     const checkpoint=await createContinuityPair(path.join(prepared.lab,`pair-${index+1}`),state,
@@ -487,11 +498,13 @@ export async function prepareContinuityMatrix(prepared) {
     const s=subjects.find(s=>s.variant==='temple_previous');previousQualification=await qualifyThread(s,s.runtime);
     check(previousQualification.status==='thread-configured'&&previousQualification.runtime_controls==='passed'&&previousQualification.server_exit_confirmed&&!previousQualification.cleanup_failure,'previous-qualification-not-passed');
   }
-  const protocol={version,native_tool_route:'canary-required',envelope:comparison?instructionComparisonEnvelope:envelope,continuation:deliveryContinuation,subjects,pairs,qualification,oracleQualification,observationQualification,
+  const protocol={version,native_tool_route:'canary-required',envelope:matrixLimits({version}),continuation:deliveryContinuation,subjects,pairs,qualification,oracleQualification,observationQualification,
     ...(comparison?{instruction_comparison:comparison,previousQualification}:{}),
     schemas:installed.experimental,cli_version:installed.cli_version,bundle_root:prepared.runtime.readRoots[2],
     bundle_sha256:prepared.bundle_sha256,instrument_sha256:await instrumentHash(),
-    interpretation:'Diagnostic pairs only; no resource-quality exchange rate or automatic default change.'};
+    interpretation:prepared.incremental
+      ? 'Two missing compact conditions only; historical references are not contemporaneous controls or causal evidence.'
+      : 'Diagnostic pairs only; no resource-quality exchange rate or automatic default change.'};
   assertContinuityMatrix(protocol);
   await fs.writeFile(path.join(prepared.lab,'protocol.json'),JSON.stringify(protocol,null,2)+'\n',{flag:'wx',mode:0o600});
   return {lab:prepared.lab,protocol_sha256:digest(protocol),subjects:subjects.length,model_generation_performed:false};
@@ -500,8 +513,8 @@ export async function prepareContinuityMatrix(prepared) {
 export async function runApprovedContinuity(lab,approvedDigest,{onProgress=()=>{},signal}={}) {
   check(!signal?.aborted,'operator-cancelled');
   const protocol=JSON.parse(await fs.readFile(path.join(lab,'protocol.json'),'utf8'));
-  const limits=instructionMatrix(protocol)?instructionComparisonEnvelope:envelope;
-  check([deliveryProtocol,instructionComparisonProtocol].includes(protocol.version)&&protocol.native_tool_route==='canary-required'&&digest(protocol)===approvedDigest&&digest(protocol.envelope)===digest(limits),'frozen-protocol-mismatch');
+  const limits=matrixLimits(protocol);
+  check([deliveryProtocol,instructionComparisonProtocol,incrementalProtocol].includes(protocol.version)&&protocol.native_tool_route==='canary-required'&&digest(protocol)===approvedDigest&&digest(protocol.envelope)===digest(limits),'frozen-protocol-mismatch');
   check(digest(protocol.continuation)===digest(deliveryContinuation),'continuation-policy-mismatch');
   assertContinuityMatrix(protocol);
   check(await instrumentHash()===protocol.instrument_sha256,'instrument-drift');

@@ -5,10 +5,11 @@ import os from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {createContinuityPair,assessContinuityCandidate,referenceQuote} from '../scripts/continuity-fixture.mjs';
-import {subprocessEnvironment} from '../scripts/delivery-control-pair.mjs';
+import {subprocessEnvironment,digest} from '../scripts/delivery-control-pair.mjs';
 import { envelope,matrixConditions,assertContinuityMatrix,disabledFeatures,liveArguments,assertLiveConfiguration,liveRequests,
   assertThreadBoundary,createSubjectLedger,runContinuitySubject,isolatedOracleExecutor,runApprovedContinuity,continuityAssessmentDecision,
-  instructionComparisonProtocol,instructionComparisonEnvelope,instructionPaths,assertInstructionOnlyRuntimes,preparePreviousInstructionRuntime } from '../scripts/continuity-live-runner.mjs';
+  instructionComparisonProtocol,instructionComparisonEnvelope,instructionPaths,assertInstructionOnlyRuntimes,preparePreviousInstructionRuntime,
+  incrementalProtocol,incrementalEnvelope,prepareContinuityRuntime } from '../scripts/continuity-live-runner.mjs';
 const subject={root:'/fixture/actor',arm:'temple',itemId:'WI-0001',agentId:'agent-builder'};
 const runtime={root:subject.root,binary:'/provider/codex',readRoots:['/runtime/node','/runtime/git','/runtime/temple'],
   environment:{PATH:'/runtime/node:/runtime/git:/usr/bin:/bin',OPENSSL_CONF:'/dev/null'},
@@ -64,6 +65,41 @@ test('instruction treatment rejects executable, extra-source, missing-source and
     p=>delete p['project-overlay/TEMPLE.md'],p=>p['project-overlay/AGENTS.md']=current['project-overlay/AGENTS.md']]) {
     const p={...previous};mutate(p);assert.throws(()=>assertInstructionOnlyRuntimes(current,p),/confounded/);
   }
+});
+function incrementalFixture() {
+  const pairs=matrixConditions.map((_,i)=>({arms:{temple:{root:`/fixture/p${i}/temple`}}}));
+  return {version:incrementalProtocol,pairs,subjects:matrixConditions.map((state,i)=>({state,arm:'temple',
+    pair:i+1,root:pairs[i].arms.temple.root,itemId:'WI-0001',agentId:'agent-builder'}))};
+}
+test('incremental screen permits only the two missing compact conditions, never a resumed old matrix',()=>{
+  const p=incrementalFixture();assert.doesNotThrow(()=>assertContinuityMatrix(p));
+  for(const mutate of [p=>p.subjects.pop(),p=>p.subjects.push(p.subjects[0]),p=>p.subjects.reverse(),
+    p=>p.subjects[1].state='stable',p=>p.subjects[0].arm='ordinary',p=>p.subjects[0].variant='temple_previous',
+    p=>p.subjects[0].root='/other',p=>p.subjects[1].pair=1,p=>p.pairs.pop(),p=>p.version=instructionComparisonProtocol,
+    p=>p.instruction_comparison={},p=>{p.subjects[1].root=p.subjects[0].root;p.pairs[1].arms.temple.root=p.subjects[0].root;}]) {
+    const q=structuredClone(p);mutate(q);assert.throws(()=>assertContinuityMatrix(q),/matrix-/);
+  }
+  assert.deepEqual(liveRequests(p.subjects[0]),liveRequests({...p.subjects[0],variant:'temple'}));
+  for(const key of ['model','effort','subject_tokens','subject_ms','retries','fallback','purchase','reset'])
+    assert.equal(incrementalEnvelope[key],envelope[key]);
+  assert.equal(incrementalEnvelope.subjects,2);assert.equal(incrementalEnvelope.total_tokens,200000);
+  assert.equal(incrementalEnvelope.total_ms,1200000);
+});
+test('incremental mode rejects mixed preparation before creating a lab',async()=>{
+  await assert.rejects(prepareContinuityRuntime({scratchParent:'/must-not-create',instructionComparison:true,incremental:true}),/incompatible-matrix-modes/);
+});
+test('incremental wrong digest or broadened envelope cannot consume an approval',async t=>{
+  const lab=await fs.mkdtemp(path.join(os.tmpdir(),'temple-incremental-guard-'));
+  t.after(()=>fs.rm(lab,{recursive:true,force:true}));
+  const p={...incrementalFixture(),native_tool_route:'canary-required',envelope:incrementalEnvelope};
+  await fs.writeFile(path.join(lab,'protocol.json'),JSON.stringify(p));
+  await assert.rejects(runApprovedContinuity(lab,'old-consumed-digest'),/frozen-protocol-mismatch/);
+  for(const key of ['total_tokens','subject_tokens','subjects','total_ms']) {
+    const q=structuredClone(p);q.envelope[key]++;
+    await fs.writeFile(path.join(lab,'protocol.json'),JSON.stringify(q));
+    await assert.rejects(runApprovedContinuity(lab,digest(q)),/frozen-protocol-mismatch/);
+  }
+  assert.deepEqual(await fs.readdir(lab),['protocol.json']);
 });
 test('previous-instruction preparation never adopts an existing directory',async t=>{
   const temporary=await fs.mkdtemp(path.join(os.tmpdir(),'temple-instruction-exclusive-'));
