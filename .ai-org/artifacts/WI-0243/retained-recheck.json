@@ -1,0 +1,23 @@
+{
+  "schema_version": "wi0243-retained-recheck/v1",
+  "instrument_candidate": "68620faa8dc2cf766e76e7e590c85cf2b512a492",
+  "original_protocol_digest": "sha256:3568e1f6ec0bf33665d0275661829a9c10c8a0ccde4b3f2fc4dfa453d2333dc2",
+  "original_run_digest": "sha256:6b6fb0db1c0848be30d99432ed0106e642f0a613fda3a2f321b5945378ddb6be",
+  "original_acceptance": false,
+  "original_reason": "delivery-record-invalid",
+  "checkpoint_override": false,
+  "frozen_files_unchanged": true,
+  "model_generation_performed": false,
+  "oracle_executions": 2,
+  "result": {
+    "passed": true,
+    "revision": "1d7a4126137a0f941f49317d316db36279ed35f4",
+    "delivery_revision": "23ae1d786a0ed48a023abc55e193d98f62e3043c",
+    "state": "stable",
+    "case_count": 46,
+    "exit_code": 0,
+    "reason": "accepted",
+    "product_scope_only": true,
+    "live_sandbox_qualified": false
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-07T14:47:00.527Z",
-  "source_fingerprint": "402153772de4461828150cca933dfd5bab02f9ca320cfe401658b87e9db135a8",
+  "generated_at": "2026-09-07T15:03:28.685Z",
+  "source_fingerprint": "96ac0f717cf6c88ca38c09a4f9b05565982044656850c385f209ac2405ceb21e",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -72,7 +72,7 @@
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "3da60a3d114f1436e15b37b207a067ffdcecb6fcdecb07fb476725f3ac0b675d",
+          "preparation_fingerprint": "317274d610e621acca585fc470a55c2d17bfba7b13cb0bf03b49bc0bc6a5b38c",
           "integration_owner_agent_id": "agent-mog",
           "context_command": "node ./templew.mjs context resolve . --work-item WI-0190 --position release_manager --no-write --json",
           "claim_required_before_work": true,
