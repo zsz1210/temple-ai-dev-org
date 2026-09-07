@@ -1,0 +1,151 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0234",
+  "title": "Execute approved fresh takeover comparison",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
+  "created_at": "2026-09-07T06:39:13.039Z",
+  "updated_at": "2026-09-07T08:51:54.304Z",
+  "scope": [
+    "Implement and qualify the named-permission continuity runner, then execute the approved eight Terra medium Build subjects without retries."
+  ],
+  "acceptance_criteria": [
+    "Retain all attempts, enforce 800000 Operational Tokens and 60 minutes, preserve isolated fixture and oracle boundaries, report paired quality and resource results or a concrete validity stop."
+  ],
+  "affected_paths": [
+    "scripts/continuity-live-runner.mjs",
+    "test/continuity-live-runner.test.mjs",
+    ".ai-org/artifacts/WI-0234"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Repository-only experiment instrument with independent review before model generation.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-07T06:39:13.039Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "8f3fc89f",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0235 independent exact-candidate review may write its own evidence only; no concurrent source changes. WI-0236 waits for review before instrument edits; historical candidates and outcomes remain unchanged."
+  ],
+  "claim": {
+    "id": "claim-20260907073554-3598d215",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "8f3fc89f",
+    "branch": "codex/continuity-approved-runner",
+    "worktree": null,
+    "claimed_at": "2026-09-07T07:35:54.215Z",
+    "released_at": "2026-09-07T08:11:23.253Z",
+    "release_reason": [
+      "Repaired instrument and completed the eight-subject comparison; handed exact evidence to Quality Evaluator."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260907064006-33c7bd6c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "06b81b13",
+      "branch": "codex/continuity-approved-runner",
+      "worktree": null,
+      "claimed_at": "2026-09-07T06:40:06.551Z",
+      "released_at": "2026-09-07T07:19:40.285Z",
+      "release_reason": [
+        "Native dispatch unavailable; invalid run retained and live entrypoints withdrawn."
+      ]
+    },
+    {
+      "id": "claim-20260907073554-3598d215",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "8f3fc89f",
+      "branch": "codex/continuity-approved-runner",
+      "worktree": null,
+      "claimed_at": "2026-09-07T07:35:54.215Z",
+      "released_at": "2026-09-07T08:11:23.253Z",
+      "release_reason": [
+        "Repaired instrument and completed the eight-subject comparison; handed exact evidence to Quality Evaluator."
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0234/protocol.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0234/protocol.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0234/protocol.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0234/protocol.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0234/protocol.md"
+    ],
+    "blocker_record": [
+      ".ai-org/artifacts/WI-0234/report.md"
+    ],
+    "resolution_evidence": [
+      ".ai-org/artifacts/WI-0234/repair-approval.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0234/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0234/comparison-v2-report.md",
+      ".ai-org/artifacts/WI-0234/native-repair.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0234/protocol.md",
+    ".ai-org/artifacts/WI-0234/report.md",
+    ".ai-org/artifacts/WI-0234/repair-approval.md",
+    ".ai-org/artifacts/WI-0234/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0234/comparison-v2-report.md",
+    ".ai-org/artifacts/WI-0234/native-repair.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "87466e5d298efee0479e0499fddba8ce7aecaef8",
+      "artifact": ".ai-org/artifacts/WI-0234/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-07T08:11:10.289Z"
+    }
+  ],
+  "developer_candidate_revision": "87466e5d298efee0479e0499fddba8ce7aecaef8"
+}

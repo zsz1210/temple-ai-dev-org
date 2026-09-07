@@ -6,6 +6,6 @@
 - Input revision:
 - Completed:
 - Evidence:
-- Unresolved:
-- Next action:
+- Unresolved: Actual defects, risks or blocked decisions; use none when absent.
+- Next action: Work for the next Position, including verification not performed by this actor. This is not a claim of acceptance.
 - Human approval needed:

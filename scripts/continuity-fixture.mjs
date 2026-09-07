@@ -138,7 +138,7 @@ function expected(args, threshold) {
 function bookkeeping(file, item) {
   return item && (file === `.ai-org/work-items/${item}.json` || file === '.ai-org/events/events.jsonl' || file.startsWith('.ai-org/views/') || file.startsWith(`.ai-org/artifacts/${item}/`));
 }
-export async function assessContinuityCandidate(root, checkpoint, arm, revision, { scratchParent = os.tmpdir() } = {}) {
+export async function assessContinuityCandidate(root, checkpoint, arm, revision, { scratchParent = os.tmpdir(), candidateExecutor = run } = {}) {
   checkpoint = structuredClone(checkpoint);
   check(checkpoint?.version === 'continuity-offline/v1' && ['ordinary','temple'].includes(arm) && ['stable','changed-spec'].includes(checkpoint.state) &&
     checkpoint.threshold === (checkpoint.state === 'stable' ? 3000 : 5000) && checkpoint.spec_revision === (checkpoint.state === 'stable' ? 'v1' : 'v2') &&
@@ -170,6 +170,7 @@ export async function assessContinuityCandidate(root, checkpoint, arm, revision,
   await walk();
   for (const file of Object.keys(tree)) if (!bookkeeping(file,base.item_id)) check(disk[file], 'missing-source');
   const scratch = await fs.mkdtemp(path.join(scratchParent, 'continuity-oracle-'));
+  let cleanupSafe = true;
   try {
     const testPaths = ['test/discount.test.mjs','test/public.test.mjs', ...(tree['test/additional.test.mjs'] ? ['test/additional.test.mjs'] : [])];
     const extracted = {};
@@ -195,12 +196,12 @@ console.log(JSON.stringify(inputs.map(args=>{try{
   if(Object.values(fields).some(v=>typeof v!=='number'||!Number.isSafeInteger(v))) return {invalid:'return-value-type'};
   return {value:fields};
 }catch(e){return {error:nativeError(e)&&e instanceof NativeTypeError?'TypeError':'other'}}})));`;
-    const result = run(scratch, process.execPath, ['--input-type=module','-e',script,JSON.stringify(inputs)], { timeout:2000,maxBuffer:65536 });
+    const result = await candidateExecutor(scratch, process.execPath, ['--input-type=module','-e',script,JSON.stringify(inputs)], { timeout:2000,maxBuffer:65536 });
     let observed = null; try { observed = JSON.parse(result.stdout); } catch {}
     const answers = inputs.map(args => expected(args, checkpoint.threshold));
     let reason = result.exit_code !== 0 ? 'oracle-process-failed' : isDeepStrictEqual(observed, answers) ? 'accepted' : 'product-mismatch';
     if (reason === 'accepted') {
-      const tests = run(scratch,process.execPath,['--test',...testPaths],{timeout:3000,maxBuffer:65536});
+      const tests = await candidateExecutor(scratch,process.execPath,['--test',...testPaths],{timeout:3000,maxBuffer:65536});
       if (tests.exit_code !== 0) reason = 'regression-failed';
     }
     for(const [file,bytes] of Object.entries(extracted)) {
@@ -210,5 +211,8 @@ console.log(JSON.stringify(inputs.map(args=>{try{
     return { passed: reason === 'accepted', revision, state:checkpoint.state,
       case_count:inputs.length, exit_code:result.exit_code, reason,
       product_scope_only:true, live_sandbox_qualified:false };
-  } finally { await fs.rm(scratch, { recursive:true,force:true }); }
+  } catch (error) {
+    if (error.retainScratch === true) cleanupSafe = false;
+    throw error;
+  } finally { if (cleanupSafe) await fs.rm(scratch, { recursive:true,force:true }); }
 }

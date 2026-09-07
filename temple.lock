@@ -11,12 +11,12 @@
       "launcher": "templew.mjs",
       "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.30",
       "repository_spec": null,
-      "source_revision": "4c11835d98202521f8dd082dceb6f832299d907f",
+      "source_revision": "0e4936be24c4b2d76b035cecbf1a4d690d4bb7e1",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-09-06T12:02:54.871Z",
+    "upgraded_at": "2026-09-07T08:40:41.966Z",
     "upgraded_from": "0.1.0-alpha.30"
   },
   "installation": {
@@ -210,7 +210,7 @@
     },
     {
       "path": ".agents/skills/temple-work/SKILL.md",
-      "sha256": "b4130180a3888fa52a6f40422884a606fd349ef5e009a75207d49a7c4e7d152f"
+      "sha256": "4defd368c3e174b1b8787a502750f74cf2cfd1e56e55845d6c90f9c4221b81c1"
     },
     {
       "path": ".agents/skills/temple-work/references/assurance-and-recovery.md",
@@ -222,7 +222,7 @@
     },
     {
       "path": ".agents/skills/temple-work/references/lean-execution.md",
-      "sha256": "3d558b82a7b7f9e9a16313314209b7d9d99b39997fd8a0adecdb0c0be1a9b35d"
+      "sha256": "3bc607450923004f4f19798dad0e30a060e7d86945c7454f480988930dcf399d"
     },
     {
       "path": ".agents/skills/temple-work/references/parallel-work.md",
@@ -446,7 +446,7 @@
     },
     {
       "path": ".ai-org/templates/handoff.md",
-      "sha256": "f5fcade988a9bb9d17b2564df59e94e6a54f5a00961594fb1b770cd8c686a3ea"
+      "sha256": "7bf1ccd77eb64719a51fc966455836d037d1a1ef3c713556617a2e9784ac77dd"
     },
     {
       "path": ".ai-org/templates/high-assurance-approval.example.json",
@@ -558,7 +558,7 @@
     },
     {
       "path": "TEMPLE.md",
-      "sha256": "d31e900b6e4b4fc6ec9ae3aa8bad7b0becd020af57dc32af0dff3be69067b516"
+      "sha256": "eb77e0a0d26c449814f57dde268c7eb6cec5ac2db55014af3669a6bb04eda080"
     },
     {
       "path": "templew.mjs",

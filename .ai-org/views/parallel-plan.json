@@ -1,12 +1,12 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-07T00:00:38.991Z",
-  "source_fingerprint": "292cd3bf72feb76d24f9ab11a2e68d77894eaba3f258796b3e8d9550a0231b91",
+  "generated_at": "2026-09-07T09:05:23.525Z",
+  "source_fingerprint": "b540ecda3f622a8fc5945d4fc909f03ae8965b41e2980c7974b465b91ffa80fe",
   "scope": {
     "mode": "parent-descendants",
-    "parent_work_item_id": "WI-0223",
+    "parent_work_item_id": "WI-0236",
     "selected_work_item_ids": [
-      "WI-0224"
+      "WI-0235"
     ]
   },
   "max_workers": null,
@@ -24,29 +24,35 @@
       "order": 1,
       "dispatch": [
         {
-          "work_item_id": "WI-0224",
-          "title": "Implement two-family diagnostic comparison",
-          "position_id": "quality_evaluator",
+          "work_item_id": "WI-0235",
+          "title": "Reduce bounded delivery overhead and clarify handoff observations",
+          "position_id": "independent_qa",
           "agent_id": "agent-lulu",
           "agent_name": "Lulu",
-          "suggested_task_title": "WI-0224 · Implemen… · Quality & Evaluation Engineer (Lulu)",
-          "base_revision": "df40202b",
+          "suggested_task_title": "WI-0235 · Reduce bounded delivery… · Independent QA (Lulu)",
+          "base_revision": "68be154276fe2648a35eadf6c3e59c665ced2ea9",
           "affected_paths": [
-            "scripts/diagnostic-format-comparison.mjs",
-            "scripts/diagnostic-maintenance-fixture.mjs",
-            "test/diagnostic-format-comparison.test.mjs",
-            "test/diagnostic-maintenance-fixture.test.mjs"
+            "project-overlay/.agents/skills/temple-work",
+            "project-overlay/.ai-org/templates/handoff.md",
+            "src/work-items.mjs",
+            "scripts/continuity-live-runner.mjs",
+            "scripts/continuity-delivery-contract.mjs",
+            "scripts/continuity-observations.mjs",
+            "test/continuity-live-runner.test.mjs",
+            "test/continuity-delivery-contract.test.mjs",
+            "docs/operations/lean-delivery.md",
+            "docs/extensions/lean-completion.md"
           ],
           "dependencies": [],
           "required_disciplines": [],
           "active_requirements": {
-            "stage": "test",
+            "stage": "independent_qa",
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "b6e7299349b4f84be6d46046b1bcfe51baa8826067873a4d634c4e9018fddbf6",
+          "preparation_fingerprint": "c13438da37a07c299d09ef7df46c4ebe7a53c068d6cf67432dcd06d2a7317107",
           "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0224 --position quality_evaluator --no-write --json",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0235 --position independent_qa --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,

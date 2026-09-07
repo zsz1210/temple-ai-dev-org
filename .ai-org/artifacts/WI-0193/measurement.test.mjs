@@ -28,7 +28,7 @@ test('blocked missing helper is unavailable, not acceptance', () => {
   assert.equal(supportOutcome({status:'observed-complete',answer:{decision:'reported'},messages:[{role:'helper'}]}),'reported');
 });
 test('error data contains bounded categories and digest only', () => {
-  const error=boundedNativeError({status:'failed',agentsStates:{child:{status:'errored',message:'private /Users/person/key SECRET'}}});
+  const error=boundedNativeError({status:'failed',agentsStates:{child:{status:'errored',message:'private /Users/fixture/key SECRET'}}});
   assert.equal(error.category,'unknown');assert.match(error.states[0].message_sha256,/^[a-f0-9]{64}$/);
   assert.ok(!JSON.stringify(error).includes('SECRET'));
   assert.equal(boundedNativeError({status:'failed'}).category,'unknown');

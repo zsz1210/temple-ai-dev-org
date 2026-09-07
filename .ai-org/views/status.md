@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 233 total, 25 active
+- Work items: 236 total, 27 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 75 registered, 0 reserved, 0 active
+- Runtime workers: 78 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -41,7 +41,7 @@
 - Safe waves: 1
 - Dispatchable Work Items: 1
 - Active / sequential / blocked: 0 / 0 / 0
-- Next wave: WI-0224
+- Next wave: WI-0235
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -281,6 +281,9 @@
 | WI-0231 | Implement and qualify offline continuity fixtures and oracle | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ccb6dcfd` | 0 | 7 | 0 |
 | WI-0232 | Qualify continuity Codex requests without model generation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9fe179bb` | 0 | 8 | 0 |
 | WI-0233 | Qualify named permissions for continuity experiments | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3697a4f5` | 0 | 7 | 0 |
+| WI-0234 | Execute approved fresh takeover comparison | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `87466e5d` | 0 | 6 | 0 |
+| WI-0235 | Reduce bounded delivery overhead and clarify handoff observations | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `68be1542` | 0 | 8 | 0 |
+| WI-0236 | Review and integrate bounded delivery, then run a minimal comparison | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260907090932-0f321504 | `—` | 0 | 1 | 0 |
 
 ## Codex task registry
 
@@ -378,6 +381,9 @@
 | worker-20260906233715-39de834c | internal-subagent | WI-0222 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0222_review#re-review-e8ad4b4 | `e8ad4b4f` | 0 |
 | worker-20260906235208-732dcc16 | internal-subagent | WI-0224 | Developer / Rikku | completed | /root/wi0224_implementation | `df40202b` | 0 |
 | worker-20260907000040-c51ac3cd | internal-subagent | WI-0224 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0224_readiness_qa | `df40202b` | 0 |
+| worker-20260907085155-7760e3ab | internal-subagent | WI-0235 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0235_review | `68be1542` | 0 |
+| worker-20260907090442-b39ecef9 | internal-subagent | WI-0235 | Independent QA / Lulu | cancelled | reserved | `—` | 0 |
+| worker-20260907090523-47a1e5ce | internal-subagent | WI-0235 | Independent QA / Lulu | completed | /root/wi0235_qa | `68be1542` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -413,7 +419,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 85
+- Team-visible Work Items: 88
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -486,14 +492,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-07T06:25:45.170Z | work_item_closed | WI-0233 | agent-mog |
-| 2026-09-07T06:25:45.170Z | release_gate_completed | WI-0233 | agent-mog |
-| 2026-09-07T06:25:44.822Z | work_item_claimed | WI-0233 | human |
-| 2026-09-07T06:24:40.779Z | work_item_transitioned | WI-0233 | agent-lulu |
-| 2026-09-07T06:24:40.496Z | work_item_claim_released | WI-0233 | human |
-| 2026-09-07T06:24:40.221Z | handoff_created | WI-0233 | agent-lulu |
-| 2026-09-07T06:24:28.296Z | work_item_claimed | WI-0233 | human |
-| 2026-09-07T06:24:28.002Z | work_item_transitioned | WI-0233 | agent-lulu |
+| 2026-09-07T09:09:32.186Z | work_item_claimed | WI-0236 | human |
+| 2026-09-07T09:09:31.887Z | work_item_closed | WI-0235 | agent-mog |
+| 2026-09-07T09:09:31.887Z | release_gate_completed | WI-0235 | agent-mog |
+| 2026-09-07T09:09:31.610Z | work_item_transitioned | WI-0235 | agent-lulu |
+| 2026-09-07T09:09:31.334Z | work_item_claim_released | WI-0235 | human |
+| 2026-09-07T09:09:31.065Z | handoff_created | WI-0235 | agent-lulu |
+| 2026-09-07T09:09:30.761Z | runtime_worker_status_changed | WI-0235 | agent-lulu |
+| 2026-09-07T09:08:55.591Z | work_item_claim_released | WI-0236 | human |
 
 ## Assignments
 

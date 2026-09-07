@@ -6,7 +6,7 @@
   "owner_position": "release_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T21:35:33.373Z",
-  "updated_at": "2026-09-06T23:52:07.218Z",
+  "updated_at": "2026-09-07T08:51:53.704Z",
   "scope": [
     "Framework instruction routes, stage completion, and bounded read-only support; preserve execution guards and sealed experiments"
   ],
@@ -62,7 +62,8 @@
     "WI-0216: sequential successor owns warning-policy edits; prior evidence frozen; no active writer.",
     "WI-0218: no active writer; diagnostic-only successor owns edits; previous samples frozen.",
     "WI-0219: no active writer; local compatibility test successor owns test changes.",
-    "WI-0224: coordinated new diagnostic runner/test paths only; historical owners have released claims; prior evidence and sources remain unchanged."
+    "WI-0224: coordinated new diagnostic runner/test paths only; historical owners have released claims; prior evidence and sources remain unchanged.",
+    "WI-0235 independent exact-candidate review may write its own evidence only; no concurrent source changes. WI-0236 waits for review before instrument edits; historical candidates and outcomes remain unchanged."
   ],
   "claim": {
     "id": "claim-20260906115202-516ed6b3",

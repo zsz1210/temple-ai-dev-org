@@ -4,6 +4,14 @@
 
 Before completion, identify the current Position, sponsored Agent Identity and Human Principal, hold the active claim, commit the exact product candidate and create the stage's evidence. Resolve missing scope, conflicting ownership and stronger risk through the existing workflow; never downgrade a task to qualify.
 
+## Small-task route
+
+Use the initial compact `context resolve` and read its required sources, claim if needed, implement and test, then call `finish` once. Material delivery with `context enter` is optional, not a prerequisite. Reuse only already-read, unchanged bodies still in context; bootstrap and native instruction obligations remain. Do not read both Lean procedure references or run both completion commands just because both are available.
+
+Inspect the returned mutation and full diagnostics outcomes. Do not add another Status/Doctor call for the same unchanged state. Recheck after changes or investigate failed diagnostics. These are fewer requested operations, not evidence of measured Token or speed savings.
+
+In handoffs, unresolved issues mean actual defects, risks or blocked decisions. Routine next-owner testing belongs under next action. For example, “Quality Evaluator must verify candidate X; no acceptance performed” is a boundary, while “candidate X fails the discount test” remains an unresolved defect. Never move a real issue out of the blocker list to obtain acceptance.
+
 ## Developer
 
 Supply the same facts as ordinary Lean delivery, plus the explicit Position:
