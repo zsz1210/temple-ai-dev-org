@@ -1,0 +1,159 @@
+{
+  "schema_version": "wi0246-read-scope-report/v1",
+  "behavioral_candidate": "3bfae21d8b2cc39df325f025b0e02f4a2ab61669",
+  "execution_revision": "7b73c8fc",
+  "protocol": "continuity-incremental-approved/v1",
+  "seal": {
+    "protocol_sha256": "sha256:2dd89072ebfead894a2eb614a6df2e72d3498faefc58c0197b32ba9f2c876df2",
+    "run_sha256": "sha256:2a189662c3726e49363c1921e522f8d6243cc52114cb3dce5c93178e8354d91f",
+    "sealed_at": "2026-09-07T16:01:10.448Z"
+  },
+  "envelope": {
+    "model": "gpt-5.6-terra",
+    "effort": "medium",
+    "subjects": 2,
+    "subject_tokens": 100000,
+    "subject_ms": 480000,
+    "total_tokens": 200000,
+    "total_ms": 1200000,
+    "retries": 0,
+    "fallback": false,
+    "purchase": false,
+    "reset": false
+  },
+  "run_status": "stopped",
+  "first_stop": "shared-validity-unconfirmed",
+  "planned_subjects": 2,
+  "attempted_subjects": 1,
+  "observed_operational_tokens": 92874,
+  "aggregate_usage_complete": true,
+  "batch_elapsed_ms": 476935,
+  "rows": [
+    {
+      "index": 1,
+      "state": "stable",
+      "status": "completed",
+      "original_oracle": {
+        "passed": false,
+        "reason": "delivery-source-drift"
+      },
+      "accepted": false,
+      "administration_complete": true,
+      "model": "gpt-5.6-terra",
+      "effort": "medium",
+      "usage": {
+        "input_tokens": 672812,
+        "cached_input_tokens": 587008,
+        "output_tokens": 7070,
+        "reasoning_output_tokens": 1723,
+        "total_tokens": 679882,
+        "operational_tokens": 92874
+      },
+      "usage_status": "observed-completed-turn",
+      "setup_ms": 878,
+      "turn_ms": 475553,
+      "attempt_ms": 476431,
+      "commands": 20,
+      "nonzero_exits": 1,
+      "command_observations": {
+        "schema_version": "continuity-command-observations/v3",
+        "completed_items": 20,
+        "categories": {
+          "reading": 0,
+          "context_navigation": 1,
+          "testing": 1,
+          "git": 0,
+          "administration": 2,
+          "diagnostics": 0,
+          "editing": 0,
+          "unknown": 16
+        },
+        "observed_output_bytes": 78912,
+        "output_bytes_by_category": {
+          "reading": 0,
+          "context_navigation": 5056,
+          "testing": 191,
+          "git": 0,
+          "administration": 3486,
+          "diagnostics": 0,
+          "editing": 0,
+          "unknown": 70179
+        },
+        "unknown_reasons": {
+          "command-unavailable": 0,
+          "command-over-limit": 0,
+          "non-literal-command": 0,
+          "unsupported-shell-wrapper": 0,
+          "non-literal-shell-body": 16,
+          "unsupported-literal-command": 0
+        },
+        "output_bytes_by_unknown_reason": {
+          "command-unavailable": 0,
+          "command-over-limit": 0,
+          "non-literal-command": 0,
+          "unsupported-shell-wrapper": 0,
+          "non-literal-shell-body": 70179,
+          "unsupported-literal-command": 0
+        },
+        "output_unavailable": 0,
+        "output_capped": 0,
+        "duplicate_events": 0,
+        "unidentified_events": 0,
+        "limit_reached": false
+      },
+      "request_bytes": {
+        "schema_version": "continuity-request-bytes/v1",
+        "authored_user_text": {
+          "bytes": 2107,
+          "status": "observed-field"
+        },
+        "authored_developer_text": {
+          "bytes": 624,
+          "status": "observed-field"
+        },
+        "output_schema": {
+          "bytes": 678,
+          "status": "observed-field"
+        },
+        "native_context_bytes": null,
+        "total_model_context_bytes": null
+      },
+      "candidate_revision": "42177d33755a8c841cedce9533747d9f32e7cc03",
+      "server_exit_confirmed": true,
+      "terminals_empty": true,
+      "sequence_decision": {
+        "outcome": "invalid",
+        "stop": "shared-validity-unconfirmed"
+      }
+    },
+    {
+      "index": 2,
+      "state": "changed-spec",
+      "status": "not_run",
+      "reason": "shared-validity-unconfirmed",
+      "accepted": null,
+      "usage": null,
+      "attempt_ms": null
+    }
+  ],
+  "post_hoc": {
+    "kind": "isolated-product-candidate-only",
+    "passed": true,
+    "cases": 46,
+    "regression_passed": true,
+    "original_result_changed": false,
+    "model_generation_performed": false,
+    "seals_preserved": true,
+    "scratch_removed": true
+  },
+  "diagnosis": {
+    "sole_unallowed_delivery_path": ".ai-org/project/evidence.json",
+    "new_normalized_records": [
+      "git-revision",
+      "test"
+    ],
+    "product_files_changed_after_candidate": false,
+    "per_operation_token_cost": null,
+    "raw_commands_retained": false
+  }
+}
