@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-07T08:50:52.863Z",
-  "updated_at": "2026-09-07T09:11:32.055Z",
+  "updated_at": "2026-09-07T09:12:33.277Z",
   "scope": [
     "Complete WI-0235 independent review, prepare a public-safe integration PR, and perform one four-subject matched diagnostic of ordinary versus refined Temple delivery."
   ],
@@ -44,7 +44,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "2fc0013986ea6218c394772e0cfaaaa88aca6148",
+  "base_revision": "1f922e99",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -52,18 +52,15 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260907090932-0f321504",
-    "status": "released",
+    "id": "claim-20260907091233-df27c42b",
+    "status": "active",
     "principal_id": "human",
     "agent_id": "agent-rikku",
-    "base_revision": "2fc0013986ea6218c394772e0cfaaaa88aca6148",
-    "branch": "codex/small-task-delivery-refinement",
+    "base_revision": "1f922e99",
+    "branch": "codex/bounded-delivery-comparison",
     "worktree": null,
-    "claimed_at": "2026-09-07T09:09:32.186Z",
-    "released_at": "2026-09-07T09:11:32.055Z",
-    "release_reason": [
-      "Source edits finished; continue exact-content verification and bounded experiment from a public-safe squash worktree, preserving this private ancestry locally."
-    ]
+    "claimed_at": "2026-09-07T09:12:33.277Z",
+    "released_at": null
   },
   "claims": [
     {
@@ -93,6 +90,17 @@
       "release_reason": [
         "Source edits finished; continue exact-content verification and bounded experiment from a public-safe squash worktree, preserving this private ancestry locally."
       ]
+    },
+    {
+      "id": "claim-20260907091233-df27c42b",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "1f922e99",
+      "branch": "codex/bounded-delivery-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-07T09:12:33.277Z",
+      "released_at": null
     }
   ],
   "gate_evidence": {
