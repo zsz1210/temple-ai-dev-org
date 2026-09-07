@@ -272,7 +272,7 @@
 | WI-0222 | Independently review PR70 diagnostic evidence | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e8ad4b4f` | 0 | 6 | 0 |
 | WI-0223 | Design diagnostic Full versus Model comparison | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 | WI-0224 | Implement two-family diagnostic comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `df40202b` | 0 | 4 | 0 |
-| WI-0225 | Design proportionate small-task delivery and reliable evaluation | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 1 |
+| WI-0225 | Design proportionate small-task delivery and reliable evaluation | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 1 |
 
 ## Codex task registry
 
@@ -478,6 +478,7 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-07T01:41:44.314Z | handoff_created | WI-0225 | agent-tidus |
 | 2026-09-07T01:41:11.516Z | work_item_claim_released | WI-0225 | human |
 | 2026-09-07T01:40:55.907Z | work_item_unresolved_updated | WI-0225 | agent-tidus |
 | 2026-09-07T01:36:36.038Z | work_item_claimed | WI-0225 | human |
@@ -485,7 +486,6 @@
 | 2026-09-07T01:36:35.270Z | work_item_claimed | WI-0225 | human |
 | 2026-09-07T01:36:34.861Z | work_item_transitioned | WI-0225 | agent-mog |
 | 2026-09-07T01:33:23.859Z | work_item_claimed | WI-0225 | human |
-| 2026-09-07T01:33:23.396Z | work_item_coordination_configured | WI-0225 | agent-mog |
 
 ## Assignments
 

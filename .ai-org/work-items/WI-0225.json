@@ -6,7 +6,7 @@
   "owner_position": "tech_lead",
   "assigned_agent_id": "agent-tidus",
   "created_at": "2026-09-07T01:32:28.524Z",
-  "updated_at": "2026-09-07T01:41:11.516Z",
+  "updated_at": "2026-09-07T01:41:44.314Z",
   "scope": [
     "Design only: reduce bounded Lean task overhead and specify offline-first experiment reliability; no runtime changes, model runs, policy adoption, release or publication."
   ],
@@ -117,10 +117,21 @@
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0225/design.md"
+    ".ai-org/artifacts/WI-0225/design.md",
+    ".ai-org/artifacts/WI-0225/handoff-001-tech_lead-to-developer.md"
   ],
   "unresolved": [
     "Design ready for maintainer review. Recommended first slice keeps a distinct Verifier; the mechanical single-Agent exception remains a separate unapproved proposal. Implementation and a future finite live protocol are not authorized by this design."
   ],
-  "next_position": "developer"
+  "next_position": "developer",
+  "handoffs": [
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "actor": "agent-tidus",
+      "input_revision": "9b01108037eb694f6368429b79277c79124dc021",
+      "artifact": ".ai-org/artifacts/WI-0225/handoff-001-tech_lead-to-developer.md",
+      "created_at": "2026-09-07T01:41:44.314Z"
+    }
+  ]
 }
