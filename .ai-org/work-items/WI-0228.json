@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0228",
   "title": "Accept retained offline evaluation reliability independently of rejected Lean prototype",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-07T03:25:15.060Z",
-  "updated_at": "2026-09-07T03:27:13.477Z",
+  "updated_at": "2026-09-07T03:30:13.175Z",
   "scope": [
     "Accept the unchanged WI-0226 reliability subset only: bounded read-revision grammar, private first-stop diagnostics and future evaluation sequencing. Reuse exact candidate and existing tests; no source changes, live generation, routing/default changes, merge or publication."
   ],
@@ -52,17 +52,17 @@
     "WI-0211 has no active claim; only new WI-0228 evidence and supported state changes are written. All shared source, tests, and historical evidence remain unchanged."
   ],
   "claim": {
-    "id": "claim-20260907032642-17e662c7",
+    "id": "claim-20260907032956-63fea1d7",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
+    "agent_id": "agent-lulu",
     "base_revision": "5aca59ce9058877576c4d06542680fc5f71984b1",
     "branch": "codex/small-task-lean-design",
     "worktree": null,
-    "claimed_at": "2026-09-07T03:26:42.260Z",
-    "released_at": "2026-09-07T03:27:13.072Z",
+    "claimed_at": "2026-09-07T03:29:56.898Z",
+    "released_at": "2026-09-07T03:30:12.758Z",
     "release_reason": [
-      "Unchanged retained candidate transferred to distinct reviewer under narrowed approved acceptance."
+      "Independent QA complete for narrowed scope; Release Gate handoff only."
     ]
   },
   "claims": [
@@ -115,6 +115,34 @@
       "release_reason": [
         "Unchanged retained candidate transferred to distinct reviewer under narrowed approved acceptance."
       ]
+    },
+    {
+      "id": "claim-20260907032838-ea75b1d4",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "5aca59ce9058877576c4d06542680fc5f71984b1",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T03:28:38.729Z",
+      "released_at": "2026-09-07T03:29:28.720Z",
+      "release_reason": [
+        "Test and Eval complete; handoff to distinct-from-Developer Independent QA."
+      ]
+    },
+    {
+      "id": "claim-20260907032956-63fea1d7",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "5aca59ce9058877576c4d06542680fc5f71984b1",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T03:29:56.898Z",
+      "released_at": "2026-09-07T03:30:12.758Z",
+      "release_reason": [
+        "Independent QA complete for narrowed scope; Release Gate handoff only."
+      ]
     }
   ],
   "gate_evidence": {
@@ -139,15 +167,27 @@
     "developer_evidence": [
       ".ai-org/artifacts/WI-0228/acceptance.md",
       ".ai-org/artifacts/WI-0226/report.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0228/qa.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0228/qa.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0228/qa.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0228/acceptance.md",
     ".ai-org/artifacts/WI-0228/handoff-001-developer-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0226/report.md"
+    ".ai-org/artifacts/WI-0226/report.md",
+    ".ai-org/artifacts/WI-0228/qa.md",
+    ".ai-org/artifacts/WI-0228/handoff-002-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0228/handoff-003-independent_qa-to-release_manager.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "developer",
@@ -156,6 +196,22 @@
       "input_revision": "5aca59ce9058877576c4d06542680fc5f71984b1",
       "artifact": ".ai-org/artifacts/WI-0228/handoff-001-developer-to-quality_evaluator.md",
       "created_at": "2026-09-07T03:27:12.653Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "actor": "agent-lulu",
+      "input_revision": "5aca59ce9058877576c4d06542680fc5f71984b1",
+      "artifact": ".ai-org/artifacts/WI-0228/handoff-002-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-07T03:29:28.270Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "actor": "agent-lulu",
+      "input_revision": "5aca59ce9058877576c4d06542680fc5f71984b1",
+      "artifact": ".ai-org/artifacts/WI-0228/handoff-003-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-07T03:30:12.348Z"
     }
   ],
   "developer_candidate_revision": "5aca59ce9058877576c4d06542680fc5f71984b1"

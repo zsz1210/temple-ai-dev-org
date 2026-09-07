@@ -275,7 +275,7 @@
 | WI-0225 | Design proportionate small-task delivery and reliable evaluation | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 4 | 2 |
 | WI-0226 | Implement bounded Lean procedure routing and offline evaluation reliability | cancelled | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 6 | 2 |
 | WI-0227 | Reduce always-loaded operating instructions without weakening gates | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f7062396` | 0 | 7 | 0 |
-| WI-0228 | Accept retained offline evaluation reliability independently of rejected Lean prototype | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 3 | 0 |
+| WI-0228 | Accept retained offline evaluation reliability independently of rejected Lean prototype | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 6 | 0 |
 
 ## Codex task registry
 
@@ -481,14 +481,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-07T03:27:13.477Z | work_item_transitioned | WI-0228 | agent-rikku |
-| 2026-09-07T03:27:13.072Z | work_item_claim_released | WI-0228 | human |
-| 2026-09-07T03:27:12.653Z | handoff_created | WI-0228 | agent-rikku |
-| 2026-09-07T03:26:42.260Z | work_item_claimed | WI-0228 | human |
-| 2026-09-07T03:26:41.837Z | work_item_transitioned | WI-0228 | agent-tidus |
-| 2026-09-07T03:26:41.467Z | work_item_claimed | WI-0228 | human |
-| 2026-09-07T03:26:41.033Z | work_item_transitioned | WI-0228 | agent-yuna |
-| 2026-09-07T03:26:40.645Z | work_item_claimed | WI-0228 | human |
+| 2026-09-07T03:30:13.175Z | work_item_transitioned | WI-0228 | agent-lulu |
+| 2026-09-07T03:30:12.758Z | work_item_claim_released | WI-0228 | human |
+| 2026-09-07T03:30:12.348Z | handoff_created | WI-0228 | agent-lulu |
+| 2026-09-07T03:29:56.898Z | work_item_claimed | WI-0228 | human |
+| 2026-09-07T03:29:29.169Z | work_item_transitioned | WI-0228 | agent-lulu |
+| 2026-09-07T03:29:28.720Z | work_item_claim_released | WI-0228 | human |
+| 2026-09-07T03:29:28.270Z | handoff_created | WI-0228 | agent-lulu |
+| 2026-09-07T03:29:27.844Z | work_item_transitioned | WI-0228 | agent-lulu |
 
 ## Assignments
 
