@@ -2370,6 +2370,34 @@
       "attached_at": "2026-09-07T13:20:48.690Z",
       "completed_at": "2026-09-07T13:26:43.799Z",
       "updated_at": "2026-09-07T13:26:43.799Z"
+    },
+    {
+      "id": "worker-20260907134648-197fbbc4",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0240",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260907134648-7fdbe0a8",
+      "base_revision": "f80651d68b75d72682448ac2bac3823b02bbd385",
+      "branch": "codex/evidence-reuse-learning",
+      "worktree": null,
+      "plan_fingerprint": "699cecd79bf459c8d21aaa90fbc1d523766ba3b9b4c561e71cf6b22630eedb37",
+      "plan_digest": "ca1d329e7c60ec1759edb94a59dee8d93a1362eb49e96a548d29c2953b805aef",
+      "preparation_fingerprint": "97aa792f802ae0b8696eaf5c09322be7a9ff8d2b298aa20aaa1ae57728026d30",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0240_verify",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "f80651d68b75d72682448ac2bac3823b02bbd385",
+      "evidence": [
+        ".ai-org/artifacts/WI-0240/lean-review.md"
+      ],
+      "reserved_at": "2026-09-07T13:46:48.937Z",
+      "attached_at": "2026-09-07T13:47:17.720Z",
+      "completed_at": "2026-09-07T13:52:55.853Z",
+      "updated_at": "2026-09-07T13:52:55.853Z"
     }
   ]
 }
