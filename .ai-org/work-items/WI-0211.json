@@ -6,7 +6,7 @@
   "owner_position": "release_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T12:02:06.463Z",
-  "updated_at": "2026-09-06T23:52:07.532Z",
+  "updated_at": "2026-09-07T01:33:22.960Z",
   "scope": [
     "Reconcile the approved local WI-0203 and WI-0205 through WI-0210 content onto current main, preserve main features and authoritative evidence, resolve ADR numbering, normalize local metadata, verify and submit a focused PR. No model experiments or npm publication."
   ],
@@ -60,7 +60,8 @@
     "WI-0218: no active writer; diagnostic-only successor owns edits; previous samples frozen.",
     "WI-0219: no active writer; local compatibility test successor owns test changes.",
     "WI-0222: coordinated report-only PR70 review; WI-0211 has no active claim; source writes excluded and historical evidence preserved.",
-    "WI-0224: coordinated new diagnostic runner/test paths only; historical owners have released claims; prior evidence and sources remain unchanged."
+    "WI-0224: coordinated new diagnostic runner/test paths only; historical owners have released claims; prior evidence and sources remain unchanged.",
+    "WI-0225 owns a new design-only artifact directory; WI-0211 has no active claim. Prior integration source and evidence stay frozen; only this coordination note is appended."
   ],
   "claim": {
     "id": "claim-20260906120245-aae4805b",
