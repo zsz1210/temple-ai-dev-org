@@ -23,15 +23,47 @@ export const envelope = Object.freeze({ model:'gpt-5.6-terra', effort:'medium', 
 // One pair per requirement condition. Reverse arm order in the second pair;
 // this is a small diagnostic, not replicated or randomized statistical evidence.
 export const matrixConditions=Object.freeze(['stable','changed-spec']);
+export const instructionComparisonProtocol = 'continuity-instructions-approved/v1';
+export const instructionComparisonEnvelope = Object.freeze({...envelope,subjects:6,total_tokens:600000,total_ms:3600000});
+export const previousInstructionRevision = '4c606f7113600caeec04daf29477daa17b07409c';
+export const instructionPaths = Object.freeze(['AGENTS.md','TEMPLE.md','.agents/skills/temple-work/SKILL.md',
+  '.agents/skills/temple-work/references/lean-execution.md']);
+const instructionMatrix = p => p.version === instructionComparisonProtocol;
+const matrixArms = (p,index) => instructionMatrix(p)
+  ? (index===0?['ordinary','temple_previous','temple']:['temple','temple_previous','ordinary'])
+  : (index===0?['ordinary','temple']:['temple','ordinary']);
+const fixtureKey = s => s.variant ?? s.arm;
+export function assertInstructionOnlyRuntimes(current, previous) {
+  const allowed = instructionPaths.map(p=>'project-overlay/'+p);
+  const keys = new Set([...Object.keys(current),...Object.keys(previous)]);
+  const changed = [...keys].filter(p=>current[p]!==previous[p]).sort();
+  check(digest(changed)===digest([...allowed].sort())&&allowed.every(p=>current[p]&&previous[p]),'instruction-treatment-confounded');
+  return {previous_revision:previousInstructionRevision,changed_paths:changed,
+    instructions:allowed.map(p=>({path:p,current:current[p],previous:previous[p]}))};
+}
+export async function preparePreviousInstructionRuntime(bundle, target) {
+  // Coordinator-owned fresh runtime: same executable code, only pinned old
+  // distribution instructions. No actor sees coordinator Git or the other arm.
+  // cp with errorOnExist rejects an existing target, including a directory.
+  await fs.cp(bundle,target,{recursive:true,errorOnExist:true,force:false});
+  for(const p of instructionPaths) {
+    const {stdout}=await exec('git',['show',`${previousInstructionRevision}:project-overlay/${p}`],
+      {cwd:path.resolve(import.meta.dirname,'..'),encoding:'buffer',maxBuffer:1024*1024});
+    await fs.writeFile(path.join(target,'project-overlay',p),stdout);
+  }
+  const current=await files(bundle),previous=await files(target);
+  return {...assertInstructionOnlyRuntimes(current,previous),bundle_root:target,bundle_sha256:digest(previous)};
+}
 export function assertContinuityMatrix(protocol) {
-  check(Array.isArray(protocol.subjects)&&protocol.subjects.length===envelope.subjects&&
+  const width=instructionMatrix(protocol)?3:2;
+  check(Array.isArray(protocol.subjects)&&protocol.subjects.length===width*2&&
     Array.isArray(protocol.pairs)&&protocol.pairs.length===matrixConditions.length,'matrix-size');
   for(const [index,state] of matrixConditions.entries()) {
-    const arms=index%2===0?['ordinary','temple']:['temple','ordinary'];
-    for(const [offset,arm] of arms.entries()) {
-      const subject=protocol.subjects[index*2+offset];
+    for(const [offset,key] of matrixArms(protocol,index).entries()) {
+      const arm=key==='ordinary'?'ordinary':'temple';
+      const subject=protocol.subjects[index*width+offset];
       check(subject?.pair===index+1&&subject.state===state&&subject.arm===arm&&
-        subject.root===protocol.pairs[index]?.arms?.[arm]?.root,'matrix-layout');
+        fixtureKey(subject)===key&&subject.root===protocol.pairs[index]?.arms?.[key]?.root,'matrix-layout');
     }
   }
 }
@@ -50,7 +82,7 @@ export const liveCompletion = structuredClone(deliveryCompletion);
 const safeKey = x => typeof x==='string' && /^[a-zA-Z0-9_@-]{1,160}$/.test(x);
 const absolute = x => typeof x==='string' && path.isAbsolute(x) && path.normalize(x)===x && x!==path.parse(x).root;
 
-export async function prepareContinuityRuntime({scratchParent=os.tmpdir()}={}) {
+export async function prepareContinuityRuntime({scratchParent=os.tmpdir(),instructionComparison=false}={}) {
   const source=path.resolve(import.meta.dirname,'..');
   const lab=await fs.realpath(await fs.mkdtemp(path.join(scratchParent,'temple-continuity-live-')));
   const bundle=path.join(lab,'runtime');await fs.mkdir(bundle);
@@ -61,6 +93,8 @@ export async function prepareContinuityRuntime({scratchParent=os.tmpdir()}={}) {
   const dependencies=['ajv','ajv-formats','fast-deep-equal','fast-uri','json-schema-traverse','require-from-string'];
   for(const name of dependencies)await fs.cp(path.join(source,'node_modules',name),path.join(bundle,'node_modules',name),{recursive:true,errorOnExist:true,force:false});
   const bundleManifest=await files(bundle); // rejects symlinks
+  const previous=instructionComparison
+    ? await preparePreviousInstructionRuntime(bundle,path.join(lab,'runtime-previous')) : null;
   const node=await fs.realpath(process.execPath);
   const libraries=(await exec('/usr/bin/otool',['-L',node],{timeout:2000})).stdout.split('\n').slice(1).map(s=>s.trim().split(' (compatibility version')[0]).filter(Boolean);
   check(libraries.length>0&&libraries.every(p=>p.startsWith('/usr/lib/')||p.startsWith('/System/')),'unsupported-runtime');
@@ -79,6 +113,7 @@ export async function prepareContinuityRuntime({scratchParent=os.tmpdir()}={}) {
       GIT_AUTHOR_NAME:'Fixture',GIT_AUTHOR_EMAIL:'fixture@example.invalid',GIT_COMMITTER_NAME:'Fixture',GIT_COMMITTER_EMAIL:'fixture@example.invalid'}};
   Object.assign(runtime,await discoverRuntime({root}));
   const prepared={lab,runtime,subject:{root,arm:'temple',itemId:pair.arms.temple.item_id,agentId},bundle_sha256:digest(bundleManifest)};
+  if(instructionComparison)prepared.instruction_comparison=previous;
   await fs.writeFile(path.join(lab,'qualification-runtime.json'),JSON.stringify(prepared,null,2)+'\n',{flag:'wx',mode:0o600});
   return prepared;
 }
@@ -412,6 +447,14 @@ export async function qualifyIsolatedOracle(prepared) {
     {allowRecordDescendant:true,scratchParent:prepared.lab,candidateExecutor:(cwd,binary,args,opts)=>isolatedOracleExecutor(prepared.runtime,cwd,binary,args,opts)});
   check(recordOracle.passed&&recordOracle.delivery_revision===recorded.delivery_revision&&recordOracle.revision!==recordOracle.delivery_revision,'record-control-failed');
   const result={status:'passed',model_generation_performed:false,observations,recordOracle};
+  if(prepared.instruction_comparison) {
+    const previous=await createContinuityPair(path.join(prepared.lab,'previous-record-control'),'changed-spec',
+      {currentRuntime:prepared.runtime.readRoots[2],previousRuntime:prepared.instruction_comparison.bundle_root});
+    const control=await recordContinuityControl(previous,'temple_previous');
+    result.previousRecordOracle=await assessContinuityCandidate(previous.arms.temple_previous.root,previous,'temple_previous',control.revision,
+      {allowRecordDescendant:true,scratchParent:prepared.lab,candidateExecutor:(cwd,binary,args,opts)=>isolatedOracleExecutor(prepared.runtime,cwd,binary,args,opts)});
+    check(result.previousRecordOracle.passed,'previous-record-control-failed');
+  }
   await fs.writeFile(path.join(prepared.lab,'oracle-qualification.json'),JSON.stringify(result,null,2)+'\n',{flag:'wx',mode:0o600});
   return result;
 }
@@ -424,16 +467,28 @@ export async function prepareContinuityMatrix(prepared) {
   const observationQualification=qualifyNativeObservations();
   check(observationQualification.status==='passed','observation-qualification-failed');
   const installed=await readInstalledContinuitySchemas({binary:prepared.runtime.binary});
+  const comparison=prepared.instruction_comparison;
+  if(comparison)check(oracleQualification.previousRecordOracle?.passed===true,'previous-oracle-qualification-missing');
+  const version=comparison?instructionComparisonProtocol:deliveryProtocol;
   const pairs=[],subjects=[];
   for(const [index,state] of matrixConditions.entries()) {
-    const checkpoint=await createContinuityPair(path.join(prepared.lab,`pair-${index+1}`),state);pairs.push(checkpoint);
-    for(const arm of index%2===0?['ordinary','temple']:['temple','ordinary']) {
-      const root=checkpoint.arms[arm].root;await fs.mkdir(path.join(root,'.git','runtime-tmp'));
-      subjects.push({root,arm,itemId:checkpoint.arms[arm].item_id,agentId:prepared.subject.agentId,pair:index+1,state,
-        runtime:{...prepared.runtime,root,environment:{...prepared.runtime.environment,TMPDIR:path.join(root,'.git','runtime-tmp')}}});
+    const checkpoint=await createContinuityPair(path.join(prepared.lab,`pair-${index+1}`),state,
+      {currentRuntime:prepared.runtime.readRoots[2],previousRuntime:comparison?.bundle_root});pairs.push(checkpoint);
+    for(const key of matrixArms({version},index)) {
+      const root=checkpoint.arms[key].root;await fs.mkdir(path.join(root,'.git','runtime-tmp'));
+      const bundle=key==='temple_previous'?comparison.bundle_root:prepared.runtime.readRoots[2];
+      subjects.push({root,arm:key==='ordinary'?'ordinary':'temple',...(comparison?{variant:key}:{}),itemId:checkpoint.arms[key].item_id,agentId:prepared.subject.agentId,pair:index+1,state,
+        runtime:{...prepared.runtime,root,readRoots:[...prepared.runtime.readRoots.slice(0,2),bundle],
+          environment:{...prepared.runtime.environment,TEMPLE_CLI_PATH:path.join(bundle,'bin/temple.mjs'),TMPDIR:path.join(root,'.git','runtime-tmp')}}});
     }
   }
-  const protocol={version:deliveryProtocol,native_tool_route:'canary-required',envelope,continuation:deliveryContinuation,subjects,pairs,qualification,oracleQualification,observationQualification,
+  let previousQualification;
+  if(comparison) {
+    const s=subjects.find(s=>s.variant==='temple_previous');previousQualification=await qualifyThread(s,s.runtime);
+    check(previousQualification.status==='thread-configured'&&previousQualification.runtime_controls==='passed'&&previousQualification.server_exit_confirmed&&!previousQualification.cleanup_failure,'previous-qualification-not-passed');
+  }
+  const protocol={version,native_tool_route:'canary-required',envelope:comparison?instructionComparisonEnvelope:envelope,continuation:deliveryContinuation,subjects,pairs,qualification,oracleQualification,observationQualification,
+    ...(comparison?{instruction_comparison:comparison,previousQualification}:{}),
     schemas:installed.experimental,cli_version:installed.cli_version,bundle_root:prepared.runtime.readRoots[2],
     bundle_sha256:prepared.bundle_sha256,instrument_sha256:await instrumentHash(),
     interpretation:'Diagnostic pairs only; no resource-quality exchange rate or automatic default change.'};
@@ -445,12 +500,27 @@ export async function prepareContinuityMatrix(prepared) {
 export async function runApprovedContinuity(lab,approvedDigest,{onProgress=()=>{},signal}={}) {
   check(!signal?.aborted,'operator-cancelled');
   const protocol=JSON.parse(await fs.readFile(path.join(lab,'protocol.json'),'utf8'));
-  check(protocol.version===deliveryProtocol&&protocol.native_tool_route==='canary-required'&&digest(protocol)===approvedDigest&&digest(protocol.envelope)===digest(envelope),'frozen-protocol-mismatch');
+  const limits=instructionMatrix(protocol)?instructionComparisonEnvelope:envelope;
+  check([deliveryProtocol,instructionComparisonProtocol].includes(protocol.version)&&protocol.native_tool_route==='canary-required'&&digest(protocol)===approvedDigest&&digest(protocol.envelope)===digest(limits),'frozen-protocol-mismatch');
   check(digest(protocol.continuation)===digest(deliveryContinuation),'continuation-policy-mismatch');
   assertContinuityMatrix(protocol);
   check(await instrumentHash()===protocol.instrument_sha256,'instrument-drift');
   check(digest(await files(protocol.bundle_root))===protocol.bundle_sha256,'runtime-bundle-drift');
-  const start=Date.now(),deadline=start+envelope.total_ms;
+  const checkPrevious=async()=>{
+    if(!instructionMatrix(protocol))return;
+    const previous=protocol.instruction_comparison;
+    check(previous?.previous_revision===previousInstructionRevision&&
+      digest(await files(previous.bundle_root))===previous.bundle_sha256,'previous-runtime-drift');
+    check(digest(assertInstructionOnlyRuntimes(await files(protocol.bundle_root),await files(previous.bundle_root)))===
+      digest({previous_revision:previous.previous_revision,changed_paths:previous.changed_paths,instructions:previous.instructions}),'instruction-manifest-drift');
+    for(const s of protocol.subjects) {
+      const bundle=s.variant==='temple_previous'?previous.bundle_root:protocol.bundle_root;
+      check(s.runtime.readRoots[2]===bundle&&s.runtime.readRoots.length===3&&
+        s.runtime.environment.TEMPLE_CLI_PATH===path.join(bundle,'bin/temple.mjs'),'variant-runtime-mismatch');
+    }
+  };
+  await checkPrevious();
+  const start=Date.now(),deadline=start+limits.total_ms;
   await fs.writeFile(path.join(lab,'consumed.json'),JSON.stringify({protocol_sha256:approvedDigest,started_at:new Date(start).toISOString()})+'\n',{flag:'wx',mode:0o600});
   const result={version:'continuity-result/v2',protocol_sha256:approvedDigest,status:'running',subjects:[],
     operational_tokens:0,attempted_subjects:0,unknown_usage:false,first_stop:null};
@@ -459,13 +529,14 @@ export async function runApprovedContinuity(lab,approvedDigest,{onProgress=()=>{
   try {
     for(const [index,s] of protocol.subjects.entries()) {
       check(!signal?.aborted,'operator-cancelled');
-      check(Date.now()<deadline&&result.operational_tokens<envelope.total_tokens,'aggregate-limit');
+      check(Date.now()<deadline&&result.operational_tokens<limits.total_tokens,'aggregate-limit');
       check(await instrumentHash()===protocol.instrument_sha256&&digest(await files(protocol.bundle_root))===protocol.bundle_sha256,'source-drift');
+      await checkPrevious();
       const checkpoint=protocol.pairs[s.pair-1];
-      check(digest(await files(s.root))===digest(await fixtureHashes(s.root,checkpoint.arms[s.arm].baseline)),'fixture-drift');
-      const observation={index:index+1,pair:s.pair,state:s.state,arm:s.arm,status:'starting'};
+      check(digest(await files(s.root))===digest(await fixtureHashes(s.root,checkpoint.arms[fixtureKey(s)].baseline)),'fixture-drift');
+      const observation={index:index+1,pair:s.pair,state:s.state,arm:s.arm,...(s.variant?{variant:s.variant}:{}),status:'starting'};
       result.subjects.push(observation);await persist();onProgress({subject:index+1,arm:s.arm,state:s.state,status:'starting'});
-      const stage=await runContinuitySubject(s,s.runtime,{remainingTokens:envelope.total_tokens-result.operational_tokens,deadline,schemas:protocol.schemas,signal,permit:batchPermit});
+      const stage=await runContinuitySubject(s,s.runtime,{remainingTokens:limits.total_tokens-result.operational_tokens,deadline,schemas:protocol.schemas,signal,permit:batchPermit});
       Object.assign(observation,stage);
       if(stage.first_stop)result.first_stop??=stage.first_stop;
       if(stage.generation_requested)result.attempted_subjects++;
@@ -478,7 +549,7 @@ export async function runApprovedContinuity(lab,approvedDigest,{onProgress=()=>{
       // failure as a low-scoring model or launch a replacement subject.
       check(stage.status==='completed',stage.first_stop??'actor-stopped');
       try {
-        observation.oracle=await assessContinuityCandidate(s.root,checkpoint,s.arm,stage.completion.candidate_revision,
+        observation.oracle=await assessContinuityCandidate(s.root,checkpoint,fixtureKey(s),stage.completion.candidate_revision,
           {allowRecordDescendant:true,candidateExecutor:(cwd,binary,args,opts)=>isolatedOracleExecutor(s.runtime,cwd,binary,args,opts)});
       } catch(e) {observation.oracle={passed:false,reason:e.instrumentFailure?'oracle-instrument-failure':/^[a-z-]{1,80}$/.test(e.message)?e.message:'oracle-operation-failed'};}
       observation.completion_assessment=assessDeliveryCompletion(stage.completion,{oraclePassed:observation.oracle.passed,arm:s.arm});

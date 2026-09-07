@@ -54,7 +54,8 @@ const ALLOWED_TOP_LEVEL_FILES = new Set([
 ]);
 const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overlay/", "src/"];
 // Integrates proportionate routes and optional task material.
-const MAX_FILE_COUNT = 415;
+// WI-0238 adds only ADR-0062 to the distributable file set; runtime roots unchanged.
+const MAX_FILE_COUNT = 416;
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {

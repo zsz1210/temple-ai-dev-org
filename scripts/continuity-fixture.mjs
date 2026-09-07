@@ -75,7 +75,7 @@ async function snapshot(root, revision = 'HEAD') {
   }
   return result;
 }
-export async function createContinuityPair(directory, state) {
+export async function createContinuityPair(directory, state, { currentRuntime = source, previousRuntime = null } = {}) {
   check(['stable', 'changed-spec'].includes(state), 'unknown-state');
   // Exclusive target: never adopt or clean a pre-existing directory.
   await fs.mkdir(directory);
@@ -106,12 +106,15 @@ export async function createContinuityPair(directory, state) {
   config.project = { id: 'continuity-fixture', name: 'Synthetic continuity fixture' };
   config.repository_integration = { schema_version: 'temple.repository-integration/v1', status: 'confirmed', authority: 'project', source: 'human-confirmed', policy_refs: [], summary: 'Synthetic local fixture, no external integration', integration_target: 'main', change_isolation: 'not-required', review_gate: 'not-required', recorded_at: '2026-09-07T00:00:00Z', recorded_by: 'human' };
   const configPath = path.join(directory, 'init.json'); await fs.writeFile(configPath, JSON.stringify(config));
-  for (const arm of ['ordinary', 'temple']) {
+  for (const arm of previousRuntime ? ['ordinary', 'temple', 'temple_previous'] : ['ordinary', 'temple']) {
     const root = path.join(directory, arm), started = performance.now();
     await fs.cp(seed, root, { recursive: true, errorOnExist: true, force: false });
     let itemId = null;
-    if (arm === 'temple') {
-      cli(root, 'init', '--config', configPath);
+    if (arm !== 'ordinary') {
+      // Install through the real CLI. Only the four distribution instruction
+      // bodies differ between qualified runtimes; never rewrite an installed lock.
+      command(source, process.execPath, [path.join(arm === 'temple_previous' ? previousRuntime : currentRuntime, 'bin/temple.mjs'),
+        'init', root, '--config', configPath, '--json']);
       itemId = cli(root, 'work-item', 'create', '--title', 'Resume approved quote change', '--scope', task, '--acceptance', 'Current SPEC.md governs; preserve completed discount behavior and protected files.', '--affected-path', 'quote.mjs', '--affected-path', 'test/additional.test.mjs', '--workflow-profile', 'lean', '--risk-tier', 'low', '--scope-class', 'bounded', '--profile-rationale', 'Synthetic bounded offline quote', '--ui-mode', 'not-applicable').item.id;
       cli(root, 'transition', '--work-item', itemId, '--to', 'build', ...['work_order', 'approved_scope', 'acceptance_criteria', 'technical_design', 'risk_review', 'profile_eligibility'].flatMap(g => ['--satisfy', `${g}=${g === 'work_order' ? 'HANDOFF.md' : 'SPEC.md'}`]));
       cli(root, 'doctor'); cli(root, 'status');
@@ -149,12 +152,13 @@ export async function auditContinuityInputs(root,itemId,agentId) {
 
 // Shared happy-path qualification for tests and generation-free live preflight.
 // The caller supplies a freshly created, exclusively owned synthetic Temple arm.
-export async function recordContinuityControl(checkpoint) {
-  const root=checkpoint.arms.temple.root,itemId=checkpoint.arms.temple.item_id;
+export async function recordContinuityControl(checkpoint, arm = 'temple') {
+  check(['temple','temple_previous'].includes(arm),'invalid-control-arm');
+  const base=checkpoint.arms[arm],root=base.root,itemId=base.item_id;
   const item=JSON.parse(await fs.readFile(path.join(root,`.ai-org/work-items/${itemId}.json`)));
-  check(item.state==='build'&&item.claim===null&&git(root,'rev-parse','HEAD')===checkpoint.arms.temple.baseline,'control-not-fresh');
+  check(item.state==='build'&&item.claim===null&&git(root,'rev-parse','HEAD')===base.baseline,'control-not-fresh');
   cli(root,'work-item','claim','--work-item',itemId,'--agent-id',item.assigned_agent_id,'--principal-id','human',
-    '--base-revision',checkpoint.arms.temple.baseline,'--branch','main');
+    '--base-revision',base.baseline,'--branch','main');
   await fs.writeFile(path.join(root,'quote.mjs'),referenceQuote(checkpoint.threshold));
   const tests=run(root,process.execPath,['--test','test/public.test.mjs','test/discount.test.mjs']);
   check(tests.exit_code===0,'control-test-failed');
@@ -226,17 +230,19 @@ function deliveryRecords(root, base, revision, finalRevision, finalTree) {
 
 export async function assessContinuityCandidate(root, checkpoint, arm, revision, { scratchParent = os.tmpdir(), candidateExecutor = run, allowRecordDescendant = false } = {}) {
   checkpoint = structuredClone(checkpoint);
-  check(checkpoint?.version === 'continuity-offline/v1' && ['ordinary','temple'].includes(arm) && ['stable','changed-spec'].includes(checkpoint.state) &&
+  check(checkpoint?.version === 'continuity-offline/v1' && ['ordinary','temple','temple_previous'].includes(arm) && ['stable','changed-spec'].includes(checkpoint.state) &&
     checkpoint.threshold === (checkpoint.state === 'stable' ? 3000 : 5000) && checkpoint.spec_revision === (checkpoint.state === 'stable' ? 'v1' : 'v2') &&
     checkpoint.fact_digest === digest(checkpoint.product), 'invalid-coordinator-checkpoint');
   const base = checkpoint.arms[arm];
+  const templeArm = arm !== 'ordinary';
+  check(base, 'candidate-arm-missing');
   check(/^[a-f0-9]{40}$/.test(revision ?? '') && revision !== base.baseline, 'exact-new-candidate-required');
   const finalRevision=git(root,'rev-parse','HEAD');
-  check(finalRevision===revision || allowRecordDescendant&&arm==='temple','candidate-not-current');
+  check(finalRevision===revision || allowRecordDescendant&&templeArm,'candidate-not-current');
   git(root, 'merge-base', '--is-ancestor', base.baseline, revision);
   const tree = await snapshot(root, revision), editable = new Set(['quote.mjs','test/additional.test.mjs']);
   let deliveryTree=null;
-  if(allowRecordDescendant&&arm==='temple') {
+  if(allowRecordDescendant&&templeArm) {
     git(root,'merge-base','--is-ancestor',revision,finalRevision);
     deliveryTree=await snapshot(root,finalRevision);
     const records=deliveryRecords(root,base,revision,finalRevision,deliveryTree);

@@ -18,37 +18,35 @@ This repository builds the Temple AI Development Organization Framework.
 <!-- temple:instructions:start -->
 # Project AI development organization instructions
 
-## Start
+Read the whole `TEMPLE.md` operating contract before governed work. Applicable
+native and project instructions remain required; a compact view never waives them.
+Use the repository's `node ./templew.mjs` and `$temple-work` for lifecycle, claim,
+worker, handoff, closeout and task-registry mutations. Never hand-edit supported
+canonical JSON or substitute an unversioned global CLI after a bootstrap mismatch.
 
-- Repository files and recorded evidence are canonical. Conversation memory, chat titles, generated views, and external tracker observations are not lifecycle authority. Use durable Work Item IDs; a Codex custom-agent name identifies a Position configuration, not the project's Agent display name.
-- For a known Work Item, first preview `node ./templew.mjs context resolve . --work-item WI-#### --position <position> --compact --no-write --json`, then open only the routed sources needed for that responsibility. The Work Item stage and `primary` purpose are defaults; select `--purpose integration` or `--purpose recovery` deliberately, and compare the body-free selection digest before reopening unchanged context. Use `node ./templew.mjs capability find` when the relevant repository Skill is uncertain. Discovery grants no authority and changes no lifecycle ownership.
-- When deliberately opting into bounded Lean execution, `context enter` with explicit Work Item, Position, Agent and Principal plus `--no-write --json` may replace that initial compact preview. Follow the `temple-work` Lean execution reference; consume the returned required material or its explicit fallback route. Bootstrap, native provider instructions and required unselected sources still apply; entry never claims work or authorizes mutation.
-- For new work, recovery, or specialized operations, read `TEMPLE.md` and the applicable repository Skill. If `temple init` ran during this session, resolve its `TEMPLE_BOOTSTRAP_REQUIRED` result before governed mutation; a fresh session is preferred, while continuity requires the named explicit reads and read-only Doctor, Status, and Context checks. The result is not evidence of instruction loading, comprehension, authority, or lifecycle progress.
-- Use `$temple-work` and the repository launcher `node ./templew.mjs` for supported Work Item, claim, worker, resource, handoff, transition, closeout, and task-registry mutations. Do not hand-edit their canonical JSON or substitute an unversioned global CLI after a bootstrap mismatch.
+For a known Work Item, start with:
 
-## Authority
+```text
+node ./templew.mjs context resolve . --work-item WI-#### --position <position> --compact --no-write --json
+```
 
-- Keep Position, Agent Identity, Assignment, Discipline, Human Principal, and authority grant separate. In Collaborative or High-Assurance mode, act only through the sponsored Identity and eligible Position Membership on the claim; a Discipline never expands Position authority.
-- Keep repository Work Items, Codex tasks, and company-visible tracker items distinct. External observations and `.ai-org/views/**` are projections. Never store tracker credentials, infer external write permission, or accept external completion as QA or Release Gate evidence.
-- `.ai-org/project/spec-index.json` is the compact authority registry, not a copy of documents. Indexed work pins approved current repository-native revisions; bounded gate-evidence work cites named approved scope and acceptance evidence. Derived, stale, unapproved, or drifted references cannot satisfy authority until reconciled and intentionally repinned.
-- `.ai-org/project/context-map.json` and Engineering Learning route context; neither grants permission. Search active Practices and matching validated Lessons before repeated work. Use the Learning CLI for authorized capture, and never promote one Lesson automatically into a Practice, Skill, instruction, or framework-wide rule.
-- Only exact `temple.lock.managed_files` entries are framework-managed. Allowed roots are not ownership claims, and upgrades must preserve project-owned files.
+Stage and `primary` purpose default to the item; choose `--purpose integration` or
+`--purpose recovery` deliberately. Follow routed scope, authority and evidence, not
+every discovered Skill. Use `capability find` when the Skill is uncertain. Opt-in
+Lean `context enter` may replace this preview under the Work Skill's Lean reference.
 
-## Delivery
+Repository files and exact evidence are canonical. Chat memory/titles, external
+observations and generated views are not lifecycle authority. Context, discovery,
+plans and runtime completion grant no permission and do not satisfy a gate.
 
-- Ordinary sequential delivery needs no parallel plan. Before authorized informational delegation, read `$temple-work`'s read-only-support reference: bounded helpers return findings under the parent's authority, with no project writes, formal QA, independent delivery or declared shared resources. This is not a worker lifecycle or sandbox guarantee. Any unmet condition uses the governed route below; never relabel an existing worker to evade claims or cleanup.
+Record affected paths, coordinate named Work Item overlaps, then claim before
+writing. Sequential work needs no parallel plan. Before governed parallel execution, follow
+the Work Skill's parallel reference: prepare only a fresh safe wave, attach actual
+runtimes, and join exact evidence. Informational helpers use its read-only-support reference
+only when eligible and authorized. A Position change needs no new task.
 
-- When work is authorized, record likely write scope with `--affected-path` and explicit routes with `--context-ref`. Coordinate every reported overlap by Work Item ID before editing shared paths. Use `work-item claim/release` around active ownership.
-- Before governed parallel execution, follow `$temple-work`'s parallel reference: record scope, dependencies, contracts, resources and integration owner; plan, then prepare only a fresh safe wave before creating runtimes. Never dispatch a rejected, sequential, blocked or unauthorized plan. Separate internal workers from user-owned app tasks; completion does not advance lifecycle. Join exact evidence before dependent work.
-- Separate machines still coordinate through branches, pull requests, CI, and Git conflict resolution; the local lock is not distributed. Follow the project's repository-integration record—the framework does not impose GitHub Flow or infer merge, release, deployment, or hosting authority.
-- Follow the Work Item's effective workflow profile and named gates in `.ai-org/core/workflow.json`. Standard uses `Spec → Design → Build → Test → Eval → Independent QA → Release Gate`; eligible Lean uses its shorter route without claiming Independent QA. High-Assurance adds its risk contract. Developer and Independent QA must be different Agent Identities for the same work.
-- For user-interface work, resolve the UI Designer Assignment and select `code-first`, `preview-first`, or `design-led` from `.ai-org/core/ui-design.json`; record the mode, rationale, references, and required prebuild/runtime evidence. Use `not-applicable` with no `ui_refs` only when there is no user-facing interface.
-- For High-Assurance work, read `.ai-org/core/high-assurance.json`, preserve the risk tier, use normalized revision-matched Evidence IDs, satisfy distinct Human Principal and rollback requirements, and remember that organizational closeout never authorizes production.
-
-## Safety
-
-- Inspection, explanation, diagnosis, review, and status requests are read-only. Persist decisions, specs, handoffs, or evidence only within authorized repository-update scope.
-- Read `.ai-org/project/usage-policy.json` before model, reasoning, Credits, or calibration choices. Routine actions are automatic only inside its approved reversible local allowlisted budget; ask at named exceptions and every other governing boundary. Diagnostic sample counts are not statistical proof or routing authority.
-- Use the suggested title `Work Item ID · short goal · Position (Agent Name)` for bounded Codex tasks and `Project · control scope · Primary Position (Agent Name)` for the long-lived control task; register stable task IDs. The CLI never creates, renames, archives, or resumes app tasks by itself.
-- A pilot, example, template validation, or bounded experiment stops when its stated evidence and closeout are complete. Do not infer another product task, dependency, publication, external action, or continued feature development.
+Never make Developer and Independent QA the same Agent Identity. Respect the
+effective workflow/risk profile, exact managed-file ownership and human authority
+in `TEMPLE.md`. An inspection request is read-only. Finish only the authorized
+slice; no subsequent task, experiment, merge, publication or deployment is implied.
 <!-- temple:instructions:end -->

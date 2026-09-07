@@ -6,6 +6,7 @@ import os from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { createContinuityPair, assessContinuityCandidate, referenceQuote, discountSource, auditContinuityInputs,recordContinuityControl } from '../scripts/continuity-fixture.mjs';
 import { subprocessEnvironment } from '../scripts/delivery-control-pair.mjs';
+import { instructionPaths } from '../scripts/continuity-live-runner.mjs';
 
 function git(root, ...args) {
   const r = spawnSync('git', ['-c','core.hooksPath='+os.devNull,'-c','commit.gpgsign=false',...args], { cwd:root,env:subprocessEnvironment(),encoding:'utf8' });
@@ -23,6 +24,34 @@ async function candidate(parent, pair, arm, name, change) {
   git(root,'add','.'); git(root,'commit','--allow-empty','-m','Synthetic candidate');
   return { root, revision:git(root,'rev-parse','HEAD') };
 }
+
+test('three-arm install keeps shared facts, whole custom instructions and real claim/finish semantics',async t=>{
+  const parent=await temporary(t),source=path.resolve(import.meta.dirname,'..'),previous=path.join(parent,'previous-runtime');
+  for(const name of ['bin','src','project-overlay','packs','package.json','node_modules'])
+    await fs.cp(path.join(source,name),path.join(previous,name),{recursive:true,errorOnExist:true,force:false});
+  // A synthetic older distribution in CI, not a historical-performance sample.
+  // Pinned historical bytes are checked separately by generation-free readiness.
+  for(const file of instructionPaths)await fs.appendFile(path.join(previous,'project-overlay',file),
+    '\nAdditional older whole-source rule: preserve native project authority.\n');
+  const pair=await createContinuityPair(path.join(parent,'pair'),'changed-spec',{previousRuntime:previous});
+  assert.deepEqual(Object.keys(pair.arms),['ordinary','temple','temple_previous']);
+  for(const base of Object.values(pair.arms))for(const [file,entry] of Object.entries(pair.product))assert.deepEqual(base.tree[file],entry);
+  const audits={};
+  for(const arm of ['temple','temple_previous']) {
+    const base=pair.arms[arm],item=JSON.parse(await fs.readFile(path.join(base.root,`.ai-org/work-items/${base.item_id}.json`)));
+    audits[arm]=await auditContinuityInputs(base.root,base.item_id,item.assigned_agent_id);
+    for(const file of instructionPaths)assert.equal(await fs.readFile(path.join(base.root,file),'utf8'),
+      await fs.readFile(path.join(arm==='temple'?source:previous,'project-overlay',file),'utf8'));
+    const control=await recordContinuityControl(pair,arm);
+    const accepted=await assessContinuityCandidate(base.root,pair,arm,control.revision,{allowRecordDescendant:true});
+    assert.equal(accepted.passed,true);assert.equal(accepted.case_count,46);
+    assert.notEqual(control.revision,control.delivery_revision);
+  }
+  assert.deepEqual(audits.temple.sources.map(s=>s.path),audits.temple_previous.sources.map(s=>s.path));
+  assert.equal(audits.temple.product_fact_bytes,audits.temple_previous.product_fact_bytes);
+  assert.ok(audits.temple_previous.operating_instruction_bytes>audits.temple.operating_instruction_bytes);
+  assert.equal(audits.temple.provider_tokens,null);
+});
 
 test('real claim and finish record commit preserves exact product candidate, with negative controls',async t=>{
   const parent=await temporary(t),pair=await createContinuityPair(path.join(parent,'pair'),'changed-spec');

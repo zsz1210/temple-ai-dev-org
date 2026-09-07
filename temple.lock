@@ -11,12 +11,12 @@
       "launcher": "templew.mjs",
       "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.30",
       "repository_spec": null,
-      "source_revision": "0e4936be24c4b2d76b035cecbf1a4d690d4bb7e1",
+      "source_revision": "4c606f7113600caeec04daf29477daa17b07409c",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-09-07T08:40:41.966Z",
+    "upgraded_at": "2026-09-07T12:03:41.219Z",
     "upgraded_from": "0.1.0-alpha.30"
   },
   "installation": {
@@ -210,7 +210,7 @@
     },
     {
       "path": ".agents/skills/temple-work/SKILL.md",
-      "sha256": "4defd368c3e174b1b8787a502750f74cf2cfd1e56e55845d6c90f9c4221b81c1"
+      "sha256": "1d285c0b0521e571b5dcaaaf2fa6013c727cb2b8b86fa40590572cf5c42a6a78"
     },
     {
       "path": ".agents/skills/temple-work/references/assurance-and-recovery.md",
@@ -222,7 +222,7 @@
     },
     {
       "path": ".agents/skills/temple-work/references/lean-execution.md",
-      "sha256": "3bc607450923004f4f19798dad0e30a060e7d86945c7454f480988930dcf399d"
+      "sha256": "3f599ffd9055b451236b3e682b6deb0635f3c064850458c3094af712347c8c88"
     },
     {
       "path": ".agents/skills/temple-work/references/parallel-work.md",
@@ -558,7 +558,7 @@
     },
     {
       "path": "TEMPLE.md",
-      "sha256": "eb77e0a0d26c449814f57dde268c7eb6cec5ac2db55014af3669a6bb04eda080"
+      "sha256": "fd80191b959b13292c9869c554ea776f0e722ece8551f2e3175699a4c09d78b8"
     },
     {
       "path": "templew.mjs",

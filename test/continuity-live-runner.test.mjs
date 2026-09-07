@@ -7,7 +7,8 @@ import {spawnSync} from 'node:child_process';
 import {createContinuityPair,assessContinuityCandidate,referenceQuote} from '../scripts/continuity-fixture.mjs';
 import {subprocessEnvironment} from '../scripts/delivery-control-pair.mjs';
 import { envelope,matrixConditions,assertContinuityMatrix,disabledFeatures,liveArguments,assertLiveConfiguration,liveRequests,
-  assertThreadBoundary,createSubjectLedger,runContinuitySubject,isolatedOracleExecutor,runApprovedContinuity,continuityAssessmentDecision } from '../scripts/continuity-live-runner.mjs';
+  assertThreadBoundary,createSubjectLedger,runContinuitySubject,isolatedOracleExecutor,runApprovedContinuity,continuityAssessmentDecision,
+  instructionComparisonProtocol,instructionComparisonEnvelope,instructionPaths,assertInstructionOnlyRuntimes,preparePreviousInstructionRuntime } from '../scripts/continuity-live-runner.mjs';
 const subject={root:'/fixture/actor',arm:'temple',itemId:'WI-0001',agentId:'agent-builder'};
 const runtime={root:subject.root,binary:'/provider/codex',readRoots:['/runtime/node','/runtime/git','/runtime/temple'],
   environment:{PATH:'/runtime/node:/runtime/git:/usr/bin:/bin',OPENSSL_CONF:'/dev/null'},
@@ -38,6 +39,39 @@ test('minimum matrix binds both conditions, counterbalanced arms and exact fixtu
     p=>p.subjects[2].state='stable',p=>p.subjects[0].pair=2,p=>p.subjects[0].root='/other']) {
     const p=structuredClone(protocol);mutate(p);assert.throws(()=>assertContinuityMatrix(p),/matrix-(size|layout)/);
   }
+});
+test('instruction comparison binds six treatments without changing model, request or per-subject limits',()=>{
+  const keys=['ordinary','temple_previous','temple'];
+  const pairs=matrixConditions.map((_,i)=>({arms:Object.fromEntries(keys.map(k=>[k,{root:`/fixture/p${i}/${k}`}]))}));
+  const subjects=matrixConditions.flatMap((state,i)=>(i?[...keys].reverse():keys).map(variant=>({state,variant,
+    arm:variant==='ordinary'?'ordinary':'temple',pair:i+1,root:pairs[i].arms[variant].root,itemId:'WI-0001',agentId:'agent-builder'})));
+  const protocol={version:instructionComparisonProtocol,pairs,subjects};
+  assert.doesNotThrow(()=>assertContinuityMatrix(protocol));
+  for(const mutate of [p=>p.subjects.pop(),p=>p.subjects[1].variant='temple',p=>p.subjects[1].arm='temple_previous',
+    p=>p.subjects[1].root=p.subjects[2].root,p=>p.version='continuity-approved/v4']) {
+    const p=structuredClone(protocol);mutate(p);assert.throws(()=>assertContinuityMatrix(p),/matrix-/);
+  }
+  assert.deepEqual(liveRequests({...subject,variant:'temple'}),liveRequests({...subject,variant:'temple_previous'}));
+  for(const key of ['model','effort','subject_tokens','subject_ms','retries','fallback','purchase','reset'])
+    assert.equal(instructionComparisonEnvelope[key],envelope[key]);
+  assert.equal(instructionComparisonEnvelope.total_tokens,envelope.subject_tokens*6);
+});
+test('instruction treatment rejects executable, extra-source, missing-source and incomplete instruction differences',()=>{
+  const current=Object.fromEntries(instructionPaths.map(p=>['project-overlay/'+p,'new-'+p]));current['src/runtime.mjs']='same';
+  const previous=Object.fromEntries(instructionPaths.map(p=>['project-overlay/'+p,'old-'+p]));previous['src/runtime.mjs']='same';
+  assert.equal(assertInstructionOnlyRuntimes(current,previous).changed_paths.length,4);
+  for(const mutate of [p=>p['src/runtime.mjs']='changed',p=>p['secret.md']='extra',p=>delete p['src/runtime.mjs'],
+    p=>delete p['project-overlay/TEMPLE.md'],p=>p['project-overlay/AGENTS.md']=current['project-overlay/AGENTS.md']]) {
+    const p={...previous};mutate(p);assert.throws(()=>assertInstructionOnlyRuntimes(current,p),/confounded/);
+  }
+});
+test('previous-instruction preparation never adopts an existing directory',async t=>{
+  const temporary=await fs.mkdtemp(path.join(os.tmpdir(),'temple-instruction-exclusive-'));
+  t.after(()=>fs.rm(temporary,{recursive:true,force:true}));
+  const source=path.join(temporary,'source'),target=path.join(temporary,'target');
+  await fs.mkdir(source);await fs.mkdir(target);await fs.writeFile(path.join(target,'keep'),'untouched');
+  await assert.rejects(preparePreviousInstructionRuntime(source,target),e=>e.code==='ERR_FS_CP_EEXIST');
+  assert.equal(await fs.readFile(path.join(target,'keep'),'utf8'),'untouched');
 });
 test('continuity checks the full effective permission map without treating null metadata as a grant',()=>{
   assert.equal(assertLiveConfiguration(config(),runtime),true);
