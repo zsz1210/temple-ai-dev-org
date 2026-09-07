@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=true
-- Work items: 246 total, 28 active
+- Work items: 246 total, 27 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 90 registered, 0 reserved, 0 active
+- Runtime workers: 91 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -40,7 +40,7 @@
 - Fresh: yes
 - Safe waves: 1
 - Dispatchable Work Items: 6
-- Active / sequential / blocked: 1 / 13 / 8
+- Active / sequential / blocked: 0 / 13 / 8
 - Next wave: WI-0190, WI-0213, WI-0216, WI-0218, WI-0219, WI-0224
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -293,7 +293,7 @@
 | WI-0243 | Validate continuity baseline commit identity | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `68620faa` | 0 | 7 | 0 |
 | WI-0244 | Audit retained cost evidence and explain unknown observations | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b0a87c88` | 0 | 7 | 0 |
 | WI-0245 | Clarify context inventory versus required reading and qualify an incremental experiment | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3bfae21d` | 0 | 7 | 0 |
-| WI-0246 | Measure bounded context read-scope guidance on retained takeover scenarios | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260907155241-502e7646 | `—` | 0 | 1 | 0 |
+| WI-0246 | Measure bounded context read-scope guidance on retained takeover scenarios | concluded | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `22161f97` | 0 | 7 | 0 |
 
 ## Codex task registry
 
@@ -406,6 +406,7 @@
 | worker-20260907145919-8d8bbc0f | internal-subagent | WI-0243 | Independent QA / Lulu | completed | /root/wi0243_qa | `68620faa` | 0 |
 | worker-20260907152131-973c5646 | internal-subagent | WI-0244 | Independent QA / Lulu | completed | /root/wi0244_qa | `b0a87c88` | 0 |
 | worker-20260907154827-c47ae770 | internal-subagent | WI-0245 | Independent QA / Lulu | completed | /root/wi0245_qa | `3bfae21d` | 0 |
+| worker-20260907160727-059410ae | internal-subagent | WI-0246 | Independent QA / Lulu | completed | /root/wi0246_qa | `22161f97` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -515,14 +516,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-07T15:52:41.258Z | work_item_claimed | WI-0246 | human |
-| 2026-09-07T15:52:40.946Z | work_item_transitioned | WI-0246 | agent-tidus |
-| 2026-09-07T15:52:40.663Z | work_item_transitioned | WI-0246 | agent-yuna |
-| 2026-09-07T15:52:40.382Z | work_item_transitioned | WI-0246 | agent-mog |
-| 2026-09-07T15:52:40.116Z | work_item_claimed | WI-0246 | human |
-| 2026-09-07T15:52:39.813Z | work_item_closed | WI-0245 | agent-mog |
-| 2026-09-07T15:52:39.813Z | release_gate_completed | WI-0245 | agent-mog |
-| 2026-09-07T15:52:39.545Z | work_item_claimed | WI-0245 | human |
+| 2026-09-07T16:15:34.083Z | work_item_concluded | WI-0246 | agent-mog |
+| 2026-09-07T16:15:34.083Z | release_gate_completed | WI-0246 | agent-mog |
+| 2026-09-07T16:15:22.179Z | work_item_claimed | WI-0246 | human |
+| 2026-09-07T16:15:21.851Z | work_item_transitioned | WI-0246 | agent-lulu |
+| 2026-09-07T16:15:21.551Z | work_item_claim_released | WI-0246 | human |
+| 2026-09-07T16:15:21.250Z | handoff_created | WI-0246 | agent-lulu |
+| 2026-09-07T16:15:20.401Z | runtime_worker_status_changed | WI-0246 | agent-lulu |
+| 2026-09-07T16:07:53.869Z | runtime_worker_attached | WI-0246 | agent-lulu |
 
 ## Assignments
 
