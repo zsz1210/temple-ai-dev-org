@@ -1,100 +1,139 @@
 # Project AI development organization operating contract
 
-This repository's AI development organization separates responsibility from identity and stores project state outside chat.
+Read this whole contract and the applicable native instructions in `AGENTS.md`.
+Read each applicable procedure before its operation, not every listed procedure
+for every task. Required project instructions and independently required whole
+sources still apply. A smaller contract does not waive a gate or grant authority.
 
-Before acting:
+## Start with the actual task
 
-1. Choose inspection, delivery, governed parallel dispatch or recovery. Preserve native entrypoint and bootstrap obligations. For known work, use the bounded route below first; read current project identity, assignments, collaboration and authority needed for that operation. Read tracker records for external-work mapping, usage policy before model/resource choices and control-plane configuration for control-plane operations. This is not a universal checklist of files to reopen; required governing references still apply.
-2. Identify the Position you are acting as and the durable work item ID.
-3. Preview the bounded route with `temple context resolve . --work-item <work-item-id> --position <position> --compact --no-write --json`. Omit `--compact` for full retrieval detail. The Work Item stage and `primary` purpose are defaults; use `--purpose integration` or `--purpose recovery` deliberately. Next-operation hints are not readiness or authority.
-   For explicitly selected bounded Lean execution, `context enter` with explicit Agent and Principal may replace this preview. Follow the `temple-work` Lean execution reference and all fallback reasons; returned material does not prove instruction loading or waive required reads.
-4. Read only the routed canonical Spec, Design, ADR, Learning, Skill, and evidence needed for the current responsibility. Compare the body-free selection digest before reopening unchanged context. Generated Context Capsules and Capability Registry entries are navigation aids, not authority.
-5. Stay inside that Position's ownership and approval limits.
-6. Register separate Codex tasks through `temple task register`, using the CLI's suggested title and the real task ID. Continue in an existing task when no new execution boundary is needed; a change of responsibility alone does not require a new task. Distinct-Identity Independent QA and required separation remain mandatory.
+- Inspection, explanation, diagnosis, review and status are read-only. Mutation
+  requires authorization from the request or current Work Item.
+- Identify Position, Agent Identity, Principal, Work Item and scope. Use the pinned
+  `node ./templew.mjs`, not an unversioned global CLI or hand-edited canonical JSON.
+  Resolve bootstrap mismatches before governed mutation.
+- For known work, preview `node ./templew.mjs context resolve . --work-item <work-item-id> --position <position> --compact --no-write --json`.
+  Stage and `primary` purpose default to the Work Item; choose `integration` or
+  `recovery` deliberately. Opt-in Lean entry may replace this preview under the
+  Lean execution reference below. Entry never claims work.
+- Read routed scope, authority, current evidence and applicable procedures. Use
+  `capability find` when the Skill is uncertain. Discovery, generated views and
+  suggested operations grant no authority. Reuse only whole bodies actually read,
+  still available in this session and unchanged; digests prove neither reading
+  nor comprehension.
+- Record `affected_paths`, coordinate reported overlaps by Work Item ID before
+  editing, and claim/release eligible ownership. A Position change alone needs no
+  new task. Register real separate app tasks only when needed, using the CLI's
+  suggested title and stable task ID.
 
-When the request is only to inspect, explain, diagnose, review, or report status, remain read-only. Repository mutation requires explicit authorization from the request or current work item.
+## Boundaries that always apply
 
-## Agent-led initialization continuity
+Repository files, Git revisions, approval records and verification evidence are
+canonical. Chat titles, memory, external observations and generated views are not
+lifecycle authority. Keep Position, Identity, Assignment, Discipline, Principal
+and authority grant separate. Collaborative/High-Assurance work uses a sponsored
+Identity and eligible Position Membership; Disciplines do not expand authority.
+Only exact `temple.lock.managed_files` entries are managed; allowed roots grant no
+ownership and upgrades must preserve project-owned files.
 
-When an already running Agent executes `temple init`, the newly installed repository instructions may not be part of that session's context. A successful init emits `temple.bootstrap-required/v1` with the marker `TEMPLE_BOOTSTRAP_REQUIRED`, the actual `AGENTS.md` integration state, the instruction sources to read, a recommended fresh-session path, a supported explicit-read path, and copyable read-only verification commands.
+Follow the effective workflow profile and named gates in
+`.ai-org/core/workflow.json`. Do not downgrade risk or substitute external
+completion for evidence. Developer and Independent QA must be different
+Identities. Eligible Lean retains its distinct Verifier without claiming formal
+Independent QA. Human approval remains required for business truth, priority,
+external commitments, material cost, irreversible actions, sensitive data and
+high-risk release.
 
-A fresh session is strongest only after pending `AGENTS.md` and provider-entrypoint merges are resolved and the Agent provider is known to load its supported entrypoint. The CLI does not detect the executing provider or claim `AGENTS.md` is universal. For Claude Code it creates an absent project-owned `CLAUDE.md` containing only `@AGENTS.md`; an existing compatible file is preserved, while an incompatible file is preserved with `.ai-org/project/CLAUDE.temple.md` reported as `pending_merge`. This verifies only the documented import form, never session loading or comprehension. If the session must continue, read every canonical source named by the result, run Doctor and read-only Status, identify or create the durable Work Item through the ordinary lifecycle, then run read-only Context resolution and report the Position, Agent Identity, Work Item ID, and next canonical action before mutation.
+`.ai-org/project/spec-index.json` is an authority registry, not copied documents.
+Indexed work pins an approved current product revision before Design; gate-evidence
+work cites approved scope/acceptance and cannot claim indexed revision protection.
+Supporting UX/UI/API/technical specs still govern their subjects. Repository-native
+revisions pin source SHA-256; derived, stale or unapproved references cannot satisfy
+authority. Reconcile drift and intentionally repin before proceeding. Use
+`contract_refs` for governed API/technical specifications; `shared_contract_refs`
+coordinate implementation surfaces, not product authority.
 
-The bootstrap result cannot prove instruction loading or model comprehension. It creates no Work Item, claim, Evidence entry, handoff, transition, closeout, approval, or external action. Never use an acknowledgement of the result as lifecycle or Release Gate evidence.
+Keep the project-owned `.ai-org/project/context-map.json` concise: references, not
+document copies. Search active Practices and matching validated Lessons before
+repeated work. Learning routes context but never automatically becomes policy.
 
-Before handoff:
+## Read procedures when their trigger applies
 
-1. Update the canonical facts required by the current gate, not only the conversation. Reuse existing current evidence by reference; do not create an additional narrative report solely to repeat those facts.
-2. Record revision, completed work, evidence, unresolved questions, and next Position through the supported handoff operation. Its artifact is the handoff record; do not manually recreate a second copy.
-3. Never let the Developer certify Independent QA for the same work.
-4. Request human approval for business truth, priority, external commitments, material cost, irreversible actions, sensitive data, or high-risk release.
+If scope, risk or ownership changes, stop the narrow path and resolve the applicable
+route. These triggers do not replace independent required reads.
 
-Use the repository-pinned `node ./templew.mjs` launcher instead of hand-editing canonical JSON. Plan/prepare workers only when dispatching parallel work; they are not mandatory steps for sequential delivery:
+| Trigger | Read before acting | Preserved boundary |
+| --- | --- | --- |
+| Lifecycle mutation | [temple-work](.agents/skills/temple-work/SKILL.md) | Named gates and exact evidence; record facts once. |
+| Opt-in bounded Lean Build/Test entry or finish | [Lean execution](.agents/skills/temple-work/references/lean-execution.md) | Explicit actor/Principal, distinct Verifier, no profile bypass. |
+| Eligible Lean Developer `deliver` | [Lean delivery](.agents/skills/temple-work/references/lean-delivery.md) | Handoff/release/Test administration, not acceptance. |
+| Failed operation, pending recovery or assurance closeout | [Assurance and recovery](.agents/skills/temple-work/references/assurance-and-recovery.md) | Inspect mutation state; validated same-request recovery only, never manual repair or implied model retries. |
+| Governed dispatch/runtime work | [Parallel work](.agents/skills/temple-work/references/parallel-work.md) | Plan then prepare a fresh safe wave; join exact evidence before dependent work. |
+| Authorized informational delegation | [Read-only support](.agents/skills/temple-work/references/read-only-support.md) | Parent owns findings; no project writes, formal QA, independent delivery or shared resources. Otherwise use governed work; never relabel workers to evade obligations. |
+| First initialization | [temple-init](.agents/skills/temple-init/SKILL.md) and the bootstrap rule below | Required confirmation and conflict resolution before writes. |
+| Open decision | [decision-interview](.agents/skills/decision-interview/SKILL.md) | Use repository evidence when it constrains the choice; discussion does not authorize mutation. |
+| Unclear domain language or boundaries | [domain-modeling](.agents/skills/domain-modeling/SKILL.md) | Clarify the model before guessing rules. |
+| Human-facing repository documentation | [project-documentation](.agents/skills/project-documentation/SKILL.md) | Ground claims in verified project evidence. |
+| Reusable procedure becoming a governed Skill | [skill-authoring](.agents/skills/skill-authoring/SKILL.md) | Follow ownership, authoring and promotion rules; no automatic capability adoption. |
+| High-Assurance lifecycle | `.ai-org/core/high-assurance.json` | Sponsor every active Identity; Developer differs from QA and Release Manager. Preserve risk tiers, normalized exact revision-matched Evidence IDs, distinct Principals, rollback and repository approval records. |
+| UI delivery | `.ai-org/core/ui-design.json` and `.ai-org/templates/ui-design-brief.md` | UI Designer chooses code-first/preview-first/design-led before Build; record rationale, refs and required evidence. Preview/design-led pin approved UI revisions; runtime visual review remains required. Use no UI refs and `not-applicable` only without an interface. No mandatory vendor. |
+| Model, reasoning, Credits or calibration choices | `.ai-org/project/usage-policy.json` | Approved reversible local allowlisted budgets only; ask at exceptions and every governing boundary. Diagnostic samples are not statistical proof. |
+| Learning capture/revalidation | Current learning index and Learning CLI | Authorized add-lesson/add-practice/revalidate maintain records; validate and intentionally adopt before promotion. Never auto-promote one Lesson. |
 
-```text
-Sequential delivery:
-  work-item create → configure/readiness → claim → implement/verify
-    → handoff → release claim → transition → profile-specific closeout
+Ordinary sequential delivery needs no parallel plan. Plans create no claim or app
+task; runtime completion is not a gate. Local locking is not distributed: separate
+machines coordinate through Git, branches, review, CI and conflict resolution.
+Registration never creates, renames, resumes or archives app tasks; archive
+readiness still requires an explicit app action.
 
-Governed parallel delivery only:
-  configure/readiness → parallel plan → parallel prepare
-    → worker attach or user task register → execute → join evidence
-    → handoff/release/transition under the effective profile
-```
+## Bootstrap is a blocking condition
 
-## External tracker coordination
+After `temple init` in this session, resolve `TEMPLE_BOOTSTRAP_REQUIRED` before
+governed mutation. Prefer a fresh session after pending native entrypoint merges
+are resolved and the provider is known to load its supported entrypoint. The CLI
+does not detect the executing provider or make `AGENTS.md` universal. For Claude
+Code, an absent project-owned `CLAUDE.md` imports `@AGENTS.md`; compatible existing
+content is preserved, incompatible content remains a pending merge via
+`.ai-org/project/CLAUDE.temple.md`. Import compatibility does not prove loading.
 
-Treat the company issue tracker, this repository's Work Items, and Codex tasks as three connected but distinct layers. Jira, GitHub Issues, or another configured provider may remain the human team's planning surface. A team-visible Work Item maps one bounded outcome to that surface; internal child Work Items hold AI-only decomposition. A Codex task is only an execution session for a Work Item.
+For continuity, read every source named by the result, run Doctor and read-only
+Status, identify/create the Work Item through normal lifecycle, then run read-only
+Context and report Position, Identity, Work Item and next canonical action before
+mutation. The result/acknowledgement proves no comprehension and creates no claim,
+handoff, evidence, approval, lifecycle progress or external action.
 
-Read `.ai-org/project/tracker.json` before using an external reference. Never store tracker credentials in the repository. Use `temple tracker inspect` or `temple tracker plan` to create a bounded observation and reconciliation plan. `temple tracker reconcile` records a human-readable resolution and repository evidence; in this release it never writes externally. External `done` or `cancelled` state cannot bypass lifecycle evidence, Independent QA, or the Release Gate. Any future write-back requires explicit authorization for the exact mutation.
+## External systems and integration
 
-Each transition must carry named gate evidence. `temple status` projects work items, risk contracts, assigned Agents, revisions, task status, context and retrieval configuration, Learning revalidation, optional packs and adapters, attention signals, recent events, and archive readiness. A task marked archive-ready still requires an explicit app action; the CLI never archives, renames, or creates a Codex task on its own.
+Before using an external reference or performing tracker operations, read
+`.ai-org/project/tracker.json`. Company tasks may
+remain external; internal AI decomposition stays in Work Items and app tasks are
+execution sessions. Tracker inspect/plan observe; reconcile records repository
+evidence and does not write externally. Never store credentials or infer write-back
+permission. External done/cancelled cannot bypass repository gates.
 
-The local control plane combines this canonical state with generated telemetry below the Git common directory. Treat provider events, cursors, bounded plans and diff summaries, usage, health, alerts, and browser projections as observations only. They cannot satisfy a gate or replace the Work Item, Evidence Registry, approval record, or canonical audit stream. Unsupported provider capabilities and disconnected registered tasks must remain `unknown` or unavailable rather than being inferred from task registration.
+Before control-plane operations, read its project configuration. Provider events,
+usage, health and console projections cannot satisfy gates or replace canonical
+records. Unsupported/disconnected capabilities remain unknown, not inferred from
+task registration. No observer or dashboard is mandatory for ordinary delivery.
 
-## Product specification authority
+Follow `.ai-org/project/repository-integration.json` and its authoritative policy
+references/confirmed target. It is routing, not merge/release permission or branch
+protection. For `unconfirmed`, inspect project policy and ask only consequential
+missing choices; for `deferred`, respect its decision trigger. Temple imposes no
+GitHub Flow and configures no repository permissions. Never infer permission to
+merge, deploy, publish or change hosting.
 
-Treat `.ai-org/project/spec-index.json` as the project-owned registry of governing product, UX, UI, API, and technical-design documents. It points to repository or external sources and records their authority, approval, and revision; it does not replace the documents. A generated or local projection of an external source is never equal authority. An `indexed` Work Item pins at least one approved current product entry before Design; a lightweight `gate-evidence` item instead relies on named approved-scope and acceptance evidence and cannot claim indexed product-scope revision protection. Supporting indexed UX, UI, API, or technical contracts may still govern their declared subjects. Approved repository-native entries pin a source SHA-256. When a governing revision or content digest changes, reconcile the source and intentionally repin affected Work Items rather than silently accepting stale scope.
+## Finish the approved slice
 
-Use `contract_refs` for governed API or technical-design specification IDs and revisions. Use `shared_contract_refs` only to coordinate shared implementation surfaces in parallel work; those paths do not establish product authority.
+Record exact candidate, completed work, evidence, unresolved issues and next
+Position through the supported handoff; do not recreate its narrative. Reuse
+current evidence by reference, not stale passes. Follow the Skill's profile-specific
+finish/closeout and diagnostics. A receipt records administration, not acceptance;
+inspect separate mutation/diagnostic outcomes. A diagnostic failure does not undo
+applied facts and a historical receipt is not fresh verification.
 
-## Context routing and parallel work
-
-Ordinary sequential work does not require parallel planning. For authorized informational helpers, read the `temple-work` read-only-support reference: the parent retains responsibility and helpers return findings without project writes or formal acceptance. Do not create a child lifecycle solely for support. Writes, formal verification, declared shared resources or independently recoverable ownership require the governed route. Never relabel a reserved worker to evade its obligations.
-
-Keep `.ai-org/project/context-map.json` concise and project-owned. It points to canonical files; it does not copy them. Use `temple capability find` when a reusable method may apply, but selecting a Skill never expands the request's authorization. Record planned write scope through work-item `affected_paths`. When context resolution reports overlap with another non-terminal item, coordinate the work before changing shared paths.
-
-In Collaborative or High-Assurance mode, a Human Principal sponsors an Agent Identity; Position Membership plus Disciplines determine eligibility. For dispatch and runtime operations, read the installed `temple-work` Skill's parallel reference. It owns the plan, prepare, attach, join and replan procedure. A plan alone creates no claim or app task; worker completion is not a handoff or lifecycle gate. Local locking does not coordinate separate machines: use claims, branches, PRs, CI and explicit Git conflict resolution.
-
-For eligible low-risk bounded Lean Developer work, `work-item deliver` composes handoff, release and Test entry under the same guards. Read the Skill's Lean delivery reference first. All other work keeps the existing operations. An interrupted delivery requires inspection and validated same-request recovery, not manual state repair; a receipt proves administration only. No profile bypass, QA judgment, new authority or model retry is implied.
-
-Opt-in `context enter` connects scoped material with `work-item finish` for eligible Lean Build/Test. Finish records the explicit actor's completion and runs full Status/Doctor with separate outcomes; Verifier acceptance requires a distinct Identity and existing evidence. Read the Skill's Lean execution reference for claim, evidence and recovery requirements. A diagnostic failure does not undo applied lifecycle facts, and a historical receipt is not fresh verification.
-
-## Repository integration boundary
-
-Treat `.ai-org/project/repository-integration.json` as a project-owned routing record, not as a replacement for the team's authoritative repository, review, or release policy. Follow its referenced project policy and confirmed integration target. The framework does not require GitHub Flow and does not configure branch protection, pull requests, merge requests, merge queues, or repository permissions.
-
-When the record is `unconfirmed`, inspect existing repository policy first and ask only when a missing choice materially affects the requested work. When it is `deferred`, respect the recorded decision trigger instead of repeating the question on every task. Never infer authorization to merge, deploy, publish, or change hosting settings from the record.
-
-## High-Assurance risk contract
-
-When `collaboration.json` selects `high-assurance`, every active Agent Identity must have a Human Principal sponsor, Developer must differ from Independent QA and Release Manager, and each new Work Item must carry a risk tier. Read `.ai-org/core/high-assurance.json` before changing its lifecycle. Use normalized Evidence IDs at the additional risk, exact-candidate, test, and Independent QA gates. Resolve handoff and tested revisions to exact commits. Close only with risk-appropriate rollback evidence and a repository `temple.approval/v1` record from the required distinct Human Principals. Organizational closeout never authorizes an external action.
-
-## Engineering learning
-
-Before similar work, search `.ai-org/learning/index.json` and read only relevant active Practices or validated Lessons. When an authorized retrospective or work item produces reusable evidence, use `temple learning add-lesson` or `add-practice` so the Markdown record, v2 index, and event history stay consistent. Use `learning revalidate` to confirm, narrow, or contradict guidance and schedule review. A Lesson becomes a Practice only after validation and intentional adoption; promotion to a Skill, automated check, ADR, or recurring instruction is separate and never automatic.
-
-## Pilot and experiment stop boundary
-
-When the authorized scope describes a pilot, example, proof, or template validation:
-
-1. Record the experiment purpose, observable stop condition, and excluded follow-on product work before Build.
-2. Treat a successful release-gate closeout as acceptance of that bounded experiment only.
-3. Once the stop condition is met, freeze the sample product and return to Engineering Manager or the user for a retrospective.
-4. Do not create another product work item, continue feature development, or prepare distribution without a new explicit request.
-
-`go` at organizational closeout never means “keep developing this product.”
-
-Use the repository-local `$temple-work` Skill only for authorized lifecycle mutations, `$decision-interview` for an open decision (including its evidence-backed mode when repository facts constrain the choice), `$domain-modeling` when shared terminology or domain boundaries are unclear, `$project-documentation` when human-facing documentation must be grounded in repository evidence, and `$skill-authoring` when a repeated project procedure should become a governed repository-local Skill.
-
-Record `not-applicable` for work with no user-facing interface and attach no `ui_refs`. For user-interface work, UI Designer owns visual direction and selects `code-first`, `preview-first`, or `design-led` from `.ai-org/core/ui-design.json`. The choice must be explicit before Build. Record the mode on the Work Item and use `.ai-org/templates/ui-design-brief.md` for its rationale, selected medium, states, provenance, and visual evidence. Figma is only one possible medium; code-first permits the responsible AI to propose the first executable UI. Preview-first and design-led pin an approved `ui_ref`; prebuild and `go` closeout require the evidence named by the selected policy mode, and no interface mode removes runtime visual review.
+A pilot/example/experiment records its purpose, observable stop and excluded
+follow-on work before Build. At that stop, preserve evidence, freeze the sample and
+return to the coordinator/user for retrospective. Closeout `go` accepts only that
+bounded outcome, never production, new product work, another experiment,
+dependencies, external actions or publication.

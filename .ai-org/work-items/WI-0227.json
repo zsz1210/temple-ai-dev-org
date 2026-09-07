@@ -1,0 +1,140 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0227",
+  "title": "Reduce always-loaded operating instructions without weakening gates",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-07T02:41:13.973Z",
+  "updated_at": "2026-09-07T02:41:58.525Z",
+  "scope": [
+    "Implement WI-0225 composition-audit contract refactor in distributed TEMPLE and native routing; preserve full source acquisition, identity separation, project-owned upgrades and existing policies. Add local instruction and installation verification; no live experiment or publication."
+  ],
+  "acceptance_criteria": [
+    "Cold Builder and distinct Verifier complete required input is smaller on the same fixture, every prior obligation is retained or routed to an existing applicable procedure, unknown/old sources stay whole, and upgrade preserves project-owned content. Full local verification and separate semantic review before acceptance."
+  ],
+  "affected_paths": [
+    "project-overlay/TEMPLE.md",
+    "project-overlay/AGENTS.md",
+    "test/operating-contract.test.mjs",
+    ".ai-org/artifacts/WI-0227"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-07T02:41:13.973Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "34c4fb71",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0190 and WI-0211 have released claims; edit only the two named overlay instructions and a new isolated test. WI-0226 has released its Developer claim and its reliability candidate remains unchanged; do not edit its sources, tests or evidence."
+  ],
+  "claim": {
+    "id": "claim-20260907024158-3172537d",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "34c4fb71",
+    "branch": "codex/small-task-lean-design",
+    "worktree": null,
+    "claimed_at": "2026-09-07T02:41:58.525Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260907024156-89031f27",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "34c4fb71",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T02:41:56.682Z",
+      "released_at": "2026-09-07T02:41:57.008Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260907024157-c08be377",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "34c4fb71",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T02:41:57.405Z",
+      "released_at": "2026-09-07T02:41:57.672Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260907024157-25e59faa",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "34c4fb71",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T02:41:57.966Z",
+      "released_at": "2026-09-07T02:41:58.232Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260907024158-3172537d",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "34c4fb71",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T02:41:58.525Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0227/brief.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0227/brief.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0227/brief.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0225/composition-audit.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0227/brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0227/brief.md",
+    ".ai-org/artifacts/WI-0225/composition-audit.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
