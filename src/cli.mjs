@@ -202,6 +202,7 @@ Usage:
   temple work-item release [target] --work-item WI-ID [--agent-id agent-name] [--principal-id principal-name] [--reason text]
   temple work-item deliver [target] --work-item WI-ID --operation-id id --claim-id id --agent-id agent-name --principal-id principal-name --revision commit --completed text --evidence path [--unresolved text] [--dry-run] [--expected-plan sha256] [--json]
   temple work-item finish [target] --work-item WI-ID --position developer|quality_evaluator --operation-id id --claim-id id --agent-id id --principal-id id --revision commit [--completed text --evidence path | --judgment pass --test-evidence path --lean-closeout path] [--dry-run] [--expected-plan sha256] [--json]
+  temple work-item finish [target] --work-item WI-ID --position developer --operation-id id --claim-id id --agent-id id --principal-id id --revision commit --mechanical-contract .ai-org/artifacts/WI-ID/mechanical-contract.json [--dry-run] [--expected-plan sha256] [--json]
   temple work-item rework [target] --work-item WI-ID --same-scope --input-revision full-sha --reason text --evidence repository-path [--actor agent-name] [--json]
   temple work-item unresolved [target] --work-item WI-0001 [--resolve text] [--merge text]
   temple parallel check [target] --work-item WI-ID [--agent-id agent-name] [--json]
@@ -361,6 +362,7 @@ const VALUE_FLAGS = new Set([
   "--stage",
   "--purpose",
   "--material",
+  "--mechanical-contract",
   "--format",
   "--thread-id",
   "--client-thread-id",
@@ -2483,11 +2485,12 @@ async function runWorkItemDeliver(parsed) {
 
 async function runWorkItemFinish(parsed) {
   assertCommandOptions(parsed,
-    ["--work-item", "--position", "--operation-id", "--claim-id", "--agent-id", "--principal-id", "--revision", "--completed", "--evidence", "--unresolved", "--expected-plan", "--judgment", "--test-evidence", "--lean-closeout"],
+    ["--work-item", "--position", "--operation-id", "--claim-id", "--agent-id", "--principal-id", "--revision", "--completed", "--evidence", "--unresolved", "--expected-plan", "--judgment", "--test-evidence", "--lean-closeout", "--mechanical-contract"],
     ["--dry-run", "--json"]);
   const target = await assertSafeTarget(parsed.target);
   const result = await withProjectMutationLock(target, () => finishLeanWorkItem(target, {
     workItemId: parsed.options["--work-item"], position: parsed.options["--position"],
+    mechanicalContract: parsed.options["--mechanical-contract"],
     operationId: parsed.options["--operation-id"], claimId: parsed.options["--claim-id"], agentId: parsed.options["--agent-id"],
     principalId: parsed.options["--principal-id"], revision: parsed.options["--revision"],
     completed: listOption(parsed, "--completed"), evidence: listOption(parsed, "--evidence"), unresolved: listOption(parsed, "--unresolved"),

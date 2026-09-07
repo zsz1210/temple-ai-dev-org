@@ -4,6 +4,10 @@ The root README explains what Temple is and why it exists. This index routes imp
 
 ## Start with your goal
 
+For a preapproved literal correction in a non-normative note, see the opt-in
+[mechanical completion](operations/mechanical-completion.md) route. This is not
+a general small-code-change or Independent QA shortcut.
+
 | I want to… | Start here | Continue with |
 |---|---|---|
 | Evaluate the framework | [Vision and operating model](concepts/vision.md) | [Architecture](concepts/architecture.md), [Roadmap](planning/roadmap.md) |

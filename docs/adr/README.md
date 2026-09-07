@@ -1,5 +1,7 @@
 # Architecture Decision Records
 
+- [ADR-0061: Exact-text mechanical completion](0061-exact-text-mechanical-completion.md)
+
 - [ADR-0059: Proportionate work routes and stage completion](0059-proportionate-work-routes.md)
 
 - [ADR-0001: Init instead of fork](0001-init-not-fork.md)

@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { verifyMechanicalCompletion } from "./mechanical-completion.mjs";
 import {
   DISCIPLINES,
   agentIsEligible,
@@ -1172,7 +1173,11 @@ export async function prepareWorkItemTransition(target, options, preparedItem = 
   const item = preparedItem ?? await readWorkItem(target, options.workItemId);
   const toState = String(options.toState ?? "").trim();
   if (!context.states.has(toState)) throw new Error(`Unknown workflow state: ${toState || "missing"}`);
-  const transition = parseTransition(context, item, toState);
+  // Only the recoverable finish path supplies this request. Independently
+  // revalidate the exact contract; a generic transition gains no shortcut.
+  const mechanical = options.mechanicalRequest && toState === "done"
+    ? await verifyMechanicalCompletion(target, item, options.mechanicalRequest) : null;
+  const transition = mechanical ? { from: "build", to: "done", requires: ["mechanical_contract"] } : parseTransition(context, item, toState);
   if (["design", "build", "test", "eval", "independent_qa", "release_gate", "done"].includes(toState)) {
     assertSpecificationMode(item.specification_mode, item.spec_refs ?? [], true);
   }
@@ -1259,6 +1264,7 @@ export async function prepareWorkItemTransition(target, options, preparedItem = 
   if (toState === "done" && workflowProfileForItem(context.workflow, item) === "lean") {
     updated.lifecycle_outcome = "accepted";
     updated.closeout_reasons = [];
+    if (mechanical) updated.closeout_reasons = ["mechanical: exact preapproved text replacement; not Independent QA"];
     updated.external_release_status = "not_performed";
   }
   if (previousState) updated.previous_state = previousState;

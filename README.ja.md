@@ -132,6 +132,10 @@ Temple は、有人監督のある低リスクなローカルプロジェクト�
 
 ## 次に読むもの
 
+事前承認済みの非規範的なメモの文字修正には、ソース候補版で明示的に有効化する
+[機械的な完了判定](docs/operations/mechanical-completion.md)を用意しています。
+通常のコードレビューや独立 QA を置き換える機能ではありません。
+
 - [Usage guide（英語）](docs/getting-started/usage.md) — 導入、運用、アップグレード、トラブルシューティング。
 - [Temple terminology（英語）](docs/concepts/terminology.md) — Position、Agent Identity、Work Item、Evidence、運用プロファイル。
 - [Architecture（英語）](docs/concepts/architecture.md) — リポジトリ境界と正式な状態。
