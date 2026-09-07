@@ -1,0 +1,332 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0229",
+  "title": "Add opt-in exact-text mechanical completion with fail-closed boundaries",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-07T03:48:39.045Z",
+  "updated_at": "2026-09-07T04:17:21.014Z",
+  "scope": [
+    "Implement WI-0225 mechanical exception as explicit opt-in for preapproved exact replacement in non-normative plain text only. Preserve normal Lean Verifier and all Standard/High-Assurance gates; use existing recoverable finish transaction. Include ADR, contract, migration review, offline tests, documentation and independent QA. No model experiments or publication."
+  ],
+  "acceptance_criteria": [
+    "Disabled unless a project policy and prior committed work-item-bound literal contract authorize exact plain-text replacements. Validate all changed paths, content and base/candidate bindings; no same-identity QA claim. Reject authority/executable/unknown files and unapproved drift; preserve transaction recovery and legacy finish behavior. Full verification and independent QA before PR."
+  ],
+  "affected_paths": [
+    "src/lean-delivery.mjs",
+    "src/work-items.mjs",
+    "src/cli.mjs",
+    "src/mechanical-completion.mjs",
+    "test/mechanical-completion.test.mjs",
+    "docs",
+    "scripts/check-package.mjs",
+    ".ai-org/artifacts/WI-0229"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-07T03:48:39.045Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "e9c9ade27195923efcd7f58b2735a1dace193e5a",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0190: released claim; only this bounded successor changes named code and new mechanical docs/tests, not historical evidence.",
+    "WI-0211: released claim; successor owns declared code/docs and WI-0229 evidence; historical integration and frozen experiments remain unchanged.",
+    "WI-0213: released claim; add one explicit finish option without changing existing context behavior or historical evidence."
+  ],
+  "claim": {
+    "id": "claim-20260907041720-6c7d75bd",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "e9c9ade27195923efcd7f58b2735a1dace193e5a",
+    "branch": "codex/mechanical-completion",
+    "worktree": null,
+    "claimed_at": "2026-09-07T04:17:20.729Z",
+    "released_at": "2026-09-07T04:17:21.014Z",
+    "release_reason": "work_item_closed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260907035003-ba3a252a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "520450bcc7a142d45824a4a9b60566fa0a9ae56a",
+      "branch": "codex/mechanical-completion",
+      "worktree": null,
+      "claimed_at": "2026-09-07T03:50:03.807Z",
+      "released_at": "2026-09-07T03:50:04.137Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260907035004-36064dcd",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "520450bcc7a142d45824a4a9b60566fa0a9ae56a",
+      "branch": "codex/mechanical-completion",
+      "worktree": null,
+      "claimed_at": "2026-09-07T03:50:04.996Z",
+      "released_at": "2026-09-07T04:05:20.088Z",
+      "release_reason": [
+        "Exact candidate and full verification handed to distinct reviewer"
+      ]
+    },
+    {
+      "id": "claim-20260907040605-c626b635",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "ef4f6cd34279ab11a3410876d84688b7a2ff68a3",
+      "branch": "codex/mechanical-completion",
+      "worktree": null,
+      "claimed_at": "2026-09-07T04:06:05.155Z",
+      "released_at": "2026-09-07T04:08:25.498Z",
+      "release_reason": [
+        "Test finding recorded; retain Test for supported same-scope rework, no acceptance."
+      ]
+    },
+    {
+      "id": "claim-20260907040951-ec1a1ee1",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "ef4f6cd34279ab11a3410876d84688b7a2ff68a3",
+      "branch": "codex/mechanical-completion",
+      "worktree": null,
+      "claimed_at": "2026-09-07T04:09:51.051Z",
+      "released_at": "2026-09-07T04:09:51.344Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260907040951-787d782d",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "ef4f6cd34279ab11a3410876d84688b7a2ff68a3",
+      "branch": "codex/mechanical-completion",
+      "worktree": null,
+      "claimed_at": "2026-09-07T04:09:51.646Z",
+      "released_at": "2026-09-07T04:13:57.682Z",
+      "release_reason": [
+        "Corrected exact candidate and fresh verification handed to independent reviewer"
+      ]
+    },
+    {
+      "id": "claim-20260907041439-c78a51c3",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "e9c9ade27195923efcd7f58b2735a1dace193e5a",
+      "branch": "codex/mechanical-completion",
+      "worktree": null,
+      "claimed_at": "2026-09-07T04:14:39.656Z",
+      "released_at": "2026-09-07T04:15:50.847Z",
+      "release_reason": [
+        "Corrected-candidate Test and Eval complete; handoff to Independent QA."
+      ]
+    },
+    {
+      "id": "claim-20260907041619-4f4ff01b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "e9c9ade27195923efcd7f58b2735a1dace193e5a",
+      "branch": "codex/mechanical-completion",
+      "worktree": null,
+      "claimed_at": "2026-09-07T04:16:19.698Z",
+      "released_at": "2026-09-07T04:16:20.405Z",
+      "release_reason": [
+        "Independent QA complete for corrected candidate; Release Gate handoff, no closeout."
+      ]
+    },
+    {
+      "id": "claim-20260907041720-6c7d75bd",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "e9c9ade27195923efcd7f58b2735a1dace193e5a",
+      "branch": "codex/mechanical-completion",
+      "worktree": null,
+      "claimed_at": "2026-09-07T04:17:20.729Z",
+      "released_at": "2026-09-07T04:17:21.014Z",
+      "release_reason": "work_item_closed"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0229/brief.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0229/brief.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0229/brief.md"
+    ],
+    "technical_design": [
+      "docs/adr/0061-exact-text-mechanical-completion.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0229/brief.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0229/handoff-003-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0229/report.v2.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0229/qa.v2.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0229/evaluation.v2.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0229/qa.v2.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0229/brief.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0229/qa.v2.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0229/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0229/brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0229/brief.md",
+    "docs/adr/0061-exact-text-mechanical-completion.md",
+    ".ai-org/artifacts/WI-0229/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0229/report.md",
+    ".ai-org/artifacts/WI-0229/handoff-002-quality_evaluator-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0229/qa.md",
+    ".ai-org/artifacts/WI-0229/handoff-003-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0229/report.v2.md",
+    ".ai-org/artifacts/WI-0229/qa.v2.md",
+    ".ai-org/artifacts/WI-0229/handoff-004-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0229/evaluation.v2.md",
+    ".ai-org/artifacts/WI-0229/handoff-005-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0229/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "ef4f6cd34279ab11a3410876d84688b7a2ff68a3",
+      "artifact": ".ai-org/artifacts/WI-0229/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-07T04:05:10.859Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "quality_evaluator",
+      "actor": "agent-lulu",
+      "input_revision": "ef4f6cd34279ab11a3410876d84688b7a2ff68a3",
+      "artifact": ".ai-org/artifacts/WI-0229/handoff-002-quality_evaluator-to-quality_evaluator.md",
+      "created_at": "2026-09-07T04:08:25.180Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "e9c9ade27195923efcd7f58b2735a1dace193e5a",
+      "artifact": ".ai-org/artifacts/WI-0229/handoff-003-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-07T04:13:57.394Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "actor": "agent-lulu",
+      "input_revision": "e9c9ade27195923efcd7f58b2735a1dace193e5a",
+      "artifact": ".ai-org/artifacts/WI-0229/handoff-004-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-07T04:15:50.532Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "actor": "agent-lulu",
+      "input_revision": "e9c9ade27195923efcd7f58b2735a1dace193e5a",
+      "artifact": ".ai-org/artifacts/WI-0229/handoff-005-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-07T04:16:20.086Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-07T04:09:51.344Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260907040951-ec1a1ee1",
+      "rejected_revision": "ef4f6cd34279ab11a3410876d84688b7a2ff68a3",
+      "reason": [
+        "Correct exact managed-file ownership lookup and real-format regression after independent QA rejection"
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0229/qa.md"
+      ],
+      "scope_digest": "be75db37679088d5d482b1298b44a7fcb9ce7cf13e64cc2339610c185c554c28",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0229/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0229/report.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "ef4f6cd34279ab11a3410876d84688b7a2ff68a3"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0229/handoff-001-developer-to-quality_evaluator.md",
+        ".ai-org/artifacts/WI-0229/handoff-002-quality_evaluator-to-quality_evaluator.md"
+      ]
+    }
+  ],
+  "developer_candidate_revision": "e9c9ade27195923efcd7f58b2735a1dace193e5a",
+  "tested_revision": "e9c9ade27195923efcd7f58b2735a1dace193e5a",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0229/brief.md"
+}

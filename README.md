@@ -132,6 +132,10 @@ The framework reports retained gaps instead of treating a passing local test as 
 
 ## Read next
 
+For preapproved literal corrections in non-normative notes, the source candidate
+includes opt-in [mechanical completion](docs/operations/mechanical-completion.md).
+It does not replace ordinary code review or Independent QA.
+
 - [Usage guide](docs/getting-started/usage.md) — adoption, operation, upgrades, and troubleshooting.
 - [Temple terminology](docs/concepts/terminology.md) — Positions, Agent Identities, Work Items, Evidence, and profiles.
 - [Architecture](docs/concepts/architecture.md) — repository boundaries and canonical state.

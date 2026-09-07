@@ -11,6 +11,7 @@ import { resolveGitRevision, validateEvidenceArtifacts, validateEvidenceRegistry
 import { activeExecutionRequirements, readWorkItem, prepareHandoff, prepareClaimRelease, prepareWorkItemTransition } from "./work-items.mjs";
 import { leanDeliveryStateDirectory, readPendingLeanDelivery } from "./lean-delivery-state.mjs";
 import { OperationError } from "./operation-errors.mjs";
+import { verifyMechanicalCompletion } from "./mechanical-completion.mjs";
 
 const OPERATION = /^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$/;
 const JOURNAL_SCHEMA = "temple.lean-delivery-journal/v1";
@@ -67,6 +68,12 @@ function normalizedRequest(target, options, finish = false) {
     if (!["developer", "quality_evaluator"].includes(options.position)) throw new OperationError("INVALID_INPUT", "Lean finish requires --position developer or quality_evaluator");
     request.schema_version = "temple.lean-finish-request/v1";
     request.position = options.position;
+    if (options.mechanicalContract !== undefined) {
+      if (options.position !== "developer" || request.completed.length || request.evidence.length || request.unresolved.length) throw new OperationError("INVALID_INPUT", "Mechanical finish accepts the approved contract, not caller-authored completion or evidence");
+      request.mechanical_contract = options.mechanicalContract;
+      request.completed = ["Exact preapproved text replacement verified mechanically; no independent QA claimed."];
+      request.evidence = [options.mechanicalContract];
+    }
     if (options.position === "quality_evaluator") {
       request.judgment = options.judgment;
       request.test_evidence = uniqueStrings(options.testEvidence);
@@ -94,7 +101,7 @@ function assertCandidate(target, request, affectedPaths) {
   }
 }
 
-async function inputSnapshot(target, item, request) {
+async function inputSnapshot(target, item, request, mechanical = null) {
   const paths = new Set([
     "temple.lock", ".ai-org/project/project.json", ".ai-org/project/agents.json",
     ".ai-org/project/assignments.json", ".ai-org/project/collaboration.json",
@@ -103,6 +110,7 @@ async function inputSnapshot(target, item, request) {
     ".ai-org/core/positions.json", ".ai-org/core/workflow.json", ".ai-org/core/policies.json",
     `.ai-org/work-items/${item.id}.json`, EVENTS
   ]);
+  for (const relative of mechanical?.input_paths ?? []) paths.add(relative);
   if (request.position) for (const relative of ["AGENTS.md", "TEMPLE.md", ".agents/skills/temple-work/SKILL.md", ".agents/skills/temple-work/references/lean-delivery.md", ".agents/skills/temple-work/references/assurance-and-recovery.md", ".ai-org/core/high-assurance.json", ".ai-org/core/ui-design.json", ".ai-org/project/usage-policy.json", ".ai-org/project/repository-integration.json"]) paths.add(relative);
   for (const relative of await currentEvidencePaths(target, item, request)) paths.add(relative);
   const specs = JSON.parse(await fileBytes(target, ".ai-org/project/spec-index.json"));
@@ -202,8 +210,9 @@ async function prepareDelivery(target, request) {
     if (resolveGitRevision(target, handoff.input_revision) !== request.candidate_revision || item.developer_candidate_revision !== request.candidate_revision) throw new Error("Lean acceptance candidate does not match the Developer handoff");
     if (item.unresolved?.length || handoff.unresolved?.length) throw new Error("Lean acceptance cannot close unresolved work");
   }
-  const inputs = await inputSnapshot(target, item, request);
-  const handoff = accepting ? null : await prepareHandoff(target, {
+  const mechanical = request.mechanical_contract ? await verifyMechanicalCompletion(target, item, request) : null;
+  const inputs = await inputSnapshot(target, item, request, mechanical);
+  const handoff = accepting || mechanical ? null : await prepareHandoff(target, {
     workItemId: item.id, toPosition: "quality_evaluator", inputRevision: request.candidate_revision,
     completed: request.completed, evidence: request.evidence, unresolved: request.unresolved, actor: request.agent_id
   });
@@ -211,8 +220,9 @@ async function prepareDelivery(target, request) {
     workItemId: item.id, agentId: request.agent_id, principalId: request.principal_id, reason: accepting ? "completed" : "developer_delivery"
   }, handoff?.item ?? item);
   const transition = await prepareWorkItemTransition(target, {
-    workItemId: item.id, toState: accepting ? "done" : "test", actor: request.agent_id,
-    satisfied: accepting ? { test_evidence: request.test_evidence, lean_closeout: request.lean_closeout } : { developer_handoff: [handoff.artifact], developer_evidence: request.evidence }
+    workItemId: item.id, toState: accepting || mechanical ? "done" : "test", actor: request.agent_id,
+    mechanicalRequest: mechanical ? request : undefined,
+    satisfied: mechanical ? { mechanical_contract: request.evidence } : accepting ? { test_evidence: request.test_evidence, lean_closeout: request.lean_closeout } : { developer_handoff: [handoff.artifact], developer_evidence: request.evidence }
   }, handoff?.item ?? item, new Map(handoff ? [[handoff.artifact, handoff.content]] : []));
   // Validate transition while the originating actor still owns its active claim,
   // then retain the separately validated release fact in the final state.
@@ -226,7 +236,8 @@ async function prepareDelivery(target, request) {
     schema_version: finishing ? "temple.lean-finish-lifecycle/v1" : "temple.lean-delivery-result/v1", operation_id: request.operation_id,
     work_item_id: item.id, candidate_revision: request.candidate_revision,
     plan_digest: planDigest, handoff: handoff?.artifact ?? null, receipt: receiptPath,
-    resulting_state: accepting ? "done" : "test", next_action: accepting ? "Lean acceptance is recorded; no external release is authorized." : "The assigned Quality Evaluator must claim Test and verify acceptance.",
+    ...(mechanical ? { completion_kind: "mechanical", mechanical_check: mechanical } : {}),
+    resulting_state: accepting || mechanical ? "done" : "test", next_action: mechanical ? "Exact-text mechanical completion recorded; not Independent QA or external release." : accepting ? "Lean acceptance is recorded; no external release is authorized." : "The assigned Quality Evaluator must claim Test and verify acceptance.",
     testing_performed: false, external_action_performed: false
   };
   const receipt = { schema_version: finishing ? "temple.lean-finish-receipt/v1" : RECEIPT_SCHEMA, request_digest: requestDigest, request, result, applied_at: transition.item.updated_at };
@@ -241,14 +252,15 @@ async function prepareDelivery(target, request) {
   }
   // Ensure all preparation reads still describe the original snapshot.
   await assertInputs(target, inputs);
-  return { request, request_digest: requestDigest, plan_digest: planDigest, inputs, writes, result, affected_paths: item.affected_paths };
+  return { request, request_digest: requestDigest, plan_digest: planDigest, inputs, writes, result, affected_paths: item.affected_paths,
+    ...(mechanical ? { mechanical_original: (await fileBytes(target, `.ai-org/work-items/${item.id}.json`)).toString("utf8") } : {}) };
 }
 
 function validateJournal(journal, target, request) {
   if (journal.schema_version !== JOURNAL_SCHEMA || journal.target !== target || journal.request_digest !== sha256(formatJson(request)) || journal.operation_key !== `${request.work_item_id}/${request.operation_id}`) {
     throw new Error("Lean delivery pending request conflicts with this operation");
   }
-  const accepting = request.position === "quality_evaluator";
+  const accepting = request.position === "quality_evaluator" || Boolean(request.mechanical_contract);
   const allowed = [...(accepting ? [] : [journal.result?.handoff]), `.ai-org/work-items/${request.work_item_id}.json`, EVENTS, `.ai-org/artifacts/${request.work_item_id}/${request.position ? "finish" : "delivery"}-${request.operation_id}.json`];
   if ((!accepting && !new RegExp(`^\\.ai-org/artifacts/${request.work_item_id}/handoff-[0-9]+-developer-to-quality_evaluator\\.md$`).test(allowed[0] ?? "")) || !Array.isArray(journal.writes) || journal.writes.length !== allowed.length) throw new Error("Invalid Lean delivery journal outputs");
   for (let index = 0; index < allowed.length; index++) {
@@ -256,6 +268,10 @@ function validateJournal(journal, target, request) {
     if (entry.path !== allowed[index] || typeof entry.content !== "string" || sha256(entry.content) !== entry.after_sha256) throw new Error("Invalid Lean delivery journal digest or path");
   }
   if (!Array.isArray(journal.inputs) || !Array.isArray(journal.affected_paths)) throw new Error("Invalid Lean delivery journal inputs");
+  if (request.mechanical_contract && (typeof journal.mechanical_original !== "string" ||
+    sha256(journal.mechanical_original) !== journal.inputs.find(input => input.path === `.ai-org/work-items/${request.work_item_id}.json`)?.sha256)) {
+    throw new Error("Mechanical recovery original Work Item is not bound to the input snapshot");
+  }
 }
 
 export async function validateLeanCompletionReceipt(target, journal) {
@@ -282,6 +298,10 @@ export async function validateLeanCompletionSnapshot(target, journal, { applied 
   await currentEvidencePaths(target, resultingItem, journal.request);
   assertCandidate(target, journal.request, journal.affected_paths);
   await assertInputs(target, journal.inputs, journal.writes);
+  // Requalify filesystem modes, links and whole-worktree scope after interruption.
+  // The original item is byte-bound above; current canonical state must separately
+  // match the before/after journal snapshot, never an invented active claim.
+  if (journal.request.mechanical_contract) await verifyMechanicalCompletion(target, JSON.parse(journal.mechanical_original), journal.request);
   if (applied) for (const write of journal.writes) {
     if (hashBytes(await fileBytes(target, write.path, true)) !== write.after_sha256) throw new Error(`Lean finish resulting state changed: ${write.path}`);
   }

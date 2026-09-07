@@ -132,6 +132,9 @@ Temple 會保留尚未解決的驗證缺口，不會把一次本機測試通過�
 
 ## 接下來可以閱讀
 
+對於已事先批准、且不作為規格或指令使用的筆記文字修正，原始碼候選版本提供可選的
+[機械驗證完成流程](docs/operations/mechanical-completion.md)。它不取代一般程式審查或獨立 QA。
+
 - [使用指南（英文）](docs/getting-started/usage.md) — 導入、運作、升級與疑難排解。
 - [Temple 術語表（英文）](docs/concepts/terminology.md) — Position、Agent Identity、Work Item、Evidence 與運作模式。
 - [系統架構（英文）](docs/concepts/architecture.md) — 版本庫界線與正式狀態。
