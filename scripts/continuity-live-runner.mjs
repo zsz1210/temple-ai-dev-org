@@ -8,11 +8,12 @@ import Ajv from 'ajv';
 import { createJsonRpcProcess } from '../src/codex-app-server-provider.mjs';
 import { digest, subprocessEnvironment, files } from './delivery-control-pair.mjs';
 import { readInstalledContinuitySchemas } from './continuity-codex-adapter.mjs';
-import {deliveryProtocol,deliveryRequests,deliveryCompletion,assessDeliveryCompletion} from './continuity-delivery-contract.mjs';
-import {createCommandObservations,requestByteObservation} from './continuity-observations.mjs';
+import {deliveryProtocol,deliveryContinuation,deliveryRequests,deliveryCompletion,assessDeliveryCompletion} from './continuity-delivery-contract.mjs';
+import {assessmentDecision} from './evaluation-sequence.mjs';
+import {createCommandObservations,requestByteObservation,qualifyNativeObservations} from './continuity-observations.mjs';
 import { namedPermissionArguments } from './continuity-named-permissions.mjs';
 import { normalizeTokenUsage } from '../src/app-server-protocol-replay.mjs';
-import { createContinuityPair, assessContinuityCandidate,referenceQuote } from './continuity-fixture.mjs';
+import { createContinuityPair, assessContinuityCandidate,referenceQuote,recordContinuityControl } from './continuity-fixture.mjs';
 
 const exec = promisify(execFile);
 const check = (ok, code) => { if (!ok) throw Error(code); };
@@ -405,7 +406,12 @@ export async function qualifyIsolatedOracle(prepared) {
       observations.push({arm,current_requirement:threshold===5000,passed:observed.passed,reason:observed.reason});
     }
   }
-  const result={status:'passed',model_generation_performed:false,observations};
+  const recordCheckpoint=await createContinuityPair(path.join(prepared.lab,'record-control'),'changed-spec');
+  const recorded=await recordContinuityControl(recordCheckpoint);
+  const recordOracle=await assessContinuityCandidate(recordCheckpoint.arms.temple.root,recordCheckpoint,'temple',recorded.revision,
+    {allowRecordDescendant:true,scratchParent:prepared.lab,candidateExecutor:(cwd,binary,args,opts)=>isolatedOracleExecutor(prepared.runtime,cwd,binary,args,opts)});
+  check(recordOracle.passed&&recordOracle.delivery_revision===recorded.delivery_revision&&recordOracle.revision!==recordOracle.delivery_revision,'record-control-failed');
+  const result={status:'passed',model_generation_performed:false,observations,recordOracle};
   await fs.writeFile(path.join(prepared.lab,'oracle-qualification.json'),JSON.stringify(result,null,2)+'\n',{flag:'wx',mode:0o600});
   return result;
 }
@@ -413,7 +419,10 @@ export async function prepareContinuityMatrix(prepared) {
   const qualification=await qualifyThread(prepared.subject,prepared.runtime);
   check(qualification.status==='thread-configured'&&qualification.runtime_controls==='passed'&&qualification.server_exit_confirmed&&!qualification.cleanup_failure,'qualification-not-passed');
   const oracleQualification=JSON.parse(await fs.readFile(path.join(prepared.lab,'oracle-qualification.json'),'utf8'));
-  check(oracleQualification.status==='passed'&&oracleQualification.observations.length===4,'oracle-qualification-missing');
+  check(oracleQualification.status==='passed'&&oracleQualification.observations.length===4&&oracleQualification.recordOracle?.passed===true&&
+    oracleQualification.recordOracle.revision!==oracleQualification.recordOracle.delivery_revision,'oracle-qualification-missing');
+  const observationQualification=qualifyNativeObservations();
+  check(observationQualification.status==='passed','observation-qualification-failed');
   const installed=await readInstalledContinuitySchemas({binary:prepared.runtime.binary});
   const pairs=[],subjects=[];
   for(const [index,state] of matrixConditions.entries()) {
@@ -424,7 +433,7 @@ export async function prepareContinuityMatrix(prepared) {
         runtime:{...prepared.runtime,root,environment:{...prepared.runtime.environment,TMPDIR:path.join(root,'.git','runtime-tmp')}}});
     }
   }
-  const protocol={version:deliveryProtocol,native_tool_route:'canary-required',envelope,subjects,pairs,qualification,oracleQualification,
+  const protocol={version:deliveryProtocol,native_tool_route:'canary-required',envelope,continuation:deliveryContinuation,subjects,pairs,qualification,oracleQualification,observationQualification,
     schemas:installed.experimental,cli_version:installed.cli_version,bundle_root:prepared.runtime.readRoots[2],
     bundle_sha256:prepared.bundle_sha256,instrument_sha256:await instrumentHash(),
     interpretation:'Diagnostic pairs only; no resource-quality exchange rate or automatic default change.'};
@@ -437,6 +446,7 @@ export async function runApprovedContinuity(lab,approvedDigest,{onProgress=()=>{
   check(!signal?.aborted,'operator-cancelled');
   const protocol=JSON.parse(await fs.readFile(path.join(lab,'protocol.json'),'utf8'));
   check(protocol.version===deliveryProtocol&&protocol.native_tool_route==='canary-required'&&digest(protocol)===approvedDigest&&digest(protocol.envelope)===digest(envelope),'frozen-protocol-mismatch');
+  check(digest(protocol.continuation)===digest(deliveryContinuation),'continuation-policy-mismatch');
   assertContinuityMatrix(protocol);
   check(await instrumentHash()===protocol.instrument_sha256,'instrument-drift');
   check(digest(await files(protocol.bundle_root))===protocol.bundle_sha256,'runtime-bundle-drift');
@@ -469,7 +479,7 @@ export async function runApprovedContinuity(lab,approvedDigest,{onProgress=()=>{
       check(stage.status==='completed',stage.first_stop??'actor-stopped');
       try {
         observation.oracle=await assessContinuityCandidate(s.root,checkpoint,s.arm,stage.completion.candidate_revision,
-          {candidateExecutor:(cwd,binary,args,opts)=>isolatedOracleExecutor(s.runtime,cwd,binary,args,opts)});
+          {allowRecordDescendant:true,candidateExecutor:(cwd,binary,args,opts)=>isolatedOracleExecutor(s.runtime,cwd,binary,args,opts)});
       } catch(e) {observation.oracle={passed:false,reason:e.instrumentFailure?'oracle-instrument-failure':/^[a-z-]{1,80}$/.test(e.message)?e.message:'oracle-operation-failed'};}
       observation.completion_assessment=assessDeliveryCompletion(stage.completion,{oraclePassed:observation.oracle.passed,arm:s.arm});
       observation.accepted=observation.completion_assessment.accepted;
@@ -478,19 +488,29 @@ export async function runApprovedContinuity(lab,approvedDigest,{onProgress=()=>{
         observation.administration_complete=work.state==='test'&&work.claim?.status==='released'&&
           work.developer_candidate_revision===stage.completion.candidate_revision&&work.handoffs?.some(h=>h.actor===s.agentId&&h.from_position==='developer'&&h.to_position==='quality_evaluator'&&h.input_revision===stage.completion.candidate_revision);
       } else observation.administration_complete=null;
+      observation.accepted=observation.accepted&&(s.arm!=='temple'||observation.administration_complete===true);
+      observation.sequence_decision=continuityAssessmentDecision(observation,protocol.continuation);
       await persist();
-      if(['oracle-operation-failed','oracle-instrument-failure'].includes(observation.oracle.reason))throw Error('oracle-instrument-failure');
-      // A fabricated, absent or baseline candidate cannot qualify dispatch.
-      // Do not conflate this conservative validity stop with a correctness score.
-      if(['candidate-not-current','exact-new-candidate-required'].includes(observation.oracle.reason))throw Error('candidate-production-unverified');
+      if(observation.sequence_decision.stop)throw Error(observation.sequence_decision.stop);
       check(!signal?.aborted,'operator-cancelled');
     }
-    result.status='completed';
+    result.status=result.subjects.every(s=>s.accepted)?'completed':'completed-with-failures';
   } catch(e) {result.status='stopped';result.first_stop??=/^[a-z-]{1,80}$/.test(e.message)?e.message:'instrument-operation-failed';}
   result.elapsed_ms=Date.now()-start;await persist();
   const seal={protocol_sha256:approvedDigest,run_sha256:digest(result),sealed_at:new Date().toISOString()};
   await fs.writeFile(path.join(lab,'seal.json'),JSON.stringify(seal,null,2)+'\n',{flag:'wx',mode:0o600});
   return result;
+}
+
+// Called only after an isolated oracle attempt. Runtime/source guards remain
+// separate and cannot be overridden by a product or administration score.
+export function continuityAssessmentDecision(observation,continuation) {
+  const runtime=observation?.status==='completed'&&observation.usage_status==='observed-completed-turn'&&
+    observation.server_exit_confirmed===true&&observation.terminals_empty===true;
+  const accounted=Number.isSafeInteger(observation?.usage?.operational_tokens)&&observation.usage.operational_tokens>=0;
+  const valid=runtime&&accounted&&['accepted','product-mismatch','regression-failed','oracle-process-failed'].includes(observation.oracle?.reason);
+  return assessmentDecision({outcome:observation?.accepted===true?'passed':'product-failure',
+    validity_confirmed:valid,isolation_confirmed:valid,cleanup_confirmed:runtime},continuation);
 }
 
 async function fixtureHashes(root,revision) {

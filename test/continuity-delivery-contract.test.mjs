@@ -29,7 +29,7 @@ test('future completion separates blockers, owner and unperformed work without c
   const legacy={candidate_revision:good.candidate_revision,test_command:good.test_command,test_exit_code:0,completed:good.completed,unresolved:['No product issues; Test is next.']};
   assert.equal(new Ajv().compile(continuityCompletion)(legacy),true);
   assert.equal(validate(legacy),false);assert.equal(legacy.unresolved.length,1);
-  assert.equal(deliveryProtocol,'continuity-approved/v3');
+  assert.equal(deliveryProtocol,'continuity-approved/v4');
 });
 
 test('both arms keep the same product task and reporting contract; only Temple administration differs',()=>{
@@ -40,6 +40,7 @@ test('both arms keep the same product task and reporting contract; only Temple a
   assert.match(a.governance_instructions,/work-item finish once/);
   assert.match(a.governance_instructions,/native instructions and bootstrap/);
   assert.match(a.governance_instructions,/context enter is optional/);
+  assert.match(a.governance_instructions,/still report that tested product SHA/);
   assert.doesNotMatch(b.governance_instructions,/work-item finish/);
   assert.equal(a.thread.allowProviderModelFallback,false);assert.equal(a.live_ready,false);
   const bytes=requestByteObservation(a);
@@ -60,6 +61,28 @@ test('observations distinguish coarse commands and conservatively retain unknown
   assert.deepEqual(observedBytes(undefined),{bytes:null,status:'unavailable'});
   assert.equal(observedBytes('中文').bytes,6);
   assert.equal(observedBytes('x'.repeat(2*1024*1024+1)).status,'capped-lower-bound');
+});
+
+test('native literal shell wrappers qualify all intended categories without executing commands',()=>{
+  const corpus=[['cat SPEC.md','reading'],["sed -n '1,20p' SPEC.md",'reading'],
+    ['node ./templew.mjs context resolve . --compact','context_navigation'],
+    ['node --test test/*.test.mjs','testing'],['git status --short','git'],
+    ['node ./templew.mjs work-item finish .','administration'],['node ./templew.mjs doctor . --compact','diagnostics']];
+  const state=createCommandObservations();let index=0;
+  for(const [body,expected] of corpus)for(const shell of ['/bin/zsh','/bin/bash','/bin/sh'])for(const flag of ['-c','-lc']) {
+    // Standard shell single-quote escaping, including a quoted sed argument.
+    const command=`${shell} ${flag} '${body.replaceAll("'", "'\\''")}'`;
+    assert.equal(classifyObservedCommand(command),expected,command);
+    state.accept({type:'commandExecution',id:String(index++),command,aggregatedOutput:'synthetic'});
+  }
+  assert.equal(state.state.completed_items,42);assert.equal(state.state.categories.unknown,0);
+  for(const command of ['sed -i s/old/new/ quote.mjs',"sed 'e touch marker' SPEC.md",'rg --pre=script value SPEC.md',
+    `/bin/zsh -c 'cat SPEC.md; git status'`,`/bin/zsh -lc 'cat $(secret)'`,
+    `/bin/sh -c '/bin/sh -c "cat SPEC.md"'`,`/bin/sh -c 'cat SPEC.md' trailing`,
+    '/bin/zsh -c "cat $SECRET"',"/bin/zsh -c 'cat SPEC.md",'/bin/zsh -c "cat SPEC.md\nls"'])
+    assert.equal(classifyObservedCommand(command),'unknown',command);
+  assert.equal(classifyObservedCommand('/bin/zsh -c "cat SPEC.md"'),'reading');
+  assert.doesNotMatch(JSON.stringify(state.state),/SPEC|synthetic|zsh|secret/);
 });
 
 test('bounded output counters deduplicate events and never store raw data or missing-as-zero coverage',()=>{

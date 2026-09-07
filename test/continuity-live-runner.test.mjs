@@ -7,7 +7,7 @@ import {spawnSync} from 'node:child_process';
 import {createContinuityPair,assessContinuityCandidate,referenceQuote} from '../scripts/continuity-fixture.mjs';
 import {subprocessEnvironment} from '../scripts/delivery-control-pair.mjs';
 import { envelope,matrixConditions,assertContinuityMatrix,disabledFeatures,liveArguments,assertLiveConfiguration,liveRequests,
-  assertThreadBoundary,createSubjectLedger,runContinuitySubject,isolatedOracleExecutor,runApprovedContinuity } from '../scripts/continuity-live-runner.mjs';
+  assertThreadBoundary,createSubjectLedger,runContinuitySubject,isolatedOracleExecutor,runApprovedContinuity,continuityAssessmentDecision } from '../scripts/continuity-live-runner.mjs';
 const subject={root:'/fixture/actor',arm:'temple',itemId:'WI-0001',agentId:'agent-builder'};
 const runtime={root:subject.root,binary:'/provider/codex',readRoots:['/runtime/node','/runtime/git','/runtime/temple'],
   environment:{PATH:'/runtime/node:/runtime/git:/usr/bin:/bin',OPENSSL_CONF:'/dev/null'},
@@ -92,13 +92,29 @@ test('direct native dispatch is closed and cancelled batches cannot consume appr
   await assert.rejects(()=>runApprovedContinuity('/does-not-exist','not-an-approval',{signal:c.signal}),/operator-cancelled/);
   await assert.rejects(()=>runContinuitySubject(subject,runtime,{remainingTokens:1000,deadline:Date.now()+10000,schemas:{}}),/native-tool-route-unqualified/);
 });
-test('retired v1 and v2 protocols cannot consume approval under the new delivery contract',async t=>{
+test('retired protocols cannot consume approval under the new delivery contract',async t=>{
   const lab=await fs.mkdtemp(path.join(os.tmpdir(),'continuity-retired-test-'));t.after(()=>fs.rm(lab,{recursive:true,force:true}));
-  for(const version of ['continuity-approved/v1','continuity-approved/v2']) {
+  for(const version of ['continuity-approved/v1','continuity-approved/v2','continuity-approved/v3']) {
     await fs.writeFile(path.join(lab,'protocol.json'),JSON.stringify({version}));
     await assert.rejects(()=>runApprovedContinuity(lab,'retired'),/frozen-protocol-mismatch/);
   }
   assert.deepEqual(await fs.readdir(lab),['protocol.json']);
+});
+
+test('live continuation uses shared typed decisions and never overrides runtime validity',()=>{
+  const good={status:'completed',usage_status:'observed-completed-turn',server_exit_confirmed:true,terminals_empty:true,
+    usage:{operational_tokens:10},oracle:{reason:'accepted'},accepted:true};
+  const policy={product_failure:true,local_invalid:false};
+  assert.deepEqual(continuityAssessmentDecision(good,policy),{outcome:'passed',stop:null});
+  for(const reason of ['product-mismatch','regression-failed','oracle-process-failed','accepted']) {
+    const failed={...good,accepted:false,oracle:{reason}};
+    assert.deepEqual(continuityAssessmentDecision(failed,policy),{outcome:'product-failure',stop:null});
+    assert.equal(continuityAssessmentDecision(failed,{product_failure:false}).stop,'continuation-not-authorized');
+  }
+  for(const patch of [{status:'stopped'},{usage_status:'unknown'},{server_exit_confirmed:false},{terminals_empty:false},
+    {usage:null},{usage:{operational_tokens:NaN}},...['oracle-input-mutated','candidate-not-current','delivery-source-drift',
+      'delivery-record-invalid','oracle-instrument-failure'].map(reason=>({oracle:{reason}}))])
+    assert.equal(continuityAssessmentDecision({...good,...patch},policy).stop,'shared-validity-unconfirmed');
 });
 test('cancellation interrupts an observed turn even when turn/start response never arrives',async()=>{
   const c=new AbortController(),f=factory({cancel:()=>c.abort(),deferredStart:true});

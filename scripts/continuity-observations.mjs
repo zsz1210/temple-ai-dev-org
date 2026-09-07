@@ -9,12 +9,21 @@ export function observedBytes(value) {
 }
 export function classifyObservedCommand(command) {
   if(typeof command!=='string'||command.length>16384)return 'unknown';
-  // A deliberately narrow lexical classifier. Shell scripts, substitutions,
-  // quoted payloads, pipelines and multiple commands have unknown attribution.
-  if(/[;&|<>`$\n\r'"(){}]/.test(command))return 'unknown';
-  const words=command.trim().split(/\s+/);
+  let words=literalWords(command);
+  if(!words)return 'unknown';
+  if(['/bin/zsh','/bin/bash','/bin/sh','zsh','bash','sh'].includes(words[0])) {
+    if(words.length!==3||!['-c','-lc'].includes(words[1]))return 'unknown';
+    words=literalWords(words[2]);
+    if(!words)return 'unknown';
+  }
   const executable=words[0]?.split('/').at(-1);
-  if(['cat','sed','head','tail','rg','ls','wc'].includes(executable))return 'reading';
+  // sed scripts can write or execute even without -i. Only plain address + p
+  // selection is attributed as reading; all other sed forms remain unknown.
+  if(executable==='sed')return words[1]==='-n'&&/^\d+(,\d+)?p$/.test(words[2]??'')&&
+    words.length>=4&&words.slice(3).every(w=>!w.startsWith('-'))?'reading':'unknown';
+  if(executable==='cat'&&words.length===1)return 'unknown';
+  if(executable==='rg'&&words.some(w=>w==='--pre'||w.startsWith('--pre=')))return 'unknown';
+  if(['cat','head','tail','rg','ls','wc'].includes(executable))return 'reading';
   if(executable==='git')return 'git';
   if(executable==='apply_patch')return 'editing';
   if(executable==='node'&&words[1]==='--test')return 'testing';
@@ -27,10 +36,35 @@ export function classifyObservedCommand(command) {
   return 'unknown';
 }
 
+// Observation-only literal recognition. Never execute or grant permission from
+// these tokens. Decode at most one native wrapper; scripts/expansion stay unknown.
+function literalWords(text) {
+  if(!text||/[\x00-\x08\x0a-\x1f\x7f]/.test(text))return null;
+  const words=[];let word='',quote=null,present=false;
+  for(let i=0;i<text.length;i++) {
+    const ch=text[i];
+    if(quote==="'"){if(ch==="'")quote=null;else word+=ch;continue;}
+    if(quote==='"') {
+      if(ch==='"'){quote=null;continue;}
+      if(ch==='$'||ch==='`')return null;
+      if(ch==='\\'&&'$`"\\'.includes(text[i+1]??'')&&i+1<text.length)word+=text[++i];else word+=ch;
+      continue;
+    }
+    if(ch===' '||ch==='\t'){if(present){words.push(word);word='';present=false;}continue;}
+    if(ch==="'"||ch==='"'){quote=ch;present=true;continue;}
+    if(ch==='\\'){if(i+1===text.length)return null;word+=text[++i];present=true;continue;}
+    if(';&|<>`$(){}~'.includes(ch)||(ch==='#'&&!present))return null;
+    word+=ch;present=true;
+  }
+  if(quote)return null;
+  if(present)words.push(word);
+  return words.length&&words.length<=256&&!/^[\w]+=.*/.test(words[0])?words:null;
+}
+
 export function createCommandObservations({limit=10000}={}) {
   if(!Number.isSafeInteger(limit)||limit<1||limit>10000)throw Error('invalid-observation-limit');
   const seen=new Set();
-  const state={schema_version:'continuity-command-observations/v1',completed_items:0,
+  const state={schema_version:'continuity-command-observations/v2',completed_items:0,
     categories:Object.fromEntries(observationCategories.map(k=>[k,0])),observed_output_bytes:0,
     output_bytes_by_category:Object.fromEntries(observationCategories.map(k=>[k,0])),
     output_unavailable:0,output_capped:0,duplicate_events:0,unidentified_events:0,limit_reached:false};
@@ -57,4 +91,16 @@ export function requestByteObservation(request) {
     authored_developer_text:observedBytes(request.thread?.developerInstructions),
     output_schema:observedBytes(JSON.stringify(request.turn?.outputSchema)),
     native_context_bytes:null,total_model_context_bytes:null};
+}
+
+export function qualifyNativeObservations() {
+  const corpus=[['cat SPEC.md','reading'],["sed -n '1,20p' SPEC.md",'reading'],
+    ['node ./templew.mjs context resolve . --compact','context_navigation'],['git status --short','git'],
+    ['node --test test/*.test.mjs','testing'],['node ./templew.mjs work-item finish .','administration'],
+    ['node ./templew.mjs doctor . --compact','diagnostics'],['cat SPEC.md; git status','unknown'],
+    ['sed -i s/old/new/ quote.mjs','unknown']];
+  const matched=corpus.filter(([body,category])=>classifyObservedCommand(`/bin/zsh -c '${body.replaceAll("'","'\\''")}'`)===category).length;
+  return {schema_version:'continuity-observation-qualification/v1',status:matched===corpus.length?'passed':'failed',
+    matched_cases:matched,total_cases:corpus.length,raw_data_retained:false,model_generation_performed:false,
+    runtime_coverage:'not-measured',per_command_tokens:'not-observed'};
 }

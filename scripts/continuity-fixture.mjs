@@ -6,6 +6,7 @@ import os from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { isDeepStrictEqual } from 'node:util';
 import { digest, subprocessEnvironment } from './delivery-control-pair.mjs';
+import { formatJson, sha256 } from '../src/files.mjs';
 
 const source = path.resolve(import.meta.dirname, '..');
 const check = (condition, reason) => { if (!condition) throw Error(reason); };
@@ -124,6 +125,51 @@ export async function createContinuityPair(directory, state) {
     product, arms, source_revision: git(source, 'rev-parse', 'HEAD'), fact_digest: digest(product), live_ready: false, model_calls: 0 };
 }
 
+// Read-only audit of our synthetic fixture. Never output bodies or private roots.
+export async function auditContinuityInputs(root,itemId,agentId) {
+  const project=JSON.parse(await fs.readFile(path.join(root,'.ai-org/project/project.json')));
+  check(project.id==='continuity-fixture'&&/^WI-[0-9]+$/.test(itemId),'synthetic-audit-only');
+  const args=['--work-item',itemId,'--position','developer','--no-write'];
+  const entry=cli(root,'context','enter',...args,'--agent-id',agentId,'--principal-id','human');
+  check(entry.status==='eligible'&&entry.packet?.acquisition==='complete','audit-context-unavailable');
+  const navigation=cli(root,'context','resolve',...args,'--compact');
+  const sources=entry.packet.sources.map(s=>({path:s.path,representation:s.representation,
+    body_bytes:Buffer.byteLength(s.body??''),source_sha256:s.source_sha256}));
+  const operating=new Set(['AGENTS.md','TEMPLE.md','.agents/skills/temple-work/SKILL.md',
+    '.agents/skills/temple-work/references/lean-execution.md']);
+  const bytes=value=>Buffer.byteLength(JSON.stringify(value,null,2)+'\n');
+  return {schema_version:'continuity-input-audit/v1',model_generation_performed:false,mutation_performed:false,
+    sources,selected_body_bytes:sources.reduce((n,s)=>n+s.body_bytes,0),
+    operating_instruction_bytes:sources.filter(s=>operating.has(s.path)).reduce((n,s)=>n+s.body_bytes,0),
+    product_fact_bytes:sources.filter(s=>['SPEC.md','HANDOFF.md'].includes(s.path)).reduce((n,s)=>n+s.body_bytes,0),
+    optional_entry_json_bytes:bytes(entry),compact_navigation_json_bytes:bytes(navigation),
+    navigation_includes_source_bodies:false,source_set_is_selected_not_universal:true,
+    provider_tokens:null,actual_read_sequence:null,live_treatment_effect:null};
+}
+
+// Shared happy-path qualification for tests and generation-free live preflight.
+// The caller supplies a freshly created, exclusively owned synthetic Temple arm.
+export async function recordContinuityControl(checkpoint) {
+  const root=checkpoint.arms.temple.root,itemId=checkpoint.arms.temple.item_id;
+  const item=JSON.parse(await fs.readFile(path.join(root,`.ai-org/work-items/${itemId}.json`)));
+  check(item.state==='build'&&item.claim===null&&git(root,'rev-parse','HEAD')===checkpoint.arms.temple.baseline,'control-not-fresh');
+  cli(root,'work-item','claim','--work-item',itemId,'--agent-id',item.assigned_agent_id,'--principal-id','human',
+    '--base-revision',checkpoint.arms.temple.baseline,'--branch','main');
+  await fs.writeFile(path.join(root,'quote.mjs'),referenceQuote(checkpoint.threshold));
+  const tests=run(root,process.execPath,['--test','test/public.test.mjs','test/discount.test.mjs']);
+  check(tests.exit_code===0,'control-test-failed');
+  git(root,'add','quote.mjs');git(root,'commit','-m','Tested synthetic product');const revision=git(root,'rev-parse','HEAD');
+  const claim=JSON.parse(await fs.readFile(path.join(root,`.ai-org/work-items/${itemId}.json`))).claim;
+  const evidence=`.ai-org/artifacts/${itemId}/test-evidence.json`;
+  await write(root,evidence,{candidate_revision:revision,test_exit_code:tests.exit_code});
+  const result=cli(root,'work-item','finish','--work-item',itemId,'--position','developer','--operation-id','qualification',
+    '--claim-id',claim.id,'--agent-id',item.assigned_agent_id,'--principal-id','human','--revision',revision,
+    '--completed','Implemented and tested current synthetic threshold.','--evidence',evidence);
+  check(result.success===true,'control-finish-failed');
+  git(root,'add','.ai-org');git(root,'commit','-m','Record synthetic delivery');
+  return {revision,delivery_revision:git(root,'rev-parse','HEAD'),evidence,model_generation_performed:false};
+}
+
 function vectors(threshold) {
   const cases = [[0,0], [1,0], [100,100], [threshold-1,0], [threshold,0], [threshold+1,0], [threshold,1], [threshold+200,200], [1000000000,0], [1000000000,1000000000], [3000,0], [5000,1]];
   for (let i = 1; i <= 24; i++) cases.push([threshold + i * 17, i * 29]);
@@ -138,16 +184,67 @@ function expected(args, threshold) {
 function bookkeeping(file, item) {
   return item && (file === `.ai-org/work-items/${item}.json` || file === '.ai-org/events/events.jsonl' || file.startsWith('.ai-org/views/') || file.startsWith(`.ai-org/artifacts/${item}/`));
 }
-export async function assessContinuityCandidate(root, checkpoint, arm, revision, { scratchParent = os.tmpdir(), candidateExecutor = run } = {}) {
+// Bounded experiment record contract, not a new framework evidence schema.
+// Validate recorded administration independently of product correctness.
+function deliveryRecords(root, base, revision, finalRevision, finalTree) {
+  const itemPath=`.ai-org/work-items/${base.item_id}.json`, prefix=`.ai-org/artifacts/${base.item_id}/`;
+  const read=file=>git(root,'show',`${finalRevision}:${file}`);
+  const artifact=file=>typeof file==='string'&&file.startsWith(prefix)&&
+    /^[A-Za-z0-9][A-Za-z0-9_.-]*\.(md|json)$/.test(file.slice(prefix.length))&&Boolean(finalTree[file]);
+  try {
+    const item=JSON.parse(read(itemPath)),before=JSON.parse(git(root,'show',`${base.baseline}:${itemPath}`));
+    const mutable=new Set(['state','owner_position','assigned_agent_id','updated_at','base_revision','claim','claims','handoffs',
+      'developer_candidate_revision','gate_evidence','evidence','next_position','unresolved']);
+    for(const key of new Set([...Object.keys(before),...Object.keys(item)]))
+      if(!mutable.has(key))check(isDeepStrictEqual(before[key],item[key]),'delivery-record-invalid');
+    check(item.state==='test'&&item.owner_position==='quality_evaluator'&&item.developer_candidate_revision===revision&&
+      item.claim?.status==='released'&&item.claim.agent_id===before.assigned_agent_id&&
+      item.claim.principal_id==='human'&&item.claim.base_revision===base.baseline&&
+      item.base_revision===base.baseline&&item.handoffs?.length===1,'delivery-record-invalid');
+    for(const [key,value] of Object.entries(before.gate_evidence))check(isDeepStrictEqual(value,item.gate_evidence[key]),'delivery-record-invalid');
+    const handoff=item.handoffs[0],evidence=item.gate_evidence.developer_evidence;
+    check(handoff.from_position==='developer'&&handoff.to_position==='quality_evaluator'&&
+      handoff.input_revision===revision&&handoff.actor===item.claim.agent_id&&artifact(handoff.artifact)&&
+      read(handoff.artifact).includes(revision)&&Array.isArray(evidence)&&evidence.length>0&&
+      evidence.every(file=>artifact(file)&&read(file).includes(revision)),'delivery-record-invalid');
+    const receipts=Object.keys(finalTree).filter(file=>file.startsWith(prefix+'finish-')&&file.endsWith('.json'));
+    check(receipts.length===1,'delivery-record-invalid');
+    const receipt=JSON.parse(read(receipts[0])),q=receipt.request,r=receipt.result;
+    check(receipt.schema_version==='temple.lean-finish-receipt/v1'&&receipt.request_digest===sha256(formatJson(q))&&
+      q.work_item_id===base.item_id&&q.candidate_revision===revision&&q.position==='developer'&&
+      q.agent_id===handoff.actor&&q.claim_id===item.claim.id&&q.principal_id===item.claim.principal_id&&
+      isDeepStrictEqual(q.evidence,evidence)&&r.candidate_revision===revision&&r.work_item_id===base.item_id&&
+      r.handoff===handoff.artifact&&r.receipt===receipts[0]&&r.resulting_state==='test','delivery-record-invalid');
+    const eventPath='.ai-org/events/events.jsonl',oldEvents=git(root,'show',`${base.baseline}:${eventPath}`);
+    const events=read(eventPath);
+    check(events.startsWith(oldEvents+'\n')&&events.slice(oldEvents.length).trim().split('\n')
+      .every(line=>JSON.parse(line).work_item_id===base.item_id),'delivery-record-invalid');
+    return new Set([itemPath,'.ai-org/events/events.jsonl','.ai-org/views/status.md',
+      '.ai-org/views/capabilities.json',handoff.artifact,...evidence,...receipts]);
+  } catch {throw Error('delivery-record-invalid');}
+}
+
+export async function assessContinuityCandidate(root, checkpoint, arm, revision, { scratchParent = os.tmpdir(), candidateExecutor = run, allowRecordDescendant = false } = {}) {
   checkpoint = structuredClone(checkpoint);
   check(checkpoint?.version === 'continuity-offline/v1' && ['ordinary','temple'].includes(arm) && ['stable','changed-spec'].includes(checkpoint.state) &&
     checkpoint.threshold === (checkpoint.state === 'stable' ? 3000 : 5000) && checkpoint.spec_revision === (checkpoint.state === 'stable' ? 'v1' : 'v2') &&
     checkpoint.fact_digest === digest(checkpoint.product), 'invalid-coordinator-checkpoint');
   const base = checkpoint.arms[arm];
   check(/^[a-f0-9]{40}$/.test(revision ?? '') && revision !== base.baseline, 'exact-new-candidate-required');
-  check(git(root, 'rev-parse', 'HEAD') === revision, 'candidate-not-current');
+  const finalRevision=git(root,'rev-parse','HEAD');
+  check(finalRevision===revision || allowRecordDescendant&&arm==='temple','candidate-not-current');
   git(root, 'merge-base', '--is-ancestor', base.baseline, revision);
   const tree = await snapshot(root, revision), editable = new Set(['quote.mjs','test/additional.test.mjs']);
+  let deliveryTree=null;
+  if(allowRecordDescendant&&arm==='temple') {
+    git(root,'merge-base','--is-ancestor',revision,finalRevision);
+    deliveryTree=await snapshot(root,finalRevision);
+    const records=deliveryRecords(root,base,revision,finalRevision,deliveryTree);
+    for(const file of new Set([...Object.keys(tree),...Object.keys(deliveryTree)])) {
+      if(!records.has(file))check(isDeepStrictEqual(tree[file],deliveryTree[file]),'delivery-source-drift');
+      if(bookkeeping(file,base.item_id)&&!records.has(file))check(isDeepStrictEqual(base.tree[file],deliveryTree[file]),'delivery-record-scope-drift');
+    }
+  }
   for (const file of new Set([...Object.keys(base.tree), ...Object.keys(tree)])) {
     if (!editable.has(file) && !bookkeeping(file, base.item_id)) check(isDeepStrictEqual(tree[file], base.tree[file]), 'protected-source-changed');
   }
@@ -156,14 +253,14 @@ export async function assessContinuityCandidate(root, checkpoint, arm, revision,
   const disk = {};
   async function walk(relative = '') {
     for (const entry of await fs.readdir(path.join(root, relative), { withFileTypes: true })) {
-      const file = path.posix.join(relative, entry.name); if (file === '.git' || bookkeeping(file, base.item_id)) continue;
+      const file = path.posix.join(relative, entry.name); if (file === '.git' || !deliveryTree&&bookkeeping(file, base.item_id)) continue;
       if (entry.isDirectory()) { await walk(file); continue; }
       const stat = await fs.lstat(path.join(root,file));
       check(stat.isFile() && stat.nlink === 1 && !(stat.mode & 0o111) && stat.size <= 1024*1024, 'unsafe-working-file');
       disk[file] = true;
-      check(tree[file], 'untracked-source');
+      check((deliveryTree??tree)[file], 'untracked-source');
       // Binary-safe object comparison, independent of trim/UTF-8 decoding.
-      const bytes = spawnSync('git', ['show', `${revision}:${file}`], { cwd:root, env:env(), timeout:15000, maxBuffer:1024*1024 });
+      const bytes = spawnSync('git', ['show', `${deliveryTree?finalRevision:revision}:${file}`], { cwd:root, env:env(), timeout:15000, maxBuffer:1024*1024 });
       check(bytes.status === 0 && (await fs.readFile(path.join(root,file))).equals(bytes.stdout), 'dirty-source');
     }
   }
@@ -208,7 +305,7 @@ console.log(JSON.stringify(inputs.map(args=>{try{
       const actual=await fs.readFile(path.join(scratch,file)).catch(()=>null);
       if(!actual?.equals(bytes)) reason='oracle-input-mutated';
     }
-    return { passed: reason === 'accepted', revision, state:checkpoint.state,
+    return { passed: reason === 'accepted', revision, ...(allowRecordDescendant?{delivery_revision:finalRevision}:{}), state:checkpoint.state,
       case_count:inputs.length, exit_code:result.exit_code, reason,
       product_scope_only:true, live_sandbox_qualified:false };
   } catch (error) {

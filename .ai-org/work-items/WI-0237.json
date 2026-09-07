@@ -1,0 +1,109 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0237",
+  "title": "Repair evaluation contracts and audit small-task overhead before further comparison",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-07T10:40:36.880Z",
+  "updated_at": "2026-09-07T10:55:39.231Z",
+  "scope": [
+    "Resolve product versus record revisions, native command observations and case-local outcomes; replay offline and audit required input obligations before any new comparison."
+  ],
+  "acceptance_criteria": [
+    "Retained historical results unchanged; native-format qualification and negative controls pass; full verification; measured input audit yields a documented go/no-go for a new experiment, without model or gate downgrades."
+  ],
+  "affected_paths": [
+    "scripts/continuity-fixture.mjs",
+    "scripts/continuity-live-runner.mjs",
+    "scripts/continuity-observations.mjs",
+    "scripts/continuity-delivery-contract.mjs",
+    "scripts/evaluation-sequence.mjs",
+    "test/continuity-fixture.test.mjs",
+    "test/continuity-live-runner.test.mjs",
+    "test/continuity-delivery-contract.test.mjs",
+    "test/evaluation-sequence.test.mjs",
+    ".ai-org/artifacts/WI-0237"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Repository-only instrument corrections and a bounded input audit; preserve independent assurance and prior frozen results.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-07T10:40:36.880Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "f61f755d",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0190 WI-0211 WI-0234 WI-0236: isolated successor branch; no old artifacts or active claims changed; scope and integration coordination in WI-0237/design.md"
+  ],
+  "claim": {
+    "id": "claim-20260907104139-90afc8b9",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "f61f755d",
+    "branch": "codex/evaluation-reliability-review",
+    "worktree": null,
+    "claimed_at": "2026-09-07T10:41:39.725Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260907104139-90afc8b9",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "f61f755d",
+      "branch": "codex/evaluation-reliability-review",
+      "worktree": null,
+      "claimed_at": "2026-09-07T10:41:39.725Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0237/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0237/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0237/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0237/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0237/design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0237/design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

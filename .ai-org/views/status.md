@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 236 total, 27 active
+- Work items: 237 total, 28 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 78 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -284,6 +284,7 @@
 | WI-0234 | Execute approved fresh takeover comparison | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `87466e5d` | 0 | 6 | 0 |
 | WI-0235 | Reduce bounded delivery overhead and clarify handoff observations | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `68be1542` | 0 | 8 | 0 |
 | WI-0236 | Review and integrate bounded delivery, then run a minimal comparison | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1f922e99` | 0 | 5 | 3 |
+| WI-0237 | Repair evaluation contracts and audit small-task overhead before further comparison | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260907104139-90afc8b9 | `—` | 0 | 1 | 0 |
 
 ## Codex task registry
 
@@ -419,7 +420,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 88
+- Team-visible Work Items: 89
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -492,14 +493,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-07T10:55:39.231Z | work_item_coordination_configured | WI-0237 | agent-rikku |
+| 2026-09-07T10:41:39.725Z | work_item_claimed | WI-0237 | human |
+| 2026-09-07T10:41:39.446Z | work_item_transitioned | WI-0237 | agent-tidus |
+| 2026-09-07T10:41:39.187Z | work_item_transitioned | WI-0237 | agent-yuna |
+| 2026-09-07T10:41:38.929Z | work_item_transitioned | WI-0237 | agent-mog |
+| 2026-09-07T10:41:38.644Z | work_item_coordination_configured | WI-0237 | agent-mog |
+| 2026-09-07T10:40:36.880Z | work_item_created | WI-0237 | agent-mog |
 | 2026-09-07T09:33:42.775Z | work_item_transitioned | WI-0236 | agent-rikku |
-| 2026-09-07T09:33:42.486Z | work_item_claim_released | WI-0236 | human |
-| 2026-09-07T09:33:42.189Z | handoff_created | WI-0236 | agent-rikku |
-| 2026-09-07T09:12:33.277Z | work_item_claimed | WI-0236 | human |
-| 2026-09-07T09:11:32.055Z | work_item_claim_released | WI-0236 | human |
-| 2026-09-07T09:09:32.186Z | work_item_claimed | WI-0236 | human |
-| 2026-09-07T09:09:31.887Z | work_item_closed | WI-0235 | agent-mog |
-| 2026-09-07T09:09:31.887Z | release_gate_completed | WI-0235 | agent-mog |
 
 ## Assignments
 

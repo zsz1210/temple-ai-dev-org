@@ -4,7 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { spawnSync } from 'node:child_process';
-import { createContinuityPair, assessContinuityCandidate, referenceQuote, discountSource } from '../scripts/continuity-fixture.mjs';
+import { createContinuityPair, assessContinuityCandidate, referenceQuote, discountSource, auditContinuityInputs,recordContinuityControl } from '../scripts/continuity-fixture.mjs';
 import { subprocessEnvironment } from '../scripts/delivery-control-pair.mjs';
 
 function git(root, ...args) {
@@ -23,6 +23,44 @@ async function candidate(parent, pair, arm, name, change) {
   git(root,'add','.'); git(root,'commit','--allow-empty','-m','Synthetic candidate');
   return { root, revision:git(root,'rev-parse','HEAD') };
 }
+
+test('real claim and finish record commit preserves exact product candidate, with negative controls',async t=>{
+  const parent=await temporary(t),pair=await createContinuityPair(path.join(parent,'pair'),'changed-spec');
+  const root=pair.arms.temple.root,itemId=pair.arms.temple.item_id;
+  const itemPath=`.ai-org/work-items/${itemId}.json`,original=JSON.parse(await fs.readFile(path.join(root,itemPath)));
+  const beforeAudit=git(root,'status','--porcelain');
+  const audit=await auditContinuityInputs(root,itemId,original.assigned_agent_id);
+  assert.equal(git(root,'status','--porcelain'),beforeAudit);assert.equal(audit.mutation_performed,false);
+  assert.equal(audit.provider_tokens,null);assert.equal(audit.actual_read_sequence,null);
+  assert.ok(audit.optional_entry_json_bytes>audit.compact_navigation_json_bytes);
+  assert.equal(audit.selected_body_bytes,audit.sources.reduce((n,s)=>n+s.body_bytes,0));
+  assert.doesNotMatch(JSON.stringify(audit),new RegExp(parent.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
+  t.diagnostic(JSON.stringify(audit));
+  const {revision,delivery_revision:delivery,evidence}=await recordContinuityControl(pair);
+  assert.notEqual(delivery,revision);
+  await assert.rejects(()=>assessContinuityCandidate(root,pair,'temple',revision),/candidate-not-current/);
+  const options={allowRecordDescendant:true};
+  const passed=await assessContinuityCandidate(root,pair,'temple',revision,options);
+  assert.equal(passed.passed,true);assert.equal(passed.case_count,46);assert.equal(passed.revision,revision);assert.equal(passed.delivery_revision,delivery);
+  for(const [name,change,expected] of [
+    ['product',r=>fs.appendFile(path.join(r,'quote.mjs'),'\n// changed after test\n'),/delivery-source-drift/],
+    ['test',r=>fs.appendFile(path.join(r,'test/public.test.mjs'),'\n// changed after test\n'),/delivery-source-drift/],
+    ['missing',r=>fs.unlink(path.join(r,evidence)),/delivery-record-invalid/],
+    ['stale',r=>fs.writeFile(path.join(r,evidence),JSON.stringify({candidate_revision:pair.arms.temple.baseline})),/delivery-record-invalid/],
+    ['extra',r=>fs.writeFile(path.join(r,`.ai-org/artifacts/${itemId}/arbitrary.mjs`),'export const x=1;'),/delivery-source-drift/],
+    ['scope',async r=>{const w=JSON.parse(await fs.readFile(path.join(r,itemPath)));w.scope=['changed authority'];await fs.writeFile(path.join(r,itemPath),JSON.stringify(w));},/delivery-record-invalid/],
+    ['events',r=>fs.appendFile(path.join(r,'.ai-org/events/events.jsonl'),'\n{"work_item_id":"WI-9999"}\n'),/delivery-record-invalid/]
+  ]) {
+    const copy=path.join(parent,name);await fs.cp(root,copy,{recursive:true});await change(copy);
+    git(copy,'add','.');git(copy,'commit','-m','Synthetic invalid record descendant');
+    await assert.rejects(()=>assessContinuityCandidate(copy,pair,'temple',revision,options),expected,name);
+  }
+  const dirty=path.join(parent,'dirty');await fs.cp(root,dirty,{recursive:true});await fs.appendFile(path.join(dirty,evidence),' ');
+  await assert.rejects(()=>assessContinuityCandidate(dirty,pair,'temple',revision,options),/dirty-source/);
+  const foreign=path.join(parent,'foreign');await fs.cp(root,foreign,{recursive:true});
+  git(foreign,'checkout','--orphan','unrelated');git(foreign,'commit','-m','Unrelated history');
+  await assert.rejects(()=>assessContinuityCandidate(foreign,pair,'temple',revision,options),/fixture-command-failed/);
+});
 for (const state of ['stable','changed-spec']) {
   test(`continuity ${state}: real history, equal facts, fresh physical checkouts and correct candidates`, async t => {
     const parent=await temporary(t), pair=await createContinuityPair(path.join(parent,'pair'),state);
