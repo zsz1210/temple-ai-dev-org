@@ -1,6 +1,6 @@
 # Conditional execution authorization
 
-The maintainer requested: "確認額度直接批准開始" after reviewing the WI-0223
+The maintainer requested checking available allowance and directly approved starting after reviewing the WI-0223
 proposal. This authorizes implementation/readiness and one new execution of that
 design after the checks pass, within its unchanged envelope. It is not approval
 to reuse an old consumed protocol or waive independent review. The coordinator
