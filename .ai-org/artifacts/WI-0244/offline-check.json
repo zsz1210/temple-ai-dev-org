@@ -1,0 +1,16 @@
+{
+  "schema_version": "wi0244-offline-observation-check/v1",
+  "synthetic_events": 10000,
+  "legacy_fields_identical": true,
+  "model_generation_performed": false,
+  "actor_request_changes": false,
+  "measurements": [
+    { "name": "previous", "elapsed_ms": 6.679083, "serialized_bytes": 510 },
+    { "name": "current", "elapsed_ms": 7.627958, "serialized_bytes": 927 }
+  ],
+  "added_serialized_bytes": 417,
+  "fixed_reason_keys": 6,
+  "old_unknown_events": 7500,
+  "new_unknown_events": 7500,
+  "limits": "Single ordered synthetic CPU sample, not a benchmark, live coverage improvement or Token savings. Previous module loaded from parent commit without modification."
+}

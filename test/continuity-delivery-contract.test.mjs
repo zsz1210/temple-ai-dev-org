@@ -5,7 +5,8 @@ import path from 'node:path';
 import Ajv from 'ajv';
 import {continuityRequests,continuityCompletion} from '../scripts/continuity-codex-adapter.mjs';
 import {deliveryRequests,deliveryCompletion,deliveryProtocol,assessDeliveryCompletion} from '../scripts/continuity-delivery-contract.mjs';
-import {observedBytes,classifyObservedCommand,createCommandObservations,requestByteObservation} from '../scripts/continuity-observations.mjs';
+import {observedBytes,classifyObservedCommand,createCommandObservations,requestByteObservation,unknownObservationReasons} from '../scripts/continuity-observations.mjs';
+import {createSubjectLedger} from '../scripts/continuity-live-runner.mjs';
 import {fixture,cli,git,deliveryArgs,itemState} from './helpers/lean-delivery-fixture.mjs';
 
 const subject={root:'/fixture/actor',arm:'temple',itemId:'WI-0001',agentId:'agent-builder',model:'gpt-5.6-terra',effort:'medium'};
@@ -98,6 +99,64 @@ test('bounded output counters deduplicate events and never store raw data or mis
   assert.equal(s.duplicate_events,1);assert.equal(s.unidentified_events,1);assert.equal(s.limit_reached,true);
   assert.doesNotMatch(JSON.stringify(s),/PRIVATE|secret|中文/);
   assert.throws(()=>createCommandObservations({limit:10001}),/invalid-observation-limit/);
+});
+
+test('unknown reasons explain parser limits without reclassifying or retaining commands',()=>{
+  const observer=createCommandObservations(),sentinel='PRIVATE_SENTINEL';
+  const cases=[
+    [undefined,'command-unavailable'],[null,'command-unavailable'],
+    ['x'.repeat(16385),'command-over-limit'],['','non-literal-command'],
+    [`cat ${sentinel}; git status`,'non-literal-command'],['cat $(secret)','non-literal-command'],
+    ["/bin/sh -c 'cat file",'non-literal-command'],
+    ['sh unknown','unsupported-shell-wrapper'],["/bin/sh -c 'cat file' extra",'unsupported-shell-wrapper'],
+    [`/bin/zsh -c 'cat ${sentinel}; git status'`,'non-literal-shell-body'],
+    ["/bin/sh -c 'cat $(secret)'",'non-literal-shell-body'],
+    ['node -e arbitrary','unsupported-literal-command'],
+    ["/bin/sh -c 'node -e arbitrary'",'unsupported-literal-command'],
+    ['sed -i s/old/new/ file','unsupported-literal-command']
+  ];
+  const counts=Object.fromEntries(unknownObservationReasons.map(r=>[r,0]));
+  for(const [index,[command,reason]]of cases.entries()) {
+    assert.equal(classifyObservedCommand(command),'unknown');counts[reason]++;
+    observer.accept({type:'commandExecution',id:String(index),command,aggregatedOutput:sentinel});
+  }
+  observer.accept({type:'commandExecution',id:'read',command:'cat file',aggregatedOutput:'ok'});
+  assert.equal(observer.state.schema_version,'continuity-command-observations/v3');
+  assert.deepEqual(observer.state.unknown_reasons,counts);
+  assert.equal(Object.values(counts).reduce((a,b)=>a+b,0),observer.state.categories.unknown);
+  for(const reason of unknownObservationReasons)assert.equal(observer.state.output_bytes_by_unknown_reason[reason],counts[reason]*sentinel.length);
+  assert.equal(Object.values(observer.state.output_bytes_by_unknown_reason).reduce((a,b)=>a+b,0),observer.state.output_bytes_by_category.unknown);
+  assert.doesNotMatch(JSON.stringify(observer.state),/PRIVATE_SENTINEL|arbitrary|secret|git status/);
+});
+
+test('unknown reason counters preserve deduplication, missing output and capped byte bounds',()=>{
+  const observer=createCommandObservations({limit:2});
+  const a={type:'commandExecution',id:'one',command:'node -e opaque'};
+  observer.accept(a);observer.accept({...a,aggregatedOutput:'duplicate'});
+  observer.accept({...a,id:'two',aggregatedOutput:'x'.repeat(2*1024*1024+1)});
+  observer.accept({...a,id:'over-limit'});observer.accept({...a,id:null});
+  assert.equal(observer.state.categories.unknown,2);
+  assert.equal(observer.state.unknown_reasons['unsupported-literal-command'],2);
+  assert.equal(observer.state.output_bytes_by_unknown_reason['unsupported-literal-command'],2*1024*1024);
+  assert.equal(observer.state.output_unavailable,1);assert.equal(observer.state.output_capped,1);
+  assert.equal(observer.state.duplicate_events,1);assert.equal(observer.state.unidentified_events,1);
+  assert.equal(observer.state.limit_reached,true);
+  assert.deepEqual(Object.keys(observer.state.unknown_reasons),unknownObservationReasons);
+  assert.deepEqual(Object.keys(observer.state.output_bytes_by_unknown_reason),unknownObservationReasons);
+});
+
+test('actual subject ledger exposes reason counts without changing acceptance or missing history',()=>{
+  const ledger=createSubjectLedger({threadId:'t',turnId:'r',remainingTokens:1000,deadline:1000,now:()=>1});
+  const item={type:'commandExecution',id:'one',command:"/bin/sh -c 'cat file; git status'",aggregatedOutput:'synthetic',exitCode:0};
+  ledger.accept({method:'item/started',params:{threadId:'t',turnId:'r',item}});
+  ledger.accept({method:'item/completed',params:{threadId:'t',turnId:'r',item}});
+  assert.equal(ledger.state.first_stop,null);assert.equal(ledger.state.completed_commands,1);
+  assert.equal(ledger.state.command_observations.unknown_reasons['non-literal-shell-body'],1);
+  assert.equal(ledger.state.command_observations.output_bytes_by_unknown_reason['non-literal-shell-body'],9);
+  assert.doesNotMatch(JSON.stringify(ledger.state),/cat file|synthetic/);
+  // Old records are read as-is, not regenerated by feeding absent commands back.
+  const old=JSON.parse('{"schema_version":"continuity-command-observations/v2","categories":{"unknown":12}}');
+  assert.equal(Object.hasOwn(old,'unknown_reasons'),false);
 });
 
 test('installed small-task recipe completes directly after compact navigation with one handoff and full diagnostics',async t=>{

@@ -1,0 +1,32 @@
+{
+  "schema_version": "wi0244-retained-cost-audit/v1",
+  "source_work_item": "WI-0242",
+  "protocol_digest": "sha256:3568e1f6ec0bf33665d0275661829a9c10c8a0ccde4b3f2fc4dfa453d2333dc2",
+  "run_digest": "sha256:6b6fb0db1c0848be30d99432ed0106e642f0a613fda3a2f321b5945378ddb6be",
+  "seals_match": true,
+  "model_generation_performed": false,
+  "completed_command_events": 14,
+  "unique_command_cwd_signatures": 14,
+  "repeated_exact_signature_completions": 0,
+  "nonzero_exits": 1,
+  "unknown_commands": 12,
+  "observed_output_bytes": 100487,
+  "unknown_command_output_bytes": 96689,
+  "retained_raw_commands_available": false,
+  "semantic_rereads": null,
+  "per_operation_tokens": null,
+  "avoidable_workflow_cost": null,
+  "new_canonical_event_types": [
+    "work_item_claimed",
+    "handoff_created",
+    "work_item_claim_released",
+    "work_item_transitioned"
+  ],
+  "new_delivery_artifacts": {
+    "developer_evidence": 1,
+    "handoff": 1,
+    "finish_receipt": 1
+  },
+  "new_normalized_evidence_registrations": 0,
+  "original_result_changed": false
+}

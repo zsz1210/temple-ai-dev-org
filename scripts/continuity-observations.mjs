@@ -1,6 +1,8 @@
 // Observation only, never a shell permission check or proof of file consumption.
 // Raw commands and outputs are transient inputs, not returned or retained.
 export const observationCategories=Object.freeze(['reading','context_navigation','testing','git','administration','diagnostics','editing','unknown']);
+export const unknownObservationReasons=Object.freeze(['command-unavailable','command-over-limit',
+  'non-literal-command','unsupported-shell-wrapper','non-literal-shell-body','unsupported-literal-command']);
 const byteCap=2*1024*1024;
 export function observedBytes(value) {
   if(typeof value!=='string')return {bytes:null,status:'unavailable'};
@@ -61,12 +63,28 @@ function literalWords(text) {
   return words.length&&words.length<=256&&!/^[\w]+=.*/.test(words[0])?words:null;
 }
 
+// Explain parser coverage only; never infer operations inside an opaque script.
+// Called only for an already-unknown category, preserving classification behavior.
+function unknownReason(command) {
+  if(typeof command!=='string')return 'command-unavailable';
+  if(command.length>16384)return 'command-over-limit';
+  const words=literalWords(command);
+  if(!words)return 'non-literal-command';
+  if(['/bin/zsh','/bin/bash','/bin/sh','zsh','bash','sh'].includes(words[0])) {
+    if(words.length!==3||!['-c','-lc'].includes(words[1]))return 'unsupported-shell-wrapper';
+    if(!literalWords(words[2]))return 'non-literal-shell-body';
+  }
+  return 'unsupported-literal-command';
+}
+
 export function createCommandObservations({limit=10000}={}) {
   if(!Number.isSafeInteger(limit)||limit<1||limit>10000)throw Error('invalid-observation-limit');
   const seen=new Set();
-  const state={schema_version:'continuity-command-observations/v2',completed_items:0,
+  const state={schema_version:'continuity-command-observations/v3',completed_items:0,
     categories:Object.fromEntries(observationCategories.map(k=>[k,0])),observed_output_bytes:0,
     output_bytes_by_category:Object.fromEntries(observationCategories.map(k=>[k,0])),
+    unknown_reasons:Object.fromEntries(unknownObservationReasons.map(k=>[k,0])),
+    output_bytes_by_unknown_reason:Object.fromEntries(unknownObservationReasons.map(k=>[k,0])),
     output_unavailable:0,output_capped:0,duplicate_events:0,unidentified_events:0,limit_reached:false};
   return {state,accept(item) {
     if(item?.type!=='commandExecution')return;
@@ -78,6 +96,11 @@ export function createCommandObservations({limit=10000}={}) {
     const output=observedBytes(item.aggregatedOutput);
     state.observed_output_bytes+=output.bytes??0;
     state.output_bytes_by_category[category]+=output.bytes??0;
+    if(category==='unknown') {
+      const reason=unknownReason(item.command);
+      state.unknown_reasons[reason]++;
+      state.output_bytes_by_unknown_reason[reason]+=output.bytes??0;
+    }
     if(output.status==='unavailable')state.output_unavailable++;
     if(output.status==='capped-lower-bound')state.output_capped++;
   }};
