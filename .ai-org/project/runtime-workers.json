@@ -2258,6 +2258,34 @@
       "attached_at": "2026-09-07T11:16:27.331Z",
       "completed_at": "2026-09-07T11:20:34.887Z",
       "updated_at": "2026-09-07T11:20:34.887Z"
+    },
+    {
+      "id": "worker-20260907112554-6fadd16f",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0237",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260907112554-0b635e0b",
+      "base_revision": "e88f3274645b497b08d1a359e7617247791a25c4",
+      "branch": "codex/evaluation-reliability-review",
+      "worktree": null,
+      "plan_fingerprint": "1f7ac1c92a2ed554f877dce1e6b84b3ebca1975b91952f6eefa0311c736006bf",
+      "plan_digest": "e022277172f690d7e301d7b62e0fdf775e2a72da5451e70209d6c8b8e94272fd",
+      "preparation_fingerprint": "0f472d350f69812015d21ff360d1d27b3c45c0f7ffe0657265634cf42be48942",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0237_formal_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "e88f3274645b497b08d1a359e7617247791a25c4",
+      "evidence": [
+        ".ai-org/artifacts/WI-0237/independent-qa.md"
+      ],
+      "reserved_at": "2026-09-07T11:25:54.893Z",
+      "attached_at": "2026-09-07T11:26:26.978Z",
+      "completed_at": "2026-09-07T11:32:01.870Z",
+      "updated_at": "2026-09-07T11:32:01.870Z"
     }
   ]
 }

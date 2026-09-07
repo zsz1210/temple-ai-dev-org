@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0237",
   "title": "Repair evaluation contracts and audit small-task overhead before further comparison",
-  "state": "independent_qa",
-  "owner_position": "independent_qa",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-07T10:40:36.880Z",
-  "updated_at": "2026-09-07T11:21:08.187Z",
+  "updated_at": "2026-09-07T11:33:36.378Z",
   "scope": [
     "Resolve product versus record revisions, native command observations and case-local outcomes; replay offline and audit required input obligations before any new comparison."
   ],
@@ -61,18 +61,16 @@
     "WI-0190 WI-0211 WI-0234 WI-0236: isolated successor branch; no old artifacts or active claims changed; scope and integration coordination in WI-0237/design.md"
   ],
   "claim": {
-    "id": "claim-20260907111455-9bf1a383",
+    "id": "claim-20260907113259-dd918e6a",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
+    "agent_id": "agent-mog",
     "base_revision": "e88f3274645b497b08d1a359e7617247791a25c4",
     "branch": "codex/evaluation-reliability-review",
     "worktree": null,
-    "claimed_at": "2026-09-07T11:14:55.022Z",
-    "released_at": "2026-09-07T11:21:07.930Z",
-    "release_reason": [
-      "Test/Eval review complete; formal Independent QA remains the next stage."
-    ]
+    "claimed_at": "2026-09-07T11:32:59.573Z",
+    "released_at": "2026-09-07T11:33:36.378Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -128,6 +126,32 @@
       "release_reason": [
         "Test/Eval review complete; formal Independent QA remains the next stage."
       ]
+    },
+    {
+      "id": "claim-20260907112554-0b635e0b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "e88f3274645b497b08d1a359e7617247791a25c4",
+      "branch": "codex/evaluation-reliability-review",
+      "worktree": null,
+      "claimed_at": "2026-09-07T11:25:54.907Z",
+      "released_at": "2026-09-07T11:32:58.789Z",
+      "release_reason": [
+        "Formal Independent QA completed; separate Release Manager assesses bounded closeout."
+      ]
+    },
+    {
+      "id": "claim-20260907113259-dd918e6a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "e88f3274645b497b08d1a359e7617247791a25c4",
+      "branch": "codex/evaluation-reliability-review",
+      "worktree": null,
+      "claimed_at": "2026-09-07T11:32:59.573Z",
+      "released_at": "2026-09-07T11:33:36.378Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -157,6 +181,21 @@
     ],
     "evaluation_report": [
       ".ai-org/artifacts/WI-0237/review-r1.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0237/independent-qa.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0237/design.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0237/independent-qa.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0237/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -167,10 +206,14 @@
     ".ai-org/artifacts/WI-0237/handoff-002-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0237/verification-r1.md",
     ".ai-org/artifacts/WI-0237/review-r1.md",
-    ".ai-org/artifacts/WI-0237/handoff-003-quality_evaluator-to-independent_qa.md"
+    ".ai-org/artifacts/WI-0237/handoff-003-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0237/handoff-004-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0237/independent-qa.md",
+    ".ai-org/artifacts/WI-0237/release-record.md",
+    ".ai-org/artifacts/WI-0237/gate-assessment.md"
   ],
   "unresolved": [],
-  "next_position": "release_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -195,6 +238,14 @@
       "input_revision": "e88f3274645b497b08d1a359e7617247791a25c4",
       "artifact": ".ai-org/artifacts/WI-0237/handoff-003-quality_evaluator-to-independent_qa.md",
       "created_at": "2026-09-07T11:21:07.675Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "actor": "agent-lulu",
+      "input_revision": "e88f3274645b497b08d1a359e7617247791a25c4",
+      "artifact": ".ai-org/artifacts/WI-0237/handoff-004-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-07T11:32:58.530Z"
     }
   ],
   "rework_history": [
@@ -236,5 +287,13 @@
       ]
     }
   ],
-  "developer_candidate_revision": "e88f3274645b497b08d1a359e7617247791a25c4"
+  "developer_candidate_revision": "e88f3274645b497b08d1a359e7617247791a25c4",
+  "tested_revision": "e88f3274645b497b08d1a359e7617247791a25c4",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [
+    "Accept bounded instrument repair and input audit only; preserve no-go for new live comparison and exclude maintainer merge, npm publication and deployment."
+  ],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

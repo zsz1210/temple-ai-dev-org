@@ -1,78 +1,22 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-07T11:21:08.486Z",
-  "source_fingerprint": "f9df937187c36f0a76ab2b94e555eb26854f04565340bc114bffe4adbda3ac81",
+  "generated_at": "2026-09-07T11:34:09.865Z",
+  "source_fingerprint": "1360c671fd88338e7b77942a1d64d3e2e3785bdf72652a81e4e8dd7430f56ee3",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0236",
-    "selected_work_item_ids": [
-      "WI-0237"
-    ]
+    "selected_work_item_ids": []
   },
   "max_workers": 1,
   "summary": {
-    "selected": 1,
-    "dispatchable": 1,
+    "selected": 0,
+    "dispatchable": 0,
     "active": 0,
     "sequential": 0,
     "blocked": 0,
-    "waves": 1
+    "waves": 0
   },
-  "waves": [
-    {
-      "id": "wave-001",
-      "order": 1,
-      "dispatch": [
-        {
-          "work_item_id": "WI-0237",
-          "title": "Repair evaluation contracts and audit small-task overhead before further comparison",
-          "position_id": "independent_qa",
-          "agent_id": "agent-lulu",
-          "agent_name": "Lulu",
-          "suggested_task_title": "WI-0237 · Repair evaluation contr… · Independent QA (Lulu)",
-          "base_revision": "e88f3274645b497b08d1a359e7617247791a25c4",
-          "affected_paths": [
-            "scripts/continuity-fixture.mjs",
-            "scripts/continuity-live-runner.mjs",
-            "scripts/continuity-observations.mjs",
-            "scripts/continuity-delivery-contract.mjs",
-            "scripts/evaluation-sequence.mjs",
-            "test/continuity-fixture.test.mjs",
-            "test/continuity-live-runner.test.mjs",
-            "test/continuity-delivery-contract.test.mjs",
-            "test/evaluation-sequence.test.mjs",
-            ".ai-org/artifacts/WI-0237"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "independent_qa",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "ef44bf58dea82da2a2dbcb5606e3757e4cc4fc079a050a014c84643a69b76914",
-          "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0237 --position independent_qa --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        }
-      ],
-      "join_gate": {
-        "integration_owner_agent_ids": [
-          "agent-mog"
-        ],
-        "required_evidence": [
-          "exact_candidate_revision",
-          "verification_results",
-          "unresolved_items"
-        ],
-        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
-      }
-    }
-  ],
+  "waves": [],
   "active": [],
   "sequential": [],
   "blocked": [],

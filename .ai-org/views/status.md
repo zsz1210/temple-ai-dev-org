@@ -4,10 +4,10 @@
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 1 wave(s), fresh=true
-- Work items: 237 total, 28 active
+- Parallel plan: 0 wave(s), fresh=true
+- Work items: 237 total, 27 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 80 registered, 0 reserved, 0 active
+- Runtime workers: 81 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -38,10 +38,10 @@
 - Installed: yes
 - Valid: yes
 - Fresh: yes
-- Safe waves: 1
-- Dispatchable Work Items: 1
+- Safe waves: 0
+- Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
-- Next wave: WI-0237
+- Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -284,7 +284,7 @@
 | WI-0234 | Execute approved fresh takeover comparison | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `87466e5d` | 0 | 6 | 0 |
 | WI-0235 | Reduce bounded delivery overhead and clarify handoff observations | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `68be1542` | 0 | 8 | 0 |
 | WI-0236 | Review and integrate bounded delivery, then run a minimal comparison | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1f922e99` | 0 | 5 | 3 |
-| WI-0237 | Repair evaluation contracts and audit small-task overhead before further comparison | independent_qa | Independent QA | Lulu | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e88f3274` | 0 | 8 | 0 |
+| WI-0237 | Repair evaluation contracts and audit small-task overhead before further comparison | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e88f3274` | 0 | 12 | 0 |
 
 ## Codex task registry
 
@@ -387,6 +387,7 @@
 | worker-20260907090523-47a1e5ce | internal-subagent | WI-0235 | Independent QA / Lulu | completed | /root/wi0235_qa | `68be1542` | 0 |
 | worker-20260907110114-8bf60e41 | internal-subagent | WI-0237 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0237_review | `3cb439c5` | 0 |
 | worker-20260907111455-30fe8c80 | internal-subagent | WI-0237 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0237_r1_review | `e88f3274` | 0 |
+| worker-20260907112554-6fadd16f | internal-subagent | WI-0237 | Independent QA / Lulu | completed | /root/wi0237_formal_qa | `e88f3274` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -494,14 +495,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-07T11:21:08.187Z | work_item_transitioned | WI-0237 | agent-lulu |
-| 2026-09-07T11:21:07.930Z | work_item_claim_released | WI-0237 | human |
-| 2026-09-07T11:21:07.675Z | handoff_created | WI-0237 | agent-lulu |
-| 2026-09-07T11:21:07.410Z | work_item_transitioned | WI-0237 | agent-lulu |
-| 2026-09-07T11:20:34.887Z | runtime_worker_status_changed | WI-0237 | agent-lulu |
-| 2026-09-07T11:16:27.585Z | runtime_worker_status_changed | WI-0237 | agent-lulu |
-| 2026-09-07T11:16:27.331Z | runtime_worker_attached | WI-0237 | agent-lulu |
-| 2026-09-07T11:14:55.007Z | runtime_worker_reserved | WI-0237 | human |
+| 2026-09-07T11:33:36.378Z | work_item_closed | WI-0237 | agent-mog |
+| 2026-09-07T11:33:36.378Z | release_gate_completed | WI-0237 | agent-mog |
+| 2026-09-07T11:32:59.573Z | work_item_claimed | WI-0237 | human |
+| 2026-09-07T11:32:59.046Z | work_item_transitioned | WI-0237 | agent-lulu |
+| 2026-09-07T11:32:58.789Z | work_item_claim_released | WI-0237 | human |
+| 2026-09-07T11:32:58.530Z | handoff_created | WI-0237 | agent-lulu |
+| 2026-09-07T11:32:01.870Z | runtime_worker_status_changed | WI-0237 | agent-lulu |
+| 2026-09-07T11:26:27.236Z | runtime_worker_status_changed | WI-0237 | agent-lulu |
 
 ## Assignments
 

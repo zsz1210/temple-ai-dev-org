@@ -164,5 +164,21 @@ and five deletion-control evidence is in [R1 verification](verification-r1.md).
 The [separate R1 re-review](review-r1.md) passed the corrected candidate, including
 two additional deletion controls and reproduction of the input inventory.
 Its unchanged-path full-suite evidence is explicitly attributed to the Developer;
-the reviewer did not pretend to rerun all 763 tests. Formal Independent QA,
-Release Gate and maintainer integration remain separate, unperformed stages.
+the reviewer did not pretend to rerun all 763 tests. That Test/Eval review did not
+itself perform formal Independent QA, Release Gate or maintainer integration.
+
+## Formal acceptance update
+
+Formal [Independent QA](independent-qa.md) subsequently passed the same behavioral
+candidate: 41 fresh focused tests, 11 additional negative controls and 9 synthetic
+observation checks. The 763-test full result is explicitly reused Developer
+evidence after source/authority equality checks, not a second full QA run.
+
+The [Release Manager assessment](gate-assessment.md) accepted the bounded repair
+and input audit; the [canonical release record](release-record.md) closes WI-0237
+as `done`. This organizational **go** does not override the **no-go for a new
+efficiency comparison**. No further implementation repair or model experiment was
+needed during formal QA. No efficiency improvement is claimed.
+
+PR #79 remains a separate maintainer integration step, stacked on PR #78. This
+closeout did not merge either PR, publish npm, create a release or deploy anything.
