@@ -152,13 +152,13 @@ export async function auditContinuityInputs(root,itemId,agentId) {
 
 // Shared happy-path qualification for tests and generation-free live preflight.
 // The caller supplies a freshly created, exclusively owned synthetic Temple arm.
-export async function recordContinuityControl(checkpoint, arm = 'temple') {
+export async function recordContinuityControl(checkpoint, arm = 'temple', { baselineReference } = {}) {
   check(['temple','temple_previous'].includes(arm),'invalid-control-arm');
   const base=checkpoint.arms[arm],root=base.root,itemId=base.item_id;
   const item=JSON.parse(await fs.readFile(path.join(root,`.ai-org/work-items/${itemId}.json`)));
   check(item.state==='build'&&item.claim===null&&git(root,'rev-parse','HEAD')===base.baseline,'control-not-fresh');
   cli(root,'work-item','claim','--work-item',itemId,'--agent-id',item.assigned_agent_id,'--principal-id','human',
-    '--base-revision',base.baseline,'--branch','main');
+    '--base-revision',baselineReference ?? base.baseline,'--branch','main');
   await fs.writeFile(path.join(root,'quote.mjs'),referenceQuote(checkpoint.threshold));
   const tests=run(root,process.execPath,['--test','test/public.test.mjs','test/discount.test.mjs']);
   check(tests.exit_code===0,'control-test-failed');
@@ -188,6 +188,15 @@ function expected(args, threshold) {
 function bookkeeping(file, item) {
   return item && (file === `.ai-org/work-items/${item}.json` || file === '.ai-org/events/events.jsonl' || file.startsWith('.ai-org/views/') || file.startsWith(`.ai-org/artifacts/${item}/`));
 }
+// CLI claims preserve revision spelling. Compare commit identity, not a prefix or
+// raw string. Git may succeed with an ambiguous refname warning: reject that too.
+function baselineMatches(root, reference, baseline) {
+  if (typeof reference !== 'string' || !reference || reference.length > 1024 ||
+      /[\s\0]/.test(reference) || reference.startsWith('-') || !/^[a-f0-9]{40}$/.test(baseline)) return false;
+  const resolved = run(root, 'git', ['-c', 'core.warnAmbiguousRefs=true', 'rev-parse',
+    '--verify', '--end-of-options', `${reference}^{commit}`]);
+  return resolved.exit_code === 0 && resolved.stderr.trim() === '' && resolved.stdout.trim() === baseline;
+}
 // Bounded experiment record contract, not a new framework evidence schema.
 // Validate recorded administration independently of product correctness.
 function deliveryRecords(root, base, revision, finalRevision, finalTree) {
@@ -203,8 +212,8 @@ function deliveryRecords(root, base, revision, finalRevision, finalTree) {
       if(!mutable.has(key))check(isDeepStrictEqual(before[key],item[key]),'delivery-record-invalid');
     check(item.state==='test'&&item.owner_position==='quality_evaluator'&&item.developer_candidate_revision===revision&&
       item.claim?.status==='released'&&item.claim.agent_id===before.assigned_agent_id&&
-      item.claim.principal_id==='human'&&item.claim.base_revision===base.baseline&&
-      item.base_revision===base.baseline&&item.handoffs?.length===1,'delivery-record-invalid');
+      item.claim.principal_id==='human'&&baselineMatches(root,item.claim.base_revision,base.baseline)&&
+      baselineMatches(root,item.base_revision,base.baseline)&&item.handoffs?.length===1,'delivery-record-invalid');
     for(const [key,value] of Object.entries(before.gate_evidence))check(isDeepStrictEqual(value,item.gate_evidence[key]),'delivery-record-invalid');
     const handoff=item.handoffs[0],evidence=item.gate_evidence.developer_evidence;
     check(handoff.from_position==='developer'&&handoff.to_position==='quality_evaluator'&&

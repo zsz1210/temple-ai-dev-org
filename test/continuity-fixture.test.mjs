@@ -4,6 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { createContinuityPair, assessContinuityCandidate, referenceQuote, discountSource, auditContinuityInputs,recordContinuityControl } from '../scripts/continuity-fixture.mjs';
 import { subprocessEnvironment } from '../scripts/delivery-control-pair.mjs';
 import { instructionPaths } from '../scripts/continuity-live-runner.mjs';
@@ -96,6 +97,69 @@ test('real claim and finish record commit preserves exact product candidate, wit
   const foreign=path.join(parent,'foreign');await fs.cp(root,foreign,{recursive:true});
   git(foreign,'checkout','--orphan','unrelated');git(foreign,'commit','-m','Unrelated history');
   await assert.rejects(()=>assessContinuityCandidate(foreign,pair,'temple',revision,options),/fixture-command-failed/);
+});
+test('baseline identity accepts real CLI aliases and rejects invalid references in either field',async t=>{
+  const parent=await temporary(t),pair=await createContinuityPair(path.join(parent,'pair'),'stable');
+  const base=pair.arms.temple,itemPath=`.ai-org/work-items/${base.item_id}.json`;
+  const options={allowRecordDescendant:true};
+  let completed;
+  for(const kind of ['full','short','branch','annotated-tag']) {
+    await t.test(`real claim/finish: ${kind}`,async()=>{
+      const root=path.join(parent,kind);await fs.cp(base.root,root,{recursive:true});
+      let reference=base.baseline;
+      if(kind==='short')reference=git(root,'rev-parse','--short=7',base.baseline);
+      if(kind==='branch') {git(root,'branch','frozen-baseline',base.baseline);reference='refs/heads/frozen-baseline';}
+      if(kind==='annotated-tag') {git(root,'tag','-a','frozen-baseline','-m','Frozen test baseline',base.baseline);reference='refs/tags/frozen-baseline';}
+      const copied=structuredClone(pair);copied.arms.temple.root=root;
+      const result=await recordContinuityControl(copied,'temple',{baselineReference:reference});
+      const item=JSON.parse(await fs.readFile(path.join(root,itemPath)));
+      assert.equal(item.base_revision,reference);assert.equal(item.claim.base_revision,reference);
+      assert.equal(git(root,'rev-parse',`${reference}^{commit}`),base.baseline);
+      const accepted=await assessContinuityCandidate(root,copied,'temple',result.revision,options);
+      assert.equal(accepted.passed,true);assert.equal(accepted.case_count,46);
+      if(kind==='full')completed={root,...result};
+    });
+  }
+  // Two real commit objects with a colliding four-character prefix. The bounded
+  // search is guaranteed by the 65,536-prefix pigeonhole bound, not random fuzzing.
+  const tree=git(completed.root,'rev-parse',`${base.baseline}^{tree}`),seen=new Map();
+  let collision;
+  for(let n=0;n<=65536;n++) {
+    const body=`tree ${tree}\nparent ${base.baseline}\nauthor Test <test@example.invalid> 1 +0000\ncommitter Test <test@example.invalid> 1 +0000\n\nAlias collision ${n}\n`;
+    const hash=createHash('sha1').update(`commit ${Buffer.byteLength(body)}\0${body}`).digest('hex'),prefix=hash.slice(0,4);
+    if(seen.has(prefix)){collision={prefix,bodies:[seen.get(prefix),body]};break;}
+    seen.set(prefix,body);
+  }
+  assert.ok(collision);
+  for(const input of collision.bodies) {
+    const write=spawnSync('git',['hash-object','-t','commit','-w','--stdin'],{cwd:completed.root,env:subprocessEnvironment(),encoding:'utf8',input});
+    assert.equal(write.status,0,write.stderr);
+  }
+  const ambiguous=spawnSync('git',['rev-parse','--verify',`${collision.prefix}^{commit}`],{cwd:completed.root,env:subprocessEnvironment(),encoding:'utf8'});
+  assert.notEqual(ambiguous.status,0);assert.match(ambiguous.stderr,/ambiguous/);
+  git(completed.root,'branch','ambiguous-baseline',base.baseline);
+  git(completed.root,'tag','ambiguous-baseline',base.baseline);
+  // Even when both names resolve to the right commit, ambiguity must not be
+  // silently accepted, including when repository config suppresses warnings.
+  git(completed.root,'config','core.warnAmbiguousRefs','false');
+  const blob=git(completed.root,'rev-parse',`${base.baseline}:SPEC.md`);
+  for(const [name,reference] of [
+    ['wrong-commit',pair.shared_revision],['missing','refs/heads/absent'],
+    ['ambiguous-object',collision.prefix],['ambiguous-name','ambiguous-baseline'],
+    ['non-commit',blob],['option','--all'],['empty',''],['non-string',null]
+  ])for(const field of ['item','claim']) {
+    await t.test(`${name}: ${field} baseline`,async()=>{
+      const root=path.join(parent,`${name}-${field}`);await fs.cp(completed.root,root,{recursive:true});
+      const item=JSON.parse(await fs.readFile(path.join(root,itemPath)));
+      if(field==='item')item.base_revision=reference;else item.claim.base_revision=reference;
+      await fs.writeFile(path.join(root,itemPath),JSON.stringify(item,null,2)+'\n');
+      git(root,'add',itemPath);git(root,'commit','-m','Synthetic invalid baseline record');
+      let executions=0;
+      await assert.rejects(()=>assessContinuityCandidate(root,pair,'temple',completed.revision,
+        {...options,candidateExecutor:()=>{executions++;throw Error('must not execute');}}),/delivery-record-invalid/);
+      assert.equal(executions,0);
+    });
+  }
 });
 for (const state of ['stable','changed-spec']) {
   test(`continuity ${state}: real history, equal facts, fresh physical checkouts and correct candidates`, async t => {

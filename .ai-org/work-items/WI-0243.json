@@ -1,0 +1,114 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0243",
+  "title": "Validate continuity baseline commit identity",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-07T14:51:21.104Z",
+  "updated_at": "2026-09-07T14:52:44.760Z",
+  "scope": [
+    "Repair repository-only delivery record baseline reference comparison and generation-free real CLI contract tests; separately recheck retained WI-0242 candidate without changing frozen evidence or generating model turns."
+  ],
+  "acceptance_criteria": [
+    "Accept full and unique abbreviated or equivalent commit references for the frozen baseline; reject wrong, missing, ambiguous or non-commit references independently in both fields. Preserve all other delivery/product guards and sealed scores. Full local verification and distinct QA; no new live experiment, merge or release."
+  ],
+  "affected_paths": [
+    "scripts/continuity-fixture.mjs",
+    "test/continuity-fixture.test.mjs",
+    ".ai-org/artifacts/WI-0243"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-07T14:51:21.104Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "cad43c1936bf41c2313ae9a5f5b69f94e68264a1",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0190 and WI-0211: released predecessors, no concurrent writer; bounded successor changes fixture source/test only and new WI-0243 evidence."
+  ],
+  "claim": {
+    "id": "claim-20260907145244-537aa962",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "cad43c1936bf41c2313ae9a5f5b69f94e68264a1",
+    "branch": "codex/continuity-reference-identity",
+    "worktree": null,
+    "claimed_at": "2026-09-07T14:52:44.760Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260907145219-f541f696",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "cad43c1936bf41c2313ae9a5f5b69f94e68264a1",
+      "branch": "codex/continuity-reference-identity",
+      "worktree": null,
+      "claimed_at": "2026-09-07T14:52:19.363Z",
+      "released_at": "2026-09-07T14:52:19.726Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260907145244-537aa962",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "cad43c1936bf41c2313ae9a5f5b69f94e68264a1",
+      "branch": "codex/continuity-reference-identity",
+      "worktree": null,
+      "claimed_at": "2026-09-07T14:52:44.760Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0243/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0243/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0243/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0243/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0243/design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0243/design.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
