@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 232 total, 26 active
+- Work items: 232 total, 25 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 75 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -279,7 +279,7 @@
 | WI-0229 | Add opt-in exact-text mechanical completion with fail-closed boundaries | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e9c9ade2` | 0 | 13 | 0 |
 | WI-0230 | Design a decision-oriented fresh-Agent continuity comparison | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3c39cca2` | 0 | 5 | 0 |
 | WI-0231 | Implement and qualify offline continuity fixtures and oracle | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ccb6dcfd` | 0 | 7 | 0 |
-| WI-0232 | Qualify continuity Codex requests without model generation | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260907054136-d63117ad | `—` | 0 | 1 | 0 |
+| WI-0232 | Qualify continuity Codex requests without model generation | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9fe179bb` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -485,14 +485,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-07T05:41:36.067Z | work_item_claimed | WI-0232 | human |
-| 2026-09-07T05:41:35.766Z | work_item_transitioned | WI-0232 | agent-tidus |
-| 2026-09-07T05:41:35.494Z | work_item_transitioned | WI-0232 | agent-yuna |
-| 2026-09-07T05:41:35.218Z | work_item_transitioned | WI-0232 | agent-mog |
-| 2026-09-07T05:41:34.861Z | work_item_claim_released | WI-0232 | human |
-| 2026-09-07T05:39:25.492Z | work_item_claimed | WI-0232 | human |
-| 2026-09-07T05:39:10.923Z | work_item_coordination_configured | WI-0232 | agent-mog |
-| 2026-09-07T05:38:54.061Z | work_item_created | WI-0232 | agent-mog |
+| 2026-09-07T05:58:14.629Z | work_item_closed | WI-0232 | agent-mog |
+| 2026-09-07T05:58:14.629Z | release_gate_completed | WI-0232 | agent-mog |
+| 2026-09-07T05:58:14.343Z | work_item_claimed | WI-0232 | human |
+| 2026-09-07T05:54:58.338Z | work_item_transitioned | WI-0232 | agent-lulu |
+| 2026-09-07T05:54:58.061Z | work_item_claim_released | WI-0232 | human |
+| 2026-09-07T05:54:57.706Z | handoff_created | WI-0232 | agent-lulu |
+| 2026-09-07T05:54:43.361Z | work_item_claimed | WI-0232 | human |
+| 2026-09-07T05:54:43.065Z | work_item_transitioned | WI-0232 | agent-lulu |
 
 ## Assignments
 

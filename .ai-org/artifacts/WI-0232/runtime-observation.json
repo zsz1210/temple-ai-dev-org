@@ -1,0 +1,28 @@
+{
+  "schema_version": "continuity-sandbox-observation/v1",
+  "candidate_revision": "9fe179bb198861bf6a701333d3b39fd39ebc2339",
+  "cli_version": "codex-cli 0.153.1",
+  "node_version": "v24.20.0",
+  "platform": "darwin",
+  "probe_count": 2,
+  "scope": "synthetic-marker-controls-only",
+  "final_observation": {
+    "schema_version": "continuity-sandbox-probe/v1",
+    "status": "isolation-gap-observed",
+    "transport": "installed-codex",
+    "model_generation_performed": false,
+    "live_ready": false,
+    "network_isolation": "not-qualified",
+    "descendant_cleanup": "not-qualified",
+    "server_exit_confirmed": true,
+    "scratch_removed": true,
+    "checks": {
+      "own_read": { "allowed": true, "marker_observed": true },
+      "own_write": { "allowed": true, "file_created": true },
+      "sibling_read": { "allowed": true, "marker_observed": true },
+      "sibling_write": { "allowed": false, "file_created": false }
+    },
+    "failure": null,
+    "cleanup_failure": null
+  }
+}
