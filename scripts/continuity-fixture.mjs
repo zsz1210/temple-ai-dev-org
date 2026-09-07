@@ -265,7 +265,8 @@ export async function assessContinuityCandidate(root, checkpoint, arm, revision,
     }
   }
   await walk();
-  for (const file of Object.keys(tree)) if (!bookkeeping(file,base.item_id)) check(disk[file], 'missing-source');
+  for (const file of Object.keys(deliveryTree??tree))
+    if (deliveryTree || !bookkeeping(file,base.item_id)) check(disk[file], 'missing-source');
   const scratch = await fs.mkdtemp(path.join(scratchParent, 'continuity-oracle-'));
   let cleanupSafe = true;
   try {

@@ -57,6 +57,13 @@ test('real claim and finish record commit preserves exact product candidate, wit
   }
   const dirty=path.join(parent,'dirty');await fs.cp(root,dirty,{recursive:true});await fs.appendFile(path.join(dirty,evidence),' ');
   await assert.rejects(()=>assessContinuityCandidate(dirty,pair,'temple',revision,options),/dirty-source/);
+  const delivered=JSON.parse(await fs.readFile(path.join(root,itemPath)));
+  for(const [index,file] of [evidence,itemPath,'.ai-org/events/events.jsonl',delivered.handoffs[0].artifact,
+    `.ai-org/artifacts/${itemId}/finish-qualification.json`].entries()) {
+    const copy=path.join(parent,`absent-${index}`);await fs.cp(root,copy,{recursive:true});
+    await fs.unlink(path.join(copy,file));
+    await assert.rejects(()=>assessContinuityCandidate(copy,pair,'temple',revision,options),/missing-source/,file);
+  }
   const foreign=path.join(parent,'foreign');await fs.cp(root,foreign,{recursive:true});
   git(foreign,'checkout','--orphan','unrelated');git(foreign,'commit','-m','Unrelated history');
   await assert.rejects(()=>assessContinuityCandidate(foreign,pair,'temple',revision,options),/fixture-command-failed/);

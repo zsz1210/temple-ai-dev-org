@@ -21,3 +21,24 @@ changes. This is not Independent QA, evidence of lower model Token use, live
 provider qualification, merge approval or a release. No model experiment ran.
 The tested code will be pinned by the Developer handoff; subsequent report-only
 updates require fast verification and cannot silently change that candidate.
+
+## Review rework R1
+
+The first candidate, `3cb439c55edf213acab9a144e6791a7109ec00fb`, failed
+independent review despite passing the suite above. See
+[the retained failed review](independent-review.md): uncommitted deletion of
+delivery records was not checked by the final filesystem presence loop.
+
+The correction requires every record in the delivery commit to remain present,
+without changing legacy exact-HEAD behavior. The regression now separately deletes
+evidence, Work Item, event log, handoff and finish receipt in isolated copies; all
+five must fail with `missing-source`.
+
+- Focused real-claim control: **1/1**, 11,719.195 ms total; all five deletion
+  assertions passed.
+- Complete corrected `npm run verify`: exit 0, **763/763**, no failures, skips or
+  cancellations; 168,762.120917 ms suite duration.
+- No additional model experiment or change to the frozen WI-0236 results.
+
+The corrected candidate is pinned in the second Developer handoff. This new full
+verification does not erase the first review failure or substitute for re-review.
