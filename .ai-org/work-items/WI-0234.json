@@ -6,7 +6,7 @@
   "owner_position": "quality_evaluator",
   "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-07T06:39:13.039Z",
-  "updated_at": "2026-09-07T08:51:54.304Z",
+  "updated_at": "2026-09-07T11:01:14.089Z",
   "scope": [
     "Implement and qualify the named-permission continuity runner, then execute the approved eight Terra medium Build subjects without retries."
   ],
@@ -51,7 +51,8 @@
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
-    "WI-0235 independent exact-candidate review may write its own evidence only; no concurrent source changes. WI-0236 waits for review before instrument edits; historical candidates and outcomes remain unchanged."
+    "WI-0235 independent exact-candidate review may write its own evidence only; no concurrent source changes. WI-0236 waits for review before instrument edits; historical candidates and outcomes remain unchanged.",
+    "WI-0237: authorized isolated successor and exact-candidate review on codex/evaluation-reliability-review. No active writer here; prior outcomes, candidate and artifacts stay frozen. Scope: WI-0237/design.md."
   ],
   "claim": {
     "id": "claim-20260907073554-3598d215",

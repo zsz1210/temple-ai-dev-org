@@ -75,6 +75,31 @@ Retained completed-command exit observations were: ordinary stable 1 nonzero of
 does not show a sequence of failed shell commands. That narrows the investigation;
 it does not rule out repeated successful reads or redundant successful operations.
 
+### Coordination overhead observed during this phase
+
+Preparing a single independent evaluator exposed another concrete cost: old
+nonterminal items with broad `test`, `scripts` or `.ai-org` scopes participated in
+the global plan despite having released claims. A parent-filtered plan still
+required bilateral overlap acknowledgement for WI-0190, WI-0211 and WI-0234.
+The coordinator preserved their existing resolutions and appended this successor's
+scope through the CLI; a fresh one-item safe wave then reserved the reviewer.
+Their old candidates, outcomes and artifacts were not changed or closed to bypass
+the check. No worker was launched from a rejected or stale plan.
+
+This is observed coordination work, not measured extra model Tokens. A future
+design should distinguish an active write claim from historical pending release
+scope, while retaining conflicts with real writers and unresolved contracts. It
+must not automatically close old Work Items or ignore overlap because a claim is
+released. This phase does not change that authority rule.
+
+The R1 review also exposed a runtime-correlation constraint: attaching the same
+completed review runtime to a newly prepared rework worker was rejected as an
+already-attached runtime ID. The attempted continuation was interrupted and a
+fresh runtime attached to the new reservation. No worker identity was invented
+or historical attachment overwritten. Supporting explicit attempts on a reused
+runtime is another bounded design candidate, not a reason to remove correlation
+or a measured Token saving. Neither coordination behavior was modified here.
+
 ### Obligation disposition
 
 | Material/work | Needed by the Agent | Tool responsibility | Disposition |
@@ -130,3 +155,14 @@ cleans only its temporary fixture. It uses the real lifecycle CLI but no model.
 Full candidate verification and independent review status are recorded in
 [verification](verification.md). See [approved scope](design.md) and the unchanged
 [WI-0236 report](../WI-0236/comparison-report.md) for the historical boundary.
+
+The first candidate failed independent review because uncommitted deletions of
+delivery records escaped the presence check. That failure is retained in
+[the original review](independent-review.md). The corrected candidate is
+`e88f3274645b497b08d1a359e7617247791a25c4`; its attempt-specific full-suite
+and five deletion-control evidence is in [R1 verification](verification-r1.md).
+The [separate R1 re-review](review-r1.md) passed the corrected candidate, including
+two additional deletion controls and reproduction of the input inventory.
+Its unchanged-path full-suite evidence is explicitly attributed to the Developer;
+the reviewer did not pretend to rerun all 763 tests. Formal Independent QA,
+Release Gate and maintainer integration remain separate, unperformed stages.

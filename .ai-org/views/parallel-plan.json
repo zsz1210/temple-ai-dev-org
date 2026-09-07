@@ -1,15 +1,15 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-07T09:05:23.525Z",
-  "source_fingerprint": "b540ecda3f622a8fc5945d4fc909f03ae8965b41e2980c7974b465b91ffa80fe",
+  "generated_at": "2026-09-07T11:21:08.486Z",
+  "source_fingerprint": "f9df937187c36f0a76ab2b94e555eb26854f04565340bc114bffe4adbda3ac81",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0236",
     "selected_work_item_ids": [
-      "WI-0235"
+      "WI-0237"
     ]
   },
-  "max_workers": null,
+  "max_workers": 1,
   "summary": {
     "selected": 1,
     "dispatchable": 1,
@@ -24,24 +24,24 @@
       "order": 1,
       "dispatch": [
         {
-          "work_item_id": "WI-0235",
-          "title": "Reduce bounded delivery overhead and clarify handoff observations",
+          "work_item_id": "WI-0237",
+          "title": "Repair evaluation contracts and audit small-task overhead before further comparison",
           "position_id": "independent_qa",
           "agent_id": "agent-lulu",
           "agent_name": "Lulu",
-          "suggested_task_title": "WI-0235 · Reduce bounded delivery… · Independent QA (Lulu)",
-          "base_revision": "68be154276fe2648a35eadf6c3e59c665ced2ea9",
+          "suggested_task_title": "WI-0237 · Repair evaluation contr… · Independent QA (Lulu)",
+          "base_revision": "e88f3274645b497b08d1a359e7617247791a25c4",
           "affected_paths": [
-            "project-overlay/.agents/skills/temple-work",
-            "project-overlay/.ai-org/templates/handoff.md",
-            "src/work-items.mjs",
+            "scripts/continuity-fixture.mjs",
             "scripts/continuity-live-runner.mjs",
-            "scripts/continuity-delivery-contract.mjs",
             "scripts/continuity-observations.mjs",
+            "scripts/continuity-delivery-contract.mjs",
+            "scripts/evaluation-sequence.mjs",
+            "test/continuity-fixture.test.mjs",
             "test/continuity-live-runner.test.mjs",
             "test/continuity-delivery-contract.test.mjs",
-            "docs/operations/lean-delivery.md",
-            "docs/extensions/lean-completion.md"
+            "test/evaluation-sequence.test.mjs",
+            ".ai-org/artifacts/WI-0237"
           ],
           "dependencies": [],
           "required_disciplines": [],
@@ -50,9 +50,9 @@
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "c13438da37a07c299d09ef7df46c4ebe7a53c068d6cf67432dcd06d2a7317107",
+          "preparation_fingerprint": "ef44bf58dea82da2a2dbcb5606e3757e4cc4fc079a050a014c84643a69b76914",
           "integration_owner_agent_id": "agent-mog",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0235 --position independent_qa --no-write --json",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0237 --position independent_qa --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,
@@ -79,7 +79,7 @@
   "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": null,
+    "runtime_capacity_limit": 1,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

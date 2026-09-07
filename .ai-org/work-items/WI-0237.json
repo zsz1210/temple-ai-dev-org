@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0237",
   "title": "Repair evaluation contracts and audit small-task overhead before further comparison",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "independent_qa",
+  "owner_position": "independent_qa",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-07T10:40:36.880Z",
-  "updated_at": "2026-09-07T10:55:39.231Z",
+  "updated_at": "2026-09-07T11:21:08.187Z",
   "scope": [
     "Resolve product versus record revisions, native command observations and case-local outcomes; replay offline and audit required input obligations before any new comparison."
   ],
@@ -44,16 +44,16 @@
     "evaluated_at": "2026-09-07T10:40:36.880Z",
     "escalated": false
   },
-  "parent_work_item_id": null,
+  "parent_work_item_id": "WI-0236",
   "tracker_visibility": "team-visible",
   "tracker_refs": [],
   "tracker_reconciliations": [],
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "f61f755d",
-  "parallel_mode": "pending",
-  "integration_owner_agent_id": null,
+  "base_revision": "e88f3274645b497b08d1a359e7617247791a25c4",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
@@ -61,27 +61,73 @@
     "WI-0190 WI-0211 WI-0234 WI-0236: isolated successor branch; no old artifacts or active claims changed; scope and integration coordination in WI-0237/design.md"
   ],
   "claim": {
-    "id": "claim-20260907104139-90afc8b9",
-    "status": "active",
+    "id": "claim-20260907111455-9bf1a383",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "f61f755d",
+    "agent_id": "agent-lulu",
+    "base_revision": "e88f3274645b497b08d1a359e7617247791a25c4",
     "branch": "codex/evaluation-reliability-review",
     "worktree": null,
-    "claimed_at": "2026-09-07T10:41:39.725Z",
-    "released_at": null
+    "claimed_at": "2026-09-07T11:14:55.022Z",
+    "released_at": "2026-09-07T11:21:07.930Z",
+    "release_reason": [
+      "Test/Eval review complete; formal Independent QA remains the next stage."
+    ]
   },
   "claims": [
     {
       "id": "claim-20260907104139-90afc8b9",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "f61f755d",
       "branch": "codex/evaluation-reliability-review",
       "worktree": null,
       "claimed_at": "2026-09-07T10:41:39.725Z",
-      "released_at": null
+      "released_at": "2026-09-07T10:59:31.481Z",
+      "release_reason": [
+        "Behavioral candidate complete; separate evaluator owns exact-candidate review. No new model comparison."
+      ]
+    },
+    {
+      "id": "claim-20260907110114-f78d7cd7",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "3cb439c55edf213acab9a144e6791a7109ec00fb",
+      "branch": "codex/evaluation-reliability-review",
+      "worktree": null,
+      "claimed_at": "2026-09-07T11:01:14.835Z",
+      "released_at": "2026-09-07T11:06:54.051Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260907110654-5d986826",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "3cb439c55edf213acab9a144e6791a7109ec00fb",
+      "branch": "codex/evaluation-reliability-review",
+      "worktree": null,
+      "claimed_at": "2026-09-07T11:06:54.331Z",
+      "released_at": "2026-09-07T11:14:44.852Z",
+      "release_reason": [
+        "Corrected exact candidate delivered for independent re-review."
+      ]
+    },
+    {
+      "id": "claim-20260907111455-9bf1a383",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "e88f3274645b497b08d1a359e7617247791a25c4",
+      "branch": "codex/evaluation-reliability-review",
+      "worktree": null,
+      "claimed_at": "2026-09-07T11:14:55.022Z",
+      "released_at": "2026-09-07T11:21:07.930Z",
+      "release_reason": [
+        "Test/Eval review complete; formal Independent QA remains the next stage."
+      ]
     }
   ],
   "gate_evidence": {
@@ -99,11 +145,96 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0237/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0237/handoff-002-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0237/verification-r1.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0237/review-r1.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0237/review-r1.md"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0237/design.md"
+    ".ai-org/artifacts/WI-0237/design.md",
+    ".ai-org/artifacts/WI-0237/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0237/verification.md",
+    ".ai-org/artifacts/WI-0237/report.md",
+    ".ai-org/artifacts/WI-0237/handoff-002-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0237/verification-r1.md",
+    ".ai-org/artifacts/WI-0237/review-r1.md",
+    ".ai-org/artifacts/WI-0237/handoff-003-quality_evaluator-to-independent_qa.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "release_manager",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "3cb439c55edf213acab9a144e6791a7109ec00fb",
+      "artifact": ".ai-org/artifacts/WI-0237/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-07T10:59:31.194Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "e88f3274645b497b08d1a359e7617247791a25c4",
+      "artifact": ".ai-org/artifacts/WI-0237/handoff-002-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-07T11:14:44.593Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "actor": "agent-lulu",
+      "input_revision": "e88f3274645b497b08d1a359e7617247791a25c4",
+      "artifact": ".ai-org/artifacts/WI-0237/handoff-003-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-07T11:21:07.675Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-07T11:06:54.051Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260907110114-f78d7cd7",
+      "rejected_revision": "3cb439c55edf213acab9a144e6791a7109ec00fb",
+      "reason": [
+        "Independent R1: missing working-tree delivery records bypass final presence check; correct bounded record-mode coverage only."
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0237/independent-review.md"
+      ],
+      "scope_digest": "a5a691cdf2f7c2913b1bf5be15c6e87ac005494770076778f012a00a329eaf84",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0237/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0237/verification.md",
+          ".ai-org/artifacts/WI-0237/report.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "3cb439c55edf213acab9a144e6791a7109ec00fb"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0237/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ],
+  "developer_candidate_revision": "e88f3274645b497b08d1a359e7617247791a25c4"
 }
