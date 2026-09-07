@@ -64,6 +64,28 @@ test("typed stop and supplied immutable observation reference survive without ra
   assert.equal(r.stages[0].diagnostics.first_stop.item_id, itemId);
   assert.ok(!JSON.stringify(f.snapshots).includes("PRIVATE"));
 });
+test("incomplete runtime stays incomplete when budget or deadline stops also apply", async () => {
+  for (const limit of ["tokens", "deadline"]) {
+    let time = 0, runs = 0, assessments = 0;
+    const tokens = limit === "tokens" ? 101 : 10;
+    const f = fixture({ now: () => time,
+      runOne: async () => {
+        runs++; if (limit === "deadline") time = 1000;
+        return { status: "stopped", provider_exit_confirmed: true,
+          stop_reason: "revision-boundary", usage: { operational_tokens: tokens } };
+      },
+      assessOne: async () => { assessments++; throw Error("must-not-assess"); }
+    });
+    const r = await f.run();
+    assert.equal(r.stop_reason, "aggregate-limit");
+    assert.equal(r.usage_complete, false);
+    assert.equal(r.operational_tokens, tokens);
+    assert.equal(r.stages[0].status, "invalid");
+    assert.equal(r.stages[0].diagnostics.stop_reason, "revision-boundary");
+    assert.equal(runs, 1); assert.equal(assessments, 0);
+    assert.ok(f.snapshots.filter(s => s.operational_tokens > 0).every(s => !s.usage_complete));
+  }
+});
 test("scoped invalid samples require explicit continuation and confirmed cleanup", async () => {
   for (const allowed of [false, true]) {
     const f = fixture({ continuation: { product_failure: true, local_invalid: allowed },

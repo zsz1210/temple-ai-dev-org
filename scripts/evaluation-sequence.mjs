@@ -68,12 +68,16 @@ export async function runEvaluationSequence({ subjects, limits, continuation,
       try { observation = await runOne(structuredClone(subject), stage, result.operational_tokens); }
       catch { row.status = "invalid"; result.usage_complete = false; stop("runtime-unavailable"); await save(); break; }
       row.diagnostics = stopDiagnostics(observation);
+      // Preserve incomplete-runtime accounting even when a simultaneous budget
+      // or deadline stop takes precedence over the runtime's stop reason.
+      const runtimeComplete = observation?.status === "completed" && observation?.provider_exit_confirmed === true;
+      if (!runtimeComplete) result.usage_complete = false;
       const tokens = observation?.usage?.operational_tokens;
       if (!safeCount(tokens) || !safeCount(result.operational_tokens + tokens)) {
         row.status = "invalid"; result.usage_complete = false; stop("usage-unavailable"); await save(); break;
       }
       row.operational_tokens = tokens; result.operational_tokens += tokens;
-      row.status = "observed"; await save();
+      row.status = runtimeComplete ? "observed" : "invalid"; await save();
       if (observation.provider_exit_confirmed !== true) { result.usage_complete = false; stop("cleanup-unconfirmed"); break; }
       if (result.status === "stopped" || overLimit()) { stop("aggregate-limit"); break; }
       // A command-policy violation, malformed wire event or unknown runtime stop
