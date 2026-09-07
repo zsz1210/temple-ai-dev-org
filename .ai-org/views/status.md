@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=false
-- Work items: 241 total, 28 active
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Parallel plan: 1 wave(s), fresh=false
+- Work items: 242 total, 29 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 85 registered, 0 reserved, 0 active
+- Runtime workers: 86 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 23
+- Attention signals: 24
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -38,10 +38,10 @@
 - Installed: yes
 - Valid: yes
 - Fresh: no
-- Safe waves: 0
-- Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 0 / 0
-- Next wave: none
+- Safe waves: 1
+- Dispatchable Work Items: 7
+- Active / sequential / blocked: 0 / 13 / 8
+- Next wave: WI-0190, WI-0213, WI-0216, WI-0218, WI-0219, WI-0224, WI-0241
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -288,7 +288,8 @@
 | WI-0238 | Reduce repeated small-task instructions and qualify matched comparison readiness | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `af5a984a` | 0 | 12 | 0 |
 | WI-0239 | Measure ordinary, previous and compact Temple instructions | concluded | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `312fc3cc` | 0 | 8 | 0 |
 | WI-0240 | Reuse experiment evidence and activate scoped learning | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f80651d6` | 0 | 4 | 0 |
-| WI-0241 | Design proactive learning and qualify incremental compact experiment | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `afb048d1` | 0 | 4 | 0 |
+| WI-0241 | Design proactive learning and qualify incremental compact experiment | release_gate | Release Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `afb048d1` | 0 | 8 | 0 |
+| WI-0242 | Measure two missing compact continuity conditions | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260907142757-cd4e0b33 | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -396,6 +397,7 @@
 | worker-20260907124026-08601f87 | internal-subagent | WI-0238 | Independent QA / Lulu | completed | /root/wi0238_qa_r1 | `af5a984a` | 0 |
 | worker-20260907132014-d4e58e3f | internal-subagent | WI-0239 | Independent QA / Lulu | completed | /root/wi0239_qa | `312fc3cc` | 0 |
 | worker-20260907134648-197fbbc4 | internal-subagent | WI-0240 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0240_verify | `f80651d6` | 0 |
+| worker-20260907142321-fd6a3fb9 | internal-subagent | WI-0241 | Independent QA / Lulu | completed | /root/wi0241_qa | `afb048d1` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -426,13 +428,14 @@
 - worker-20260905141644-4a85d8c7 is failed
 - 3 learning entries require revalidation
 - Generated parallel plan is stale; rebuild it before dispatch
+- Parallel plan has 8 blocked Work Item(s)
 
 ## External tracker coordination
 
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 93
+- Team-visible Work Items: 94
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -505,14 +508,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-07T14:18:30.881Z | work_item_transitioned | WI-0241 | agent-rikku |
-| 2026-09-07T14:18:30.603Z | work_item_claim_released | WI-0241 | human |
-| 2026-09-07T14:18:30.304Z | handoff_created | WI-0241 | agent-rikku |
-| 2026-09-07T14:10:19.511Z | work_item_claimed | WI-0241 | human |
-| 2026-09-07T14:10:19.205Z | work_item_transitioned | WI-0241 | agent-tidus |
-| 2026-09-07T14:10:18.929Z | work_item_transitioned | WI-0241 | agent-yuna |
-| 2026-09-07T14:10:18.651Z | work_item_transitioned | WI-0241 | agent-mog |
-| 2026-09-07T14:10:18.363Z | work_item_claim_released | WI-0241 | human |
+| 2026-09-07T14:27:57.076Z | work_item_claimed | WI-0242 | human |
+| 2026-09-07T14:27:56.741Z | work_item_transitioned | WI-0242 | agent-tidus |
+| 2026-09-07T14:27:56.463Z | work_item_transitioned | WI-0241 | agent-lulu |
+| 2026-09-07T14:27:56.175Z | work_item_claim_released | WI-0241 | human |
+| 2026-09-07T14:27:55.863Z | handoff_created | WI-0241 | agent-lulu |
+| 2026-09-07T14:27:55.511Z | runtime_worker_status_changed | WI-0241 | agent-lulu |
+| 2026-09-07T14:25:12.887Z | work_item_transitioned | WI-0242 | agent-yuna |
+| 2026-09-07T14:25:12.616Z | work_item_transitioned | WI-0242 | agent-mog |
 
 ## Assignments
 

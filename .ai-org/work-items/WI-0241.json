@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0241",
   "title": "Design proactive learning and qualify incremental compact experiment",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "release_gate",
+  "owner_position": "release_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-07T14:06:55.713Z",
-  "updated_at": "2026-09-07T14:18:30.881Z",
+  "updated_at": "2026-09-07T14:27:56.463Z",
   "scope": [
     "Design an evidence-triggered project Learning loop without activating it; qualify a fresh two-subject compact-only continuity protocol reusing historical references, with offline checks and exact readiness. No live dispatch until the new digest and bounded envelope are approved; no old lab mutation, merge or release."
   ],
@@ -44,9 +44,9 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "c65e72a8",
-  "parallel_mode": "pending",
-  "integration_owner_agent_id": null,
+  "base_revision": "afb048d10a7c1554afa75b8121d733d753b0a49b",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
@@ -57,17 +57,17 @@
     "WI-0236: released predecessor, no concurrent writer; this successor owns only named runner/test paths and new artifacts. Existing evidence remains frozen."
   ],
   "claim": {
-    "id": "claim-20260907141019-54342dfa",
+    "id": "claim-20260907142321-49c3b663",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "c65e72a8",
+    "agent_id": "agent-lulu",
+    "base_revision": "afb048d10a7c1554afa75b8121d733d753b0a49b",
     "branch": "codex/learning-loop-incremental",
     "worktree": null,
-    "claimed_at": "2026-09-07T14:10:19.511Z",
-    "released_at": "2026-09-07T14:18:30.603Z",
+    "claimed_at": "2026-09-07T14:23:21.691Z",
+    "released_at": "2026-09-07T14:27:56.175Z",
     "release_reason": [
-      "Bounded implementation and developer verification complete; awaiting evaluation, distinct QA and exact live approval."
+      "Independent review joined; preparation accepted for release-gate record, not publication."
     ]
   },
   "claims": [
@@ -98,6 +98,34 @@
       "release_reason": [
         "Bounded implementation and developer verification complete; awaiting evaluation, distinct QA and exact live approval."
       ]
+    },
+    {
+      "id": "claim-20260907142227-b4533ff1",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "afb048d10a7c1554afa75b8121d733d753b0a49b",
+      "branch": "codex/learning-loop-incremental",
+      "worktree": null,
+      "claimed_at": "2026-09-07T14:22:27.772Z",
+      "released_at": "2026-09-07T14:22:56.790Z",
+      "release_reason": [
+        "Evaluated exact unchanged source and retained verification; independent runtime review follows."
+      ]
+    },
+    {
+      "id": "claim-20260907142321-49c3b663",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "afb048d10a7c1554afa75b8121d733d753b0a49b",
+      "branch": "codex/learning-loop-incremental",
+      "worktree": null,
+      "claimed_at": "2026-09-07T14:23:21.691Z",
+      "released_at": "2026-09-07T14:27:56.175Z",
+      "release_reason": [
+        "Independent review joined; preparation accepted for release-gate record, not publication."
+      ]
     }
   ],
   "gate_evidence": {
@@ -122,16 +150,29 @@
     "developer_evidence": [
       ".ai-org/artifacts/WI-0241/verification.md",
       ".ai-org/artifacts/WI-0241/readiness.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0241/verification.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0241/test-eval.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0241/independent-qa.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0241/design.md",
     ".ai-org/artifacts/WI-0241/handoff-001-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0241/verification.md",
-    ".ai-org/artifacts/WI-0241/readiness.md"
+    ".ai-org/artifacts/WI-0241/readiness.md",
+    ".ai-org/artifacts/WI-0241/handoff-002-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0241/test-eval.md",
+    ".ai-org/artifacts/WI-0241/handoff-003-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0241/independent-qa.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": "engineering_manager",
   "handoffs": [
     {
       "from_position": "developer",
@@ -140,6 +181,22 @@
       "input_revision": "afb048d10a7c1554afa75b8121d733d753b0a49b",
       "artifact": ".ai-org/artifacts/WI-0241/handoff-001-developer-to-quality_evaluator.md",
       "created_at": "2026-09-07T14:18:30.304Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "actor": "agent-lulu",
+      "input_revision": "afb048d10a7c1554afa75b8121d733d753b0a49b",
+      "artifact": ".ai-org/artifacts/WI-0241/handoff-002-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-07T14:22:57.335Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "actor": "agent-lulu",
+      "input_revision": "afb048d10a7c1554afa75b8121d733d753b0a49b",
+      "artifact": ".ai-org/artifacts/WI-0241/handoff-003-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-07T14:27:55.863Z"
     }
   ],
   "developer_candidate_revision": "afb048d10a7c1554afa75b8121d733d753b0a49b"

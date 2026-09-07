@@ -1,29 +1,1535 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-07T13:52:56.855Z",
-  "source_fingerprint": "9b6925a2ef960e78eecb3f06d27633fdb259cc6961ee05af82ee0a0c40e1fa9c",
+  "generated_at": "2026-09-07T14:23:20.483Z",
+  "source_fingerprint": "84d76e63c0ee667b6442203808b5ba7cc7f7f1145d61501287d0fe59be40360a",
   "scope": {
-    "mode": "parent-descendants",
-    "parent_work_item_id": "WI-0239",
-    "selected_work_item_ids": []
+    "mode": "all-active",
+    "parent_work_item_id": null,
+    "selected_work_item_ids": [
+      "WI-0172",
+      "WI-0183",
+      "WI-0189",
+      "WI-0190",
+      "WI-0191",
+      "WI-0192",
+      "WI-0193",
+      "WI-0202",
+      "WI-0204",
+      "WI-0208",
+      "WI-0209",
+      "WI-0210",
+      "WI-0211",
+      "WI-0212",
+      "WI-0213",
+      "WI-0214",
+      "WI-0215",
+      "WI-0216",
+      "WI-0217",
+      "WI-0218",
+      "WI-0219",
+      "WI-0220",
+      "WI-0223",
+      "WI-0224",
+      "WI-0225",
+      "WI-0234",
+      "WI-0236",
+      "WI-0241"
+    ]
   },
-  "max_workers": 1,
+  "max_workers": null,
   "summary": {
-    "selected": 0,
-    "dispatchable": 0,
+    "selected": 28,
+    "dispatchable": 7,
     "active": 0,
-    "sequential": 0,
-    "blocked": 0,
-    "waves": 0
+    "sequential": 13,
+    "blocked": 8,
+    "waves": 1
   },
-  "waves": [],
+  "waves": [
+    {
+      "id": "wave-001",
+      "order": 1,
+      "dispatch": [
+        {
+          "work_item_id": "WI-0190",
+          "title": "Clarify proportionate entry and stage completion",
+          "position_id": "release_manager",
+          "agent_id": "agent-mog",
+          "agent_name": "Mog",
+          "suggested_task_title": "WI-0190 · Clarify proportionate e… · Release Manager (Mog)",
+          "base_revision": "80d25020930635c4af54e35b7231afa830483cde",
+          "affected_paths": [
+            "project-overlay",
+            "docs/operations",
+            "docs/extensions/skill-scenarios.md",
+            "docs/extensions/capability-catalog.md",
+            "docs/adr",
+            "test"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "release_gate",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "3da60a3d114f1436e15b37b207a067ffdcecb6fcdecb07fb476725f3ac0b675d",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0190 --position release_manager --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        },
+        {
+          "work_item_id": "WI-0213",
+          "title": "Separate model-readable context from validation metadata",
+          "position_id": "release_manager",
+          "agent_id": "agent-mog",
+          "agent_name": "Mog",
+          "suggested_task_title": "WI-0213 · Separate model-readable… · Release Manager (Mog)",
+          "base_revision": "6d15bbfde3d093a757634835d1479f23a6f530bd",
+          "affected_paths": [
+            "src/context-model-view.mjs",
+            "src/cli.mjs",
+            "test/context-enter.test.mjs",
+            "test/context-model-view.test.mjs"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "release_gate",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "64933c41c62cf1dddc3ce24c1fadb550923ea7ae5a8306818c7a6b5cfa1014c6",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0213 --position release_manager --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        },
+        {
+          "work_item_id": "WI-0216",
+          "title": "Separate stage Token warnings from aggregate experiment limits",
+          "position_id": "quality_evaluator",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0216 · Separate… · Quality & Evaluation Engineer (Lulu)",
+          "base_revision": "570a36ac",
+          "affected_paths": [
+            "scripts/context-format-comparison.mjs",
+            "scripts/delivery-control-pair.mjs",
+            "test/context-format-comparison.test.mjs"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "eval",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "a5184aa8b3423cc35098569a857a7bec0c264e69634de0f2433ab38546d19ca3",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0216 --position quality_evaluator --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        },
+        {
+          "work_item_id": "WI-0218",
+          "title": "Explain rejected command argument shapes without retaining values",
+          "position_id": "quality_evaluator",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0218 · Explain … · Quality & Evaluation Engineer (Lulu)",
+          "base_revision": "3e2b22102173f8d68452a7929ab19afc6e56ec37",
+          "affected_paths": [
+            "scripts/delivery-command-policy.mjs",
+            "test/delivery-command-policy.test.mjs"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "eval",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "ff9862bfa76d4dac4eca6916d9c057267d0d4988c9c809afd647f27b734d1d9b",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0218 --position quality_evaluator --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        },
+        {
+          "work_item_id": "WI-0219",
+          "title": "Reproduce context argument failures through the installed CLI",
+          "position_id": "quality_evaluator",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0219 · Reproduc… · Quality & Evaluation Engineer (Lulu)",
+          "base_revision": "2aef01bd",
+          "affected_paths": [
+            "test/context-enter.test.mjs"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "eval",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "2d748c8d0a82b9d8625ebeac906f0cfe71b9934109c826a15469a39675544949",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0219 --position quality_evaluator --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        },
+        {
+          "work_item_id": "WI-0224",
+          "title": "Implement two-family diagnostic comparison",
+          "position_id": "quality_evaluator",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0224 · Implemen… · Quality & Evaluation Engineer (Lulu)",
+          "base_revision": "df40202b",
+          "affected_paths": [
+            "scripts/diagnostic-format-comparison.mjs",
+            "scripts/diagnostic-maintenance-fixture.mjs",
+            "test/diagnostic-format-comparison.test.mjs",
+            "test/diagnostic-maintenance-fixture.test.mjs"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "eval",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "a7e549675d2c487c7ae2a25c8c8374a3e57a6890ef9e79eb2e491e091a7920d0",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0224 --position quality_evaluator --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        },
+        {
+          "work_item_id": "WI-0241",
+          "title": "Design proactive learning and qualify incremental compact experiment",
+          "position_id": "independent_qa",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0241 · Design proactive learni… · Independent QA (Lulu)",
+          "base_revision": "afb048d10a7c1554afa75b8121d733d753b0a49b",
+          "affected_paths": [
+            ".ai-org/artifacts/WI-0241",
+            "scripts/continuity-live-runner.mjs",
+            "test/continuity-live-runner.test.mjs"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "independent_qa",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "7b6faea05b07e17d11634ba28e313543a950e430744253a0d2b1dd321d237d9e",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0241 --position independent_qa --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        }
+      ],
+      "join_gate": {
+        "integration_owner_agent_ids": [
+          "agent-mog"
+        ],
+        "required_evidence": [
+          "exact_candidate_revision",
+          "verification_results",
+          "unresolved_items"
+        ],
+        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
+      }
+    }
+  ],
   "active": [],
-  "sequential": [],
-  "blocked": [],
-  "conflicts": [],
+  "sequential": [
+    {
+      "work_item_id": "WI-0172",
+      "title": "Compare a bounded delivery and fresh recovery with and without Temple",
+      "disposition": "sequential",
+      "position_id": "engineering_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "base_revision_recorded",
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0183",
+      "title": "Design lower-overhead Lean execution after v7 comparison",
+      "disposition": "sequential",
+      "position_id": "engineering_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0192",
+      "title": "Repair paired evaluation evidence without changing sealed results",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0202",
+      "title": "End-to-end check of native helper lifecycle repair",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0204",
+      "title": "Separate root delegation from leaf instructions and cancellation state",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0210",
+      "title": "Complete frozen three-arm comparison after read-only Git compatibility repair",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0211",
+      "title": "Integrate completed context comparison without reintroducing old history",
+      "disposition": "sequential",
+      "position_id": "release_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0212",
+      "title": "Clarify product-test reruns after evidence-only edits",
+      "disposition": "sequential",
+      "position_id": "release_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0214",
+      "title": "Evaluate model-facing context representation",
+      "disposition": "sequential",
+      "position_id": "engineering_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "base_revision_recorded",
+        "affected_paths_declared",
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0220",
+      "title": "Run fresh format comparison with argument diagnostics",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "affected_paths_declared",
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0223",
+      "title": "Design diagnostic Full versus Model comparison",
+      "disposition": "sequential",
+      "position_id": "tech_lead",
+      "agent_id": "agent-tidus",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
+    },
+    {
+      "work_item_id": "WI-0225",
+      "title": "Design proportionate small-task delivery and reliable evaluation",
+      "disposition": "sequential",
+      "position_id": "tech_lead",
+      "agent_id": "agent-tidus",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "requested_mode_sequential"
+      ]
+    },
+    {
+      "work_item_id": "WI-0234",
+      "title": "Execute approved fresh takeover comparison",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
+    }
+  ],
+  "blocked": [
+    {
+      "work_item_id": "WI-0189",
+      "title": "Compare single-worker and parallel Terra delivery",
+      "disposition": "blocked",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-rikku",
+      "reasons": [
+        "unresolved_items_cleared"
+      ]
+    },
+    {
+      "work_item_id": "WI-0191",
+      "title": "Evaluate proportionate routes with matched before-after scenarios",
+      "disposition": "blocked",
+      "position_id": "release_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [
+        "unresolved_items_cleared"
+      ]
+    },
+    {
+      "work_item_id": "WI-0193",
+      "title": "Run bounded native support comparison after measurement repair",
+      "disposition": "blocked",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [
+        "unresolved_items_cleared"
+      ]
+    },
+    {
+      "work_item_id": "WI-0208",
+      "title": "Measure three-arm context minimization and design continuity scenarios",
+      "disposition": "blocked",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "unresolved_items_cleared"
+      ]
+    },
+    {
+      "work_item_id": "WI-0209",
+      "title": "Repair comparison readiness and run a new three-arm diagnostic",
+      "disposition": "blocked",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "unresolved_items_cleared"
+      ]
+    },
+    {
+      "work_item_id": "WI-0215",
+      "title": "Run bounded full versus model context comparison",
+      "disposition": "blocked",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-mog",
+      "reasons": [
+        "unresolved_items_cleared"
+      ]
+    },
+    {
+      "work_item_id": "WI-0217",
+      "title": "Execute authorized warning-policy format comparison",
+      "disposition": "blocked",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "unresolved_items_cleared"
+      ]
+    },
+    {
+      "work_item_id": "WI-0236",
+      "title": "Review and integrate bounded delivery, then run a minimal comparison",
+      "disposition": "blocked",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "unresolved_items_cleared"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0172",
+      "right_work_item_id": "WI-0190",
+      "paths": [
+        {
+          "left_path": "test/delivery-control-pair.test.mjs",
+          "right_path": "test"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0172",
+      "right_work_item_id": "WI-0208",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0172",
+      "right_work_item_id": "WI-0209",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        },
+        {
+          "left_path": "test/delivery-control-pair.test.mjs",
+          "right_path": "test/delivery-control-pair.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0172",
+      "right_work_item_id": "WI-0211",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts"
+        },
+        {
+          "left_path": "test/delivery-control-pair.test.mjs",
+          "right_path": "test"
+        },
+        {
+          "left_path": ".ai-org/artifacts/WI-0172",
+          "right_path": ".ai-org"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0172",
+      "right_work_item_id": "WI-0212",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        },
+        {
+          "left_path": "test/delivery-control-pair.test.mjs",
+          "right_path": "test/delivery-control-pair.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0172",
+      "right_work_item_id": "WI-0215",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0172",
+      "right_work_item_id": "WI-0216",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0183",
+      "right_work_item_id": "WI-0211",
+      "paths": [
+        {
+          "left_path": ".ai-org/artifacts/WI-0183",
+          "right_path": ".ai-org"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0189",
+      "right_work_item_id": "WI-0211",
+      "paths": [
+        {
+          "left_path": ".ai-org/artifacts/WI-0189",
+          "right_path": ".ai-org"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0190",
+      "right_work_item_id": "WI-0208",
+      "paths": [
+        {
+          "left_path": "test",
+          "right_path": "test/context-material-comparison.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0190",
+      "right_work_item_id": "WI-0209",
+      "paths": [
+        {
+          "left_path": "test",
+          "right_path": "test/context-material-comparison.test.mjs"
+        },
+        {
+          "left_path": "test",
+          "right_path": "test/delivery-control-pair.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0190",
+      "right_work_item_id": "WI-0210",
+      "paths": [
+        {
+          "left_path": "test",
+          "right_path": "test/delivery-command-policy.test.mjs"
+        },
+        {
+          "left_path": "test",
+          "right_path": "test/context-material-comparison.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0190",
+      "right_work_item_id": "WI-0211",
+      "paths": [
+        {
+          "left_path": "project-overlay",
+          "right_path": "project-overlay"
+        },
+        {
+          "left_path": "docs/operations",
+          "right_path": "docs"
+        },
+        {
+          "left_path": "docs/extensions/skill-scenarios.md",
+          "right_path": "docs"
+        },
+        {
+          "left_path": "docs/extensions/capability-catalog.md",
+          "right_path": "docs"
+        },
+        {
+          "left_path": "docs/adr",
+          "right_path": "docs"
+        },
+        {
+          "left_path": "test",
+          "right_path": "test"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0190",
+      "right_work_item_id": "WI-0212",
+      "paths": [
+        {
+          "left_path": "test",
+          "right_path": "test/delivery-control-pair.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0190",
+      "right_work_item_id": "WI-0213",
+      "paths": [
+        {
+          "left_path": "test",
+          "right_path": "test/context-enter.test.mjs"
+        },
+        {
+          "left_path": "test",
+          "right_path": "test/context-model-view.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0190",
+      "right_work_item_id": "WI-0215",
+      "paths": [
+        {
+          "left_path": "test",
+          "right_path": "test/context-format-comparison.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0190",
+      "right_work_item_id": "WI-0216",
+      "paths": [
+        {
+          "left_path": "test",
+          "right_path": "test/context-format-comparison.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0190",
+      "right_work_item_id": "WI-0218",
+      "paths": [
+        {
+          "left_path": "test",
+          "right_path": "test/delivery-command-policy.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0190",
+      "right_work_item_id": "WI-0219",
+      "paths": [
+        {
+          "left_path": "test",
+          "right_path": "test/context-enter.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0190",
+      "right_work_item_id": "WI-0224",
+      "paths": [
+        {
+          "left_path": "test",
+          "right_path": "test/diagnostic-format-comparison.test.mjs"
+        },
+        {
+          "left_path": "test",
+          "right_path": "test/diagnostic-maintenance-fixture.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0190",
+      "right_work_item_id": "WI-0234",
+      "paths": [
+        {
+          "left_path": "test",
+          "right_path": "test/continuity-live-runner.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0190",
+      "right_work_item_id": "WI-0236",
+      "paths": [
+        {
+          "left_path": "test",
+          "right_path": "test/continuity-live-runner.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0190",
+      "right_work_item_id": "WI-0241",
+      "paths": [
+        {
+          "left_path": "test",
+          "right_path": "test/continuity-live-runner.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0191",
+      "right_work_item_id": "WI-0192",
+      "paths": [
+        {
+          "left_path": ".ai-org/artifacts/WI-0191",
+          "right_path": ".ai-org/artifacts/WI-0191/live-authorization.md"
+        },
+        {
+          "left_path": ".ai-org/artifacts/WI-0191",
+          "right_path": ".ai-org/artifacts/WI-0191/live-report.md"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0191",
+      "right_work_item_id": "WI-0211",
+      "paths": [
+        {
+          "left_path": ".ai-org/artifacts/WI-0191",
+          "right_path": ".ai-org"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0192",
+      "right_work_item_id": "WI-0211",
+      "paths": [
+        {
+          "left_path": ".ai-org/artifacts/WI-0192",
+          "right_path": ".ai-org"
+        },
+        {
+          "left_path": ".ai-org/artifacts/WI-0191/live-authorization.md",
+          "right_path": ".ai-org"
+        },
+        {
+          "left_path": ".ai-org/artifacts/WI-0191/live-report.md",
+          "right_path": ".ai-org"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0193",
+      "right_work_item_id": "WI-0211",
+      "paths": [
+        {
+          "left_path": ".ai-org/artifacts/WI-0193",
+          "right_path": ".ai-org"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0202",
+      "right_work_item_id": "WI-0211",
+      "paths": [
+        {
+          "left_path": ".ai-org/artifacts/WI-0202",
+          "right_path": ".ai-org"
+        },
+        {
+          "left_path": ".ai-org/artifacts/WI-0201/live-approval.md",
+          "right_path": ".ai-org"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0204",
+      "right_work_item_id": "WI-0211",
+      "paths": [
+        {
+          "left_path": ".ai-org/artifacts/WI-0204",
+          "right_path": ".ai-org"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0208",
+      "right_work_item_id": "WI-0209",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        },
+        {
+          "left_path": "scripts/context-material-comparison.mjs",
+          "right_path": "scripts/context-material-comparison.mjs"
+        },
+        {
+          "left_path": "test/context-material-comparison.test.mjs",
+          "right_path": "test/context-material-comparison.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0208",
+      "right_work_item_id": "WI-0210",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-command-policy.mjs",
+          "right_path": "scripts/delivery-command-policy.mjs"
+        },
+        {
+          "left_path": "scripts/context-material-comparison.mjs",
+          "right_path": "scripts/context-material-comparison.mjs"
+        },
+        {
+          "left_path": "test/context-material-comparison.test.mjs",
+          "right_path": "test/context-material-comparison.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0208",
+      "right_work_item_id": "WI-0211",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts"
+        },
+        {
+          "left_path": "scripts/delivery-command-policy.mjs",
+          "right_path": "scripts"
+        },
+        {
+          "left_path": "scripts/context-material-comparison.mjs",
+          "right_path": "scripts"
+        },
+        {
+          "left_path": "test/context-material-comparison.test.mjs",
+          "right_path": "test"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0208",
+      "right_work_item_id": "WI-0212",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0208",
+      "right_work_item_id": "WI-0215",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        },
+        {
+          "left_path": "scripts/delivery-command-policy.mjs",
+          "right_path": "scripts/delivery-command-policy.mjs"
+        },
+        {
+          "left_path": "scripts/context-material-comparison.mjs",
+          "right_path": "scripts/context-material-comparison.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0208",
+      "right_work_item_id": "WI-0216",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0208",
+      "right_work_item_id": "WI-0218",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-command-policy.mjs",
+          "right_path": "scripts/delivery-command-policy.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0209",
+      "right_work_item_id": "WI-0210",
+      "paths": [
+        {
+          "left_path": "scripts/context-material-comparison.mjs",
+          "right_path": "scripts/context-material-comparison.mjs"
+        },
+        {
+          "left_path": "test/context-material-comparison.test.mjs",
+          "right_path": "test/context-material-comparison.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0209",
+      "right_work_item_id": "WI-0211",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts"
+        },
+        {
+          "left_path": "scripts/context-material-comparison.mjs",
+          "right_path": "scripts"
+        },
+        {
+          "left_path": "test/context-material-comparison.test.mjs",
+          "right_path": "test"
+        },
+        {
+          "left_path": "test/delivery-control-pair.test.mjs",
+          "right_path": "test"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0209",
+      "right_work_item_id": "WI-0212",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        },
+        {
+          "left_path": "test/delivery-control-pair.test.mjs",
+          "right_path": "test/delivery-control-pair.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0209",
+      "right_work_item_id": "WI-0215",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        },
+        {
+          "left_path": "scripts/context-material-comparison.mjs",
+          "right_path": "scripts/context-material-comparison.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0209",
+      "right_work_item_id": "WI-0216",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0210",
+      "right_work_item_id": "WI-0211",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-command-policy.mjs",
+          "right_path": "scripts"
+        },
+        {
+          "left_path": "test/delivery-command-policy.test.mjs",
+          "right_path": "test"
+        },
+        {
+          "left_path": "scripts/context-material-comparison.mjs",
+          "right_path": "scripts"
+        },
+        {
+          "left_path": "test/context-material-comparison.test.mjs",
+          "right_path": "test"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0210",
+      "right_work_item_id": "WI-0215",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-command-policy.mjs",
+          "right_path": "scripts/delivery-command-policy.mjs"
+        },
+        {
+          "left_path": "scripts/context-material-comparison.mjs",
+          "right_path": "scripts/context-material-comparison.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0210",
+      "right_work_item_id": "WI-0218",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-command-policy.mjs",
+          "right_path": "scripts/delivery-command-policy.mjs"
+        },
+        {
+          "left_path": "test/delivery-command-policy.test.mjs",
+          "right_path": "test/delivery-command-policy.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0211",
+      "right_work_item_id": "WI-0212",
+      "paths": [
+        {
+          "left_path": "scripts",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        },
+        {
+          "left_path": "test",
+          "right_path": "test/delivery-control-pair.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0211",
+      "right_work_item_id": "WI-0213",
+      "paths": [
+        {
+          "left_path": "src",
+          "right_path": "src/context-model-view.mjs"
+        },
+        {
+          "left_path": "src",
+          "right_path": "src/cli.mjs"
+        },
+        {
+          "left_path": "test",
+          "right_path": "test/context-enter.test.mjs"
+        },
+        {
+          "left_path": "test",
+          "right_path": "test/context-model-view.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0211",
+      "right_work_item_id": "WI-0215",
+      "paths": [
+        {
+          "left_path": "scripts",
+          "right_path": "scripts/context-format-comparison.mjs"
+        },
+        {
+          "left_path": "scripts",
+          "right_path": "scripts/context-material-comparison.mjs"
+        },
+        {
+          "left_path": "scripts",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        },
+        {
+          "left_path": "scripts",
+          "right_path": "scripts/delivery-command-policy.mjs"
+        },
+        {
+          "left_path": "test",
+          "right_path": "test/context-format-comparison.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0211",
+      "right_work_item_id": "WI-0216",
+      "paths": [
+        {
+          "left_path": "scripts",
+          "right_path": "scripts/context-format-comparison.mjs"
+        },
+        {
+          "left_path": "scripts",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        },
+        {
+          "left_path": "test",
+          "right_path": "test/context-format-comparison.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0211",
+      "right_work_item_id": "WI-0218",
+      "paths": [
+        {
+          "left_path": "scripts",
+          "right_path": "scripts/delivery-command-policy.mjs"
+        },
+        {
+          "left_path": "test",
+          "right_path": "test/delivery-command-policy.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0211",
+      "right_work_item_id": "WI-0219",
+      "paths": [
+        {
+          "left_path": "test",
+          "right_path": "test/context-enter.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0211",
+      "right_work_item_id": "WI-0223",
+      "paths": [
+        {
+          "left_path": ".ai-org",
+          "right_path": ".ai-org/artifacts/WI-0223"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0211",
+      "right_work_item_id": "WI-0224",
+      "paths": [
+        {
+          "left_path": "scripts",
+          "right_path": "scripts/diagnostic-format-comparison.mjs"
+        },
+        {
+          "left_path": "scripts",
+          "right_path": "scripts/diagnostic-maintenance-fixture.mjs"
+        },
+        {
+          "left_path": "test",
+          "right_path": "test/diagnostic-format-comparison.test.mjs"
+        },
+        {
+          "left_path": "test",
+          "right_path": "test/diagnostic-maintenance-fixture.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0211",
+      "right_work_item_id": "WI-0225",
+      "paths": [
+        {
+          "left_path": ".ai-org",
+          "right_path": ".ai-org/artifacts/WI-0225"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0211",
+      "right_work_item_id": "WI-0234",
+      "paths": [
+        {
+          "left_path": "scripts",
+          "right_path": "scripts/continuity-live-runner.mjs"
+        },
+        {
+          "left_path": "test",
+          "right_path": "test/continuity-live-runner.test.mjs"
+        },
+        {
+          "left_path": ".ai-org",
+          "right_path": ".ai-org/artifacts/WI-0234"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0211",
+      "right_work_item_id": "WI-0236",
+      "paths": [
+        {
+          "left_path": "scripts",
+          "right_path": "scripts/continuity-live-runner.mjs"
+        },
+        {
+          "left_path": "test",
+          "right_path": "test/continuity-live-runner.test.mjs"
+        },
+        {
+          "left_path": ".ai-org",
+          "right_path": ".ai-org/artifacts/WI-0236"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0211",
+      "right_work_item_id": "WI-0241",
+      "paths": [
+        {
+          "left_path": "scripts",
+          "right_path": "scripts/continuity-live-runner.mjs"
+        },
+        {
+          "left_path": "test",
+          "right_path": "test/continuity-live-runner.test.mjs"
+        },
+        {
+          "left_path": ".ai-org",
+          "right_path": ".ai-org/artifacts/WI-0241"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0212",
+      "right_work_item_id": "WI-0215",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0212",
+      "right_work_item_id": "WI-0216",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0213",
+      "right_work_item_id": "WI-0219",
+      "paths": [
+        {
+          "left_path": "test/context-enter.test.mjs",
+          "right_path": "test/context-enter.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0215",
+      "right_work_item_id": "WI-0216",
+      "paths": [
+        {
+          "left_path": "scripts/context-format-comparison.mjs",
+          "right_path": "scripts/context-format-comparison.mjs"
+        },
+        {
+          "left_path": "scripts/delivery-control-pair.mjs",
+          "right_path": "scripts/delivery-control-pair.mjs"
+        },
+        {
+          "left_path": "test/context-format-comparison.test.mjs",
+          "right_path": "test/context-format-comparison.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0215",
+      "right_work_item_id": "WI-0218",
+      "paths": [
+        {
+          "left_path": "scripts/delivery-command-policy.mjs",
+          "right_path": "scripts/delivery-command-policy.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0234",
+      "right_work_item_id": "WI-0236",
+      "paths": [
+        {
+          "left_path": "scripts/continuity-live-runner.mjs",
+          "right_path": "scripts/continuity-live-runner.mjs"
+        },
+        {
+          "left_path": "test/continuity-live-runner.test.mjs",
+          "right_path": "test/continuity-live-runner.test.mjs"
+        }
+      ],
+      "resolution": "separate-waves"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0234",
+      "right_work_item_id": "WI-0241",
+      "paths": [
+        {
+          "left_path": "scripts/continuity-live-runner.mjs",
+          "right_path": "scripts/continuity-live-runner.mjs"
+        },
+        {
+          "left_path": "test/continuity-live-runner.test.mjs",
+          "right_path": "test/continuity-live-runner.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0236",
+      "right_work_item_id": "WI-0241",
+      "paths": [
+        {
+          "left_path": "scripts/continuity-live-runner.mjs",
+          "right_path": "scripts/continuity-live-runner.mjs"
+        },
+        {
+          "left_path": "test/continuity-live-runner.test.mjs",
+          "right_path": "test/continuity-live-runner.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    }
+  ],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 1,
+    "runtime_capacity_limit": null,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

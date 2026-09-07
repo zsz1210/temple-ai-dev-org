@@ -1,0 +1,115 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0242",
+  "title": "Measure two missing compact continuity conditions",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-07T14:23:56.134Z",
+  "updated_at": "2026-09-07T14:27:57.076Z",
+  "scope": [
+    "Execute exactly the newly approved frozen two-subject compact protocol after independent readiness acceptance. Preserve all observations and compare descriptively to retained historical references. No edits to frozen lab/protocol/runtime before dispatch, no retries, fallback, reset, purchase, merge or release."
+  ],
+  "acceptance_criteria": [
+    "Run the approved stable and changed-spec compact subjects once within fixed Terra medium 100000 Operational Tokens/eight minutes each and 200000/twenty minutes total. Preserve any shared stop and unattempted subjects, audit seals, report quality, administration, usage, elapsed time, limits and next decision without pooled or causal claims."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0242"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-07T14:23:56.134Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "98b91476",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0211: no active writer; successor evidence-only WI-0242 leaves all prior source and artifacts unchanged. WI-0241 owns review only; execution waits for its QA acceptance and no shared writes."
+  ],
+  "claim": {
+    "id": "claim-20260907142757-cd4e0b33",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "98b91476",
+    "branch": "codex/learning-loop-incremental",
+    "worktree": null,
+    "claimed_at": "2026-09-07T14:27:57.076Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260907142435-1a065557",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "98b91476",
+      "branch": "codex/learning-loop-incremental",
+      "worktree": null,
+      "claimed_at": "2026-09-07T14:24:35.531Z",
+      "released_at": "2026-09-07T14:25:12.292Z",
+      "release_reason": [
+        "Recorded fresh exact execution authority and preflight; wait for independent readiness acceptance before Build."
+      ]
+    },
+    {
+      "id": "claim-20260907142757-cd4e0b33",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "98b91476",
+      "branch": "codex/learning-loop-incremental",
+      "worktree": null,
+      "claimed_at": "2026-09-07T14:27:57.076Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0242/authorization.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0242/authorization.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0242/authorization.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0242/authorization.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0241/independent-qa.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0242/authorization.md",
+    ".ai-org/artifacts/WI-0241/independent-qa.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
