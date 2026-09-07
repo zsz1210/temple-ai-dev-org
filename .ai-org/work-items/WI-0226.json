@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0226",
   "title": "Implement bounded Lean procedure routing and offline evaluation reliability",
-  "state": "eval",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "cancelled",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-07T01:53:42.480Z",
-  "updated_at": "2026-09-07T03:21:28.463Z",
+  "updated_at": "2026-09-07T03:25:53.015Z",
   "scope": [
     "Implement WI-0225 first slice: opt-in operation-scoped Lean instructions with whole-source fallback; offline command diagnostics and typed evaluation stop handling. Preserve distinct Verifier, old protocols and sealed samples. No live generation, default change, merge, release or publication."
   ],
@@ -50,7 +50,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "5aca59ce9058877576c4d06542680fc5f71984b1",
+  "base_revision": "40fb4de6c2e821182bd5c051103f86a04d255a03",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -72,17 +72,17 @@
     "WI-0224: no active claim; WI-0226 owns the new implementation. Prior protocols, historical artifacts and sealed labs are unchanged; source changes are successor-only."
   ],
   "claim": {
-    "id": "claim-20260907031845-98aab6e2",
+    "id": "claim-20260907032514-191ccd14",
     "status": "released",
     "principal_id": "human",
     "agent_id": "agent-lulu",
-    "base_revision": "5aca59ce9058877576c4d06542680fc5f71984b1",
+    "base_revision": "40fb4de6c2e821182bd5c051103f86a04d255a03",
     "branch": "codex/small-task-lean-design",
     "worktree": null,
-    "claimed_at": "2026-09-07T03:18:45.342Z",
-    "released_at": "2026-09-07T03:21:28.031Z",
+    "claimed_at": "2026-09-07T03:25:14.685Z",
+    "released_at": "2026-09-07T03:25:52.595Z",
     "release_reason": [
-      "Bounded reliability Test/Eval evidence complete; stop at Eval with original efficiency acceptance unresolved."
+      "Maintainer approved cancellation of combined scope; retained reliability acceptance transfers to WI-0228."
     ]
   },
   "claims": [
@@ -149,6 +149,20 @@
       "release_reason": [
         "Bounded reliability Test/Eval evidence complete; stop at Eval with original efficiency acceptance unresolved."
       ]
+    },
+    {
+      "id": "claim-20260907032514-191ccd14",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "40fb4de6c2e821182bd5c051103f86a04d255a03",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T03:25:14.685Z",
+      "released_at": "2026-09-07T03:25:52.595Z",
+      "release_reason": [
+        "Maintainer approved cancellation of combined scope; retained reliability acceptance transfers to WI-0228."
+      ]
     }
   ],
   "gate_evidence": {
@@ -175,6 +189,9 @@
     ],
     "test_evidence": [
       ".ai-org/artifacts/WI-0226/qa.md"
+    ],
+    "cancellation_reason": [
+      ".ai-org/artifacts/WI-0226/disposition.md"
     ]
   },
   "evidence": [
@@ -182,13 +199,14 @@
     ".ai-org/artifacts/WI-0226/handoff-001-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0226/report.md",
     ".ai-org/artifacts/WI-0226/handoff-002-quality_evaluator-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0226/qa.md"
+    ".ai-org/artifacts/WI-0226/qa.md",
+    ".ai-org/artifacts/WI-0226/disposition.md"
   ],
   "unresolved": [
     "Operation-material prototype rejected on complete-output measurements and withdrawn. Broader Lean overhead reduction is not delivered; retained candidate qualifies evaluation reliability only. No new live experiment is authorized.",
     "Original Lean efficiency acceptance remains unresolved. Evaluate retained reliability subset only; no formal QA, merge or live experiment is authorized by this handoff."
   ],
-  "next_position": "independent_qa",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",

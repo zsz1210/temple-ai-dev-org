@@ -1,0 +1,162 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0228",
+  "title": "Accept retained offline evaluation reliability independently of rejected Lean prototype",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
+  "created_at": "2026-09-07T03:25:15.060Z",
+  "updated_at": "2026-09-07T03:27:13.477Z",
+  "scope": [
+    "Accept the unchanged WI-0226 reliability subset only: bounded read-revision grammar, private first-stop diagnostics and future evaluation sequencing. Reuse exact candidate and existing tests; no source changes, live generation, routing/default changes, merge or publication."
+  ],
+  "acceptance_criteria": [
+    "Document predecessor rejection without claiming Lean efficiency; confirm the six retained files match candidate 5aca59ce9058877576c4d06542680fc5f71984b1; preserve revision authority, diagnostic privacy, all observed cost, explicit continuation and global uncertainty stops; obtain distinct-from-Developer Independent QA and stop at Release Gate."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0228"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-07T03:25:15.059Z",
+    "escalated": false
+  },
+  "parent_work_item_id": "WI-0226",
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "5aca59ce9058877576c4d06542680fc5f71984b1",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0211 has no active claim; only new WI-0228 evidence and supported state changes are written. All shared source, tests, and historical evidence remain unchanged."
+  ],
+  "claim": {
+    "id": "claim-20260907032642-17e662c7",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "5aca59ce9058877576c4d06542680fc5f71984b1",
+    "branch": "codex/small-task-lean-design",
+    "worktree": null,
+    "claimed_at": "2026-09-07T03:26:42.260Z",
+    "released_at": "2026-09-07T03:27:13.072Z",
+    "release_reason": [
+      "Unchanged retained candidate transferred to distinct reviewer under narrowed approved acceptance."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260907032553-7d742f47",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "40fb4de6c2e821182bd5c051103f86a04d255a03",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T03:25:53.863Z",
+      "released_at": "2026-09-07T03:26:40.204Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260907032640-fda4dcae",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "40fb4de6c2e821182bd5c051103f86a04d255a03",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T03:26:40.645Z",
+      "released_at": "2026-09-07T03:26:41.033Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260907032641-0f0c2068",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "40fb4de6c2e821182bd5c051103f86a04d255a03",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T03:26:41.467Z",
+      "released_at": "2026-09-07T03:26:41.837Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260907032642-17e662c7",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "5aca59ce9058877576c4d06542680fc5f71984b1",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T03:26:42.260Z",
+      "released_at": "2026-09-07T03:27:13.072Z",
+      "release_reason": [
+        "Unchanged retained candidate transferred to distinct reviewer under narrowed approved acceptance."
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0228/acceptance.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0228/acceptance.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0228/acceptance.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0228/acceptance.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0228/acceptance.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0228/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0228/acceptance.md",
+      ".ai-org/artifacts/WI-0226/report.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0228/acceptance.md",
+    ".ai-org/artifacts/WI-0228/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0226/report.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "5aca59ce9058877576c4d06542680fc5f71984b1",
+      "artifact": ".ai-org/artifacts/WI-0228/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-07T03:27:12.653Z"
+    }
+  ],
+  "developer_candidate_revision": "5aca59ce9058877576c4d06542680fc5f71984b1"
+}

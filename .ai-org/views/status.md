@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 227 total, 27 active
+- Work items: 228 total, 27 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 75 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -273,8 +273,9 @@
 | WI-0223 | Design diagnostic Full versus Model comparison | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 | WI-0224 | Implement two-family diagnostic comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `df40202b` | 0 | 4 | 0 |
 | WI-0225 | Design proportionate small-task delivery and reliable evaluation | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 4 | 2 |
-| WI-0226 | Implement bounded Lean procedure routing and offline evaluation reliability | eval | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 5 | 2 |
+| WI-0226 | Implement bounded Lean procedure routing and offline evaluation reliability | cancelled | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 6 | 2 |
 | WI-0227 | Reduce always-loaded operating instructions without weakening gates | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f7062396` | 0 | 7 | 0 |
+| WI-0228 | Accept retained offline evaluation reliability independently of rejected Lean prototype | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 3 | 0 |
 
 ## Codex task registry
 
@@ -407,7 +408,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 79
+- Team-visible Work Items: 80
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -480,14 +481,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-07T03:21:28.463Z | work_item_transitioned | WI-0226 | agent-lulu |
-| 2026-09-07T03:21:28.031Z | work_item_claim_released | WI-0226 | human |
-| 2026-09-07T03:21:08.875Z | handoff_created | WI-0226 | agent-lulu |
-| 2026-09-07T03:18:45.342Z | work_item_claimed | WI-0226 | human |
-| 2026-09-07T03:06:33.880Z | work_item_transitioned | WI-0227 | agent-lulu |
-| 2026-09-07T03:06:33.453Z | work_item_claim_released | WI-0227 | human |
-| 2026-09-07T03:06:33.032Z | handoff_created | WI-0227 | agent-lulu |
-| 2026-09-07T03:06:32.480Z | work_item_claimed | WI-0227 | human |
+| 2026-09-07T03:27:13.477Z | work_item_transitioned | WI-0228 | agent-rikku |
+| 2026-09-07T03:27:13.072Z | work_item_claim_released | WI-0228 | human |
+| 2026-09-07T03:27:12.653Z | handoff_created | WI-0228 | agent-rikku |
+| 2026-09-07T03:26:42.260Z | work_item_claimed | WI-0228 | human |
+| 2026-09-07T03:26:41.837Z | work_item_transitioned | WI-0228 | agent-tidus |
+| 2026-09-07T03:26:41.467Z | work_item_claimed | WI-0228 | human |
+| 2026-09-07T03:26:41.033Z | work_item_transitioned | WI-0228 | agent-yuna |
+| 2026-09-07T03:26:40.645Z | work_item_claimed | WI-0228 | human |
 
 ## Assignments
 
