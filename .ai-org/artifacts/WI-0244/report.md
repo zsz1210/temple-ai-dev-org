@@ -77,3 +77,12 @@ If a later live sample is approved, its frozen instrument must include the new
 record version and still name the decision it can change. Changed-spec coverage
 remains missing. No live preparation/run, Learning promotion, policy change,
 merge or release was performed by this audit.
+
+## Verification and bounded closeout
+
+[Full verification](verification.md) passed 794 tests at candidate
+`b0a87c88798491ecf500c67cb2f857272dbb5567`.
+[Independent QA](independent-qa.md) passed nine focused tests and a separate
+30-case parent/candidate comparison with no blocking findings. WI-0244 is
+organizationally accepted for the diagnostic change only. This is not acceptance
+of an efficiency claim or permission for another experiment or external release.

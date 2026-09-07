@@ -2482,6 +2482,34 @@
       "attached_at": "2026-09-07T14:59:46.485Z",
       "completed_at": "2026-09-07T15:03:26.502Z",
       "updated_at": "2026-09-07T15:03:26.502Z"
+    },
+    {
+      "id": "worker-20260907152131-973c5646",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0244",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260907152131-021bfb5e",
+      "base_revision": "b0a87c88798491ecf500c67cb2f857272dbb5567",
+      "branch": "codex/continuity-cost-audit",
+      "worktree": null,
+      "plan_fingerprint": "8dbdd2837b70fb46b8a774c91552d8799043b550c52d55e07ca4ccee2afeb8c0",
+      "plan_digest": "6644ddc9545af340fe2b0a7852b547f7399dc172a93671edfa73b79ceb9ba61a",
+      "preparation_fingerprint": "65825835128b4ae2264aed98330c2c9876885742301676d9ddce9e3dd2b6f04a",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0244_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "b0a87c88798491ecf500c67cb2f857272dbb5567",
+      "evidence": [
+        ".ai-org/artifacts/WI-0244/independent-qa.md"
+      ],
+      "reserved_at": "2026-09-07T15:21:31.326Z",
+      "attached_at": "2026-09-07T15:22:01.072Z",
+      "completed_at": "2026-09-07T15:24:51.497Z",
+      "updated_at": "2026-09-07T15:24:51.497Z"
     }
   ]
 }
