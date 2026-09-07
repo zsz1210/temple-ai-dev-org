@@ -1,0 +1,100 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0233",
+  "title": "Qualify named permissions for continuity experiments",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-07T06:05:36.916Z",
+  "updated_at": "2026-09-07T06:06:36.695Z",
+  "scope": [
+    "Probe installed named permission profiles on exclusively owned synthetic files using no model generation; preserve historical diagnostics and identify remaining launch decisions."
+  ],
+  "acceptance_criteria": [
+    "Record declared named-profile support and actual own, sibling, symlink, Git and network controls; replay failures and cleanup; keep command-only evidence distinct from live readiness; full verification and distinct QA."
+  ],
+  "affected_paths": [
+    "scripts/continuity-named-permissions.mjs",
+    "test/continuity-named-permissions.test.mjs",
+    ".ai-org/artifacts/WI-0233"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Repository-only diagnostic instrument; no project or global security policy changes and no model launch.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-07T06:05:36.915Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "0ffb5ce3",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260907060636-b358a9d5",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "0ffb5ce3",
+    "branch": "codex/continuity-named-permissions",
+    "worktree": null,
+    "claimed_at": "2026-09-07T06:06:36.695Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260907060636-b358a9d5",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "0ffb5ce3",
+      "branch": "codex/continuity-named-permissions",
+      "worktree": null,
+      "claimed_at": "2026-09-07T06:06:36.695Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0233/brief.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0233/brief.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0233/brief.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0233/brief.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0233/brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0233/brief.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
