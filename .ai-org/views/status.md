@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 228 total, 27 active
+- Work items: 228 total, 25 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 75 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -274,8 +274,8 @@
 | WI-0224 | Implement two-family diagnostic comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `df40202b` | 0 | 4 | 0 |
 | WI-0225 | Design proportionate small-task delivery and reliable evaluation | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 4 | 2 |
 | WI-0226 | Implement bounded Lean procedure routing and offline evaluation reliability | cancelled | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 6 | 2 |
-| WI-0227 | Reduce always-loaded operating instructions without weakening gates | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f7062396` | 0 | 7 | 0 |
-| WI-0228 | Accept retained offline evaluation reliability independently of rejected Lean prototype | release_gate | Release Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 6 | 0 |
+| WI-0227 | Reduce always-loaded operating instructions without weakening gates | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f7062396` | 0 | 8 | 0 |
+| WI-0228 | Accept retained offline evaluation reliability independently of rejected Lean prototype | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 7 | 0 |
 
 ## Codex task registry
 
@@ -481,14 +481,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-07T03:36:46.253Z | work_item_closed | WI-0228 | agent-mog |
+| 2026-09-07T03:36:46.253Z | release_gate_completed | WI-0228 | agent-mog |
+| 2026-09-07T03:36:45.883Z | work_item_claimed | WI-0228 | human |
+| 2026-09-07T03:36:45.261Z | work_item_closed | WI-0227 | agent-mog |
+| 2026-09-07T03:36:45.261Z | release_gate_completed | WI-0227 | agent-mog |
+| 2026-09-07T03:36:44.743Z | work_item_claimed | WI-0227 | human |
 | 2026-09-07T03:30:13.175Z | work_item_transitioned | WI-0228 | agent-lulu |
 | 2026-09-07T03:30:12.758Z | work_item_claim_released | WI-0228 | human |
-| 2026-09-07T03:30:12.348Z | handoff_created | WI-0228 | agent-lulu |
-| 2026-09-07T03:29:56.898Z | work_item_claimed | WI-0228 | human |
-| 2026-09-07T03:29:29.169Z | work_item_transitioned | WI-0228 | agent-lulu |
-| 2026-09-07T03:29:28.720Z | work_item_claim_released | WI-0228 | human |
-| 2026-09-07T03:29:28.270Z | handoff_created | WI-0228 | agent-lulu |
-| 2026-09-07T03:29:27.844Z | work_item_transitioned | WI-0228 | agent-lulu |
 
 ## Assignments
 

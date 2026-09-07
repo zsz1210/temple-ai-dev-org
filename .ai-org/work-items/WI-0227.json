@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0227",
   "title": "Reduce always-loaded operating instructions without weakening gates",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-07T02:41:13.973Z",
-  "updated_at": "2026-09-07T03:06:33.880Z",
+  "updated_at": "2026-09-07T03:36:45.261Z",
   "scope": [
     "Implement WI-0225 composition-audit contract refactor in distributed TEMPLE and native routing; preserve full source acquisition, identity separation, project-owned upgrades and existing policies. Add local instruction and installation verification; no live experiment or publication."
   ],
@@ -55,18 +55,16 @@
     "WI-0190 and WI-0211 have released claims; edit only the two named overlay instructions and a new isolated test. WI-0226 has released its Developer claim and its reliability candidate remains unchanged; do not edit its sources, tests or evidence."
   ],
   "claim": {
-    "id": "claim-20260907030632-7932c58a",
+    "id": "claim-20260907033644-337654f3",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
+    "agent_id": "agent-mog",
     "base_revision": "f706239624b3fe9748767ea58128ebf5a2b587ea",
     "branch": "codex/small-task-lean-design",
     "worktree": null,
-    "claimed_at": "2026-09-07T03:06:32.480Z",
-    "released_at": "2026-09-07T03:06:33.453Z",
-    "release_reason": [
-      "Independent QA complete; stop at Release Gate for Release Manager."
-    ]
+    "claimed_at": "2026-09-07T03:36:44.743Z",
+    "released_at": "2026-09-07T03:36:45.261Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -146,6 +144,18 @@
       "release_reason": [
         "Independent QA complete; stop at Release Gate for Release Manager."
       ]
+    },
+    {
+      "id": "claim-20260907033644-337654f3",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "f706239624b3fe9748767ea58128ebf5a2b587ea",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T03:36:44.743Z",
+      "released_at": "2026-09-07T03:36:45.261Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -178,6 +188,18 @@
     ],
     "independent_qa_pass": [
       ".ai-org/artifacts/WI-0227/qa.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0227/brief.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0227/qa.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0227/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0227/integration-approval.md"
     ]
   },
   "evidence": [
@@ -187,10 +209,11 @@
     ".ai-org/artifacts/WI-0227/report.md",
     ".ai-org/artifacts/WI-0227/qa.md",
     ".ai-org/artifacts/WI-0227/handoff-002-quality_evaluator-to-independent_qa.md",
-    ".ai-org/artifacts/WI-0227/handoff-003-independent_qa-to-release_manager.md"
+    ".ai-org/artifacts/WI-0227/handoff-003-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0227/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -217,5 +240,11 @@
       "created_at": "2026-09-07T03:06:33.032Z"
     }
   ],
-  "developer_candidate_revision": "f706239624b3fe9748767ea58128ebf5a2b587ea"
+  "developer_candidate_revision": "f706239624b3fe9748767ea58128ebf5a2b587ea",
+  "tested_revision": "f706239624b3fe9748767ea58128ebf5a2b587ea",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0227/integration-approval.md"
 }
