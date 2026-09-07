@@ -1,0 +1,259 @@
+{
+  "schema_version": "wi0239-comparison-report/v1",
+  "source_revision": "af5a984aee6706ab308c693d95e138134162d5d6",
+  "evidence_parent_revision": "a69a5080978b28ef482753ba70dea8d0b6960748",
+  "protocol": "sha256:dafc7fa80cdb274770c8bb339df2bb74a5067f615ce783c02856e80b5804cd27",
+  "seal": {
+    "protocol_sha256": "sha256:dafc7fa80cdb274770c8bb339df2bb74a5067f615ce783c02856e80b5804cd27",
+    "run_sha256": "sha256:f989e35cd9e0f22c67623397434ebd5603a8a38493b076fd77b8ea2d4e216bd3",
+    "sealed_at": "2026-09-07T13:07:48.755Z"
+  },
+  "run_status": "stopped",
+  "first_stop": "token-limit",
+  "planned_subjects": 6,
+  "attempted_subjects": 2,
+  "observed_operational_tokens": 132550,
+  "aggregate_usage_complete": false,
+  "batch_elapsed_ms": 324539,
+  "envelope": {
+    "model": "gpt-5.6-terra",
+    "effort": "medium",
+    "subjects": 6,
+    "subject_tokens": 100000,
+    "subject_ms": 480000,
+    "total_tokens": 600000,
+    "total_ms": 3600000,
+    "retries": 0,
+    "fallback": false,
+    "purchase": false,
+    "reset": false
+  },
+  "rows": [
+    {
+      "index": 1,
+      "state": "stable",
+      "treatment": "ordinary",
+      "status": "completed",
+      "first_stop": null,
+      "model": "gpt-5.6-terra",
+      "effort": "medium",
+      "usage_status": "observed-completed-turn",
+      "usage": {
+        "input_tokens": 103658,
+        "cached_input_tokens": 74752,
+        "output_tokens": 2468,
+        "reasoning_output_tokens": 357,
+        "total_tokens": 106126,
+        "operational_tokens": 31374
+      },
+      "usage_is_complete": true,
+      "product_result": "passed",
+      "oracle": {
+        "passed": true,
+        "revision": "a4f53ca5e6055f47f6f179b4057176cd7cce162c",
+        "delivery_revision": "a4f53ca5e6055f47f6f179b4057176cd7cce162c",
+        "state": "stable",
+        "case_count": 46,
+        "exit_code": 0,
+        "reason": "accepted",
+        "product_scope_only": true,
+        "live_sandbox_qualified": false
+      },
+      "accepted": true,
+      "administration_complete": null,
+      "setup_ms": 1162,
+      "turn_through_cleanup_ms": 80013,
+      "attempt_ms": 81175,
+      "commands": 8,
+      "command_observations": {
+        "schema_version": "continuity-command-observations/v2",
+        "completed_items": 8,
+        "categories": {
+          "reading": 0,
+          "context_navigation": 0,
+          "testing": 1,
+          "git": 0,
+          "administration": 0,
+          "diagnostics": 0,
+          "editing": 0,
+          "unknown": 7
+        },
+        "observed_output_bytes": 3969,
+        "output_bytes_by_category": {
+          "reading": 0,
+          "context_navigation": 0,
+          "testing": 237,
+          "git": 0,
+          "administration": 0,
+          "diagnostics": 0,
+          "editing": 0,
+          "unknown": 3732
+        },
+        "output_unavailable": 0,
+        "output_capped": 0,
+        "duplicate_events": 0,
+        "unidentified_events": 0,
+        "limit_reached": false
+      },
+      "command_failures": [
+        {
+          "at_ms": 9364,
+          "exit_code": 127
+        }
+      ],
+      "extra_repeated_command_signatures": 0,
+      "server_exit_confirmed": true,
+      "terminals_empty": true,
+      "interrupt_requested": false,
+      "request_bytes": {
+        "schema_version": "continuity-request-bytes/v1",
+        "authored_user_text": {
+          "bytes": 1070,
+          "status": "observed-field"
+        },
+        "authored_developer_text": {
+          "bytes": 624,
+          "status": "observed-field"
+        },
+        "output_schema": {
+          "bytes": 678,
+          "status": "observed-field"
+        },
+        "native_context_bytes": null,
+        "total_model_context_bytes": null
+      }
+    },
+    {
+      "index": 2,
+      "state": "stable",
+      "treatment": "temple_previous",
+      "status": "stopped",
+      "first_stop": "token-limit",
+      "model": "gpt-5.6-terra",
+      "effort": "medium",
+      "usage_status": "incomplete-observation",
+      "usage": {
+        "input_tokens": 977360,
+        "cached_input_tokens": 883712,
+        "output_tokens": 7528,
+        "reasoning_output_tokens": 1482,
+        "total_tokens": 984888,
+        "operational_tokens": 101176
+      },
+      "usage_is_complete": false,
+      "product_result": "not-evaluated",
+      "oracle": null,
+      "accepted": null,
+      "administration_complete": null,
+      "setup_ms": 1518,
+      "turn_through_cleanup_ms": 240580,
+      "attempt_ms": 242098,
+      "commands": 29,
+      "command_observations": {
+        "schema_version": "continuity-command-observations/v2",
+        "completed_items": 29,
+        "categories": {
+          "reading": 7,
+          "context_navigation": 1,
+          "testing": 2,
+          "git": 1,
+          "administration": 6,
+          "diagnostics": 0,
+          "editing": 0,
+          "unknown": 12
+        },
+        "observed_output_bytes": 74906,
+        "output_bytes_by_category": {
+          "reading": 29598,
+          "context_navigation": 4806,
+          "testing": 468,
+          "git": 41,
+          "administration": 23305,
+          "diagnostics": 0,
+          "editing": 0,
+          "unknown": 16688
+        },
+        "output_unavailable": 0,
+        "output_capped": 0,
+        "duplicate_events": 0,
+        "unidentified_events": 0,
+        "limit_reached": false
+      },
+      "command_failures": [
+        {
+          "at_ms": 16965,
+          "exit_code": 1
+        },
+        {
+          "at_ms": 65632,
+          "exit_code": 1
+        },
+        {
+          "at_ms": 90314,
+          "exit_code": 127
+        },
+        {
+          "at_ms": 179090,
+          "exit_code": 1
+        }
+      ],
+      "extra_repeated_command_signatures": 3,
+      "server_exit_confirmed": true,
+      "terminals_empty": true,
+      "interrupt_requested": true,
+      "request_bytes": {
+        "schema_version": "continuity-request-bytes/v1",
+        "authored_user_text": {
+          "bytes": 2107,
+          "status": "observed-field"
+        },
+        "authored_developer_text": {
+          "bytes": 624,
+          "status": "observed-field"
+        },
+        "output_schema": {
+          "bytes": 678,
+          "status": "observed-field"
+        },
+        "native_context_bytes": null,
+        "total_model_context_bytes": null
+      }
+    },
+    {
+      "index": 3,
+      "state": "stable",
+      "treatment": "temple",
+      "status": "not-run",
+      "reason": "batch-token-limit",
+      "usage": null,
+      "product_result": "not-observed"
+    },
+    {
+      "index": 4,
+      "state": "changed-spec",
+      "treatment": "temple",
+      "status": "not-run",
+      "reason": "batch-token-limit",
+      "usage": null,
+      "product_result": "not-observed"
+    },
+    {
+      "index": 5,
+      "state": "changed-spec",
+      "treatment": "temple_previous",
+      "status": "not-run",
+      "reason": "batch-token-limit",
+      "usage": null,
+      "product_result": "not-observed"
+    },
+    {
+      "index": 6,
+      "state": "changed-spec",
+      "treatment": "ordinary",
+      "status": "not-run",
+      "reason": "batch-token-limit",
+      "usage": null,
+      "product_result": "not-observed"
+    }
+  ]
+}
