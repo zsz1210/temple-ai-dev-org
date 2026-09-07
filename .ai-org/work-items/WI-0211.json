@@ -6,7 +6,7 @@
   "owner_position": "release_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T12:02:06.463Z",
-  "updated_at": "2026-09-07T11:45:16.461Z",
+  "updated_at": "2026-09-07T13:21:19.778Z",
   "scope": [
     "Reconcile the approved local WI-0203 and WI-0205 through WI-0210 content onto current main, preserve main features and authoritative evidence, resolve ADR numbering, normalize local metadata, verify and submit a focused PR. No model experiments or npm publication."
   ],
@@ -64,7 +64,8 @@
     "WI-0225 owns a new design-only artifact directory; WI-0211 has no active claim. Prior integration source and evidence stay frozen; only this coordination note is appended.",
     "WI-0235 independent exact-candidate review may write its own evidence only; no concurrent source changes. WI-0236 waits for review before instrument edits; historical candidates and outcomes remain unchanged.",
     "WI-0237: authorized isolated successor and exact-candidate review on codex/evaluation-reliability-review. No active writer here; prior outcomes, candidate and artifacts stay frozen. Scope: WI-0237/design.md.",
-    "WI-0238: isolated authorized successor on codex/small-task-operating-contract from 4c606f71; owns instruction-source and future readiness changes only, preserves prior candidates and artifacts; no concurrent writer; see WI-0238/design.md."
+    "WI-0238: isolated authorized successor on codex/small-task-operating-contract from 4c606f71; owns instruction-source and future readiness changes only, preserves prior candidates and artifacts; no concurrent writer; see WI-0238/design.md.",
+    "WI-0239: released predecessor claim; isolated evidence-only successor on codex/matched-instruction-comparison. No edits to existing candidates, artifacts or framework source; only this coordination note. No concurrent writer."
   ],
   "claim": {
     "id": "claim-20260906120245-aae4805b",

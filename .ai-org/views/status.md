@@ -5,9 +5,9 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 238 total, 27 active
+- Work items: 239 total, 27 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 83 registered, 0 reserved, 0 active
+- Runtime workers: 84 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -286,6 +286,7 @@
 | WI-0236 | Review and integrate bounded delivery, then run a minimal comparison | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1f922e99` | 0 | 5 | 3 |
 | WI-0237 | Repair evaluation contracts and audit small-task overhead before further comparison | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e88f3274` | 0 | 12 | 0 |
 | WI-0238 | Reduce repeated small-task instructions and qualify matched comparison readiness | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `af5a984a` | 0 | 12 | 0 |
+| WI-0239 | Measure ordinary, previous and compact Temple instructions | concluded | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `312fc3cc` | 0 | 8 | 0 |
 
 ## Codex task registry
 
@@ -391,6 +392,7 @@
 | worker-20260907112554-6fadd16f | internal-subagent | WI-0237 | Independent QA / Lulu | completed | /root/wi0237_formal_qa | `e88f3274` | 0 |
 | worker-20260907122239-523a6a13 | internal-subagent | WI-0238 | Independent QA / Lulu | completed | /root/wi0238_qa | `173f43e1` | 0 |
 | worker-20260907124026-08601f87 | internal-subagent | WI-0238 | Independent QA / Lulu | completed | /root/wi0238_qa_r1 | `af5a984a` | 0 |
+| worker-20260907132014-d4e58e3f | internal-subagent | WI-0239 | Independent QA / Lulu | completed | /root/wi0239_qa | `312fc3cc` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -425,7 +427,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 90
+- Team-visible Work Items: 91
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -498,14 +500,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-07T12:48:50.348Z | work_item_closed | WI-0238 | agent-mog |
-| 2026-09-07T12:48:50.348Z | release_gate_completed | WI-0238 | agent-mog |
-| 2026-09-07T12:48:50.050Z | work_item_claimed | WI-0238 | human |
-| 2026-09-07T12:48:49.696Z | work_item_coordination_configured | WI-0238 | agent-mog |
-| 2026-09-07T12:48:49.393Z | work_item_transitioned | WI-0238 | agent-lulu |
-| 2026-09-07T12:48:49.086Z | work_item_claim_released | WI-0238 | human |
-| 2026-09-07T12:48:48.762Z | handoff_created | WI-0238 | agent-lulu |
-| 2026-09-07T12:48:48.396Z | runtime_worker_status_changed | WI-0238 | agent-lulu |
+| 2026-09-07T13:26:45.649Z | work_item_concluded | WI-0239 | agent-mog |
+| 2026-09-07T13:26:45.649Z | release_gate_completed | WI-0239 | agent-mog |
+| 2026-09-07T13:26:45.363Z | work_item_claimed | WI-0239 | human |
+| 2026-09-07T13:26:45.012Z | work_item_coordination_configured | WI-0239 | agent-mog |
+| 2026-09-07T13:26:44.719Z | work_item_transitioned | WI-0239 | agent-lulu |
+| 2026-09-07T13:26:44.430Z | work_item_claim_released | WI-0239 | human |
+| 2026-09-07T13:26:44.142Z | handoff_created | WI-0239 | agent-lulu |
+| 2026-09-07T13:26:43.799Z | runtime_worker_status_changed | WI-0239 | agent-lulu |
 
 ## Assignments
 

@@ -1,0 +1,227 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0239",
+  "title": "Measure ordinary, previous and compact Temple instructions",
+  "state": "concluded",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-07T12:59:52.987Z",
+  "updated_at": "2026-09-07T13:26:45.649Z",
+  "scope": [
+    "Execute the single already-qualified six-subject instruction comparison; preserve protocol and all attempts; analyze product correctness, administration, full Token components and elapsed time. No source changes, retries, fallback, reset, purchase or merge."
+  ],
+  "acceptance_criteria": [
+    "Retain exact approval and protocol provenance; finish or honestly stop the bounded sequence; report each attempted and unattempted subject and same-condition contrasts; independent review confirms accounting and limits without further model calls."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0239"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Bounded approved live diagnostic with exact accounting and distinct review; no implementation or policy change.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-07T12:59:52.987Z",
+    "escalated": false
+  },
+  "parent_work_item_id": "WI-0238",
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "312fc3cc0a53b8e4543b267d1068ce0922bff80f",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0211: released claim, no concurrent writer. This isolated evidence-only experiment owns WI-0239 artifacts and the explicitly approved private six-subject lab; all existing source and historical evidence remain unchanged."
+  ],
+  "claim": {
+    "id": "claim-20260907132645-8cd739e7",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "312fc3cc0a53b8e4543b267d1068ce0922bff80f",
+    "branch": "codex/matched-instruction-comparison",
+    "worktree": null,
+    "claimed_at": "2026-09-07T13:26:45.363Z",
+    "released_at": "2026-09-07T13:26:45.649Z",
+    "release_reason": "work_item_closed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260907125953-6c8e635f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "a69a5080978b28ef482753ba70dea8d0b6960748",
+      "branch": "codex/matched-instruction-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-07T12:59:53.667Z",
+      "released_at": "2026-09-07T13:01:45.100Z",
+      "release_reason": [
+        "Approved existing protocol and consolidated execution/reporting scope recorded."
+      ]
+    },
+    {
+      "id": "claim-20260907130146-89066efb",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "a69a5080978b28ef482753ba70dea8d0b6960748",
+      "branch": "codex/matched-instruction-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-07T13:01:46.984Z",
+      "released_at": "2026-09-07T13:20:05.443Z",
+      "release_reason": [
+        "Bounded execution and read-only numeric verification completed; no more live subjects."
+      ]
+    },
+    {
+      "id": "claim-20260907132006-820e2590",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "312fc3cc0a53b8e4543b267d1068ce0922bff80f",
+      "branch": "codex/matched-instruction-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-07T13:20:06.342Z",
+      "released_at": "2026-09-07T13:20:07.188Z",
+      "release_reason": [
+        "Evaluation recorded; fresh distinct runtime will independently challenge evidence."
+      ]
+    },
+    {
+      "id": "claim-20260907132014-0d223e01",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "312fc3cc0a53b8e4543b267d1068ce0922bff80f",
+      "branch": "codex/matched-instruction-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-07T13:20:14.542Z",
+      "released_at": "2026-09-07T13:26:44.430Z",
+      "release_reason": [
+        "Independent evidence review complete; no additional live experiment."
+      ]
+    },
+    {
+      "id": "claim-20260907132645-8cd739e7",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "312fc3cc0a53b8e4543b267d1068ce0922bff80f",
+      "branch": "codex/matched-instruction-comparison",
+      "worktree": null,
+      "claimed_at": "2026-09-07T13:26:45.363Z",
+      "released_at": "2026-09-07T13:26:45.649Z",
+      "release_reason": "work_item_closed"
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0239/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0239/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0239/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0239/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0239/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0239/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0239/verification.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0239/verification.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0239/report.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0239/independent-qa.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0239/design.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0239/independent-qa.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0239/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0239/design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0239/design.md",
+    ".ai-org/artifacts/WI-0239/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0239/verification.md",
+    ".ai-org/artifacts/WI-0239/handoff-002-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0239/report.md",
+    ".ai-org/artifacts/WI-0239/handoff-003-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0239/independent-qa.md",
+    ".ai-org/artifacts/WI-0239/release-record.md"
+  ],
+  "unresolved": [],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "312fc3cc0a53b8e4543b267d1068ce0922bff80f",
+      "artifact": ".ai-org/artifacts/WI-0239/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-07T13:20:05.129Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "actor": "agent-lulu",
+      "input_revision": "312fc3cc0a53b8e4543b267d1068ce0922bff80f",
+      "artifact": ".ai-org/artifacts/WI-0239/handoff-002-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-07T13:20:06.906Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "actor": "agent-lulu",
+      "input_revision": "312fc3cc0a53b8e4543b267d1068ce0922bff80f",
+      "artifact": ".ai-org/artifacts/WI-0239/handoff-003-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-07T13:26:44.142Z"
+    }
+  ],
+  "developer_candidate_revision": "312fc3cc0a53b8e4543b267d1068ce0922bff80f",
+  "tested_revision": "312fc3cc0a53b8e4543b267d1068ce0922bff80f",
+  "release_gate_result": "no-go",
+  "lifecycle_outcome": "inconclusive",
+  "closeout_reasons": [
+    "Previous stable subject reached Token ceiling with incomplete final usage; four subjects including both compact treatments did not run. No efficacy conclusion or continuation authorized."
+  ],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0239/design.md"
+}
