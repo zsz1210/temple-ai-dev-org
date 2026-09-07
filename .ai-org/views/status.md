@@ -3,7 +3,7 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 241 total, 28 active
 - Codex tasks: 12 registered, 12 archive-ready
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -288,7 +288,7 @@
 | WI-0238 | Reduce repeated small-task instructions and qualify matched comparison readiness | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `af5a984a` | 0 | 12 | 0 |
 | WI-0239 | Measure ordinary, previous and compact Temple instructions | concluded | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `312fc3cc` | 0 | 8 | 0 |
 | WI-0240 | Reuse experiment evidence and activate scoped learning | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f80651d6` | 0 | 4 | 0 |
-| WI-0241 | Design proactive learning and qualify incremental compact experiment | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260907141019-54342dfa | `—` | 0 | 1 | 0 |
+| WI-0241 | Design proactive learning and qualify incremental compact experiment | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `afb048d1` | 0 | 4 | 0 |
 
 ## Codex task registry
 
@@ -505,14 +505,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-07T14:18:30.881Z | work_item_transitioned | WI-0241 | agent-rikku |
+| 2026-09-07T14:18:30.603Z | work_item_claim_released | WI-0241 | human |
+| 2026-09-07T14:18:30.304Z | handoff_created | WI-0241 | agent-rikku |
 | 2026-09-07T14:10:19.511Z | work_item_claimed | WI-0241 | human |
 | 2026-09-07T14:10:19.205Z | work_item_transitioned | WI-0241 | agent-tidus |
 | 2026-09-07T14:10:18.929Z | work_item_transitioned | WI-0241 | agent-yuna |
 | 2026-09-07T14:10:18.651Z | work_item_transitioned | WI-0241 | agent-mog |
 | 2026-09-07T14:10:18.363Z | work_item_claim_released | WI-0241 | human |
-| 2026-09-07T14:09:22.725Z | work_item_coordination_configured | WI-0241 | agent-mog |
-| 2026-09-07T14:09:22.426Z | work_item_coordination_configured | WI-0236 | agent-lulu |
-| 2026-09-07T14:09:22.119Z | work_item_coordination_configured | WI-0234 | agent-lulu |
 
 ## Assignments
 
