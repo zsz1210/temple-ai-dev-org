@@ -1,0 +1,229 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0226",
+  "title": "Implement bounded Lean procedure routing and offline evaluation reliability",
+  "state": "cancelled",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-07T01:53:42.480Z",
+  "updated_at": "2026-09-07T03:25:53.015Z",
+  "scope": [
+    "Implement WI-0225 first slice: opt-in operation-scoped Lean instructions with whole-source fallback; offline command diagnostics and typed evaluation stop handling. Preserve distinct Verifier, old protocols and sealed samples. No live generation, default change, merge, release or publication."
+  ],
+  "acceptance_criteria": [
+    "Build/Test route complete current-operation instructions; unknown or independently required sources retain whole-source material. Real CLI and parser replay agree; typed stops preserve failed samples and halt on shared uncertainty. Full local verification, init smoke and separate candidate review required."
+  ],
+  "affected_paths": [
+    "src/context-enter.mjs",
+    "src/context-packet.mjs",
+    "project-overlay/.agents/skills/temple-work",
+    "scripts/delivery-command-policy.mjs",
+    "scripts/delivery-control-pair.mjs",
+    "scripts/evaluation-sequence.mjs",
+    "test",
+    "docs",
+    ".ai-org/artifacts/WI-0226"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-07T01:53:42.480Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "40fb4de6c2e821182bd5c051103f86a04d255a03",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0172: no active claim; WI-0226 owns the new implementation. Prior protocols, historical artifacts and sealed labs are unchanged; source changes are successor-only.",
+    "WI-0190: no active claim; WI-0226 owns the new implementation. Prior protocols, historical artifacts and sealed labs are unchanged; source changes are successor-only.",
+    "WI-0208: no active claim; WI-0226 owns the new implementation. Prior protocols, historical artifacts and sealed labs are unchanged; source changes are successor-only.",
+    "WI-0209: no active claim; WI-0226 owns the new implementation. Prior protocols, historical artifacts and sealed labs are unchanged; source changes are successor-only.",
+    "WI-0210: no active claim; WI-0226 owns the new implementation. Prior protocols, historical artifacts and sealed labs are unchanged; source changes are successor-only.",
+    "WI-0211: no active claim; WI-0226 owns the new implementation. Prior protocols, historical artifacts and sealed labs are unchanged; source changes are successor-only.",
+    "WI-0212: no active claim; WI-0226 owns the new implementation. Prior protocols, historical artifacts and sealed labs are unchanged; source changes are successor-only.",
+    "WI-0213: no active claim; WI-0226 owns the new implementation. Prior protocols, historical artifacts and sealed labs are unchanged; source changes are successor-only.",
+    "WI-0215: no active claim; WI-0226 owns the new implementation. Prior protocols, historical artifacts and sealed labs are unchanged; source changes are successor-only.",
+    "WI-0216: no active claim; WI-0226 owns the new implementation. Prior protocols, historical artifacts and sealed labs are unchanged; source changes are successor-only.",
+    "WI-0218: no active claim; WI-0226 owns the new implementation. Prior protocols, historical artifacts and sealed labs are unchanged; source changes are successor-only.",
+    "WI-0219: no active claim; WI-0226 owns the new implementation. Prior protocols, historical artifacts and sealed labs are unchanged; source changes are successor-only.",
+    "WI-0224: no active claim; WI-0226 owns the new implementation. Prior protocols, historical artifacts and sealed labs are unchanged; source changes are successor-only."
+  ],
+  "claim": {
+    "id": "claim-20260907032514-191ccd14",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "40fb4de6c2e821182bd5c051103f86a04d255a03",
+    "branch": "codex/small-task-lean-design",
+    "worktree": null,
+    "claimed_at": "2026-09-07T03:25:14.685Z",
+    "released_at": "2026-09-07T03:25:52.595Z",
+    "release_reason": [
+      "Maintainer approved cancellation of combined scope; retained reliability acceptance transfers to WI-0228."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260907015403-0de963a0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "HEAD",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T01:54:03.171Z",
+      "released_at": "2026-09-07T01:55:00.192Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260907015500-dd1fdf39",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "HEAD",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T01:55:00.639Z",
+      "released_at": "2026-09-07T01:55:01.013Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260907015501-b2f63c55",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "HEAD",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T01:55:01.424Z",
+      "released_at": "2026-09-07T01:55:01.811Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260907015502-90187b6f",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "HEAD",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T01:55:02.230Z",
+      "released_at": "2026-09-07T02:28:37.156Z",
+      "release_reason": [
+        "Developer slice locally verified and handed to Quality Evaluator; rejected efficiency prototype remains unresolved."
+      ]
+    },
+    {
+      "id": "claim-20260907031845-98aab6e2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "5aca59ce9058877576c4d06542680fc5f71984b1",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T03:18:45.342Z",
+      "released_at": "2026-09-07T03:21:28.031Z",
+      "release_reason": [
+        "Bounded reliability Test/Eval evidence complete; stop at Eval with original efficiency acceptance unresolved."
+      ]
+    },
+    {
+      "id": "claim-20260907032514-191ccd14",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "40fb4de6c2e821182bd5c051103f86a04d255a03",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T03:25:14.685Z",
+      "released_at": "2026-09-07T03:25:52.595Z",
+      "release_reason": [
+        "Maintainer approved cancellation of combined scope; retained reliability acceptance transfers to WI-0228."
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0226/implementation.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0226/implementation.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0226/implementation.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0226/implementation.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0226/implementation.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0226/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0226/report.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0226/qa.md"
+    ],
+    "cancellation_reason": [
+      ".ai-org/artifacts/WI-0226/disposition.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0226/implementation.md",
+    ".ai-org/artifacts/WI-0226/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0226/report.md",
+    ".ai-org/artifacts/WI-0226/handoff-002-quality_evaluator-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0226/qa.md",
+    ".ai-org/artifacts/WI-0226/disposition.md"
+  ],
+  "unresolved": [
+    "Operation-material prototype rejected on complete-output measurements and withdrawn. Broader Lean overhead reduction is not delivered; retained candidate qualifies evaluation reliability only. No new live experiment is authorized.",
+    "Original Lean efficiency acceptance remains unresolved. Evaluate retained reliability subset only; no formal QA, merge or live experiment is authorized by this handoff."
+  ],
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "5aca59ce9058877576c4d06542680fc5f71984b1",
+      "artifact": ".ai-org/artifacts/WI-0226/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-07T02:28:36.718Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "quality_evaluator",
+      "actor": "agent-lulu",
+      "input_revision": "5aca59ce9058877576c4d06542680fc5f71984b1",
+      "artifact": ".ai-org/artifacts/WI-0226/handoff-002-quality_evaluator-to-quality_evaluator.md",
+      "created_at": "2026-09-07T03:21:08.875Z"
+    }
+  ],
+  "developer_candidate_revision": "5aca59ce9058877576c4d06542680fc5f71984b1"
+}

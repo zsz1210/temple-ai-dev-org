@@ -21,6 +21,30 @@ async function fixture(t) {
   return { root, parent, context, classify: (command, changes = {}, envelope = {}) => classifyCommandItem(item(root, command, envelope), { ...context, ...changes }) };
 }
 
+test("bounded read revisions execute in Git while lifecycle candidates remain exact", async t => {
+  const f = await fixture(t);
+  const git = args => execFileSync("git", args, { cwd: f.root, encoding: "utf8" }).trim();
+  git(["init", "-b", "main"]);
+  git(["-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid", "commit", "--allow-empty", "-m", "base"]);
+  git(["-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid", "commit", "--allow-empty", "-m", "candidate"]);
+  const head = git(["rev-parse", "HEAD"]);
+  for (const revision of ["HEAD", "HEAD^", "HEAD~1", head.slice(0, 12), `${head}^{commit}`]) {
+    const command = `git rev-parse --verify ${quote(revision)}`;
+    const classification = f.classify(command);
+    assert.equal(classification.allowed, true, command);
+    assert.equal(classification.argument_index, 3);
+    assert.match(git(["rev-parse", "--verify", revision]), /^[0-9a-f]{40}$/);
+  }
+  for (const [revision, category] of [["HEAD~1000", "unsupported-ancestry"], ["PRIVATE_REF", "named-ref"], ["HEAD..main", "revision-range"], ["abc", "named-ref"]]) {
+    const classification = f.classify(`git rev-parse --verify ${quote(revision)}`);
+    assert.equal(classification.allowed, false); assert.equal(classification.rule, "revision-boundary");
+    assert.equal(classification.revision_category, category); assert.equal(classification.argument_index, 3);
+    assert.ok(!JSON.stringify(classification).includes(revision));
+  }
+  const claim = `node ./templew.mjs work-item claim . --work-item WI-0001 --agent-id agent-builder --principal-id human --base-revision ${head.slice(0, 12)} --branch main`;
+  assert.equal(f.classify(claim, { arm: "temple", expectedClaimRevision: head }).allowed, false);
+});
+
 test("read-only Git trailing separators preserve semantics without widening paths or revisions", async t => {
   const { root, classify } = await fixture(t);
   execFileSync("git", ["init", "-q", root]);
@@ -267,7 +291,9 @@ test("every persisted classification value belongs to the fixed privacy manifest
   const { classify } = await fixture(t), sentinel = "PRIVATE_SENTINEL_12345";
   const results = [classify(`curl ${sentinel}`), classify(`rg '${sentinel}' .`), classify(`git commit -m '${sentinel}'`), classify("pwd", {}, { commandActions: [{ type: sentinel, command: sentinel }] }), classify("pwd", {}, { cwd: `/outside/${sentinel}` }), classify(`node ./templew.mjs work-item claim . --work-item ${sentinel}`, { arm: "temple" })];
   for (const result of results) {
-    assert.deepEqual(Object.keys(result), ["allowed", "rule", "family", "operation", "envelope", "argument_roles", "argument_detail"]);
+    assert.deepEqual(Object.keys(result), ["allowed", "rule", "family", "operation", "envelope", "argument_roles", "argument_detail", "argument_index", "revision_category"]);
+    assert.ok(result.argument_index === null || Number.isInteger(result.argument_index) && result.argument_index >= 0 && result.argument_index < commandPolicyContract.limits.arguments);
+    assert.ok(result.revision_category === null || commandPolicyContract.revision_categories.includes(result.revision_category));
     assert.ok(result.argument_detail === null || commandPolicyContract.argument_details.includes(result.argument_detail));
     assert.equal(typeof result.allowed, "boolean");
     for (const [key, manifestKey] of [["rule", "rules"], ["family", "families"], ["operation", "operations"], ["envelope", "envelopes"]]) assert.ok(commandPolicyContract[manifestKey].includes(result[key]), `${key}: ${result[key]}`);

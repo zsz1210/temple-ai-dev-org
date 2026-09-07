@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 224 total, 24 active
+- Work items: 228 total, 25 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 75 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -272,6 +272,10 @@
 | WI-0222 | Independently review PR70 diagnostic evidence | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e8ad4b4f` | 0 | 6 | 0 |
 | WI-0223 | Design diagnostic Full versus Model comparison | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
 | WI-0224 | Implement two-family diagnostic comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `df40202b` | 0 | 4 | 0 |
+| WI-0225 | Design proportionate small-task delivery and reliable evaluation | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 4 | 2 |
+| WI-0226 | Implement bounded Lean procedure routing and offline evaluation reliability | cancelled | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 6 | 2 |
+| WI-0227 | Reduce always-loaded operating instructions without weakening gates | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f7062396` | 0 | 8 | 0 |
+| WI-0228 | Accept retained offline evaluation reliability independently of rejected Lean prototype | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 7 | 0 |
 
 ## Codex task registry
 
@@ -404,7 +408,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 76
+- Team-visible Work Items: 80
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -477,14 +481,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-07T00:24:39.774Z | work_item_transitioned | WI-0224 | agent-lulu |
-| 2026-09-07T00:11:01.311Z | work_item_claim_released | WI-0224 | human |
-| 2026-09-07T00:11:01.005Z | runtime_worker_status_changed | WI-0224 | agent-lulu |
-| 2026-09-07T00:01:12.136Z | runtime_worker_attached | WI-0224 | agent-lulu |
-| 2026-09-07T00:00:40.095Z | runtime_worker_reserved | WI-0224 | human |
-| 2026-09-07T00:00:40.130Z | work_item_claimed | WI-0224 | human |
-| 2026-09-07T00:00:37.495Z | work_item_coordination_configured | WI-0224 | agent-lulu |
-| 2026-09-07T00:00:36.698Z | work_item_transitioned | WI-0224 | agent-rikku |
+| 2026-09-07T03:36:46.253Z | work_item_closed | WI-0228 | agent-mog |
+| 2026-09-07T03:36:46.253Z | release_gate_completed | WI-0228 | agent-mog |
+| 2026-09-07T03:36:45.883Z | work_item_claimed | WI-0228 | human |
+| 2026-09-07T03:36:45.261Z | work_item_closed | WI-0227 | agent-mog |
+| 2026-09-07T03:36:45.261Z | release_gate_completed | WI-0227 | agent-mog |
+| 2026-09-07T03:36:44.743Z | work_item_claimed | WI-0227 | human |
+| 2026-09-07T03:30:13.175Z | work_item_transitioned | WI-0228 | agent-lulu |
+| 2026-09-07T03:30:12.758Z | work_item_claim_released | WI-0228 | human |
 
 ## Assignments
 

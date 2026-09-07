@@ -113,6 +113,12 @@ function replayFactory({ mutate, mode, calls = [], ledger = [], errors=[] } = {}
         if(mode==="reroute") { emit("model/rerouted"); return; }
         if(mode==="private-error") { options.onProtocolError(Error("SECRET-SENTINEL-ERROR")); return; }
         if(mode==="private-command") { emit("item/started",shell(root,"curl SECRET-SENTINEL-COMMAND","SECRET-SENTINEL-ID")); return; }
+        if(mode==="revision-diagnostic") {
+          const command = shell(root,"git rev-parse --verify SECRET-SENTINEL-REF","SECRET-SENTINEL-ID");
+          emit("item/started", { ...command, status: "inProgress" });
+          emit("item/completed", { ...command, status: "completed", exitCode: 0 });
+          return;
+        }
         if(mode==="wrong-usage") { options.onNotification(usage("wrong-thread",turnId)); return; }
         if(mode==="partial-usage") { options.onNotification(usage(threadId,turnId)); options.onProtocolError(Error("later failure")); return; }
         if(mode==="regressed-component") { options.onNotification(usage(threadId,turnId)); options.onNotification(usage(threadId,turnId,{inputTokens:90,outputTokens:40,totalTokens:130})); options.onProtocolError(Error("later failure")); return; }
@@ -304,6 +310,19 @@ test("delivery pair readiness and actual injected lifecycles are generation-free
     assert.ok(result.stop_reason); assert.equal(JSON.parse(await fs.readFile(path.join(labRoot, "run.json"))).status, "stopped"); await fs.access(path.join(labRoot, "seal.json"));
     if (mode === "missing-usage") { assert.equal(result.total_usage, null); assert.equal(result.usage_complete, false); assert.equal(result.known_usage_subtotal.operational_tokens, 0); }
     if (["route","missing-model","effort", "memory"].includes(mode)) assert.equal(calls.some(c => c.method === "turn/start"), false);
+  });
+  await t.test("real observer retains first revision rejection across trailing completion without private operands", async () => {
+    const { result, labRoot } = await run({ mode: "revision-diagnostic" });
+    assert.equal(result.stop_reason, "revision-boundary");
+    const observation = result.stages[0];
+    assert.equal(observation.first_stop.reason, "revision-boundary");
+    const first = observation.events[observation.first_stop.event_index];
+    assert.equal(first.method, "item/started");
+    assert.equal(first.classification.argument_index, 3);
+    assert.equal(first.classification.revision_category, "named-ref");
+    assert.equal(observation.first_stop.item_id, first.item_id);
+    assert.ok(observation.events.some(e => e.method === "item/completed" && e.exit_code === 0));
+    assert.ok(!(await fs.readFile(path.join(labRoot, "run.json"), "utf8")).includes("SECRET-SENTINEL"));
   });
   await t.test("turn notifications before acknowledgement are correlated before usage",async()=>{
     const {result}=await run({mode:"early-usage"}); assert.equal(result.status,"completed",result.stop_reason);

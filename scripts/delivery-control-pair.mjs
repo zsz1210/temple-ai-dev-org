@@ -296,7 +296,11 @@ export async function runStage({ root, arm, stage, protocol, contract, sourceRoo
     observation.interrupt_requested = true;
     interruptPromise = Promise.resolve().then(() => connection.request("turn/interrupt", { threadId, turnId }, 250)).then(() => { observation.interrupt_acknowledged = true; }, () => {});
   };
-  const fail = reason => { stop ??= reason; interrupt(); abort(); wake(); };
+  const fail = (reason, eventIndex = null) => {
+    if (!stop) observation.first_stop = { reason, stage, event_index: eventIndex,
+      item_id: eventIndex === null ? null : observation.events[eventIndex]?.item_id ?? null };
+    stop ??= reason; interrupt(); abort(); wake();
+  };
   const context = () => {
     const read = name => { try { const file=path.join(root,name); if (!within(canonical(root),canonical(file))) return null; return JSON.parse(readFileSync(file,"utf8")); } catch { return null; } };
     return {root,arm,stage,threadId,turnId,contextMaterial,contextFormat,expectedClaimRevision,expectedClaimId:read(".ai-org/work-items/WI-0001.json")?.claim?.id,expectedCandidateRevision:read("DELIVERY.json")?.candidate_revision,verificationDecision:read("VERIFICATION.json")?.decision};
@@ -328,7 +332,7 @@ export async function runStage({ root, arm, stage, protocol, contract, sourceRoo
         } catch {}
       }
       observation.events.push(event);
-      if (!decision.allowed) { fail(decision.rule); return; }
+      if (!decision.allowed) { fail(decision.rule, observation.events.length - 1); return; }
       const detail = localObserver.observe(method, item, decision, context());
       if (detail) event.local_observation = detail;
       if (wireValidators[method]) requireThat(wireValidators[method](p),"provider-wire-schema:notification");

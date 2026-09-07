@@ -1,0 +1,162 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0225",
+  "title": "Design proportionate small-task delivery and reliable evaluation",
+  "state": "design",
+  "owner_position": "tech_lead",
+  "assigned_agent_id": "agent-tidus",
+  "created_at": "2026-09-07T01:32:28.524Z",
+  "updated_at": "2026-09-07T02:37:32.862Z",
+  "scope": [
+    "Design only: reduce bounded Lean task overhead and specify offline-first experiment reliability; no runtime changes, model runs, policy adoption, release or publication."
+  ],
+  "acceptance_criteria": [
+    "Provide eligibility examples, minimal context and evidence contracts, escalation and recovery behavior, a separate single-agent policy decision, bounded implementation slices and decision-oriented evaluation criteria."
+  ],
+  "affected_paths": [
+    ".ai-org/artifacts/WI-0225"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-07T01:32:28.524Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "f56b8512",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0211 has released its claim. WI-0225 writes only its new design artifacts; prior integration source and evidence remain unchanged."
+  ],
+  "claim": {
+    "id": "claim-20260907023313-91a7582b",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-tidus",
+    "base_revision": "f56b8512",
+    "branch": "codex/small-task-lean-design",
+    "worktree": null,
+    "claimed_at": "2026-09-07T02:33:13.530Z",
+    "released_at": "2026-09-07T02:37:32.862Z",
+    "release_reason": [
+      "Bounded composition audit and updated design handoff complete; formal contract implementation remains separate."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260907013323-464f6087",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "460514ca6a9671788a38c06a033d23381993b558",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T01:33:23.859Z",
+      "released_at": "2026-09-07T01:36:34.861Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260907013635-48a7ae81",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "460514ca6a9671788a38c06a033d23381993b558",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T01:36:35.270Z",
+      "released_at": "2026-09-07T01:36:35.626Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260907013636-6a29e1bb",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "460514ca6a9671788a38c06a033d23381993b558",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T01:36:36.038Z",
+      "released_at": "2026-09-07T01:41:11.516Z",
+      "release_reason": [
+        "Design complete and awaiting maintainer review; no implementation or live experiment started."
+      ]
+    },
+    {
+      "id": "claim-20260907023313-91a7582b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "f56b8512",
+      "branch": "codex/small-task-lean-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T02:33:13.530Z",
+      "released_at": "2026-09-07T02:37:32.862Z",
+      "release_reason": [
+        "Bounded composition audit and updated design handoff complete; formal contract implementation remains separate."
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0225/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0225/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0225/design.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0225/design.md",
+    ".ai-org/artifacts/WI-0225/handoff-001-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0225/handoff-002-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0225/composition-audit.md"
+  ],
+  "unresolved": [
+    "Design ready for maintainer review. Recommended first slice keeps a distinct Verifier; the mechanical single-Agent exception remains a separate unapproved proposal. Implementation and a future finite live protocol are not authorized by this design.",
+    "WI-0226 operation-module prototype was withdrawn; use the follow-up obligation map rather than implementing that rejected split. No instruction change or live-model run has been performed by this design follow-up."
+  ],
+  "next_position": "developer",
+  "handoffs": [
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "actor": "agent-tidus",
+      "input_revision": "9b01108037eb694f6368429b79277c79124dc021",
+      "artifact": ".ai-org/artifacts/WI-0225/handoff-001-tech_lead-to-developer.md",
+      "created_at": "2026-09-07T01:41:44.314Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "actor": "agent-tidus",
+      "input_revision": "58c8178efd1ca99fd44ddf992ce181112b29c14c",
+      "artifact": ".ai-org/artifacts/WI-0225/handoff-002-tech_lead-to-developer.md",
+      "created_at": "2026-09-07T02:37:32.569Z"
+    }
+  ]
+}
