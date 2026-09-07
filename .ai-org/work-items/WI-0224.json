@@ -1,0 +1,148 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0224",
+  "title": "Implement two-family diagnostic comparison",
+  "state": "eval",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
+  "created_at": "2026-09-06T23:51:17.407Z",
+  "updated_at": "2026-09-07T00:24:39.774Z",
+  "scope": [
+    "Implement WI-0223 approved comparison and offline readiness only before frozen live execution: 8 deliveries, Terra medium, 1280000 Operational Tokens, 96 minutes, no reset purchases retries fallback."
+  ],
+  "acceptance_criteria": [
+    "New scenario-aware runner and maintenance fixture preserve existing gates, have deterministic tests and independently reviewed readiness before live use."
+  ],
+  "affected_paths": [
+    "scripts/diagnostic-format-comparison.mjs",
+    "scripts/diagnostic-maintenance-fixture.mjs",
+    "test/diagnostic-format-comparison.test.mjs",
+    "test/diagnostic-maintenance-fixture.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-06T23:51:17.407Z",
+    "escalated": false
+  },
+  "parent_work_item_id": "WI-0223",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "df40202b",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": "agent-mog",
+  "planned_agent_id": "agent-lulu",
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0190: coordinated new diagnostic runner/test paths only; historical owners have released claims; prior evidence and sources remain unchanged.",
+    "WI-0211: coordinated new diagnostic runner/test paths only; historical owners have released claims; prior evidence and sources remain unchanged."
+  ],
+  "claim": {
+    "id": "claim-20260907000040-e9111da2",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-lulu",
+    "base_revision": "df40202b",
+    "branch": "codex/diagnostic-comparison-design",
+    "worktree": null,
+    "claimed_at": "2026-09-07T00:00:40.130Z",
+    "released_at": "2026-09-07T00:11:01.311Z",
+    "release_reason": [
+      "Independent live readiness accepted exact frozen candidate; live outcome not yet measured."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260906235208-846e370e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "5407bdf983798773074e259fa02b0c81e60b0643",
+      "branch": "codex/diagnostic-comparison-design",
+      "worktree": null,
+      "claimed_at": "2026-09-06T23:52:08.562Z",
+      "released_at": "2026-09-07T00:00:35.860Z",
+      "release_reason": [
+        "Candidate source frozen for independent review."
+      ]
+    },
+    {
+      "id": "claim-20260907000040-e9111da2",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "df40202b",
+      "branch": "codex/diagnostic-comparison-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T00:00:40.130Z",
+      "released_at": "2026-09-07T00:11:01.311Z",
+      "release_reason": [
+        "Independent live readiness accepted exact frozen candidate; live outcome not yet measured."
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0223/design.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0223/design.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0223/design.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0223/design.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0223/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0224/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0223/design.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0224/verification.md",
+      ".ai-org/artifacts/WI-0224/result-report.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0223/design.md",
+    ".ai-org/artifacts/WI-0224/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0224/verification.md",
+    ".ai-org/artifacts/WI-0224/result-report.md"
+  ],
+  "unresolved": [],
+  "next_position": "independent_qa",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "df40202bcc44a97494e67acb2cc743b03ec3a012",
+      "artifact": ".ai-org/artifacts/WI-0224/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-07T00:00:34.974Z"
+    }
+  ],
+  "developer_candidate_revision": "df40202bcc44a97494e67acb2cc743b03ec3a012"
+}

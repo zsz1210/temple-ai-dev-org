@@ -6,7 +6,7 @@
   "owner_position": "tech_lead",
   "assigned_agent_id": "agent-tidus",
   "created_at": "2026-09-06T23:43:14.466Z",
-  "updated_at": "2026-09-06T23:46:45.085Z",
+  "updated_at": "2026-09-06T23:54:02.908Z",
   "scope": [
     "Design-only successor comparison using merged bounded observations; no live runs, harness changes, defaults or sealed-lab writes."
   ],
@@ -42,7 +42,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "29a7439e3bd4ab06d1643056e0893ccc49a70635",
+  "base_revision": "5407bdf983798773074e259fa02b0c81e60b0643",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -50,17 +50,17 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906234546-adbf977a",
+    "id": "claim-20260906235327-955d067b",
     "status": "released",
     "principal_id": "human",
     "agent_id": "agent-tidus",
-    "base_revision": "29a7439e3bd4ab06d1643056e0893ccc49a70635",
+    "base_revision": "5407bdf983798773074e259fa02b0c81e60b0643",
     "branch": "codex/diagnostic-comparison-design",
     "worktree": null,
-    "claimed_at": "2026-09-06T23:45:46.931Z",
-    "released_at": "2026-09-06T23:46:45.085Z",
+    "claimed_at": "2026-09-06T23:53:27.376Z",
+    "released_at": "2026-09-06T23:54:02.908Z",
     "release_reason": [
-      "Design artifact handed off; implementation and frozen live protocol remain outstanding."
+      "Conditional human execution authorization recorded; implementation remains WI-0224."
     ]
   },
   "claims": [
@@ -88,6 +88,20 @@
       "released_at": "2026-09-06T23:46:45.085Z",
       "release_reason": [
         "Design artifact handed off; implementation and frozen live protocol remain outstanding."
+      ]
+    },
+    {
+      "id": "claim-20260906235327-955d067b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "5407bdf983798773074e259fa02b0c81e60b0643",
+      "branch": "codex/diagnostic-comparison-design",
+      "worktree": null,
+      "claimed_at": "2026-09-06T23:53:27.376Z",
+      "released_at": "2026-09-06T23:54:02.908Z",
+      "release_reason": [
+        "Conditional human execution authorization recorded; implementation remains WI-0224."
       ]
     }
   ],

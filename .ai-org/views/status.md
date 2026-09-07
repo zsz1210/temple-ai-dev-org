@@ -4,10 +4,10 @@
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=false
-- Work items: 223 total, 23 active
+- Parallel plan: 1 wave(s), fresh=false
+- Work items: 224 total, 24 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 73 registered, 0 reserved, 0 active
+- Runtime workers: 75 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -38,10 +38,10 @@
 - Installed: yes
 - Valid: yes
 - Fresh: no
-- Safe waves: 0
-- Dispatchable Work Items: 0
+- Safe waves: 1
+- Dispatchable Work Items: 1
 - Active / sequential / blocked: 0 / 0 / 0
-- Next wave: none
+- Next wave: WI-0224
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -271,6 +271,7 @@
 | WI-0221 | Add bounded failure and source-read observations | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e8ad4b4f` | 0 | 7 | 0 |
 | WI-0222 | Independently review PR70 diagnostic evidence | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e8ad4b4f` | 0 | 6 | 0 |
 | WI-0223 | Design diagnostic Full versus Model comparison | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
+| WI-0224 | Implement two-family diagnostic comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `df40202b` | 0 | 4 | 0 |
 
 ## Codex task registry
 
@@ -366,6 +367,8 @@
 | worker-20260906165739-8381dc6b | internal-subagent | WI-0219 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0220_ready | `2aef01bd` | 0 |
 | worker-20260906232839-19f2987c | internal-subagent | WI-0222 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0222_review | `d015004d` | 0 |
 | worker-20260906233715-39de834c | internal-subagent | WI-0222 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0222_review#re-review-e8ad4b4 | `e8ad4b4f` | 0 |
+| worker-20260906235208-732dcc16 | internal-subagent | WI-0224 | Developer / Rikku | completed | /root/wi0224_implementation | `df40202b` | 0 |
+| worker-20260907000040-c51ac3cd | internal-subagent | WI-0224 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0224_readiness_qa | `df40202b` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -474,14 +477,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-06T23:46:45.085Z | work_item_claim_released | WI-0223 | human |
-| 2026-09-06T23:46:44.110Z | handoff_created | WI-0223 | agent-tidus |
-| 2026-09-06T23:45:46.931Z | work_item_claimed | WI-0223 | human |
-| 2026-09-06T23:45:46.636Z | work_item_transitioned | WI-0223 | agent-yuna |
-| 2026-09-06T23:45:32.214Z | work_item_transitioned | WI-0223 | agent-mog |
-| 2026-09-06T23:44:02.020Z | work_item_claimed | WI-0223 | human |
-| 2026-09-06T23:43:14.466Z | work_item_created | WI-0223 | agent-mog |
-| 2026-09-06T23:39:51.979Z | work_item_closed | WI-0222 | agent-mog |
+| 2026-09-07T00:24:39.774Z | work_item_transitioned | WI-0224 | agent-lulu |
+| 2026-09-07T00:11:01.311Z | work_item_claim_released | WI-0224 | human |
+| 2026-09-07T00:11:01.005Z | runtime_worker_status_changed | WI-0224 | agent-lulu |
+| 2026-09-07T00:01:12.136Z | runtime_worker_attached | WI-0224 | agent-lulu |
+| 2026-09-07T00:00:40.095Z | runtime_worker_reserved | WI-0224 | human |
+| 2026-09-07T00:00:40.130Z | work_item_claimed | WI-0224 | human |
+| 2026-09-07T00:00:37.495Z | work_item_coordination_configured | WI-0224 | agent-lulu |
+| 2026-09-07T00:00:36.698Z | work_item_transitioned | WI-0224 | agent-rikku |
 
 ## Assignments
 

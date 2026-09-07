@@ -1,0 +1,150 @@
+{
+  "schema_version": "temple.diagnostic-result-summary/v1",
+  "work_item_id": "WI-0224",
+  "protocol_sha256": "sha256:c75e1d6b46081c30de8e109ae9f15a400dde0b6a01f12ce71d20cfd3d37a1c25",
+  "status": "stopped",
+  "stop_reason": "revision-boundary",
+  "attempted_stages": 6,
+  "planned_stages": 16,
+  "operational_tokens": 363137,
+  "elapsed_ms": 615117,
+  "usage_complete": false,
+  "seal": {
+    "run_sha256": "sha256:35157e4ff219d0c1a2e3a288fb5033cde7aab84b92f7591631a8452e8dc4700d",
+    "manifest_sha256": "sha256:d2523676723b5408f639de7bf761ac8f7ac9b28148ed18d521bf379bea827c72",
+    "sealed_at": "2026-09-07T00:21:18.127Z"
+  },
+  "stages": [
+    {
+      "subject": 1,
+      "family": "replication",
+      "format": "full",
+      "stage": "build",
+      "status": "completed",
+      "stop_reason": null,
+      "usage": {
+        "input_tokens": 872076,
+        "cached_input_tokens": 809984,
+        "output_tokens": 5023,
+        "reasoning_output_tokens": 1124,
+        "total_tokens": 877099,
+        "non_cached_input_tokens": 62092,
+        "operational_tokens": 67115
+      },
+      "actor_elapsed_ms": 134437,
+      "quality_passed": true,
+      "observed_test_exit_codes": [
+        0,
+        0
+      ]
+    },
+    {
+      "subject": 1,
+      "family": "replication",
+      "format": "full",
+      "stage": "verify",
+      "status": "completed",
+      "stop_reason": null,
+      "usage": {
+        "input_tokens": 361311,
+        "cached_input_tokens": 318720,
+        "output_tokens": 1928,
+        "reasoning_output_tokens": 467,
+        "total_tokens": 363239,
+        "non_cached_input_tokens": 42591,
+        "operational_tokens": 44519
+      },
+      "actor_elapsed_ms": 59166,
+      "quality_passed": true,
+      "observed_test_exit_codes": [
+        0
+      ]
+    },
+    {
+      "subject": 2,
+      "family": "replication",
+      "format": "model",
+      "stage": "build",
+      "status": "completed",
+      "stop_reason": null,
+      "usage": {
+        "input_tokens": 792637,
+        "cached_input_tokens": 688384,
+        "output_tokens": 5794,
+        "reasoning_output_tokens": 991,
+        "total_tokens": 798431,
+        "non_cached_input_tokens": 104253,
+        "operational_tokens": 110047
+      },
+      "actor_elapsed_ms": 158293,
+      "quality_passed": true,
+      "observed_test_exit_codes": [
+        0
+      ]
+    },
+    {
+      "subject": 2,
+      "family": "replication",
+      "format": "model",
+      "stage": "verify",
+      "status": "completed",
+      "stop_reason": null,
+      "usage": {
+        "input_tokens": 363879,
+        "cached_input_tokens": 320768,
+        "output_tokens": 1851,
+        "reasoning_output_tokens": 410,
+        "total_tokens": 365730,
+        "non_cached_input_tokens": 43111,
+        "operational_tokens": 44962
+      },
+      "actor_elapsed_ms": 63645,
+      "quality_passed": true,
+      "observed_test_exit_codes": [
+        0
+      ]
+    },
+    {
+      "subject": 3,
+      "family": "replication",
+      "format": "model",
+      "stage": "build",
+      "status": "completed",
+      "stop_reason": null,
+      "usage": {
+        "input_tokens": 747971,
+        "cached_input_tokens": 690432,
+        "output_tokens": 5529,
+        "reasoning_output_tokens": 873,
+        "total_tokens": 753500,
+        "non_cached_input_tokens": 57539,
+        "operational_tokens": 63068
+      },
+      "actor_elapsed_ms": 161971,
+      "quality_passed": true,
+      "observed_test_exit_codes": [
+        0
+      ]
+    },
+    {
+      "subject": 3,
+      "family": "replication",
+      "format": "model",
+      "stage": "verify",
+      "status": "stopped",
+      "stop_reason": "revision-boundary",
+      "usage": {
+        "input_tokens": 207522,
+        "cached_input_tokens": 175104,
+        "output_tokens": 1008,
+        "reasoning_output_tokens": 206,
+        "total_tokens": 208530,
+        "non_cached_input_tokens": 32418,
+        "operational_tokens": 33426
+      },
+      "actor_elapsed_ms": 36306,
+      "quality_passed": null,
+      "observed_test_exit_codes": []
+    }
+  ]
+}

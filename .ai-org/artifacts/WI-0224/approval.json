@@ -1,0 +1,9 @@
+{
+  "status":"approved",
+  "approved_by":"human",
+  "work_item_id":"WI-0224",
+  "protocol_sha256":"sha256:c75e1d6b46081c30de8e109ae9f15a400dde0b6a01f12ce71d20cfd3d37a1c25",
+  "evidence_ref":".ai-org/artifacts/WI-0223/execution-authorization.md",
+  "limits":{"stages":16,"per_stage_ms":360000,"aggregate_ms":5760000,"per_stage_operational_tokens":80000,"per_stage_token_action":"warning","aggregate_operational_tokens":1280000},
+  "policy":{"account":"chatgpt-subscription","purchase":false,"refill":false,"reset":false,"retries":0,"fallback":false,"cache":"uncontrolled","extra_judge":false}
+}
