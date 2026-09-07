@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0230",
   "title": "Design a decision-oriented fresh-Agent continuity comparison",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-07T04:38:41.690Z",
-  "updated_at": "2026-09-07T04:39:42.893Z",
+  "updated_at": "2026-09-07T04:44:24.096Z",
   "scope": [
     "Write a bounded evaluation design only, grounded in retained results: fair ordinary baseline, resumable single-repository task, objective oracle, honest preparation and takeover costs, offline readiness and finite decision rules. No runner implementation, live model call, policy change or publication."
   ],
@@ -42,7 +42,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "f6626a70308a3bfa3d5fda8d7f5c704a4d4317e1",
+  "base_revision": "3c39cca29522cc053e8fed4a5d2d741de0e3acdc",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -52,15 +52,18 @@
     "WI-0211: prior integration claim is released; this work writes only WI-0230 evidence and CLI lifecycle records, never its source or retained artifacts."
   ],
   "claim": {
-    "id": "claim-20260907043942-33ea7d74",
-    "status": "active",
+    "id": "claim-20260907044321-ded52ed5",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "f6626a70308a3bfa3d5fda8d7f5c704a4d4317e1",
+    "agent_id": "agent-lulu",
+    "base_revision": "3c39cca29522cc053e8fed4a5d2d741de0e3acdc",
     "branch": "codex/continuity-evaluation-design",
     "worktree": null,
-    "claimed_at": "2026-09-07T04:39:42.893Z",
-    "released_at": null
+    "claimed_at": "2026-09-07T04:43:21.048Z",
+    "released_at": "2026-09-07T04:44:23.798Z",
+    "release_reason": [
+      "Lean design review complete; proposal-only closeout, no experiment or follow-on authority."
+    ]
   },
   "claims": [
     {
@@ -79,14 +82,31 @@
     },
     {
       "id": "claim-20260907043942-33ea7d74",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "f6626a70308a3bfa3d5fda8d7f5c704a4d4317e1",
       "branch": "codex/continuity-evaluation-design",
       "worktree": null,
       "claimed_at": "2026-09-07T04:39:42.893Z",
-      "released_at": null
+      "released_at": "2026-09-07T04:42:28.521Z",
+      "release_reason": [
+        "Design candidate handed to distinct Verifier"
+      ]
+    },
+    {
+      "id": "claim-20260907044321-ded52ed5",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "3c39cca29522cc053e8fed4a5d2d741de0e3acdc",
+      "branch": "codex/continuity-evaluation-design",
+      "worktree": null,
+      "claimed_at": "2026-09-07T04:43:21.048Z",
+      "released_at": "2026-09-07T04:44:23.798Z",
+      "release_reason": [
+        "Lean design review complete; proposal-only closeout, no experiment or follow-on authority."
+      ]
     }
   ],
   "gate_evidence": {
@@ -107,11 +127,49 @@
     ],
     "profile_eligibility": [
       ".ai-org/artifacts/WI-0230/brief.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0230/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0230/design.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0230/review.md"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0230/review.md"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0230/brief.md"
+    ".ai-org/artifacts/WI-0230/brief.md",
+    ".ai-org/artifacts/WI-0230/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0230/design.md",
+    ".ai-org/artifacts/WI-0230/handoff-002-quality_evaluator-to-engineering_manager.md",
+    ".ai-org/artifacts/WI-0230/review.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "input_revision": "3c39cca29522cc053e8fed4a5d2d741de0e3acdc",
+      "artifact": ".ai-org/artifacts/WI-0230/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-07T04:42:28.244Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "engineering_manager",
+      "actor": "agent-lulu",
+      "input_revision": "3c39cca29522cc053e8fed4a5d2d741de0e3acdc",
+      "artifact": ".ai-org/artifacts/WI-0230/handoff-002-quality_evaluator-to-engineering_manager.md",
+      "created_at": "2026-09-07T04:44:23.480Z"
+    }
+  ],
+  "developer_candidate_revision": "3c39cca29522cc053e8fed4a5d2d741de0e3acdc",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
 }
