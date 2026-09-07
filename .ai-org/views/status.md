@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 1 wave(s), fresh=false
-- Work items: 226 total, 26 active
+- Work items: 227 total, 27 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 75 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -274,6 +274,7 @@
 | WI-0224 | Implement two-family diagnostic comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `df40202b` | 0 | 4 | 0 |
 | WI-0225 | Design proportionate small-task delivery and reliable evaluation | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 4 | 2 |
 | WI-0226 | Implement bounded Lean procedure routing and offline evaluation reliability | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 3 | 2 |
+| WI-0227 | Reduce always-loaded operating instructions without weakening gates | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f7062396` | 0 | 4 | 0 |
 
 ## Codex task registry
 
@@ -406,7 +407,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 78
+- Team-visible Work Items: 79
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -479,14 +480,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-07T02:37:32.862Z | work_item_claim_released | WI-0225 | human |
-| 2026-09-07T02:37:32.569Z | handoff_created | WI-0225 | agent-tidus |
-| 2026-09-07T02:33:13.530Z | work_item_claimed | WI-0225 | human |
-| 2026-09-07T02:28:37.450Z | work_item_transitioned | WI-0226 | agent-rikku |
-| 2026-09-07T02:28:37.156Z | work_item_claim_released | WI-0226 | human |
-| 2026-09-07T02:28:36.718Z | handoff_created | WI-0226 | agent-rikku |
-| 2026-09-07T02:18:36.759Z | work_item_unresolved_updated | WI-0226 | agent-rikku |
-| 2026-09-07T01:55:02.230Z | work_item_claimed | WI-0226 | human |
+| 2026-09-07T03:02:58.146Z | work_item_transitioned | WI-0227 | agent-rikku |
+| 2026-09-07T03:02:57.742Z | work_item_claim_released | WI-0227 | human |
+| 2026-09-07T03:02:57.308Z | handoff_created | WI-0227 | agent-rikku |
+| 2026-09-07T02:41:58.525Z | work_item_claimed | WI-0227 | human |
+| 2026-09-07T02:41:58.232Z | work_item_transitioned | WI-0227 | agent-tidus |
+| 2026-09-07T02:41:57.966Z | work_item_claimed | WI-0227 | human |
+| 2026-09-07T02:41:57.672Z | work_item_transitioned | WI-0227 | agent-yuna |
+| 2026-09-07T02:41:57.405Z | work_item_claimed | WI-0227 | human |
 
 ## Assignments
 
