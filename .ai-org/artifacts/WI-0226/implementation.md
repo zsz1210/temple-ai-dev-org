@@ -7,7 +7,8 @@ single-Agent exception or a live experiment. WI-0225 remains the historical desi
 ## Scope and acceptance
 
 The source write scope also includes `src/cli.mjs` for the new material option's
-usage line, under the same released WI-0211 integration ownership coordination.
+usage line and `scripts/check-package.mjs` for the four reviewed distribution
+additions, under the same released WI-0211 integration ownership coordination.
 
 - Add explicit `context enter --material operation`: acquire full governing
   sources, then route the complete common Lean procedure and only the current

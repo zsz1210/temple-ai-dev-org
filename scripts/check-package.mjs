@@ -21,6 +21,10 @@ export const REQUIRED_PACKAGE_PATHS = [
   "project-overlay/.ai-org/core/policies.json",
   "project-overlay/.agents/skills/temple-work/SKILL.md",
   "project-overlay/.agents/skills/temple-work/references/read-only-support.md",
+  "project-overlay/.agents/skills/temple-work/references/lean-common.md",
+  "project-overlay/.agents/skills/temple-work/references/lean-build.md",
+  "project-overlay/.agents/skills/temple-work/references/lean-test.md",
+  "docs/adr/0061-operation-scoped-lean-procedures.md",
   "docs/adr/0059-proportionate-work-routes.md",
   "packs/build-quality/manifest.json",
   "docs/getting-started/testing.md"
@@ -53,8 +57,9 @@ const ALLOWED_TOP_LEVEL_FILES = new Set([
   "package.json"
 ]);
 const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overlay/", "src/"];
-// Integrates proportionate routes and optional task material.
-const MAX_FILE_COUNT = 412;
+// Reviewed additions: three operation procedure modules and ADR-0061. Experiment
+// helpers and all project evidence remain outside the distributable package.
+const MAX_FILE_COUNT = 416;
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {
