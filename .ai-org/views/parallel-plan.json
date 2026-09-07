@@ -1,22 +1,72 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-06T23:40:06.463Z",
-  "source_fingerprint": "8a013e0eafa1eeb2df040c8e96cb51b1a4f1a42588c2bd13769e71cb0125bfe8",
+  "generated_at": "2026-09-07T00:00:38.991Z",
+  "source_fingerprint": "292cd3bf72feb76d24f9ab11a2e68d77894eaba3f258796b3e8d9550a0231b91",
   "scope": {
     "mode": "parent-descendants",
-    "parent_work_item_id": "WI-0221",
-    "selected_work_item_ids": []
+    "parent_work_item_id": "WI-0223",
+    "selected_work_item_ids": [
+      "WI-0224"
+    ]
   },
   "max_workers": null,
   "summary": {
-    "selected": 0,
-    "dispatchable": 0,
+    "selected": 1,
+    "dispatchable": 1,
     "active": 0,
     "sequential": 0,
     "blocked": 0,
-    "waves": 0
+    "waves": 1
   },
-  "waves": [],
+  "waves": [
+    {
+      "id": "wave-001",
+      "order": 1,
+      "dispatch": [
+        {
+          "work_item_id": "WI-0224",
+          "title": "Implement two-family diagnostic comparison",
+          "position_id": "quality_evaluator",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0224 · Implemen… · Quality & Evaluation Engineer (Lulu)",
+          "base_revision": "df40202b",
+          "affected_paths": [
+            "scripts/diagnostic-format-comparison.mjs",
+            "scripts/diagnostic-maintenance-fixture.mjs",
+            "test/diagnostic-format-comparison.test.mjs",
+            "test/diagnostic-maintenance-fixture.test.mjs"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "test",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "b6e7299349b4f84be6d46046b1bcfe51baa8826067873a4d634c4e9018fddbf6",
+          "integration_owner_agent_id": "agent-mog",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0224 --position quality_evaluator --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        }
+      ],
+      "join_gate": {
+        "integration_owner_agent_ids": [
+          "agent-mog"
+        ],
+        "required_evidence": [
+          "exact_candidate_revision",
+          "verification_results",
+          "unresolved_items"
+        ],
+        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
+      }
+    }
+  ],
   "active": [],
   "sequential": [],
   "blocked": [],

@@ -2064,6 +2064,62 @@
       "attached_at": "2026-09-06T23:38:01.186Z",
       "completed_at": "2026-09-06T23:39:16.164Z",
       "updated_at": "2026-09-06T23:39:16.164Z"
+    },
+    {
+      "id": "worker-20260906235208-732dcc16",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0224",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "principal_id": "human",
+      "claim_id": "claim-20260906235208-846e370e",
+      "base_revision": "5407bdf983798773074e259fa02b0c81e60b0643",
+      "branch": "codex/diagnostic-comparison-design",
+      "worktree": null,
+      "plan_fingerprint": "5f35a8b4eaee517c77b296d3579b3f6caf93fde78933cd5c31f21604b367ff3b",
+      "plan_digest": "87f1cf9ca773e31e48d82c7c10fd925b18eea27fd844bd506c0dfae870342e24",
+      "preparation_fingerprint": "46af5e797d6d0f0210e8d42831bf389a6e0fea0c8593ce2b9cdaa1ffd51e080f",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0224_implementation",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "df40202b",
+      "evidence": [
+        ".ai-org/artifacts/WI-0223/design.md"
+      ],
+      "reserved_at": "2026-09-06T23:52:08.547Z",
+      "attached_at": "2026-09-06T23:52:47.818Z",
+      "completed_at": "2026-09-07T00:00:34.214Z",
+      "updated_at": "2026-09-07T00:00:34.214Z"
+    },
+    {
+      "id": "worker-20260907000040-c51ac3cd",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0224",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260907000040-e9111da2",
+      "base_revision": "df40202b",
+      "branch": "codex/diagnostic-comparison-design",
+      "worktree": null,
+      "plan_fingerprint": "292cd3bf72feb76d24f9ab11a2e68d77894eaba3f258796b3e8d9550a0231b91",
+      "plan_digest": "3c00ec81b7e1bbeb4c83cf2d13807c454c26d724572c7ab71b038e5de229ec5e",
+      "preparation_fingerprint": "b6e7299349b4f84be6d46046b1bcfe51baa8826067873a4d634c4e9018fddbf6",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/wi0224_readiness_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "df40202bcc44a97494e67acb2cc743b03ec3a012",
+      "evidence": [
+        ".ai-org/artifacts/WI-0224/readiness-review.md"
+      ],
+      "reserved_at": "2026-09-07T00:00:40.095Z",
+      "attached_at": "2026-09-07T00:01:12.136Z",
+      "completed_at": "2026-09-07T00:11:01.005Z",
+      "updated_at": "2026-09-07T00:11:01.005Z"
     }
   ]
 }
