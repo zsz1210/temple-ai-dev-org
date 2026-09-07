@@ -56,43 +56,6 @@ export async function readContextPacketSource(repository, relative) {
 
 const readSource = readContextPacketSource;
 
-const LEAN_SKILL = ".agents/skills/temple-work/SKILL.md";
-const LEAN_PROCEDURE = ".agents/skills/temple-work/references/lean-execution.md";
-// Authored modules, not arbitrary Markdown extraction. Compare complete local
-// sources to this release before changing a read obligation. Unknown stays whole.
-async function selectOperationProcedure(repository, selected, stage) {
-  const common = ".agents/skills/temple-work/references/lean-common.md";
-  const current = `.agents/skills/temple-work/references/lean-${stage}.md`;
-  const fallback = reason => ({ status: "whole-source-fallback", reason, modules: [] });
-  if (!["build", "test"].includes(stage)) return fallback("unsupported-stage");
-  if (selected.get(LEAN_PROCEDURE)?.size !== 1 || !selected.get(LEAN_PROCEDURE)?.has("stage-procedure")) return fallback("independently-required-procedure");
-  const qualifiedSources = [];
-  for (const relative of [LEAN_SKILL, LEAN_PROCEDURE, common, current]) {
-    try {
-      const actual = await readSource(repository, relative);
-      const expected = await fs.readFile(new URL(`../project-overlay/${relative}`, import.meta.url), "utf8");
-      if (actual.body !== expected) return fallback("unsupported-procedure-version");
-      qualifiedSources.push({ path: relative, sha256: actual.sha256 });
-    } catch { return fallback("procedure-source-unavailable"); }
-  }
-  for (const relative of [common, current]) addSource(selected, relative, "operation-procedure");
-  return { status: "selected", reason: "complete-authored-modules", modules: [common, current], qualified_sources: qualifiedSources };
-}
-
-function operationMaterialPacket(packet, selection) {
-  const sources = packet.sources.map(source => selection.status === "selected" && source.path === LEAN_PROCEDURE ? {
-    ...source, representation: "operation-procedure-reference", representation_reason: "replaced-by-complete-operation-modules",
-    body: null, body_bytes: 0, selection: { kind: "operation-procedure", modules: selection.modules }
-  } : source);
-  const binding = { ...packet.binding, material: "operation", operation_procedure: selection };
-  return { ...packet, schema_version: "temple.context-packet/v5", material: "operation", sources, binding,
-    procedure_selection: selection,
-    packet_digest: sha256(JSON.stringify({ prior_packet_digest: packet.packet_digest, binding, sources })),
-    measurements: { ...packet.measurements, emitted_source_bytes: sources.reduce((sum, row) => sum + row.body_bytes, 0) },
-    coverage: { ...packet.coverage, note: `${packet.coverage.note} Selected authored modules replace only the combined Lean procedure obligation. Whole-source fallback, native instructions and independent read requirements remain.` }
-  };
-}
-
 // Caller-attested current-context availability, never a filesystem read receipt.
 export function validateAvailableWholeSources(value) {
   if (value === undefined) return [];
@@ -126,7 +89,7 @@ export function reuseAvailableWholeSources(packet, declarations) {
     body: null, body_bytes: 0
   } : source);
   const binding = { ...packet.binding, available_whole_sources: decisions };
-  return { ...packet, schema_version: packet.material === "operation" ? "temple.context-packet/v5" : packet.material === "task" ? "temple.context-packet/v4" : "temple.context-packet/v3", sources, binding,
+  return { ...packet, schema_version: packet.material === "task" ? "temple.context-packet/v4" : "temple.context-packet/v3", sources, binding,
     packet_digest: sha256(JSON.stringify({ prior_packet_digest: packet.packet_digest, binding })),
     reuse: { basis: "caller-attested-current-context-only", reading_verified: false, decisions },
     measurements: { ...packet.measurements, emitted_source_bytes: sources.reduce((sum, source) => sum + source.body_bytes, 0),
@@ -194,9 +157,6 @@ export async function acquireContextPacket(target, options = {}) {
     else problem("external-specification-required", spec.id);
   }
 
-  const procedureSelection = options.operationProcedure === true && entry.route.purpose !== "recovery"
-    ? await selectOperationProcedure(repository, selected, entry.work_item.state) : null;
-
   const bodies = [];
   const metadata = [];
   let acquiredBytes = 0;
@@ -225,9 +185,6 @@ export async function acquireContextPacket(target, options = {}) {
   if (JSON.stringify(entry) !== JSON.stringify(afterEntry)) problem("context-changed-during-acquisition");
   const itemRow = metadata.find(row => row.path === entry.work_item.path);
   if (itemRow?.sha256 !== itemSource.sha256) problem("work-item-changed-during-acquisition");
-  for (const source of procedureSelection?.qualified_sources ?? []) {
-    if (metadata.find(row => row.path === source.path)?.sha256 !== source.sha256) problem("procedure-changed-during-acquisition", source.path);
-  }
   const binding = {
     repository_digest: sha256(repository), work_item_id: item.id, stage: entry.route.stage,
     purpose: entry.route.purpose, position: options.position,
@@ -249,7 +206,6 @@ export async function acquireContextPacket(target, options = {}) {
     fallback: complete ? null : "Use the existing context resolve route and original required sources; resolve every reported problem. No automatic retry."
   };
   if (material === "stage") packet = await stageMaterialPacket(repository, packet);
-  if (procedureSelection && complete) packet = operationMaterialPacket(packet, procedureSelection);
   if (options.expectedPlan !== undefined && options.expectedPlan !== packet.packet_digest) {
     throw new OperationError("STALE_PREVIEW", "Packet inputs changed; reacquire required sources before proceeding");
   }

@@ -1,10 +1,5 @@
 # Optional bounded Lean execution
 
-With explicit `--material operation`, a `selected` procedure result instead requires
-the complete [common](lean-common.md) and current [Build](lean-build.md) or
-[Test](lean-test.md) module. This combined document remains the fallback for older,
-changed, missing or independently required procedure sources. Default entry is unchanged.
-
 Use when deliberately choosing the combined material/completion route for an existing low-risk bounded Lean Build or Test task without UI delivery. Standard, High-Assurance, recovery, unclear scope, conflicting ownership and active runtime workers retain the existing route. This procedure never downgrades a profile or grants implementation, spending or external authority.
 
 ## Read and claim

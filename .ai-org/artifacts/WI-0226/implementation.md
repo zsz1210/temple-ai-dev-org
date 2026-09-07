@@ -1,5 +1,12 @@
 # Bounded Lean routing and offline evaluation reliability
 
+Current disposition: the operation-material prototype is **not adopted**. Its
+complete emitted input increased, so the source CLI, Skill, package boundary and
+documentation have been restored to their pre-prototype state. The retained code
+candidate covers offline evaluation reliability only. Broader Lean burden
+reduction remains unresolved; this is not acceptance of an efficiency feature.
+The plan below records the original bounded experiment, not current API availability.
+
 The maintainer accepted the WI-0225 recommendation and authorized implementation
 on 2026-09-07. This successor implements the first reversible slice, not the
 single-Agent exception or a live experiment. WI-0225 remains the historical design.

@@ -5,14 +5,6 @@ description: Record authorized Work Item lifecycle and runtime state through the
 
 # Project Delivery Work
 
-For deliberately selected `context enter --material operation`, an eligible result
-with `procedure_selection.status: selected` routes complete
-[common obligations](references/lean-common.md) plus either
-[Build](references/lean-build.md) or [Test](references/lean-test.md).
-These modules replace only the combined Lean execution reference for that operation;
-all other authority and required-read rules remain. If selection falls back, use
-the complete [Lean execution](references/lean-execution.md) procedure below.
-
 Use `node ./templew.mjs` from the project root. Never hand-edit supported canonical state or replace a failed pinned launcher with an unversioned global CLI. This Skill records authorized work; it grants no implementation, external action, spending, or release authority. Inspection remains read-only.
 
 ## Start and route work

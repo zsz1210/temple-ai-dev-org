@@ -45,8 +45,24 @@ test("unknown usage, containment, protocol stop and invalid assessment are globa
     const f = fixture(override), r = await f.run();
     assert.equal(r.status, "stopped"); assert.ok(r.attempted_stages <= 1);
     assert.ok(!JSON.stringify(r).includes("PRIVATE OUTPUT"));
-    if (r.stop_reason === "usage-unavailable") assert.equal(r.usage_complete, false);
+    if (["usage-unavailable", "cleanup-unconfirmed", "runtime-stopped"].includes(r.stop_reason)) assert.equal(r.usage_complete, false);
+    if (r.stop_reason === "cleanup-unconfirmed") assert.equal(r.operational_tokens, 10);
   }
+});
+
+test("typed stop and supplied immutable observation reference survive without raw fields", async () => {
+  const ref = "sha256:" + "a".repeat(64), itemId = "hmac-sha256:" + "b".repeat(64);
+  const f = fixture({ runOne: async () => ({ status: "stopped", provider_exit_confirmed: true,
+    stop_reason: "revision-boundary", usage: { operational_tokens: 10 }, observation_sha256: ref,
+    first_stop: { reason: "revision-boundary", stage: "build", event_index: 0, item_id: itemId },
+    events: [{ classification: { argument_index: 3, revision_category: "named-ref" }, command: "PRIVATE COMMAND" }], raw: "PRIVATE OUTPUT" }) });
+  const r = await f.run();
+  assert.equal(r.stop_reason, "runtime-stopped");
+  assert.equal(r.stages[0].diagnostics.stop_reason, "revision-boundary");
+  assert.equal(r.stages[0].diagnostics.observation_sha256, ref);
+  assert.equal(r.stages[0].diagnostics.first_stop.argument_index, 3);
+  assert.equal(r.stages[0].diagnostics.first_stop.item_id, itemId);
+  assert.ok(!JSON.stringify(f.snapshots).includes("PRIVATE"));
 });
 test("scoped invalid samples require explicit continuation and confirmed cleanup", async () => {
   for (const allowed of [false, true]) {

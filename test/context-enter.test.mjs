@@ -272,59 +272,6 @@ async function setup(t) {
   await fs.writeFile(filename, JSON.stringify({ ...document, status: "confirmed", source: "human-confirmed", summary: "Local fixture only", change_isolation: "not-required", review_gate: "not-required", recorded_at: "2026-09-01T00:00:00.000Z", recorded_by: "human" }));
   return f;
 }
-
-test("operation material routes complete Build/Test modules and binds fallback without writes", async t => {
-  const f = await setup(t);
-  const directory = ".agents/skills/temple-work/references/";
-  const combined = directory + "lean-execution.md";
-  for (const stage of ["build", "test"]) {
-    if (stage === "test") cli(deliveryArgs(f));
-    const actor = stage === "build" ? f.request.agentId : f.qualityAgent;
-    const position = stage === "build" ? "developer" : "quality_evaluator";
-    const args = extras => entryArgs(f, extras, actor, position);
-    const baseline = await assertReadOnly(f, args([]), "eligible");
-    const output = await assertReadOnly(f, args(["--material", "operation"]), "eligible");
-    const literal = ["node", "./templew.mjs", ...args(["--material", "operation"])].join(" ");
-    const context = { root: f.target, arm: "temple", stage: stage === "test" ? "verify" : "build", contextMaterial: "operation" };
-    const event = { type: "commandExecution", id: "operation-entry", status: "completed", cwd: f.target, command: literal, commandActions: [] };
-    assert.equal(classifyCommandItem(event, context).allowed, true);
-    assert.equal(classifyCommandItem(event, { ...context, contextMaterial: true }).allowed, false);
-    const packet = output.packet;
-    assert.equal(packet.schema_version, "temple.context-packet/v5");
-    assert.equal(packet.procedure_selection.status, "selected");
-    assert.deepEqual(packet.procedure_selection.modules, [directory + "lean-common.md", directory + `lean-${stage}.md`]);
-    assert.equal(packet.sources.find(s => s.path === combined).body, null);
-    for (const name of packet.procedure_selection.modules) assert.equal(packet.sources.find(s => s.path === name).body, await fs.readFile(path.join(f.target, name), "utf8"));
-    assert.ok(!packet.sources.some(s => s.path === directory + `lean-${stage === "build" ? "test" : "build"}.md`));
-    for (const name of ["AGENTS.md", "TEMPLE.md", ".ai-org/core/workflow.json", ".ai-org/core/policies.json", "docs/brief.md"]) {
-      assert.equal(packet.sources.find(s => s.path === name).body, baseline.packet.sources.find(s => s.path === name).body);
-    }
-    assert.ok(packet.measurements.emitted_source_bytes < baseline.packet.measurements.emitted_source_bytes);
-    t.diagnostic(`${stage}: stage ${baseline.packet.measurements.emitted_source_bytes} vs operation ${packet.measurements.emitted_source_bytes} source bytes; no model/Token claim`);
-    const model = await assertReadOnly(f, args(["--material", "operation", "--format", "model"]), "eligible");
-    assert.deepEqual(model.packet.sources, packet.sources);
-    if (stage === "test") {
-      const module = path.join(f.target, directory + "lean-test.md");
-      const original = await fs.readFile(module, "utf8");
-      await fs.appendFile(module, "\nUnknown new obligation.\n");
-      const fallback = await assertReadOnly(f, args(["--material", "operation"]), "eligible");
-      assert.equal(fallback.packet.procedure_selection.status, "whole-source-fallback");
-      assert.equal(fallback.packet.sources.find(s => s.path === combined).body, await fs.readFile(path.join(f.target, combined), "utf8"));
-      const stale = installed(f, args(["--material", "operation", "--expected-plan", output.entry_digest]), true);
-      assert.notEqual(stale.status, 0);
-      await fs.writeFile(module, original);
-    }
-  }
-});
-
-test("operation routing never omits independently required combined procedure", async t => {
-  const f = await setup(t), name = ".agents/skills/temple-work/references/lean-execution.md";
-  const item = await itemState(f);
-  await mutateItem(f, { gate_evidence: { ...item.gate_evidence, approved_scope: [name] } });
-  const output = await assertReadOnly(f, entryArgs(f, ["--material", "operation"]), "eligible");
-  assert.equal(output.packet.procedure_selection.reason, "independently-required-procedure");
-  assert.equal(output.packet.sources.find(s => s.path === name).body, await fs.readFile(path.join(f.target, name), "utf8"));
-});
 async function mutateItem(f, values) {
   await fs.writeFile(path.join(f.target, `.ai-org/work-items/${f.item.id}.json`), JSON.stringify({ ...await itemState(f), ...values }));
 }

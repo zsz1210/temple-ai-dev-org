@@ -1,8 +1,26 @@
 // Coordinator-owned sequencing for future bounded comparisons. No provider,
 // filesystem, approval consumption, retry, model choice or historical-run resume.
 // Callers must bind their frozen protocol and qualify runOne/assessOne separately.
+import { commandPolicyContract } from "./delivery-command-policy.mjs";
+import { safeFailureCode } from "./delivery-control-pair.mjs";
 const safeCount = value => Number.isSafeInteger(value) && value >= 0;
 const identifier = value => typeof value === "string" && /^[a-zA-Z0-9_-]{1,80}$/.test(value);
+const typedCause = value => commandPolicyContract.rules.includes(value) && !value.startsWith("allow-") ? value : safeFailureCode(value);
+function stopDiagnostics(observation) {
+  const first = observation?.first_stop;
+  const index = safeCount(first?.event_index) && first.event_index < 2000 ? first.event_index : null;
+  const event = index === null ? null : observation.events?.[index];
+  const classification = event?.classification;
+  return { stop_reason: observation?.stop_reason ? typedCause(observation.stop_reason) : null,
+    // A caller may provide an immutable artifact digest. No arbitrary paths or
+    // raw observation are copied; absence is explicit, never invented provenance.
+    observation_sha256: /^sha256:[a-f0-9]{64}$/.test(observation?.observation_sha256 ?? "") ? observation.observation_sha256 : null,
+    first_stop: first ? { reason: typedCause(first.reason), stage: ["build", "verify"].includes(first.stage) ? first.stage : null,
+      event_index: index, item_id: /^hmac-sha256:[a-f0-9]{64}$/.test(first.item_id ?? "") ? first.item_id : null,
+      argument_index: safeCount(classification?.argument_index) && classification.argument_index < commandPolicyContract.limits.arguments ? classification.argument_index : null,
+      revision_category: commandPolicyContract.revision_categories.includes(classification?.revision_category) ? classification.revision_category : null
+    } : null };
+}
 
 export async function runEvaluationSequence({ subjects, limits, continuation,
   beforeStage, runOne, assessOne, persist, now = Date.now }) {
@@ -14,7 +32,8 @@ export async function runEvaluationSequence({ subjects, limits, continuation,
   const schedule = structuredClone(subjects), budget = { ...limits }, policy = { ...continuation };
   const start = now();
   const result = { schema_version: "temple.evaluation-sequence/v1", status: "running", stages: [],
-    attempted_stages: 0, operational_tokens: 0, usage_complete: true, stop_reason: null };
+    attempted_stages: 0, operational_tokens: 0, usage_complete: true,
+    usage_basis: "known-observation-subtotal-not-account-final", stop_reason: null };
   const stop = reason => { result.status = "stopped"; result.stop_reason ??= reason; };
   const save = async () => {
     result.elapsed_ms = now() - start;
@@ -48,17 +67,18 @@ export async function runEvaluationSequence({ subjects, limits, continuation,
       let observation;
       try { observation = await runOne(structuredClone(subject), stage, result.operational_tokens); }
       catch { row.status = "invalid"; result.usage_complete = false; stop("runtime-unavailable"); await save(); break; }
+      row.diagnostics = stopDiagnostics(observation);
       const tokens = observation?.usage?.operational_tokens;
       if (!safeCount(tokens) || !safeCount(result.operational_tokens + tokens)) {
         row.status = "invalid"; result.usage_complete = false; stop("usage-unavailable"); await save(); break;
       }
       row.operational_tokens = tokens; result.operational_tokens += tokens;
       row.status = "observed"; await save();
-      if (observation.provider_exit_confirmed !== true) { stop("cleanup-unconfirmed"); break; }
+      if (observation.provider_exit_confirmed !== true) { result.usage_complete = false; stop("cleanup-unconfirmed"); break; }
       if (result.status === "stopped" || overLimit()) { stop("aggregate-limit"); break; }
       // A command-policy violation, malformed wire event or unknown runtime stop
       // is not a local product failure. Never let an assessment override it.
-      if (observation.status !== "completed") { row.status = "invalid"; stop("runtime-stopped"); break; }
+      if (observation.status !== "completed") { row.status = "invalid"; result.usage_complete = false; stop("runtime-stopped"); break; }
       let assessment;
       try { assessment = await assessOne(structuredClone(subject), stage, ready, build, observation); }
       catch { row.status = "invalid"; stop("assessment-unavailable"); break; }

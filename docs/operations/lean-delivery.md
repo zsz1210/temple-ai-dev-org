@@ -1,21 +1,5 @@
 # Lean delivery
 
-## Opt-in operation material (source candidate)
-
-An eligible existing Lean Build/Test actor can request
-`context enter . --work-item WI-#### --position <position> --agent-id <agent>
---principal-id <principal> --material operation --no-write --json` through the
-pinned launcher. `packet.procedure_selection.status: selected` requires the complete
-common and current-stage modules; the combined Lean procedure becomes a reference.
-Other required sources remain. `whole-source-fallback` means use the existing full
-procedure, not permission to omit unfamiliar rules. Module/version drift, missing
-modules and independent requirements prevent substitution.
-
-This is an opt-in source candidate, not the npm default. It does not remove a
-Verifier or prove lower Token usage. See [ADR-0061](../adr/0061-operation-scoped-lean-procedures.md).
-
-## Composed delivery
-
 The source CLI provides `work-item deliver` for a low-risk, bounded Lean change that is ready to hand from Developer to Quality Evaluator. It combines the handoff, claim release and entry into Test. This addition is unreleased; use the repository-pinned source launcher containing ADR-0054.
 
 It does **not** run tests, approve the result or close the Work Item. Standard, High-Assurance, interface work and work with active runtime workers keep their existing workflow. Never lower a profile just to use this command.
