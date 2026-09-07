@@ -1,0 +1,117 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0232",
+  "title": "Qualify continuity Codex requests without model generation",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-07T05:38:54.061Z",
+  "updated_at": "2026-09-07T05:41:36.067Z",
+  "scope": [
+    "Build a repository-only continuity request and no-generation Codex compatibility probe using the installed version schema and sandbox command execution. Keep live dispatch unavailable, preserve prior fixtures and experiments, record exact limits and remaining launch gates."
+  ],
+  "acceptance_criteria": [
+    "Request shapes validate against installed Codex schemas; two arms share common product instructions and retain distinct Temple governance. No-generation probe denies turn generation and checks sandbox access using synthetic files. Replay rejection, failure and cleanup; full verification and distinct QA; no live-ready claim."
+  ],
+  "affected_paths": [
+    "scripts/continuity-codex-adapter.mjs",
+    "test/continuity-codex-adapter.test.mjs",
+    ".ai-org/artifacts/WI-0232"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "bounded",
+    "escalation_triggers": [],
+    "rationale": "Offline repository-only adapter qualification, no production boundary change or model dispatch",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-07T05:38:54.060Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "2f22a3bde5a1f9240673310bb09bff48c69c16a7",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [
+    "WI-0190: claim released; only new continuity adapter test, no retained files touched",
+    "WI-0211: claim released; only new adapter script/test and WI-0232 evidence, no shared existing source changes"
+  ],
+  "claim": {
+    "id": "claim-20260907054136-d63117ad",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "2f22a3bde5a1f9240673310bb09bff48c69c16a7",
+    "branch": "codex/continuity-codex-contract",
+    "worktree": null,
+    "claimed_at": "2026-09-07T05:41:36.067Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260907053925-ccb1f480",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "2f22a3bde5a1f9240673310bb09bff48c69c16a7",
+      "branch": "codex/continuity-codex-contract",
+      "worktree": null,
+      "claimed_at": "2026-09-07T05:39:25.492Z",
+      "released_at": "2026-09-07T05:41:34.861Z",
+      "release_reason": [
+        "Bounded no-generation compatibility scope recorded"
+      ]
+    },
+    {
+      "id": "claim-20260907054136-d63117ad",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "2f22a3bde5a1f9240673310bb09bff48c69c16a7",
+      "branch": "codex/continuity-codex-contract",
+      "worktree": null,
+      "claimed_at": "2026-09-07T05:41:36.067Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0232/brief.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0232/brief.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0232/brief.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0232/brief.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0232/brief.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0232/brief.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
