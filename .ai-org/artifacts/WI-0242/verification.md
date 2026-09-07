@@ -49,3 +49,17 @@ inconclusive; no continuation or broad efficiency claim is justified.
 Developer/evaluation evidence is not Independent QA. The final report needs a
 distinct review of numbers, retained seals, diagnosis and missing-data claims
 before organizational closeout. No live generation is needed for that review.
+
+## Subsequent review and closeout
+
+Distinct QA accepted report accuracy at `56de97b3803c646cbaa7341c9915240615d2eece`;
+see [independent review](independent-qa.md). Its record-only replay reproduced the
+original rejection and passed all 41 record checks with the Git-verified alias.
+It did not repeat the coordinator's product oracle execution.
+
+The [release-gate record](release-record.md) closes this attempt as `concluded` /
+`inconclusive`, not an accepted two-condition comparison. Final canonical-state
+Doctor passed 37 checks with no warnings or failures. Evidence packaging before
+QA passed repository/link/package checks and 54/54 fast tests in 1,146.703542 ms;
+the first packaging check found a historical-document link typo, corrected before
+the reviewed candidate. No behavioral/full-suite rerun is claimed.

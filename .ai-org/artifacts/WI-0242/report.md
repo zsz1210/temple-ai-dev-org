@@ -144,6 +144,8 @@ is included. The approved run is sealed and stops here.
 - [Exact authorization](authorization.md).
 - [Allowlisted numeric export and seal](comparison.json).
 - [Verification scope](verification.md).
+- [Independent report review](independent-qa.md): report accuracy passed; the
+  experiment remains inconclusive.
 
 Instrument candidate: `afb048d10a7c1554afa75b8121d733d753b0a49b`.
 Execution revision: `2ef970b6d82d2f7aef4ea3067883f82b67323fc6`.
