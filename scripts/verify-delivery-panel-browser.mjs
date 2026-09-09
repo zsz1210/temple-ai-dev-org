@@ -60,6 +60,12 @@ async function layout(page) {
 }
 async function capture(page, name) {
   await page.locator("#delivery-detail").evaluate(element => element.scrollIntoView({ block: "start" }));
+  // Navigation closes the mobile sidebar asynchronously. Capture its settled state
+  // so a passing layout check cannot leave visual evidence covered by the backdrop.
+  if (page.viewportSize().width < 760) {
+    await page.waitForFunction(() => !document.body.classList.contains("nav-open") &&
+      document.querySelector("#app-sidebar").getBoundingClientRect().right <= 1);
+  }
   await page.screenshot({ path: path.join(output, name) });
 }
 try {
