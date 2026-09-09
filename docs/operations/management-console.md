@@ -59,8 +59,38 @@ The optional Console exposes only:
 - `GET /healthz` — optional-process health and authority facts;
 - `GET /api/v1/snapshot` — a path-redacted read-only snapshot;
 - `GET /api/v1/events` — refresh notifications without raw journal events.
+- `GET /api/v1/work-items/<Work Item ID>/delivery` — local-only bounded recorded
+  delivery summary. Private network viewers receive `403` for this additional detail.
 
 Every non-GET request returns `405`. The Console snapshot excludes the local daemon record, Human Inbox, raw recent events, and telemetry state-directory path.
+
+## Recorded delivery detail
+
+In **Work**, choose Open, Closed, or All Work Items, then select a row. Open remains
+the default. The detail reads one Work Item and its common-entry session on demand;
+it does not scan every delivery history during snapshot generation. Both the
+optional Console and combined operator dashboard use the same projection.
+
+Canonical lifecycle/outcome and common-session completion are separate. A Done
+Work Item can have an incomplete common session. Until that session completes,
+elapsed counters run through the displayed observation time, including time after
+canonical closure; they are not a completed delivery duration. No session record
+does not prove which execution path was used. Invalid records remain unavailable.
+
+The panel shows candidate/tested revision, the latest five recorded checks, up to
+three references per evidence category, time counters, repairs, pauses and pending
+operation names. References are not revalidated, and these checks are not the full
+project test inventory. Lean review does not imply formal Independent QA.
+Task Operational Tokens remain unknown without complete observations; known
+observed tokens are input minus cached input plus output, not money. Zero observed
+calls does not mean no AI use. The endpoint exposes no raw pending requests,
+usage receipts or evidence contents and performs no model calls or mutations.
+
+A browser retains at most 32 summaries, reuses them for 30 seconds, and refreshes
+an expired selected summary on a subsequent render. Use **Refresh delivery
+summary** to read immediately. Loading, request failure/retry, missing and invalid
+records are separate states; switching selection cannot apply an old response to
+the newly selected item. Private viewers retain the existing snapshot boundary.
 
 ## Legacy combined operator path
 

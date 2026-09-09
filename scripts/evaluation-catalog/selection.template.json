@@ -1,0 +1,78 @@
+{
+  "schema_version": "temple.offline-evaluation-selection/v1",
+  "model_generation_authorized": false,
+  "decision": {
+    "question": "Demonstration only: preview ordinary Codex versus current Temple Lean on two small tasks. This is not a proposal to rerun historical controls.",
+    "factor": "factorial"
+  },
+  "selection": {
+    "scenarios": [
+      "small-bug",
+      "async-feature"
+    ],
+    "models": [
+      "terra-medium",
+      "gpt6-medium"
+    ],
+    "variants": [
+      "general",
+      "lean-current"
+    ]
+  },
+  "variants": [
+    {
+      "id": "general",
+      "mode": "general",
+      "framework_revision": null
+    },
+    {
+      "id": "lean-current",
+      "mode": "temple-lean",
+      "framework_revision": null
+    },
+    {
+      "id": "standard-current",
+      "mode": "temple-standard",
+      "framework_revision": null
+    },
+    {
+      "id": "assurance-current",
+      "mode": "temple-high-assurance",
+      "framework_revision": null
+    },
+    {
+      "id": "core-proposed",
+      "mode": "temple-core-candidate",
+      "framework_revision": null
+    },
+    {
+      "id": "lean-before",
+      "mode": "temple-lean",
+      "framework_revision": null
+    },
+    {
+      "id": "lean-after",
+      "mode": "temple-lean",
+      "framework_revision": null
+    }
+  ],
+  "repetitions": 1,
+  "order_seed": 266,
+  "controls": {
+    "runtime_digest": null,
+    "tools_digest": null,
+    "measurement_digest": null,
+    "common_prompt_digest": null,
+    "verifier": {
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium"
+    },
+    "cache_control": "uncontrolled-descriptive-only",
+    "scenario_pins": {}
+  },
+  "budget": {
+    "per_scenario": {},
+    "batch_overhead": null,
+    "ceilings": null
+  }
+}

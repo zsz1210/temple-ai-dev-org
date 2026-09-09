@@ -25,6 +25,19 @@ test("installed whole contract and triggered procedures reach both cold delivery
     assert.ok(!path.isAbsolute(ref) && !ref.startsWith("../"));
     assert.ok((await fs.stat(path.join(f.target, ref))).isFile(), ref);
   }
+  // Preserve conditional entrypoints too, not just the currently selected Lean
+  // procedure. QA found that a valid post-init route can hide a missing pre-init one.
+  for (const skill of ["temple-init", "temple-work", "decision-interview",
+    "domain-modeling", "project-documentation", "skill-authoring"]) {
+    assert.ok(references.includes(`.agents/skills/${skill}/SKILL.md`), skill);
+  }
+  const normalized = contract.replace(/\s+/g, " ");
+  assert.match(normalized, /First initialization.*temple-init.*before writes.*combined confirmation.*existing-file conflicts/);
+  assert.match(normalized, /If scope, risk or ownership changes, stop the narrow path before further mutation and resolve the applicable route/);
+  const agents = await fs.readFile(path.join(f.target, "AGENTS.md"), "utf8");
+  assert.match(agents, /explicit routes with `--context-ref`/);
+  const workSkill = await fs.readFile(path.join(f.target, ".agents/skills/temple-work/SKILL.md"), "utf8");
+  assert.match(workSkill, /Release ownership on handoff or abandonment, after applicable worker cleanup/);
   for (const position of ["developer", "quality_evaluator"]) {
     if (position === "quality_evaluator") cli(deliveryArgs(f));
     const result = await entry(f, position);

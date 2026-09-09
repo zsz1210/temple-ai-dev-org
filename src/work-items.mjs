@@ -1089,7 +1089,7 @@ async function assertNormalizedGateEvidence(target, item, gateEvidence) {
   }
 }
 
-export async function reworkWorkItem(target, options) {
+export async function prepareWorkItemRework(target, options) {
   const context = await loadProjectContext(target);
   const item = await readWorkItem(target, options.workItemId);
   if (!REVIEW_STATES.has(item.state)) throw new Error("Rework is available only from Test, Eval or Independent QA; closed work and Release Gate cannot be reopened");
@@ -1147,6 +1147,11 @@ export async function reworkWorkItem(target, options) {
   prepared.item.assigned_agent_id = assignedAgentId(context, "developer");
   prepared.item.next_position = nextPositionForState(context, "build", prepared.item);
   if (context.states.get("build")?.owner_position !== "developer") throw new Error("Rework requires a Developer-owned Build state");
+  return { prepared, item, actor, revision, reason, findings };
+}
+
+export async function reworkWorkItem(target, options) {
+  const { prepared, item, actor, revision, reason, findings } = await prepareWorkItemRework(target, options);
   const originalBytes = await fs.readFile(workItemPath(target, item.id), "utf8");
   await writeWorkItem(target, prepared.item);
   try {
@@ -1430,7 +1435,7 @@ function releaseRecordMarkdown(context, item, options, timestamp, actor, gateEvi
   }\n`;
 }
 
-export async function closeWorkItem(target, options) {
+export async function prepareWorkItemClose(target, options) {
   const context = await loadProjectContext(target);
   const item = await readWorkItem(target, options.workItemId);
   if (item.state !== "release_gate") throw new Error(`temple close requires release_gate; ${item.id} is ${item.state}`);
@@ -1486,10 +1491,7 @@ export async function closeWorkItem(target, options) {
   const relativePath = `.ai-org/artifacts/${item.id}/release-record.md`;
   gateEvidence.rollback_plan = [relativePath];
   gateEvidence.required_human_approval = [options.approval];
-  await atomicWrite(
-    path.join(target, relativePath),
-    releaseRecordMarkdown(context, item, closeOptions, timestamp, actor, gateEvidence)
-  );
+  const content = releaseRecordMarkdown(context, item, closeOptions, timestamp, actor, gateEvidence);
 
   const destinationState = options.decision === "go" ? "done" : "concluded";
   const ownerPosition = context.states.get(destinationState).owner_position;
@@ -1526,8 +1528,7 @@ export async function closeWorkItem(target, options) {
     next_position: null
   };
   delete updated.previous_state;
-  await writeWorkItem(target, updated);
-  await appendEvent(target, {
+  const events = [{
     timestamp,
     event_type: "release_gate_completed",
     actor,
@@ -1540,8 +1541,7 @@ export async function closeWorkItem(target, options) {
     approval_record: options.approval,
     external_release: false,
     refs: [relativePath]
-  });
-  await appendEvent(target, {
+  }, {
     timestamp,
     event_type: options.decision === "go" ? "work_item_closed" : "work_item_concluded",
     actor,
@@ -1552,9 +1552,16 @@ export async function closeWorkItem(target, options) {
     result: lifecycleOutcome,
     next_owner_position: "engineering_manager",
     refs: [`.ai-org/work-items/${item.id}.json`, relativePath]
-  });
+  }];
+  return { item: updated, artifact: relativePath, content, events };
+}
 
-  return { item: updated, artifact: relativePath };
+export async function closeWorkItem(target, options) {
+  const { content, events, ...result } = await prepareWorkItemClose(target, options);
+  await atomicWrite(path.join(target, result.artifact), content);
+  await writeWorkItem(target, result.item);
+  for (const event of events) await appendEvent(target, event);
+  return result;
 }
 
 export async function migrateLegacyOutcome(target, options) {

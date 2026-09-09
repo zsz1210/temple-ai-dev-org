@@ -17,7 +17,7 @@ export function git(target, args) {
   if (result.status !== 0) throw new Error(result.stderr);
   return result.stdout.trim();
 }
-export async function fixture() {
+export async function fixture({ workflowProfile = "lean", affectedPaths = ["app.mjs", "app.test.mjs"] } = {}) {
   const temporary = await fs.mkdtemp(path.join(os.tmpdir(), "temple-lean-delivery-"));
   const target = path.join(temporary, "project");
   const config = path.join(temporary, "init.json");
@@ -46,9 +46,10 @@ export async function fixture() {
   git(target, ["add", "."]);
   git(target, ["commit", "-m", "Freeze product and contract fixture"]);
   const revision = git(target, ["rev-parse", "HEAD"]);
-  setup.push(cli(["work-item", "create", target, "--title", "Deliver the parser fixture", "--scope", "Local parser", "--acceptance", "Decimal input parses and non-digits fail", "--affected-path", "app.mjs", "--affected-path", "app.test.mjs", "--workflow-profile", "lean", "--risk-tier", "low", "--scope-class", "bounded", "--profile-rationale", "Local reversible fixture", "--ui-mode", "not-applicable", "--json"]));
+  setup.push(cli(["work-item", "create", target, "--title", "Deliver the parser fixture", "--scope", "Local parser", "--acceptance", "Decimal input parses and non-digits fail", ...affectedPaths.flatMap(p => ["--affected-path", p]), "--workflow-profile", workflowProfile, "--risk-tier", workflowProfile === "lean" ? "low" : "standard", "--scope-class", "bounded", "--profile-rationale", "Local reversible fixture", "--ui-mode", "not-applicable", "--json"]));
   const item = JSON.parse(setup.at(-1).stdout).item;
-  setup.push(cli(["transition", target, "--work-item", item.id, "--to", "build", ...["work_order", "approved_scope", "acceptance_criteria", "technical_design", "risk_review", "profile_eligibility"].flatMap((gate) => ["--satisfy", `${gate}=docs/brief.md`])]));
+  const route = workflowProfile === "lean" ? [["build", ["work_order", "approved_scope", "acceptance_criteria", "technical_design", "risk_review", "profile_eligibility"]]] : [["spec", ["work_order"]], ["design", ["approved_scope", "acceptance_criteria"]], ["build", ["technical_design", "risk_review"]]];
+  for (const [stage, gates] of route) setup.push(cli(["transition", target, "--work-item", item.id, "--to", stage, ...gates.flatMap(gate => ["--satisfy", `${gate}=docs/brief.md`])]));
   const assignments = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/assignments.json")));
   const agent = assignments.assignments.find((entry) => entry.position_id === "developer").agent_id;
   const qualityAgent = assignments.assignments.find((entry) => entry.position_id === "quality_evaluator").agent_id;

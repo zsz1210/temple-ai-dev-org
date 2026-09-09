@@ -94,3 +94,39 @@ Treat a newly released model, such as a future GPT-6, as an unverified Provider 
 
 Passing this evaluation may support a project recommendation. It never authorizes spending, release, publication, automatic routing, or a framework-wide default by itself.
 
+## Same-version common-entry diagnostic
+
+The repository-only `scripts/paired-entry-experiment.mjs` runner reads
+`scripts/evaluation-catalog/paired-entry.settings.json`. It compares individual
+Temple CLI operations and the common entry on the same copied runtime, with
+identical autonomous product assignments and blind verification. This is not an
+ordinary-Codex-versus-Temple comparison. Scenario complexity and risk remain
+separate, and both arms retain the Standard contract.
+
+The checked-in settings retain historical local Work Item authority references.
+Those records are not included in the public checkout. Even `prepare --rehearsal`
+requires the matching authorized local inputs; the commands below describe the
+runner contract, not a self-contained public launch recipe. Use the
+[offline catalog planner](../../scripts/evaluation-catalog/README.md) for reusable
+generation-free preparation, then freeze and authorize any new live protocol.
+
+`prepare SETTINGS --rehearsal` qualifies seed/reference/mutant oracles and installed
+provider boundaries without model generation. `run LAB DIGEST` consumes prepared
+inputs once. A planned handoff-recovery case exits at a settled post-Build checkpoint;
+`resume LAB DIGEST TOKEN` must run in a new process against unchanged product/control
+trees and consume its token once. A failure, unknown call or arbitrary interruption
+does not become a resumable checkpoint. Rehearsal actors use synthetic reference
+material and force a repair in both modes; live actors never receive that material.
+
+Live preparation requires a separate protocol-bound launch authorization. Run and
+resume validate source/runtime/fixture/authority hashes, effective model settings,
+exclusive execution and complete downstream phase/cell/cleanup reservations.
+Stop records preserve partial and unrun rows; no replacement, fallback, reset or
+purchase is performed. Keep the complete lab and failure receipts for analysis.
+
+Two opposite-order pairs per scenario are a small descriptive diagnostic. They
+do not establish equal cache or causal Token savings. Report pair-level quality,
+first acceptance, repair, administrative invocations, elapsed time, gross/cached/
+output/Operational Tokens and planned recovery separately. A recommendation is
+limited to the sampled reversible Standard scope; default policy is not changed
+by executing or accepting the experiment.

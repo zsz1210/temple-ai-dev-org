@@ -147,11 +147,14 @@ test("fresh init seeds project-owned federation state, schemas, capabilities, an
   const installedClaude = await fs.readFile(path.join(target, "CLAUDE.md"), "utf8");
   const installedTemple = await fs.readFile(path.join(target, "TEMPLE.md"), "utf8");
   assert.equal(installedClaude, "@AGENTS.md\n");
-  assert.match(installedAgents, /TEMPLE_BOOTSTRAP_REQUIRED/);
-  assert.match(installedAgents, /result is not evidence of instruction loading, comprehension, authority, or lifecycle progress/);
-  assert.match(installedTemple, /## Agent-led initialization continuity/);
-  assert.match(installedTemple, /does not detect the executing provider or claim `AGENTS\.md` is universal/);
-  assert.match(installedTemple, /project-owned `CLAUDE\.md` containing only `@AGENTS\.md`/);
+  // Bootstrap rules moved to the required whole operating contract; preserving
+  // the rule does not require duplicating its entire prose in the native router.
+  assert.match(installedAgents, /Read the whole `TEMPLE.md` operating contract/);
+  const continuity = installedTemple.replace(/\s+/g," ");
+  assert.match(continuity, /resolve `TEMPLE_BOOTSTRAP_REQUIRED` before governed mutation/);
+  assert.match(continuity, /Neither acknowledgement nor import compatibility proves loading, comprehension, permission or lifecycle progress/);
+  assert.match(continuity, /Do not assume `AGENTS.md` is universal or that the CLI detects the current provider/);
+  assert.match(continuity, /project-owned `CLAUDE.md` importing `@AGENTS.md`/);
   const registryPath = path.join(target, FEDERATION_REGISTRY_RELATIVE_PATH);
   const registry = await readJson(registryPath);
   assert.deepEqual(registry, emptyFederationRegistry());

@@ -66,6 +66,20 @@ node ./templew.mjs transition . \
 
 Temple rejects the transition if the profile or evidence is insufficient.
 
+For an explicitly selected daily execution plan, eligible low-risk bounded Lean
+work can now follow [Daily core delivery](../operations/daily-delivery.md). The AI
+chooses implementation methods; the CLI runs fixed checks and records handoff,
+repair and task accounting. The coordinator continues authorized work to a
+distinct Verifier without requiring another human “continue.” This is an optional
+execution style within Lean, not a new workflow profile or background service.
+The manual route below remains available; Standard and High-Assurance retain
+their required gates.
+
+An explicitly selected v2 plan uses [Autonomous delivery](../operations/autonomous-delivery.md)
+across all three profiles after approved Build entry. The same AI may complete
+eligible review responsibilities from one substantive judgment; the CLI preserves
+each named gate, distinct Developer/reviewer identities and existing risk requirements.
+
 ## 4. Take ownership and resolve how to work
 
 Read the assigned Developer Agent ID, current revision, and branch before claiming active ownership:

@@ -1,0 +1,76 @@
+{
+  "schema_version": "temple.evaluation-observation-index-template/v1",
+  "status": "non-executable-template",
+  "plan_sha256": null,
+  "catalog_sha256": null,
+  "frozen_protocol_sha256": null,
+  "rows": [
+    {
+      "cell_id": null,
+      "status": "not-run",
+      "classification": null,
+      "first_pass": {
+        "product_revision": null,
+        "grader_digest": null,
+        "quality": "unknown",
+        "evidence_refs": []
+      },
+      "final_delivery": {
+        "product_revision": null,
+        "grader_digest": null,
+        "quality": "unknown",
+        "evidence_refs": []
+      },
+      "provenance": {
+        "observation_ref": null,
+        "observation_sha256": null,
+        "protocol_revision": null,
+        "historical": false,
+        "regrade_of": null
+      },
+      "usage": {
+        "accounting": "unknown",
+        "gross_input_tokens": null,
+        "cached_input_tokens": null,
+        "output_tokens": null,
+        "operational_tokens": null,
+        "reasoning_tokens_subset_of_output": null
+      },
+      "timing": {
+        "actor_ms": null,
+        "tools_ms": null,
+        "cell_elapsed_ms": null,
+        "batch_elapsed_ms": null,
+        "outer_preparation_ms": null
+      },
+      "repair_calls": null,
+      "human_interventions": null,
+      "admin_operations": null,
+      "censoring_reason": null,
+      "cleanup_acknowledged": null
+    }
+  ],
+  "classification_values": [
+    "product-accepted",
+    "product-rejected",
+    "instrument-fault",
+    "provider-fault",
+    "budget-stop",
+    "operator-stop",
+    "not-run"
+  ],
+  "accounting_values": [
+    "complete",
+    "partial-lower-bound",
+    "unknown"
+  ],
+  "rules": [
+    "One immutable original observation per execution; regrades are separate linked observations.",
+    "Missing and interrupted rows stay visible. Unknown values remain null.",
+    "Operational tokens = gross input - cached input + output. Reasoning is not added twice.",
+    "Shared harness QA and administration are accounted equally and not credited exclusively to Temple.",
+    "Outer preparation and tool time are separate from per-subject model usage; never sum overlapping wall clocks.",
+    "Only compatible complete accepted deliveries support final-delivery efficiency comparisons; quality failures and stops remain reported.",
+    "No pooled winner, routing change, monetary or reliability claim from a diagnostic screen."
+  ]
+}

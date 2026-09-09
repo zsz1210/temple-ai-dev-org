@@ -236,6 +236,8 @@ Usage:
   temple retrieval show [target] [--json]
   temple evaluation run [target] --fixture path [--no-write] [--json]
   temple usage report [target] [--state-dir path] [--no-write] [--json]
+  temple delivery open|check|finish|rework|observe|pause|resume [target] --work-item WI-ID --agent-id id --principal-id id [--request repository-file] [--json]
+  temple delivery next|report [target] --work-item WI-ID [--json]
   temple usage preflight [target] [--state-dir path] [--probe-codex-account] [--json]
   temple usage evaluate [target] --fixture .ai-org/evaluations/model/name.json [--no-write] [--json]
   temple usage collect [target] [--state-dir path] [--codex-command absolute-path] [--observation-mode on-demand|managed-local]
@@ -557,7 +559,7 @@ const REPEATABLE_FLAGS = new Set([
   "--participant-principal",
   "--environment"
 ]);
-const NESTED_COMMANDS = new Set(["work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "evaluation", "usage", "execution", "adapter", "control-plane", "console", "backup", "restore", "audit", "publication", "federation", "portfolio", "experiment"]);
+const NESTED_COMMANDS = new Set(["delivery", "work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "evaluation", "usage", "execution", "adapter", "control-plane", "console", "backup", "restore", "audit", "publication", "federation", "portfolio", "experiment"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -2497,8 +2499,27 @@ async function runWorkItemFinish(parsed) {
     judgment: parsed.options["--judgment"], testEvidence: listOption(parsed, "--test-evidence"), leanCloseout: listOption(parsed, "--lean-closeout"),
     dryRun: parsed.flags.has("--dry-run"), expectedPlan: parsed.options["--expected-plan"]
   }), { leanDeliveryOperation: `${parsed.options["--work-item"]}/${parsed.options["--operation-id"]}` });
-  printResult(parsed, result, [`Lean finish: ${result.status}`, `Lifecycle: ${result.mutation.status}`, `Diagnostics: ${result.diagnostics.status}`, result.mutation.next_action]);
+  printResult(parsed, result, [`Lean finish: ${result.status}`, `Lifecycle: ${result.mutation.status}`, `Diagnostics: ${result.diagnostics.status}`, result.next_action]);
   return result.success || result.mutation.dry_run ? 0 : 1;
+}
+
+async function runDailyDelivery(parsed) {
+  const readOnly = ["next", "report"].includes(parsed.action);
+  assertCommandOptions(parsed, readOnly ? ["--work-item"] : ["--work-item", "--agent-id", "--principal-id", "--request"], ["--json"]);
+  const api = await import("./daily-delivery.mjs");
+  const methods = { open: api.openDelivery, check: api.checkDelivery, finish: api.finishDelivery, rework: api.reworkDelivery, observe: api.observeDelivery, pause: api.pauseDelivery, resume: api.resumeDelivery, next: api.inspectDelivery, report: api.inspectDelivery };
+  if (!methods[parsed.action]) throw new OperationError("INVALID_INPUT", "Unknown delivery action");
+  const humanReport = parsed.action === "report" && !parsed.flags.has("--json");
+  const target = await assertSafeTarget(parsed.target), options = { workItemId: parsed.options["--work-item"], agentId: parsed.options["--agent-id"], principalId: parsed.options["--principal-id"], requestRef: parsed.options["--request"], report: parsed.action === "report", humanReadable: humanReport };
+  let key = null;
+  if (parsed.action === "finish") {
+    const { readSource } = await import("./delivery-ledger.mjs");
+    const request = JSON.parse((await readSource(target, options.requestRef)).body);
+    key = `${options.workItemId}/${request.operation_id}`;
+  }
+  const result = readOnly ? await methods[parsed.action](target, options) : await withProjectMutationLock(target, () => methods[parsed.action](target, options), { leanDeliveryOperation: key });
+  printResult(parsed, result, humanReport ? result : [JSON.stringify(result, null, 2)]);
+  return result.check && !result.check.accepted || result.finish && !result.finish.success ? 1 : 0;
 }
 
 async function runWorkItemMigrateOutcomes(parsed) {
@@ -3192,6 +3213,7 @@ async function dispatch(argv) {
   if (parsed.command === "retrieval") return runRetrieval(parsed);
   if (parsed.command === "evaluation") return runEvaluation(parsed);
   if (parsed.command === "usage") return runUsage(parsed);
+  if (parsed.command === "delivery") return runDailyDelivery(parsed);
   if (parsed.command === "execution") return runExecution(parsed);
   if (parsed.command === "adapter") return runAdapter(parsed);
   if (parsed.command === "handoff") return runHandoff(parsed);
@@ -3206,7 +3228,7 @@ async function dispatch(argv) {
 }
 
 export async function main(argv) {
-  const delivery = argv[0] === "work-item" && ["deliver", "finish"].includes(argv[1]);
+  const delivery = argv[0] === "delivery" || argv[0] === "work-item" && ["deliver", "finish"].includes(argv[1]);
   const compact = argv[0] === "context" && ((argv[1] === "resolve" && argv.includes("--compact")) || ["packet", "enter"].includes(argv[1]));
   if (!delivery && !compact) return dispatch(argv);
   try {
@@ -3226,7 +3248,7 @@ export async function main(argv) {
     return await dispatch(argv);
   } catch (error) {
     if (!argv.includes("--json")) throw error;
-    console.log(JSON.stringify(operationErrorResult(error, { readOnly: compact }), null, 2));
+    console.log(JSON.stringify(operationErrorResult(error, { readOnly: compact || argv[0] === "delivery" && ["next", "report"].includes(argv[1]) }), null, 2));
     console.error(`Temple error: ${error.message}`);
     return 1;
   }

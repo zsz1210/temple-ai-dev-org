@@ -3,6 +3,13 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { sha256, durableAtomicWrite, formatJson } from "./files.mjs";
 import { OperationError } from "./operation-errors.mjs";
+import { isWorkItemId } from "./ids.mjs";
+
+function validOperation(value) {
+  if (typeof value !== "string") return false;
+  const parts = value.split("/");
+  return parts.length === 2 && isWorkItemId(parts[0]) && /^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$/.test(parts[1]);
+}
 
 // Per-checkout recovery data, never lifecycle authority or distributed locking.
 export async function leanDeliveryStateDirectory(target, required = false) {
@@ -57,7 +64,7 @@ export async function readLeanFinishDiagnostics(target) {
     if (!stat.isFile() || stat.isSymbolicLink()) throw new Error("Unsafe Lean finish diagnostic record");
     const record = JSON.parse(await fs.readFile(filename, "utf8"));
     if (record.schema_version !== "temple.lean-finish-diagnostics/v1" || !["pending", "failed", "passed"].includes(record.status) ||
-      !/^WI-[0-9]+\/[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$/.test(record.operation_key ?? "") ||
+      !validOperation(record.operation_key) ||
       name !== `finish-${record.operation_key.replace("/", "-")}.json` || !record.journal || record.journal.operation_key !== record.operation_key) throw new Error("Invalid Lean finish diagnostic record");
     if (record.journal.target !== root || record.journal.request_digest !== sha256(formatJson(record.journal.request)) ||
       `${record.journal.request?.work_item_id}/${record.journal.request?.operation_id}` !== record.operation_key ||
@@ -71,7 +78,7 @@ export async function readLeanFinishDiagnostics(target) {
 }
 
 export async function writeLeanFinishDiagnostics(target, record) {
-  if (!/^WI-[0-9]+\/[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$/.test(record.operation_key ?? "")) throw new Error("Invalid Lean finish diagnostic operation");
+  if (!validOperation(record.operation_key)) throw new Error("Invalid Lean finish diagnostic operation");
   const directory = await leanDeliveryStateDirectory(target, true);
   await fs.mkdir(directory, { recursive: true });
   const filename = path.join(directory, `finish-${record.operation_key.replace("/", "-")}.json`);

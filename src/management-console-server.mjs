@@ -8,6 +8,7 @@ import {
   privateViewerSnapshot
 } from "./control-plane-server.mjs";
 import { renderControlPlaneDashboard } from "./control-plane-dashboard.mjs";
+import { inspectDeliverySummary } from "./daily-delivery.mjs";
 import { pathExists, readJson } from "./files.mjs";
 import { normalizePrivateLanViewerHost } from "./private-network-viewer.mjs";
 import { readControlPlaneConfig } from "./control-plane-config.mjs";
@@ -230,6 +231,16 @@ export async function startManagementConsoleServer(target, options = {}) {
       }
       if (request.method !== "GET") {
         jsonResponse(response, 405, { error: "Management Console is read-only" });
+        return;
+      }
+      const deliveryMatch = /^\/api\/v1\/work-items\/(WI-(?:[0-9]{4,}|[0-9]{8}-[A-F0-9]{10}))\/delivery$/.exec(requestUrl.pathname);
+      if (deliveryMatch) {
+        if (access.kind !== "loopback") {
+          jsonResponse(response, 403, { error: "Delivery detail is available locally only" });
+        } else {
+          const summary = await inspectDeliverySummary(projectRoot, deliveryMatch[1]);
+          jsonResponse(response, summary.availability === "work-item-missing" ? 404 : 200, summary);
+        }
         return;
       }
       if (requestUrl.pathname === "/healthz") {

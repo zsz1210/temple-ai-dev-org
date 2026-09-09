@@ -1,0 +1,33 @@
+{
+  "schema_version": "temple.paired-entry-settings/v1",
+  "question": "Should the common entry become the provisional default for sampled reversible Standard tasks?",
+  "authority_ref": ".ai-org/artifacts/WI-0292/brief.md",
+  "models": {"build": "gpt-6-astra", "verify": "gpt-5.6-terra"},
+  "effort": "medium",
+  "modes": ["temple-individual-cli", "temple-autonomous-entry"],
+  "pair_orders": [["temple-individual-cli", "temple-autonomous-entry"], ["temple-autonomous-entry", "temple-individual-cli"]],
+  "scenarios": [
+    {"id": "simple", "fixture": "small", "complexity": "simple", "risk": "low", "recovery": false},
+    {"id": "cross-module", "fixture": "feature", "complexity": "multi-module", "risk": "standard", "recovery": false},
+    {"id": "handoff-recovery", "fixture": "feature", "complexity": "multi-module", "risk": "standard", "recovery": true}
+  ],
+  "workflow_profile": "standard",
+  "cache": "uncontrolled-descriptive-counterbalanced",
+  "concurrency": 1,
+  "repairs_per_cell": 1,
+  "candidate_failure": "record-and-continue",
+  "retry": false,
+  "fallback": false,
+  "resets": false,
+  "external_actions": false,
+  "phases": {
+    "build": {"stop_tokens": 180000, "reserve_tokens": 220000, "stop_ms": 600000, "reserve_ms": 660000},
+    "verify": {"stop_tokens": 70000, "reserve_tokens": 90000, "stop_ms": 420000, "reserve_ms": 480000},
+    "repair": {"stop_tokens": 180000, "reserve_tokens": 220000, "stop_ms": 600000, "reserve_ms": 660000},
+    "reverify": {"stop_tokens": 70000, "reserve_tokens": 90000, "stop_ms": 420000, "reserve_ms": 480000}
+  },
+  "cleanup": {"tokens": 40000, "time_ms": 120000},
+  "outer": {"tokens": 200000, "time_ms": 600000},
+  "setup": {"tokens": 0, "time_ms": 600000},
+  "ceilings": {"tokens": 8120000, "time_ms": 30000000, "calls": 48}
+}
