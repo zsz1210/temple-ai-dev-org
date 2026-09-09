@@ -144,6 +144,11 @@ test("actual CLI retains every Lesson ID for initial capture and successor witho
   assert.equal(JSON.parse(singular.stdout).id, "LESSON-0001");
   const synced = run(["learning", "sync-metadata", f.root, "--learning-id", "LESSON-0001", "--json"]);
   assert.equal(synced.status, 0, synced.stderr);
+  for (const [action, flags] of [["sync-metadata", []], ["revalidate", ["--result", "confirmed"]]]) {
+    const duplicateScalar = run(["learning", action, f.root, "--learning-id", "LESSON-0001", "--learning-id", "LESSON-0002", ...flags, "--json"]);
+    assert.notEqual(duplicateScalar.status, 0);
+    assert.match(duplicateScalar.stderr, /exactly one/);
+  }
   const args = ["learning", "record-review", f.root, "--work-item", f.item.id, "--revision", revision, "--result", "linked-lessons", "--actor", "agent-reviewer", "--evidence", "docs/review.md", "--json"];
   const ids = ["--learning-id", "LESSON-0002", "--learning-id", "LESSON-0001"];
   const duplicate = run([...args, "--learning-id", "LESSON-0001", "--learning-id", "LESSON-0001"]);

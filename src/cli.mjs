@@ -595,6 +595,7 @@ function parseCommand(argv) {
       const value = argv[index + 1];
       if (!value || value.startsWith("--")) throw new Error(`${token} requires a value`);
       if (command === "context" && action === "enter" && Object.hasOwn(options, token)) throw new OperationError("INVALID_INPUT", `Context enter option may appear only once: ${token}`);
+      if (command === "learning" && token === "--learning-id" && action !== "record-review" && Object.hasOwn(options, token)) throw new Error("This Learning operation accepts exactly one --learning-id");
       if (REPEATABLE_FLAGS.has(token) || command === "learning" && action === "record-review" && token === "--learning-id") options[token] = [...(options[token] ?? []), value];
       else options[token] = value;
       index += 1;
