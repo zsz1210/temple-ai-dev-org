@@ -4,6 +4,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { withProjectMutationLock } from "../src/project.mjs";
 import { finishLeanWorkItem } from "../src/lean-finish.mjs";
+import { inspectParallelPlan } from "../src/orchestration.mjs";
 import { readPendingLeanDelivery, readLeanFinishDiagnostics, leanDeliveryStateDirectory } from "../src/lean-delivery-state.mjs";
 import { fixture, cli, git, deliveryArgs, itemState, canonicalBytes } from "./helpers/lean-delivery-fixture.mjs";
 
@@ -53,6 +54,7 @@ for (const verifier of [false, true]) test(`Lean finish ${verifier ? "Verifier" 
   assert.deepEqual(await canonicalBytes(f), before);
   const result = JSON.parse(cli(args(f, ["--expected-plan", preview.mutation.plan_digest])).stdout);
   assert.equal(result.success, true); assert.equal(result.mutation.status, "applied");
+  assert.equal(result.next_stage_ready, true); assert.equal(result.authority_granted, false);
   assert.equal(result.mutation.testing_performed, false); assert.equal(result.diagnostics.doctor.validation_scope, "full");
   assert.equal(result.diagnostics.status_rebuild.result.projection_scope, "full");
   if (verifier) {
@@ -65,6 +67,7 @@ for (const verifier of [false, true]) test(`Lean finish ${verifier ? "Verifier" 
   const after = await canonicalBytes(f);
   const retry = JSON.parse(cli(args(f)).stdout);
   assert.equal(retry.status, "already_applied"); assert.equal(retry.diagnostics.historical, true);
+  assert.equal(retry.next_stage_ready, false); assert.match(retry.next_action, /Historical completion/);
   assert.deepEqual(await canonicalBytes(f), after);
 });
 
@@ -123,10 +126,12 @@ for (const verifier of [false, true]) for (const point of ["journal", "write-1",
   });
 }
 
-for (const point of ["before-status", "after-status", "before-doctor", "after-doctor"]) test(`Terminal diagnostics failure at ${point} remains visible and repairs only diagnostics`, async t => {
+for (const point of ["before-plan-refresh", "after-plan-refresh", "before-status", "after-status", "before-doctor", "after-doctor"]) test(`Terminal diagnostics failure at ${point} remains visible and repairs only diagnostics`, async t => {
   const f = await setup(t, true);
   const failed = await apply(f, interrupt(point));
   assert.equal(failed.status, "diagnostics_failed"); assert.equal(failed.success, false); assert.equal((await itemState(f)).state, "done");
+  assert.equal(failed.next_stage_ready, false); assert.equal(failed.recovery.mode, "diagnostics-only");
+  assert.match(failed.next_action, /before claiming or changing the next stage/);
   const before = await lifecycleBytes(f);
   const status = JSON.parse(cli(["status", f.target, "--compact", "--json", "--no-write", "--work-item", f.item.id]).stdout);
   assert.ok(status.attention.some(entry => entry.type === "lean_finish_diagnostics" && entry.work_item_id === f.item.id));
@@ -135,6 +140,33 @@ for (const point of ["before-status", "after-status", "before-doctor", "after-do
   const repaired = JSON.parse(cli(args(f)).stdout);
   assert.equal(repaired.success, true); assert.equal(repaired.mutation.status, "already_applied"); assert.equal(repaired.diagnostics.historical, false);
   assert.deepEqual(await lifecycleBytes(f), before);
+});
+
+test("Finish refreshes an existing plan preserving scope and ceiling, without dispatch or new lifecycle events", async t => {
+  const f = await setup(t);
+  cli(["parallel", "plan", f.target, "--parent", f.item.id, "--max-workers", "2", "--json"]);
+  assert.equal((await inspectParallelPlan(f.target)).fresh, true);
+  const result = JSON.parse(cli(args(f)).stdout);
+  assert.equal(result.success, true); assert.equal(result.diagnostics.parallel_plan.refreshed, true);
+  const inspected = await inspectParallelPlan(f.target);
+  assert.equal(inspected.fresh, true);
+  assert.equal(inspected.plan.scope.parent_work_item_id, f.item.id); assert.equal(inspected.plan.max_workers, 2);
+  const records = await events(f);
+  assert.equal(records.filter(e => e.event_type === "handoff_created").length, 1);
+  assert.equal(records.filter(e => e.event_type === "worker_prepared").length, 0);
+  const before = await canonicalBytes(f); cli(args(f)); assert.deepEqual(await canonicalBytes(f), before);
+});
+
+test("Finish preserves an invalid optional plan and text output directs recovery instead of next-stage claim", async t => {
+  const f = await setup(t);
+  const file = path.join(f.target, ".ai-org/views/parallel-plan.json");
+  await fs.writeFile(file, "{invalid");
+  const command = args(f).filter(v => v !== "--json");
+  const failed = cli(command, { allowFailure: true });
+  assert.equal(failed.status, 1); assert.match(failed.stdout, /before claiming or changing the next stage/);
+  assert.doesNotMatch(failed.stdout, /assigned Quality Evaluator must claim Test/);
+  assert.equal(await fs.readFile(file, "utf8"), "{invalid");
+  assert.equal((await itemState(f)).state, "test");
 });
 
 for (const point of ["before-diagnostics-result", "diagnostics-result"]) test(`Finish recovers diagnostic persistence interruption at ${point}`, async t => {

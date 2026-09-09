@@ -1,0 +1,54 @@
+{
+  "schema_version": "temple.offline-evaluation-selection/v1",
+  "model_generation_authorized": false,
+  "decision": {
+    "question": "Diagnostic screen: does the opt-in Temple core candidate preserve delivery and recovery quality while reducing repeated administration versus current Temple Lean on the same complex low-risk interruption task?",
+    "factor": "factorial"
+  },
+  "selection": {
+    "scenarios": [
+      "interruption-recovery"
+    ],
+    "models": [
+      "terra-medium",
+      "gpt6-medium"
+    ],
+    "variants": [
+      "lean-current",
+      "core-proposed"
+    ]
+  },
+  "variants": [
+    {
+      "id": "lean-current",
+      "mode": "temple-lean",
+      "framework_revision": null,
+      "mode_prompt_digest": null
+    },
+    {
+      "id": "core-proposed",
+      "mode": "temple-core-candidate",
+      "framework_revision": null,
+      "mode_prompt_digest": null
+    }
+  ],
+  "repetitions": 1,
+  "order_seed": 268,
+  "controls": {
+    "runtime_digest": null,
+    "tools_digest": null,
+    "measurement_digest": null,
+    "common_prompt_digest": null,
+    "verifier": {
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "medium"
+    },
+    "cache_control": "uncontrolled-descriptive-only",
+    "scenario_pins": {}
+  },
+  "budget": {
+    "per_scenario": {},
+    "batch_overhead": null,
+    "ceilings": null
+  }
+}

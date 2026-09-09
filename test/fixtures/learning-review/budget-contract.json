@@ -1,0 +1,86 @@
+{
+  "fixture_notice": "Offline budget regression input only; no live generation or approval.",
+  "execution": {
+    "model_generation_authorized": false,
+    "condition_order": [
+      "A-autonomous",
+      "B-current-lean"
+    ],
+    "per_condition_operational_token_limits": {
+      "A-autonomous": 960000,
+      "B-current-lean": 960000
+    },
+    "aggregate_operational_token_limit": 1920000,
+    "wall_clock_limit_ms": 10920000,
+    "retry_count": 0,
+    "product_repair_rounds_per_arm": 1,
+    "max_generation_calls": 8,
+    "fallback_allowed": false,
+    "fresh_thread_per_condition": true,
+    "exclusive_observation_output": true
+  },
+  "planning_budget": {
+    "status": "proposed-not-approved",
+    "unit": "operational-tokens",
+    "phases": [
+      {
+        "id": "build",
+        "expected_tokens": 250000,
+        "variability_tokens": 125000,
+        "observation_tokens": 25000,
+        "stop_tokens": 375000,
+        "reserved_tokens": 400000,
+        "expected_ms": 1200000,
+        "variability_ms": 600000,
+        "cleanup_ms": 60000,
+        "reserved_ms": 1860000
+      },
+      {
+        "id": "verify",
+        "expected_tokens": 100000,
+        "variability_tokens": 50000,
+        "observation_tokens": 10000,
+        "stop_tokens": 150000,
+        "reserved_tokens": 160000,
+        "expected_ms": 480000,
+        "variability_ms": 240000,
+        "cleanup_ms": 60000,
+        "reserved_ms": 780000
+      },
+      {
+        "id": "repair",
+        "expected_tokens": 150000,
+        "variability_tokens": 75000,
+        "observation_tokens": 15000,
+        "stop_tokens": 225000,
+        "reserved_tokens": 240000,
+        "expected_ms": 720000,
+        "variability_ms": 360000,
+        "cleanup_ms": 60000,
+        "reserved_ms": 1140000
+      },
+      {
+        "id": "reverify",
+        "expected_tokens": 100000,
+        "variability_tokens": 50000,
+        "observation_tokens": 10000,
+        "stop_tokens": 150000,
+        "reserved_tokens": 160000,
+        "expected_ms": 480000,
+        "variability_ms": 240000,
+        "cleanup_ms": 60000,
+        "reserved_ms": 780000
+      }
+    ],
+    "per_arm_reserved_tokens": 960000,
+    "per_arm_reserved_ms": 4560000,
+    "pair_reserved_tokens": 1920000,
+    "pair_phase_reserved_ms": 9120000,
+    "shared_check_ms": 1200000,
+    "seal_and_cleanup_ms": 600000,
+    "total_live_batch_ms": 10920000,
+    "outer_preparation_and_report_tokens": null,
+    "outer_preparation_and_report_time_ms": null,
+    "outer_cost_unknown_is_zero": false
+  }
+}

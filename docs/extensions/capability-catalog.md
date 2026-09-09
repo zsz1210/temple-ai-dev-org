@@ -1,5 +1,15 @@
 # Capability catalog
 
+WI-0280 adds an opt-in daily execution reference to the existing Temple-authored
+core Work Skill, with installed CLI checks, continuation and honest accounting.
+It adds no external source, Skill promotion, provider service or profile downgrade.
+Source qualification and self-hosted use are recorded under that Work Item;
+managed installations receive the change through normal upgrade. See
+[Daily core delivery](../operations/daily-delivery.md) and [ADR-0064](../adr/0064-daily-core-delivery.md).
+The same original Temple-authored Work Skill reference now routes explicitly selected
+v2 plans to [autonomous delivery](../operations/autonomous-delivery.md), preserving
+existing risk profiles under [ADR-0065](../adr/0065-unified-autonomous-delivery.md).
+
 ## Proportionate work update
 
 WI-0190 revises the existing core `temple-work` source with a bounded read-only-support reference and explicit composed-finish diagnostic reuse. This is original Temple instruction text, not copied external material or a new Skill/promotion. Adoption is source-candidate only until qualification and release. Static scenarios and installation checks do not prove model adherence, Independent QA or Token savings. Existing projects retain managed ownership and receive changes through upgrade. See [ADR-0059](../adr/0059-proportionate-work-routes.md).

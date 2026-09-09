@@ -31,6 +31,12 @@ test("compact entry preserves scope and warnings, identifies responsibility and 
   assert.equal(entry.source_manifest.source_bodies_retained, false);
   assert.ok(entry.source_manifest.authority_snapshot.paths.includes("AGENTS.md"));
   assert.ok(entry.source_manifest.authority_snapshot.paths.includes(".ai-org/project/usage-policy.json"));
+  assert.match(entry.read_policy, /CLI freshness inputs, not a blanket reading checklist/);
+  assert.match(entry.read_policy, /current scope, acceptance, candidate evidence and applicable instructions/);
+  assert.match(entry.read_policy, /Explicit native\/project, bootstrap, recovery and required selected\/unselected reading obligations still apply/);
+  assert.match(entry.read_policy, /resolve missing or unclear authority/);
+  assert.match(entry.read_policy, /Hashes do not prove reading/);
+  assert.match(entry.read_policy, /Recheck changed authority groups/);
   assert.deepEqual(await canonicalBytes(f), before);
   assert.equal(readEntry(f).source_manifest.selection_digest, entry.source_manifest.selection_digest);
 });

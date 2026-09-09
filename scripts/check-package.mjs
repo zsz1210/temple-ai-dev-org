@@ -16,6 +16,18 @@ export const REQUIRED_PACKAGE_PATHS = [
   "package.json",
   "bin/temple.mjs",
   "src/cli.mjs",
+  "src/daily-delivery.mjs",
+  "src/delivery-ledger.mjs",
+  "src/delivery-check.mjs",
+  "src/delivery-check-worker.mjs",
+  "src/workflow-completion.mjs",
+  "src/confined-check.mjs",
+  "docs/operations/autonomous-delivery.md",
+  "docs/validation/autonomous-main-checkpoint.md",
+  "docs/adr/0065-unified-autonomous-delivery.md",
+  "docs/operations/daily-delivery.md",
+  "docs/adr/0064-daily-core-delivery.md",
+  "project-overlay/.agents/skills/temple-work/references/daily-delivery.md",
   "project-overlay/TEMPLE.md",
   "project-overlay/templew.mjs",
   "project-overlay/.ai-org/core/policies.json",
@@ -54,7 +66,10 @@ const ALLOWED_TOP_LEVEL_FILES = new Set([
 ]);
 const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overlay/", "src/"];
 // Integrates proportionate routes and optional task material.
-const MAX_FILE_COUNT = 415;
+// WI-0268 adds only ADR-0063 to the distributable file set; runtime roots unchanged.
+// WI-0280 adds four product modules, one routed reference, the guide and ADR.
+// WI-0282 adds two product modules, one guide and one ADR.
+const MAX_FILE_COUNT = 429;
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {

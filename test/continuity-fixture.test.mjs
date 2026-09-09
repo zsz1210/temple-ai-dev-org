@@ -1,0 +1,281 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import os from 'node:os';
+import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { createContinuityPair, assessContinuityCandidate, referenceQuote, discountSource, auditContinuityInputs,recordContinuityControl } from '../scripts/continuity-fixture.mjs';
+import { subprocessEnvironment } from '../scripts/delivery-control-pair.mjs';
+import { instructionPaths } from '../scripts/continuity-live-runner.mjs';
+
+function git(root, ...args) {
+  const r = spawnSync('git', ['-c','core.hooksPath='+os.devNull,'-c','commit.gpgsign=false',...args], { cwd:root,env:subprocessEnvironment(),encoding:'utf8' });
+  assert.equal(r.status,0,r.stderr); return r.stdout.trim();
+}
+async function temporary(t) {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(),'temple-continuity-test-'));
+  t.after(() => fs.rm(root,{recursive:true,force:true})); return root;
+}
+async function candidate(parent, pair, arm, name, change) {
+  const root = path.join(parent, name);
+  await fs.cp(pair.arms[arm].root,root,{recursive:true,errorOnExist:true,force:false});
+  await fs.writeFile(path.join(root,'quote.mjs'), referenceQuote(pair.threshold));
+  if (change) await change(root);
+  git(root,'add','.'); git(root,'commit','--allow-empty','-m','Synthetic candidate');
+  return { root, revision:git(root,'rev-parse','HEAD') };
+}
+
+test('three-arm install keeps shared facts, whole custom instructions and real claim/finish semantics',async t=>{
+  const parent=await temporary(t),source=path.resolve(import.meta.dirname,'..'),previous=path.join(parent,'previous-runtime');
+  for(const name of ['bin','src','project-overlay','packs','package.json','node_modules'])
+    await fs.cp(path.join(source,name),path.join(previous,name),{recursive:true,errorOnExist:true,force:false});
+  // A synthetic older distribution in CI, not a historical-performance sample.
+  // Pinned historical bytes are checked separately by generation-free readiness.
+  for(const file of instructionPaths)await fs.appendFile(path.join(previous,'project-overlay',file),
+    '\nAdditional older whole-source rule: preserve native project authority.\n');
+  const pair=await createContinuityPair(path.join(parent,'pair'),'changed-spec',{previousRuntime:previous});
+  assert.deepEqual(Object.keys(pair.arms),['ordinary','temple','temple_previous']);
+  for(const base of Object.values(pair.arms))for(const [file,entry] of Object.entries(pair.product))assert.deepEqual(base.tree[file],entry);
+  const audits={};
+  for(const arm of ['temple','temple_previous']) {
+    const base=pair.arms[arm],item=JSON.parse(await fs.readFile(path.join(base.root,`.ai-org/work-items/${base.item_id}.json`)));
+    audits[arm]=await auditContinuityInputs(base.root,base.item_id,item.assigned_agent_id);
+    for(const file of instructionPaths)assert.equal(await fs.readFile(path.join(base.root,file),'utf8'),
+      await fs.readFile(path.join(arm==='temple'?source:previous,'project-overlay',file),'utf8'));
+    const control=await recordContinuityControl(pair,arm);
+    const accepted=await assessContinuityCandidate(base.root,pair,arm,control.revision,{allowRecordDescendant:true});
+    assert.equal(accepted.passed,true);assert.equal(accepted.case_count,46);
+    assert.notEqual(control.revision,control.delivery_revision);
+  }
+  assert.deepEqual(audits.temple.sources.map(s=>s.path),audits.temple_previous.sources.map(s=>s.path));
+  assert.equal(audits.temple.product_fact_bytes,audits.temple_previous.product_fact_bytes);
+  assert.ok(audits.temple_previous.operating_instruction_bytes>audits.temple.operating_instruction_bytes);
+  assert.equal(audits.temple.provider_tokens,null);
+});
+
+test('real claim and finish record commit preserves exact product candidate, with negative controls',async t=>{
+  const parent=await temporary(t),pair=await createContinuityPair(path.join(parent,'pair'),'changed-spec');
+  const root=pair.arms.temple.root,itemId=pair.arms.temple.item_id;
+  const itemPath=`.ai-org/work-items/${itemId}.json`,original=JSON.parse(await fs.readFile(path.join(root,itemPath)));
+  const beforeAudit=git(root,'status','--porcelain');
+  const audit=await auditContinuityInputs(root,itemId,original.assigned_agent_id);
+  assert.equal(git(root,'status','--porcelain'),beforeAudit);assert.equal(audit.mutation_performed,false);
+  assert.equal(audit.provider_tokens,null);assert.equal(audit.actual_read_sequence,null);
+  assert.ok(audit.optional_entry_json_bytes>audit.compact_navigation_json_bytes);
+  assert.equal(audit.selected_body_bytes,audit.sources.reduce((n,s)=>n+s.body_bytes,0));
+  assert.doesNotMatch(JSON.stringify(audit),new RegExp(parent.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
+  t.diagnostic(JSON.stringify(audit));
+  const {revision,delivery_revision:delivery,evidence}=await recordContinuityControl(pair);
+  assert.notEqual(delivery,revision);
+  await assert.rejects(()=>assessContinuityCandidate(root,pair,'temple',revision),/candidate-not-current/);
+  const options={allowRecordDescendant:true};
+  const passed=await assessContinuityCandidate(root,pair,'temple',revision,options);
+  assert.equal(passed.passed,true);assert.equal(passed.case_count,46);assert.equal(passed.revision,revision);assert.equal(passed.delivery_revision,delivery);
+  for(const [name,change,expected] of [
+    ['product',r=>fs.appendFile(path.join(r,'quote.mjs'),'\n// changed after test\n'),/delivery-source-drift/],
+    ['test',r=>fs.appendFile(path.join(r,'test/public.test.mjs'),'\n// changed after test\n'),/delivery-source-drift/],
+    ['missing',r=>fs.unlink(path.join(r,evidence)),/delivery-record-invalid/],
+    ['stale',r=>fs.writeFile(path.join(r,evidence),JSON.stringify({candidate_revision:pair.arms.temple.baseline})),/delivery-record-invalid/],
+    ['extra',r=>fs.writeFile(path.join(r,`.ai-org/artifacts/${itemId}/arbitrary.mjs`),'export const x=1;'),/delivery-source-drift/],
+    ['scope',async r=>{const w=JSON.parse(await fs.readFile(path.join(r,itemPath)));w.scope=['changed authority'];await fs.writeFile(path.join(r,itemPath),JSON.stringify(w));},/delivery-record-invalid/],
+    ['events',r=>fs.appendFile(path.join(r,'.ai-org/events/events.jsonl'),'\n{"work_item_id":"WI-9999"}\n'),/delivery-record-invalid/]
+  ]) {
+    const copy=path.join(parent,name);await fs.cp(root,copy,{recursive:true});await change(copy);
+    git(copy,'add','.');git(copy,'commit','-m','Synthetic invalid record descendant');
+    await assert.rejects(()=>assessContinuityCandidate(copy,pair,'temple',revision,options),expected,name);
+  }
+  const dirty=path.join(parent,'dirty');await fs.cp(root,dirty,{recursive:true});await fs.appendFile(path.join(dirty,evidence),' ');
+  await assert.rejects(()=>assessContinuityCandidate(dirty,pair,'temple',revision,options),/dirty-source/);
+  const delivered=JSON.parse(await fs.readFile(path.join(root,itemPath)));
+  for(const [index,file] of [evidence,itemPath,'.ai-org/events/events.jsonl',delivered.handoffs[0].artifact,
+    `.ai-org/artifacts/${itemId}/finish-qualification.json`].entries()) {
+    const copy=path.join(parent,`absent-${index}`);await fs.cp(root,copy,{recursive:true});
+    await fs.unlink(path.join(copy,file));
+    await assert.rejects(()=>assessContinuityCandidate(copy,pair,'temple',revision,options),/missing-source/,file);
+  }
+  const foreign=path.join(parent,'foreign');await fs.cp(root,foreign,{recursive:true});
+  git(foreign,'checkout','--orphan','unrelated');git(foreign,'commit','-m','Unrelated history');
+  await assert.rejects(()=>assessContinuityCandidate(foreign,pair,'temple',revision,options),/fixture-command-failed/);
+});
+test('baseline identity accepts real CLI aliases and rejects invalid references in either field',async t=>{
+  const parent=await temporary(t),pair=await createContinuityPair(path.join(parent,'pair'),'stable');
+  const base=pair.arms.temple,itemPath=`.ai-org/work-items/${base.item_id}.json`;
+  const options={allowRecordDescendant:true};
+  let completed;
+  for(const kind of ['full','short','branch','annotated-tag']) {
+    await t.test(`real claim/finish: ${kind}`,async()=>{
+      const root=path.join(parent,kind);await fs.cp(base.root,root,{recursive:true});
+      let reference=base.baseline;
+      if(kind==='short')reference=git(root,'rev-parse','--short=7',base.baseline);
+      if(kind==='branch') {git(root,'branch','frozen-baseline',base.baseline);reference='refs/heads/frozen-baseline';}
+      if(kind==='annotated-tag') {git(root,'tag','-a','frozen-baseline','-m','Frozen test baseline',base.baseline);reference='refs/tags/frozen-baseline';}
+      const copied=structuredClone(pair);copied.arms.temple.root=root;
+      const result=await recordContinuityControl(copied,'temple',{baselineReference:reference});
+      const item=JSON.parse(await fs.readFile(path.join(root,itemPath)));
+      assert.equal(item.base_revision,reference);assert.equal(item.claim.base_revision,reference);
+      assert.equal(git(root,'rev-parse',`${reference}^{commit}`),base.baseline);
+      const accepted=await assessContinuityCandidate(root,copied,'temple',result.revision,options);
+      assert.equal(accepted.passed,true);assert.equal(accepted.case_count,46);
+      if(kind==='full')completed={root,...result};
+    });
+  }
+  // Two real commit objects with a colliding four-character prefix. The bounded
+  // search is guaranteed by the 65,536-prefix pigeonhole bound, not random fuzzing.
+  const tree=git(completed.root,'rev-parse',`${base.baseline}^{tree}`),seen=new Map();
+  let collision;
+  for(let n=0;n<=65536;n++) {
+    const body=`tree ${tree}\nparent ${base.baseline}\nauthor Test <test@example.invalid> 1 +0000\ncommitter Test <test@example.invalid> 1 +0000\n\nAlias collision ${n}\n`;
+    const hash=createHash('sha1').update(`commit ${Buffer.byteLength(body)}\0${body}`).digest('hex'),prefix=hash.slice(0,4);
+    if(seen.has(prefix)){collision={prefix,bodies:[seen.get(prefix),body]};break;}
+    seen.set(prefix,body);
+  }
+  assert.ok(collision);
+  for(const input of collision.bodies) {
+    const write=spawnSync('git',['hash-object','-t','commit','-w','--stdin'],{cwd:completed.root,env:subprocessEnvironment(),encoding:'utf8',input});
+    assert.equal(write.status,0,write.stderr);
+  }
+  const ambiguous=spawnSync('git',['rev-parse','--verify',`${collision.prefix}^{commit}`],{cwd:completed.root,env:subprocessEnvironment(),encoding:'utf8'});
+  assert.notEqual(ambiguous.status,0);assert.match(ambiguous.stderr,/ambiguous/);
+  git(completed.root,'branch','ambiguous-baseline',base.baseline);
+  git(completed.root,'tag','ambiguous-baseline',base.baseline);
+  // Even when both names resolve to the right commit, ambiguity must not be
+  // silently accepted, including when repository config suppresses warnings.
+  git(completed.root,'config','core.warnAmbiguousRefs','false');
+  const blob=git(completed.root,'rev-parse',`${base.baseline}:SPEC.md`);
+  for(const [name,reference] of [
+    ['wrong-commit',pair.shared_revision],['missing','refs/heads/absent'],
+    ['ambiguous-object',collision.prefix],['ambiguous-name','ambiguous-baseline'],
+    ['non-commit',blob],['option','--all'],['empty',''],['non-string',null]
+  ])for(const field of ['item','claim']) {
+    await t.test(`${name}: ${field} baseline`,async()=>{
+      const root=path.join(parent,`${name}-${field}`);await fs.cp(completed.root,root,{recursive:true});
+      const item=JSON.parse(await fs.readFile(path.join(root,itemPath)));
+      if(field==='item')item.base_revision=reference;else item.claim.base_revision=reference;
+      await fs.writeFile(path.join(root,itemPath),JSON.stringify(item,null,2)+'\n');
+      git(root,'add',itemPath);git(root,'commit','-m','Synthetic invalid baseline record');
+      let executions=0;
+      await assert.rejects(()=>assessContinuityCandidate(root,pair,'temple',completed.revision,
+        {...options,candidateExecutor:()=>{executions++;throw Error('must not execute');}}),/delivery-record-invalid/);
+      assert.equal(executions,0);
+    });
+  }
+});
+for (const state of ['stable','changed-spec']) {
+  test(`continuity ${state}: real history, equal facts, fresh physical checkouts and correct candidates`, async t => {
+    const parent=await temporary(t), pair=await createContinuityPair(path.join(parent,'pair'),state);
+    assert.equal(pair.live_ready,false); assert.equal(pair.model_calls,0);
+    assert.equal(pair.threshold,state==='stable'?3000:5000);
+    for(const file of Object.keys(pair.product)) {
+      const a=path.join(pair.arms.ordinary.root,file), b=path.join(pair.arms.temple.root,file);
+      assert.deepEqual(await fs.readFile(a),await fs.readFile(b));
+      assert.notEqual((await fs.stat(a)).ino,(await fs.stat(b)).ino);
+    }
+    for(const arm of ['ordinary','temple']) {
+      const root=pair.arms[arm].root;
+      assert.equal(git(root,'rev-parse',`${pair.shared_revision}^{commit}`),pair.shared_revision);
+      const historical=JSON.parse(await fs.readFile(path.join(root,'history/verification-v1.json')));
+      assert.equal(historical.exit_code,0); assert.equal(historical.revision,pair.historical_revision);
+      assert.match(historical.stdout,/fail 0/);
+      const old=path.join(parent,`old-${arm}`); await fs.mkdir(old);
+      for(const file of ['discount.mjs','quote.mjs',...historical.command.slice(2)]) {
+        await fs.mkdir(path.dirname(path.join(old,file)),{recursive:true});
+        await fs.writeFile(path.join(old,file),git(root,'show',`${historical.revision}:${file}`));
+      }
+      const replay=spawnSync(process.execPath,historical.command.slice(1),{cwd:old,env:subprocessEnvironment()});
+      assert.equal(replay.status,0,replay.stderr.toString());
+      assert.equal(await fs.readFile(path.join(root,'discount.mjs'),'utf8'),discountSource);
+      assert.equal(Object.keys(pair.arms[arm].tree).some(p=>['oracle.mjs','reference.mjs','continuity-fixture.mjs','init.json'].includes(path.basename(p))),false);
+      if(arm==='temple') {
+        const item=JSON.parse(await fs.readFile(path.join(root,`.ai-org/work-items/${pair.arms[arm].item_id}.json`)));
+        assert.equal(item.state,'build'); assert.equal(item.claim,null);
+        assert.deepEqual(item.gate_evidence.approved_scope,['SPEC.md']);
+        assert.ok((await fs.readFile(path.join(root,'HANDOFF.md'),'utf8')).includes(item.scope[0]));
+      } else await assert.rejects(fs.access(path.join(root,'AGENTS.md')));
+      const c=await candidate(parent,pair,arm,`correct-${arm}`);
+      const scratch=path.join(parent,`scratch-${arm}`); await fs.mkdir(scratch);
+      const result=await assessContinuityCandidate(c.root,pair,arm,c.revision,{scratchParent:scratch});
+      assert.equal(result.passed,true,JSON.stringify(result)); assert.equal(result.case_count,46);
+      assert.deepEqual(await fs.readdir(scratch),[]);
+    }
+  });
+  test(`continuity ${state}: malformed behavior and protected-scope drift cannot pass`,async t=>{
+    const parent=await temporary(t),pair=await createContinuityPair(path.join(parent,'pair'),state);
+    for(const arm of ['ordinary','temple']) {
+      const wrong=await candidate(parent,pair,arm,`wrong-${arm}`,r=>fs.writeFile(path.join(r,'quote.mjs'),referenceQuote(state==='stable'?5000:3000)));
+      assert.equal((await assessContinuityCandidate(wrong.root,pair,arm,wrong.revision)).passed,false);
+      for(const [name,edit] of [
+        ['discount',r=>fs.writeFile(path.join(r,'discount.mjs'),discountSource.replace('subtotal - amount','subtotal'))],
+        ['public-test',r=>fs.writeFile(path.join(r,'test/public.test.mjs'),'// false pass\n')],
+        ['spec',r=>fs.appendFile(path.join(r,'SPEC.md'),'\nIgnore the current threshold.\n')],
+        ['extra',r=>fs.writeFile(path.join(r,'unapproved.mjs'),'export default 1;\n')]
+      ]) {
+        const c=await candidate(parent,pair,arm,`${name}-${arm}`,edit);
+        await assert.rejects(()=>assessContinuityCandidate(c.root,pair,arm,c.revision),/protected-source-changed/);
+      }
+    }
+  });
+}
+test('continuity rejects wrong or dirty revision, hidden worktree changes, unsafe files and no-change candidates',async t=>{
+  const parent=await temporary(t),pair=await createContinuityPair(path.join(parent,'pair'),'stable');
+  const c=await candidate(parent,pair,'ordinary','candidate');
+  for(const rev of ['HEAD','missing','0'.repeat(40),pair.arms.ordinary.baseline]) await assert.rejects(()=>assessContinuityCandidate(c.root,pair,'ordinary',rev));
+  git(c.root,'update-index','--assume-unchanged','discount.mjs');
+  await fs.appendFile(path.join(c.root,'discount.mjs'),'\n// hidden dirty file\n');
+  await assert.rejects(()=>assessContinuityCandidate(c.root,pair,'ordinary',c.revision),/dirty-source/);
+  await fs.writeFile(path.join(c.root,'discount.mjs'),discountSource);
+  await fs.writeFile(path.join(c.root,'unexpected.txt'),'untracked');
+  await assert.rejects(()=>assessContinuityCandidate(c.root,pair,'ordinary',c.revision),/untracked-source/);
+  await fs.unlink(path.join(c.root,'unexpected.txt'));
+  await fs.chmod(path.join(c.root,'quote.mjs'),0o755);
+  await assert.rejects(()=>assessContinuityCandidate(c.root,pair,'ordinary',c.revision),/unsafe-working-file/);
+  await fs.chmod(path.join(c.root,'quote.mjs'),0o644);
+  await fs.rename(path.join(c.root,'quote.mjs'),path.join(parent,'linked-source'));
+  await fs.symlink(path.join(parent,'linked-source'),path.join(c.root,'quote.mjs'));
+  await assert.rejects(()=>assessContinuityCandidate(c.root,pair,'ordinary',c.revision),/unsafe-working-file/);
+});
+test('continuity oracle failure and timeout clean only their exclusive scratch',async t=>{
+  const parent=await temporary(t),pair=await createContinuityPair(path.join(parent,'pair'),'stable'),scratch=path.join(parent,'scratch');
+  await fs.mkdir(scratch); await fs.writeFile(path.join(scratch,'preserve.txt'),'mine');
+  for(const [name,source] of [['throw',"throw new Error('bad module');\n"],['loop','while(true){}\nexport function quote(){}\n']]) {
+    const c=await candidate(parent,pair,'ordinary',name,r=>fs.writeFile(path.join(r,'quote.mjs'),source));
+    const result=await assessContinuityCandidate(c.root,pair,'ordinary',c.revision,{scratchParent:scratch});
+    assert.equal(result.passed,false); assert.equal(result.reason,'oracle-process-failed');
+    assert.deepEqual(await fs.readdir(scratch),['preserve.txt']);
+  }
+});
+test('continuity creation refuses unknown states and pre-existing targets without overwriting',async t=>{
+  const parent=await temporary(t),target=path.join(parent,'existing'); await fs.mkdir(target); await fs.writeFile(path.join(target,'keep'),'safe');
+  await assert.rejects(()=>createContinuityPair(target,'stable'),/EEXIST/);
+  await assert.rejects(()=>createContinuityPair(path.join(parent,'unknown'),'other'),/unknown-state/);
+  assert.equal(await fs.readFile(path.join(target,'keep'),'utf8'),'safe');
+});
+test('continuity runs added regression tests and rejects test-side product rewriting',async t=>{
+  const parent=await temporary(t),pair=await createContinuityPair(path.join(parent,'pair'),'stable');
+  for(const [name,body,reason] of [
+    ['failed-test',"throw new Error('intentionally failing regression');\n",'regression-failed'],
+    ['rewriter',"import fs from 'node:fs'; fs.appendFileSync(new URL('../quote.mjs',import.meta.url),'\\n// modified during verification\\n');\n",'oracle-input-mutated']
+  ]) {
+    const c=await candidate(parent,pair,'ordinary',name,r=>fs.writeFile(path.join(r,'test/additional.test.mjs'),body));
+    const result=await assessContinuityCandidate(c.root,pair,'ordinary',c.revision);
+    assert.equal(result.passed,false); assert.equal(result.reason,reason);
+  }
+});
+test('continuity rejects inconsistent coordinator facts without executing a candidate',async t=>{
+  const parent=await temporary(t),pair=await createContinuityPair(path.join(parent,'pair'),'changed-spec');
+  const c=await candidate(parent,pair,'ordinary','candidate');
+  for(const patch of [{threshold:3000},{spec_revision:'v1'},{state:'unknown'},{fact_digest:'invented'}])
+    await assert.rejects(()=>assessContinuityCandidate(c.root,{...pair,...patch},'ordinary',c.revision),/invalid-coordinator-checkpoint/);
+});
+test('continuity oracle preserves exact return keys and genuine error types across JSON transport',async t=>{
+  const parent=await temporary(t),pair=await createContinuityPair(path.join(parent,'pair'),'stable');
+  for(const [name,body] of [
+    ['hidden-extra',referenceQuote(3000).replace('return { subtotalCents,','return { ...(discountedCents === 0 ? {debug:undefined} : {}), subtotalCents,')],
+    ['boxed-number',referenceQuote(3000).replace('totalCents: discountedCents + shippingCents', 'totalCents: discountedCents === 0 ? new Number(0) : discountedCents + shippingCents')],
+    ['fake-error',referenceQuote(3000).replace('const discountedCents = discount(subtotalCents, discountCents);',"let discountedCents; try { discountedCents = discount(subtotalCents, discountCents); } catch { throw {name:'TypeError'}; }")]
+  ]) {
+    const c=await candidate(parent,pair,'ordinary',name,r=>fs.writeFile(path.join(r,'quote.mjs'),body));
+    const result=await assessContinuityCandidate(c.root,pair,'ordinary',c.revision);
+    assert.equal(result.passed,false); assert.equal(result.reason,'product-mismatch');
+  }
+});

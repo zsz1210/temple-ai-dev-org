@@ -12,6 +12,7 @@ import { activeExecutionRequirements, readWorkItem, prepareHandoff, prepareClaim
 import { leanDeliveryStateDirectory, readPendingLeanDelivery } from "./lean-delivery-state.mjs";
 import { OperationError } from "./operation-errors.mjs";
 import { verifyMechanicalCompletion } from "./mechanical-completion.mjs";
+import { workflowRequest, prepareWorkflowStage } from "./workflow-completion.mjs";
 
 const OPERATION = /^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$/;
 const JOURNAL_SCHEMA = "temple.lean-delivery-journal/v1";
@@ -64,6 +65,7 @@ function normalizedRequest(target, options, finish = false) {
     evidence: uniqueStrings(options.evidence),
     unresolved: uniqueStrings(options.unresolved)
   };
+  if (finish && options.workflowStage !== undefined) return workflowRequest(target, options, request);
   if (finish) {
     if (!["developer", "quality_evaluator"].includes(options.position)) throw new OperationError("INVALID_INPUT", "Lean finish requires --position developer or quality_evaluator");
     request.schema_version = "temple.lean-finish-request/v1";
@@ -92,10 +94,15 @@ function git(target, args) {
   return result.stdout;
 }
 
+export function requireProductScope(affectedPaths) {
+  const productPaths = affectedPaths.filter((entry) => entry !== ".ai-org" && !entry.startsWith(".ai-org/"));
+  if (!productPaths.length) throw new Error("Delivery requires a declared affected product scope outside .ai-org; use the ordinary Work Item lifecycle for organization-only work");
+  return productPaths;
+}
+
 function assertCandidate(target, request, affectedPaths) {
   if (resolveGitRevision(target, "HEAD") !== request.candidate_revision) throw new Error("Lean delivery candidate must match current HEAD");
-  const productPaths = affectedPaths.filter((entry) => !entry.startsWith(".ai-org/"));
-  if (!productPaths.length) throw new Error("Lean delivery requires a declared affected product scope");
+  const productPaths = requireProductScope(affectedPaths);
   if (git(target, ["status", "--porcelain=v1", "-z", "--untracked-files=all", "--", ...productPaths])) {
     throw new Error("Lean delivery affected product scope has uncommitted changes");
   }
@@ -169,6 +176,7 @@ async function assertInputs(target, inputs, writes = []) {
 }
 
 async function prepareDelivery(target, request) {
+  if (request.workflow_stage) return prepareAutonomousDelivery(target, request);
   const context = await loadProjectContext(target);
   const item = await readWorkItem(target, request.work_item_id);
   const position = request.position ?? "developer";
@@ -256,12 +264,42 @@ async function prepareDelivery(target, request) {
     ...(mechanical ? { mechanical_original: (await fileBytes(target, `.ai-org/work-items/${item.id}.json`)).toString("utf8") } : {}) };
 }
 
+async function prepareAutonomousDelivery(target, request) {
+  const { item, prepared, artifact_kind, events } = await prepareWorkflowStage(target, request);
+  const workers = await fileBytes(target, ".ai-org/project/runtime-workers.json", true);
+  if (workers && JSON.parse(workers).workers.some(w => w.work_item_id === item.id && !["completed", "failed", "cancelled"].includes(w.status))) throw new Error("Complete runtime workers before autonomous completion");
+  assertCandidate(target, request, item.affected_paths ?? []);
+  const inputs = await inputSnapshot(target, item, request);
+  const receiptPath = `.ai-org/artifacts/${item.id}/finish-${request.operation_id}.json`;
+  const outputPaths = [...(prepared.artifact ? [prepared.artifact] : []), `.ai-org/work-items/${item.id}.json`, EVENTS, receiptPath];
+  const requestDigest = sha256(formatJson(request));
+  const planDigest = sha256(formatJson({ request, inputs, output_paths: outputPaths, affected_paths: item.affected_paths }));
+  const result = { schema_version: "temple.workflow-finish-lifecycle/v1", operation_id: request.operation_id, work_item_id: item.id,
+    candidate_revision: request.candidate_revision, plan_digest: planDigest, handoff: artifact_kind === "handoff" ? prepared.artifact : null,
+    artifact_kind, artifact: prepared.artifact ?? null, receipt: receiptPath, resulting_state: prepared.item.state,
+    next_action: prepared.item.state === "done" ? "Organizational acceptance recorded; external actions remain separately authorized." : `Continue authorized work as ${prepared.item.owner_position}; do not request repeated routine approval.`,
+    testing_performed: false, external_action_performed: false };
+  const receipt = { schema_version: "temple.lean-finish-receipt/v1", request_digest: requestDigest, request, result, applied_at: prepared.item.updated_at };
+  const beforeEvents = (await fileBytes(target, EVENTS)).toString("utf8");
+  const contents = [...(prepared.artifact ? [prepared.content] : []), formatJson(prepared.item), `${beforeEvents}${beforeEvents && !beforeEvents.endsWith("\n") ? "\n" : ""}${events.map(e => JSON.stringify(e)).join("\n")}\n`, formatJson(receipt)];
+  const writes = [];
+  for (let i = 0; i < outputPaths.length; i++) {
+    const before = await fileBytes(target, outputPaths[i], true);
+    if ((prepared.artifact && i === 0 || i === outputPaths.length - 1) && before !== null) throw new Error(`Completion output already exists: ${outputPaths[i]}`);
+    writes.push({ path: outputPaths[i], before_sha256: hashBytes(before), after_sha256: sha256(contents[i]), content: contents[i] });
+  }
+  await assertInputs(target, inputs);
+  return { request, request_digest: requestDigest, plan_digest: planDigest, inputs, writes, result, affected_paths: item.affected_paths };
+}
+
 function validateJournal(journal, target, request) {
   if (journal.schema_version !== JOURNAL_SCHEMA || journal.target !== target || journal.request_digest !== sha256(formatJson(request)) || journal.operation_key !== `${request.work_item_id}/${request.operation_id}`) {
     throw new Error("Lean delivery pending request conflicts with this operation");
   }
-  const accepting = request.position === "quality_evaluator" || Boolean(request.mechanical_contract);
-  const allowed = [...(accepting ? [] : [journal.result?.handoff]), `.ai-org/work-items/${request.work_item_id}.json`, EVENTS, `.ai-org/artifacts/${request.work_item_id}/${request.position ? "finish" : "delivery"}-${request.operation_id}.json`];
+  const unified = Boolean(request.workflow_stage);
+  const accepting = unified ? request.workflow_stage !== "build" : request.position === "quality_evaluator" || Boolean(request.mechanical_contract);
+  const artifact = unified && request.workflow_stage === "release_gate" ? `.ai-org/artifacts/${request.work_item_id}/release-record.md` : null;
+  const allowed = [...(accepting ? artifact ? [artifact] : [] : [journal.result?.handoff]), `.ai-org/work-items/${request.work_item_id}.json`, EVENTS, `.ai-org/artifacts/${request.work_item_id}/${request.position ? "finish" : "delivery"}-${request.operation_id}.json`];
   if ((!accepting && !new RegExp(`^\\.ai-org/artifacts/${request.work_item_id}/handoff-[0-9]+-developer-to-quality_evaluator\\.md$`).test(allowed[0] ?? "")) || !Array.isArray(journal.writes) || journal.writes.length !== allowed.length) throw new Error("Invalid Lean delivery journal outputs");
   for (let index = 0; index < allowed.length; index++) {
     const entry = journal.writes[index];
@@ -292,7 +330,7 @@ export async function validateLeanCompletionSnapshot(target, journal, { applied 
   // Time-dependent expiry must be checked again even when input bytes match.
   const resultingItem = JSON.parse(journal.writes.find((entry) => entry.path === `.ai-org/work-items/${journal.request.work_item_id}.json`).content);
   const position = journal.request.position ?? "developer";
-  if (!agentIsEligible(collaboration, journal.request.agent_id, position, activeExecutionRequirements(resultingItem, position === "developer" ? "build" : "test").disciplines)) {
+  if (!agentIsEligible(collaboration, journal.request.agent_id, position, activeExecutionRequirements(resultingItem, journal.request.workflow_stage ?? (position === "developer" ? "build" : "test")).disciplines)) {
     throw new Error(`Lean completion Agent is no longer eligible for ${position}`);
   }
   await currentEvidencePaths(target, resultingItem, journal.request);

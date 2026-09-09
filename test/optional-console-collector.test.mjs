@@ -139,29 +139,31 @@ test("the optional Console emits a bounded refresh signal after canonical state 
   context.after(() => consoleServer.close());
 
   const controller = new AbortController();
-  const events = await fetch(`${consoleServer.url}/api/v1/events`, { signal: controller.signal });
-  const reader = events.body.getReader();
-  const decoder = new TextDecoder();
-  await reader.read();
+  // This bounds test resources, not an OS notification latency guarantee. The
+  // full suite contends with filesystem delivery; also bound connection/read and
+  // cancel the timer/stream on both success and failure.
+  const timeout = setTimeout(() => controller.abort(new Error("Console refresh signal timed out")), 10000);
+  try {
+    const events = await fetch(`${consoleServer.url}/api/v1/events`, { signal: controller.signal });
+    const reader = events.body.getReader();
+    const decoder = new TextDecoder();
+    await reader.read();
 
-  const projectPath = path.join(state.target, ".ai-org/project/project.json");
-  const projectContents = await fs.readFile(projectPath, "utf8");
-  await fs.writeFile(projectPath, projectContents);
+    const projectPath = path.join(state.target, ".ai-org/project/project.json");
+    const project = JSON.parse(await fs.readFile(projectPath, "utf8"));
+    await writeJson(projectPath, { ...project, name: `${project.name} refreshed` });
 
-  const refresh = Promise.race([
-    (async () => {
-      let received = "";
-      while (!received.includes("event: temple.refresh")) {
-        const chunk = await reader.read();
-        if (chunk.done) break;
-        received += decoder.decode(chunk.value, { stream: true });
-      }
-      return received;
-    })(),
-    new Promise((_, reject) => setTimeout(() => reject(new Error("Console refresh signal timed out")), 2000))
-  ]);
-  assert.match(await refresh, /event: temple\.refresh/);
-  controller.abort();
+    let received = "";
+    while (!received.includes("event: temple.refresh")) {
+      const chunk = await reader.read();
+      if (chunk.done) break;
+      received += decoder.decode(chunk.value, { stream: true });
+    }
+    assert.match(received, /event: temple\.refresh/);
+  } finally {
+    clearTimeout(timeout);
+    controller.abort();
+  }
 });
 
 test("the on-demand Collector writes retained telemetry without HTTP and can coexist with the Console", async (context) => {

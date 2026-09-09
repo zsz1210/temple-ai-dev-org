@@ -8,7 +8,7 @@ import { createDeliveryObserver, observationLimits } from "../scripts/delivery-o
 import { classifyCommandItem, wholeReadTargets } from "../scripts/delivery-command-policy.mjs";
 import { runStage } from "../scripts/delivery-control-pair.mjs";
 
-const secret = "SECRET_person@example.invalid_/Users/private/credential";
+const secret = "SECRET_person@example.invalid_/Users/fixture/credential";
 async function fixture(t) {
   const root = await fs.mkdtemp(path.join(os.tmpdir(),"observations-"));
   t.after(()=>fs.rm(root,{recursive:true,force:true}));

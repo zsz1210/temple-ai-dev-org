@@ -1,5 +1,9 @@
 # Architecture Decision Records
 
+- [ADR-0065: Shared autonomous execution with preserved risk contracts](0065-unified-autonomous-delivery.md)
+
+- [ADR-0064: Opt-in daily core delivery](0064-daily-core-delivery.md)
+
 - [ADR-0061: Exact-text mechanical completion](0061-exact-text-mechanical-completion.md)
 
 - [ADR-0059: Proportionate work routes and stage completion](0059-proportionate-work-routes.md)

@@ -11,12 +11,12 @@
       "launcher": "templew.mjs",
       "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.30",
       "repository_spec": null,
-      "source_revision": "4c11835d98202521f8dd082dceb6f832299d907f",
+      "source_revision": "1870f5d152f37b2d45db556137fb0e61006c808b",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-09-06T12:02:54.871Z",
+    "upgraded_at": "2026-09-09T03:24:31.146Z",
     "upgraded_from": "0.1.0-alpha.30"
   },
   "installation": {
@@ -210,11 +210,15 @@
     },
     {
       "path": ".agents/skills/temple-work/SKILL.md",
-      "sha256": "b4130180a3888fa52a6f40422884a606fd349ef5e009a75207d49a7c4e7d152f"
+      "sha256": "91160a3d498cd7e05a054bfeab6d1c0973882bae5dc870e26b647bd933e8a3de"
     },
     {
       "path": ".agents/skills/temple-work/references/assurance-and-recovery.md",
       "sha256": "807e0fa8ef4f80e50eb519dc3518b6c5822acf02d04150548dc8be22f5c7c42f"
+    },
+    {
+      "path": ".agents/skills/temple-work/references/daily-delivery.md",
+      "sha256": "9fedf707b057622a86a8fd4c4b43293642744e8637ffe8af731bcca917fbf827"
     },
     {
       "path": ".agents/skills/temple-work/references/lean-delivery.md",
@@ -222,7 +226,7 @@
     },
     {
       "path": ".agents/skills/temple-work/references/lean-execution.md",
-      "sha256": "3d558b82a7b7f9e9a16313314209b7d9d99b39997fd8a0adecdb0c0be1a9b35d"
+      "sha256": "3f599ffd9055b451236b3e682b6deb0635f3c064850458c3094af712347c8c88"
     },
     {
       "path": ".agents/skills/temple-work/references/parallel-work.md",
@@ -446,7 +450,7 @@
     },
     {
       "path": ".ai-org/templates/handoff.md",
-      "sha256": "f5fcade988a9bb9d17b2564df59e94e6a54f5a00961594fb1b770cd8c686a3ea"
+      "sha256": "7bf1ccd77eb64719a51fc966455836d037d1a1ef3c713556617a2e9784ac77dd"
     },
     {
       "path": ".ai-org/templates/high-assurance-approval.example.json",
@@ -558,7 +562,7 @@
     },
     {
       "path": "TEMPLE.md",
-      "sha256": "d31e900b6e4b4fc6ec9ae3aa8bad7b0becd020af57dc32af0dff3be69067b516"
+      "sha256": "2cb0d0200c7dce5510578eaec0cf6f55333fd37dfaf820d032111b2901065095"
     },
     {
       "path": "templew.mjs",

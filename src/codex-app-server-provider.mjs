@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import readline from "node:readline";
+import { StringDecoder } from "node:string_decoder";
 import path from "node:path";
 import { TEMPLATE_VERSION } from "./constants.mjs";
 import { readJson, sha256 } from "./files.mjs";
@@ -817,9 +817,33 @@ export function createJsonRpcProcess(command, args = [], options = {}) {
   let closed = false;
   let exited = false;
   let closePromise = null;
+  let firstProtocolError = null;
+  let frameNumber = 0;
+  let validFrames = 0;
   let resolveExit;
   const exitObserved = new Promise((resolve) => { resolveExit = resolve; });
-  const lines = readline.createInterface({ input: child.stdout });
+  const decoder = new StringDecoder("utf8");
+  let frameBuffer = "";
+
+  function protocolFailure(reason, line) {
+    const first = !firstProtocolError;
+    if (!firstProtocolError) {
+      firstProtocolError = new Error("Codex App Server emitted an invalid protocol frame");
+      firstProtocolError.protocolDiagnostic = Object.freeze({
+        schema_version: "temple.protocol-diagnostic/v1",
+        reason,
+        frame_class: !line.trim() ? "empty" : /^[\s]*[\[{]/u.test(line) ? "json-like" : "other",
+        frame_bytes: Buffer.byteLength(line),
+        frame_sha256: sha256(line),
+        frame_number: frameNumber,
+        preceding_valid_frames: validFrames,
+        pending_requests: pending.size,
+        raw_content_retained: false
+      });
+    }
+    rejectPending(firstProtocolError);
+    if (first) options.onProtocolError?.(firstProtocolError);
+  }
 
   function rejectPending(error) {
     for (const request of pending.values()) request.reject(error);
@@ -836,17 +860,33 @@ export function createJsonRpcProcess(command, args = [], options = {}) {
 
   function send(message) {
     if (closed || child.stdin.destroyed) throw new Error("Codex App Server connection is closed");
+    if (firstProtocolError && !["turn/interrupt", "thread/backgroundTerminals/clean", "thread/backgroundTerminals/list"].includes(message.method)) throw firstProtocolError;
     child.stdin.write(`${JSON.stringify({ jsonrpc: "2.0", ...message })}\n`);
   }
 
-  lines.on("line", (line) => {
+  function consumeFrame(line) {
+    frameNumber++;
     let message;
     try {
       message = JSON.parse(line);
     } catch {
-      options.onProtocolError?.(new Error("Codex App Server emitted invalid JSON"));
+      protocolFailure("invalid-json", line);
       return;
     }
+    // The installed wire contract accepts omitted params and arbitrary result
+    // values. Validate only routing envelopes; never retain payloads in errors.
+    const object = message !== null && typeof message === "object" && !Array.isArray(message);
+    const id = object && Object.hasOwn(message, "id");
+    const method = object && Object.hasOwn(message, "method");
+    const validId = typeof message?.id === "string" || Number.isSafeInteger(message?.id);
+    const validError = message?.error && typeof message.error === "object" &&
+      Number.isInteger(message.error.code) && typeof message.error.message === "string";
+    const response = object && (Object.hasOwn(message, "result") !== Object.hasOwn(message, "error"));
+    if (!object || (id && !validId) || (method ? typeof message.method !== "string" : !id || !response || (Object.hasOwn(message, "error") && !validError))) {
+      protocolFailure("invalid-envelope", line);
+      return;
+    }
+    validFrames++;
     if (message.id !== undefined && message.method === undefined) {
       const request = pending.get(String(message.id));
       if (!request) return;
@@ -861,6 +901,22 @@ export function createJsonRpcProcess(command, args = [], options = {}) {
     }
     if (message.method && message.id !== undefined) options.onRequest?.(message, { respond: (result) => send({ id: message.id, result }) });
     else if (message.method) options.onNotification?.(message);
+  }
+  // JSONL uses LF. readline also splits legal U+2028/U+2029 string content.
+  // Decode across chunks before splitting; CR remains legal JSON whitespace.
+  child.stdout.on("data", (chunk) => {
+    frameBuffer += decoder.write(chunk);
+    let end;
+    while ((end = frameBuffer.indexOf("\n")) !== -1) {
+      const frame = frameBuffer.slice(0, end);
+      frameBuffer = frameBuffer.slice(end + 1);
+      consumeFrame(frame.endsWith("\r") ? frame.slice(0, -1) : frame);
+    }
+  });
+  child.stdout.on("end", () => {
+    frameBuffer += decoder.end();
+    if (frameBuffer.length) consumeFrame(frameBuffer);
+    frameBuffer = "";
   });
   child.stderr.on("data", (chunk) => {
     stderr = `${stderr}${chunk}`.slice(-4096);
@@ -929,7 +985,7 @@ export function createJsonRpcProcess(command, args = [], options = {}) {
             }
           }
         } finally {
-          lines.close();
+          frameBuffer = "";
           child.stdin.destroy();
           child.stdout.destroy();
           child.stderr.destroy();

@@ -44,7 +44,7 @@ test("repository Skill set and scenario contract match the canonical registry", 
   const references = [...entry.matchAll(/\]\((references\/[^)]+\.md)\)/g)].map(match => match[1]);
   assert.deepEqual(new Set(references), new Set([
     "references/lean-delivery.md", "references/parallel-work.md", "references/assurance-and-recovery.md",
-    "references/lean-execution.md", "references/read-only-support.md"
+    "references/lean-execution.md", "references/read-only-support.md", "references/daily-delivery.md"
   ]));
   for (const reference of references) assert.ok((await fs.stat(path.join(deliveryRoot, reference))).isFile());
 
@@ -80,15 +80,18 @@ test("repository Skill set and scenario contract match the canonical registry", 
 
 test("delivery Skill distinguishes bounded reuse from recovery and missing authority", async () => {
   const skill = await fs.readFile(path.join(skillRoot, "temple-work/SKILL.md"), "utf8");
-  // Instruction-contract guard only; real model adherence is a separate observation.
-  const entry = skill.split("## Start and route work\n")[1].split("\n4.")[0];
-  assert.match(entry, /1\. For a known Work Item, first preview `node \.\/templew\.mjs context resolve .*--no-write --json`/);
-  assert.match(entry, /already read and still available in this session/);
-  assert.match(entry, /unchanged measured hash/);
-  assert.match(entry, /not unselected policy or proof of reading/);
-  assert.match(entry, /unreadable required source blocks/);
-  assert.match(entry, /new work, recovery, an incomplete route, or unclear authority/);
-  assert.match(entry, /TEMPLE_BOOTSTRAP_REQUIRED.*takes precedence/);
+  // Guard the retained owners, not the old duplicated paragraph layout. Whole
+  // delivery, missing-source rejection and hash-bound reuse run in context-enter tests.
+  const native = await fs.readFile(path.join(root,"project-overlay/AGENTS.md"),"utf8");
+  const contract = (await fs.readFile(path.join(root,"project-overlay/TEMPLE.md"),"utf8")).replace(/\s+/g," ");
+  assert.match(skill, /whole `TEMPLE.md` contract/);
+  assert.match(native, /node \.\/templew\.mjs context resolve .*--no-write --json/);
+  assert.match(contract, /whole bodies actually read, still available and unchanged/);
+  assert.match(contract, /unselected and nested sources still apply/);
+  assert.match(contract, /a digest proves neither reading nor comprehension/);
+  assert.match(contract, /unreadable required source blocks mutation/);
+  assert.match(contract, /incomplete route or unclear authority requires recovery/);
+  assert.match(contract, /TEMPLE_BOOTSTRAP_REQUIRED` before governed mutation/);
 
   const scenarios = JSON.parse(await fs.readFile(path.join(root, "test/fixtures/skill-scenarios.json"), "utf8"));
   for (const [id, mutation] of [
@@ -103,18 +106,17 @@ test("delivery Skill distinguishes bounded reuse from recovery and missing autho
 });
 
 test("delivery instructions use CLI titles and keep closeout profile-specific", async () => {
-  const skill = await fs.readFile(path.join(skillRoot, "temple-work/SKILL.md"), "utf8");
+  const skill = (await fs.readFile(path.join(skillRoot, "temple-work/SKILL.md"), "utf8")).replace(/\s+/g," ");
   const instructions = await fs.readFile(path.join(root, "project-overlay/AGENTS.md"), "utf8");
-  assert.match(skill, /CLI's `suggested_title` verbatim/);
+  const contract = (await fs.readFile(path.join(root,"project-overlay/TEMPLE.md"),"utf8")).replace(/\s+/g," ");
+  assert.match(contract, /CLI's `suggested_title` verbatim/);
   assert.doesNotMatch(skill, /Work Item ID · Position · Agent Name/);
-  for (const content of [skill, instructions]) {
-    assert.match(content, /effective workflow profile/);
-    assert.match(content, /\.ai-org\/core\/workflow\.json/);
-  }
-  assert.match(skill, /For Standard and High-Assurance, Independent QA must use a different Agent Identity from Developer/);
-  assert.match(skill, /For eligible Lean at `test`, use `temple transition --to done` with `test_evidence` and `lean_closeout`/);
-  assert.match(skill, /not Independent QA or a release approval/);
-  assert.match(skill, /For profiles reaching `release_gate`, use `temple close`/);
+  assert.match(contract, /\.ai-org\/core\/workflow\.json` and the item's effective profile\/risk/);
+  assert.match(instructions, /Never make Developer and Independent QA the same Agent Identity/);
+  assert.match(skill, /Standard\/High-Assurance Independent QA differs from Developer/);
+  assert.match(skill, /Lean Test, `transition --to done` requires `test_evidence` and `lean_closeout`/);
+  assert.match(skill, /not Independent QA or release/);
+  assert.match(skill, /At `release_gate`, use `close` with exact evidence, rollback and required approval/);
 
   // Check the documented Lean edge against configuration, not a second policy engine.
   const workflow = JSON.parse(await fs.readFile(path.join(root, "project-overlay/.ai-org/core/workflow.json"), "utf8"));

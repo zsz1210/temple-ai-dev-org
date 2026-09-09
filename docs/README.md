@@ -89,6 +89,7 @@ a general small-code-change or Independent QA shortcut.
 
 ### Planning and historical boundaries
 
+- [Autonomous delivery checkpoint](validation/autonomous-main-checkpoint.md) — integration scope, preserved gates, bounded observations, and reusable offline experiment preparation.
 - [Roadmap](planning/roadmap.md) ([Japanese](planning/roadmap.ja.md), [Traditional Chinese](planning/roadmap.zh-TW.md)) — product purpose, capabilities, delivered milestones, current qualification, and later direction.
 - [Release readiness](planning/release-readiness.md) — current public-Alpha gates, package and compatibility blockers, and retained non-blocking validation.
 - [Pre-Phase 4 closeout review](planning/pre-phase-4-closeout-review.md) — the readiness audit that closed the earlier phases.

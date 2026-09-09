@@ -6,6 +6,18 @@ import { safeFailureCode } from "./delivery-control-pair.mjs";
 const safeCount = value => Number.isSafeInteger(value) && value >= 0;
 const identifier = value => typeof value === "string" && /^[a-zA-Z0-9_-]{1,80}$/.test(value);
 const typedCause = value => commandPolicyContract.rules.includes(value) && !value.startsWith("allow-") ? value : safeFailureCode(value);
+// Shared decision only: callers still prove runtime/accounting/source validity.
+// Neither this helper nor a product result can authorize an unapproved continuation.
+export function assessmentDecision(assessment, policy) {
+  if (assessment?.isolation_confirmed !== true || assessment?.cleanup_confirmed !== true ||
+      !["passed", "product-failure", "local-invalid"].includes(assessment?.outcome) ||
+      (assessment.outcome !== "local-invalid" && assessment.validity_confirmed !== true) ||
+      (assessment.outcome === "local-invalid" && (assessment.failure_scope !== "subject" || assessment.shared_validity_confirmed !== true)))
+    return { outcome: "invalid", stop: "shared-validity-unconfirmed" };
+  const allowed = assessment.outcome === "passed" ||
+    (assessment.outcome === "product-failure" ? policy?.product_failure : policy?.local_invalid) === true;
+  return { outcome: assessment.outcome, stop: allowed ? null : "continuation-not-authorized" };
+}
 function stopDiagnostics(observation) {
   const first = observation?.first_stop;
   const index = safeCount(first?.event_index) && first.event_index < 2000 ? first.event_index : null;
@@ -86,19 +98,16 @@ export async function runEvaluationSequence({ subjects, limits, continuation,
       let assessment;
       try { assessment = await assessOne(structuredClone(subject), stage, ready, build, observation); }
       catch { row.status = "invalid"; stop("assessment-unavailable"); break; }
-      if (assessment?.isolation_confirmed !== true || assessment?.cleanup_confirmed !== true ||
-          !["passed", "product-failure", "local-invalid"].includes(assessment?.outcome) ||
-          (assessment.outcome !== "local-invalid" && assessment.validity_confirmed !== true) ||
-          (assessment.outcome === "local-invalid" && (assessment.failure_scope !== "subject" || assessment.shared_validity_confirmed !== true))) {
-        row.status = "invalid"; stop("shared-validity-unconfirmed"); break;
+      const decision = assessmentDecision(assessment, policy);
+      if (decision.outcome === "invalid") {
+        row.status = "invalid"; stop(decision.stop); break;
       }
       row.status = assessment.outcome;
       await save();
       if (result.status === "stopped" || overLimit()) { stop("aggregate-limit"); break; }
       if (row.status !== "passed") {
         if (stage === "build") result.stages.push({ subject: subject.id, stage: "verify", status: "skipped-dependency", operational_tokens: null });
-        const allowed = row.status === "product-failure" ? policy.product_failure : policy.local_invalid;
-        if (!allowed) stop("continuation-not-authorized");
+        if (decision.stop) stop(decision.stop);
         // No retry or replacement. The failed sample and its cost remain.
         break;
       }

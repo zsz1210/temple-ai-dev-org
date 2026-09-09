@@ -6,6 +6,8 @@ It does **not** run tests, approve the result or close the Work Item. Standard, 
 
 ## Use it
 
+Choose one completion route. For a small eligible task that also needs current Status/Doctor, prefer [stage completion](../extensions/lean-completion.md) with `work-item finish`. Keep `deliver` when only the three administrative steps are needed. Do not call both, and do not build a context packet solely to finish a stage.
+
 First inspect the current Work Item:
 
 ```bash

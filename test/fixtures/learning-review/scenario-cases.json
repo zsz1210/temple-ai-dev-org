@@ -1,0 +1,338 @@
+{
+  "fixture_notice": "Declarative contract cases for the offline oracle. Synthetic labels are materialized by the test harness; no product acceptance or launch authority.",
+  "cases": [
+    {
+      "id": "S1-01",
+      "title": "unreviewed terminal outcome",
+      "input": {
+        "state": "done",
+        "revision": "r1",
+        "evidence": [
+          "e1"
+        ],
+        "receipts": []
+      },
+      "expected": {
+        "coverage": "pending"
+      }
+    },
+    {
+      "id": "S1-02",
+      "title": "explicit no-new-learning",
+      "input": {
+        "state": "done",
+        "revision": "r1",
+        "evidence": [
+          "e1"
+        ],
+        "record": {
+          "disposition": "no-new-learning",
+          "reason": "No reusable finding"
+        }
+      },
+      "expected": {
+        "coverage": "reviewed",
+        "new_lessons": 0
+      }
+    },
+    {
+      "id": "S1-03",
+      "title": "existing Lesson is not review proof",
+      "input": {
+        "state": "done",
+        "revision": "r1",
+        "evidence": [
+          "e1"
+        ],
+        "related_learning": [
+          "LESSON-0001"
+        ],
+        "receipts": []
+      },
+      "expected": {
+        "coverage": "pending"
+      }
+    },
+    {
+      "id": "S1-04",
+      "title": "link existing learning",
+      "input": {
+        "record": {
+          "disposition": "linked-existing",
+          "learning_ids": [
+            "LESSON-0001"
+          ]
+        }
+      },
+      "expected": {
+        "coverage": "reviewed",
+        "new_lessons": 0,
+        "learning_mutations": 0
+      }
+    },
+    {
+      "id": "S1-05",
+      "title": "capture association is not promotion",
+      "input": {
+        "record": {
+          "disposition": "candidate-captured",
+          "learning_ids": [
+            "LESSON-0002"
+          ]
+        },
+        "lesson_status": "candidate"
+      },
+      "expected": {
+        "coverage": "reviewed",
+        "learning_mutations": 0,
+        "practice_activations": 0
+      }
+    },
+    {
+      "id": "S1-06",
+      "title": "changed revision requires new review",
+      "input": {
+        "old_revision": "r1",
+        "current_revision": "r2",
+        "prior_completed_receipt": true
+      },
+      "expected": {
+        "coverage": "stale",
+        "prior_receipt_preserved": true
+      }
+    },
+    {
+      "id": "S1-07",
+      "title": "evidence changes at same revision",
+      "input": {
+        "revision": "r1",
+        "old_digest": "d1",
+        "current_digest": "d2",
+        "prior_completed_receipt": true
+      },
+      "expected": {
+        "coverage": "stale",
+        "prior_receipt_preserved": true
+      }
+    },
+    {
+      "id": "S1-08",
+      "title": "changed evidence reference set is uncovered",
+      "input": {
+        "prior_evidence": [
+          "e1"
+        ],
+        "current_evidence": [
+          "e1",
+          "e2"
+        ],
+        "prior_completed_receipt": true,
+        "repeat_with_removed_reference": true
+      },
+      "expected": {
+        "coverage": "stale"
+      }
+    },
+    {
+      "id": "S1-09",
+      "title": "argument order and exact replay",
+      "input": {
+        "actions": [
+          "record e1,e2 learning L1,L2",
+          "record e2,e1 learning L2,L1"
+        ],
+        "same_normalized_content": true
+      },
+      "expected": {
+        "unique_receipts": 1,
+        "same_receipt_id": true
+      }
+    },
+    {
+      "id": "S1-10",
+      "title": "explicit deferred resolution",
+      "input": {
+        "actions": [
+          "record deferred",
+          "replace no-new-learning with expected current receipt ID"
+        ]
+      },
+      "expected": {
+        "coverage": "reviewed",
+        "history_count": 2,
+        "deferred_alone": "follow-up"
+      }
+    },
+    {
+      "id": "S1-11",
+      "title": "stale concurrent replacement",
+      "input": {
+        "actions": [
+          "two replacements with the same expected receipt ID and different dispositions"
+        ]
+      },
+      "expected": {
+        "successful_replacements": 1,
+        "conflicts": 1,
+        "history_preserved": true
+      }
+    },
+    {
+      "id": "S1-12",
+      "title": "concurrent identical first records",
+      "input": {
+        "actions": [
+          "two simultaneous identical normalized first record requests"
+        ]
+      },
+      "expected": {
+        "unique_receipts": 1,
+        "successful_same_result": 2
+      }
+    },
+    {
+      "id": "S1-13",
+      "title": "invalid learning references",
+      "input": {
+        "inputs": [
+          "unknown Learning ID",
+          "candidate-captured referring only to a Practice",
+          "candidate-captured referring only to a validated Lesson",
+          "no-new-learning with Learning IDs"
+        ]
+      },
+      "expected": {
+        "exit": "nonzero",
+        "receipt_writes": 0,
+        "learning_mutations": 0
+      }
+    },
+    {
+      "id": "S1-14",
+      "title": "unsafe or missing evidence",
+      "input": {
+        "inputs": [
+          "unknown Work Item",
+          "mismatched outcome revision",
+          "outside-target path",
+          "escaping symlink",
+          "missing file",
+          "unregistered evidence",
+          "incomplete evidence set",
+          "unsupported non-file evidence reference"
+        ]
+      },
+      "expected": {
+        "exit": "nonzero",
+        "receipt_writes": 0
+      }
+    },
+    {
+      "id": "S1-15",
+      "title": "read-only and old repository",
+      "input": {
+        "actions": [
+          "query an old project with no review directory",
+          "query twice",
+          "query with malformed existing receipt"
+        ]
+      },
+      "expected": {
+        "query_filesystem_mutations": 0,
+        "old_project_migration": false,
+        "malformed_coverage": "unknown",
+        "diagnostics_required": true
+      }
+    },
+    {
+      "id": "S1-16",
+      "title": "incomplete write and recovery",
+      "input": {
+        "faults": [
+          "failure before atomic commit",
+          "process exit during publication",
+          "corrupt stored receipt"
+        ]
+      },
+      "expected": {
+        "silent_partial_success": false,
+        "recoverable_or_valid_prior_state": true,
+        "corrupt_coverage": "unknown"
+      }
+    },
+    {
+      "id": "S1-17",
+      "title": "lifecycle and administrative noise",
+      "input": {
+        "states": [
+          "done",
+          "concluded",
+          "cancelled",
+          "build"
+        ],
+        "changes": [
+          "unrelated updated_at",
+          "recorded revision change"
+        ]
+      },
+      "expected": {
+        "eligible_states": [
+          "done",
+          "concluded",
+          "cancelled"
+        ],
+        "build": "ineligible",
+        "timestamp_alone_invalidates": false,
+        "revision_change_invalidates": true
+      }
+    },
+    {
+      "id": "S1-18",
+      "title": "larger dataset and reconciled output",
+      "input": {
+        "work_items": 1000,
+        "review_receipts": 600,
+        "learning_entries": 200
+      },
+      "expected": {
+        "rows_sorted_by": "work_item_id",
+        "summary_matches_rows": true,
+        "no_model_calls": true
+      },
+      "descriptive_observations": [
+        "file_read_counts",
+        "elapsed_ms"
+      ],
+      "resource_acceptance_threshold": null
+    },
+    {
+      "id": "S1-19",
+      "title": "missing revision and evidence",
+      "input": {
+        "inputs": [
+          "terminal with no candidate/base revision",
+          "reviewed outcome with missing recorded evidence file"
+        ]
+      },
+      "expected": {
+        "coverage": "unknown",
+        "reviewed_count_increase": 0
+      }
+    },
+    {
+      "id": "S1-20",
+      "title": "revalidation follow-up and immutable prior facts",
+      "input": {
+        "actions": [
+          "record revalidation-needed linking existing learning",
+          "later promote a historically linked candidate through existing authorized CLI"
+        ]
+      },
+      "expected": {
+        "revalidation_needed_coverage": "follow-up",
+        "receipt_does_not_revalidate": true,
+        "historical_candidate_receipt_retained": true
+      }
+    }
+  ]
+}

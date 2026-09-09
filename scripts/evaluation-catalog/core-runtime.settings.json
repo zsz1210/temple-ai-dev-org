@@ -1,0 +1,27 @@
+{
+  "schema_version": "temple.core-runtime-settings/v1",
+  "status": "proposed-reservation-not-launch-approval",
+  "selection": "scripts/evaluation-catalog/core-comparison.template.json",
+  "basis": "WI-0260 same-fixture retained observations: 104424 and 104828 operational-token lower bounds, three/four calls. Reuse its deliberately larger 620000-token complete path reservation; add 20000 cleanup tokens per cell and 200000 outer tokens. These observations do not bound GPT-6 variance or Credits.",
+  "phases": {
+    "build": {"expected_tokens":120000,"stop_tokens":180000,"reserve_tokens":200000,"expected_ms":300000,"stop_ms":580000,"reserve_ms":600000},
+    "recovery": {"expected_tokens":80000,"stop_tokens":120000,"reserve_tokens":140000,"expected_ms":300000,"stop_ms":580000,"reserve_ms":600000},
+    "verify": {"expected_tokens":40000,"stop_tokens":60000,"reserve_tokens":70000,"expected_ms":240000,"stop_ms":400000,"reserve_ms":420000},
+    "repair": {"expected_tokens":80000,"stop_tokens":120000,"reserve_tokens":140000,"expected_ms":300000,"stop_ms":580000,"reserve_ms":600000},
+    "reverify": {"expected_tokens":40000,"stop_tokens":60000,"reserve_tokens":70000,"expected_ms":240000,"stop_ms":400000,"reserve_ms":420000}
+  },
+  "setup_reserve": {"tokens":0,"time_ms":60000,"calls":0},
+  "cell_extra_reserve": {"tokens":20000,"time_ms":120000,"calls":0},
+  "batch_overhead": {"tokens":200000,"time_ms":600000,"calls":0},
+  "ceilings": {"tokens":2760000,"time_ms":11880000,"calls":20},
+  "repairs_per_cell":1,
+  "concurrency":1,
+  "interruption":"after-normal-build-and-developer-finish-before-verification",
+  "cache_control":"uncontrolled-descriptive-only",
+  "external_spend_jpy":0,
+  "credits":"unknown",
+  "retry":false,
+  "fallback":false,
+  "reset":false,
+  "model_generation_authorized":false
+}

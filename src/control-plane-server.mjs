@@ -4,6 +4,7 @@ import http from "node:http";
 import path from "node:path";
 import { URL } from "node:url";
 import { TEMPLATE_VERSION } from "./constants.mjs";
+import { inspectDeliverySummary } from "./daily-delivery.mjs";
 import { readControlPlaneConfig } from "./control-plane-config.mjs";
 import { buildConditionProjection } from "./control-plane-conditions.mjs";
 import { renderControlPlaneDashboard } from "./control-plane-dashboard.mjs";
@@ -396,6 +397,16 @@ export async function startControlPlaneServer(target, options = {}) {
         }
         if (access.kind === "private-viewer" && request.method !== "GET") {
           jsonResponse(response, 405, { error: "Private Dashboard viewer is read-only" });
+          return;
+        }
+        const deliveryMatch = /^\/api\/v1\/work-items\/(WI-(?:[0-9]{4,}|[0-9]{8}-[A-F0-9]{10}))\/delivery$/.exec(requestUrl.pathname);
+        if (deliveryMatch && request.method === "GET") {
+          if (access.kind !== "loopback") {
+            jsonResponse(response, 403, { error: "Delivery detail is available locally only" });
+          } else {
+            const summary = await inspectDeliverySummary(projectRoot, deliveryMatch[1]);
+            jsonResponse(response, summary.availability === "work-item-missing" ? 404 : 200, summary);
+          }
           return;
         }
         if (request.method === "GET" && requestUrl.pathname === "/healthz") {
