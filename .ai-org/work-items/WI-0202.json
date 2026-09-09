@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0202",
   "title": "End-to-end check of native helper lifecycle repair",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "cancelled",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T06:22:19.176Z",
-  "updated_at": "2026-09-06T06:40:43.923Z",
+  "updated_at": "2026-09-09T13:50:42.403Z",
   "scope": [
     "Validate the integrated WI-0201 repair with one reviewed sealed support-read regression attempt under the current request to fix the complete path; retain honest results and stop at protocol boundaries."
   ],
@@ -44,7 +44,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "ac618c029322e94a1444a14b9925124fa7a741f7",
+  "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -52,15 +52,15 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906062318-6a533e4e",
+    "id": "claim-20260909135042-0800f12c",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "ac618c029322e94a1444a14b9925124fa7a741f7",
-    "branch": "codex/wi-0191-proportionate-evaluation",
+    "agent_id": "agent-lulu",
+    "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
+    "branch": "codex/historical-task-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-06T06:23:18.079Z",
-    "released_at": "2026-09-06T06:40:43.923Z",
+    "claimed_at": "2026-09-09T13:50:42.133Z",
+    "released_at": "2026-09-09T13:50:42.403Z",
     "release_reason": "position_transition"
   },
   "claims": [
@@ -74,6 +74,18 @@
       "worktree": null,
       "claimed_at": "2026-09-06T06:23:18.079Z",
       "released_at": "2026-09-06T06:40:43.923Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260909135042-0800f12c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:50:42.133Z",
+      "released_at": "2026-09-09T13:50:42.403Z",
       "release_reason": "position_transition"
     }
   ],
@@ -103,6 +115,9 @@
     "developer_evidence": [
       ".ai-org/artifacts/WI-0202/live-report.md",
       ".ai-org/artifacts/WI-0202/live-observation.json"
+    ],
+    "cancellation_reason": [
+      ".ai-org/artifacts/WI-0202/historical-reconciliation.md"
     ]
   },
   "evidence": [
@@ -111,10 +126,11 @@
     ".ai-org/artifacts/WI-0201/api-evidence.json",
     ".ai-org/artifacts/WI-0202/handoff-001-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0202/live-report.md",
-    ".ai-org/artifacts/WI-0202/live-observation.json"
+    ".ai-org/artifacts/WI-0202/live-observation.json",
+    ".ai-org/artifacts/WI-0202/historical-reconciliation.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",

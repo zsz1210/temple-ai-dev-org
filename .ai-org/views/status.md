@@ -4,8 +4,8 @@
 - Organization system version: `0.1.0-alpha.30`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 1 wave(s), fresh=false
-- Work items: 229 total, 25 active
+- Parallel plan: 0 wave(s), fresh=true
+- Work items: 229 total, 0 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 75 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 22
+- Attention signals: 21
 
 ## Collaboration
 
@@ -37,11 +37,11 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
-- Safe waves: 1
-- Dispatchable Work Items: 1
+- Fresh: yes
+- Safe waves: 0
+- Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
-- Next wave: WI-0224
+- Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -219,7 +219,7 @@
 | WI-0169 | Prepare evidence-led post-Alpha field validation | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `cf97c137` | 0 | 4 | 0 |
 | WI-0170 | Reduce verification overhead without weakening coverage | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7716b1fe` | 0 | 6 | 0 |
 | WI-0171 | Reject ambiguous local test selection options | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `7716b1fe` | 0 | 4 | 0 |
-| WI-0172 | Compare a bounded delivery and fresh recovery with and without Temple | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
+| WI-0172 | Compare a bounded delivery and fresh recovery with and without Temple | cancelled | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
 | WI-0173 | Pin handoff revisions and align published capability status | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `974d6578` | 0 | 11 | 0 |
 | WI-0174 | Return same-scope review findings to Build | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3cd0e554` | 0 | 9 | 0 |
 | WI-0175 | Reject unsupported configure options | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `d59845c0` | 0 | 8 | 0 |
@@ -230,17 +230,17 @@
 | WI-0180 | Keep optional delivery sandbox tests explicit and portable | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `64d5c94a` | 0 | 4 | 0 |
 | WI-0181 | Reduce diagnostic output and clarify stage completion | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ce132142` | 0 | 5 | 0 |
 | WI-0182 | Compare compact diagnostics in fresh delivery sessions | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `648a6b2c` | 0 | 8 | 0 |
-| WI-0183 | Design lower-overhead Lean execution after v7 comparison | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
+| WI-0183 | Design lower-overhead Lean execution after v7 comparison | cancelled | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
 | WI-0184 | Acquire bounded stage material without changing workflow authority | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1c0b0bcd` | 0 | 11 | 0 |
 | WI-0185 | Account for two reviewed stage material package files | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `85994e3b` | 0 | 5 | 0 |
 | WI-0186 | Scope stage material without omitting governing rules | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `3cf56d80` | 0 | 9 | 0 |
 | WI-0187 | Compose Lean stage completion with truthful diagnostics and recovery | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2611def7` | 0 | 7 | 0 |
 | WI-0188 | Integrate opt-in Lean entry with bounded material and completion | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6346e026` | 0 | 9 | 0 |
-| WI-0189 | Compare single-worker and parallel Terra delivery | test | Quality & Evaluation Engineer | Lulu | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `90a5870d` | 0 | 6 | 1 |
-| WI-0190 | Clarify proportionate entry and stage completion | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `50ae4f50` | 0 | 5 | 0 |
-| WI-0191 | Evaluate proportionate routes with matched before-after scenarios | release_gate | Release Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `85beb7ac` | 0 | 9 | 1 |
-| WI-0192 | Repair paired evaluation evidence without changing sealed results | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9e96f7bb` | 0 | 3 | 0 |
-| WI-0193 | Run bounded native support comparison after measurement repair | test | Quality & Evaluation Engineer | Lulu | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2628319f` | 0 | 2 | 1 |
+| WI-0189 | Compare single-worker and parallel Terra delivery | concluded | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `90a5870d` | 0 | 9 | 1 |
+| WI-0190 | Clarify proportionate entry and stage completion | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `50ae4f50` | 0 | 8 | 0 |
+| WI-0191 | Evaluate proportionate routes with matched before-after scenarios | concluded | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `85beb7ac` | 0 | 12 | 1 |
+| WI-0192 | Repair paired evaluation evidence without changing sealed results | cancelled | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9e96f7bb` | 0 | 4 | 0 |
+| WI-0193 | Run bounded native support comparison after measurement repair | cancelled | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2628319f` | 0 | 3 | 1 |
 | WI-0194 | Complete native event classification and failure-path replay coverage | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f9edc11a` | 0 | 6 | 0 |
 | WI-0195 | Complete repaired native support comparison | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `879ac69f` | 0 | 9 | 0 |
 | WI-0196 | Implement two-phase native child acquisition | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `fd53d7de` | 0 | 7 | 0 |
@@ -249,30 +249,30 @@
 | WI-0199 | Repair ephemeral helper dispatch | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `c64371d0` | 0 | 6 | 0 |
 | WI-0200 | Validate repaired ephemeral helper dispatch live | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `be3f649c` | 0 | 7 | 0 |
 | WI-0201 | Repair complete native helper observation lifecycle | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5fda83ac` | 0 | 9 | 0 |
-| WI-0202 | End-to-end check of native helper lifecycle repair | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2201b456` | 0 | 6 | 0 |
+| WI-0202 | End-to-end check of native helper lifecycle repair | cancelled | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2201b456` | 0 | 7 | 0 |
 | WI-0203 | Measure bounded Lean entry and finish overhead against ordinary delivery | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `eb6315ce` | 0 | 8 | 0 |
-| WI-0204 | Separate root delegation from leaf instructions and cancellation state | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2201b456` | 0 | 4 | 0 |
+| WI-0204 | Separate root delegation from leaf instructions and cancellation state | cancelled | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2201b456` | 0 | 5 | 0 |
 | WI-0205 | Independently review bounded B/C measurement readiness | done | Engineering Manager | Mog | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `eb6315c` | 0 | 5 | 0 |
 | WI-0206 | Minimize repeated context material without weakening authority | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a746d37a` | 0 | 7 | 0 |
 | WI-0207 | Select task material and audit instruction-induced work | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `d1898b45` | 0 | 5 | 0 |
-| WI-0208 | Measure three-arm context minimization and design continuity scenarios | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5f019511` | 0 | 5 | 1 |
-| WI-0209 | Repair comparison readiness and run a new three-arm diagnostic | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `55a2a56f` | 0 | 7 | 3 |
-| WI-0210 | Complete frozen three-arm comparison after read-only Git compatibility repair | eval | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a12f3473` | 0 | 4 | 0 |
-| WI-0211 | Integrate completed context comparison without reintroducing old history | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `8e410646` | 0 | 4 | 0 |
-| WI-0212 | Clarify product-test reruns after evidence-only edits | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `944c5527` | 0 | 3 | 0 |
-| WI-0213 | Separate model-readable context from validation metadata | release_gate | Release Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6d15bbfd` | 0 | 3 | 0 |
-| WI-0214 | Evaluate model-facing context representation | intake | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 0 | 0 |
-| WI-0215 | Run bounded full versus model context comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `dbcced47` | 0 | 4 | 1 |
-| WI-0216 | Separate stage Token warnings from aggregate experiment limits | eval | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `92cb0a01` | 0 | 4 | 0 |
-| WI-0217 | Execute authorized warning-policy format comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `570a36ac` | 0 | 4 | 1 |
-| WI-0218 | Explain rejected command argument shapes without retaining values | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a21085cc` | 0 | 4 | 0 |
-| WI-0219 | Reproduce context argument failures through the installed CLI | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ba3bcc60` | 0 | 4 | 0 |
-| WI-0220 | Run fresh format comparison with argument diagnostics | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2aef01bd` | 0 | 5 | 0 |
+| WI-0208 | Measure three-arm context minimization and design continuity scenarios | concluded | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5f019511` | 0 | 8 | 1 |
+| WI-0209 | Repair comparison readiness and run a new three-arm diagnostic | concluded | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `55a2a56f` | 0 | 10 | 3 |
+| WI-0210 | Complete frozen three-arm comparison after read-only Git compatibility repair | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a12f3473` | 0 | 7 | 0 |
+| WI-0211 | Integrate completed context comparison without reintroducing old history | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `8e410646` | 0 | 7 | 0 |
+| WI-0212 | Clarify product-test reruns after evidence-only edits | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `944c5527` | 0 | 6 | 0 |
+| WI-0213 | Separate model-readable context from validation metadata | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `6d15bbfd` | 0 | 6 | 0 |
+| WI-0214 | Evaluate model-facing context representation | cancelled | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 1 | 0 |
+| WI-0215 | Run bounded full versus model context comparison | concluded | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `dbcced47` | 0 | 7 | 1 |
+| WI-0216 | Separate stage Token warnings from aggregate experiment limits | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `92cb0a01` | 0 | 7 | 0 |
+| WI-0217 | Execute authorized warning-policy format comparison | concluded | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `570a36ac` | 0 | 7 | 1 |
+| WI-0218 | Explain rejected command argument shapes without retaining values | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `a21085cc` | 0 | 7 | 0 |
+| WI-0219 | Reproduce context argument failures through the installed CLI | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ba3bcc60` | 0 | 7 | 0 |
+| WI-0220 | Run fresh format comparison with argument diagnostics | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2aef01bd` | 0 | 8 | 0 |
 | WI-0221 | Add bounded failure and source-read observations | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e8ad4b4f` | 0 | 7 | 0 |
 | WI-0222 | Independently review PR70 diagnostic evidence | done | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e8ad4b4f` | 0 | 6 | 0 |
-| WI-0223 | Design diagnostic Full versus Model comparison | design | Tech Lead | Tidus | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 2 | 0 |
-| WI-0224 | Implement two-family diagnostic comparison | eval | Quality & Evaluation Engineer | Lulu | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `df40202b` | 0 | 4 | 0 |
-| WI-0225 | Design proportionate small-task delivery and reliable evaluation | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 4 | 2 |
+| WI-0223 | Design diagnostic Full versus Model comparison | cancelled | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 3 | 0 |
+| WI-0224 | Implement two-family diagnostic comparison | concluded | Engineering Manager | Mog | pending | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `df40202b` | 0 | 7 | 0 |
+| WI-0225 | Design proportionate small-task delivery and reliable evaluation | cancelled | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 5 | 2 |
 | WI-0226 | Implement bounded Lean procedure routing and offline evaluation reliability | cancelled | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 6 | 2 |
 | WI-0227 | Reduce always-loaded operating instructions without weakening gates | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f7062396` | 0 | 8 | 0 |
 | WI-0228 | Accept retained offline evaluation reliability independently of rejected Lean prototype | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 7 | 0 |
@@ -402,7 +402,6 @@
 - worker-20260905124032-458ce7b0 is failed
 - worker-20260905130828-87bb7969 is failed
 - worker-20260905141644-4a85d8c7 is failed
-- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -482,14 +481,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-07T04:17:21.014Z | work_item_closed | WI-0229 | agent-mog |
-| 2026-09-07T04:17:21.014Z | release_gate_completed | WI-0229 | agent-mog |
-| 2026-09-07T04:17:20.729Z | work_item_claimed | WI-0229 | human |
-| 2026-09-07T04:16:20.718Z | work_item_transitioned | WI-0229 | agent-lulu |
-| 2026-09-07T04:16:20.405Z | work_item_claim_released | WI-0229 | human |
-| 2026-09-07T04:16:20.086Z | handoff_created | WI-0229 | agent-lulu |
-| 2026-09-07T04:16:19.698Z | work_item_claimed | WI-0229 | human |
-| 2026-09-07T04:15:51.168Z | work_item_transitioned | WI-0229 | agent-lulu |
+| 2026-09-09T13:52:30.148Z | work_item_concluded | WI-0224 | agent-mog |
+| 2026-09-09T13:52:30.148Z | release_gate_completed | WI-0224 | agent-mog |
+| 2026-09-09T13:52:29.870Z | work_item_claimed | WI-0224 | human |
+| 2026-09-09T13:52:29.557Z | work_item_closed | WI-0220 | agent-mog |
+| 2026-09-09T13:52:29.557Z | release_gate_completed | WI-0220 | agent-mog |
+| 2026-09-09T13:52:29.280Z | work_item_claimed | WI-0220 | human |
+| 2026-09-09T13:52:28.895Z | work_item_closed | WI-0219 | agent-mog |
+| 2026-09-09T13:52:28.895Z | release_gate_completed | WI-0219 | agent-mog |
 
 ## Assignments
 

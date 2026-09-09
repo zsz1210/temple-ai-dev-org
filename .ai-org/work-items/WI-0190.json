@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0190",
   "title": "Clarify proportionate entry and stage completion",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T21:35:33.373Z",
-  "updated_at": "2026-09-06T23:52:07.218Z",
+  "updated_at": "2026-09-09T13:52:21.505Z",
   "scope": [
     "Framework instruction routes, stage completion, and bounded read-only support; preserve execution guards and sealed experiments"
   ],
@@ -47,7 +47,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "80d25020930635c4af54e35b7231afa830483cde",
+  "base_revision": "50ae4f50fcf74d8468e09956e44e1eb9da99ef71",
   "parallel_mode": "pending",
   "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
@@ -65,18 +65,16 @@
     "WI-0224: coordinated new diagnostic runner/test paths only; historical owners have released claims; prior evidence and sources remain unchanged."
   ],
   "claim": {
-    "id": "claim-20260906115202-516ed6b3",
+    "id": "claim-20260909135221-e28444a0",
     "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
-    "base_revision": "80d25020930635c4af54e35b7231afa830483cde",
-    "branch": "codex/wi-0191-proportionate-evaluation",
+    "base_revision": "50ae4f50fcf74d8468e09956e44e1eb9da99ef71",
+    "branch": "codex/historical-task-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-06T11:52:02.800Z",
-    "released_at": "2026-09-06T11:52:29.281Z",
-    "release_reason": [
-      "Integration privacy normalization complete; no behavior or sealed result change."
-    ]
+    "claimed_at": "2026-09-09T13:52:21.213Z",
+    "released_at": "2026-09-09T13:52:21.505Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -176,6 +174,18 @@
       "release_reason": [
         "Integration privacy normalization complete; no behavior or sealed result change."
       ]
+    },
+    {
+      "id": "claim-20260909135221-e28444a0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "50ae4f50fcf74d8468e09956e44e1eb9da99ef71",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:52:21.213Z",
+      "released_at": "2026-09-09T13:52:21.505Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -201,13 +211,27 @@
       ".ai-org/artifacts/WI-0190/developer-report.md"
     ],
     "test_evidence": [
-      ".ai-org/artifacts/WI-0190/evaluation.md"
+      ".ai-org/artifacts/WI-0190/evaluation.md",
+      ".ai-org/artifacts/historical-task-review.md"
     ],
     "evaluation_report": [
-      ".ai-org/artifacts/WI-0190/evaluation.md"
+      ".ai-org/artifacts/WI-0190/evaluation.md",
+      ".ai-org/artifacts/historical-task-review.md"
     ],
     "independent_qa_pass": [
       ".ai-org/artifacts/WI-0190/independent-qa.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0190/historical-reconciliation.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0190/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/historical-task-reconciliation.md"
     ]
   },
   "evidence": [
@@ -215,10 +239,13 @@
     ".ai-org/artifacts/WI-0190/handoff-001-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0190/developer-report.md",
     ".ai-org/artifacts/WI-0190/evaluation.md",
-    ".ai-org/artifacts/WI-0190/independent-qa.md"
+    ".ai-org/artifacts/WI-0190/independent-qa.md",
+    ".ai-org/artifacts/WI-0190/release-record.md",
+    ".ai-org/artifacts/WI-0190/historical-reconciliation.md",
+    ".ai-org/artifacts/historical-task-review.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -229,5 +256,11 @@
       "created_at": "2026-09-05T21:52:59.318Z"
     }
   ],
-  "developer_candidate_revision": "50ae4f50fcf74d8468e09956e44e1eb9da99ef71"
+  "developer_candidate_revision": "50ae4f50fcf74d8468e09956e44e1eb9da99ef71",
+  "tested_revision": "50ae4f50fcf74d8468e09956e44e1eb9da99ef71",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/historical-task-reconciliation.md"
 }

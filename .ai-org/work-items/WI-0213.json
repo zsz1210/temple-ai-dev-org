@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0213",
   "title": "Separate model-readable context from validation metadata",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T12:32:41.389Z",
-  "updated_at": "2026-09-06T15:35:16.772Z",
+  "updated_at": "2026-09-09T13:52:25.946Z",
   "scope": [
     "Add an opt-in model JSON view after unchanged context acquisition; preserve default JSON, required bodies, authority checks and fallback. Verify offline before a separately bounded comparison; never alter frozen experiments."
   ],
@@ -57,18 +57,16 @@
     "WI-0219: no active writer; local compatibility test successor owns test changes."
   ],
   "claim": {
-    "id": "claim-20260906124519-52615b60",
+    "id": "claim-20260909135225-dff90b51",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
+    "agent_id": "agent-mog",
     "base_revision": "6d15bbfde3d093a757634835d1479f23a6f530bd",
-    "branch": "codex/model-context-render",
+    "branch": "codex/historical-task-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-06T12:45:19.215Z",
-    "released_at": "2026-09-06T12:48:22.437Z",
-    "release_reason": [
-      "Independent QA passed exact candidate; no further reviewer work"
-    ]
+    "claimed_at": "2026-09-09T13:52:25.664Z",
+    "released_at": "2026-09-09T13:52:25.946Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -110,6 +108,18 @@
       "release_reason": [
         "Independent QA passed exact candidate; no further reviewer work"
       ]
+    },
+    {
+      "id": "claim-20260909135225-dff90b51",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "6d15bbfde3d093a757634835d1479f23a6f530bd",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:52:25.664Z",
+      "released_at": "2026-09-09T13:52:25.946Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -135,22 +145,39 @@
       ".ai-org/artifacts/WI-0213/verification.md"
     ],
     "test_evidence": [
-      ".ai-org/artifacts/WI-0213/verification.md"
+      ".ai-org/artifacts/WI-0213/verification.md",
+      ".ai-org/artifacts/historical-task-review.md"
     ],
     "evaluation_report": [
-      ".ai-org/artifacts/WI-0213/verification.md"
+      ".ai-org/artifacts/WI-0213/verification.md",
+      ".ai-org/artifacts/historical-task-review.md"
     ],
     "independent_qa_pass": [
       ".ai-org/artifacts/WI-0213/verification.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0213/historical-reconciliation.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0213/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/historical-task-reconciliation.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0213/design.md",
     ".ai-org/artifacts/WI-0213/handoff-001-developer-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0213/verification.md"
+    ".ai-org/artifacts/WI-0213/verification.md",
+    ".ai-org/artifacts/WI-0213/release-record.md",
+    ".ai-org/artifacts/WI-0213/historical-reconciliation.md",
+    ".ai-org/artifacts/historical-task-review.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -161,5 +188,11 @@
       "created_at": "2026-09-06T12:42:00.699Z"
     }
   ],
-  "developer_candidate_revision": "6d15bbfde3d093a757634835d1479f23a6f530bd"
+  "developer_candidate_revision": "6d15bbfde3d093a757634835d1479f23a6f530bd",
+  "tested_revision": "6d15bbfde3d093a757634835d1479f23a6f530bd",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/historical-task-reconciliation.md"
 }

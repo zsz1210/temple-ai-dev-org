@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0172",
   "title": "Compare a bounded delivery and fresh recovery with and without Temple",
-  "state": "intake",
+  "state": "cancelled",
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T03:05:47.487Z",
-  "updated_at": "2026-09-06T14:37:26.431Z",
+  "updated_at": "2026-09-09T13:50:39.500Z",
   "scope": [
     "Coordinator ID reservation for the existing comparison owned by the separate workflow-efficiency task. This intake record does not import its candidate, replay its lifecycle, authorize live generation, or supersede its isolated experiment evidence. Reconcile the exact owner branch at integration."
   ],
@@ -44,7 +44,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": null,
+  "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -54,10 +54,40 @@
     "WI-0215 owns the format-only successor harness and its new test; this record has no active writer and its prior source/evidence remain frozen.",
     "WI-0216: sequential successor owns warning-policy edits; prior evidence frozen; no active writer."
   ],
-  "claim": null,
-  "claims": [],
-  "gate_evidence": {},
-  "evidence": [],
+  "claim": {
+    "id": "claim-20260909135038-94ad17ec",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
+    "branch": "codex/historical-task-closeout",
+    "worktree": null,
+    "claimed_at": "2026-09-09T13:50:38.929Z",
+    "released_at": "2026-09-09T13:50:39.500Z",
+    "release_reason": "completed"
+  },
+  "claims": [
+    {
+      "id": "claim-20260909135038-94ad17ec",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:50:38.929Z",
+      "released_at": "2026-09-09T13:50:39.500Z",
+      "release_reason": "completed"
+    }
+  ],
+  "gate_evidence": {
+    "cancellation_reason": [
+      ".ai-org/artifacts/WI-0172/historical-reconciliation.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0172/historical-reconciliation.md"
+  ],
   "unresolved": [],
-  "next_position": "product_manager"
+  "next_position": null
 }

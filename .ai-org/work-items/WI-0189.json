@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0189",
   "title": "Compare single-worker and parallel Terra delivery",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "concluded",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T15:00:29.162Z",
-  "updated_at": "2026-09-05T16:07:34.295Z",
+  "updated_at": "2026-09-09T13:52:20.895Z",
   "scope": [
     "Prepare an isolated JSON sales-report POC with fixed contracts; compare one Terra medium Builder against three Terra medium workers plus integration, followed by fresh verification per arm. Do not change Temple core or sealed prior experiments. Live execution awaits a new bounded budget approval."
   ],
@@ -42,8 +42,8 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "0fc622d",
-  "parallel_mode": "parallel",
+  "base_revision": "90a5870d993c8d5b0289571fc511db2cbb4cc3d6",
+  "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-rikku",
   "planned_agent_id": null,
   "shared_contract_refs": [
@@ -52,18 +52,16 @@
   "contract_status": "stable",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260905153437-0a374829",
+    "id": "claim-20260909135220-c57aefbf",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "0fc622d",
-    "branch": "codex/wi-0189-parallel-sales-poc",
+    "agent_id": "agent-mog",
+    "base_revision": "90a5870d993c8d5b0289571fc511db2cbb4cc3d6",
+    "branch": "codex/historical-task-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-05T15:34:37.052Z",
-    "released_at": "2026-09-05T16:07:33.701Z",
-    "release_reason": [
-      "Bounded experiment stopped and report handed off; no model retry or continuation authorized."
-    ]
+    "claimed_at": "2026-09-09T13:52:20.616Z",
+    "released_at": "2026-09-09T13:52:20.895Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -107,6 +105,54 @@
       "release_reason": [
         "Bounded experiment stopped and report handed off; no model retry or continuation authorized."
       ]
+    },
+    {
+      "id": "claim-20260909135056-bc784fad",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "90a5870d993c8d5b0289571fc511db2cbb4cc3d6",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:50:56.372Z",
+      "released_at": "2026-09-09T13:50:56.927Z",
+      "release_reason": "completed"
+    },
+    {
+      "id": "claim-20260909135057-cc94c732",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "90a5870d993c8d5b0289571fc511db2cbb4cc3d6",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:50:57.238Z",
+      "released_at": "2026-09-09T13:50:57.511Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260909135057-fb807ec0",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "90a5870d993c8d5b0289571fc511db2cbb4cc3d6",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:50:57.816Z",
+      "released_at": "2026-09-09T13:50:58.087Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260909135220-c57aefbf",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "90a5870d993c8d5b0289571fc511db2cbb4cc3d6",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:52:20.616Z",
+      "released_at": "2026-09-09T13:52:20.895Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -132,6 +178,27 @@
     "developer_evidence": [
       ".ai-org/artifacts/WI-0189/handoff.md",
       ".ai-org/artifacts/WI-0189/results.json"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0189/historical-reconciliation.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0189/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/historical-task-reconciliation.md"
     ]
   },
   "evidence": [
@@ -140,12 +207,15 @@
     ".ai-org/artifacts/WI-0189/product-contract.md",
     ".ai-org/artifacts/WI-0189/handoff-001-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0189/handoff.md",
-    ".ai-org/artifacts/WI-0189/results.json"
+    ".ai-org/artifacts/WI-0189/results.json",
+    ".ai-org/artifacts/WI-0189/historical-reconciliation.md",
+    ".ai-org/artifacts/historical-task-review.md",
+    ".ai-org/artifacts/WI-0189/release-record.md"
   ],
   "unresolved": [
     "Parallel Integrator stopped at unsupported Git-log option; final Verifier unstarted. Review retained report; no retry or efficiency claim. Formal outer QA pending."
   ],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -156,5 +226,13 @@
       "created_at": "2026-09-05T16:07:33.398Z"
     }
   ],
-  "developer_candidate_revision": "90a5870d993c8d5b0289571fc511db2cbb4cc3d6"
+  "developer_candidate_revision": "90a5870d993c8d5b0289571fc511db2cbb4cc3d6",
+  "tested_revision": "90a5870d993c8d5b0289571fc511db2cbb4cc3d6",
+  "release_gate_result": "no-go",
+  "lifecycle_outcome": "inconclusive",
+  "closeout_reasons": [
+    "Parallel Integrator stopped; final Verifier never ran. Preserve incomplete comparison."
+  ],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/historical-task-reconciliation.md"
 }

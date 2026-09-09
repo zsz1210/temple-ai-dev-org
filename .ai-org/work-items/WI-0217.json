@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0217",
   "title": "Execute authorized warning-policy format comparison",
-  "state": "eval",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "concluded",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T14:50:43.593Z",
-  "updated_at": "2026-09-06T15:11:07.755Z",
+  "updated_at": "2026-09-09T13:52:27.714Z",
   "scope": [
     "Execute one fresh WI-0216 v2 protocol after independent readiness: four deliveries/eight Terra medium stages, aggregate 640000 operational Tokens/48 minutes, six-minute stage cap, 80000 stage warning; no retry/fallback/reset/purchase/refill."
   ],
@@ -40,7 +40,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "570a36ac",
+  "base_revision": "570a36acbe70ef2e4c6f435f5aa1c6d1c87e9474",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -48,18 +48,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906145245-87129f55",
+    "id": "claim-20260909135227-82e9844c",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
-    "base_revision": "570a36ac",
-    "branch": "codex/format-token-warning",
+    "agent_id": "agent-mog",
+    "base_revision": "570a36acbe70ef2e4c6f435f5aa1c6d1c87e9474",
+    "branch": "codex/historical-task-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-06T14:52:45.594Z",
-    "released_at": "2026-09-06T15:11:07.755Z",
-    "release_reason": [
-      "Stopped protocol sealed and reported; no live continuation"
-    ]
+    "claimed_at": "2026-09-09T13:52:27.441Z",
+    "released_at": "2026-09-09T13:52:27.714Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -101,6 +99,42 @@
       "release_reason": [
         "Stopped protocol sealed and reported; no live continuation"
       ]
+    },
+    {
+      "id": "claim-20260909135105-ac3d86d7",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "570a36acbe70ef2e4c6f435f5aa1c6d1c87e9474",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:51:05.946Z",
+      "released_at": "2026-09-09T13:51:06.221Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260909135106-8e4114fd",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "570a36acbe70ef2e4c6f435f5aa1c6d1c87e9474",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:51:06.534Z",
+      "released_at": "2026-09-09T13:51:06.813Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260909135227-82e9844c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "570a36acbe70ef2e4c6f435f5aa1c6d1c87e9474",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:52:27.441Z",
+      "released_at": "2026-09-09T13:52:27.714Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -127,19 +161,41 @@
       ".ai-org/artifacts/WI-0216/approval.json"
     ],
     "test_evidence": [
-      ".ai-org/artifacts/WI-0217/result-report.md"
+      ".ai-org/artifacts/WI-0217/result-report.md",
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0217/historical-reconciliation.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0217/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/historical-task-reconciliation.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0216/design.md",
     ".ai-org/artifacts/WI-0217/handoff-001-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0216/approval.json",
-    ".ai-org/artifacts/WI-0217/result-report.md"
+    ".ai-org/artifacts/WI-0217/result-report.md",
+    ".ai-org/artifacts/WI-0217/historical-reconciliation.md",
+    ".ai-org/artifacts/historical-task-review.md",
+    ".ai-org/artifacts/WI-0217/release-record.md"
   ],
   "unresolved": [
     "Comparison incomplete: stage 6 argument-shape interruption. One complete delivery per format only; exact argument unavailable in privacy-filtered evidence. No retry authorized."
   ],
-  "next_position": "independent_qa",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -150,5 +206,13 @@
       "created_at": "2026-09-06T14:52:30.124Z"
     }
   ],
-  "developer_candidate_revision": "570a36acbe70ef2e4c6f435f5aa1c6d1c87e9474"
+  "developer_candidate_revision": "570a36acbe70ef2e4c6f435f5aa1c6d1c87e9474",
+  "tested_revision": "570a36acbe70ef2e4c6f435f5aa1c6d1c87e9474",
+  "release_gate_result": "no-go",
+  "lifecycle_outcome": "inconclusive",
+  "closeout_reasons": [
+    "Stage6 interrupted by argument-shape guard; one delivery per format is not completed schedule."
+  ],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/historical-task-reconciliation.md"
 }

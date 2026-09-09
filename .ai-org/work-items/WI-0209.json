@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0209",
   "title": "Repair comparison readiness and run a new three-arm diagnostic",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "concluded",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T09:26:56.766Z",
-  "updated_at": "2026-09-06T14:37:27.380Z",
+  "updated_at": "2026-09-09T13:52:23.585Z",
   "scope": [
     "Repair instrument event diagnostics, response validation and stable evidence sealing; review complete readiness; one fresh 12-stage Terra medium experiment within 960000 observed Operational Tokens and 72 minutes, per stage 80000 and 6 minutes; no retry fallback reset purchases refill or step-5 live execution"
   ],
@@ -45,7 +45,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "62081f70cd850a103cd37a033438fa24a41dc992",
+  "base_revision": "55a2a56fb77290a6ace4aa8720e34c869973be7a",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -56,18 +56,16 @@
     "WI-0216: sequential successor owns warning-policy edits; prior evidence frozen; no active writer."
   ],
   "claim": {
-    "id": "claim-20260906104015-cfbdab50",
+    "id": "claim-20260909135223-50576c1b",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "62081f70cd850a103cd37a033438fa24a41dc992",
-    "branch": "codex/context-material-minimization",
+    "agent_id": "agent-mog",
+    "base_revision": "55a2a56fb77290a6ace4aa8720e34c869973be7a",
+    "branch": "codex/historical-task-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-06T10:40:15.203Z",
-    "released_at": "2026-09-06T10:47:01.310Z",
-    "release_reason": [
-      "Offline correction verified and handed off; original stopped comparison and remaining design work retained."
-    ]
+    "claimed_at": "2026-09-09T13:52:23.313Z",
+    "released_at": "2026-09-09T13:52:23.585Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -109,6 +107,54 @@
       "release_reason": [
         "Offline correction verified and handed off; original stopped comparison and remaining design work retained."
       ]
+    },
+    {
+      "id": "claim-20260909135100-27f5752c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "55a2a56fb77290a6ace4aa8720e34c869973be7a",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:51:00.411Z",
+      "released_at": "2026-09-09T13:51:00.968Z",
+      "release_reason": "completed"
+    },
+    {
+      "id": "claim-20260909135101-b24fb51c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "55a2a56fb77290a6ace4aa8720e34c869973be7a",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:51:01.277Z",
+      "released_at": "2026-09-09T13:51:01.548Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260909135101-a06e9297",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "55a2a56fb77290a6ace4aa8720e34c869973be7a",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:51:01.857Z",
+      "released_at": "2026-09-09T13:51:02.143Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260909135223-50576c1b",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "55a2a56fb77290a6ace4aa8720e34c869973be7a",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:52:23.313Z",
+      "released_at": "2026-09-09T13:52:23.585Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -133,6 +179,27 @@
     "developer_evidence": [
       ".ai-org/artifacts/WI-0209/continuation-report.md",
       ".ai-org/artifacts/WI-0209/continuation-independent-review.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0209/historical-reconciliation.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0209/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/historical-task-reconciliation.md"
     ]
   },
   "evidence": [
@@ -142,14 +209,17 @@
     ".ai-org/artifacts/WI-0209/independent-result-review.md",
     ".ai-org/artifacts/WI-0209/handoff-002-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0209/continuation-report.md",
-    ".ai-org/artifacts/WI-0209/continuation-independent-review.md"
+    ".ai-org/artifacts/WI-0209/continuation-independent-review.md",
+    ".ai-org/artifacts/WI-0209/historical-reconciliation.md",
+    ".ai-org/artifacts/historical-task-review.md",
+    ".ai-org/artifacts/WI-0209/release-record.md"
   ],
   "unresolved": [
     "Renewed v2 stopped at slim Verifier git-diff argument-shape; ordinary/prior complete, no completed slim or second repetitions; exact command unavailable.",
     "Original v2 seal remains invalid; independent exact in-memory reconstruction supports qualified diagnosis only. Finalization fix passed652/652 offline, not live rerun.",
     "Read-only Git trailing-separator compatibility needs bounded design; Console transient timing cause remains unknown despite subsequent full pass."
   ],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -207,5 +277,13 @@
       ]
     }
   ],
-  "developer_candidate_revision": "55a2a56fb77290a6ace4aa8720e34c869973be7a"
+  "developer_candidate_revision": "55a2a56fb77290a6ace4aa8720e34c869973be7a",
+  "tested_revision": "55a2a56fb77290a6ace4aa8720e34c869973be7a",
+  "release_gate_result": "no-go",
+  "lifecycle_outcome": "inconclusive",
+  "closeout_reasons": [
+    "Renewed cohort interrupted; offline repair and reconstruction do not replace original invalid seal."
+  ],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/historical-task-reconciliation.md"
 }
