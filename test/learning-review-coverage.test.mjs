@@ -133,6 +133,40 @@ test("concurrent explicit CLI supersession records one successor", async t => {
   assert.equal((await f.query()).items[0].record_count, 2);
 });
 
+test("actual CLI retains every Lesson ID for initial capture and successor without changing single-ID operations", async t => {
+  const f = await fixture(t);
+  for (const title of ["First bounded finding", "Second bounded finding"]) {
+    const created = run(["learning", "add-lesson", f.root, "--title", title, "--summary", "Retained evidence", "--confidence", "low"]);
+    assert.equal(created.status, 0, created.stderr);
+  }
+  const singular = run(["learning", "revalidate", f.root, "--learning-id", "LESSON-0001", "--result", "confirmed", "--json"]);
+  assert.equal(singular.status, 0, singular.stderr);
+  assert.equal(JSON.parse(singular.stdout).id, "LESSON-0001");
+  const synced = run(["learning", "sync-metadata", f.root, "--learning-id", "LESSON-0001", "--json"]);
+  assert.equal(synced.status, 0, synced.stderr);
+  const args = ["learning", "record-review", f.root, "--work-item", f.item.id, "--revision", revision, "--result", "linked-lessons", "--actor", "agent-reviewer", "--evidence", "docs/review.md", "--json"];
+  const ids = ["--learning-id", "LESSON-0002", "--learning-id", "LESSON-0001"];
+  const duplicate = run([...args, "--learning-id", "LESSON-0001", "--learning-id", "LESSON-0001"]);
+  assert.notEqual(duplicate.status, 0);
+  assert.match(duplicate.stderr, /unique Lesson IDs/);
+  const first = run([...args, ...ids]);
+  assert.equal(first.status, 0, first.stderr);
+  const original = JSON.parse(first.stdout);
+  assert.deepEqual(original.record.lessons.map(l => l.id), ["LESSON-0001", "LESSON-0002"]);
+  const retry = run([...args, ...ids]);
+  assert.equal(retry.status, 0, retry.stderr);
+  assert.equal(JSON.parse(retry.stdout).idempotent, true);
+  await f.put("docs/multi-refresh.md", "Reconsidered both bounded findings\n");
+  const nextArgs = args.map(a => a === "docs/review.md" ? "docs/multi-refresh.md" : a);
+  const next = run([...nextArgs, ...ids, "--supersedes", learningReviewDigest(original.record), "--reason", "Reviewed both linked Lessons again"]);
+  assert.equal(next.status, 0, next.stderr);
+  assert.deepEqual(JSON.parse(next.stdout).record.lessons.map(l => l.id), ["LESSON-0001", "LESSON-0002"]);
+  const queried = run(["learning", "review-status", f.root, "--work-item", f.item.id, "--json"]);
+  assert.equal(queried.status, 0, queried.stderr);
+  assert.deepEqual(JSON.parse(queried.stdout).items[0].lesson_ids, ["LESSON-0001", "LESSON-0002"]);
+  assert.equal((await f.query()).items[0].record_count, 2);
+});
+
 test("metadata sync repairs only current headers and makes linked review refresh explicit", async t => {
   const f = await fixture(t);
   const added = run(["learning", "add-lesson", f.root, "--title", "Bounded learning", "--summary", "A retained observation", "--confidence", "low"]);
