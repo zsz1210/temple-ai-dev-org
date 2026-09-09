@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import { summarizeLearningReviews } from "./learning-review.mjs";
 import path from "node:path";
 import { leanFinishAttention } from "./lean-delivery-state.mjs";
 import {
@@ -863,6 +864,8 @@ export async function runDoctor(target, options = {}) {
       ...(orphanRecords.length ? [`unindexed records: ${orphanRecords.join(", ")}`] : [])
     ];
     const summary = summarizeLearningIndex(learningIndex);
+    const reviews = await summarizeLearningReviews(target);
+    issues.push(...reviews.errors.map(error => `Learning reviews: ${error}`));
     checks.push({
       id: "engineering_learning",
       status: issues.length ? "fail" : "pass",

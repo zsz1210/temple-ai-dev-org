@@ -16,6 +16,10 @@ export const REQUIRED_PACKAGE_PATHS = [
   "package.json",
   "bin/temple.mjs",
   "src/cli.mjs",
+  "src/learning-review.mjs",
+  "project-overlay/.ai-org/core/schemas/learning-review.schema.json",
+  "project-overlay/.ai-org/templates/learning-review.json",
+  "docs/adr/0066-demand-driven-learning-review-coverage.md",
   "src/daily-delivery.mjs",
   "src/delivery-ledger.mjs",
   "src/delivery-check.mjs",
@@ -69,7 +73,8 @@ const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overl
 // WI-0268 adds only ADR-0063 to the distributable file set; runtime roots unchanged.
 // WI-0280 adds four product modules, one routed reference, the guide and ADR.
 // WI-0282 adds two product modules, one guide and one ADR.
-const MAX_FILE_COUNT = 429;
+// Demand-driven review coverage adds the four required generic files above.
+const MAX_FILE_COUNT = 433;
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {

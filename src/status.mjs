@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import { summarizeLearningReviews } from "./learning-review.mjs";
 import path from "node:path";
 import { leanFinishAttention } from "./lean-delivery-state.mjs";
 import {
@@ -432,7 +433,7 @@ export async function buildStatus(target, options = {}) {
       version: pack.version,
       skills: pack.skills ?? []
     })),
-    learning: summarizeLearningIndex(learningIndex),
+    learning: { ...summarizeLearningIndex(learningIndex), reviews: await summarizeLearningReviews(target) },
     specifications: {
       ...summarizeSpecIndex(specIndex),
       installed: specIndexInstalled,
@@ -692,6 +693,7 @@ export function renderStatusMarkdown(status) {
     `- Skill Proposals awaiting approval: ${status.learning.skill_proposals_pending}`,
     `- Deferred Skill Proposals due: ${status.learning.skill_proposal_reviews_due}`,
     `- Skill authoring Work Items created: ${status.learning.skill_authoring_created}`,
+    `- Explicit outcome reviews: ${status.learning.reviews?.recorded ?? 0}; stale: ${status.learning.reviews?.counts?.["review-required"] ?? 0}; storage issues: ${status.learning.reviews?.errors?.length ?? 0}`,
     "- Retrieval index: `.ai-org/learning/index.json`",
     ""
   );

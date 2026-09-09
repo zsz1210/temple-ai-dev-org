@@ -41,6 +41,10 @@ Learning is project-owned canonical state:
     └── SKILL-PROPOSAL-0001.json
 ```
 
+Explicit outcome reviews live separately under `reviews/WI-ID/OUTCOME_DIGEST.json`.
+They do not add entries to the Lesson/Practice index. The directory is created on
+first authorized capture; existing projects and history need no migration.
+
 The initialized project includes an empty v2 `index.json`. Record templates are available in `.ai-org/templates/lesson.md` and `.ai-org/templates/practice.md`; the record directories are created only when the project has something authorized to preserve.
 
 The machine-readable contract is `.ai-org/core/schemas/learning-index.schema.json`. `temple doctor` additionally checks ID-kind-path agreement, kind-specific states, duplicate IDs and paths, date values, and whether every indexed Markdown record exists and every record is indexed.
@@ -131,6 +135,72 @@ node ./templew.mjs learning decide-skill . \
 `learning evaluate --fixture <repository-path> --no-write --json` runs checked-in retrieval cases and reports hit rate at the case limit plus mean reciprocal rank. Evaluation measures routing; it does not validate the truth of the returned learning.
 
 ## Responsibility
+
+### Check which outcomes were reviewed
+
+Run a read-only query before choosing work to retrospect:
+
+```bash
+node ./templew.mjs learning review-status . --work-item WI-0042 --json
+node ./templew.mjs learning review-status . --json
+```
+
+| Status | Meaning |
+| --- | --- |
+| `not-reviewed` | No explicit review record; outcome evidence has not been inspected by this query |
+| `no-new-lesson` | A recorded review of this outcome found no new Lesson |
+| `linked-lessons` | A recorded review links existing Lessons, including candidates; it does not validate or promote them |
+| `review-required` | Outcome, referenced evidence, review note or linked Lesson changed |
+| `not-eligible` | The Work Item is still active |
+| `unknown` | Required revision, source or record is missing, invalid or unreadable |
+
+Capture and query validate the same consumed Work Item fields before classifying
+eligibility or absence of reviews. Unknown workflow states, invalid schema/outcome,
+non-string revisions and malformed arrays are unknown and cannot be captured.
+Absent optional legacy fields are supported; a present null array/object is invalid.
+
+First write a repository review note describing what was examined and the bounded
+conclusion. Supply the terminal Work Item's full `tested_revision` (or recorded
+Developer candidate when testing did not finish) and an active project Agent ID:
+
+```bash
+node ./templew.mjs learning record-review . --work-item WI-0042 \
+  --revision FULL_RECORDED_OUTCOME_SHA --result no-new-lesson \
+  --actor YOUR_ACTIVE_AGENT_ID --evidence docs/reviews/WI-0042.md --json
+```
+
+To link Lessons already captured with `learning add-lesson`, use
+`--result linked-lessons --learning-id LESSON-0001`; repeat `--learning-id` for more.
+The [review input worksheet](../../project-overlay/.ai-org/templates/learning-review.json)
+lists the fields; substitute them into CLI flags, rather than copying the worksheet
+into canonical storage. The CLI generates hashes, time and immutable records.
+
+Identical retries are no-write. An unchanged outcome with a different judgment,
+actor, note or Lesson content is a conflict, not an overwrite. Updated outcome
+evidence produces a new record; prior records remain. This first version has no
+correction command for an unchanged outcome: do not fabricate an outcome change
+to bypass a conflict. Restore accidentally changed source content or retain the
+stale/unknown signal until an authorized correction capability is available.
+
+The outcome digest binds scope, acceptance, unresolved issues, terminal state,
+candidate revisions and evidence references/content. Administrative timestamps and
+claims do not cause re-review. Repository evidence is read locally; normalized
+Evidence IDs bind their selected registry entry. Full Git hashes and HTTP(S) links
+are opaque references, with no Git-object or remote-content validation. Missing
+local evidence is unknown; symlinks and unsafe paths are rejected. Review coverage
+is not acceptance, proof of learning quality, or production authorization.
+
+Single-item queries avoid scanning other Work Items and unrelated Lesson bodies.
+The all-item query scans Work Item metadata and inspects evidence only for recorded
+reviews. Status reports counts for recorded items only; Doctor flags corrupt or
+unreadable review storage. With no review store, those existing commands do no
+extra Work Item scan. These operations make no model calls and never schedule a
+retrospective, create a Lesson, change lifecycle state or promote guidance.
+
+See [ADR-0066](../adr/0066-demand-driven-learning-review-coverage.md) and the
+[record schema](../../project-overlay/.ai-org/core/schemas/learning-review.schema.json).
+
+### Ownership
 
 - Any Position may propose a Lesson from evidence in its authorized work.
 - The Engineering Manager triages duplicates, missing evidence, ownership, and follow-up.

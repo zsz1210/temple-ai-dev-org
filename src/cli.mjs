@@ -46,6 +46,7 @@ import {
   planPackRemove
 } from "./packs.mjs";
 import { withProjectMutationLock } from "./project.mjs";
+import { queryLearningReviews, recordLearningReview } from "./learning-review.mjs";
 import { buildStatus, compactStatus, renderStatusMarkdown, writeStatus } from "./status.mjs";
 import { buildObserverProjection, writeObserverProjection } from "./observer.mjs";
 import {
@@ -228,6 +229,8 @@ Usage:
   temple learning add-practice [target] --title text --summary text --confidence low|medium|high --derived-from LESSON-ID --owner-position position [--tag value] [--applies-to value]
   temple learning revalidate [target] --learning-id ID --result confirmed|narrowed|contradicted [--evidence ref] [--review-after timestamp]
   temple learning list [target] [--json]
+  temple learning review-status [target] [--work-item WI-ID] [--json]
+  temple learning record-review [target] --work-item WI-ID --revision full-sha --result no-new-lesson|linked-lessons --actor agent-id --evidence repository-path [--learning-id LESSON-ID] [--json]
   temple learning skill-candidates [target] [--json]
   temple learning propose-skill [target] --learning-id PRACTICE-ID --work-item WI-ID --skill-name name --summary text --trigger text --non-trigger text --authority text --risk-class low|standard|high|critical --overlap-review text [--dependency value] [--alternative value] [--evidence ref] [--actor id] [--json]
   temple learning decide-skill [target] --proposal-id ID --decision approve|reject|defer --principal-id id --reason text [--review-after timestamp] [--json]
@@ -1827,6 +1830,25 @@ async function runMigration(parsed) {
 
 async function runLearning(parsed) {
   const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "review-status") {
+    const result = await queryLearningReviews(target, { workItemId: parsed.options["--work-item"] });
+    if (parsed.flags.has("--json")) console.log(JSON.stringify(result, null, 2));
+    else {
+      for (const item of result.items) console.log(`${item.work_item_id}\t${item.status}\t${item.lesson_ids.join(", ") || "—"}\t${item.reason}`);
+      for (const error of result.errors) console.error(error);
+    }
+    return result.errors.length ? 1 : 0;
+  }
+  if (parsed.action === "record-review") {
+    if (listOption(parsed, "--evidence").length !== 1) throw new Error("record-review requires exactly one --evidence review note");
+    const result = await withProjectMutationLock(target, () => recordLearningReview(target, {
+      workItemId: parsed.options["--work-item"], revision: parsed.options["--revision"],
+      result: parsed.options["--result"], actor: parsed.options["--actor"],
+      evidence: listOption(parsed, "--evidence")[0], learningIds: listOption(parsed, "--learning-id")
+    }));
+    printResult(parsed, result, [`${result.idempotent ? "Already recorded" : "Recorded"}: ${result.record.work_item_id} ${result.record.result}`, `Review: ${result.path}`]);
+    return 0;
+  }
   if (["add-lesson", "add-practice"].includes(parsed.action)) {
     const kind = parsed.action === "add-lesson" ? "lesson" : "practice";
     const entry = await withProjectMutationLock(target, () => addLearningEntry(target, kind, {
