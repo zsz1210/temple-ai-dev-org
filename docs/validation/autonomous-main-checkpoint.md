@@ -77,5 +77,28 @@ Chrome. The delivery-panel gate creates temporary synthetic records and exercise
 the real local API; it does not depend on historical Work Items. Validation output
 and screenshots are local artifacts, not part of the public source checkpoint.
 
-The next bounded improvement is reducing repair and requalification overhead,
-while retaining complete failure accounting. It requires its own scope and evidence.
+The delivery-panel gate waits for the mobile sidebar to finish closing before
+capture. This removes the need for the checkpoint's separate capture-only waiting
+wrapper. A navigation failure still times out; layout, API and content checks remain
+unchanged. This is a bounded evidence-quality fix, not measured model-cost savings.
+
+## Disposition of earlier research proposals
+
+After the main checkpoint, the maintainer authorized resolving the remaining four
+research merge proposals. Their original branches and observations remain available;
+closing a proposal does not mark its stopped experiment accepted or publish its local
+authority records as framework policy.
+
+| Earlier proposal | Disposition | What remains applicable |
+| --- | --- | --- |
+| [PR #74](https://github.com/zsz1210/temple-ai-dev-org/pull/74): continuity comparison design | Archive the original design-only merge proposal. Its reusable fixture and runner work has progressed into the checkpoint. | Give ordinary and Temple arms equivalent product facts and competent handoffs; distinguish stable takeover from changed requirements and Build-stage acceptance from full delivery. A future run still needs a new frozen protocol. |
+| [PR #81](https://github.com/zsz1210/temple-ai-dev-org/pull/81): stopped instruction comparison | Archive as an inconclusive historical observation. | Preserve budget-censored rows, observed lower bounds and unrun subjects. The completed ordinary row cannot establish superiority over an incomplete Temple row. |
+| [PR #82](https://github.com/zsz1210/temple-ai-dev-org/pull/82): evidence reuse and scoped Learning | Archive the project-instance merge proposal; retain its inventory and project-local Learning in the original branch. | Check historical evidence compatibility before paying for new observations. Reuse is conditional and descriptive; do not pool incompatible contracts or promote a project Practice to a framework-wide default. |
+| [PR #83](https://github.com/zsz1210/temple-ai-dev-org/pull/83): Learning loop and stopped compact trial | Archive the stopped trial and defer the automatic Learning-loop design. Later runner repairs are already covered by the checkpoint. | Retain the original instrument rejection separately from post-hoc validation. Outcome receipts, deduplication, applied-guidance tracking and automatic retrospective execution remain unimplemented proposals. |
+
+This disposition does not install a background reviewer, add a mandatory model call
+after every Work Item, activate a Practice, change Learning schemas or select a new
+default workflow. Existing [Engineering Learning](../extensions/engineering-learning.md)
+keeps its explicit validation and promotion boundaries. A future Learning feature
+must demonstrate a concrete retrieval/application gap and bounded overhead before
+implementation; the old draft's existence is not enough to restart it.
