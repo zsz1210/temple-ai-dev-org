@@ -6,6 +6,7 @@ import reviewSchema from "../project-overlay/.ai-org/core/schemas/learning-revie
 import { atomicCreate, formatJson, sha256 } from "./files.mjs";
 import { isWorkItemId } from "./ids.mjs";
 import { validateLearningIndex } from "./learning.mjs";
+import { validateEvidenceRegistry } from "./evidence.mjs";
 
 export const REVIEW_ROOT = ".ai-org/learning/reviews";
 export const REVIEW_SCHEMA = "temple.learning-review/v1";
@@ -78,6 +79,10 @@ async function outcome(root, item) {
       const registry = await json(root, ".ai-org/project/evidence.json");
       const matches = registry.entries?.filter(entry => entry.id === ref);
       if (matches?.length !== 1) throw new Error(`Missing or ambiguous Evidence ID: ${ref}`);
+      if (!validateEvidenceRegistry({ schema_version: registry.schema_version, entries: matches }).valid) throw new Error(`Invalid Evidence record: ${ref}`);
+      for (const artifact of matches[0].artifacts) {
+        if (sha256(await readFile(root, artifact.path)) !== artifact.sha256) throw new Error(`Evidence artifact digest mismatch: ${artifact.path}`);
+      }
       sources.push({ reference: ref, kind: "registry", sha256: sha256(canonical(matches[0])) });
     } else {
       const fileRef = ref.split("#")[0];

@@ -7,6 +7,7 @@ import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { recordLearningReview, queryLearningReviews, summarizeLearningReviews, validateLearningReview } from "../src/learning-review.mjs";
 import { emptyLearningIndex } from "../src/learning.mjs";
+import { sha256 } from "../src/files.mjs";
 
 const revision = "a".repeat(40);
 const cli = fileURLToPath(new URL("../bin/temple.mjs", import.meta.url));
@@ -161,13 +162,27 @@ test("CLI serializes concurrent retries and exposes compact statuses", async t =
 test("normalized Evidence IDs track just their record and never fetch external references", async t => {
   const f = await fixture(t);
   const id = "EVID-20260909T000000Z-ABCDEF12";
-  await f.put(".ai-org/project/evidence.json", { entries: [{ id, summary: "first" }] });
+  const entry = {
+    id, work_item_id: f.item.id, kind: "test", title: "Observed test", outcome: "passed",
+    scope_revision: revision, recorded_at: "2026-09-09T00:00:00Z", observed_at: "2026-09-09T00:00:00Z",
+    recorded_by: "agent-reviewer", summary: "first", adapter: { id: "fixture", version: "1" },
+    external_action_performed: false, artifacts: [{ path: "docs/result.md", sha256: sha256("Observed result\n") }], details: {},
+    expires_at: null, invalidated_at: null, invalidated_by: null, invalidation_reason: null
+  };
+  const registry = { schema_version: "temple.evidence/v1", entries: [entry] };
+  await f.put(".ai-org/project/evidence.json", registry);
   await f.put(".ai-org/work-items/WI-0001.json", { ...f.item, evidence: [id, "https://example.invalid/never-fetch", revision] });
   await recordLearningReview(f.root, f.options);
-  await f.put(".ai-org/project/evidence.json", { entries: [{ id, summary: "first" }, { id: "unrelated" }] });
+  await f.put(".ai-org/project/evidence.json", { ...registry, entries: [entry, { id: "unrelated" }] });
   assert.equal((await f.query()).items[0].status, "no-new-lesson");
-  await f.put(".ai-org/project/evidence.json", { entries: [{ id, summary: "changed" }] });
+  await f.put("docs/result.md", "Changed attachment without updated registry\n");
+  assert.equal((await f.query()).items[0].status, "unknown");
+  await assert.rejects(recordLearningReview(f.root, f.options), /digest mismatch/);
+  await f.put("docs/result.md", "Observed result\n");
+  await f.put(".ai-org/project/evidence.json", { ...registry, entries: [{ ...entry, summary: "changed" }] });
   assert.equal((await f.query()).items[0].status, "review-required");
+  await f.put(".ai-org/project/evidence.json", { ...registry, entries: [{ id }] });
+  assert.equal((await f.query()).items[0].status, "unknown");
 });
 
 test("fresh installation, Doctor and status expose review storage without changing the Learning index", async t => {
