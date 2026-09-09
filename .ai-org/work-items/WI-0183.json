@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0183",
   "title": "Design lower-overhead Lean execution after v7 comparison",
-  "state": "intake",
+  "state": "cancelled",
   "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-05T12:19:01.768Z",
-  "updated_at": "2026-09-05T12:24:02.852Z",
+  "updated_at": "2026-09-09T13:50:40.356Z",
   "scope": [
     "Draft a reviewable design for bounded stage context, composed administration and existing Lean eligibility; preserve WI-0182 evidence. Design only, no runtime code, policy activation, new model calls, merge or release."
   ],
@@ -42,7 +42,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "17f39f6",
+  "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -50,18 +50,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260905122348-1b8babfa",
+    "id": "claim-20260909135039-d42184d1",
     "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
-    "base_revision": "17f39f6",
-    "branch": "codex/wi-0183-lean-execution-design",
+    "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
+    "branch": "codex/historical-task-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-05T12:23:48.690Z",
-    "released_at": "2026-09-05T12:24:02.852Z",
-    "release_reason": [
-      "Design draft complete; removed obsolete local checkout coordinates using supported normalization. Intake review remains the next responsibility."
-    ]
+    "claimed_at": "2026-09-09T13:50:39.809Z",
+    "released_at": "2026-09-09T13:50:40.356Z",
+    "release_reason": "completed"
   },
   "claims": [
     {
@@ -91,10 +89,28 @@
       "release_reason": [
         "Design draft complete; removed obsolete local checkout coordinates using supported normalization. Intake review remains the next responsibility."
       ]
+    },
+    {
+      "id": "claim-20260909135039-d42184d1",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:50:39.809Z",
+      "released_at": "2026-09-09T13:50:40.356Z",
+      "release_reason": "completed"
     }
   ],
-  "gate_evidence": {},
-  "evidence": [],
+  "gate_evidence": {
+    "cancellation_reason": [
+      ".ai-org/artifacts/WI-0183/historical-reconciliation.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0183/historical-reconciliation.md"
+  ],
   "unresolved": [],
-  "next_position": "product_manager"
+  "next_position": null
 }

@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0212",
   "title": "Clarify product-test reruns after evidence-only edits",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T12:16:11.708Z",
-  "updated_at": "2026-09-06T14:37:28.371Z",
+  "updated_at": "2026-09-09T13:52:25.348Z",
   "scope": [
     "Change only shared delivery benchmark prompt wording and offline regressions. Require independent exact-candidate tests and reruns after relevant product changes; evidence-only writes do not trigger automatic product retesting. No model run, frozen artifact edits, workflow guard change or package release."
   ],
@@ -43,7 +43,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "24a9429c34deb9d963d273d5dccd5efce52b1f94",
+  "base_revision": "944c5527f614b2a881d814fccf260666144c77eb",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -54,18 +54,16 @@
     "WI-0216: sequential successor owns warning-policy edits; prior evidence frozen; no active writer."
   ],
   "claim": {
-    "id": "claim-20260906121640-de918c28",
+    "id": "claim-20260909135225-685188bd",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "24a9429c34deb9d963d273d5dccd5efce52b1f94",
-    "branch": "codex/evidence-only-retest-guidance",
+    "agent_id": "agent-mog",
+    "base_revision": "944c5527f614b2a881d814fccf260666144c77eb",
+    "branch": "codex/historical-task-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-06T12:16:40.452Z",
-    "released_at": "2026-09-06T12:20:49.441Z",
-    "release_reason": [
-      "Verified prompt repair handed off; source frozen."
-    ]
+    "claimed_at": "2026-09-09T13:52:25.071Z",
+    "released_at": "2026-09-09T13:52:25.348Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -93,6 +91,18 @@
       "release_reason": [
         "Verified prompt repair handed off; source frozen."
       ]
+    },
+    {
+      "id": "claim-20260909135225-685188bd",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "944c5527f614b2a881d814fccf260666144c77eb",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:52:25.071Z",
+      "released_at": "2026-09-09T13:52:25.348Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -118,22 +128,39 @@
       ".ai-org/artifacts/WI-0212/verification.md"
     ],
     "test_evidence": [
-      ".ai-org/artifacts/WI-0212/verification.md"
+      ".ai-org/artifacts/WI-0212/verification.md",
+      ".ai-org/artifacts/historical-task-review.md"
     ],
     "evaluation_report": [
-      ".ai-org/artifacts/WI-0212/verification.md"
+      ".ai-org/artifacts/WI-0212/verification.md",
+      ".ai-org/artifacts/historical-task-review.md"
     ],
     "independent_qa_pass": [
       ".ai-org/artifacts/WI-0212/verification.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0212/historical-reconciliation.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0212/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/historical-task-reconciliation.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0212/design.md",
     ".ai-org/artifacts/WI-0212/handoff-001-developer-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0212/verification.md"
+    ".ai-org/artifacts/WI-0212/verification.md",
+    ".ai-org/artifacts/WI-0212/release-record.md",
+    ".ai-org/artifacts/WI-0212/historical-reconciliation.md",
+    ".ai-org/artifacts/historical-task-review.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -144,5 +171,11 @@
       "created_at": "2026-09-06T12:20:49.137Z"
     }
   ],
-  "developer_candidate_revision": "944c5527f614b2a881d814fccf260666144c77eb"
+  "developer_candidate_revision": "944c5527f614b2a881d814fccf260666144c77eb",
+  "tested_revision": "944c5527f614b2a881d814fccf260666144c77eb",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/historical-task-reconciliation.md"
 }

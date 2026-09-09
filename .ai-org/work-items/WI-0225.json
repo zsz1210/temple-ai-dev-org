@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0225",
   "title": "Design proportionate small-task delivery and reliable evaluation",
-  "state": "design",
-  "owner_position": "tech_lead",
-  "assigned_agent_id": "agent-tidus",
+  "state": "cancelled",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-07T01:32:28.524Z",
-  "updated_at": "2026-09-07T02:37:32.862Z",
+  "updated_at": "2026-09-09T13:50:45.572Z",
   "scope": [
     "Design only: reduce bounded Lean task overhead and specify offline-first experiment reliability; no runtime changes, model runs, policy adoption, release or publication."
   ],
@@ -42,7 +42,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "f56b8512",
+  "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -52,18 +52,16 @@
     "WI-0211 has released its claim. WI-0225 writes only its new design artifacts; prior integration source and evidence remain unchanged."
   ],
   "claim": {
-    "id": "claim-20260907023313-91a7582b",
+    "id": "claim-20260909135045-6322fe4a",
     "status": "released",
     "principal_id": "human",
     "agent_id": "agent-tidus",
-    "base_revision": "f56b8512",
-    "branch": "codex/small-task-lean-design",
+    "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
+    "branch": "codex/historical-task-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-07T02:33:13.530Z",
-    "released_at": "2026-09-07T02:37:32.862Z",
-    "release_reason": [
-      "Bounded composition audit and updated design handoff complete; formal contract implementation remains separate."
-    ]
+    "claimed_at": "2026-09-09T13:50:45.297Z",
+    "released_at": "2026-09-09T13:50:45.572Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -117,6 +115,18 @@
       "release_reason": [
         "Bounded composition audit and updated design handoff complete; formal contract implementation remains separate."
       ]
+    },
+    {
+      "id": "claim-20260909135045-6322fe4a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:50:45.297Z",
+      "released_at": "2026-09-09T13:50:45.572Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -128,19 +138,23 @@
     ],
     "acceptance_criteria": [
       ".ai-org/artifacts/WI-0225/design.md"
+    ],
+    "cancellation_reason": [
+      ".ai-org/artifacts/WI-0225/historical-reconciliation.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0225/design.md",
     ".ai-org/artifacts/WI-0225/handoff-001-tech_lead-to-developer.md",
     ".ai-org/artifacts/WI-0225/handoff-002-tech_lead-to-developer.md",
-    ".ai-org/artifacts/WI-0225/composition-audit.md"
+    ".ai-org/artifacts/WI-0225/composition-audit.md",
+    ".ai-org/artifacts/WI-0225/historical-reconciliation.md"
   ],
   "unresolved": [
     "Design ready for maintainer review. Recommended first slice keeps a distinct Verifier; the mechanical single-Agent exception remains a separate unapproved proposal. Implementation and a future finite live protocol are not authorized by this design.",
     "WI-0226 operation-module prototype was withdrawn; use the follow-up obligation map rather than implementing that rejected split. No instruction change or live-model run has been performed by this design follow-up."
   ],
-  "next_position": "developer",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "tech_lead",

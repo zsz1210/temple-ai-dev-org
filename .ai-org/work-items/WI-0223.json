@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0223",
   "title": "Design diagnostic Full versus Model comparison",
-  "state": "design",
-  "owner_position": "tech_lead",
-  "assigned_agent_id": "agent-tidus",
+  "state": "cancelled",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T23:43:14.466Z",
-  "updated_at": "2026-09-06T23:54:02.908Z",
+  "updated_at": "2026-09-09T13:50:44.992Z",
   "scope": [
     "Design-only successor comparison using merged bounded observations; no live runs, harness changes, defaults or sealed-lab writes."
   ],
@@ -42,7 +42,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "5407bdf983798773074e259fa02b0c81e60b0643",
+  "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -50,18 +50,16 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906235327-955d067b",
+    "id": "claim-20260909135044-d266d60e",
     "status": "released",
     "principal_id": "human",
     "agent_id": "agent-tidus",
-    "base_revision": "5407bdf983798773074e259fa02b0c81e60b0643",
-    "branch": "codex/diagnostic-comparison-design",
+    "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
+    "branch": "codex/historical-task-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-06T23:53:27.376Z",
-    "released_at": "2026-09-06T23:54:02.908Z",
-    "release_reason": [
-      "Conditional human execution authorization recorded; implementation remains WI-0224."
-    ]
+    "claimed_at": "2026-09-09T13:50:44.720Z",
+    "released_at": "2026-09-09T13:50:44.992Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -103,6 +101,18 @@
       "release_reason": [
         "Conditional human execution authorization recorded; implementation remains WI-0224."
       ]
+    },
+    {
+      "id": "claim-20260909135044-d266d60e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:50:44.720Z",
+      "released_at": "2026-09-09T13:50:44.992Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -114,14 +124,18 @@
     ],
     "acceptance_criteria": [
       ".ai-org/artifacts/WI-0223/design.md"
+    ],
+    "cancellation_reason": [
+      ".ai-org/artifacts/WI-0223/historical-reconciliation.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0223/design.md",
-    ".ai-org/artifacts/WI-0223/handoff-001-tech_lead-to-developer.md"
+    ".ai-org/artifacts/WI-0223/handoff-001-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0223/historical-reconciliation.md"
   ],
   "unresolved": [],
-  "next_position": "developer",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "tech_lead",

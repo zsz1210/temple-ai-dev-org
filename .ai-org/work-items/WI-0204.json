@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0204",
   "title": "Separate root delegation from leaf instructions and cancellation state",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "cancelled",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T06:36:41.585Z",
-  "updated_at": "2026-09-06T06:40:46.494Z",
+  "updated_at": "2026-09-09T13:50:42.980Z",
   "scope": [
     "Repair inherited delegation instructions and interrupted terminal accounting without another live model run. Preserve sealed WI-0202 evidence."
   ],
@@ -43,7 +43,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "HEAD",
+  "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -51,15 +51,15 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260906063711-46078472",
+    "id": "claim-20260909135042-e67e3646",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "HEAD",
-    "branch": "codex/wi-0191-proportionate-evaluation",
+    "agent_id": "agent-lulu",
+    "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
+    "branch": "codex/historical-task-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-06T06:37:11.904Z",
-    "released_at": "2026-09-06T06:40:46.494Z",
+    "claimed_at": "2026-09-09T13:50:42.707Z",
+    "released_at": "2026-09-09T13:50:42.980Z",
     "release_reason": "position_transition"
   },
   "claims": [
@@ -73,6 +73,18 @@
       "worktree": null,
       "claimed_at": "2026-09-06T06:37:11.904Z",
       "released_at": "2026-09-06T06:40:46.494Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260909135042-e67e3646",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "2d8b785e57c994586e6bd0ba46f5411137b1237f",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:50:42.707Z",
+      "released_at": "2026-09-09T13:50:42.980Z",
       "release_reason": "position_transition"
     }
   ],
@@ -101,16 +113,20 @@
     ],
     "developer_evidence": [
       ".ai-org/artifacts/WI-0204/test-report.md"
+    ],
+    "cancellation_reason": [
+      ".ai-org/artifacts/WI-0204/historical-reconciliation.md"
     ]
   },
   "evidence": [
     ".ai-org/work-items/WI-0204.json",
     ".ai-org/artifacts/WI-0202/live-report.md",
     ".ai-org/artifacts/WI-0204/handoff-001-developer-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0204/test-report.md"
+    ".ai-org/artifacts/WI-0204/test-report.md",
+    ".ai-org/artifacts/WI-0204/historical-reconciliation.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",

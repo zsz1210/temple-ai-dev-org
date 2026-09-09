@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0208",
   "title": "Measure three-arm context minimization and design continuity scenarios",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "concluded",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T08:54:33.689Z",
-  "updated_at": "2026-09-06T15:18:44.049Z",
+  "updated_at": "2026-09-09T13:52:23.002Z",
   "scope": [
     "Approved step 4: twelve Terra medium actor stages, 960000 operational tokens and 72 minutes maximum; step 5 design only pending results; no purchases/refill/reset/retry/fallback"
   ],
@@ -45,7 +45,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "cd485a011328734e80fc0d0a7f8f9a2e06203b41",
+  "base_revision": "5f0195114c76f0ffbd0ccdd1cb61f42df2c249da",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -57,18 +57,16 @@
     "WI-0218: no active writer; diagnostic-only successor owns edits; previous samples frozen."
   ],
   "claim": {
-    "id": "claim-20260906085644-99a2e087",
+    "id": "claim-20260909135222-23c6f4df",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
-    "base_revision": "cd485a011328734e80fc0d0a7f8f9a2e06203b41",
-    "branch": "codex/context-material-minimization",
+    "agent_id": "agent-mog",
+    "base_revision": "5f0195114c76f0ffbd0ccdd1cb61f42df2c249da",
+    "branch": "codex/historical-task-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-06T08:56:44.434Z",
-    "released_at": "2026-09-06T09:24:20.443Z",
-    "release_reason": [
-      "Approved attempt stopped and evidence retained; no retry or further model run authorized."
-    ]
+    "claimed_at": "2026-09-09T13:52:22.729Z",
+    "released_at": "2026-09-09T13:52:23.002Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -96,6 +94,66 @@
       "release_reason": [
         "Approved attempt stopped and evidence retained; no retry or further model run authorized."
       ]
+    },
+    {
+      "id": "claim-20260909135043-65a78f6e",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "5f0195114c76f0ffbd0ccdd1cb61f42df2c249da",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:50:43.287Z",
+      "released_at": "2026-09-09T13:50:43.559Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260909135058-bc38af18",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "5f0195114c76f0ffbd0ccdd1cb61f42df2c249da",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:50:58.390Z",
+      "released_at": "2026-09-09T13:50:58.941Z",
+      "release_reason": "completed"
+    },
+    {
+      "id": "claim-20260909135059-a99cce30",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "5f0195114c76f0ffbd0ccdd1cb61f42df2c249da",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:50:59.249Z",
+      "released_at": "2026-09-09T13:50:59.519Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260909135059-36259043",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "5f0195114c76f0ffbd0ccdd1cb61f42df2c249da",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:50:59.827Z",
+      "released_at": "2026-09-09T13:51:00.101Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260909135222-23c6f4df",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "5f0195114c76f0ffbd0ccdd1cb61f42df2c249da",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:52:22.729Z",
+      "released_at": "2026-09-09T13:52:23.002Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -121,6 +179,27 @@
       ".ai-org/artifacts/WI-0208/report.md",
       ".ai-org/artifacts/WI-0208/independent-result-review.md",
       ".ai-org/artifacts/WI-0208/step-5-design.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0208/historical-reconciliation.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0208/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/historical-task-reconciliation.md"
     ]
   },
   "evidence": [
@@ -128,12 +207,15 @@
     ".ai-org/artifacts/WI-0208/handoff-001-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0208/report.md",
     ".ai-org/artifacts/WI-0208/independent-result-review.md",
-    ".ai-org/artifacts/WI-0208/step-5-design.md"
+    ".ai-org/artifacts/WI-0208/step-5-design.md",
+    ".ai-org/artifacts/WI-0208/historical-reconciliation.md",
+    ".ai-org/artifacts/historical-task-review.md",
+    ".ai-org/artifacts/WI-0208/release-record.md"
   ],
   "unresolved": [
     "Approved comparison stopped after 3 attempted stages; no slim measurements; forbidden item type unavailable and whole-lab seal mismatch unresolved. No retry authority remains."
   ],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -144,5 +226,13 @@
       "created_at": "2026-09-06T09:24:38.077Z"
     }
   ],
-  "developer_candidate_revision": "5f0195114c76f0ffbd0ccdd1cb61f42df2c249da"
+  "developer_candidate_revision": "5f0195114c76f0ffbd0ccdd1cb61f42df2c249da",
+  "tested_revision": "5f0195114c76f0ffbd0ccdd1cb61f42df2c249da",
+  "release_gate_result": "no-go",
+  "lifecycle_outcome": "inconclusive",
+  "closeout_reasons": [
+    "Three stages attempted; slim missing and original lab seal mismatch retained."
+  ],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/historical-task-reconciliation.md"
 }

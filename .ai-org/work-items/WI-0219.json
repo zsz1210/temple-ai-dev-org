@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0219",
   "title": "Reproduce context argument failures through the installed CLI",
-  "state": "eval",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-06T15:34:39.040Z",
-  "updated_at": "2026-09-06T17:02:07.816Z",
+  "updated_at": "2026-09-09T13:52:28.895Z",
   "scope": [
     "Build local generated-prompt to shell to CLI compatibility tests for both positions and formats; distinguish synthetic reproductions from unknown historical failure; produce next comparison plan without live model calls."
   ],
@@ -42,10 +42,10 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "2aef01bd",
+  "base_revision": "ba3bcc60f3836f4daa9ab3979149eee528acd541",
   "parallel_mode": "pending",
   "integration_owner_agent_id": "agent-mog",
-  "planned_agent_id": "agent-lulu",
+  "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [
@@ -54,18 +54,16 @@
     "WI-0213: no active writer; test-only successor; earlier evidence frozen."
   ],
   "claim": {
-    "id": "claim-20260906165739-65541f64",
+    "id": "claim-20260909135228-aab8a8ee",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-lulu",
-    "base_revision": "2aef01bd",
-    "branch": "codex/context-command-e2e",
+    "agent_id": "agent-mog",
+    "base_revision": "ba3bcc60f3836f4daa9ab3979149eee528acd541",
+    "branch": "codex/historical-task-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-06T16:57:39.588Z",
-    "released_at": "2026-09-06T17:02:07.816Z",
-    "release_reason": [
-      "Fresh readiness passed; execution claim remains WI0220 only"
-    ]
+    "claimed_at": "2026-09-09T13:52:28.619Z",
+    "released_at": "2026-09-09T13:52:28.895Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -109,6 +107,42 @@
       "release_reason": [
         "Fresh readiness passed; execution claim remains WI0220 only"
       ]
+    },
+    {
+      "id": "claim-20260909135108-69fd9747",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "ba3bcc60f3836f4daa9ab3979149eee528acd541",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:51:08.293Z",
+      "released_at": "2026-09-09T13:51:08.569Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260909135108-2fff0389",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "base_revision": "ba3bcc60f3836f4daa9ab3979149eee528acd541",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:51:08.878Z",
+      "released_at": "2026-09-09T13:51:09.149Z",
+      "release_reason": "position_transition"
+    },
+    {
+      "id": "claim-20260909135228-aab8a8ee",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "ba3bcc60f3836f4daa9ab3979149eee528acd541",
+      "branch": "codex/historical-task-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-09T13:52:28.619Z",
+      "released_at": "2026-09-09T13:52:28.895Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -135,17 +169,39 @@
     ],
     "test_evidence": [
       ".ai-org/artifacts/WI-0219/review.md",
-      ".ai-org/artifacts/WI-0219/verification.md"
+      ".ai-org/artifacts/WI-0219/verification.md",
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0219/historical-reconciliation.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/historical-task-review.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0219/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/historical-task-reconciliation.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0219/design.md",
     ".ai-org/artifacts/WI-0219/handoff-001-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0219/verification.md",
-    ".ai-org/artifacts/WI-0219/review.md"
+    ".ai-org/artifacts/WI-0219/review.md",
+    ".ai-org/artifacts/WI-0219/historical-reconciliation.md",
+    ".ai-org/artifacts/historical-task-review.md",
+    ".ai-org/artifacts/WI-0219/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "independent_qa",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -156,5 +212,11 @@
       "created_at": "2026-09-06T15:39:12.354Z"
     }
   ],
-  "developer_candidate_revision": "ba3bcc60f3836f4daa9ab3979149eee528acd541"
+  "developer_candidate_revision": "ba3bcc60f3836f4daa9ab3979149eee528acd541",
+  "tested_revision": "ba3bcc60f3836f4daa9ab3979149eee528acd541",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/historical-task-reconciliation.md"
 }
