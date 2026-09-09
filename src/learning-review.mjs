@@ -21,6 +21,7 @@ const schemaCheck = ajv.compile(reviewSchema);
 const strings = value => Array.isArray(value) && value.every(v => typeof v === "string" && v.trim().length > 0) && new Set(value).size === value.length;
 const plain = value => value !== null && typeof value === "object" && !Array.isArray(value);
 const canonical = value => JSON.stringify(sortObject(value));
+export const learningReviewDigest = record => sha256(canonical(record));
 function sortObject(value) {
   if (Array.isArray(value)) return value.map(sortObject);
   if (!plain(value)) return value;
@@ -121,10 +122,11 @@ function validFingerprint(value) {
 }
 export function validateLearningReview(record) {
   if (!schemaCheck(record)) return { valid: false, errors: schemaCheck.errors.map(e => `${e.instancePath} ${e.message}`) };
-  const keys = ["schema_version", "work_item_id", "outcome_digest", "outcome", "result", "actor", "reviewed_at", "review_note", "lessons"];
+  const keys = ["schema_version", "work_item_id", "outcome_digest", "outcome", "result", "actor", "reviewed_at", "review_note", "lessons", ...(record.schema_version === "temple.learning-review/v2" ? ["supersedes", "reason"] : [])];
   const errors = [];
   if (!plain(record) || Object.keys(record).some(key => !keys.includes(key)) || keys.some(key => !Object.hasOwn(record, key))) return { valid: false, errors: ["Invalid review record fields"] };
-  if (record.schema_version !== REVIEW_SCHEMA || !isWorkItemId(record.work_item_id) || !HASH.test(record.outcome_digest ?? "")) errors.push("Invalid review identity");
+  if (![REVIEW_SCHEMA, "temple.learning-review/v2"].includes(record.schema_version) || !isWorkItemId(record.work_item_id) || !HASH.test(record.outcome_digest ?? "")) errors.push("Invalid review identity");
+  if (record.schema_version === "temple.learning-review/v2" && (!HASH.test(record.supersedes ?? "") || typeof record.reason !== "string" || !record.reason.trim())) errors.push("Invalid supersession provenance");
   const o = record.outcome;
   if (!plain(o) || o.work_item_id !== record.work_item_id || !TERMINAL.has(o.state) || !SHA.test(o.revision ?? "") || ![o.scope, o.acceptance_criteria, o.unresolved, o.evidence].every(strings) || !plain(o.gate_evidence) || !Object.values(o.gate_evidence ?? {}).every(strings) || !Array.isArray(o.sources) || sha256(canonical(o)) !== record.outcome_digest) errors.push("Invalid outcome snapshot/digest");
   if (!["no-new-lesson", "linked-lessons"].includes(record.result) || typeof record.actor !== "string" || !record.actor.trim() || typeof record.reviewed_at !== "string" || Number.isNaN(Date.parse(record.reviewed_at))) errors.push("Invalid review judgment/provenance");
@@ -139,13 +141,32 @@ async function recordsFor(root, id) {
   const entries = await directory(root, ref);
   const records = [];
   for (const entry of entries.sort((a, b) => a.name.localeCompare(b.name))) {
-    if (!entry.isFile() || !/^[a-f0-9]{64}\.json$/.test(entry.name)) throw new Error(`Unexpected review entry: ${ref}/${entry.name}`);
+    if (!entry.isFile() || !/^[a-f0-9]{64}(?:\.[a-f0-9]{64})?\.json$/.test(entry.name)) throw new Error(`Unexpected review entry: ${ref}/${entry.name}`);
     const record = await json(root, `${ref}/${entry.name}`);
     const validation = validateLearningReview(record);
-    if (!validation.valid || record.work_item_id !== id || `${record.outcome_digest}.json` !== entry.name) throw new Error(`Invalid review record: ${ref}/${entry.name}: ${validation.errors.join("; ")}`);
+    if (!validation.valid || record.work_item_id !== id || reviewFilename(record) !== entry.name) throw new Error(`Invalid review record: ${ref}/${entry.name}: ${validation.errors.join("; ")}`);
     records.push(record);
   }
-  return records;
+  const ordered = [], children = new Map(), byDigest = new Map(records.map(r => [learningReviewDigest(r), r]));
+  for (const record of records.filter(r => r.supersedes)) {
+    const parent = byDigest.get(record.supersedes);
+    if (!parent || parent.outcome_digest !== record.outcome_digest || children.has(record.supersedes)) throw new Error("Broken or forked review history");
+    children.set(record.supersedes, record);
+  }
+  for (const rootRecord of records.filter(r => !r.supersedes)) {
+    let record = rootRecord;
+    while (record) {
+      if (ordered.includes(record)) throw new Error("Cyclic review history");
+      ordered.push(record);
+      record = children.get(learningReviewDigest(record));
+    }
+  }
+  if (ordered.length !== records.length) throw new Error("Unrooted review history");
+  return ordered;
+}
+
+function reviewFilename(record) {
+  return `${record.outcome_digest}${record.supersedes ? `.${learningReviewDigest(record)}` : ""}.json`;
 }
 
 async function lessonLinks(root, ids) {
@@ -163,6 +184,9 @@ async function lessonLinks(root, ids) {
 }
 
 export async function recordLearningReview(root, options) {
+  const replacing = options.supersedes !== undefined;
+  if (replacing && (typeof options.supersedes !== "string" || !HASH.test(options.supersedes) || typeof options.reason !== "string" || !options.reason.trim())) throw new Error("Supersession requires a full review digest and nonempty --reason");
+  if (!replacing && options.reason !== undefined) throw new Error("--reason requires --supersedes");
   const id = options.workItemId;
   if (!isWorkItemId(id)) throw new Error("Valid --work-item is required");
   const item = await reviewableSource(root, id);
@@ -171,18 +195,27 @@ export async function recordLearningReview(root, options) {
   const agents = await json(root, ".ai-org/project/agents.json");
   if (!agents.agents?.some(agent => agent.id === options.actor && agent.active === true)) throw new Error("Review requires an active --actor Agent Identity");
   const record = {
-    schema_version: REVIEW_SCHEMA, work_item_id: id, outcome_digest: current.digest, outcome: current.snapshot,
+    schema_version: replacing ? "temple.learning-review/v2" : REVIEW_SCHEMA, work_item_id: id, outcome_digest: current.digest, outcome: current.snapshot,
     result: options.result, actor: options.actor, reviewed_at: new Date().toISOString(),
-    review_note: await fingerprint(root, options.evidence), lessons: await lessonLinks(root, options.learningIds ?? [])
+    review_note: await fingerprint(root, options.evidence), lessons: await lessonLinks(root, options.learningIds ?? []),
+    ...(replacing ? { supersedes: options.supersedes, reason: options.reason.trim() } : {})
   };
   const validation = validateLearningReview(record);
   if (!validation.valid) throw new Error(validation.errors.join("; "));
-  const previous = (await recordsFor(root, id)).find(r => r.outcome_digest === current.digest);
-  const ref = `${REVIEW_ROOT}/${id}/${current.digest}.json`;
+  const records = (await recordsFor(root, id)).filter(r => r.outcome_digest === current.digest);
+  const previous = records.at(-1);
+  const ref = `${REVIEW_ROOT}/${id}/${reviewFilename(record)}`;
+  const content = r => canonical({ result: r.result, actor: r.actor, review_note: r.review_note, lessons: r.lessons, ...(replacing ? { supersedes: r.supersedes, reason: r.reason } : {}) });
+  if (replacing) {
+    if (previous?.supersedes === options.supersedes && content(previous) === content(record)) return { record: previous, path: `${REVIEW_ROOT}/${id}/${reviewFilename(previous)}`, idempotent: true };
+    if (!previous || learningReviewDigest(previous) !== options.supersedes) throw new Error("Stale supersession: expected current review digest for this outcome");
+    if (previous.review_note.path === record.review_note.path) throw new Error("Supersession requires a new review note path; preserve the prior note");
+    await atomicCreate(await safePath(root, ref), formatJson(record));
+    return { record, path: ref, idempotent: false };
+  }
   if (previous) {
-    const content = r => canonical({ result: r.result, actor: r.actor, review_note: r.review_note, lessons: r.lessons });
     if (content(previous) !== content(record)) throw new Error("Review conflict: an immutable judgment already exists for this outcome");
-    return { record: previous, path: ref, idempotent: true };
+    return { record: previous, path: `${REVIEW_ROOT}/${id}/${reviewFilename(previous)}`, idempotent: true };
   }
   await atomicCreate(await safePath(root, ref), formatJson(record));
   return { record, path: ref, idempotent: false };
@@ -199,8 +232,9 @@ async function statusFor(root, id) {
     if (!records.length) return { ...base, status: "not-reviewed", reason: "No review recorded; evidence has not been inspected" };
     const current = await outcome(root, item);
     base.outcome_digest = current.digest;
-    const record = records.find(r => r.outcome_digest === current.digest);
+    const record = records.filter(r => r.outcome_digest === current.digest).at(-1);
     if (!record) return { ...base, status: "review-required", reason: "Outcome or its evidence changed" };
+    base.review_digest = learningReviewDigest(record);
     const note = await fingerprint(root, record.review_note.path);
     const lessons = await lessonLinks(root, record.lessons.map(l => l.id));
     if (canonical(note) !== canonical(record.review_note) || canonical(lessons) !== canonical(record.lessons)) return { ...base, status: "review-required", reason: "Review note or linked Lesson changed" };
@@ -208,7 +242,8 @@ async function statusFor(root, id) {
   } catch (error) { return { ...base, reason: error.message }; }
 }
 
-export async function queryLearningReviews(root, { workItemId } = {}) {
+export async function queryLearningReviews(root, { workItemId, compact = false } = {}) {
+  if (typeof compact !== "boolean") throw new Error("compact must be boolean");
   if (workItemId !== undefined && !isWorkItemId(workItemId)) throw new Error("Invalid Work Item ID");
   const ids = new Set();
   const errors = [];
@@ -227,7 +262,7 @@ export async function queryLearningReviews(root, { workItemId } = {}) {
   const items = [];
   for (const id of [...ids].sort()) items.push(await statusFor(root, id));
   const counts = Object.fromEntries(["not-reviewed", "no-new-lesson", "linked-lessons", "review-required", "not-eligible", "unknown"].map(status => [status, items.filter(i => i.status === status).length]));
-  return { schema_version: "temple.learning-review-status/v1", items, counts, errors, model_calls_performed: 0, mutation_performed: false };
+  return { schema_version: "temple.learning-review-status/v1", ...(compact ? { projection: "counts-only", total: items.length, ...(workItemId ? { work_item_id: workItemId } : {}) } : { items }), counts, errors, model_calls_performed: 0, mutation_performed: false };
 }
 
 // Existing projects pay no Work Item/evidence scan when the optional store is absent.

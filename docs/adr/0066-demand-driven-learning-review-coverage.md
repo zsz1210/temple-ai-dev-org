@@ -29,8 +29,9 @@ Review files are immutable project-owned records below
 `.ai-org/learning/reviews/WI-ID/OUTCOME_DIGEST.json`. Identical retries are no-write;
 conflicting judgments for an unchanged outcome fail instead of replacing history.
 A changed review note or Lesson makes the prior review stale; restoring the original
-content restores its coverage. A correction requiring a new judgment must first
-have a genuinely updated outcome/evidence; this version has no correction command.
+content restores its coverage. The initial v1 implementation has no correction
+command. The compatible explicit supersession extension below adds that operation
+without changing the existing v1 files or weakening their fingerprints.
 
 Single-item queries read only the named Work Item, its review records and relevant
 evidence/Lesson references. All-item queries scan Work Item metadata, then only
@@ -49,3 +50,39 @@ No semantic retrieval dependency is justified by this feature. Test idempotency,
 outcome and evidence changes, malformed input, unsafe storage, concurrency,
 no-write queries and existing-data preservation. Independent QA must validate the
 exact candidate. Existing Learning validation/promotion boundaries remain intact.
+
+## Accepted extension: compact views and explicit review refresh, 2026-09-10
+
+The three-task pilot found oversized all-item output, stale current metadata in
+Learning document headers, and no way to reconsider a review after correcting that
+presentation. Add opt-in counts-only review queries and recorded-review counts in
+compact Status. Preserve existing verbose defaults and unknown/error signals.
+
+`learning sync-metadata` copies current Status and Last validated fields from the
+valid index into one explicitly named document's unique metadata header. It does
+not change the index, narrative, validation history, or assert new validation.
+Revalidation updates those same current fields as part of its existing operation.
+Header synchronization is idempotent and rejects ambiguous headers and symlinks.
+Changing linked document bytes still makes existing reviews stale.
+
+An explicitly reconsidered same-outcome review may append a v2 record using
+`record-review --supersedes REVIEW_DIGEST --reason TEXT`, a new note path and the
+current outcome revision. Its predecessor must be the current chain tip for that
+exact outcome. A successor file is named `OUTCOME_DIGEST.REVIEW_DIGEST.json`, where
+the latter digest hashes canonical sorted-key JSON of the complete record. V1
+roots keep their original names and bytes. V2 records add only the predecessor
+digest and nonempty reason; they retain all current actor, note, Lesson and outcome
+validation. The query exposes the current `review_digest`, including when its
+linked metadata is stale, so the caller can explicitly reconsider that version.
+
+Select the current review by its validated predecessor chain, not timestamps.
+Missing parents, forks and malformed files are unknown and reject writes. Stale
+predecessor requests fail; an identical retry of the current successor is no-write.
+Ordinary conflicting writes remain rejected. Writes use the existing CLI mutation
+lock; history is append-only but not cryptographically tamper-proof storage.
+Old clients reject v2 records rather than silently treating the v1 root as current;
+do not downgrade a project containing successors without a compatibility plan.
+
+This does not automatically re-review changed documents, rewrite historical
+outcomes, create Lessons, promote guidance or schedule model calls. An explicit
+refresh records a new judgment; it does not prove the judgment is correct.

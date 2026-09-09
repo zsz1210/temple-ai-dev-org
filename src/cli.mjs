@@ -76,7 +76,8 @@ import {
   listSkillPromotionCandidates,
   migrateLearningIndex,
   proposeSkillFromLearning,
-  revalidateLearningEntry
+  revalidateLearningEntry,
+  syncLearningMetadata
 } from "./learning.mjs";
 import { evaluateRetrieval, readRetrievalConfig } from "./retrieval.mjs";
 import { evaluatePolicy } from "./policy-evaluation.mjs";
@@ -229,8 +230,9 @@ Usage:
   temple learning add-practice [target] --title text --summary text --confidence low|medium|high --derived-from LESSON-ID --owner-position position [--tag value] [--applies-to value]
   temple learning revalidate [target] --learning-id ID --result confirmed|narrowed|contradicted [--evidence ref] [--review-after timestamp]
   temple learning list [target] [--json]
-  temple learning review-status [target] [--work-item WI-ID] [--json]
-  temple learning record-review [target] --work-item WI-ID --revision full-sha --result no-new-lesson|linked-lessons --actor agent-id --evidence repository-path [--learning-id LESSON-ID] [--json]
+  temple learning review-status [target] [--work-item WI-ID] [--compact] [--json]
+  temple learning record-review [target] --work-item WI-ID --revision full-sha --result no-new-lesson|linked-lessons --actor agent-id --evidence repository-path [--learning-id LESSON-ID] [--supersedes review-digest --reason text] [--json]
+  temple learning sync-metadata [target] --learning-id ID [--dry-run] [--json]
   temple learning skill-candidates [target] [--json]
   temple learning propose-skill [target] --learning-id PRACTICE-ID --work-item WI-ID --skill-name name --summary text --trigger text --non-trigger text --authority text --risk-class low|standard|high|critical --overlap-review text [--dependency value] [--alternative value] [--evidence ref] [--actor id] [--json]
   temple learning decide-skill [target] --proposal-id ID --decision approve|reject|defer --principal-id id --reason text [--review-after timestamp] [--json]
@@ -350,6 +352,7 @@ const BOOLEAN_FLAGS = new Set([
   "--confirm-normalization"
 ]);
 const VALUE_FLAGS = new Set([
+  "--supersedes",
   "--available-whole-sources",
   "--judgment", "--test-evidence", "--lean-closeout",
   "--config",
@@ -592,7 +595,8 @@ function parseCommand(argv) {
       const value = argv[index + 1];
       if (!value || value.startsWith("--")) throw new Error(`${token} requires a value`);
       if (command === "context" && action === "enter" && Object.hasOwn(options, token)) throw new OperationError("INVALID_INPUT", `Context enter option may appear only once: ${token}`);
-      if (REPEATABLE_FLAGS.has(token)) options[token] = [...(options[token] ?? []), value];
+      if (command === "learning" && token === "--learning-id" && action !== "record-review" && Object.hasOwn(options, token)) throw new Error("This Learning operation accepts exactly one --learning-id");
+      if (REPEATABLE_FLAGS.has(token) || command === "learning" && action === "record-review" && token === "--learning-id") options[token] = [...(options[token] ?? []), value];
       else options[token] = value;
       index += 1;
     } else if (token.startsWith("--")) {
@@ -1831,22 +1835,35 @@ async function runMigration(parsed) {
 async function runLearning(parsed) {
   const target = await assertSafeTarget(parsed.target);
   if (parsed.action === "review-status") {
-    const result = await queryLearningReviews(target, { workItemId: parsed.options["--work-item"] });
+    assertCommandOptions(parsed, ["--work-item"], ["--json", "--compact"]);
+    const result = await queryLearningReviews(target, { workItemId: parsed.options["--work-item"], compact: parsed.flags.has("--compact") });
     if (parsed.flags.has("--json")) console.log(JSON.stringify(result, null, 2));
     else {
-      for (const item of result.items) console.log(`${item.work_item_id}\t${item.status}\t${item.lesson_ids.join(", ") || "—"}\t${item.reason}`);
+      if (result.items) for (const item of result.items) console.log(`${item.work_item_id}\t${item.status}\t${item.lesson_ids.join(", ") || "—"}\t${item.reason}`);
+      else for (const [status, count] of Object.entries(result.counts)) console.log(`${status}\t${count}`);
       for (const error of result.errors) console.error(error);
     }
     return result.errors.length ? 1 : 0;
   }
   if (parsed.action === "record-review") {
+    assertCommandOptions(parsed, ["--work-item", "--revision", "--result", "--actor", "--evidence", "--learning-id", "--supersedes", "--reason"], ["--json"]);
     if (listOption(parsed, "--evidence").length !== 1) throw new Error("record-review requires exactly one --evidence review note");
+    if (listOption(parsed, "--reason").length > 1) throw new Error("record-review accepts one --reason");
     const result = await withProjectMutationLock(target, () => recordLearningReview(target, {
       workItemId: parsed.options["--work-item"], revision: parsed.options["--revision"],
       result: parsed.options["--result"], actor: parsed.options["--actor"],
-      evidence: listOption(parsed, "--evidence")[0], learningIds: listOption(parsed, "--learning-id")
+      evidence: listOption(parsed, "--evidence")[0], learningIds: listOption(parsed, "--learning-id"),
+      supersedes: parsed.options["--supersedes"], reason: listOption(parsed, "--reason")[0]
     }));
     printResult(parsed, result, [`${result.idempotent ? "Already recorded" : "Recorded"}: ${result.record.work_item_id} ${result.record.result}`, `Review: ${result.path}`]);
+    return 0;
+  }
+  if (parsed.action === "sync-metadata") {
+    assertCommandOptions(parsed, ["--learning-id"], ["--json", "--dry-run"]);
+    const ids = listOption(parsed, "--learning-id");
+    if (ids.length !== 1) throw new Error("sync-metadata requires exactly one --learning-id");
+    const result = await withProjectMutationLock(target, () => syncLearningMetadata(target, { learningId: ids[0], dryRun: parsed.flags.has("--dry-run") }));
+    printResult(parsed, result, [`${result.dry_run ? "Preview" : "Synchronized"}: ${result.learning_id}`, `Metadata differs: ${result.changed}`, "New revalidation: no"]);
     return 0;
   }
   if (["add-lesson", "add-practice"].includes(parsed.action)) {
