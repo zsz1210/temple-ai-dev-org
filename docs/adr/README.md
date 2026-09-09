@@ -1,5 +1,7 @@
 # Architecture Decision Records
 
+- [ADR-0066: Demand-driven Learning review coverage](0066-demand-driven-learning-review-coverage.md)
+
 - [ADR-0065: Shared autonomous execution with preserved risk contracts](0065-unified-autonomous-delivery.md)
 
 - [ADR-0064: Opt-in daily core delivery](0064-daily-core-delivery.md)

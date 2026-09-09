@@ -51,7 +51,7 @@ The Guidance layer deliberately contains two different routes. **Context Routing
 - **Explainable execution choices:** Adaptive Execution Routing selects an eligible project-owned execution profile from the step's needs; responsibility never hard-codes a model.
 - **Evidence-gated delivery:** implementation, evaluation, Independent QA, and release readiness remain separate claims.
 - **Safe parallel work:** independent tasks can run together; overlapping work waits for coordination and an explicit integration owner.
-- **Learning that earns trust:** Lessons can be captured, revalidated, and deliberately promoted into Practices or Skills instead of silently becoming rules.
+- **Learning that earns trust:** Lessons can be captured, revalidated, and deliberately promoted into Practices or Skills instead of silently becoming rules. Optional outcome review records distinguish unreviewed, reviewed and changed work without automatic AI retrospectives.
 
 Temple stores these contracts beside the code. Jira, GitHub Projects, Figma, existing specifications, and company documents can remain authoritative for the subjects they already own.
 
