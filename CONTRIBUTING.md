@@ -26,6 +26,8 @@ By submitting a contribution, you agree that it may be distributed under the rep
 
 ## Maintainer change workflow
 
+Follow the [single-maintainer pull request policy](GOVERNANCE.md#single-maintainer-pull-request-policy). GitHub approval by another account is optional while there is one human maintainer; pull requests, required CI, applicable local verification, and the effective Temple profile's independent review remain required. Verify recorded evidence for the candidate revision before merging. An already-authorized integration does not need another confirmation merely because the author cannot approve their own PR; the policy does not expand task or release authority.
+
 1. Update the relevant specification or ADR first.
 2. Update `project-overlay/`, the central documentation, or the CLI.
 3. Run the checks required by the [testing guide](docs/getting-started/testing.md); retain full verification for behavioral candidates and releases.
