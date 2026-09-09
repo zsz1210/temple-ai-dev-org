@@ -154,6 +154,11 @@ node ./templew.mjs learning review-status . --json
 | `not-eligible` | The Work Item is still active |
 | `unknown` | Required revision, source or record is missing, invalid or unreadable |
 
+Capture and query validate the same consumed Work Item fields before classifying
+eligibility or absence of reviews. Unknown workflow states, invalid schema/outcome,
+non-string revisions and malformed arrays are unknown and cannot be captured.
+Absent optional legacy fields are supported; a present null array/object is invalid.
+
 First write a repository review note describing what was examined and the bounded
 conclusion. Supply the terminal Work Item's full `tested_revision` (or recorded
 Developer candidate when testing did not finish) and an active project Agent ID:

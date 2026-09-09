@@ -21,6 +21,10 @@ async function fixture(t) {
   }
   const item = { schema_version: "temple.work-item/v1", id: "WI-0001", state: "done", scope: ["bounded"], acceptance_criteria: ["passes"], unresolved: [], tested_revision: revision, evidence: ["docs/result.md"], gate_evidence: {} };
   await put(".ai-org/work-items/WI-0001.json", item);
+  await put(".ai-org/core/workflow.json", {
+    schema_version: "temple.workflow/v2", states: ["intake", "spec", "design", "build", "test", "eval", "independent_qa", "release_gate", "blocked", "done", "concluded", "cancelled"].map(id => ({ id })),
+    terminal_states: ["done", "concluded", "cancelled"]
+  });
   await put(".ai-org/project/agents.json", { agents: [{ id: "agent-reviewer", active: true }] });
   await put(".ai-org/learning/index.json", emptyLearningIndex());
   await put("docs/result.md", "Observed result\n");
@@ -215,4 +219,40 @@ test("fresh installation, Doctor and status expose review storage without changi
   await f.put(`installed/${saved.path}`, "broken");
   const broken = JSON.parse(doctor().stdout);
   assert.equal(broken.checks.find(c => c.id === "engineering_learning").status, "fail");
+});
+
+test("malformed consumed source fields fail before capture and every query shortcut", async t => {
+  const overrides = [
+    { schema_version: "temple.work-item/INVALID" }, { state: "made-up" }, { state: ["done"] },
+    { lifecycle_outcome: "made-up" }, { lifecycle_outcome: null },
+    { unresolved: null }, { evidence: null }, { gate_evidence: null }, { gate_evidence: { test: null } },
+    { scope: 42 }, { acceptance_criteria: null }, { tested_revision: [revision] },
+    { developer_candidate_revision: [revision] }, { tested_revision: "" }
+  ];
+  for (const [index, extra] of overrides.entries()) {
+    const f = await fixture(t);
+    await f.put(".ai-org/work-items/WI-0001.json", { ...f.item, ...extra });
+    assert.equal((await f.query()).items[0].status, "unknown", `before review: ${index}`);
+    await assert.rejects(recordLearningReview(f.root, f.options), /Invalid/, `capture: ${index}`);
+    await assert.rejects(fs.stat(path.join(f.root, ".ai-org/learning/reviews")), { code: "ENOENT" });
+    await f.put(".ai-org/work-items/WI-0001.json", f.item);
+    const saved = await recordLearningReview(f.root, f.options);
+    const bytes = await fs.readFile(path.join(f.root, saved.path));
+    await f.put(".ai-org/work-items/WI-0001.json", { ...f.item, ...extra });
+    assert.equal((await f.query()).items[0].status, "unknown", `after review: ${index}`);
+    await assert.rejects(recordLearningReview(f.root, f.options), /Invalid/);
+    assert.deepEqual(await fs.readFile(path.join(f.root, saved.path)), bytes);
+  }
+});
+
+test("absent optional legacy fields remain supported without treating null arrays as absence", async t => {
+  const f = await fixture(t);
+  const legacy = { ...f.item };
+  delete legacy.unresolved; delete legacy.gate_evidence;
+  await f.put(".ai-org/work-items/WI-0001.json", legacy);
+  await recordLearningReview(f.root, f.options);
+  assert.equal((await f.query()).items[0].status, "no-new-lesson");
+  await f.put(".ai-org/core/workflow.json", { schema_version: "broken", states: [], terminal_states: [] });
+  assert.equal((await f.query()).items[0].status, "unknown");
+  await assert.rejects(recordLearningReview(f.root, f.options), /workflow/);
 });

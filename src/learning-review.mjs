@@ -7,6 +7,7 @@ import { atomicCreate, formatJson, sha256 } from "./files.mjs";
 import { isWorkItemId } from "./ids.mjs";
 import { validateLearningIndex } from "./learning.mjs";
 import { validateEvidenceRegistry } from "./evidence.mjs";
+import { LIFECYCLE_OUTCOMES } from "./workflow.mjs";
 
 export const REVIEW_ROOT = ".ai-org/learning/reviews";
 export const REVIEW_SCHEMA = "temple.learning-review/v1";
@@ -61,8 +62,25 @@ async function directory(root, ref) {
 
 function revisionOf(item) {
   const revision = item.tested_revision ?? item.developer_candidate_revision;
-  if (!SHA.test(revision ?? "")) throw new Error("Outcome has no full tested/developer candidate revision");
+  if (typeof revision !== "string" || !SHA.test(revision)) throw new Error("Outcome has no full tested/developer candidate revision");
   return revision;
+}
+
+async function reviewableSource(root, id) {
+  const item = await json(root, `.ai-org/work-items/${id}.json`);
+  if (!plain(item) || item.id !== id || item.schema_version !== "temple.work-item/v1") throw new Error("Invalid Work Item identity/schema");
+  const workflow = await json(root, ".ai-org/core/workflow.json");
+  if (!["temple.workflow/v1", "temple.workflow/v2"].includes(workflow?.schema_version) || !Array.isArray(workflow.states) || !workflow.states.every(s => plain(s) && typeof s.id === "string") || !strings(workflow.terminal_states)) throw new Error("Invalid workflow state registry");
+  if (typeof item.state !== "string" || !workflow.states.some(s => s.id === item.state)) throw new Error("Invalid Work Item state");
+  if (TERMINAL.has(item.state) && !workflow.terminal_states.includes(item.state)) throw new Error("Invalid terminal state contract");
+  if (![item.scope, item.acceptance_criteria, item.evidence].every(strings)) throw new Error("Invalid Work Item scope, acceptance or evidence");
+  if (Object.hasOwn(item, "unresolved") && !strings(item.unresolved)) throw new Error("Invalid Work Item unresolved items");
+  if (Object.hasOwn(item, "gate_evidence") && (!plain(item.gate_evidence) || !Object.values(item.gate_evidence).every(strings))) throw new Error("Invalid Work Item gate evidence");
+  if (Object.hasOwn(item, "lifecycle_outcome") && !LIFECYCLE_OUTCOMES.includes(item.lifecycle_outcome)) throw new Error("Invalid Work Item lifecycle outcome");
+  for (const field of ["tested_revision", "developer_candidate_revision"]) {
+    if (Object.hasOwn(item, field) && item[field] !== null && (typeof item[field] !== "string" || !SHA.test(item[field]))) throw new Error(`Invalid Work Item ${field}`);
+  }
+  return item;
 }
 
 async function outcome(root, item) {
@@ -147,8 +165,7 @@ async function lessonLinks(root, ids) {
 export async function recordLearningReview(root, options) {
   const id = options.workItemId;
   if (!isWorkItemId(id)) throw new Error("Valid --work-item is required");
-  const item = await json(root, `.ai-org/work-items/${id}.json`);
-  if (item.id !== id) throw new Error("Work Item identity mismatch");
+  const item = await reviewableSource(root, id);
   const current = await outcome(root, item);
   if (options.revision !== current.snapshot.revision) throw new Error("Review revision must match the exact recorded outcome revision");
   const agents = await json(root, ".ai-org/project/agents.json");
@@ -174,8 +191,7 @@ export async function recordLearningReview(root, options) {
 async function statusFor(root, id) {
   const base = { work_item_id: id, status: "unknown", outcome_digest: null, lesson_ids: [], record_count: 0 };
   try {
-    const item = await json(root, `.ai-org/work-items/${id}.json`);
-    if (item.id !== id || item.schema_version !== "temple.work-item/v1") throw new Error("Invalid Work Item identity/schema");
+    const item = await reviewableSource(root, id);
     const records = await recordsFor(root, id);
     base.record_count = records.length;
     if (!TERMINAL.has(item.state)) return { ...base, status: "not-eligible", reason: "Work Item is not terminal" };

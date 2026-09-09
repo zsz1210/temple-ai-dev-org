@@ -26,7 +26,7 @@
       "required": ["work_item_id", "state", "lifecycle_outcome", "revision", "developer_candidate_revision", "scope", "acceptance_criteria", "unresolved", "evidence", "gate_evidence", "sources"],
       "properties": {
         "work_item_id": {"type": "string"}, "state": {"enum": ["done", "concluded", "cancelled"]},
-        "lifecycle_outcome": {"type": ["string", "null"]}, "revision": {"$ref": "#/$defs/revision"},
+        "lifecycle_outcome": {"enum": ["accepted", "no-go", "inconclusive", "cancelled", null]}, "revision": {"$ref": "#/$defs/revision"},
         "developer_candidate_revision": {"anyOf": [{"$ref": "#/$defs/revision"}, {"type": "null"}]},
         "scope": {"$ref": "#/$defs/strings"}, "acceptance_criteria": {"$ref": "#/$defs/strings"},
         "unresolved": {"$ref": "#/$defs/strings"}, "evidence": {"$ref": "#/$defs/strings"},
