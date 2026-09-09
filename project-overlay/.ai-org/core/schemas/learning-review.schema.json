@@ -5,7 +5,9 @@
   "additionalProperties": false,
   "required": ["schema_version", "work_item_id", "outcome_digest", "outcome", "result", "actor", "reviewed_at", "review_note", "lessons"],
   "properties": {
-    "schema_version": {"const": "temple.learning-review/v1"},
+    "schema_version": {"enum": ["temple.learning-review/v1", "temple.learning-review/v2"]},
+    "supersedes": {"$ref": "#/$defs/hash"},
+    "reason": {"type": "string", "minLength": 1, "pattern": "\\S"},
     "work_item_id": {"type": "string", "pattern": "^WI-[A-Za-z0-9-]+$"},
     "outcome_digest": {"$ref": "#/$defs/hash"},
     "result": {"enum": ["no-new-lesson", "linked-lessons"]},
@@ -39,6 +41,7 @@
       }
     }
   },
+  "allOf": [{"if": {"properties": {"schema_version": {"const": "temple.learning-review/v2"}}}, "then": {"required": ["supersedes", "reason"]}, "else": {"not": {"anyOf": [{"required": ["supersedes"]}, {"required": ["reason"]}]}}}],
   "$defs": {
     "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "revision": {"type": "string", "pattern": "^[a-f0-9]{40}([a-f0-9]{24})?$"},

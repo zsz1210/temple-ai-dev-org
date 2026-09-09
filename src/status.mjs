@@ -508,6 +508,7 @@ export function compactStatus(status, workItemId) {
     projection_scope: "full",
     project: status.project,
     work_items: { total: status.work_items.total, by_state: status.work_items.by_state },
+    learning: { reviews: status.learning?.reviews ?? { recorded: 0, counts: {}, errors: [] } },
     selected_work_item: item,
     attention: status.attention,
     detail_command: "status --json --no-write"

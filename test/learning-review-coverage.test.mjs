@@ -5,13 +5,21 @@ import path from "node:path";
 import test from "node:test";
 import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { recordLearningReview, queryLearningReviews, summarizeLearningReviews, validateLearningReview } from "../src/learning-review.mjs";
-import { emptyLearningIndex } from "../src/learning.mjs";
+import { learningReviewDigest, recordLearningReview, queryLearningReviews, summarizeLearningReviews, validateLearningReview } from "../src/learning-review.mjs";
+import { emptyLearningIndex, syncLearningMetadata, revalidateLearningEntry } from "../src/learning.mjs";
+import { compactStatus } from "../src/status.mjs";
 import { sha256 } from "../src/files.mjs";
 
 const revision = "a".repeat(40);
 const cli = fileURLToPath(new URL("../bin/temple.mjs", import.meta.url));
 const run = args => spawnSync(process.execPath, [cli, ...args], { encoding: "utf8" });
+const runAsync = args => new Promise(resolve => {
+  const child = spawn(process.execPath, [cli, ...args]);
+  let stdout = "", stderr = "";
+  child.stdout.on("data", data => { stdout += data; });
+  child.stderr.on("data", data => { stderr += data; });
+  child.on("close", status => resolve({ status, stdout, stderr }));
+});
 async function fixture(t) {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), "temple-review-coverage-"));
   t.after(() => fs.rm(root, { recursive: true, force: true }));
@@ -49,6 +57,130 @@ test("explicit review, idempotent retry, and stale evidence preserve history and
   assert.equal((await f.query()).items[0].status, "no-new-lesson");
   assert.deepEqual(await fs.readFile(path.join(f.root, ".ai-org/work-items/WI-0001.json")), before);
   assert.deepEqual(await fs.readFile(path.join(f.root, ".ai-org/learning/index.json")), index);
+});
+
+test("compact review counts preserve unknown and errors without returning item bodies", async t => {
+  const f = await fixture(t);
+  await f.put(".ai-org/work-items/WI-0002.json", { ...f.item, id: "WI-0002", tested_revision: "short" });
+  const full = await queryLearningReviews(f.root);
+  const short = await queryLearningReviews(f.root, { compact: true });
+  assert.deepEqual(short.counts, full.counts);
+  assert.equal(short.total, 2);
+  assert.equal(short.counts.unknown, 1);
+  assert.equal(Object.hasOwn(short, "items"), false);
+  assert.equal(short.mutation_performed, false);
+  const output = run(["learning", "review-status", f.root, "--compact", "--json"]);
+  assert.equal(output.status, 0, output.stderr);
+  assert.deepEqual(JSON.parse(output.stdout), short);
+  assert.notEqual(run(["learning", "review-status", f.root, "--limit", "1", "--json"]).status, 0);
+  const reviews = { recorded: 1, counts: { unknown: 1 }, errors: ["missing source"] };
+  assert.deepEqual(compactStatus({ work_items: { total: 0, items: [], by_state: {} }, learning: { reviews }, attention: [] }).learning.reviews, reviews);
+  await f.put(".ai-org/learning/reviews/unexpected", "not a directory");
+  assert.equal((await queryLearningReviews(f.root, { compact: true })).errors.length, 1);
+});
+
+test("explicit supersession preserves v1 bytes and uses chain order with idempotent retries", async t => {
+  const f = await fixture(t);
+  const first = await recordLearningReview(f.root, f.options);
+  const original = await fs.readFile(path.join(f.root, first.path));
+  await f.put("docs/review-2.md", "Fresh explicit review after a metadata correction\n");
+  const next = { ...f.options, evidence: "docs/review-2.md", supersedes: learningReviewDigest(first.record), reason: "Reviewed changed linked metadata" };
+  const second = await recordLearningReview(f.root, next);
+  assert.equal(second.record.schema_version, "temple.learning-review/v2");
+  assert.equal(validateLearningReview(second.record).valid, true);
+  assert.equal((await recordLearningReview(f.root, next)).idempotent, true);
+  assert.equal((await f.query()).items[0].review_digest, learningReviewDigest(second.record));
+  assert.deepEqual(await fs.readFile(path.join(f.root, first.path)), original);
+  await f.put("docs/review-3.md", "Third considered review\n");
+  await assert.rejects(recordLearningReview(f.root, { ...next, evidence: "docs/review-3.md" }), /Stale supersession/);
+  const third = await recordLearningReview(f.root, { ...next, evidence: "docs/review-3.md", supersedes: learningReviewDigest(second.record) });
+  assert.equal((await f.query()).items[0].review_digest, learningReviewDigest(third.record));
+  await assert.rejects(recordLearningReview(f.root, next), /Stale supersession/);
+  assert.equal((await f.query()).items[0].record_count, 3);
+  assert.equal((await recordLearningReview(f.root, { ...f.options, evidence: "docs/review-3.md" })).path, third.path);
+});
+
+test("supersession rejects wrong source, malformed provenance, reused notes and broken history", async t => {
+  const f = await fixture(t);
+  const first = await recordLearningReview(f.root, f.options);
+  const next = { ...f.options, supersedes: learningReviewDigest(first.record), reason: "Explicit review" };
+  await assert.rejects(recordLearningReview(f.root, next), /new review note/);
+  await assert.rejects(recordLearningReview(f.root, { ...next, reason: " " }), /reason/);
+  await assert.rejects(recordLearningReview(f.root, { ...next, supersedes: "short" }), /digest/);
+  await assert.rejects(recordLearningReview(f.root, { ...f.options, reason: "without predecessor" }), /requires/);
+  await f.put("docs/review-2.md", "New considered review\n");
+  await f.put("docs/result.md", "Changed outcome\n");
+  await assert.rejects(recordLearningReview(f.root, { ...next, evidence: "docs/review-2.md" }), /Stale/);
+  await f.put("docs/result.md", "Observed result\n");
+  const second = await recordLearningReview(f.root, { ...next, evidence: "docs/review-2.md" });
+  const fork = { ...second.record, reason: "Competing fork" };
+  await f.put(`${path.dirname(second.path)}/${fork.outcome_digest}.${learningReviewDigest(fork)}.json`, fork);
+  assert.match((await f.query()).items[0].reason, /forked/);
+  await fs.unlink(path.join(f.root, `${path.dirname(second.path)}/${fork.outcome_digest}.${learningReviewDigest(fork)}.json`));
+  await fs.unlink(path.join(f.root, first.path));
+  assert.match((await f.query()).items[0].reason, /Broken/);
+  await assert.rejects(recordLearningReview(f.root, f.options), /Broken/);
+});
+
+test("concurrent explicit CLI supersession records one successor", async t => {
+  const f = await fixture(t);
+  const first = await recordLearningReview(f.root, f.options);
+  await f.put("docs/review-2.md", "Actual fresh review note\n");
+  const args = ["learning", "record-review", f.root, "--work-item", f.item.id, "--revision", revision, "--result", "no-new-lesson", "--actor", "agent-reviewer", "--evidence", "docs/review-2.md", "--supersedes", learningReviewDigest(first.record), "--reason", "Explicitly reconsidered", "--json"];
+  const responses = await Promise.all([runAsync(args), runAsync(args)]);
+  for (const r of responses) assert.equal(r.status, 0, r.stderr);
+  assert.deepEqual(responses.map(r => JSON.parse(r.stdout).idempotent).sort(), [false, true]);
+  assert.equal((await f.query()).items[0].record_count, 2);
+});
+
+test("metadata sync repairs only current headers and makes linked review refresh explicit", async t => {
+  const f = await fixture(t);
+  const added = run(["learning", "add-lesson", f.root, "--title", "Bounded learning", "--summary", "A retained observation", "--confidence", "low"]);
+  assert.equal(added.status, 0, added.stderr);
+  const entryPath = ".ai-org/learning/lessons/LESSON-0001.md";
+  await revalidateLearningEntry(f.root, { learningId: "LESSON-0001", result: "confirmed", actor: "agent-reviewer" });
+  const indexBefore = await fs.readFile(path.join(f.root, ".ai-org/learning/index.json"));
+  const entry = JSON.parse(indexBefore).entries[0];
+  const correct = await fs.readFile(path.join(f.root, entryPath), "utf8");
+  assert.ok(correct.includes("- Status: `validated`"));
+  assert.ok(correct.includes(`- Last validated: \`${entry.last_validated_at}\``));
+  const old = correct.replace("- Status: `validated`", "- Status: `candidate`").replace(`- Last validated: \`${entry.last_validated_at}\``, "- Last validated: not yet");
+  await f.put(entryPath, old);
+  const options = { ...f.options, result: "linked-lessons", learningIds: ["LESSON-0001"] };
+  const first = await recordLearningReview(f.root, options);
+  const preview = run(["learning", "sync-metadata", f.root, "--learning-id", "LESSON-0001", "--dry-run", "--json"]);
+  assert.equal(preview.status, 0, preview.stderr);
+  assert.equal(JSON.parse(preview.stdout).mutation_performed, false);
+  assert.equal(await fs.readFile(path.join(f.root, entryPath), "utf8"), old);
+  const applied = await syncLearningMetadata(f.root, { learningId: "LESSON-0001" });
+  assert.equal(applied.mutation_performed, true);
+  assert.equal(await fs.readFile(path.join(f.root, entryPath), "utf8"), correct);
+  assert.deepEqual(await fs.readFile(path.join(f.root, ".ai-org/learning/index.json")), indexBefore);
+  assert.equal((await syncLearningMetadata(f.root, { learningId: "LESSON-0001" })).changed, false);
+  assert.equal((await f.query()).items[0].status, "review-required");
+  await f.put("docs/review-2.md", "Reviewed header correction, unchanged bounded conclusion\n");
+  await recordLearningReview(f.root, { ...options, evidence: "docs/review-2.md", supersedes: learningReviewDigest(first.record), reason: "Header corrected from existing index" });
+  assert.equal((await f.query()).items[0].status, "linked-lessons");
+  assert.deepEqual(await fs.readFile(path.join(f.root, ".ai-org/learning/index.json")), indexBefore);
+});
+
+test("metadata sync preserves CRLF/history and rejects ambiguous headers and symlinks", async t => {
+  const f = await fixture(t);
+  const added = run(["learning", "add-lesson", f.root, "--title", "Bounded learning", "--summary", "A retained observation", "--confidence", "low"]);
+  assert.equal(added.status, 0, added.stderr);
+  const ref = ".ai-org/learning/lessons/LESSON-0001.md";
+  const text = (await fs.readFile(path.join(f.root, ref), "utf8")).replaceAll("\n", "\r\n");
+  await f.put(ref, text.replace("- Status: `candidate`", "- Status: `deprecated`"));
+  await syncLearningMetadata(f.root, { learningId: "LESSON-0001" });
+  assert.equal(await fs.readFile(path.join(f.root, ref), "utf8"), text);
+  const invalid = text.replace("- Status:", "- Status: `candidate`\r\n- Status:");
+  await f.put(ref, invalid);
+  await assert.rejects(syncLearningMetadata(f.root, { learningId: "LESSON-0001" }), /exactly one/);
+  assert.equal(await fs.readFile(path.join(f.root, ref), "utf8"), invalid);
+  await f.put("docs/outside.md", text);
+  await fs.unlink(path.join(f.root, ref));
+  await fs.symlink(path.join(f.root, "docs/outside.md"), path.join(f.root, ref));
+  await assert.rejects(syncLearningMetadata(f.root, { learningId: "LESSON-0001" }), /Symlink/);
 });
 
 test("revision, activity, missing evidence and conflicts fail without replacing a review", async t => {

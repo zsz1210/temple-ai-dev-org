@@ -142,6 +142,7 @@ Run a read-only query before choosing work to retrospect:
 
 ```bash
 node ./templew.mjs learning review-status . --work-item WI-0042 --json
+node ./templew.mjs learning review-status . --compact --json
 node ./templew.mjs learning review-status . --json
 ```
 
@@ -175,12 +176,54 @@ The [review input worksheet](../../project-overlay/.ai-org/templates/learning-re
 lists the fields; substitute them into CLI flags, rather than copying the worksheet
 into canonical storage. The CLI generates hashes, time and immutable records.
 
+Use `--compact` for counts without item bodies; it preserves unknown counts and
+storage errors, and does not reduce the underlying all-item scan. A single-item
+query remains the smallest diagnostic path. `status --compact --json --no-write`
+also includes a `learning.reviews` summary of recorded items only. Its `recorded`
+value counts historical records; status counts classify Work Items, so multiple
+reviews for one Work Item increase the former without duplicating the latter.
+
 Identical retries are no-write. An unchanged outcome with a different judgment,
 actor, note or Lesson content is a conflict, not an overwrite. Updated outcome
-evidence produces a new record; prior records remain. This first version has no
-correction command for an unchanged outcome: do not fabricate an outcome change
-to bypass a conflict. Restore accidentally changed source content or retain the
-stale/unknown signal until an authorized correction capability is available.
+evidence produces a new record; prior records remain. Do not fabricate an outcome
+change to bypass a conflict.
+
+After actually reconsidering a stale or mistaken review, write a new review note
+and use the single-item query's current `review_digest` to append a replacement:
+
+```bash
+node ./templew.mjs learning record-review . --work-item WI-0042 \
+  --revision FULL_RECORDED_OUTCOME_SHA --result linked-lessons \
+  --actor YOUR_ACTIVE_AGENT_ID --evidence docs/reviews/WI-0042-followup.md \
+  --learning-id LESSON-0001 --supersedes CURRENT_REVIEW_DIGEST \
+  --reason "Reconsidered the review after the linked metadata correction" --json
+```
+
+The predecessor must still be the current review for the same outcome. The new
+note path must differ from its predecessor; retain the prior note and record.
+An identical retry of the current replacement is no-write; stale predecessors,
+missing parents, forked history, invalid sources and ordinary conflicts fail.
+The command adds a v2 successor under `OUTCOME_DIGEST.REVIEW_DIGEST.json`; v1 roots
+are preserved. Current review selection follows validated links, never wall-clock
+time. Clients predating v2 reject successor storage; a downgrade requires its own
+compatibility plan. This is explicit judgment capture, not automatic acceptance.
+
+### Keep current Learning metadata readable
+
+Revalidation updates both the index and the document's current Status/Last
+validated header fields while appending its validation event. For an old document
+whose header is stale, synchronize presentation from the existing index:
+
+```bash
+node ./templew.mjs learning sync-metadata . --learning-id LESSON-0001 --dry-run --json
+node ./templew.mjs learning sync-metadata . --learning-id LESSON-0001 --json
+```
+
+This explicit operation is idempotent, changes only those two unique metadata
+fields, and preserves the index, narrative and history. It does not declare a new
+validation or promote a Lesson/Practice. Missing/ambiguous headers and unsafe
+record paths are rejected. Correcting a linked document still makes its reviews
+stale; inspect and explicitly reconsider them rather than silently waiving hashes.
 
 The outcome digest binds scope, acceptance, unresolved issues, terminal state,
 candidate revisions and evidence references/content. Administrative timestamps and

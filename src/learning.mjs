@@ -358,6 +358,46 @@ export async function listSkillPromotionCandidates(target) {
   return buildSkillPromotionCandidates(await readLearningIndex(target));
 }
 
+function currentLearningHeader(text, entry) {
+  const end = text.search(/^## /m);
+  if (end < 0) throw new Error("Learning document has no bounded metadata header");
+  let header = text.slice(0, end);
+  const identity = header.match(/^- ID: `([^`]+)`\r?$/gm) ?? [];
+  if (identity.length !== 1 || identity[0].replace(/\r$/, "") !== `- ID: \`${entry.id}\``) throw new Error("Learning document header identity mismatch");
+  for (const [label, value] of [["Status", `\`${entry.status}\``], ["Last validated", entry.last_validated_at ? `\`${entry.last_validated_at}\`` : "not yet"]]) {
+    const pattern = new RegExp(`^- ${label}: [^\\r\\n]*(?=\\r?$)`, "gm");
+    if ((header.match(pattern) ?? []).length !== 1) throw new Error(`Learning header requires exactly one ${label} field`);
+    header = header.replace(pattern, () => `- ${label}: ${value}`);
+  }
+  return header + text.slice(end);
+}
+
+async function learningDocumentPath(target, entry) {
+  const expected = `.ai-org/learning/${entry.kind === "lesson" ? "lessons" : "practices"}/${entry.id}.md`;
+  if (entry.path !== expected) throw new Error("Invalid Learning record path");
+  let current = path.resolve(target);
+  for (const part of entry.path.split("/")) {
+    current = path.join(current, part);
+    if ((await fs.lstat(current)).isSymbolicLink()) throw new Error("Symlink Learning record path is not allowed");
+  }
+  if (!(await fs.stat(current)).isFile()) throw new Error("Learning record must be a regular file");
+  return current;
+}
+
+// Reconcile presentation from existing authority, without asserting a new review.
+export async function syncLearningMetadata(target, options) {
+  const index = await readLearningIndex(target);
+  const validation = validateLearningIndex(index);
+  if (!validation.valid) throw new Error(`Invalid Learning index: ${validation.errors.join("; ")}`);
+  const entry = index.entries.find(e => e.id === options.learningId);
+  if (!entry) throw new Error(`Learning entry not found: ${options.learningId}`);
+  const recordPath = await learningDocumentPath(target, entry);
+  const before = await fs.readFile(recordPath, "utf8");
+  const after = currentLearningHeader(before, entry);
+  if (after !== before && !options.dryRun) await atomicWrite(recordPath, after);
+  return { learning_id: entry.id, path: entry.path, changed: before !== after, dry_run: Boolean(options.dryRun), mutation_performed: before !== after && !options.dryRun, before_sha256: sha256(before), after_sha256: sha256(after), revalidation_performed: false, index_changed: false };
+}
+
 export async function revalidateLearningEntry(target, options) {
   const result = String(options.result ?? "").trim();
   if (!REVALIDATION_RESULTS.includes(result)) throw new Error(`--result must be ${REVALIDATION_RESULTS.join(", ")}`);
@@ -389,11 +429,11 @@ export async function revalidateLearningEntry(target, options) {
   const updated = { schema_version: LEARNING_INDEX_SCHEMA, entries };
   const validation = validateLearningIndex(updated);
   if (!validation.valid) throw new Error(`Invalid learning revalidation: ${validation.errors.join("; ")}`);
-  const recordPath = path.join(target, entry.path);
+  const recordPath = await learningDocumentPath(target, entry);
   const [beforeIndex, beforeRecord] = await Promise.all([fs.readFile(indexPath), fs.readFile(recordPath)]);
   const addition = `\n### ${timestamp}\n\n- Result: \`${result}\`\n- Validated by: \`${history.validated_by}\`\n- Review after: ${reviewAfter ? `\`${reviewAfter}\`` : "not scheduled"}\n- Evidence:\n${markdownList(evidenceRefs)}\n`;
   try {
-    await atomicWrite(recordPath, `${beforeRecord.toString("utf8").trimEnd()}\n${addition}`);
+    await atomicWrite(recordPath, `${currentLearningHeader(beforeRecord.toString("utf8"), entry).trimEnd()}\n${addition}`);
     await atomicWrite(indexPath, formatJson(updated));
     await appendEvent(target, { timestamp, event_type: "learning_revalidated", actor: history.validated_by, learning_id: entry.id, result, refs: [entry.path, ...evidenceRefs] });
   } catch (error) {
