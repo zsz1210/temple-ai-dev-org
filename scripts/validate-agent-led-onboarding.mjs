@@ -97,9 +97,35 @@ export async function runAgentLedOnboardingValidation(options) {
     const packResult = parseJsonOutput(packed, "npm pack")[0];
     const tarballPath = path.join(packageDirectory, packResult.filename);
 
+    // npm ci populates tarballs, not necessarily registry package metadata.
+    // Carry its exact dependency lock into the consumer so offline qualification
+    // never depends on unrelated prior npm installs having warmed that metadata.
+    const sourcePackage = JSON.parse(await fs.readFile(path.join(packageRoot, "package.json"), "utf8"));
+    const sourceLock = JSON.parse(await fs.readFile(path.join(packageRoot, "package-lock.json"), "utf8"));
+    assert.equal(sourceLock.lockfileVersion, 3);
+    assert.equal(sourceLock.packages[""].version, sourcePackage.version);
+    const consumerPackage = {
+      name: "agent-led-greenfield-fixture", version: "0.0.0", private: true,
+      dependencies: { [sourcePackage.name]: `file:${tarballPath}` }
+    };
+    const dependencyPackages = Object.fromEntries(Object.entries(sourceLock.packages)
+      .filter(([name, entry]) => name !== "" && !entry.dev));
+    await fs.writeFile(path.join(projectPath, "package.json"), `${JSON.stringify(consumerPackage, null, 2)}\n`);
+    await fs.writeFile(path.join(projectPath, "package-lock.json"), `${JSON.stringify({
+      name: consumerPackage.name, version: consumerPackage.version, lockfileVersion: 3, requires: true,
+      packages: {
+        "": consumerPackage,
+        ...dependencyPackages,
+        [`node_modules/${sourcePackage.name}`]: {
+          version: sourcePackage.version, resolved: `file:${tarballPath}`, integrity: packResult.integrity,
+          dependencies: sourcePackage.dependencies, bin: sourcePackage.bin, engines: sourcePackage.engines,
+          license: sourcePackage.license
+        }
+      }
+    }, null, 2)}\n`);
     const installed = run(
       "npm",
-      ["install", "--offline", "--ignore-scripts", "--no-audit", "--no-fund", "--package-lock=false", tarballPath],
+      ["ci", "--offline", "--ignore-scripts", "--no-audit", "--no-fund"],
       { cwd: projectPath }
     );
     timeline.push({ step: "install", elapsed_ms: installed.elapsed_ms, status: "passed" });

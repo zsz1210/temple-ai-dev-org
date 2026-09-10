@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0-alpha.32
+
+- Corrected clean-host release qualification: synthetic runtime scratch stays within its owned temporary hierarchy, and offline package onboarding uses the exact source dependency lock instead of assuming cached registry metadata.
+- Increased the existing publication job reserve to 30 minutes after a complete hosted verification took more than 12 minutes; all verification, archive equality and Release-only publication gates remain required.
+- Supersedes Alpha.31's failed GitHub publication attempt, which stopped before npm upload. The prior tag and failures remain available; this successor retains the Solo trial scope and limits described below.
+
 ## 0.1.0-alpha.31
 
 - Added opt-in autonomous delivery across existing workflow profiles, compact task context and guarded completion/rework operations while retaining scope, ownership, independent verification and release authority.
