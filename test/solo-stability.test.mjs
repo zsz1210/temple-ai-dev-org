@@ -4,8 +4,9 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
-import {scenarios,summarize,runSoloActor,prepare,run} from '../scripts/solo-stability.mjs';
+import {scenarios,summarize,runSoloActor,qualifySoloRuntime,prepare,run,hash} from '../scripts/solo-stability.mjs';
 import {disabledFeatures} from '../scripts/continuity-live-runner.mjs';
+import {tree} from '../scripts/autonomy-experiment.mjs';
 
 const reference={
  'src/quantity.mjs':`export function parseQuantity(v){if(typeof v!=='string'||!/^\\d+$/.test(v)||!Number.isSafeInteger(Number(v)))throw new TypeError('quantity');return Number(v)}`,
@@ -48,13 +49,29 @@ test('unknown cleanup never becomes completed acceptance',async t=>{
 test('timeout interrupts the exact turn and retains partial usage',async t=>{
  const {result,methods}=await actorFixture(t,{complete:false});assert.equal(result.status,'stopped');assert.equal(result.failure,'time-limit');assert(methods.includes('turn/interrupt'));assert.equal(result.usage.operational_tokens,70);
 });
+test('runtime preflight retains primary and cleanup failures without a model call',async()=>{
+ const r=await qualifySoloRuntime({root:'/tmp/solo-unit',readRoots:['/usr/bin'],disabledTools:{mcp_servers:[],plugins:[],apps:[]},environment:{PATH:'/usr/bin',OPENSSL_CONF:'/dev/null'}},{providerFactory:()=>({request:async()=>{throw Error('initialization-failed');},close:async()=>{throw Error('close-unconfirmed');}})});
+ assert.equal(r.status,'failed');assert.equal(r.failure,'initialization-failed');assert.equal(r.cleanup_failure,'close-unconfirmed');assert.equal(r.server_exit_confirmed,false);assert.equal(r.model_calls,0);
+});
 test('real installed CLI rehearsal closes all profiles and Learning without model generation',async t=>{
  const p=await prepare();t.after(()=>fs.rm(p.lab,{recursive:true,force:true}));
  // Explicit test double qualification; never represented as independent agent acceptance.
  await fs.writeFile(path.join(p.lab,'offline.json'),JSON.stringify({status:'passed',kind:'test-double-setup'}));
- const result=await run(p.lab,p.protocol_sha256,{discover:async()=>({}),actorImpl:async(runtime,prompt)=>{
+ let blockedOnce=false;
+ const options={discover:async()=>({}),actorImpl:async(runtime,prompt)=>{
   if(!prompt.startsWith('You are agent-riley')){const current=await fs.readFile(path.join(runtime.root,'CURRENT.md'),'utf8');for(const file of Object.keys(reference))if(current.includes(file))await fs.writeFile(path.join(runtime.root,file),reference[file]);}
+  if(!blockedOnce){blockedOnce=true;return {stage:'build',status:'completed',generation_requested:false,usage:null,usage_status:'synthetic-no-model',server_exit_confirmed:true,terminals_empty:true,elapsed_ms:0,completion:{decision:'blocked',summary:'Synthetic Node runtime failure after implementation',findings:['dyld test control']}};}
   return {status:'completed',generation_requested:false,usage:null,usage_status:'synthetic-no-model',server_exit_confirmed:true,terminals_empty:true,elapsed_ms:0,completion:{decision:'pass',summary:'Synthetic reference implementation only; LESSON-0001 quantity rule reused.',findings:[]}};
- }});
+ }};
+ const stopped=await run(p.lab,p.protocol_sha256,options);assert.equal(stopped.status,'stopped');assert.equal(stopped.calls.length,1);
+ const original=await fs.readFile(path.join(p.lab,'result.json'),'utf8');
+ await assert.rejects(run(p.lab,p.protocol_sha256,{...options,recoveryResultHash:'wrong'}),/recovery-result-drift/);
+ const root=path.join(p.lab,'project'),recoveryRepositoryHash=hash({tree:await tree(root),head:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim()});
+ const quantity=await fs.readFile(path.join(root,'src/quantity.mjs'),'utf8');await fs.writeFile(path.join(root,'src/quantity.mjs'),quantity+'\n// intervening edit\n');
+ await assert.rejects(run(p.lab,p.protocol_sha256,{...options,recoveryResultHash:hash(stopped),recoveryRepositoryHash}),/recovery-repository-drift/);await fs.writeFile(path.join(root,'src/quantity.mjs'),quantity);
+ const result=await run(p.lab,p.protocol_sha256,{...options,recoveryResultHash:hash(stopped),recoveryRepositoryHash});
+ assert.equal(await fs.readFile(path.join(p.lab,'result.json'),'utf8'),original);assert.equal(result.calls[0].completion.decision,'blocked');assert.equal(result.tasks[0].attempts[0].reused_implementation,true);
+ const completedHash=hash({tree:await tree(root),head:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim()});
+ await assert.rejects(run(p.lab,p.protocol_sha256,{...options,recoveryResultHash:hash(stopped),recoveryRepositoryHash:completedHash}),/EEXIST/);
  assert.equal(result.kind,'synthetic-lifecycle-rehearsal');assert.equal(result.status,'completed',result.failure);assert.equal(result.tasks.length,3);assert(result.tasks.every(x=>x.report.lifecycle_state==='done'));assert.equal(result.calls.length,6);assert.deepEqual(result.learning.contradicted,[]);assert.equal(result.doctor.summary.fail,0);
 });

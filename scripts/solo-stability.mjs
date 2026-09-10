@@ -131,34 +131,64 @@ async function objective(root,scenario,lab,label){
   await save(path.join(checkRoot,'oracle.mjs'),scenario.oracle);const r=await command(checkRoot,['oracle.mjs'],null,{allowFailure:true});return {passed:r.exit_code===0,exit_code:r.exit_code,elapsed_ms:r.elapsed_ms,diagnostic:r.stderr.slice(-4000)};
 }
 async function learningProbe(root,query){const documents=await buildRetrievalCorpus(root,'learning');return (await createRepositoryRetrievalProvider().search({documents,query,position:'developer',limit:5})).map(x=>x.id);}
-export async function run(lab,expected,{actorImpl=runSoloActor,discover=discoverRuntime}={}){
-  const p=await read(path.join(lab,'protocol.json'));ensure(hash(p)===expected&&p.runner_sha256===hash(await fs.readFile(new URL(import.meta.url)))&&p.scenarios_sha256===hash(scenarios),'frozen-protocol-drift');
+// Exercise the actual command sandbox before spending a model turn. No account RPC.
+export async function qualifySoloRuntime(runtime,{providerFactory=createJsonRpcProcess}={}){
+  let client;const result={model_calls:0,status:'failed',checks:[]};
+  try{
+    client=providerFactory(runtime.binary,liveArguments(runtime),{cwd:runtime.root,env:subprocessEnvironment(runtime.environment)});
+    await client.request('initialize',{clientInfo:{name:'solo-command-preflight',version:'1'},capabilities:{experimentalApi:true}},10000);client.notify('initialized',{});
+    assertLiveConfiguration(await client.request('config/read',{cwd:runtime.root,includeLayers:false},10000),runtime);
+    const node=path.join(runtime.readRoots[0],'node');
+    const checks=[['node',['-e',"if(Number(process.versions.node.split('.')[0])<24)process.exit(1);process.stdout.write(process.version)"]],['own-read',['-e',"require('node:fs').readFileSync('AGENTS.md');process.stdout.write('allowed')"]],['outside-denied',['-e',"try{require('node:fs').readFileSync(process.argv[1]);process.exit(1)}catch(e){if(!['EPERM','EACCES'].includes(e.code))process.exit(2);process.stdout.write('denied')}",path.join(path.dirname(runtime.root),'protocol.json')]],['launcher',['templew.mjs','doctor','.','--compact','--json']]];
+    for(const [name,args] of checks){const r=await client.request('command/exec',{command:['/usr/bin/env','-i',...Object.entries(runtime.environment).map(([k,v])=>`${k}=${v}`),node,...args],cwd:runtime.root,permissionProfile:'temple-continuity-probe',timeoutMs:20000,outputBytesCap:8192},25000);result.checks.push({name,...r});ensure(r.exitCode===0,`runtime-preflight-${name}: ${r.stderr}`);}
+    result.status='passed';
+  }catch(e){result.failure=e.message;}finally{if(client)try{await client.close();result.server_exit_confirmed=true;}catch(e){result.status='failed';result.cleanup_failure=e.message;result.server_exit_confirmed=false;}}
+  return result;
+}
+export async function run(lab,expected,{actorImpl=runSoloActor,discover=discoverRuntime,recoveryResultHash=null,recoveryRepositoryHash=null}={}){
+  const p=await read(path.join(lab,'protocol.json')),runnerHash=hash(await fs.readFile(new URL(import.meta.url)));
+  ensure(hash(p)===expected&&(recoveryResultHash||p.runner_sha256===runnerHash)&&p.scenarios_sha256===hash(scenarios),'frozen-protocol-drift');
   ensure(hash(await tree(p.runtime))===p.runtime_tree,'runtime-drift');ensure((await read(path.join(lab,'offline.json'))).status==='passed','offline-not-qualified');
-  await save(path.join(lab,'run.started'),{at:new Date().toISOString(),protocol_sha256:expected},true);
-  const root=p.root,state={schema_version:'temple.solo-result/v1',kind:actorImpl===runSoloActor?'live-agent-qualification':'synthetic-lifecycle-rehearsal',status:'running',started_ms:Date.now(),protocol_sha256:expected,calls:[],tasks:[],commands:[],unrun:scenarios.map(s=>s.id),human_interventions:0,account_polling:false};
-  const persist=async()=>{state.metrics=summarize(state.calls);state.wall_ms=Date.now()-state.started_ms;await save(path.join(lab,'result.json'),state);};
+  let prior;
+  if(recoveryResultHash){
+    prior=await read(path.join(lab,'result.json'));ensure(hash(prior)===recoveryResultHash,'recovery-result-drift');
+    const b=prior.calls?.[0];ensure(prior.status==='stopped'&&prior.cleanup==='claim-released'&&prior.tasks.length===1&&prior.tasks[0].attempts.length===1&&prior.calls.length===1&&b.stage==='build'&&b.status==='completed'&&b.completion.decision==='blocked'&&b.terminals_empty&&b.server_exit_confirmed&&b.protected_drift?.length===0,'unsupported-recovery-boundary');
+    ensure(prior.kind===(actorImpl===runSoloActor?'live-agent-qualification':'synthetic-lifecycle-rehearsal'),'recovery-kind-mismatch');
+    // Only a coordinator-reviewed command-environment failure can use this boundary.
+    ensure(/dyld|libnode|Node runtime/.test(b.completion.summary+' '+b.completion.findings.join(' ')),'not-runtime-blocker');
+    ensure(recoveryRepositoryHash&&hash({tree:await tree(p.root),head:await git(p.root,['rev-parse','HEAD'])})===recoveryRepositoryHash,'recovery-repository-drift');
+  }
+  await save(path.join(lab,prior?'recovery.started':'run.started'),{at:new Date().toISOString(),protocol_sha256:expected,prior_result_sha256:recoveryResultHash,reviewed_repository_sha256:recoveryRepositoryHash,runner_sha256:runnerHash,node_binary:process.execPath,node_sha256:hash(await fs.readFile(process.execPath)),repository_tree:hash(await tree(p.root))},true);
+  const root=p.root,state=prior?structuredClone(prior):{schema_version:'temple.solo-result/v1',kind:actorImpl===runSoloActor?'live-agent-qualification':'synthetic-lifecycle-rehearsal',started_ms:Date.now(),protocol_sha256:expected,calls:[],tasks:[],commands:[],unrun:scenarios.map(s=>s.id),human_interventions:0,account_polling:false};
+  state.status='running';if(prior){state.recovery={prior_result_sha256:recoveryResultHash,original_failure:prior.failure,started_ms:Date.now(),runner_sha256:runnerHash,reason:'Repair sandbox Node runtime and verify the retained implementation; preserve original blocked call.'};delete state.failure;delete state.cleanup;}
+  const persist=async()=>{state.metrics=summarize(state.calls);state.wall_ms=Date.now()-state.started_ms;if(prior)state.recovery.elapsed_ms=Date.now()-state.recovery.started_ms;await save(path.join(lab,prior?'recovery-result.json':'result.json'),state);};
   const c=(...args)=>temple(root,args,state.commands);
   let activeId;
   try{
     const binary='/Applications/ChatGPT.app/Contents/Resources/codex',discovery=await discover({binary,root});
     const base={binary,...discovery,readRoots:[path.dirname(process.execPath),'/Applications/Xcode.app/Contents/Developer/usr/bin',p.runtime],environment:{PATH:`${path.dirname(process.execPath)}:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin`,OPENSSL_CONF:'/dev/null',TEMPLE_CLI_PATH:path.join(p.runtime,'bin/temple.mjs'),GIT_CONFIG_NOSYSTEM:'1',GIT_CONFIG_GLOBAL:'/dev/null',GIT_TERMINAL_PROMPT:'0'}};
     const runtime=await runtimeFor(root,base);
+    state.runtime_preflight=actorImpl===runSoloActor?await qualifySoloRuntime(runtime):{status:'passed',kind:'synthetic-no-provider',model_calls:0};await persist();ensure(state.runtime_preflight.status==='passed','runtime-preflight-failed');
     for(const [index,s] of scenarios.entries()){
-      const task={id:s.id,status:'running',attempts:[],started_ms:Date.now(),profile:s.profile};state.tasks.push(task);state.unrun=state.unrun.filter(x=>x!==s.id);await persist();
+      const retained=Boolean(prior&&index===0),task=retained?state.tasks[0]:{id:s.id,status:'running',attempts:[],started_ms:Date.now(),profile:s.profile};if(retained){task.status='running';task.original_attempt=structuredClone(task.attempts[0]);task.attempts=[];}else state.tasks.push(task);state.unrun=state.unrun.filter(x=>x!==s.id);await persist();
+      let wi,briefRef,planRef;
+      if(retained){wi=await read(path.join(root,`.ai-org/work-items/${task.work_item_id}.json`));activeId=wi.id;ensure(wi.state==='build'&&wi.claim.status==='released','recovery-lifecycle-drift');briefRef=`.ai-org/artifacts/${wi.id}/approved-brief.md`;planRef=`.ai-org/artifacts/${wi.id}/plan.json`;}
+      else{
       for(const [file,content] of Object.entries(s.seed))await save(path.join(root,file),content);
       const testFile=`test/scenario-${index+1}.test.mjs`;await save(path.join(root,testFile),s.publicTest);await save(path.join(root,'SPEC.md'),`# ${s.title}\n\n${s.spec}\n`);
       await save(path.join(root,'HANDOFF.md'),`# Repository checkpoint\nCompleted and independently accepted tasks: ${state.tasks.filter(t=>t.status==='accepted').map(t=>`${t.id} at ${t.revision}`).join(', ')||'none'}.\nCurrent work is ${s.id}; its supplied implementation is incomplete. Read SPEC.md and current Work Item; preserve previous modules and tests.\n`);
-      const wi=(await c('work-item','create','--title',s.title,'--scope',s.spec,'--acceptance','Current SPEC.md, preserved regressions and independent review',...s.files.flatMap(f=>['--affected-path',f]),'--workflow-profile',s.profile,'--risk-tier',s.profile==='lean'?'low':'standard','--scope-class','bounded','--profile-rationale','Bounded reversible synthetic Node task with distinct reviewer and no external effects','--ui-mode','not-applicable')).item;
+      wi=(await c('work-item','create','--title',s.title,'--scope',s.spec,'--acceptance','Current SPEC.md, preserved regressions and independent review',...s.files.flatMap(f=>['--affected-path',f]),'--workflow-profile',s.profile,'--risk-tier',s.profile==='lean'?'low':'standard','--scope-class','bounded','--profile-rationale','Bounded reversible synthetic Node task with distinct reviewer and no external effects','--ui-mode','not-applicable')).item;
       task.work_item_id=activeId=wi.id;
-      const briefRef=`.ai-org/artifacts/${wi.id}/approved-brief.md`;
+      briefRef=`.ai-org/artifacts/${wi.id}/approved-brief.md`;
       await save(path.join(root,briefRef),`# Approved task contract\n\n${s.spec}\n\nLocal fixture authorization: implement this scope, independently verify and close the organizational Work Item. No external actions.\n`);
       await save(path.join(root,'CURRENT.md'),`# Active assignment\nWork Item ${wi.id}, Developer agent-casey, Principal human.\nRead TEMPLE.md, SPEC.md, HANDOFF.md and the compact context for this Work Item. Edit only ${s.files.join(', ')}. Coordinator owns current claim and bookkeeping.\n`);
       const gates=s.profile==='lean'?[['build',['work_order','approved_scope','acceptance_criteria','technical_design','risk_review','profile_eligibility']]]:[['spec',['work_order']],['design',['approved_scope','acceptance_criteria']],['build',['technical_design','risk_review']]];
       for(const [stage,requirements] of gates)await c('transition','--work-item',wi.id,'--to',stage,...requirements.flatMap(g=>['--satisfy',`${g}=${briefRef}`]));
       const tests=(await fs.readdir(path.join(root,'test'))).filter(f=>f.endsWith('.test.mjs')).map(f=>'test/'+f);
-      const planRef=`.ai-org/artifacts/${wi.id}/plan.json`;
+      planRef=`.ai-org/artifacts/${wi.id}/plan.json`;
       await save(path.join(root,planRef),{schema_version:'temple.delivery-plan/v2',execution_mode:'autonomous',check_policy:'trusted-local',authorization_ref:briefRef,tests,test_timeout_ms:30000,budget:{elapsed_limit_ms:7200000,max_repairs:2,verification_reserve_ms:1200000,repair_reserve_ms:1200000,cleanup_reserve_ms:300000,token_limit:null,token_reserve:0}});
       await git(root,['add','.'],state.commands);await git(root,['commit','-m',`Freeze ${s.id} scope and seed`],state.commands);
+      }
       const d=(action,position,ref)=>c('delivery',action,'--work-item',wi.id,'--agent-id',roles[position],'--principal-id','human',...(ref?['--request',ref]:[]));
       await d('open','developer',planRef);
       const actor=async(stage,prompt)=>{
@@ -170,9 +200,9 @@ export async function run(lab,expected,{actorImpl=runSoloActor,discover=discover
       };
       for(let attempt=0;attempt<=p.repairs_per_task;attempt++){
         const a={number:attempt};task.attempts.push(a);
-        a.build=state.calls.length;
-        const b=await actor(attempt?'repair':'build',`Read CURRENT.md and its repository sources, then complete the current task. ${attempt?'Repair the retained findings: '+JSON.stringify(task.attempts.at(-2).findings):''} Run node --test test/*.test.mjs. Return decision, summary and findings. Do not change scope or ask for routine permission.`);
-        if(b.completion.decision!=='pass'){a.findings=[b.completion.summary,...b.completion.findings];await persist();ensure(b.completion.decision==='fail'&&attempt<p.repairs_per_task,'developer-reported-blocker-or-repair-exhausted');continue;}
+        const reuse=retained&&attempt===0;a.build=reuse?0:state.calls.length;a.reused_implementation=reuse;
+        const b=reuse?state.calls[0]:await actor(attempt?'repair':'build',`Read CURRENT.md and its repository sources, then complete the current task. ${attempt?'Repair the retained findings: '+JSON.stringify(task.attempts.at(-2).findings):''} Run node --test test/*.test.mjs. Return decision, summary and findings. Do not change scope or ask for routine permission.`);
+        if(!reuse&&b.completion.decision!=='pass'){a.findings=[b.completion.summary,...b.completion.findings];await persist();ensure(b.completion.decision==='fail'&&attempt<p.repairs_per_task,'developer-reported-blocker-or-repair-exhausted');continue;}
         await git(root,['add','.'],state.commands);await git(root,['commit','--allow-empty','-m',`Capture ${s.id} candidate ${attempt}`],state.commands);const revision=await git(root,['rev-parse','HEAD']);a.revision=revision;
         const evidence=`.ai-org/artifacts/${wi.id}/build-${attempt}.json`,request=`.ai-org/artifacts/${wi.id}/build-finish-${attempt}.json`;
         await save(path.join(root,evidence),b);await save(path.join(root,request),{operation_id:`build-${attempt}`,stage:'build',position:'developer',revision,completed:[b.completion.summary],evidence:[evidence],satisfied:{}});
@@ -216,5 +246,5 @@ export async function run(lab,expected,{actorImpl=runSoloActor,discover=discover
   return state;
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
-  const [action,lab,digest]=process.argv.slice(2);try{const r=action==='prepare'?await prepare(lab):action==='offline'?await offline(lab):action==='run'?await run(lab,digest):null;ensure(r,'Use prepare [parent], offline <lab>, run <lab> <digest>');console.log(JSON.stringify(r,null,2));if(['failed','stopped'].includes(r.status))process.exitCode=1;}catch(e){console.error(e.stack);process.exitCode=1;}
+  const [action,lab,digest,priorHash,repositoryHash]=process.argv.slice(2);try{const r=action==='prepare'?await prepare(lab):action==='offline'?await offline(lab):action==='run'?await run(lab,digest):action==='recover'&&priorHash&&repositoryHash?await run(lab,digest,{recoveryResultHash:priorHash,recoveryRepositoryHash:repositoryHash}):null;ensure(r,'Use prepare [parent], offline <lab>, run <lab> <digest>, recover <lab> <digest> <prior-result-hash> <reviewed-repository-hash>');console.log(JSON.stringify(r,null,2));if(['failed','stopped'].includes(r.status))process.exitCode=1;}catch(e){console.error(e.stack);process.exitCode=1;}
 }
