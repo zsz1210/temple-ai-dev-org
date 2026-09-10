@@ -663,8 +663,9 @@ export function learningDocuments(index) {
   return (index.entries ?? [])
     .filter(
       (entry) =>
-        (entry.kind === "lesson" && entry.status === "validated") ||
-        (entry.kind === "practice" && entry.status === "active")
+        entry.revalidation?.last_result !== "contradicted" &&
+        ((entry.kind === "lesson" && entry.status === "validated") ||
+        (entry.kind === "practice" && entry.status === "active"))
     )
     .map((entry) => ({ ...entry, retrieval_kind: "learning", paths: [entry.path], positions: [] }));
 }
