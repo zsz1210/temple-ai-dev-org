@@ -57,11 +57,12 @@ test('real installed CLI rehearsal closes all profiles and Learning without mode
  const p=await prepare();t.after(()=>fs.rm(p.lab,{recursive:true,force:true}));
  // Explicit test double qualification; never represented as independent agent acceptance.
  await fs.writeFile(path.join(p.lab,'offline.json'),JSON.stringify({status:'passed',kind:'test-double-setup'}));
- let blockedOnce=false;
+ let blockedOnce=false,viewsDrifted=false;
  const options={discover:async()=>({}),actorImpl:async(runtime,prompt)=>{
   if(!prompt.startsWith('You are agent-riley')){const current=await fs.readFile(path.join(runtime.root,'CURRENT.md'),'utf8');for(const file of Object.keys(reference))if(current.includes(file))await fs.writeFile(path.join(runtime.root,file),reference[file]);}
   if(!blockedOnce){blockedOnce=true;return {stage:'build',status:'completed',generation_requested:false,usage:null,usage_status:'synthetic-no-model',server_exit_confirmed:true,terminals_empty:true,elapsed_ms:0,completion:{decision:'blocked',summary:'Synthetic Node runtime failure after implementation',findings:['dyld test control']}};}
-  return {status:'completed',generation_requested:false,usage:null,usage_status:'synthetic-no-model',server_exit_confirmed:true,terminals_empty:true,elapsed_ms:0,completion:{decision:'pass',summary:'Synthetic reference implementation only; LESSON-0001 quantity rule reused.',findings:[]}};
+  if(!viewsDrifted&&!prompt.startsWith('You are agent-riley')&&(await fs.readFile(path.join(runtime.root,'CURRENT.md'),'utf8')).includes('src/invoice.mjs')){viewsDrifted=true;await fs.appendFile(path.join(runtime.root,'.ai-org/views/status.md'),'\nSynthetic generated-view drift\n');}
+  return {status:'completed',generation_requested:false,usage:null,usage_status:'synthetic-no-model',server_exit_confirmed:true,terminals_empty:true,elapsed_ms:0,completion:{decision:'pass',summary:'Synthetic reference implementation only.',findings:['LESSON-0001 quantity rule reused.']}};
  }};
  const stopped=await run(p.lab,p.protocol_sha256,options);assert.equal(stopped.status,'stopped');assert.equal(stopped.calls.length,1);
  const original=await fs.readFile(path.join(p.lab,'result.json'),'utf8');
@@ -69,7 +70,11 @@ test('real installed CLI rehearsal closes all profiles and Learning without mode
  const root=path.join(p.lab,'project'),recoveryRepositoryHash=hash({tree:await tree(root),head:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim()});
  const quantity=await fs.readFile(path.join(root,'src/quantity.mjs'),'utf8');await fs.writeFile(path.join(root,'src/quantity.mjs'),quantity+'\n// intervening edit\n');
  await assert.rejects(run(p.lab,p.protocol_sha256,{...options,recoveryResultHash:hash(stopped),recoveryRepositoryHash}),/recovery-repository-drift/);await fs.writeFile(path.join(root,'src/quantity.mjs'),quantity);
- const result=await run(p.lab,p.protocol_sha256,{...options,recoveryResultHash:hash(stopped),recoveryRepositoryHash});
+ const interrupted=await run(p.lab,p.protocol_sha256,{...options,recoveryResultHash:hash(stopped),recoveryRepositoryHash});assert.equal(interrupted.status,'stopped');assert.equal(interrupted.tasks[0].status,'accepted');assert.equal(interrupted.calls.length,3);
+ const priorResultFile=`continuation-${hash(stopped)}.json`,retainedIntermediate=await fs.readFile(path.join(p.lab,priorResultFile),'utf8');
+ const secondRepositoryHash=hash({tree:await tree(root),head:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim()});
+ const result=await run(p.lab,p.protocol_sha256,{...options,recoveryResultHash:hash(interrupted),recoveryRepositoryHash:secondRepositoryHash,priorResultFile});
+ assert.equal(await fs.readFile(path.join(p.lab,priorResultFile),'utf8'),retainedIntermediate);assert.equal(result.tasks[1].attempts[0].build,2);assert.equal(result.tasks[1].attempts[0].reused_implementation,true);assert.equal(result.recovery_history.length,1);assert(result.learning.agent_application.includes('LESSON-0001'));
  assert.equal(await fs.readFile(path.join(p.lab,'result.json'),'utf8'),original);assert.equal(result.calls[0].completion.decision,'blocked');assert.equal(result.tasks[0].attempts[0].reused_implementation,true);
  const completedHash=hash({tree:await tree(root),head:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim()});
  await assert.rejects(run(p.lab,p.protocol_sha256,{...options,recoveryResultHash:hash(stopped),recoveryRepositoryHash:completedHash}),/EEXIST/);

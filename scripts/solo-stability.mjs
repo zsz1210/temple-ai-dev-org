@@ -145,23 +145,30 @@ export async function qualifySoloRuntime(runtime,{providerFactory=createJsonRpcP
   }catch(e){result.failure=e.message;}finally{if(client)try{await client.close();result.server_exit_confirmed=true;}catch(e){result.status='failed';result.cleanup_failure=e.message;result.server_exit_confirmed=false;}}
   return result;
 }
-export async function run(lab,expected,{actorImpl=runSoloActor,discover=discoverRuntime,recoveryResultHash=null,recoveryRepositoryHash=null}={}){
+export async function run(lab,expected,{actorImpl=runSoloActor,discover=discoverRuntime,recoveryResultHash=null,recoveryRepositoryHash=null,priorResultFile='result.json'}={}){
   const p=await read(path.join(lab,'protocol.json')),runnerHash=hash(await fs.readFile(new URL(import.meta.url)));
   ensure(hash(p)===expected&&(recoveryResultHash||p.runner_sha256===runnerHash)&&p.scenarios_sha256===hash(scenarios),'frozen-protocol-drift');
   ensure(hash(await tree(p.runtime))===p.runtime_tree,'runtime-drift');ensure((await read(path.join(lab,'offline.json'))).status==='passed','offline-not-qualified');
   let prior;
   if(recoveryResultHash){
-    prior=await read(path.join(lab,'result.json'));ensure(hash(prior)===recoveryResultHash,'recovery-result-drift');
-    const b=prior.calls?.[0];ensure(prior.status==='stopped'&&prior.cleanup==='claim-released'&&prior.tasks.length===1&&prior.tasks[0].attempts.length===1&&prior.calls.length===1&&b.stage==='build'&&b.status==='completed'&&b.completion.decision==='blocked'&&b.terminals_empty&&b.server_exit_confirmed&&b.protected_drift?.length===0,'unsupported-recovery-boundary');
+    ensure(/^(result|recovery-result|continuation-[a-f0-9]{64})\.json$/.test(priorResultFile),'invalid-prior-result');
+    prior=await read(path.join(lab,priorResultFile));ensure(hash(prior)===recoveryResultHash,'recovery-result-drift');
+    const task=prior.tasks?.at(-1),b=prior.calls?.at(-1);ensure(prior.status==='stopped'&&prior.cleanup==='claim-released'&&prior.tasks.length<=scenarios.length&&prior.tasks.every((t,i)=>t.id===scenarios[i].id&&(i===prior.tasks.length-1?t.status==='stopped':t.status==='accepted'))&&task.attempts.length===1&&task.attempts[0].build===prior.calls.length-1&&b.stage==='build'&&b.status==='completed'&&b.terminals_empty&&b.server_exit_confirmed&&!b.inventory_failure,'unsupported-recovery-boundary');
     ensure(prior.kind===(actorImpl===runSoloActor?'live-agent-qualification':'synthetic-lifecycle-rehearsal'),'recovery-kind-mismatch');
-    // Only a coordinator-reviewed command-environment failure can use this boundary.
-    ensure(/dyld|libnode|Node runtime/.test(b.completion.summary+' '+b.completion.findings.join(' ')),'not-runtime-blocker');
+    // Narrow instrument corrections, never arbitrary scope drift or failed review.
+    const runtimeBlocked=b.completion.decision==='blocked'&&b.protected_drift?.length===0&&/dyld|libnode|Node runtime/.test(b.completion.summary+' '+b.completion.findings.join(' '));
+    const generatedViews=b.completion.decision==='pass'&&b.protected_drift?.length>0&&b.protected_drift.every(f=>['.ai-org/views/capabilities.json','.ai-org/views/status.md'].includes(f));
+    ensure(runtimeBlocked||generatedViews,'unsupported-instrument-correction');
     ensure(recoveryRepositoryHash&&hash({tree:await tree(p.root),head:await git(p.root,['rev-parse','HEAD'])})===recoveryRepositoryHash,'recovery-repository-drift');
+    for(const t of prior.tasks.slice(0,-1))ensure((await read(path.join(p.root,`.ai-org/work-items/${t.work_item_id}.json`))).state==='done','recovery-accepted-prefix-drift');
+    // Preserve the one-shot marker created by the previous runner version too.
+    if(priorResultFile==='result.json')ensure(!await fs.stat(path.join(lab,'recovery.started')).then(()=>true,()=>false),'legacy-recovery-already-started');
   }
-  await save(path.join(lab,prior?'recovery.started':'run.started'),{at:new Date().toISOString(),protocol_sha256:expected,prior_result_sha256:recoveryResultHash,reviewed_repository_sha256:recoveryRepositoryHash,runner_sha256:runnerHash,node_binary:process.execPath,node_sha256:hash(await fs.readFile(process.execPath)),repository_tree:hash(await tree(p.root))},true);
+  const continuation=prior?`continuation-${recoveryResultHash}`:null;
+  await save(path.join(lab,prior?`${continuation}.started`:'run.started'),{at:new Date().toISOString(),protocol_sha256:expected,prior_result_file:priorResultFile,prior_result_sha256:recoveryResultHash,reviewed_repository_sha256:recoveryRepositoryHash,runner_sha256:runnerHash,node_binary:process.execPath,node_sha256:hash(await fs.readFile(process.execPath)),repository_tree:hash(await tree(p.root))},true);
   const root=p.root,state=prior?structuredClone(prior):{schema_version:'temple.solo-result/v1',kind:actorImpl===runSoloActor?'live-agent-qualification':'synthetic-lifecycle-rehearsal',started_ms:Date.now(),protocol_sha256:expected,calls:[],tasks:[],commands:[],unrun:scenarios.map(s=>s.id),human_interventions:0,account_polling:false};
-  state.status='running';if(prior){state.recovery={prior_result_sha256:recoveryResultHash,original_failure:prior.failure,started_ms:Date.now(),runner_sha256:runnerHash,reason:'Repair sandbox Node runtime and verify the retained implementation; preserve original blocked call.'};delete state.failure;delete state.cleanup;}
-  const persist=async()=>{state.metrics=summarize(state.calls);state.wall_ms=Date.now()-state.started_ms;if(prior)state.recovery.elapsed_ms=Date.now()-state.recovery.started_ms;await save(path.join(lab,prior?'recovery-result.json':'result.json'),state);};
+  state.status='running';if(prior){state.recovery_history=[...(prior.recovery_history??[]),...(prior.recovery?[prior.recovery]:[])];state.recovery={prior_result_file:priorResultFile,prior_result_sha256:recoveryResultHash,original_failure:prior.failure,started_ms:Date.now(),runner_sha256:runnerHash,reason:'Coordinator-reviewed instrument correction; verify retained implementation without rewriting the stopped attempt.'};delete state.failure;delete state.cleanup;}
+  const persist=async()=>{state.metrics=summarize(state.calls);state.wall_ms=Date.now()-state.started_ms;if(prior)state.recovery.elapsed_ms=Date.now()-state.recovery.started_ms;await save(path.join(lab,prior?`${continuation}.json`:'result.json'),state);};
   const c=(...args)=>temple(root,args,state.commands);
   let activeId;
   try{
@@ -170,7 +177,8 @@ export async function run(lab,expected,{actorImpl=runSoloActor,discover=discover
     const runtime=await runtimeFor(root,base);
     state.runtime_preflight=actorImpl===runSoloActor?await qualifySoloRuntime(runtime):{status:'passed',kind:'synthetic-no-provider',model_calls:0};await persist();ensure(state.runtime_preflight.status==='passed','runtime-preflight-failed');
     for(const [index,s] of scenarios.entries()){
-      const retained=Boolean(prior&&index===0),task=retained?state.tasks[0]:{id:s.id,status:'running',attempts:[],started_ms:Date.now(),profile:s.profile};if(retained){task.status='running';task.original_attempt=structuredClone(task.attempts[0]);task.attempts=[];}else state.tasks.push(task);state.unrun=state.unrun.filter(x=>x!==s.id);await persist();
+      if(prior&&index<prior.tasks.length-1)continue;
+      const retained=Boolean(prior&&index===prior.tasks.length-1),task=retained?state.tasks[index]:{id:s.id,status:'running',attempts:[],started_ms:Date.now(),profile:s.profile};if(retained){task.status='running';task.original_attempt=structuredClone(task.attempts[0]);task.attempts=[];}else state.tasks.push(task);state.unrun=state.unrun.filter(x=>x!==s.id);await persist();
       let wi,briefRef,planRef;
       if(retained){wi=await read(path.join(root,`.ai-org/work-items/${task.work_item_id}.json`));activeId=wi.id;ensure(wi.state==='build'&&wi.claim.status==='released','recovery-lifecycle-drift');briefRef=`.ai-org/artifacts/${wi.id}/approved-brief.md`;planRef=`.ai-org/artifacts/${wi.id}/plan.json`;}
       else{
@@ -200,8 +208,8 @@ export async function run(lab,expected,{actorImpl=runSoloActor,discover=discover
       };
       for(let attempt=0;attempt<=p.repairs_per_task;attempt++){
         const a={number:attempt};task.attempts.push(a);
-        const reuse=retained&&attempt===0;a.build=reuse?0:state.calls.length;a.reused_implementation=reuse;
-        const b=reuse?state.calls[0]:await actor(attempt?'repair':'build',`Read CURRENT.md and its repository sources, then complete the current task. ${attempt?'Repair the retained findings: '+JSON.stringify(task.attempts.at(-2).findings):''} Run node --test test/*.test.mjs. Return decision, summary and findings. Do not change scope or ask for routine permission.`);
+        const reuse=retained&&attempt===0;a.build=reuse?task.original_attempt.build:state.calls.length;a.reused_implementation=reuse;
+        const b=reuse?state.calls[a.build]:await actor(attempt?'repair':'build',`Read CURRENT.md and its repository sources, then complete the current task. ${attempt?'Repair the retained findings: '+JSON.stringify(task.attempts.at(-2).findings):''} Run node --test test/*.test.mjs. Use --no-write for context and status lookups; read Learning files directly. Do not run commands that refresh generated views. Return decision, summary and findings. Do not change scope or ask for routine permission.`);
         if(!reuse&&b.completion.decision!=='pass'){a.findings=[b.completion.summary,...b.completion.findings];await persist();ensure(b.completion.decision==='fail'&&attempt<p.repairs_per_task,'developer-reported-blocker-or-repair-exhausted');continue;}
         await git(root,['add','.'],state.commands);await git(root,['commit','--allow-empty','-m',`Capture ${s.id} candidate ${attempt}`],state.commands);const revision=await git(root,['rev-parse','HEAD']);a.revision=revision;
         const evidence=`.ai-org/artifacts/${wi.id}/build-${attempt}.json`,request=`.ai-org/artifacts/${wi.id}/build-finish-${attempt}.json`;
@@ -210,7 +218,7 @@ export async function run(lab,expected,{actorImpl=runSoloActor,discover=discover
         if(!check.check.accepted){a.findings=['Fixed check failed',check.check];await persist();ensure(attempt<p.repairs_per_task,'fixed-check-rejected');continue;}
         ensure((await d('finish','developer',request)).finish.success,'build-finish');
         await d('open','quality_evaluator',planRef);
-        a.review=state.calls.length;const q=await actor('verify',`You are agent-riley, an independent reviewer distinct from agent-casey. Read CURRENT.md, SPEC.md, HANDOFF.md and actual source/tests. Judge all required behavior, edge cases and earlier regressions. Run tests. Do not edit files or perform lifecycle writes. Return pass/fail/blocked with actionable findings; a previous test pass is not proof of this candidate. ${index===1?'Also verify reuse of the validated Lesson and quantity parser.':''}`);
+        a.review=state.calls.length;const q=await actor('verify',`You are agent-riley, an independent reviewer distinct from agent-casey. Read CURRENT.md, SPEC.md, HANDOFF.md and actual source/tests. Use context resolve --compact --no-write --json and status --compact --no-write --json for navigation; read Learning files directly. Do not run commands that refresh generated views. Judge all required behavior, edge cases and earlier regressions. Run tests. Do not edit files or perform lifecycle writes. Return pass/fail/blocked with actionable findings; a previous test pass is not proof of this candidate. ${index===1?'Also verify reuse of the validated Lesson and quantity parser.':''}`);
         a.objective=await objective(root,s,lab,`${s.id}-${attempt}`);a.findings=[...q.completion.findings,...(a.objective.passed?[]:[a.objective.diagnostic])];a.accepted=q.completion.decision==='pass'&&a.objective.passed;
         await persist();
         if(!a.accepted){
@@ -233,7 +241,7 @@ export async function run(lab,expected,{actorImpl=runSoloActor,discover=discover
         await c('learning','record-review','--work-item',wi.id,'--revision',task.revision,'--result','linked-lessons','--actor','agent-riley','--evidence',note,'--learning-id',state.lesson_id);
         state.learning={relevant:await learningProbe(root,'strict ASCII quantity invoice'),unrelated:await learningProbe(root,'zebrafish astronomy')};ensure(state.learning.relevant.includes(state.lesson_id)&&state.learning.unrelated.length===0,'learning-route');
       }
-      if(index===1){state.learning.agent_application=state.calls[task.attempts.at(-1).build].completion.summary;ensure(state.learning.agent_application.includes(state.lesson_id),'lesson-application-not-reported');}
+      if(index===1){const completion=state.calls[task.attempts.at(-1).build].completion;state.learning.agent_application=[completion.summary,...completion.findings].join('\n');ensure(state.learning.agent_application.includes(state.lesson_id),'lesson-application-not-reported');}
       await git(root,['add','.'],state.commands);await git(root,['commit','-m',`Archive ${s.id} evidence and checkpoint`],state.commands);await persist();console.log(JSON.stringify({event:'task-complete',task:s.id,status:task.status}));
     }
     const controlRef='learning-negative-control.md';await save(path.join(root,controlRef),'# Synthetic invalidation control\nAfter all live tasks, deliberately mark this fixture Lesson contradicted to test retrieval exclusion. This is an injected control, not a discovered contradiction of the quantity contract.\n');
@@ -246,5 +254,5 @@ export async function run(lab,expected,{actorImpl=runSoloActor,discover=discover
   return state;
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
-  const [action,lab,digest,priorHash,repositoryHash]=process.argv.slice(2);try{const r=action==='prepare'?await prepare(lab):action==='offline'?await offline(lab):action==='run'?await run(lab,digest):action==='recover'&&priorHash&&repositoryHash?await run(lab,digest,{recoveryResultHash:priorHash,recoveryRepositoryHash:repositoryHash}):null;ensure(r,'Use prepare [parent], offline <lab>, run <lab> <digest>, recover <lab> <digest> <prior-result-hash> <reviewed-repository-hash>');console.log(JSON.stringify(r,null,2));if(['failed','stopped'].includes(r.status))process.exitCode=1;}catch(e){console.error(e.stack);process.exitCode=1;}
+  const [action,lab,digest,priorHash,repositoryHash,priorFile]=process.argv.slice(2);try{const r=action==='prepare'?await prepare(lab):action==='offline'?await offline(lab):action==='run'?await run(lab,digest):action==='recover'&&priorHash&&repositoryHash?await run(lab,digest,{recoveryResultHash:priorHash,recoveryRepositoryHash:repositoryHash,priorResultFile:priorFile??'result.json'}):null;ensure(r,'Use prepare [parent], offline <lab>, run <lab> <digest>, recover <lab> <digest> <prior-result-hash> <reviewed-repository-hash> [prior-result-file]');console.log(JSON.stringify(r,null,2));if(['failed','stopped'].includes(r.status))process.exitCode=1;}catch(e){console.error(e.stack);process.exitCode=1;}
 }
