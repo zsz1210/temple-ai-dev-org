@@ -2,22 +2,22 @@
   "schema_version": "temple.lock/v1",
   "template": {
     "name": "@zsz1210/temple-ai-dev-org",
-    "version": "0.1.0-alpha.31",
+    "version": "0.1.0-alpha.32",
     "repository": "zsz1210/temple-ai-dev-org",
     "bootstrap": {
       "schema_version": "temple.cli-bootstrap/v1",
-      "version": "0.1.0-alpha.31",
+      "version": "0.1.0-alpha.32",
       "node": ">=24.0.0",
       "launcher": "templew.mjs",
-      "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.31",
+      "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.32",
       "repository_spec": null,
-      "source_revision": "69d01141643286ee2086e20f29f327370611a272",
+      "source_revision": "e4d0b32cb9126b1b4de4b48d8b34cab654299c28",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-09-10T10:47:48.244Z",
-    "upgraded_from": "0.1.0-alpha.30"
+    "upgraded_at": "2026-09-10T11:19:49.530Z",
+    "upgraded_from": "0.1.0-alpha.31"
   },
   "installation": {
     "mode": "toolkit-self-host",

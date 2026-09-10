@@ -10,9 +10,10 @@ import { runStage } from "../scripts/delivery-control-pair.mjs";
 
 const secret = "SECRET_person@example.invalid_/Users/fixture/credential";
 async function fixture(t) {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(),"observations-"));
-  t.after(()=>fs.rm(root,{recursive:true,force:true}));
-  await fs.mkdir(path.join(root,"test"));
+  const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(),"observations-"));
+  const root = path.join(temporaryRoot,"workspace","product");
+  t.after(()=>fs.rm(temporaryRoot,{recursive:true,force:true}));
+  await fs.mkdir(path.join(root,"test"),{recursive:true});
   for (const p of ["order.mjs","test/public.test.mjs","test/added.test.mjs","package.json"]) await fs.writeFile(path.join(root,p), secret);
   const context = { root, arm: "ordinary", stage: "build" };
   const make = (command, output = secret, exitCode = 0) => ({ type:"commandExecution", id:"cmd-1",status:"completed",cwd:root,command,commandActions:[],aggregatedOutput:output,exitCode });
