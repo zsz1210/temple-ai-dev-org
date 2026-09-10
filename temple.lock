@@ -2,21 +2,21 @@
   "schema_version": "temple.lock/v1",
   "template": {
     "name": "@zsz1210/temple-ai-dev-org",
-    "version": "0.1.0-alpha.30",
+    "version": "0.1.0-alpha.31",
     "repository": "zsz1210/temple-ai-dev-org",
     "bootstrap": {
       "schema_version": "temple.cli-bootstrap/v1",
-      "version": "0.1.0-alpha.30",
+      "version": "0.1.0-alpha.31",
       "node": ">=24.0.0",
       "launcher": "templew.mjs",
-      "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.30",
+      "package_spec": "@zsz1210/temple-ai-dev-org@0.1.0-alpha.31",
       "repository_spec": null,
-      "source_revision": "1870f5d152f37b2d45db556137fb0e61006c808b",
+      "source_revision": "69d01141643286ee2086e20f29f327370611a272",
       "source_clean": false,
       "invocation": "node ./templew.mjs <command> ."
     },
     "installed_at": "2026-08-30T02:28:18.355Z",
-    "upgraded_at": "2026-09-09T03:24:31.146Z",
+    "upgraded_at": "2026-09-10T10:47:48.244Z",
     "upgraded_from": "0.1.0-alpha.30"
   },
   "installation": {
@@ -337,6 +337,10 @@
       "sha256": "40400b30eb53914f9885ca59a6e5c976581c5c2a24d1782a3985d54c15c41563"
     },
     {
+      "path": ".ai-org/core/schemas/learning-review.schema.json",
+      "sha256": "fd4557e6fcd806592e819a481c7eefb65c049b6a56db42b073427b930c5d8241"
+    },
+    {
       "path": ".ai-org/core/schemas/matched-model-evaluation.schema.json",
       "sha256": "c8628071cdf854e727b486bb83d2fb76d4f66fbda25b422206b487781dea6a9b"
     },
@@ -459,6 +463,10 @@
     {
       "path": ".ai-org/templates/independent-qa-report.md",
       "sha256": "249ee43ccc5a087ae58e242703191ce121c76996e4904cf27cdea701556d28df"
+    },
+    {
+      "path": ".ai-org/templates/learning-review.json",
+      "sha256": "1cc94261998b7595ec1e4e0cc92abb3c61d3e9240a0946a0d8b7bab5e34044e3"
     },
     {
       "path": ".ai-org/templates/legacy-document-audit.md",
