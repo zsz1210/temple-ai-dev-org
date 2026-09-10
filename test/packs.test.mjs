@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { TEMPLATE_VERSION } from "../src/constants.mjs";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -145,7 +146,7 @@ test("upgrade carries installed pack files and refreshes pack metadata", async (
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = await readJson(lockPath);
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.30");
+  assert.equal(upgradedLock.template.version, TEMPLATE_VERSION);
   assert.equal(upgradedLock.optional_packs[0].version, "0.2.0-alpha.1");
   await fs.access(path.join(target, ".agents/skills/tdd/SKILL.md"));
   assert.equal(run(["doctor", target]).status, 0);

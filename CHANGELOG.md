@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.31
+
+- Added opt-in autonomous delivery across existing workflow profiles, compact task context and guarded completion/rework operations while retaining scope, ownership, independent verification and release authority.
+- Added reusable evaluation scenarios and failure-preserving continuation, including a bounded Solo qualification runner with explicit filesystem admission checks and a Solo adoption guide. The runner's enforced write boundary is not a universal policy automatically installed in every agent runtime.
+- Added explicit Learning review coverage and validated source references without automatic per-task retrospectives; improved review readability and excluded Lessons and Practices whose latest revalidation is contradicted.
+- Hardened experiment accounting, incomplete test observations, process cleanup and exact managed-file ownership. Retained interrupted observations remain failures or incomplete evidence rather than successful replacement runs.
+- Shortened the operating contract and clarified repository-native onboarding, procedure routing, evidence reuse and the single-maintainer PR integration policy.
+- Qualified this Alpha as a versioned Solo trial baseline. Existing bounded scenarios do not establish universal cost or speed improvements, uninterrupted execution, production readiness, or mature multi-human and multi-repository collaboration.
+
 ## 0.1.0-alpha.30
 
 - Added staged Context Capsules and explainable advisory execution routing that keep context selection, model guidance, Position authority, and actual execution as separate decisions. Temple still does not launch Providers or switch models automatically.

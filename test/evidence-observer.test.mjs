@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { TEMPLATE_VERSION } from "../src/constants.mjs";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -206,7 +207,7 @@ test("upgrade seeds a missing evidence registry without adopting project evidenc
     entries: []
   });
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.30");
+  assert.equal(upgradedLock.template.version, TEMPLATE_VERSION);
   assert.ok(!upgradedLock.managed_files.some((entry) => entry.path === ".ai-org/project/evidence.json"));
 
   const custom = { schema_version: "temple.evidence/v1", entries: [] };

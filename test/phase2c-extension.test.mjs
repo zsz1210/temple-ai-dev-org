@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { TEMPLATE_VERSION } from "../src/constants.mjs";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -119,7 +120,7 @@ test("migration registry distinguishes fresh baselines from pending upgrade migr
   const upgraded = run(["upgrade", target]);
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.30");
+  assert.equal(upgradedLock.template.version, TEMPLATE_VERSION);
   assert.ok(upgradedLock.migrations.applied.some((entry) => entry.id === "MIG-0019-PHASE2C"));
 });
 

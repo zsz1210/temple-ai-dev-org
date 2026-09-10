@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { TEMPLATE_VERSION } from "../src/constants.mjs";
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import os from "node:os";
@@ -1448,7 +1449,7 @@ test("upgrade migrates legacy identity and safely removes obsolete managed skill
 
   const dryRun = run(["upgrade", target, "--dry-run"]);
   assert.equal(dryRun.status, 0, dryRun.stderr || dryRun.stdout);
-  assert.match(dryRun.stdout, /0\.1\.0-alpha\.3 -> 0\.1\.0-alpha\.30/);
+  assert.ok(dryRun.stdout.includes(`- version: 0.1.0-alpha.3 -> ${TEMPLATE_VERSION}\n`));
   assert.match(dryRun.stdout, /remove-managed: 3/);
   assert.equal(await fs.readFile(installedTemple, "utf8"), oldContent);
   await fs.access(path.join(target, obsoleteSkills[0]));
@@ -1457,7 +1458,7 @@ test("upgrade migrates legacy identity and safely removes obsolete managed skill
   assert.equal(upgraded.status, 0, upgraded.stderr || upgraded.stdout);
   const upgradedLock = await fs.readFile(lockPath, "utf8");
   assert.equal(JSON.parse(upgradedLock).template.name, "@zsz1210/temple-ai-dev-org");
-  assert.equal(JSON.parse(upgradedLock).template.version, "0.1.0-alpha.30");
+  assert.equal(JSON.parse(upgradedLock).template.version, TEMPLATE_VERSION);
   assert.equal(JSON.parse(upgradedLock).capabilities.group_parallel_planning, true);
   assert.equal(JSON.parse(upgradedLock).capabilities.parallel_plan_freshness, true);
   assert.ok(
