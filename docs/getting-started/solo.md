@@ -24,6 +24,8 @@ Record the goal, acceptance criteria, affected paths, actual verification comman
 
 After approved Build entry, explicitly select [Autonomous delivery](../operations/autonomous-delivery.md). The Developer chooses implementation methods. The coordinator runs fixed bookkeeping and checks, then continues to the distinct verifier. A real rejection returns to same-scope repair within the agreed allowance. Neither a generated receipt nor successful tests replace the reviewer's judgment.
 
+When delegating implementation while retaining coordinator ownership of Git and lifecycle state, enforce that split in the worker's runtime permissions: approved product files may be writable, while Git and organization state remain read-only. A prompt alone does not prevent duplicate bookkeeping. The qualification runner demonstrates this boundary; installing Temple does not automatically restrict every host or Codex session.
+
 Do not repeat individual handoff/transition commands after successful `delivery finish`. Reuse returned mutation and diagnostic results for unchanged state. A change in candidate, scope or authority requires the corresponding fresh check; it cannot be hidden by reusing a receipt.
 
 ## Continue in a fresh conversation

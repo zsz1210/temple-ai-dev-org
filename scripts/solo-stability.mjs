@@ -49,6 +49,25 @@ export function summarize(calls){
   return {calls:calls.length,known_calls:known.length,coverage:complete?'recorded-calls-only':'partial-or-unavailable',input_tokens:sum('input_tokens'),cached_input_tokens:sum('cached_input_tokens'),output_tokens:sum('output_tokens'),known_operational_tokens:sum('input_tokens')-sum('cached_input_tokens')+sum('output_tokens'),whole_task_tokens:null,monetary_cost:null};
 }
 const completionSchema={type:'object',additionalProperties:false,required:['decision','summary','findings'],properties:{decision:{type:'string',enum:['pass','fail','blocked']},summary:{type:'string'},findings:{type:'array',items:{type:'string'}}}};
+function actorFilesystem(runtime){
+  if(!runtime.writePaths)return null;
+  ensure(runtime.writePaths.every(p=>path.isAbsolute(p)&&p===path.normalize(p)&&p.startsWith(runtime.root+path.sep)&&!p.slice(runtime.root.length+1).startsWith('.'))&&path.isAbsolute(runtime.scratchRoot)&&runtime.scratchRoot===path.normalize(runtime.scratchRoot)&&runtime.scratchRoot!==runtime.root&&!runtime.scratchRoot.startsWith(runtime.root+path.sep)&&!runtime.root.startsWith(runtime.scratchRoot+path.sep),'invalid-actor-write-scope');
+  return {':minimal':'read',[runtime.root]:'read',[path.join(runtime.root,'.git')]:'read',...Object.fromEntries(runtime.readRoots.map(p=>[p,'read'])),...Object.fromEntries(runtime.writePaths.map(p=>[p,'write'])),[runtime.scratchRoot]:'write'};
+}
+export function soloArguments(runtime){
+  const args=liveArguments(runtime),filesystem=actorFilesystem(runtime);if(!filesystem)return args;
+  const i=args.findIndex(v=>v.startsWith('permissions.temple-continuity-probe.filesystem='));ensure(i>0,'missing-filesystem-setting');
+  args[i]=`permissions.temple-continuity-probe.filesystem={${Object.entries(filesystem).map(([p,v])=>`${JSON.stringify(p)}=${JSON.stringify(v)}`).join(',')}}`;return args;
+}
+function assertSoloConfiguration(reply,runtime){
+  const filesystem=actorFilesystem(runtime);if(!filesystem)return assertLiveConfiguration(reply,runtime);
+  const actual={...reply.config?.permissions?.['temple-continuity-probe']?.filesystem};if(actual.glob_scan_max_depth===null)delete actual.glob_scan_max_depth;
+  assert.deepEqual(actual,filesystem,'actor-filesystem-mismatch');
+  // The shared assertion owns all other isolation settings. Its legacy root grant
+  // is replaced only after the complete scoped filesystem was independently checked.
+  const common=structuredClone(reply);common.config.permissions['temple-continuity-probe'].filesystem={':minimal':'read',[runtime.root]:'write',[path.join(runtime.root,'.git')]:'write',...Object.fromEntries(runtime.readRoots.map(p=>[p,'read']))};
+  return assertLiveConfiguration(common,runtime);
+}
 // No account usage query. Usage comes exclusively from this fresh thread's events.
 export async function runSoloActor(runtime,prompt,{ms=900000,providerFactory=createJsonRpcProcess,onStart=async()=>{},onUsage=()=>{}}={}){
   const started=Date.now(),result={status:'running',account_polling:false,generation_requested:false,usage:null};
@@ -64,10 +83,10 @@ export async function runSoloActor(runtime,prompt,{ms=900000,providerFactory=cre
   }catch(e){stop(e.message);}};
   const timer=setTimeout(()=>stop('time-limit'),ms);
   try{
-    client=providerFactory(runtime.binary,liveArguments(runtime),{cwd:runtime.root,env:subprocessEnvironment(runtime.environment),onNotification:consume,onProtocolError:()=>stop('protocol-error'),onRequest:()=>stop('unexpected-approval-request'),onExit:()=>{if(!closing&&!terminal)stop('provider-exit');}});
+    client=providerFactory(runtime.binary,soloArguments(runtime),{cwd:runtime.root,env:subprocessEnvironment(runtime.environment),onNotification:consume,onProtocolError:()=>stop('protocol-error'),onRequest:()=>stop('unexpected-approval-request'),onExit:()=>{if(!closing&&!terminal)stop('provider-exit');}});
     const request=(method,params)=>client.request(method,params,Math.max(1,ms-(Date.now()-started)));
     await request('initialize',{clientInfo:{name:'temple-solo-qualification',version:'1'},capabilities:{experimentalApi:true}});client.notify('initialized',{});
-    assertLiveConfiguration(await request('config/read',{cwd:runtime.root,includeLayers:false}),runtime);
+    assertSoloConfiguration(await request('config/read',{cwd:runtime.root,includeLayers:false}),runtime);
     const model='gpt-5.6-terra',effort='medium';
     const t=await request('thread/start',{model,cwd:runtime.root,approvalPolicy:'never',permissions:'temple-continuity-probe',ephemeral:true,allowProviderModelFallback:false,config:{model_reasoning_effort:effort},developerInstructions:'Bounded local qualification. Use only the current repository, no network, other repositories, memories, subagents, account queries, installs or external actions. Use apply_patch for edits and non-login shells. Coordinator owns Git, claims and lifecycle. Preserve protected supplied files. A completion claim is not acceptance.'});
     assertActorBoundary(t,runtime.root,{model,effort});threadId=t.thread.id;result.thread_id=threadId;result.model=t.model;result.effort=t.reasoningEffort;
@@ -135,11 +154,17 @@ async function learningProbe(root,query){const documents=await buildRetrievalCor
 export async function qualifySoloRuntime(runtime,{providerFactory=createJsonRpcProcess}={}){
   let client;const result={model_calls:0,status:'failed',checks:[]};
   try{
-    client=providerFactory(runtime.binary,liveArguments(runtime),{cwd:runtime.root,env:subprocessEnvironment(runtime.environment)});
+    client=providerFactory(runtime.binary,soloArguments(runtime),{cwd:runtime.root,env:subprocessEnvironment(runtime.environment)});
     await client.request('initialize',{clientInfo:{name:'solo-command-preflight',version:'1'},capabilities:{experimentalApi:true}},10000);client.notify('initialized',{});
-    assertLiveConfiguration(await client.request('config/read',{cwd:runtime.root,includeLayers:false},10000),runtime);
+    assertSoloConfiguration(await client.request('config/read',{cwd:runtime.root,includeLayers:false},10000),runtime);
     const node=path.join(runtime.readRoots[0],'node');
     const checks=[['node',['-e',"if(Number(process.versions.node.split('.')[0])<24)process.exit(1);process.stdout.write(process.version)"]],['own-read',['-e',"require('node:fs').readFileSync('AGENTS.md');process.stdout.write('allowed')"]],['outside-denied',['-e',"try{require('node:fs').readFileSync(process.argv[1]);process.exit(1)}catch(e){if(!['EPERM','EACCES'].includes(e.code))process.exit(2);process.stdout.write('denied')}",path.join(path.dirname(runtime.root),'protocol.json')]],['launcher',['templew.mjs','doctor','.','--compact','--json']]];
+    if(runtime.writePaths){
+      const denied="try{require('node:fs').writeFileSync(process.argv[1],'probe');process.exit(1)}catch(e){if(!['EPERM','EACCES'].includes(e.code))process.exit(2);process.stdout.write('denied')}";
+      for(const name of ['.git','.ai-org'])checks.push([`${name}-write-denied`,['-e',denied,path.join(runtime.root,name,'solo-write-probe')]]);
+      checks.push(['scratch-write',['-e',"const f=require('node:fs'),p=process.argv[1];f.writeFileSync(p,'probe');f.unlinkSync(p);process.stdout.write('allowed')",path.join(runtime.scratchRoot,'probe')]]);
+      for(const file of runtime.writePaths)checks.push(['allowed-product-write',['-e',"const f=require('node:fs'),p=process.argv[1],exists=f.existsSync(p),v=exists?f.readFileSync(p):'';f.writeFileSync(p,v);if(!exists)f.unlinkSync(p);process.stdout.write('allowed')",file]]);
+    }
     for(const [name,args] of checks){const r=await client.request('command/exec',{command:['/usr/bin/env','-i',...Object.entries(runtime.environment).map(([k,v])=>`${k}=${v}`),node,...args],cwd:runtime.root,permissionProfile:'temple-continuity-probe',timeoutMs:20000,outputBytesCap:8192},25000);result.checks.push({name,...r});ensure(r.exitCode===0,`runtime-preflight-${name}: ${r.stderr}`);}
     result.status='passed';
   }catch(e){result.failure=e.message;}finally{if(client)try{await client.close();result.server_exit_confirmed=true;}catch(e){result.status='failed';result.cleanup_failure=e.message;result.server_exit_confirmed=false;}}
@@ -153,12 +178,17 @@ export async function run(lab,expected,{actorImpl=runSoloActor,discover=discover
   if(recoveryResultHash){
     ensure(/^(result|recovery-result|continuation-[a-f0-9]{64})\.json$/.test(priorResultFile),'invalid-prior-result');
     prior=await read(path.join(lab,priorResultFile));ensure(hash(prior)===recoveryResultHash,'recovery-result-drift');
-    const task=prior.tasks?.at(-1),b=prior.calls?.at(-1);ensure(prior.status==='stopped'&&prior.cleanup==='claim-released'&&prior.tasks.length<=scenarios.length&&prior.tasks.every((t,i)=>t.id===scenarios[i].id&&(i===prior.tasks.length-1?t.status==='stopped':t.status==='accepted'))&&task.attempts.length===1&&task.attempts[0].build===prior.calls.length-1&&b.stage==='build'&&b.status==='completed'&&b.terminals_empty&&b.server_exit_confirmed&&!b.inventory_failure,'unsupported-recovery-boundary');
+    const task=prior.tasks?.at(-1),b=prior.calls?.at(-1);ensure(prior.status==='stopped'&&prior.cleanup==='claim-released'&&prior.tasks.length<=scenarios.length&&prior.tasks.every((t,i)=>t.id===scenarios[i].id&&(i===prior.tasks.length-1?t.status==='stopped':t.status==='accepted'))&&task.attempts.length===1&&task.attempts[0].build===prior.calls.length-1&&b.stage==='build'&&['completed','stopped'].includes(b.status)&&b.terminals_empty&&b.server_exit_confirmed,'unsupported-recovery-boundary');
     ensure(prior.kind===(actorImpl===runSoloActor?'live-agent-qualification':'synthetic-lifecycle-rehearsal'),'recovery-kind-mismatch');
     // Narrow instrument corrections, never arbitrary scope drift or failed review.
-    const runtimeBlocked=b.completion.decision==='blocked'&&b.protected_drift?.length===0&&/dyld|libnode|Node runtime/.test(b.completion.summary+' '+b.completion.findings.join(' '));
-    const generatedViews=b.completion.decision==='pass'&&b.protected_drift?.length>0&&b.protected_drift.every(f=>['.ai-org/views/capabilities.json','.ai-org/views/status.md'].includes(f));
-    ensure(runtimeBlocked||generatedViews,'unsupported-instrument-correction');
+    const runtimeBlocked=b.status==='completed'&&!b.inventory_failure&&b.completion.decision==='blocked'&&b.protected_drift?.length===0&&/dyld|libnode|Node runtime/.test(b.completion.summary+' '+b.completion.findings.join(' '));
+    const generatedViews=b.status==='completed'&&!b.inventory_failure&&b.completion.decision==='pass'&&b.protected_drift?.length>0&&b.protected_drift.every(f=>['.ai-org/views/capabilities.json','.ai-org/views/status.md'].includes(f));
+    let reconciledCommit=false;
+    if(b.status==='stopped'&&b.inventory_failure==='actor-git-head-drift'&&b.completion.decision==='blocked'&&b.protected_drift?.length>0&&b.protected_drift.every(f=>[`.ai-org/artifacts/${task.work_item_id}/daily-delivery.json`,`.ai-org/artifacts/${task.work_item_id}/build-0.json`].includes(f))){
+      const wi=await read(path.join(p.root,`.ai-org/work-items/${task.work_item_id}.json`)),session=await readSession(p.root,wi.id),head=await git(p.root,['rev-parse','HEAD']),parents=(await git(p.root,['show','-s','--format=%P','HEAD'])).split(' '),changed=(await git(p.root,['diff','--name-only',wi.claim.base_revision,head])).split('\n').filter(Boolean);
+      reconciledCommit=wi.state==='build'&&wi.claim.status==='released'&&parents.length===1&&parents[0]===wi.claim.base_revision&&changed.length>0&&changed.every(f=>scenarios[prior.tasks.length-1].files.includes(f))&&!session.pending&&!session.pause&&session.last_check?.revision===head&&session.last_check.result.accepted&&session.last_check.result.process_exit_confirmed&&session.last_check.result.temporary_removed;
+    }
+    ensure(runtimeBlocked||generatedViews||reconciledCommit,'unsupported-instrument-correction');
     ensure(recoveryRepositoryHash&&hash({tree:await tree(p.root),head:await git(p.root,['rev-parse','HEAD'])})===recoveryRepositoryHash,'recovery-repository-drift');
     for(const t of prior.tasks.slice(0,-1))ensure((await read(path.join(p.root,`.ai-org/work-items/${t.work_item_id}.json`))).state==='done','recovery-accepted-prefix-drift');
     // Preserve the one-shot marker created by the previous runner version too.
@@ -166,6 +196,7 @@ export async function run(lab,expected,{actorImpl=runSoloActor,discover=discover
   }
   const continuation=prior?`continuation-${recoveryResultHash}`:null;
   await save(path.join(lab,prior?`${continuation}.started`:'run.started'),{at:new Date().toISOString(),protocol_sha256:expected,prior_result_file:priorResultFile,prior_result_sha256:recoveryResultHash,reviewed_repository_sha256:recoveryRepositoryHash,runner_sha256:runnerHash,node_binary:process.execPath,node_sha256:hash(await fs.readFile(process.execPath)),repository_tree:hash(await tree(p.root))},true);
+  if(prior){const retained=[];for(const file of prior.calls.at(-1).protected_drift??[]){ensure(!file.includes('..')&&!path.isAbsolute(file),'unsafe-retained-artifact');const body=await fs.readFile(path.join(p.root,file),'utf8');retained.push({file,sha256:hash(body),body});}await save(path.join(lab,`${continuation}.retained.json`),{head:await git(p.root,['rev-parse','HEAD']),artifacts:retained},true);}
   const root=p.root,state=prior?structuredClone(prior):{schema_version:'temple.solo-result/v1',kind:actorImpl===runSoloActor?'live-agent-qualification':'synthetic-lifecycle-rehearsal',started_ms:Date.now(),protocol_sha256:expected,calls:[],tasks:[],commands:[],unrun:scenarios.map(s=>s.id),human_interventions:0,account_polling:false};
   state.status='running';if(prior){state.recovery_history=[...(prior.recovery_history??[]),...(prior.recovery?[prior.recovery]:[])];state.recovery={prior_result_file:priorResultFile,prior_result_sha256:recoveryResultHash,original_failure:prior.failure,started_ms:Date.now(),runner_sha256:runnerHash,reason:'Coordinator-reviewed instrument correction; verify retained implementation without rewriting the stopped attempt.'};delete state.failure;delete state.cleanup;}
   const persist=async()=>{state.metrics=summarize(state.calls);state.wall_ms=Date.now()-state.started_ms;if(prior)state.recovery.elapsed_ms=Date.now()-state.recovery.started_ms;await save(path.join(lab,prior?`${continuation}.json`:'result.json'),state);};
@@ -201,7 +232,11 @@ export async function run(lab,expected,{actorImpl=runSoloActor,discover=discover
       await d('open','developer',planRef);
       const actor=async(stage,prompt)=>{
         ensure(state.calls.length<p.max_calls,'call-budget');const before=await tree(root),beforeHead=await git(root,['rev-parse','HEAD']);
-        const r=await actorImpl(runtime,prompt,{ms:p.actor_timeout_ms,onStart:async info=>{task.active_call={stage,...info};await persist();console.log(JSON.stringify({event:'actor-start',task:s.id,stage}));}});
+        const scratchRoot=path.join(lab,'actor-scratch',String(state.calls.length));await fs.mkdir(scratchRoot,{recursive:true});
+        const scoped={...runtime,scratchRoot,writePaths:['build','repair'].includes(stage)?s.files.map(f=>path.join(root,f)):[],environment:{...runtime.environment,TMPDIR:scratchRoot}};
+        const admission=actorImpl===runSoloActor?await qualifySoloRuntime(scoped):{status:'passed',kind:'synthetic-no-provider',model_calls:0};task.actor_preflight=admission;await persist();ensure(admission.status==='passed','actor-write-boundary-preflight-failed');
+        const r=await actorImpl(scoped,prompt+' Git and .ai-org are read-only in your runtime. The coordinator executes every lifecycle step on your behalf. Finish by reporting substantive work only.',{ms:p.actor_timeout_ms,onStart:async info=>{task.active_call={stage,...info};await persist();console.log(JSON.stringify({event:'actor-start',task:s.id,stage}));}});r.admission=admission;
+        if(r.server_exit_confirmed&&r.terminals_empty)try{await fs.rm(scratchRoot,{recursive:true,force:true});}catch(e){r.scratch_cleanup_failure=e.message;r.status='stopped';}
         r.stage=stage;r.task=s.id;state.calls.push(r);delete task.active_call;await persist();
         try{r.protected_drift=scopeChanges(before,await tree(root),file=>stage==='build'||stage==='repair'?s.files.includes(file):false);ensure(await git(root,['rev-parse','HEAD'])===beforeHead,'actor-git-head-drift');}catch(e){r.inventory_failure=e.message;r.protected_drift??=['unreadable-or-unsafe-inventory'];r.status='stopped';}await persist();
         ensure(r.status==='completed'&&r.server_exit_confirmed&&r.terminals_empty&&!r.protected_drift.length,'actor-incomplete-or-scope-drift');return r;
