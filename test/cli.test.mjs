@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { TEMPLATE_VERSION } from "../src/constants.mjs";
 import { EventEmitter } from "node:events";
 import fs from "node:fs/promises";
 import os from "node:os";
@@ -157,7 +158,7 @@ test("compact Status preserves global attention and full selected row without ch
 test("version is available without dependencies", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^0\.1\.0-alpha\.30/m);
+  assert.equal(result.stdout.trim(), TEMPLATE_VERSION);
 });
 
 test("close help names every Standard release-gate evidence key", () => {
@@ -780,7 +781,7 @@ test("upgrade adds a missing project-owned learning index without managing it", 
     defaultRepositoryIntegration()
   );
   const upgradedLock = JSON.parse(await fs.readFile(lockPath, "utf8"));
-  assert.equal(upgradedLock.template.version, "0.1.0-alpha.30");
+  assert.equal(upgradedLock.template.version, TEMPLATE_VERSION);
   assert.equal(upgradedLock.capabilities.engineering_learning, true);
   assert.equal(upgradedLock.capabilities.group_parallel_planning, true);
   assert.equal(upgradedLock.capabilities.parallel_join_gate, true);

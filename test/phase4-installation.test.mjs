@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { TEMPLATE_VERSION } from "../src/constants.mjs";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -40,7 +41,7 @@ import {
 import { runAgentLedOnboardingValidation } from "../scripts/validate-agent-led-onboarding.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const releaseVersion = "0.1.0-alpha.30";
+const releaseVersion = TEMPLATE_VERSION;
 const phase4Capabilities = [
   "backup_retention",
   "redacted_audit_export",
