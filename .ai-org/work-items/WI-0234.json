@@ -1,0 +1,227 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0234",
+  "title": "Prune redundant tests with retained regression coverage",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-15T23:16:57.010Z",
+  "updated_at": "2026-09-15T23:18:06.046Z",
+  "scope": [
+    "Audit the complete 1250-test inventory, remove unnecessary duplicate or implementation-mirroring tests, preserve distinct behavior and failure coverage, and record every deletion with retained protection."
+  ],
+  "acceptance_criteria": [
+    "Provide a complete test-file audit and exact deletion map; keep meaningful safety and regression coverage; run full verification on the final candidate and obtain independent review."
+  ],
+  "affected_paths": [
+    "test/",
+    ".ai-org/artifacts/"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "Authorized reversible test-suite maintenance; no product behavior, policy floors, CI scope or live provider changes.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-15T23:16:56.999Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "477e0b60ecbe83caea18430ccb649c67ecd690ca",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": "agent-rikku",
+  "planned_agent_id": null,
+  "shared_contract_refs": [
+    ".ai-org/artifacts/WI-0234/pruning-plan.md"
+  ],
+  "contract_status": "stable",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260915231804-171a10a4",
+    "status": "released",
+    "principal_id": "human",
+    "agent_id": "agent-tidus",
+    "actor_provenance": {
+      "selection": "explicit-agent",
+      "principal_source": "explicit-principal",
+      "verification_class": "self-asserted",
+      "evidence_ref": null,
+      "provider_authenticated": false,
+      "externally_supplied_evidence": false
+    },
+    "position_id": "tech_lead",
+    "base_revision": "477e0b60ecbe83caea18430ccb649c67ecd690ca",
+    "branch": "codex/prune-redundant-tests",
+    "worktree": null,
+    "claimed_at": "2026-09-15T23:18:04.515Z",
+    "released_at": "2026-09-15T23:18:05.284Z",
+    "release_reason": [
+      "Approved scoped design responsibility complete."
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim-20260915231657-8b3621d6",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "engineering_manager",
+      "base_revision": "477e0b60ecbe83caea18430ccb649c67ecd690ca",
+      "branch": "codex/prune-redundant-tests",
+      "worktree": null,
+      "claimed_at": "2026-09-15T23:16:57.479Z",
+      "released_at": "2026-09-15T23:18:02.116Z",
+      "release_reason": [
+        "Approved scoped design responsibility complete."
+      ]
+    },
+    {
+      "id": "claim-20260915231802-301075c9",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "product_manager",
+      "base_revision": "477e0b60ecbe83caea18430ccb649c67ecd690ca",
+      "branch": "codex/prune-redundant-tests",
+      "worktree": null,
+      "claimed_at": "2026-09-15T23:18:02.941Z",
+      "released_at": "2026-09-15T23:18:03.709Z",
+      "release_reason": [
+        "Approved scoped design responsibility complete."
+      ]
+    },
+    {
+      "id": "claim-20260915231804-171a10a4",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "tech_lead",
+      "base_revision": "477e0b60ecbe83caea18430ccb649c67ecd690ca",
+      "branch": "codex/prune-redundant-tests",
+      "worktree": null,
+      "claimed_at": "2026-09-15T23:18:04.515Z",
+      "released_at": "2026-09-15T23:18:05.284Z",
+      "release_reason": [
+        "Approved scoped design responsibility complete."
+      ]
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0234/pruning-plan.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0234/pruning-plan.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0234/pruning-plan.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0234/pruning-plan.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0234/pruning-plan.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0234/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0234/pruning-plan.md",
+    ".ai-org/artifacts/WI-0234/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0234/handoff-003-tech_lead-to-developer.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "actor": "agent-mog",
+      "principal_id": "human",
+      "actor_provenance": {
+        "selection": "active-claim",
+        "principal_source": "active-claim",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "input_revision": "477e0b60ecbe83caea18430ccb649c67ecd690ca",
+      "artifact": ".ai-org/artifacts/WI-0234/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-15T23:18:01.737Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "actor": "agent-yuna",
+      "principal_id": "human",
+      "actor_provenance": {
+        "selection": "active-claim",
+        "principal_source": "active-claim",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "input_revision": "477e0b60ecbe83caea18430ccb649c67ecd690ca",
+      "artifact": ".ai-org/artifacts/WI-0234/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-15T23:18:03.329Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "actor": "agent-tidus",
+      "principal_id": "human",
+      "actor_provenance": {
+        "selection": "active-claim",
+        "principal_source": "active-claim",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "input_revision": "477e0b60ecbe83caea18430ccb649c67ecd690ca",
+      "artifact": ".ai-org/artifacts/WI-0234/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-15T23:18:04.910Z"
+    }
+  ]
+}

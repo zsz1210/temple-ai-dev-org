@@ -4,8 +4,8 @@
 - Organization system version: `0.1.0-alpha.32`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 233 total, 0 active
+- Parallel plan: 0 wave(s), fresh=false
+- Work items: 234 total, 1 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 82 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 23
+- Attention signals: 24
 
 ## Collaboration
 
@@ -37,7 +37,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
@@ -281,9 +281,12 @@
 | WI-0231 | Implement contributor attribution and Agent resolution | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `535c306e` | 0 | 12 | 0 |
 | WI-0232 | Implement reusable measurements and portable command checks | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `535c306e` | 0 | 12 | 0 |
 | WI-0233 | Implement durable evidence and collaborative reconciliation | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aff1b86e` | 0 | 14 | 0 |
+| WI-0234 | Prune redundant tests with retained regression coverage | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 4 | 0 |
 
 ## Delivery attention
 
+- WI-0234: awaiting-owner — Have the eligible owner claim or resume the next scoped responsibility.
+  - owner: No active eligible ownership claim is recorded.
 
 ## Codex task registry
 
@@ -418,13 +421,14 @@
 - worker-20260905141644-4a85d8c7 is failed
 - worker-20260915174040-464e550f is failed
 - worker-20260915175330-3e16bfe8 is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 82
+- Team-visible Work Items: 83
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -498,14 +502,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-15T18:13:37.755Z | work_item_closed | WI-0230 | agent-mog |
-| 2026-09-15T18:13:37.755Z | release_gate_completed | WI-0230 | agent-mog |
-| 2026-09-15T18:13:37.363Z | work_item_claimed | WI-0230 | human |
-| 2026-09-15T18:13:36.965Z | work_item_transitioned | WI-0230 | agent-lulu |
-| 2026-09-15T18:13:36.584Z | work_item_claim_released | WI-0230 | human |
-| 2026-09-15T18:13:36.215Z | handoff_created | WI-0230 | agent-lulu |
-| 2026-09-15T18:13:35.840Z | work_item_claimed | WI-0230 | human |
-| 2026-09-15T18:13:35.445Z | work_item_transitioned | WI-0230 | agent-lulu |
+| 2026-09-15T23:18:06.046Z | work_item_coordination_configured | WI-0234 | agent-rikku |
+| 2026-09-15T23:18:05.668Z | work_item_transitioned | WI-0234 | agent-tidus |
+| 2026-09-15T23:18:05.284Z | work_item_claim_released | WI-0234 | human |
+| 2026-09-15T23:18:04.910Z | handoff_created | WI-0234 | agent-tidus |
+| 2026-09-15T23:18:04.515Z | work_item_claimed | WI-0234 | human |
+| 2026-09-15T23:18:04.107Z | work_item_transitioned | WI-0234 | agent-yuna |
+| 2026-09-15T23:18:03.709Z | work_item_claim_released | WI-0234 | human |
+| 2026-09-15T23:18:03.329Z | handoff_created | WI-0234 | agent-yuna |
 
 ## Assignments
 
