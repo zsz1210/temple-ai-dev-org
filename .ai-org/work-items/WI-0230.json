@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0230",
   "title": "Complete field-driven collaboration and delivery remediation",
-  "state": "design",
-  "owner_position": "tech_lead",
-  "assigned_agent_id": "agent-tidus",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-15T16:47:34.185Z",
-  "updated_at": "2026-09-15T16:51:07.295Z",
+  "updated_at": "2026-09-15T16:55:56.142Z",
   "scope": [
     "Design and implement all thirteen field findings: ordinary attribution, member Agent selection and naming, Solo transition, risk defaults, recovery guidance, verification reuse and status, durable evidence, collaborative reconciliation, supported execution adapters and consistent documentation."
   ],
@@ -57,22 +57,26 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "d06528ce",
+  "base_revision": "d0947a3b",
   "parallel_mode": "sequential",
-  "integration_owner_agent_id": null,
+  "integration_owner_agent_id": "agent-rikku",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
-  "overlap_resolution": [],
+  "overlap_resolution": [
+    "WI-0231 exclusively owns its declared module/test files; WI-0230 only writes integration callers, documentation and canonical coordination until handback.",
+    "WI-0232 exclusively owns its declared module/test files; WI-0230 only writes integration callers, documentation and canonical coordination until handback.",
+    "WI-0233 exclusively owns its declared module/test files; WI-0230 only writes integration callers, documentation and canonical coordination until handback."
+  ],
   "claim": {
-    "id": "claim-20260915165107-1b11f6c0",
+    "id": "claim-20260915165438-85f6fffb",
     "status": "active",
     "principal_id": "human",
-    "agent_id": "agent-tidus",
-    "base_revision": "d06528ce",
+    "agent_id": "agent-rikku",
+    "base_revision": "d0947a3b",
     "branch": "codex/field-remediation",
     "worktree": null,
-    "claimed_at": "2026-09-15T16:51:07.295Z",
+    "claimed_at": "2026-09-15T16:54:38.099Z",
     "released_at": null
   },
   "claims": [
@@ -106,13 +110,27 @@
     },
     {
       "id": "claim-20260915165107-1b11f6c0",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-tidus",
       "base_revision": "d06528ce",
       "branch": "codex/field-remediation",
       "worktree": null,
       "claimed_at": "2026-09-15T16:51:07.295Z",
+      "released_at": "2026-09-15T16:54:20.751Z",
+      "release_reason": [
+        "Detailed design and risk review complete; proceed with authorized implementation"
+      ]
+    },
+    {
+      "id": "claim-20260915165438-85f6fffb",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "d0947a3b",
+      "branch": "codex/field-remediation",
+      "worktree": null,
+      "claimed_at": "2026-09-15T16:54:38.099Z",
       "released_at": null
     }
   ],
@@ -125,16 +143,31 @@
     ],
     "acceptance_criteria": [
       "docs/planning/field-remediation.md"
+    ],
+    "technical_design": [
+      "docs/adr/0067-low-friction-collaborative-delivery.md"
+    ],
+    "risk_review": [
+      "docs/adr/0067-low-friction-collaborative-delivery.md"
+    ],
+    "ui_brief": [
+      ".ai-org/artifacts/WI-0230/ui-brief.md"
+    ],
+    "required_state_coverage": [
+      ".ai-org/artifacts/WI-0230/ui-brief.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0230/handoff-001-engineering_manager-to-product_manager.md",
     ".ai-org/artifacts/WI-0230/work-order.md",
     ".ai-org/artifacts/WI-0230/handoff-002-product_manager-to-tech_lead.md",
-    "docs/planning/field-remediation.md"
+    "docs/planning/field-remediation.md",
+    ".ai-org/artifacts/WI-0230/handoff-003-tech_lead-to-developer.md",
+    "docs/adr/0067-low-friction-collaborative-delivery.md",
+    ".ai-org/artifacts/WI-0230/ui-brief.md"
   ],
   "unresolved": [],
-  "next_position": "developer",
+  "next_position": "quality_evaluator",
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -151,6 +184,14 @@
       "input_revision": "d06528ce7702fd7dfe9bed030376fa5a2db62ca1",
       "artifact": ".ai-org/artifacts/WI-0230/handoff-002-product_manager-to-tech_lead.md",
       "created_at": "2026-09-15T16:51:05.889Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "actor": "agent-tidus",
+      "input_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
+      "artifact": ".ai-org/artifacts/WI-0230/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-15T16:54:20.401Z"
     }
   ]
 }

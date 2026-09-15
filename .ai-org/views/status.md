@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.32`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
-- Parallel plan: 0 wave(s), fresh=false
-- Work items: 230 total, 1 active
+- Collaboration profile: `solo` (0 Human Principals, 4 active claims)
+- Parallel plan: 1 wave(s), fresh=false
+- Work items: 233 total, 4 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 75 registered, 0 reserved, 0 active
+- Runtime workers: 78 registered, 0 reserved, 3 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 4
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -38,10 +38,10 @@
 - Installed: yes
 - Valid: yes
 - Fresh: no
-- Safe waves: 0
-- Dispatchable Work Items: 0
+- Safe waves: 1
+- Dispatchable Work Items: 3
 - Active / sequential / blocked: 0 / 0 / 0
-- Next wave: none
+- Next wave: WI-0231, WI-0232, WI-0233
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -277,7 +277,18 @@
 | WI-0227 | Reduce always-loaded operating instructions without weakening gates | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f7062396` | 0 | 8 | 0 |
 | WI-0228 | Accept retained offline evaluation reliability independently of rejected Lean prototype | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 7 | 0 |
 | WI-0229 | Add opt-in exact-text mechanical completion with fail-closed boundaries | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e9c9ade2` | 0 | 13 | 0 |
-| WI-0230 | Complete field-driven collaboration and delivery remediation | design | Tech Lead | Tidus | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260915165107-1b11f6c0 | `—` | 0 | 4 | 0 |
+| WI-0230 | Complete field-driven collaboration and delivery remediation | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260915165438-85f6fffb | `—` | 0 | 7 | 0 |
+| WI-0231 | Implement contributor attribution and Agent resolution | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260915165613-219a309f | `—` | 0 | 6 | 0 |
+| WI-0232 | Implement reusable measurements and portable command checks | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260915165613-83a58d31 | `—` | 0 | 6 | 0 |
+| WI-0233 | Implement durable evidence and collaborative reconciliation | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260915165614-66969eb1 | `—` | 0 | 6 | 0 |
+
+## Delivery attention
+
+- WI-0230: awaiting-owner — The recorded owner can continue the scoped work; no attached active worker is recorded.
+  - owner: No attached active runtime is recorded for this claim.
+- WI-0231: active-execution — Await the attached worker's scoped result and evidence.
+- WI-0232: active-execution — Await the attached worker's scoped result and evidence.
+- WI-0233: active-execution — Await the attached worker's scoped result and evidence.
 
 ## Codex task registry
 
@@ -375,6 +386,9 @@
 | worker-20260906233715-39de834c | internal-subagent | WI-0222 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0222_review#re-review-e8ad4b4 | `e8ad4b4f` | 0 |
 | worker-20260906235208-732dcc16 | internal-subagent | WI-0224 | Developer / Rikku | completed | /root/wi0224_implementation | `df40202b` | 0 |
 | worker-20260907000040-c51ac3cd | internal-subagent | WI-0224 | Quality & Evaluation Engineer / Lulu | completed | /root/wi0224_readiness_qa | `df40202b` | 0 |
+| worker-20260915165613-fc7ad4f3 | internal-subagent | WI-0231 | Developer / Rikku | active | /root/field_actors | `—` | 0 |
+| worker-20260915165613-d30a234c | internal-subagent | WI-0232 | Developer / Rikku | active | /root/field_verification | `—` | 0 |
+| worker-20260915165614-9bd36cf7 | internal-subagent | WI-0233 | Developer / Rikku | active | /root/field_evidence | `—` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -484,14 +498,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-15T16:51:07.295Z | work_item_claimed | WI-0230 | human |
-| 2026-09-15T16:51:06.583Z | work_item_transitioned | WI-0230 | agent-yuna |
-| 2026-09-15T16:51:06.233Z | work_item_claim_released | WI-0230 | human |
-| 2026-09-15T16:51:05.889Z | handoff_created | WI-0230 | agent-yuna |
-| 2026-09-15T16:48:57.066Z | work_item_claimed | WI-0230 | human |
-| 2026-09-15T16:48:56.365Z | work_item_transitioned | WI-0230 | agent-mog |
-| 2026-09-15T16:48:56.016Z | work_item_claim_released | WI-0230 | human |
-| 2026-09-15T16:48:55.673Z | handoff_created | WI-0230 | agent-mog |
+| 2026-09-15T17:00:15.206Z | runtime_worker_attached | WI-0233 | agent-rikku |
+| 2026-09-15T17:00:14.855Z | runtime_worker_attached | WI-0232 | agent-rikku |
+| 2026-09-15T17:00:14.493Z | runtime_worker_attached | WI-0231 | agent-rikku |
+| 2026-09-15T16:56:14.151Z | runtime_worker_reserved | WI-0233 | human |
+| 2026-09-15T16:56:14.168Z | work_item_claimed | WI-0233 | human |
+| 2026-09-15T16:56:13.688Z | runtime_worker_reserved | WI-0232 | human |
+| 2026-09-15T16:56:13.705Z | work_item_claimed | WI-0232 | human |
+| 2026-09-15T16:56:13.275Z | runtime_worker_reserved | WI-0231 | human |
 
 ## Assignments
 

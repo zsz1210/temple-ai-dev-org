@@ -6,6 +6,10 @@ import { durableAtomicWrite, formatJson, pathExists, readJson } from "./files.mj
 export const LOCAL_ACTOR_BINDING_SCHEMA = "temple.local-actor-binding/v1";
 export const LOCAL_ACTOR_VERIFICATION_CLASSES = ["self-asserted", "external-evidence", "step-up-evidence"];
 
+function bindingError(code, message, nextAction, details = {}) {
+  return Object.assign(new Error(message), { code, mutation_status: "not-started", next_action: nextAction, details });
+}
+
 function nonEmpty(value, maximum = 240) {
   return typeof value === "string" && value.trim().length > 0 && value.trim().length <= maximum;
 }
@@ -16,7 +20,8 @@ function timestamp(value) {
 
 function gitCommonDirectory(target) {
   const result = spawnSync("git", ["-C", target, "rev-parse", "--git-common-dir"], { encoding: "utf8" });
-  if (result.status !== 0) throw new Error(`Local actor binding requires a Git repository: ${result.stderr.trim() || target}`);
+  if (result.status !== 0) throw bindingError("TEMPLE_ACTOR_GIT_REQUIRED", `Local actor binding requires a Git repository: ${result.stderr.trim() || target}`,
+    "Use explicit ordinary attribution, or initialize a Git clone when verified local binding is required.");
   const value = result.stdout.trim();
   if (!value) throw new Error("Git returned an empty common directory");
   return path.resolve(target, value);
@@ -72,26 +77,34 @@ function activePrincipal(collaboration, principalId) {
 export async function readLocalActorBinding(target, options = {}) {
   const bindingPath = resolveLocalActorBindingPath(target);
   if (!(await pathExists(bindingPath))) {
-    if (options.required) throw new Error("No local actor binding exists for this Git clone");
+    if (options.required) throw bindingError("TEMPLE_ACTOR_BINDING_REQUIRED", "No local actor binding exists for this Git clone",
+      "Supply required verification provenance, or inspect whether the project permits ordinary attribution.");
     return { path: bindingPath, binding: null, status: "missing" };
   }
   const project = await readJson(path.join(target, ".ai-org/project/project.json"));
-  const binding = await readJson(bindingPath);
+  let binding;
+  try { binding = await readJson(bindingPath); }
+  catch (error) { throw bindingError("TEMPLE_ACTOR_BINDING_INVALID", `Invalid local actor binding: ${error.message}`,
+    "Inspect or clear the invalid local binding before continuing."); }
   const validation = validateLocalActorBinding(binding, project.id);
-  if (!validation.valid) throw new Error(`Invalid local actor binding: ${validation.errors.join("; ")}`);
+  if (!validation.valid) throw bindingError("TEMPLE_ACTOR_BINDING_INVALID", `Invalid local actor binding: ${validation.errors.join("; ")}`,
+    "Inspect or clear the invalid local binding before continuing.", { errors: validation.errors });
   const expired = Boolean(binding.expires_at && Date.parse(binding.expires_at) <= Date.now());
   return { path: bindingPath, binding, status: expired ? "expired" : "current" };
 }
 
 export async function assertLocalActorBinding(target, expectedPrincipalId, options = {}) {
   const result = await readLocalActorBinding(target, { required: true });
-  if (result.status !== "current") throw new Error("The local actor binding is expired");
+  if (result.status !== "current") throw bindingError("TEMPLE_ACTOR_BINDING_EXPIRED", "The local actor binding is expired",
+    "Renew the verification provenance or clear the expired binding for ordinary attribution.");
   if (result.binding.principal_id !== expectedPrincipalId) {
-    throw new Error(`This Git clone is bound to ${result.binding.principal_id}, not ${expectedPrincipalId}`);
+    throw bindingError("TEMPLE_ACTOR_BINDING_MISMATCH", `This Git clone is bound to ${result.binding.principal_id}, not ${expectedPrincipalId}`,
+      "Inspect or clear the conflicting binding before selecting the intended Principal.", { expected_principal_id: expectedPrincipalId, binding_principal_id: result.binding.principal_id });
   }
   const accepted = options.acceptedVerificationClasses ?? ["external-evidence", "step-up-evidence"];
   if (!accepted.includes(result.binding.verification_class)) {
-    throw new Error(`This operation requires local actor verification: ${accepted.join(" or ")}`);
+    throw bindingError("TEMPLE_ACTOR_VERIFICATION_REQUIRED", `This operation requires local actor verification: ${accepted.join(" or ")}`,
+      "Supply the required external verification provenance; self-description does not authenticate a provider.");
   }
   return result;
 }

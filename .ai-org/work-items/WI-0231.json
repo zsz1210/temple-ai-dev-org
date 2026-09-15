@@ -1,0 +1,179 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0231",
+  "title": "Implement contributor attribution and Agent resolution",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-15T16:55:40.596Z",
+  "updated_at": "2026-09-15T16:56:13.292Z",
+  "scope": [
+    "F01-F03 and F12-F13 core APIs; V01-V04 V13-V14 V16. Parent owns lifecycle, assurance, CLI and schemas."
+  ],
+  "acceptance_criteria": [
+    "Implement the named ADR-0067 interfaces with focused positive, negative and compatibility tests; report actual command results and remaining environment limits."
+  ],
+  "affected_paths": [
+    "src/actor-resolution.mjs",
+    "src/collaboration.mjs",
+    "src/local-identity.mjs",
+    "src/model.mjs",
+    "test/field-actors.test.mjs"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "Reversible local implementation under approved WI-0230 specification and ADR-0067; no external activation.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-15T16:55:40.596Z",
+    "escalated": false
+  },
+  "parent_work_item_id": "WI-0230",
+  "tracker_visibility": "internal",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
+  "parallel_mode": "parallel",
+  "integration_owner_agent_id": "agent-rikku",
+  "planned_agent_id": "agent-rikku",
+  "shared_contract_refs": [
+    "docs/adr/0067-low-friction-collaborative-delivery.md"
+  ],
+  "contract_status": "stable",
+  "overlap_resolution": [
+    "WI-0230 owns integration callers and canonical lifecycle records; this child exclusively owns its listed module and test paths."
+  ],
+  "claim": {
+    "id": "claim-20260915165613-219a309f",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
+    "branch": "codex/field-remediation",
+    "worktree": null,
+    "claimed_at": "2026-09-15T16:56:13.292Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260915165541-84371b7c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
+      "branch": "codex/field-remediation",
+      "worktree": null,
+      "claimed_at": "2026-09-15T16:55:41.263Z",
+      "released_at": "2026-09-15T16:55:41.946Z",
+      "release_reason": [
+        "Approved scoped stage complete"
+      ]
+    },
+    {
+      "id": "claim-20260915165542-f4648e69",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
+      "branch": "codex/field-remediation",
+      "worktree": null,
+      "claimed_at": "2026-09-15T16:55:42.903Z",
+      "released_at": "2026-09-15T16:55:43.540Z",
+      "release_reason": [
+        "Approved scoped stage complete"
+      ]
+    },
+    {
+      "id": "claim-20260915165544-c3d7c7db",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
+      "branch": "codex/field-remediation",
+      "worktree": null,
+      "claimed_at": "2026-09-15T16:55:44.488Z",
+      "released_at": "2026-09-15T16:55:45.136Z",
+      "release_reason": [
+        "Approved scoped stage complete"
+      ]
+    },
+    {
+      "id": "claim-20260915165613-219a309f",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
+      "branch": "codex/field-remediation",
+      "worktree": null,
+      "claimed_at": "2026-09-15T16:56:13.292Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0230/work-order.md"
+    ],
+    "approved_scope": [
+      "docs/planning/field-remediation.md"
+    ],
+    "acceptance_criteria": [
+      "docs/planning/field-remediation.md"
+    ],
+    "technical_design": [
+      "docs/adr/0067-low-friction-collaborative-delivery.md"
+    ],
+    "risk_review": [
+      "docs/adr/0067-low-friction-collaborative-delivery.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0231/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0230/work-order.md",
+    ".ai-org/artifacts/WI-0231/handoff-002-product_manager-to-tech_lead.md",
+    "docs/planning/field-remediation.md",
+    ".ai-org/artifacts/WI-0231/handoff-003-tech_lead-to-developer.md",
+    "docs/adr/0067-low-friction-collaborative-delivery.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "engineering_manager",
+      "to_position": "product_manager",
+      "actor": "agent-mog",
+      "input_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
+      "artifact": ".ai-org/artifacts/WI-0231/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-15T16:55:41.602Z"
+    },
+    {
+      "from_position": "product_manager",
+      "to_position": "tech_lead",
+      "actor": "agent-yuna",
+      "input_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
+      "artifact": ".ai-org/artifacts/WI-0231/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-15T16:55:43.225Z"
+    },
+    {
+      "from_position": "tech_lead",
+      "to_position": "developer",
+      "actor": "agent-tidus",
+      "input_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
+      "artifact": ".ai-org/artifacts/WI-0231/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-15T16:55:44.805Z"
+    }
+  ]
+}

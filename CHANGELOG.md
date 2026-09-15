@@ -6,6 +6,13 @@
 - Increased the existing publication job reserve to 30 minutes after a complete hosted verification took more than 12 minutes; all verification, archive equality and Release-only publication gates remain required.
 - Supersedes Alpha.31's failed GitHub publication attempt, which stopped before npm upload. The prior tag and failures remain available; this successor retains the Solo trial scope and limits described below.
 
+## Unreleased development candidate
+
+- Added contributor readiness and fingerprinted Solo/team policy changes, ordinary attribution without Temple login, and stable-ID resolution for actual claimants and reviewers. Duplicate display names are supported; existing project-owned policy and history are preserved.
+- Added conservative measurement reuse, immutable attempts and non-Node trusted-local command checks on supported POSIX hosts. Confined execution retains explicit limits; Windows is not yet an available command adapter. Reuse never grants independent acceptance.
+- Added exact-byte evidence archives, semantic record reconciliation with interruption recovery, and actionable delivery states distinguishing running work, completed review, missing conditions and organizational acceptance.
+- Corrected task risk defaults and actual Developer/reviewer provenance. No hosting permissions, external publication authority, membership expiry or historical evidence is silently rewritten.
+
 ## 0.1.0-alpha.31
 
 - Added opt-in autonomous delivery across existing workflow profiles, compact task context and guarded completion/rework operations while retaining scope, ownership, independent verification and release authority.

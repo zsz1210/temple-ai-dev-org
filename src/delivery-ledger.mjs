@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { atomicWrite, formatJson, sha256 } from "./files.mjs";
 import { isWorkItemId } from "./ids.mjs";
+import { validateMeasurementPlan } from "./verification.mjs";
 
 export const digest = value => sha256(JSON.stringify(value));
 export const ensure = (ok, message) => { if (!ok) throw new Error(message); };
@@ -59,7 +60,12 @@ export function validatePlan(plan) {
   ensure(b.elapsed_limit_ms > b.verification_reserve_ms + b.repair_reserve_ms + b.cleanup_reserve_ms, "Total time must include downstream buffers");
   ensure(b.token_limit === null || integer(b.token_limit) && b.token_limit > 0, "Token limit must be explicit positive integer or null");
   ensure(integer(b.token_reserve) && (b.token_limit === null ? b.token_reserve === 0 : b.token_reserve > 0 && b.token_limit > b.token_reserve), "Invalid downstream token reserve");
-  ensure(Array.isArray(plan.tests) && plan.tests.length > 0 && plan.tests.length <= 100 && new Set(plan.tests).size === plan.tests.length && plan.tests.every(p => relativePath(p) && !p.startsWith("-") && p.endsWith(".test.mjs")), "Select explicit repository Node test files");
+  if (plan.measurement_plan !== undefined) {
+    ensure(plan.schema_version === "temple.delivery-plan/v2", "Reusable measurements require a v2 delivery plan");
+    validateMeasurementPlan(plan.measurement_plan);
+    ensure(plan.check_policy === plan.measurement_plan.check_policy && plan.test_timeout_ms === plan.measurement_plan.timeout_ms, "Delivery and measurement policies/timeouts must agree");
+    ensure(plan.tests === undefined, "Select measurement_plan or legacy tests, not both");
+  } else ensure(Array.isArray(plan.tests) && plan.tests.length > 0 && plan.tests.length <= 100 && new Set(plan.tests).size === plan.tests.length && plan.tests.every(p => relativePath(p) && !p.startsWith("-") && p.endsWith(".test.mjs")), "Select explicit repository Node test files");
   ensure(integer(plan.test_timeout_ms) && plan.test_timeout_ms >= 100 && plan.test_timeout_ms <= 300000 && plan.test_timeout_ms < b.elapsed_limit_ms - b.cleanup_reserve_ms, "Invalid bounded test timeout");
   return plan;
 }
@@ -116,7 +122,11 @@ export function deliveryReport(session, item, now = Date.now()) {
       before_open_unmeasured_ms: Math.max(0, session.opened_at_ms - Date.parse(item.created_at)), explicit_pause_ms: paused,
       measured_local_operations_ms: local, other_elapsed_ms: Math.max(0, elapsed - paused - local), other_elapsed_classification: "model, coordination, idle or unrecorded waiting; not all active work" },
     repairs: session.repairs, pauses: session.events.filter(e => e.kind === "paused"),
-    checks: session.events.filter(e => e.kind === "checked").map(e => ({ sequence: e.sequence, revision: e.revision, accepted: e.result.accepted, elapsed_ms: e.elapsed_ms })),
+    checks: session.events.filter(e => e.kind === "checked").map(e => ({ sequence: e.sequence, revision: e.revision, accepted: e.result.accepted, elapsed_ms: e.elapsed_ms,
+      cache_status: ["hit", "miss"].includes(e.result.cache_status) ? e.result.cache_status : null,
+      cache_reason: textValue(e.result.cache_reason) ? e.result.cache_reason.replace(/[\x00-\x1f\x7f]/g, " ").slice(0, 240) : null,
+      execution_started: typeof e.result.execution_started === "boolean" ? e.result.execution_started : null,
+      measurement_ref: relativePath(e.result.measurement_ref) && e.result.measurement_ref.length <= 512 ? e.result.measurement_ref : null })),
     capacity: admission(session, item.state === "build" ? "build" : "verification", end), pending: session.pending,
     model_calls_performed_by_report: 0, monetary_cost: null, observations_are_acceptance: false };
 }

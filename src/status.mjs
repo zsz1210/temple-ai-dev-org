@@ -1,4 +1,6 @@
 import fs from "node:fs/promises";
+import { deriveDeliveryAttention } from "./delivery-attention.mjs";
+import { formatAgentIdentity } from "./actor-resolution.mjs";
 import { summarizeLearningReviews } from "./learning-review.mjs";
 import path from "node:path";
 import { leanFinishAttention } from "./lean-delivery-state.mjs";
@@ -163,6 +165,8 @@ export async function buildStatus(target, options = {}) {
     .sort((left, right) => left.position_name.localeCompare(right.position_name));
 
   const workItemsDirectory = path.join(target, ".ai-org/work-items");
+  const evidencePath = path.join(target, ".ai-org/project/evidence.json");
+  const evidence = await pathExists(evidencePath) ? (await readJson(evidencePath)).entries ?? [] : [];
   const workItems = [];
   const rawItems = new Map();
   if (await pathExists(workItemsDirectory)) {
@@ -195,7 +199,8 @@ export async function buildStatus(target, options = {}) {
           owner_position: item.owner_position ?? "unknown",
           owner_name: positions.get(item.owner_position)?.display_name ?? item.owner_position ?? "unknown",
           assigned_agent_id: assignedAgentId,
-          assigned_agent_name: agents.get(assignedAgentId)?.display_name ?? "Unassigned",
+          assigned_agent_name: assignedAgentId ? formatAgentIdentity({ agents }, assignedAgentId, collaboration ?? {}) : "Unassigned",
+          delivery_attention: deriveDeliveryAttention(item, { workers: workerRegistry.workers ?? [], evidence }),
           latest_revision: latestRevision,
           evidence_count: Array.isArray(item.evidence) ? item.evidence.length : 0,
           unresolved_count: Array.isArray(item.unresolved) ? item.unresolved.length : 0,
@@ -582,6 +587,13 @@ export function renderStatusMarkdown(status) {
     }
   }
 
+  lines.push("", "## Delivery attention", "");
+  for (const item of status.work_items.items.filter(entry => !entry.terminal)) {
+    const delivery = item.delivery_attention;
+    if (!delivery) continue;
+    lines.push(`- ${item.id}: ${markdown(delivery.state)} — ${markdown(delivery.next_action)}`);
+    for (const condition of delivery.missing_conditions) lines.push(`  - ${markdown(condition.kind)}: ${markdown(condition.description)}`);
+  }
   lines.push("", "## Codex task registry", "");
   if (status.tasks.items.length === 0) {
     lines.push("No Codex tasks registered yet.");

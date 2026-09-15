@@ -153,18 +153,15 @@ temple collaboration qualify-membership . \
   --status active \
   --evidence docs/qualifications/taylor-backend.md \
   --risk-tier standard
-temple collaboration set-profile . --profile collaborative
-temple collaboration bind-identity . \
-  --principal-id principal-alice \
-  --verification-class external-evidence \
-  --provider-id github \
-  --provider-subject 12345678 \
-  --evidence-ref github:organization-membership-review
+temple collaboration preview-profile . --profile collaborative --actor-policy attributed --json
+# Review the returned preview, then use its exact fingerprint:
+temple collaboration apply-profile . --profile collaborative --actor-policy attributed --fingerprint '<preview fingerprint>' --json
+temple collaboration readiness . --principal-id principal-alice --position developer --json
 temple collaboration show .
 temple doctor .
 ```
 
-The original Assignment remains the default Position owner. A new non-default membership starts provisional; evidence-backed qualification makes the Agent eligible for bounded claims. It does not replace the default Assignment or create Human Authority. Add more `--discipline` values for a full-stack or cross-specialty Agent. The local actor binding is stored under the Git common directory, never pushed, and contains no credential.
+The original Assignment remains a fallback, while actual claims and explicit eligible members determine responsibility. A new non-default membership starts provisional; evidence-backed qualification makes the Agent eligible for bounded claims. It creates no Human Authority. Add more `--discipline` values for a full-stack or cross-specialty Agent. Ordinary attributed work needs no Temple login. Existing policy is preserved until explicit adoption; strict operations retain their provenance requirements. See [contributor setup and delivery recovery](../operations/collaborative-delivery.md).
 
 Collaborative Work Item IDs include a date and random suffix so separate clones are unlikely to allocate the same file. This is not distributed locking. Use protected branches, pull requests, CI, and normal Git conflict handling across machines. See the [Collaborative development model](../operations/collaboration.md).
 

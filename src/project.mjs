@@ -152,7 +152,7 @@ function wait(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-export async function withProjectMutationLock(target, operation, { leanDeliveryOperation = null } = {}) {
+export async function withProjectMutationLock(target, operation, { leanDeliveryOperation = null, reconciliationRecovery = false } = {}) {
   const lockPath = path.join(os.tmpdir(), `temple-mutation-${sha256(path.resolve(target)).slice(0, 20)}.lock`);
   let handle = null;
   for (let attempt = 0; attempt < 40; attempt += 1) {
@@ -176,6 +176,10 @@ export async function withProjectMutationLock(target, operation, { leanDeliveryO
 
   try {
     await assertNoPendingLeanDelivery(target, leanDeliveryOperation);
+    if (!reconciliationRecovery) {
+      const { assertNoPendingReconciliation } = await import("./reconciliation.mjs");
+      await assertNoPendingReconciliation(target);
+    }
     return await operation();
   } finally {
     await handle.close();

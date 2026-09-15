@@ -34,6 +34,8 @@ Temple is not an application framework, issue tracker, or autonomous manager. Yo
 
 ## Temple Concept Layers
 
+The current development candidate adds contributor readiness, ordinary attribution without Temple login, repeatable measurements, and recoverable record reconciliation. Existing installations keep their project-owned policy. See [collaborative delivery](docs/operations/collaborative-delivery.md) for adoption and execution limits; this is separate from publishing a release.
+
 <picture>
   <source media="(max-width: 640px)" srcset="docs/assets/temple-layers-mobile.en.svg">
   <img alt="Temple places human direction above six connected concerns: responsibility, bounded work, context and execution guidance, coordination, assurance, and memory and learning. Repository-backed organizational memory supports every layer." src="docs/assets/temple-layers.en.svg">

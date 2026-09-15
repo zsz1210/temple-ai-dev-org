@@ -6,7 +6,7 @@ Temple's Collaborative profile lets several people use their own AI Agents in on
 
 ```mermaid
 flowchart LR
-    LOCAL[Clone-local actor binding] -->|binds verified actor| HP[Human Principal]
+    LOCAL[Optional binding or required strict provenance] -->|records attribution metadata| HP[Human Principal]
     HP -->|sponsors| AI[Agent Identity]
     AI -->|joins with Disciplines| PM[Position Membership]
     PM -->|eligible for| POS[Position]
@@ -31,8 +31,8 @@ flowchart LR
 The terms are deliberately separate:
 
 - **Human Principal** is an immutable, project-scoped accountable-person ID. Display names may repeat; names and email addresses are not identity keys. Personnel changes suspend or deactivate the record instead of deleting or reusing it.
-- **Local Actor Binding** binds one Git clone to a Human Principal without committing credentials or the binding. It lives under the Git common directory at `.git/temple/identity.json`; Solo may be self-asserted, while Collaborative and High-Assurance require externally supplied evidence.
-- **Agent Identity** is the durable project identity of an AI participant. It is not a Codex task and does not disappear when a conversation closes.
+- **Local Actor Binding** records one clone's Principal and supplied provenance under the Git common directory at `.git/temple/identity.json`, outside tracked files. Fresh ordinary attributed work requires no binding; legacy team policy and explicitly verified/High-Assurance operations require current externally supplied evidence. This metadata does not authenticate a provider. See [onboarding and policy adoption](collaborative-delivery.md).
+- **Agent Identity** is the durable project identity of an AI participant. Display names may repeat; stable IDs select actors and preserve histories. It is not a Codex task and does not disappear when a conversation closes.
 - **Position** defines responsibility and authority, such as Developer, UI Designer, or Independent QA.
 - **Discipline** describes technical capability inside a Position, such as frontend, backend, full-stack, infrastructure, mobile, UI, or UX.
 - **Position Membership** makes an Agent eligible to work in a Position with declared Disciplines. Non-default memberships start `provisional` and need qualification evidence before activation. Membership can later be suspended, expired, or revoked without deleting history.

@@ -1,29 +1,145 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-10T11:19:54.596Z",
-  "source_fingerprint": "eacc56ed65eb8838859628411b50ad631a0ff46ebd679abb3625b2c728cabb3a",
+  "generated_at": "2026-09-15T16:55:57.644Z",
+  "source_fingerprint": "82f8ea2a46f8f6ce417abfa77d14626cc6342df13c9cda092ed5b56c0497abc2",
   "scope": {
-    "mode": "all-active",
-    "parent_work_item_id": null,
-    "selected_work_item_ids": []
+    "mode": "parent-descendants",
+    "parent_work_item_id": "WI-0230",
+    "selected_work_item_ids": [
+      "WI-0231",
+      "WI-0232",
+      "WI-0233"
+    ]
   },
-  "max_workers": null,
+  "max_workers": 3,
   "summary": {
-    "selected": 0,
-    "dispatchable": 0,
+    "selected": 3,
+    "dispatchable": 3,
     "active": 0,
     "sequential": 0,
     "blocked": 0,
-    "waves": 0
+    "waves": 1
   },
-  "waves": [],
+  "waves": [
+    {
+      "id": "wave-001",
+      "order": 1,
+      "dispatch": [
+        {
+          "work_item_id": "WI-0231",
+          "title": "Implement contributor attribution and Agent resolution",
+          "position_id": "developer",
+          "agent_id": "agent-rikku",
+          "agent_name": "Rikku",
+          "suggested_task_title": "WI-0231 · Implement contributor attri… · Developer (Rikku)",
+          "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
+          "affected_paths": [
+            "src/actor-resolution.mjs",
+            "src/collaboration.mjs",
+            "src/local-identity.mjs",
+            "src/model.mjs",
+            "test/field-actors.test.mjs"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "build",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "0410af1c78a495b94be5a19fe1e2c455378cdeb4a3a5697168af5b957b375dc0",
+          "integration_owner_agent_id": "agent-rikku",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0231 --position developer --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        },
+        {
+          "work_item_id": "WI-0232",
+          "title": "Implement reusable measurements and portable command checks",
+          "position_id": "developer",
+          "agent_id": "agent-rikku",
+          "agent_name": "Rikku",
+          "suggested_task_title": "WI-0232 · Implement reusable measurem… · Developer (Rikku)",
+          "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
+          "affected_paths": [
+            "src/verification.mjs",
+            "src/delivery-check.mjs",
+            "src/delivery-ledger.mjs",
+            "src/delivery-check-worker.mjs",
+            "test/field-verification.test.mjs"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "build",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "a231d443f2c5c93cc3ba45d78095239531112d953f5523e2471d5574187b29ff",
+          "integration_owner_agent_id": "agent-rikku",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0232 --position developer --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        },
+        {
+          "work_item_id": "WI-0233",
+          "title": "Implement durable evidence and collaborative reconciliation",
+          "position_id": "developer",
+          "agent_id": "agent-rikku",
+          "agent_name": "Rikku",
+          "suggested_task_title": "WI-0233 · Implement durable evidence … · Developer (Rikku)",
+          "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
+          "affected_paths": [
+            "src/evidence-bundle.mjs",
+            "src/reconciliation.mjs",
+            "src/delivery-attention.mjs",
+            "test/field-evidence.test.mjs",
+            "test/field-reconciliation.test.mjs",
+            "test/field-attention.test.mjs"
+          ],
+          "dependencies": [],
+          "required_disciplines": [],
+          "active_requirements": {
+            "stage": "build",
+            "disciplines": [],
+            "resources": []
+          },
+          "preparation_fingerprint": "d9f9b9585c88e3fbd1ed5fac587e874e35971280fabb4b182a604218bc26a75c",
+          "integration_owner_agent_id": "agent-rikku",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0233 --position developer --no-write --json",
+          "claim_required_before_work": true,
+          "task_registration_required_after_creation": true,
+          "task_creation_performed": false,
+          "claim_performed": false,
+          "external_action_performed": false
+        }
+      ],
+      "join_gate": {
+        "integration_owner_agent_ids": [
+          "agent-rikku"
+        ],
+        "required_evidence": [
+          "exact_candidate_revision",
+          "verification_results",
+          "unresolved_items"
+        ],
+        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
+      }
+    }
+  ],
   "active": [],
   "sequential": [],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": null,
+    "runtime_capacity_limit": 3,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

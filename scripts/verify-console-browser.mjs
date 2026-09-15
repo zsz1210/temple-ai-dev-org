@@ -330,12 +330,51 @@ async function reducedMotionContract(browser, serverUrl) {
   }
 }
 
+async function fieldAttentionContract(browser, serverUrl) {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, colorScheme: "dark" });
+  try {
+    const page = await context.newPage();
+    const response = await page.request.get(`${serverUrl}/api/v1/snapshot`);
+    const snapshot = await response.json();
+    const sample = snapshot.live_observer.work.items[0] ?? {};
+    const states = ["awaiting-owner", "awaiting-environment", "review-completed", "awaiting-evidence", "awaiting-decision", "active-execution"];
+    const items = states.map((state, index) => ({ ...sample, id: `WI-99${String(index).padStart(2, "0")}`, title: `Synthetic ${state} fixture`,
+      category: "qa_pending", state: "test", effective_state: "test", terminal: false, lifecycle_outcome: null, tasks: [],
+      runtime_workers: [], active_claim: null, active_claim_agent_id: null,
+      delivery_attention: { state, execution_state: state === "active-execution" ? "active" : "not-running",
+        review_state: state === "awaiting-environment" || state === "review-completed" ? "completed" : "not-running",
+        acceptance_state: "not-complete", next_action: `Fixture next action: ${state}`,
+        missing_conditions: state === "awaiting-environment" ? [{ kind: "environment", description: "Independent device observation unavailable" }] : [] } }));
+    snapshot.live_observer.work.items = items;
+    snapshot.live_observer.work.total = items.length;
+    await page.route("**/api/v1/snapshot", route => route.fulfill({ json: snapshot }));
+    await page.route("**/api/v1/work-items/*/delivery", route => route.fulfill({ json: {
+      schema_version: "temple.delivery-summary/v1", work_item_id: route.request().url().split("/").at(-2), availability: "session-missing", observed_at: snapshot.generated_at
+    } }));
+    await page.goto(serverUrl, { waitUntil: "domcontentloaded" });
+    await page.locator('[data-nav-target="execution"]').click();
+    for (const item of items) {
+      await page.locator(`[data-work-item-id="${item.id}"]`).click();
+      const panel = page.locator("#delivery-attention");
+      await panel.waitFor({ state: "visible" });
+      if (!(await panel.textContent()).includes(item.delivery_attention.next_action)) throw new Error(`Missing next action for ${item.delivery_attention.state}`);
+      if (item.delivery_attention.state !== "active-execution" && await page.locator(`[data-work-item-id="${item.id}"] .live-indicator`).count()) {
+        throw new Error(`Waiting/completed fixture shown as running: ${item.delivery_attention.state}`);
+      }
+    }
+    await page.locator('[data-work-item-id="WI-9901"]').click();
+    await page.screenshot({ path: path.join(os.tmpdir(), "temple-field-console-environment.png"), fullPage: true });
+    console.log("PASS field attention · 6 synthetic states, actionable next step, no false running review");
+  } finally { await context.close(); }
+}
+
 export async function verifyConsoleBrowser({
   startServer = startControlPlaneServer,
   launchBrowser = () => chromium.launch({ channel: "chrome", headless: true }),
   checkViews = async (browser, url) => {
     for (const viewport of CONSOLE_VIEWPORTS) await runViewport(browser, url, viewport);
     await reducedMotionContract(browser, url);
+    await fieldAttentionContract(browser, url);
   }
 } = {}) {
   const stateDirectory = await fs.mkdtemp(path.join(os.tmpdir(), "temple-console-browser-"));

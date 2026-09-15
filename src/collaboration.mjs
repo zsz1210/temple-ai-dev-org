@@ -1,9 +1,11 @@
+import fs from "node:fs/promises";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
-import { atomicCreate, atomicWrite, formatJson, pathExists, readJson, sha256 } from "./files.mjs";
+import { atomicCreate, atomicWrite, formatJson, pathExists, readJson, sha256, rollbackFileChanges } from "./files.mjs";
 import { validateDisplayName } from "./model.mjs";
 import { appendEvent, uniqueStrings } from "./project.mjs";
 import { HIGH_ASSURANCE_PROFILE, validateHighAssuranceProfilePrerequisites } from "./assurance.mjs";
+import { actorResolutionError, effectiveActorPolicy, inspectProjectActor, formatAgentIdentity } from "./actor-resolution.mjs";
 
 export const COLLABORATION_RELATIVE_PATH = ".ai-org/project/collaboration.json";
 export const COLLABORATION_SCHEMA_V1 = "temple.collaboration/v1";
@@ -89,6 +91,7 @@ export function buildCollaborationState(assignmentsDocument) {
   return {
     schema_version: COLLABORATION_SCHEMA_V2,
     profile: "solo",
+    actor_policy: { ordinary_development: "attributed" },
     coordination_backend: "repository",
     principals: [],
     sponsorships: [],
@@ -194,6 +197,7 @@ export function normalizedCollaborationState(document) {
   return {
     schema_version: COLLABORATION_SCHEMA_V2,
     profile: document.profile,
+    ...(document.actor_policy !== undefined ? { actor_policy: document.actor_policy } : {}),
     coordination_backend: document.coordination_backend,
     principals: (document.principals ?? []).map((principal) => ({
       id: principal.id,
@@ -280,6 +284,8 @@ export function validateCollaborationState(document, agentsDocument, assignments
   const v2 = document?.schema_version === COLLABORATION_SCHEMA_V2;
   if (![COLLABORATION_SCHEMA_V1, COLLABORATION_SCHEMA_V2].includes(document?.schema_version)) errors.push("invalid schema_version");
   if (!COLLABORATION_PROFILES.includes(document?.profile)) errors.push("unsupported collaboration profile");
+  try { effectiveActorPolicy(document); } catch (error) { errors.push(error.message); }
+  if (document?.actor_policy === undefined) warnings.push("Actor policy is absent; legacy verification requirements remain until an explicit policy transition.");
   if (document?.coordination_backend !== "repository") errors.push("coordination_backend must be repository");
   if (v2) {
     for (const level of VALIDATION_LEVELS) {
@@ -977,4 +983,243 @@ export function agentIsEligible(document, agentId, positionId, requiredDisciplin
   );
   const available = new Set(memberships.flatMap((entry) => entry.disciplines ?? []));
   return memberships.length > 0 && requiredDisciplines.every((discipline) => available.has(discipline));
+}
+
+async function contributorSnapshot(target) {
+  const files = [COLLABORATION_RELATIVE_PATH, ".ai-org/project/project.json", ".ai-org/project/agents.json",
+    ".ai-org/project/assignments.json", ".ai-org/core/positions.json"];
+  const workDirectory = path.join(target, ".ai-org/work-items");
+  const names = await fs.readdir(workDirectory).catch((error) => { if (error.code === "ENOENT") return []; throw error; });
+  files.push(...names.filter((name) => /^WI-[a-zA-Z0-9-]+\.json$/.test(name)).sort().map((name) => `.ai-org/work-items/${name}`));
+  for (const optional of [".ai-org/events/events.jsonl", ".ai-org/project/tasks.json", "temple.lock"]) {
+    if (await pathExists(path.join(target, optional))) files.push(optional);
+  }
+  const contents = new Map(await Promise.all(files.sort().map(async (relative) => [relative, await fs.readFile(path.join(target, relative), "utf8")])));
+  const json = (relative) => JSON.parse(contents.get(relative));
+  const collaboration = json(COLLABORATION_RELATIVE_PATH);
+  const agentsDocument = json(".ai-org/project/agents.json");
+  const assignmentsDocument = json(".ai-org/project/assignments.json");
+  const positionsDocument = json(".ai-org/core/positions.json");
+  const context = { project: json(".ai-org/project/project.json"), collaboration, agentsDocument, assignmentsDocument, positionsDocument,
+    agents: new Map((agentsDocument.agents ?? []).map((entry) => [entry.id, entry])),
+    assignments: new Map((assignmentsDocument.assignments ?? []).filter((entry) => entry.active !== false).map((entry) => [entry.position_id, entry.agent_id])) };
+  const workItems = [...contents.keys()].filter((relative) => relative.startsWith(".ai-org/work-items/")).map(json);
+  return { collaboration, context, workItems, contents,
+    fingerprint: `sha256:${sha256(formatJson([...contents].map(([relative, bytes]) => [relative, sha256(bytes)])))}` };
+}
+
+function activeWorkSummary(snapshot) {
+  return snapshot.workItems.filter((item) => !["done", "cancelled"].includes(item.state)).map((item) => ({
+    work_item_id: item.id, state: item.state, owner_position: item.owner_position,
+    claim: item.claim?.status === "active" ? item.claim : null
+  }));
+}
+
+function anonymousClaims(snapshot) {
+  return activeWorkSummary(snapshot).filter((item) => item.claim && (!item.claim.principal_id || item.claim.principal_id === "human"));
+}
+
+function diagnostic(error, principalId = null) {
+  return { code: error.code ?? "TEMPLE_CONTRIBUTOR_NOT_READY", message: error.message,
+    mutation_status: "no-write", responsible_actor: principalId,
+    next_action: error.next_action ?? "Inspect the contributor's current membership and attribution.", details: error.details ?? {} };
+}
+
+/** Navigation only. Readiness never creates membership, claims, local binding or acceptance. */
+export async function contributorReadiness(target, options = {}) {
+  const snapshot = await contributorSnapshot(target);
+  const { collaboration, context } = snapshot;
+  const principalId = options.principalId ?? null;
+  const principal = (collaboration.principals ?? []).find((entry) => entry.id === principalId) ?? null;
+  const ownAgents = [...context.agents.values()].filter((agent) => !principalId || sponsoredPrincipal(collaboration, agent.id) === principalId ||
+    principalId === "human" && collaboration.profile === "solo" && !sponsoredPrincipal(collaboration, agent.id));
+  const item = options.item ?? snapshot.workItems.find((entry) => entry.id === options.workItemId);
+  const positions = [...new Set((collaboration.memberships ?? []).filter((entry) => ownAgents.some((agent) => agent.id === entry.agent_id)).map((entry) => entry.position_id))].sort();
+  const blockers = [];
+  const eligiblePositions = [];
+  let selected = null;
+  let actorPolicy;
+  if (options.workItemId && !item) blockers.push(diagnostic(actorResolutionError("TEMPLE_CONTRIBUTOR_WORK_ITEM_MISSING",
+    `Work Item ${options.workItemId} is missing.`, "Select an existing Work Item before checking its contributor readiness."), principalId));
+  try { actorPolicy = effectiveActorPolicy(collaboration, options); }
+  catch (error) { blockers.push(diagnostic(error, principalId)); }
+  if (principalId && !(principalId === "human" && collaboration.profile === "solo") && (!principal || principalStatus(principal) !== "active")) {
+    blockers.push(diagnostic(actorResolutionError("TEMPLE_ACTOR_PRINCIPAL_INACTIVE", `Unknown or inactive Principal: ${principalId}.`,
+      "Complete explicitly authorized contributor setup or select an existing active Principal."), principalId));
+  }
+  if (blockers.length === 0) {
+    const requestedPosition = options.positionId ?? item?.owner_position;
+    for (const positionId of requestedPosition ? [requestedPosition] : positions) {
+      try {
+        const inspection = await inspectProjectActor(target, context, { ...options, item, collaboration, positionId });
+        const actor = inspection.selected_actor;
+        blockers.push(...inspection.blockers.map((entry) => ({ ...entry, responsible_actor: principalId })));
+        if (actor) eligiblePositions.push({ position_id: positionId, agent_id: actor.agent_id, principal_id: actor.principal_id, provenance: actor.provenance, ready: inspection.ready });
+        if (requestedPosition && actor) selected = actor;
+      } catch (error) { blockers.push(diagnostic(error, principalId)); }
+    }
+  }
+  if (!selected && eligiblePositions.length === 0 && blockers.length === 0) {
+    blockers.push(diagnostic(actorResolutionError("TEMPLE_CONTRIBUTOR_MEMBERSHIP_REQUIRED", "No eligible Position membership is configured.",
+      "Select the required delivery/review roles during explicitly authorized member setup."), principalId));
+  }
+  return { schema_version: "temple.contributor-readiness/v1", authority: "navigation-only", mutation_status: "no-write",
+    ready: blockers.length === 0 && eligiblePositions.length > 0, principal_id: principalId, principal,
+    actor_policy: actorPolicy ?? null, selected_actor: selected, eligible_positions: eligiblePositions,
+    agents: ownAgents.map((agent) => ({ ...agent, label: formatAgentIdentity(context, agent.id, collaboration), sponsor_principal_id: sponsoredPrincipal(collaboration, agent.id) })),
+    blockers, active_work: activeWorkSummary(snapshot), anonymous_active_claims: anonymousClaims(snapshot),
+    next_action: blockers[0]?.next_action ?? "Begin or continue the authorized task using the selected eligible Agent.", fingerprint: snapshot.fingerprint };
+}
+
+export async function previewCollaborationTransition(target, options = {}) {
+  const snapshot = await contributorSnapshot(target);
+  const profile = options.profile ?? snapshot.collaboration.profile;
+  if (!COLLABORATION_PROFILES.includes(profile)) throw actorResolutionError("TEMPLE_COLLABORATION_PROFILE_INVALID",
+    `Unsupported profile: ${profile}.`, "Choose solo, collaborative or high-assurance.");
+  const actorPolicy = options.actorPolicy === undefined ? snapshot.collaboration.actor_policy :
+    typeof options.actorPolicy === "string" ? { ordinary_development: options.actorPolicy } : options.actorPolicy;
+  const proposed = { ...snapshot.collaboration, profile, ...(actorPolicy !== undefined ? { actor_policy: actorPolicy } : {}) };
+  const effective = effectiveActorPolicy(proposed);
+  const positionIds = new Set((snapshot.context.positionsDocument.positions ?? []).map((entry) => entry.id));
+  const validation = validateCollaborationState(proposed, snapshot.context.agentsDocument, snapshot.context.assignmentsDocument, positionIds);
+  const anonymous = anonymousClaims(snapshot);
+  const missingMappings = [...snapshot.context.agents.values()].filter((agent) => agent.active !== false &&
+    !activePrincipalIds(proposed).has(sponsoredPrincipal(proposed, agent.id))).map((agent) => agent.id);
+  const proposal = { profile, actor_policy: actorPolicy ?? null };
+  const fingerprint = `sha256:${sha256(formatJson([snapshot.fingerprint, proposal]))}`;
+  return { schema_version: "temple.collaboration-transition/v1", mutation_status: "no-write", fingerprint, input_fingerprint: snapshot.fingerprint,
+    from: { profile: snapshot.collaboration.profile, actor_policy: snapshot.collaboration.actor_policy ?? null },
+    to: proposal, actor_policy: effective,
+    changed: formatJson(snapshot.collaboration) !== formatJson(proposed), applicable: validation.valid,
+    blockers: validation.errors.map((message) => ({ code: "TEMPLE_COLLABORATION_PREREQUISITE", message, next_action: "Resolve the missing profile prerequisites before applying." })),
+    warnings: validation.warnings, missing_sponsor_mappings: profile === "solo" ? [] : missingMappings,
+    active_work: activeWorkSummary(snapshot), anonymous_active_claims: anonymous,
+    recovery_choices: anonymous.length && profile !== "solo" ? [
+      "Complete or release the anonymous claim under its original responsibility before changing profile.",
+      "Apply without transferring the claim, then perform an explicitly authorized handoff preserving its history."
+    ] : [],
+    preserves: ["work-item IDs", "active claims", "history", "evidence", "local binding", "product files", "authority grants"],
+    fingerprint_paths: [...snapshot.contents.keys()] };
+}
+
+async function writeContributorChanges(target, changes) {
+  const written = [];
+  try {
+    for (const [relative, before, after] of changes) {
+      const filename = path.join(target, relative);
+      const current = await fs.readFile(filename, "utf8").catch((error) => { if (error.code === "ENOENT") return null; throw error; });
+      if (current !== before) throw actorResolutionError("TEMPLE_CONTRIBUTOR_STALE", "Contributor configuration changed before writing.", "Preview the current configuration again.");
+      await atomicWrite(filename, after);
+      written.push({ path: filename, before, afterHash: sha256(after) });
+    }
+  } catch (error) {
+    try { await rollbackFileChanges(written); }
+    catch (rollbackError) { throw Object.assign(actorResolutionError("TEMPLE_CONTRIBUTOR_RECOVERY_REQUIRED", rollbackError.message,
+      "Preserve the written files and reconcile the interrupted contributor setup.", { cause: error.message, written_paths: written.map((entry) => entry.path) }), { mutation_status: "recovery-required" }); }
+    throw Object.assign(error, { mutation_status: written.length ? "rolled-back" : "not-started" });
+  }
+}
+
+export async function applyCollaborationTransition(target, options = {}) {
+  const preview = await previewCollaborationTransition(target, options);
+  if (!options.fingerprint || options.fingerprint !== preview.fingerprint) throw actorResolutionError("TEMPLE_COLLABORATION_PREVIEW_STALE",
+    "The collaboration transition preview is missing or stale.", "Preview the same profile and actor policy against current files and apply its fingerprint.", { current_fingerprint: preview.fingerprint });
+  if (!preview.applicable) throw actorResolutionError("TEMPLE_COLLABORATION_PREREQUISITE", "The proposed profile has unmet prerequisites.",
+    "Resolve the preview blockers and preview again.", { blockers: preview.blockers });
+  const snapshot = await contributorSnapshot(target);
+  if (snapshot.fingerprint !== preview.input_fingerprint) throw actorResolutionError("TEMPLE_COLLABORATION_PREVIEW_STALE",
+    "Project state changed after preview validation.", "Preview again before applying.");
+  if (!preview.changed) return { ...preview, mutation_status: "no-write", applied: false };
+  const updated = { ...snapshot.collaboration, profile: preview.to.profile,
+    ...(preview.to.actor_policy !== null ? { actor_policy: preview.to.actor_policy } : {}) };
+  const eventPath = ".ai-org/events/events.jsonl";
+  const events = snapshot.contents.get(eventPath) ?? null;
+  const event = { timestamp: new Date().toISOString(), event_type: "collaboration_transition_applied", actor: options.actor ?? "human",
+    from: preview.from, to: preview.to, preview_fingerprint: preview.fingerprint, anonymous_claims_preserved: preview.anonymous_active_claims.map((entry) => entry.work_item_id), refs: [COLLABORATION_RELATIVE_PATH] };
+  await writeContributorChanges(target, [[COLLABORATION_RELATIVE_PATH, snapshot.contents.get(COLLABORATION_RELATIVE_PATH), formatJson(updated)],
+    [eventPath, events, `${events ?? ""}${events && !events.endsWith("\n") ? "\n" : ""}${JSON.stringify(event)}\n`]]);
+  return { ...preview, mutation_status: "applied", applied: true };
+}
+
+/** Caller supplies the existing human authorization and explicit roles; no authority is inferred from repository access. */
+export async function setupContributor(target, options = {}) {
+  if (options.authorized !== true) throw actorResolutionError("TEMPLE_CONTRIBUTOR_AUTHORIZATION_REQUIRED", "Contributor setup needs explicit authorization for the selected roles.",
+    "Record the contributor's already-authorized scope and explicit Agent/Position choices.");
+  const snapshot = await contributorSnapshot(target);
+  if (snapshot.collaboration.schema_version !== COLLABORATION_SCHEMA_V2) throw actorResolutionError("TEMPLE_CONTRIBUTOR_SCHEMA_UPGRADE_REQUIRED",
+    "Contributor setup requires collaboration v2.", "Preview and apply the existing collaboration schema migration first; profile transition does not perform schema migration.");
+  const principalId = String(options.principalId ?? "").trim();
+  const displayName = String(options.displayName ?? "").trim();
+  if (!PRINCIPAL_ID.test(principalId) || validateDisplayName(displayName)) throw actorResolutionError("TEMPLE_CONTRIBUTOR_IDENTITY_INVALID",
+    "A stable Principal ID and valid display name are required.", "Provide principal-<slug> and the contributor's display name.");
+  const requestedAgents = [options.deliveryAgent, options.reviewAgent];
+  if (requestedAgents.some((entry) => !entry || !AGENT_ID.test(entry.id ?? "") || validateDisplayName(entry.displayName ?? entry.display_name))) {
+    throw actorResolutionError("TEMPLE_CONTRIBUTOR_AGENT_REQUIRED", "Explicit delivery and review Agent identities are required.", "Choose two distinct stable Agent IDs and their display names.");
+  }
+  if (requestedAgents[0].id === requestedAgents[1].id) throw actorResolutionError("TEMPLE_CONTRIBUTOR_SEPARATION_REQUIRED",
+    "Delivery and review must use different Agent Identities.", "Reuse or select a distinct review Agent ID.");
+  const updated = structuredClone(snapshot.collaboration);
+  const agents = structuredClone(snapshot.context.agentsDocument);
+  const timestamp = new Date().toISOString();
+  const existingPrincipal = (updated.principals ?? []).find((entry) => entry.id === principalId);
+  if (existingPrincipal && (principalStatus(existingPrincipal) !== "active" || existingPrincipal.display_name !== displayName)) throw actorResolutionError("TEMPLE_CONTRIBUTOR_EXISTING_IDENTITY_CONFLICT",
+    "The existing Principal is inactive or has different identity details.", "Reuse the recorded identity details or perform an explicit identity/status change.", { principal_id: principalId });
+  if (!existingPrincipal) updated.principals.push({ id: principalId, display_name: displayName, status: "active", active: true,
+    provider_identities: [], created_at: timestamp, updated_at: timestamp });
+  const knownPositions = new Set((snapshot.context.positionsDocument.positions ?? []).map((entry) => entry.id));
+  for (const [index, requested] of requestedAgents.entries()) {
+    const name = requested.displayName ?? requested.display_name;
+    const roles = uniqueStrings(requested.positions);
+    const reviewRoles = new Set(["quality_evaluator", "independent_qa", "release_manager"]);
+    if (!roles.length || roles.some((role) => !knownPositions.has(role) || (index === 1 ? !reviewRoles.has(role) : reviewRoles.has(role)))) {
+      throw actorResolutionError("TEMPLE_CONTRIBUTOR_ROLES_INVALID", "Select explicit, separate delivery and review Positions.",
+        "Use delivery Positions for the delivery Agent and quality/release Positions for the review Agent.");
+    }
+    const existing = agents.agents.find((entry) => entry.id === requested.id);
+    if (existing && (existing.active === false || existing.display_name !== name)) throw actorResolutionError("TEMPLE_CONTRIBUTOR_EXISTING_IDENTITY_CONFLICT",
+      `The existing Agent ${requested.id} is inactive or has different details.`, "Reuse its recorded identity or perform an explicit identity change.");
+    if (!existing) agents.agents.push({ id: requested.id, display_name: name, active: true, created_at: timestamp });
+    const priorSponsorships = (updated.sponsorships ?? []).filter((entry) => entry.agent_id === requested.id);
+    if (priorSponsorships.length && (sponsoredPrincipal(updated, requested.id) !== principalId ||
+      priorSponsorships.filter((entry) => sponsorshipStatus(entry) === "active").length !== 1)) {
+      throw actorResolutionError("TEMPLE_CONTRIBUTOR_SPONSOR_CONFLICT", `${requested.id} has another or inactive sponsorship.`,
+        "Reuse that contributor's Agent or perform an explicit sponsorship change preserving history.");
+    }
+    if (!priorSponsorships.length) updated.sponsorships.push({ agent_id: requested.id, principal_id: principalId, status: "active", active: true, created_at: timestamp, ended_at: null });
+    const opposite = index === 0 ? "independent_qa" : "developer";
+    if (roles.includes(index === 0 ? "developer" : "independent_qa") && updated.memberships.some((entry) => entry.agent_id === requested.id && entry.position_id === opposite && membershipStatus(entry) === "active")) {
+      throw actorResolutionError("TEMPLE_CONTRIBUTOR_SEPARATION_REQUIRED", `${requested.id} already holds the conflicting ${opposite} responsibility.`, "Select a distinct delivery/review identity.");
+    }
+    for (const positionId of roles) {
+      const disciplines = uniqueStrings(requested.disciplines ?? DEFAULT_DISCIPLINES[positionId] ?? []);
+      if (disciplines.some((value) => !DISCIPLINES.includes(value))) throw actorResolutionError("TEMPLE_CONTRIBUTOR_DISCIPLINE_INVALID", "An unsupported discipline was selected.", "Select a supported discipline for the Position.");
+      const membership = updated.memberships.find((entry) => entry.agent_id === requested.id && entry.position_id === positionId);
+      if (membership) {
+        if (!agentIsEligible(updated, requested.id, positionId, disciplines)) throw actorResolutionError("TEMPLE_CONTRIBUTOR_QUALIFICATION_REQUIRED",
+          `Existing membership for ${requested.id}/${positionId} is not currently eligible.`, "Review its qualification explicitly; setup does not renew or expand existing authority.");
+        continue;
+      }
+      const evidenceRefs = uniqueStrings(requested.evidenceRefs ?? options.evidenceRefs);
+      if (!evidenceRefs.length) throw actorResolutionError("TEMPLE_CONTRIBUTOR_QUALIFICATION_REQUIRED", `New membership for ${requested.id}/${positionId} requires qualification evidence.`,
+        "Provide the already-approved membership qualification evidence references.");
+      updated.memberships.push({ agent_id: requested.id, position_id: positionId, disciplines, default: false, status: "active", active: true,
+        qualification: { basis: "evidence", evidence_refs: evidenceRefs, risk_ceiling: "standard", qualified_at: timestamp, review_after: null, expires_at: null } });
+    }
+  }
+  const validation = validateCollaborationState(updated, agents, snapshot.context.assignmentsDocument, knownPositions);
+  if (!validation.valid) throw actorResolutionError("TEMPLE_CONTRIBUTOR_CONFIGURATION_INVALID", validation.errors.join("; "), "Resolve the existing configuration conflicts before setup.");
+  const changed = formatJson(updated) !== formatJson(snapshot.collaboration) || formatJson(agents) !== formatJson(snapshot.context.agentsDocument);
+  if (!changed) return { schema_version: "temple.contributor-setup/v1", mutation_status: "no-write", changed: false, principal_id: principalId, agent_ids: requestedAgents.map((entry) => entry.id), authority_grants_changed: false,
+    anonymous_active_claims: anonymousClaims(snapshot) };
+  if ((await contributorSnapshot(target)).fingerprint !== snapshot.fingerprint) throw actorResolutionError("TEMPLE_CONTRIBUTOR_STALE", "Contributor state changed during setup.", "Retry against the current recorded identities.");
+  const eventPath = ".ai-org/events/events.jsonl";
+  const events = snapshot.contents.get(eventPath) ?? null;
+  const event = { timestamp, event_type: "contributor_setup", actor: options.actor ?? "human", principal_id: principalId,
+    agent_ids: requestedAgents.map((entry) => entry.id), refs: [COLLABORATION_RELATIVE_PATH, ".ai-org/project/agents.json", ...uniqueStrings(options.evidenceRefs)] };
+  await writeContributorChanges(target, [[".ai-org/project/agents.json", snapshot.contents.get(".ai-org/project/agents.json"), formatJson(agents)],
+    [COLLABORATION_RELATIVE_PATH, snapshot.contents.get(COLLABORATION_RELATIVE_PATH), formatJson(updated)],
+    [eventPath, events, `${events ?? ""}${events && !events.endsWith("\n") ? "\n" : ""}${JSON.stringify(event)}\n`]]);
+  return { schema_version: "temple.contributor-setup/v1", mutation_status: "applied", changed: true, principal_id: principalId,
+    agent_ids: requestedAgents.map((entry) => entry.id), authority_grants_changed: false, anonymous_active_claims: anonymousClaims(snapshot),
+    next_action: "Inspect contributor readiness for the authorized task." };
 }

@@ -8,6 +8,59 @@ import { ensure, safeFile, recordPath } from "./delivery-ledger.mjs";
 import { confinedCheckCommand } from "./confined-check.mjs";
 const exec = promisify(execFile);
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+function boundedText(chunks) {
+  const buffer = Buffer.concat(chunks), decoded = buffer.toString("utf8");
+  // Invalid/truncated UTF-8 can expand on decoding. Keep persisted output within
+  // the actual byte budget as well as limiting the captured child stream.
+  if (Buffer.byteLength(decoded) <= buffer.length) return decoded;
+  const encoded = Buffer.from(decoded).subarray(0, buffer.length);
+  return new TextDecoder().decode(encoded, { stream: true });
+}
+
+// Trusted command supervision is an owned process-group boundary, not a sandbox.
+// Windows needs a Job Object adapter before we can confirm descendant cleanup.
+export async function runSupervisedCommand(command, { timeout_ms, output_limit_bytes, hooks = {} }) {
+  const result = { execution_started: false, process_exit_confirmed: true, exit_code: null, stdout: "", stderr: "", timed_out: false, surviving_descendants: false, instrument_error: null };
+  if (process.platform === "win32") return { ...result, instrument_error: "unsupported-platform-descendant-cleanup" };
+  let child, pid, bytes = 0, overflow = false, startError = null;
+  const chunks = [], errors = [], signalErrors = [];
+  const alive = () => { if (!pid) return false; try { process.kill(-pid, 0); return true; } catch (e) { return e.code !== "ESRCH"; } };
+  const kill = () => { if (pid) try { process.kill(-pid, "SIGKILL"); } catch (e) { if (e.code !== "ESRCH") signalErrors.push(e.code); } };
+  const exit = await new Promise(resolve => {
+    let settled = false;
+    const finish = value => { if (settled) return; settled = true; clearTimeout(timer); clearTimeout(watchdog); resolve(value); };
+    const supervisorEnv = { ...command.env }; delete supervisorEnv.NODE_OPTIONS; delete supervisorEnv.NODE_PATH;
+    child = spawn(process.execPath, [fileURLToPath(new URL("./delivery-check-worker.mjs", import.meta.url)), "--command-supervise", String(timeout_ms)], { cwd: command.cwd, env: supervisorEnv, detached: true, stdio: ["ignore", "pipe", "pipe", "ipc"] });
+    pid = child.pid;
+    const timer = setTimeout(() => { result.timed_out = true; kill(); }, timeout_ms);
+    const watchdog = setTimeout(() => { kill(); child.stdout.destroy(); child.stderr.destroy(); child.unref(); finish({ code: null, error: "unconfirmed-process-close" }); }, timeout_ms + 3000);
+    for (const [stream, output] of [[child.stdout, chunks], [child.stderr, errors]]) stream.on("data", chunk => {
+      const remaining = Math.max(0, output_limit_bytes - bytes); bytes += chunk.length;
+      if (remaining) output.push(chunk.subarray(0, remaining));
+      if (bytes > output_limit_bytes) { overflow = true; kill(); }
+    });
+    child.once("error", e => finish({ code: null, error: e.code ?? "spawn-failed" }));
+    child.on("message", message => {
+      if (message?.action === "command-started") result.execution_started = true;
+      if (message?.action === "command-start-failed") startError = `command-spawn-${message.code}`;
+    });
+    child.once("exit", code => { result.surviving_descendants = code === 0 && !result.timed_out && alive(); kill(); });
+    child.once("close", code => finish({ code }));
+    Promise.resolve().then(() => hooks.started?.({ process_group_id: pid })).then(() => {
+      if (!settled && child.connected) {
+        child.send({ action: "start", command }, error => { if (error) { kill(); finish({ code: null, error: error.message }); } });
+      }
+    }).catch(error => { kill(); finish({ code: null, error: error.message }); });
+  });
+  kill();
+  const deadline = Date.now() + 2000; while (alive() && Date.now() < deadline) await sleep(10);
+  Object.assign(result, { process_group_id: pid ?? null, process_exit_confirmed: !alive(), exit_code: exit.code,
+    stdout: boundedText(chunks), stderr: boundedText(errors),
+    instrument_error: exit.error ?? startError ?? (overflow ? "output-limit" : null), termination_signal_errors: signalErrors });
+  if (!result.execution_started && result.exit_code === 0) result.instrument_error ??= "command-start-unconfirmed";
+  if (!result.process_exit_confirmed) result.instrument_error = "unconfirmed-process-close";
+  return result;
+}
 
 // Git-visible content, including untracked nonignored files. Git internals and
 // ignored files are outside this snapshot; test-owned TMPDIR is checked separately.
@@ -41,6 +94,15 @@ async function residue(root) {
   await visit(""); return result;
 }
 export async function runLocalChecks(root, id, plan, hooks = {}) {
+  if (plan.measurement_plan) {
+    const { runMeasurement } = await import("./verification.mjs");
+    const measurement = await runMeasurement(root, plan.measurement_plan, { hooks });
+    return { ...measurement.result, accepted: measurement.result?.successful === true, status: measurement.result?.status ?? "instrument-failure",
+      instrument_error: measurement.result?.instrument_error ?? (measurement.result ? null : measurement.reason),
+      execution_started: measurement.execution_started, acceptance_granted: false, cache_status: measurement.cache_status,
+      cache_reason: measurement.reason, measurement_ref: measurement.result_ref ?? null,
+      snapshot_digest: (await workspaceSnapshot(root, id)).digest };
+  }
   const started = Date.now(); let temporary;
   try {
     ensure(process.platform !== "win32", "Local check supervision currently requires POSIX");

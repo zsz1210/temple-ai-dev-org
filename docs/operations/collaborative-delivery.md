@@ -1,0 +1,71 @@
+# Contributor onboarding and reusable delivery evidence
+
+This guide describes the WI-0230 candidate implemented under [ADR-0067](../adr/0067-low-friction-collaborative-delivery.md). It does not install the candidate into another project or change Git hosting permissions. The fixed [field specification](../planning/field-remediation.md) records its acceptance cases.
+
+## Start ordinary work
+
+Use the repository's pinned launcher. Inspect your recorded responsibilities first:
+
+```sh
+node ./templew.mjs collaboration readiness . --principal-id principal-member --work-item WI-0001 --json
+```
+
+Use the returned qualified stable Agent ID with `work-item claim`. An actual claim takes precedence over a default Assignment. Display names may repeat and ambiguous choices require an ID. Ordinary `attributed` policy needs an active recorded Principal/sponsor/membership, not Temple login. Existing valid binding remains usable; expired or contradictory binding is diagnosed explicitly. New projects use attributed ordinary work. Existing project-owned configurations without `actor_policy` preserve the legacy Solo exception and verified team requirement until explicitly changed. High-Assurance and explicitly verified operations require externally supplied provenance. Temple does not authenticate a provider from local JSON.
+
+An authorized coordinator can reuse or create explicit member identities using `collaboration setup-contributor . --config member.json --json`. Example:
+
+```json
+{
+  "authorized": true,
+  "principalId": "principal-member",
+  "displayName": "Project member",
+  "deliveryAgent": { "id": "agent-member-build", "displayName": "Builder", "positions": ["developer"] },
+  "reviewAgent": { "id": "agent-member-review", "displayName": "Reviewer", "positions": ["quality_evaluator", "independent_qa"] },
+  "evidenceRefs": ["docs/approved-member-scope.md"]
+}
+```
+
+The configuration records authorization already given for these roles. It grants no human approval authority, extends no expiry, and changes no default Assignments. Repeating identical setup reuses identities. Existing inactive/conflicting identities or memberships need explicit recovery, not replacement IDs.
+
+## Change Solo/team policy deliberately
+
+```sh
+node ./templew.mjs collaboration preview-profile . --profile collaborative --actor-policy attributed --json
+node ./templew.mjs collaboration apply-profile . --profile collaborative --actor-policy attributed --fingerprint '<preview fingerprint>' --json
+```
+
+Apply checks the exact proposed policy and current canonical inputs. Missing mappings and anonymous active claims remain visible. Application preserves claims; it does not transfer them. Complete/release original responsibility before switching, or use an authorized handoff that preserves history. Risk floors and deployment/security triggers still apply per task; a large team does not make every copy edit a High-Assurance task.
+
+## Reuse measurements without inventing tests
+
+Inspect `measurement capabilities . --json` before selecting an adapter. A measurement plan declares every input category, even empty categories, and the command's actual toolchain/environment identity:
+
+```json
+{
+  "schema_version": "temple.measurement-plan/v1",
+  "check_policy": "trusted-local",
+  "command": { "executable": "node", "args": ["--test", "test/parser.test.mjs"], "cwd": "." },
+  "inputs": { "files": ["src/parser.mjs"], "directories": [], "tests": ["test/parser.test.mjs"], "fixtures": [], "dependencies": ["package-lock.json"] },
+  "toolchain": { "identity": "node-24-project-toolchain", "files": [] },
+  "environment": { "identity": "local-development", "names": [] },
+  "timeout_ms": 30000,
+  "output_limit_bytes": 1048576,
+  "outputs": []
+}
+```
+
+Run `measurement inspect . --config plan.json --json` for read-only reuse eligibility, then `measurement run . --config plan.json --json`. A successful hit returns a completed result with `execution_started:false` and `acceptance_granted:false`. Failed or unavailable execution returns a failing CLI status. CI should execute this command and report its result rather than skip a required workflow using path filters. To share results between clones, restore the selected immutable measurement artifact store with CI's existing artifact mechanism and inspect it again; Temple introduces no hosted cache service.
+
+A v2 autonomous delivery plan may embed `measurement_plan` instead of legacy `tests`; its top-level check policy and timeout must match. Existing plan authorization, buffered budget and stage gates remain. The reuse key includes selected bytes/modes/directory inventory, tests, dependencies, fixtures, executable bytes, arguments, toolchain and declared environment fingerprints. Declare all real dependencies, including environmental variability; an incomplete declaration cannot prove applicability. A reviewer must make that judgment for the candidate. Secret environment values are hashed, not recorded as values.
+
+Trusted-local executes argv without shell expansion and supports non-Node tools on supported POSIX hosts. It is not a sandbox: detached sessions, transient writes and external side effects are outside its process-group/workspace observation boundary. Commands must not daemonize. Confined-node retains its exact macOS Node adapter and has no unrestricted fallback. Windows is explicitly unavailable pending a Job Object cleanup adapter and real Windows validation.
+
+## Explain waits and recover records
+
+Record an actual missing condition with `work-item unresolved . --work-item WI-0001 --merge 'Real device observation unavailable' --condition-kind environment`. Resolve that same text after obtaining evidence using `--resolve`. CLI status and the Console distinguish attached execution, review completion, missing environment/decision/evidence and organizational acceptance. A finished or unattached reviewer is not running QA. Merged code is not automatically accepted.
+
+Inspect historical evidence with `evidence durability . --work-item WI-0001 --revision <candidate> --json`. Full Doctor continues reporting baseline debt. Export selected records using `evidence export-bundle . --evidence EVID-ID --output archive.json --json`; verify/import with `evidence verify-bundle` or `evidence import-bundle` and `--bundle archive.json`. The archive requires exact historical Git bytes and verifies hashes. Import stores an immutable archive, not a rewritten pass in the evidence registry. Archive integrity and original Git commit availability are separate results; missing historical bytes cannot be repaired by hashing today's files.
+
+For competing collaboration branches, `reconcile preview . --config request.json --json` accepts `{ "baseRevision": "<base>", "incomingRevision": "<incoming>", "paths": [".ai-org/project/evidence.json"] }`. Review the result, save that exact JSON and apply with `reconcile apply . --config preview.json --fingerprint '<fingerprint>' --json`. Stable-ID independent changes combine; divergent IDs, competing claims, deletion versus modification and lifecycle conflicts block application. Stale previews cannot write. An interrupted apply retains a journal; `reconcile recover . --transaction-id <id> --json` restores recorded originals only if intervening edits remain safe. Generated views are rebuilt, never used as conflict authority.
+
+Human-written, ordinary AI-written and governed Agent-written candidates use the same applicable checks and acceptance rules. Record real authorship and evidence; do not backdate a claim to make a prior edit look governed. Organizational acceptance does not publish, deploy, or satisfy hosting rules by itself.

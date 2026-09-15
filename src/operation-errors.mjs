@@ -15,13 +15,17 @@ export class OperationError extends Error {
 }
 
 export function operationErrorResult(error, { readOnly = false } = {}) {
-  const known = error instanceof OperationError;
+  const known = error instanceof OperationError || typeof error?.code === "string" &&
+    typeof error?.next_action === "string" && typeof error?.mutation_status === "string";
   const code = known ? error.code : readOnly ? "GUARD_REJECTED" : "EXECUTION_UNCERTAIN";
   return {
     schema_version: "temple.operation-error/v1", status: "error",
     code, message: error instanceof Error ? error.message : String(error),
-    mutation_status: known ? error.mutationStatus : readOnly ? "not_started" : "unknown",
-    next_action: actions[code] ?? actions.EXECUTION_UNCERTAIN,
+    missing_condition: error?.missing_condition ?? (error instanceof Error ? error.message : String(error)),
+    responsible_actor: error?.responsible_actor ?? error?.details?.responsible_actor ?? error?.details?.principal_id ?? null,
+    mutation_status: known ? error.mutationStatus ?? error.mutation_status : readOnly ? "not_started" : "unknown",
+    next_action: error?.next_action ?? actions[code] ?? actions.EXECUTION_UNCERTAIN,
+    ...(error?.details ? { details: error.details } : {}),
     automatic_retry: false, authority_granted: false, external_action_performed: false
   };
 }

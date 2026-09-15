@@ -7,7 +7,7 @@ import {
   readCollaborationState,
   sponsoredPrincipal
 } from "./collaboration.mjs";
-import { assertLocalActorBinding } from "./local-identity.mjs";
+import { resolveProjectActor, actorResolutionError } from "./actor-resolution.mjs";
 import { atomicWrite, formatJson, pathExists, readJson } from "./files.mjs";
 import { claimId, collaborativeWorkItemId, isWorkItemId } from "./ids.mjs";
 import {
@@ -16,7 +16,6 @@ import {
   loadProjectContext,
   nextPositionForState,
   positionName,
-  resolveActor,
   suggestedTaskTitle,
   uniqueStrings
 } from "./project.mjs";
@@ -33,6 +32,7 @@ import {
   assertHighAssuranceCloseout,
   assertHighAssuranceTransition,
   assertHighAssuranceUiMode,
+  assertActualReviewer,
   assuranceForRisk,
   exactHandoffRevision,
   readHighAssurancePolicy
@@ -50,6 +50,16 @@ import {
 const UI_DELIVERY_MODES = ["not-applicable", "code-first", "preview-first", "design-led"];
 const SPECIFICATION_MODES = ["gate-evidence", "indexed"];
 const TRACKER_VISIBILITIES = ["internal", "team-visible"];
+
+async function operationActor(target, context, item, options = {}) {
+  return resolveProjectActor(target, context, {
+    item, positionId: item.owner_position, actor: options.actor,
+    agentId: options.agentId ?? (options.actor === undefined && item.claim?.status === "released" &&
+      item.claim.position_id === item.owner_position && item.assigned_agent_id === item.claim.agent_id ? item.claim.agent_id : undefined),
+    principalId: options.principalId,
+    requiredDisciplines: activeExecutionRequirements(item).disciplines
+  });
+}
 
 function normalizeResourceRequirements(values = []) {
   const byId = new Map();
@@ -182,6 +192,9 @@ export async function updateUnresolvedItems(target, options) {
   const item = await readWorkItem(target, options.workItemId);
   const resolutions = uniqueStrings(options.resolve);
   const additions = uniqueStrings(options.merge);
+  if (options.conditionKind && !["environment", "decision", "evidence", "owner"].includes(options.conditionKind)) {
+    throw actorResolutionError("INVALID_INPUT", "Unsupported condition kind", "Use environment, decision, evidence or owner.");
+  }
   if (resolutions.length === 0 && additions.length === 0) {
     throw new Error("Provide at least one --resolve or --merge value");
   }
@@ -196,12 +209,7 @@ export async function updateUnresolvedItems(target, options) {
     throw new Error(`Unresolved item not found on ${item.id}: ${missing.join(", ")}`);
   }
 
-  const actor = resolveActor(
-    context,
-    item.owner_position,
-    options.actor ?? (item.claim?.status === "active" ? item.claim.agent_id : undefined),
-    item.claim?.status === "active" ? [item.claim.agent_id] : []
-  );
+  const actor = (await operationActor(target, context, item, options)).agent_id;
   const resolved = new Set(resolutions);
   const remaining = existing.filter((entry) => !resolved.has(entry));
   const merged = additions.filter((addition) => !remaining.includes(addition));
@@ -224,7 +232,13 @@ export async function updateUnresolvedItems(target, options) {
   const updated = {
     ...item,
     updated_at: timestamp,
-    unresolved
+    unresolved,
+    ...(item.missing_conditions || options.conditionKind ? { missing_conditions: [
+      ...(item.missing_conditions ?? []).filter(entry => !resolved.has(entry.description) && !merged.includes(entry.description)),
+      ...(options.conditionKind ? merged.map(description => ({ kind: options.conditionKind, description,
+        owner: { position_id: item.owner_position, agent_id: actor },
+        next_action: options.conditionKind === "environment" ? "Provide the recorded environment and collect the missing observation." : "Resolve the recorded condition before continuing acceptance." })) : [])
+    ] } : {})
   };
   await writeWorkItem(target, updated);
   await appendEvent(target, {
@@ -472,7 +486,7 @@ export async function createWorkItem(target, options) {
   assertSpecificationMode(specificationMode, specRefs);
   const uiDeliveryMode = options.uiDeliveryMode === undefined ? null : options.uiDeliveryMode;
   assertUiDeliveryMode(uiDeliveryMode, uiRefs);
-  const requestedProfile = options.workflowProfile ?? (collaboration.profile === HIGH_ASSURANCE_PROFILE ? "high-assurance" : "standard");
+  const requestedProfile = options.workflowProfile ?? context.workflow.default_profile ?? "standard";
   if (requestedProfile === "lean" && (!options.riskTier || !options.scopeClass || !String(options.profileRationale ?? "").trim())) {
     throw new Error("Lean creation requires --risk-tier, --scope-class, and --profile-rationale");
   }
@@ -497,8 +511,9 @@ export async function createWorkItem(target, options) {
   const state = context.workflow.initial_state;
   const ownerPosition = context.states.get(state)?.owner_position;
   if (!ownerPosition) throw new Error(`Workflow initial state ${state} has no owner Position`);
-  const assignedAgentIdValue = assignedAgentId(context, ownerPosition);
-  const actor = resolveActor(context, ownerPosition, options.actor);
+  const selected = await operationActor(target, context, { owner_position: ownerPosition }, options);
+  const assignedAgentIdValue = selected.agent_id;
+  const actor = selected.agent_id;
   const timestamp = new Date().toISOString();
   const item = {
     schema_version: "temple.work-item/v1",
@@ -876,15 +891,23 @@ export async function claimWorkItem(target, options) {
   const collaboration = await readCollaborationState(target);
   const item = await readWorkItem(target, options.workItemId);
   const agentId = String(options.agentId ?? "").trim();
-  if (!context.agents.has(agentId)) throw new Error(`Unknown Agent Identity: ${agentId || "missing"}`);
+  if (!context.agents.has(agentId)) throw actorResolutionError("TEMPLE_ACTOR_UNKNOWN", `Unknown Agent Identity: ${agentId || "missing"}`,
+    "Run collaboration readiness for the intended Principal and select an existing stable Agent ID.");
   if (item.planned_agent_id && item.planned_agent_id !== agentId) {
-    throw new Error(`${item.id} is planned for ${item.planned_agent_id}, not ${agentId}`);
+    throw actorResolutionError("TEMPLE_ACTOR_PLAN_MISMATCH", `${item.id} is planned for ${item.planned_agent_id}, not ${agentId}`,
+      "Use the eligible planned Agent, or update the authorized assignment before claiming.", { responsible_actor: item.planned_agent_id });
   }
   const activeRequirements = activeExecutionRequirements(item);
   if (!agentIsEligible(collaboration, agentId, item.owner_position, activeRequirements.disciplines)) {
-    throw new Error(`${agentId} is not eligible for ${item.owner_position} with disciplines ${activeRequirements.disciplines.join(", ") || "none"}`);
+    throw actorResolutionError("TEMPLE_ACTOR_INELIGIBLE", `${agentId} is not eligible for ${item.owner_position} with disciplines ${activeRequirements.disciplines.join(", ") || "none"}`,
+      "Inspect contributor readiness and select a current qualified membership for this Position and scope.");
   }
-  if (item.claim?.status === "active") throw new Error(`${item.id} is already claimed by ${item.claim.agent_id}`);
+  if (item.claim?.status === "active") throw actorResolutionError("TEMPLE_ACTOR_CLAIM_CONFLICT", `${item.id} is already claimed by ${item.claim.agent_id}`,
+    "Continue the existing claim as its recorded owner, or complete an authorized handoff before claiming.", { responsible_actor: item.claim.agent_id, claim_id: item.claim.id });
+  if (item.owner_position === "independent_qa" &&
+      (item.handoffs ?? []).findLast(entry => entry.from_position === "developer")?.actor === agentId) {
+    throw new Error("Independent QA must differ from the actual Developer Agent Identity");
+  }
   if (!["intake", "spec"].includes(item.state)) {
     assertSpecificationMode(item.specification_mode, item.spec_refs ?? [], true);
     if (["build", "test", "eval", "independent_qa", "release_gate", "done"].includes(item.state)) {
@@ -896,15 +919,8 @@ export async function claimWorkItem(target, options) {
     const specificationState = await assertCurrentSpecificationReferences(target, item, `Claiming ${item.id}`);
     assertApprovalsForState(specificationState.evaluation, item.state, `Claiming ${item.id}`);
   }
-  const expectedPrincipal = sponsoredPrincipal(collaboration, agentId);
-  const principalId = String(options.principalId ?? expectedPrincipal ?? "human").trim();
-  if (["collaborative", HIGH_ASSURANCE_PROFILE].includes(collaboration.profile) && !expectedPrincipal) throw new Error(`${agentId} has no Human Principal sponsor`);
-  if (expectedPrincipal && principalId !== expectedPrincipal) {
-    throw new Error(`${agentId} is sponsored by ${expectedPrincipal}, not ${principalId}`);
-  }
-  if (["collaborative", HIGH_ASSURANCE_PROFILE].includes(collaboration.profile)) {
-    await assertLocalActorBinding(target, principalId);
-  }
+  const selected = await operationActor(target, context, item, options);
+  const principalId = selected.principal_id;
   const baseRevision = String(options.baseRevision ?? item.base_revision ?? "").trim();
   const branch = String(options.branch ?? "").trim();
   if (!baseRevision) throw new Error("--base-revision is required");
@@ -919,6 +935,8 @@ export async function claimWorkItem(target, options) {
     status: "active",
     principal_id: principalId,
     agent_id: agentId,
+    actor_provenance: selected.provenance,
+    position_id: item.owner_position,
     base_revision: baseRevision,
     branch,
     worktree: String(options.worktree ?? "").trim() || null,
@@ -960,7 +978,7 @@ export async function prepareClaimRelease(target, options, preparedItem = null) 
   const claim = { ...item.claim, status: "released", released_at: timestamp, release_reason: options.reason ?? "completed" };
   const updated = {
     ...item,
-    assigned_agent_id: assignedAgentId(context, item.owner_position),
+    assigned_agent_id: item.claim.agent_id,
     claim,
     claims: [...(item.claims ?? []).filter((entry) => entry.id !== claim.id), claim],
     updated_at: timestamp
@@ -1078,7 +1096,8 @@ async function assertNormalizedGateEvidence(target, item, gateEvidence) {
     }
     if (entry.invalidated_at) throw new Error(`Gate evidence ${reference} is invalidated`);
     if (entry.expires_at && Date.parse(entry.expires_at) <= now) throw new Error(`Gate evidence ${reference} is expired`);
-    if (requirement === "independent_qa_pass") {
+    if (["independent_qa_pass", "independent_qa_report"].includes(requirement)) {
+      await assertActualReviewer(target, await loadProjectContext(target), item, [entry], "independent_qa");
       if (!new Set(["test", "runtime"]).has(entry.kind)) {
         throw new Error(`Gate evidence ${reference} must be test or runtime evidence for independent_qa_pass`);
       }
@@ -1111,7 +1130,7 @@ export async function prepareWorkItemRework(target, options) {
   const sponsor = sponsoredPrincipal(collaboration, actor);
   if (["collaborative", HIGH_ASSURANCE_PROFILE].includes(collaboration.profile)) {
     if (!sponsor || sponsor !== item.claim.principal_id) throw new Error("Rework reviewer claim has no matching Human Principal sponsor");
-    await assertLocalActorBinding(target, sponsor);
+    await operationActor(target, context, item, { ...options, agentId: actor, principalId: sponsor });
   }
   const developerHandoff = (item.handoffs ?? []).findLast(entry => entry.from_position === "developer");
   if (!developerHandoff?.actor) throw new Error("Rework requires a recorded Developer handoff author; a legacy assignment is not proof of who delivered the candidate");
@@ -1144,7 +1163,7 @@ export async function prepareWorkItemRework(target, options) {
   await assertNormalizedGateEvidence(target, prepared.item, prepared.item.gate_evidence);
   await assertUiEvidence(target, prepared.item, prepared.item.gate_evidence, "prebuild");
   await assertHighAssuranceTransition(target, context, { ...prepared.item, state: "design" }, "build", prepared.item.gate_evidence);
-  prepared.item.assigned_agent_id = assignedAgentId(context, "developer");
+  prepared.item.assigned_agent_id = developerHandoff.actor;
   prepared.item.next_position = nextPositionForState(context, "build", prepared.item);
   if (context.states.get("build")?.owner_position !== "developer") throw new Error("Rework requires a Developer-owned Build state");
   return { prepared, item, actor, revision, reason, findings };
@@ -1210,12 +1229,7 @@ export async function prepareWorkItemTransition(target, options, preparedItem = 
       `Transition ${item.state} -> ${toState}`
     );
   }
-  const actor = resolveActor(
-    context,
-    item.owner_position,
-    options.actor ?? (item.claim?.status === "active" ? item.claim.agent_id : undefined),
-    item.claim?.status === "active" ? [item.claim.agent_id] : []
-  );
+  const actor = (await operationActor(target, context, item, options)).agent_id;
   const additions = normalizeSatisfiedRequirements(options.satisfied);
   const mergedGates = mergeGateEvidence(item, additions);
   await assertFreshReworkGates(target, item, mergedGates);
@@ -1250,7 +1264,7 @@ export async function prepareWorkItemTransition(target, options, preparedItem = 
     ...item,
     state: toState,
     owner_position: ownerPosition,
-    assigned_agent_id: assignedAgentId(context, ownerPosition),
+    assigned_agent_id: ownerChanged ? assignedAgentId(context, ownerPosition) : actor,
     planned_agent_id: ownerChanged ? null : item.planned_agent_id ?? null,
     claim: releasedClaim,
     claims:
@@ -1343,12 +1357,8 @@ export async function prepareHandoff(target, options) {
   if (completed.length === 0) throw new Error("At least one --completed value is required");
   if (evidence.length === 0) throw new Error("At least one --evidence value is required");
 
-  const actor = resolveActor(
-    context,
-    item.owner_position,
-    options.actor ?? (item.claim?.status === "active" ? item.claim.agent_id : undefined),
-    item.claim?.status === "active" ? [item.claim.agent_id] : []
-  );
+  const selected = await operationActor(target, context, item, options);
+  const actor = selected.agent_id;
   if (item.rework_history?.length) {
     assertReworkScope(item);
     if (item.owner_position === "developer") {
@@ -1384,6 +1394,8 @@ export async function prepareHandoff(target, options) {
         from_position: item.owner_position,
         to_position: toPosition,
         actor,
+        principal_id: selected.principal_id,
+        actor_provenance: selected.provenance,
         input_revision: inputRevision,
         artifact: relativePath,
         created_at: timestamp
@@ -1466,7 +1478,7 @@ export async function prepareWorkItemClose(target, options) {
     throw new Error("A no-go close requires at least one --reason");
   }
 
-  const actor = resolveActor(context, "release_manager", options.actor);
+  const actor = (await operationActor(target, context, item, options)).agent_id;
   const satisfied = normalizeSatisfiedRequirements(options.satisfied);
   const gateEvidence = mergeGateEvidence(item, satisfied);
   await assertFreshReworkGates(target, item, gateEvidence);

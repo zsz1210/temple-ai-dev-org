@@ -189,7 +189,7 @@ test("Lean delivery rechecks Developer qualification expiry during pending recov
   const before = await canonicalBytes(f);
   const originalNow = Date.now;
   Date.now = () => Date.parse("2100-01-01T00:00:00.000Z");
-  try { await assert.rejects(apply(f), /no longer eligible/); } finally { Date.now = originalNow; }
+  try { await assert.rejects(apply(f), /no longer eligible|No eligible selected Agent/); } finally { Date.now = originalNow; }
   assert.deepEqual(await canonicalBytes(f), before);
   assert.ok(await readPendingLeanDelivery(f.target));
 });

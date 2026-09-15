@@ -5,7 +5,7 @@ import { durableAtomicWrite, durableAtomicCreate, formatJson, sha256 } from "./f
 import { isWorkItemId } from "./ids.mjs";
 import { loadProjectContext, uniqueStrings } from "./project.mjs";
 import { agentIsEligible, readCollaborationState, sponsoredPrincipal } from "./collaboration.mjs";
-import { assertLocalActorBinding } from "./local-identity.mjs";
+import { resolveProjectActor } from "./actor-resolution.mjs";
 import { assessWorkflowProfile, workflowProfileForItem } from "./workflow.mjs";
 import { resolveGitRevision, validateEvidenceArtifacts, validateEvidenceRegistry } from "./evidence.mjs";
 import { activeExecutionRequirements, readWorkItem, prepareHandoff, prepareClaimRelease, prepareWorkItemTransition } from "./work-items.mjs";
@@ -202,10 +202,9 @@ async function prepareDelivery(target, request) {
   if (!context.agents.has(request.agent_id) || context.agents.get(request.agent_id).active === false || !agentIsEligible(collaboration, request.agent_id, position, activeExecutionRequirements(item, stage).disciplines)) {
     throw new Error(`Lean completion Agent is not eligible for ${position}`);
   }
-  if (collaboration.profile !== "solo") {
-    if (sponsoredPrincipal(collaboration, request.agent_id) !== request.principal_id) throw new Error("Lean delivery Principal does not sponsor Agent");
-    await assertLocalActorBinding(target, request.principal_id);
-  }
+  await resolveProjectActor(target, context, { collaboration, item, positionId: position,
+    agentId: request.agent_id, principalId: request.principal_id,
+    requiredDisciplines: activeExecutionRequirements(item, stage).disciplines });
   const workers = await fileBytes(target, ".ai-org/project/runtime-workers.json", true);
   if (workers && (JSON.parse(workers).workers ?? []).some((worker) => worker.work_item_id === item.id && !["completed", "failed", "cancelled"].includes(worker.status))) {
     throw new Error("Complete the runtime worker before Lean delivery");
@@ -323,10 +322,9 @@ export async function validateLeanCompletionReceipt(target, journal) {
 export async function validateLeanCompletionSnapshot(target, journal, { applied = false } = {}) {
   validateJournal(journal, target, journal.request);
   const collaboration = await readCollaborationState(target);
-  if (collaboration.profile !== "solo") {
-    await assertLocalActorBinding(target, journal.request.principal_id);
-    if (sponsoredPrincipal(collaboration, journal.request.agent_id) !== journal.request.principal_id) throw new Error("Lean completion Principal no longer sponsors Agent");
-  }
+  await resolveProjectActor(target, await loadProjectContext(target), { collaboration,
+    positionId: journal.request.position ?? "developer", workflowProfile: "lean",
+    agentId: journal.request.agent_id, principalId: journal.request.principal_id });
   // Time-dependent expiry must be checked again even when input bytes match.
   const resultingItem = JSON.parse(journal.writes.find((entry) => entry.path === `.ai-org/work-items/${journal.request.work_item_id}.json`).content);
   const position = journal.request.position ?? "developer";

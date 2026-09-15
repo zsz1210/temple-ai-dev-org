@@ -34,6 +34,8 @@ Temple 不是應用程式框架、任務追蹤工具，也不是會自行發號�
 
 ## Temple Concept Layers
 
+目前的開發候選版本加入成員就緒檢查、普通工作免 Temple 登入的責任紀錄、測試結果重用，以及可恢復的紀錄衝突調和。既有專案持有的政策會保留。採用方式與執行限制見[協作交付指南](docs/operations/collaborative-delivery.md)；這與正式發布版本是不同步驟。
+
 <picture>
   <source media="(max-width: 640px)" srcset="docs/assets/temple-layers-mobile.zh-TW.svg">
   <img alt="Temple 把人類方向放在最上層，依序連接責任、有邊界的工作、資料與執行引導、協作、保證、記憶與學習，並由版本庫中的組織記憶支撐所有分層。" src="docs/assets/temple-layers.zh-TW.svg">

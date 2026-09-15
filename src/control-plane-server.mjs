@@ -131,6 +131,16 @@ export function privateViewerSnapshot(snapshot, identity, transport = "tailscale
   const { daemon: _daemon, inbox: _inbox, recent_events: _recentEvents, ...rest } = snapshot;
   const safe = structuredClone(rest);
   if (safe.usage?.source) delete safe.usage.source.state_directory;
+  for (const projection of [safe.observer, safe.live_observer]) {
+    for (const item of projection?.work?.items ?? []) {
+      if (!item.delivery_attention) continue;
+      const attention = item.delivery_attention;
+      attention.owner = { position_id: attention.owner.position_id, agent_id: attention.owner.agent_id, source: attention.owner.source };
+      attention.missing_conditions = attention.missing_conditions.map(entry => ({ kind: entry.kind,
+        description: "A recorded condition requires the responsible owner's attention.", next_action: "Ask the responsible owner to inspect the local delivery details." }));
+      attention.next_action = "Inspect the recorded delivery state with the responsible owner.";
+    }
+  }
   const organization = safe.observer?.organization;
   if (organization) {
     delete organization.principals;
