@@ -36,6 +36,8 @@ node ./templew.mjs collaboration apply-profile . --profile collaborative --actor
 
 Apply checks the exact proposed policy and current canonical inputs. Missing mappings and anonymous active claims remain visible. Application preserves claims; it does not transfer them. Complete/release original responsibility before switching, or use an authorized handoff that preserves history. Risk floors and deployment/security triggers still apply per task; a large team does not make every copy edit a High-Assurance task.
 
+Creating a Work Item records intended work under the project's actor policy; it does not authorize execution of the declared high-risk task. Claims and lifecycle operations validate the current stage's qualifications. Legacy `--discipline` applies wherever a stage has no override; use `--stage-discipline build=backend` for a Build-only skill rather than accidentally requiring every planning and review Position to be a backend developer.
+
 ## Reuse measurements without inventing tests
 
 Inspect `measurement capabilities . --json` before selecting an adapter. A measurement plan declares every input category, even empty categories, and the command's actual toolchain/environment identity:

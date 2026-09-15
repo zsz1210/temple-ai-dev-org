@@ -107,7 +107,12 @@ function selectActor(context, options = {}, enforceVerification = true) {
     "Inspect or clear the conflicting binding before selecting the intended Principal.", { principal_id: requestedPrincipal, binding_principal_id: binding.principal_id });
   const memberId = requestedPrincipal ?? binding?.principal_id ?? null;
   const agents = agentMap(context);
-  const disciplines = options.requiredDisciplines ?? [];
+  // Stage entries replace the legacy Work Item-wide requirement, including an
+  // intentionally empty entry. Callers may supply a separately resolved scope;
+  // ordinary item/readiness callers must not silently skip these qualifications.
+  const stageRequirement = options.item?.stage_requirements?.[options.item?.state];
+  const disciplines = options.requiredDisciplines ??
+    (stageRequirement ? stageRequirement.disciplines ?? [] : options.item?.required_disciplines ?? []);
   const riskTier = options.riskTier ?? options.item?.risk_tier;
   if (riskTier && !["low", "standard", "high", "critical"].includes(riskTier)) throw actorResolutionError("TEMPLE_ACTOR_RISK_INVALID",
     `Unsupported qualification risk tier: ${riskTier}.`, "Use the Work Item's recorded low, standard, high or critical risk tier.");

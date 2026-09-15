@@ -743,7 +743,9 @@ test("transition validates normalized gate evidence before mutating canonical st
         ...item,
         state: "independent_qa",
         owner_position: "independent_qa",
-        assigned_agent_id: "agent-fixture-hollis"
+        assigned_agent_id: "agent-fixture-hollis",
+        developer_candidate_revision: "fixture-candidate",
+        handoffs: [{ from_position: "developer", to_position: "quality_evaluator", actor: "agent-fixture-devon", principal_id: "human", input_revision: "fixture-candidate" }]
       },
       null,
       2
@@ -764,6 +766,7 @@ test("transition validates normalized gate evidence before mutating canonical st
     { id: expiredId, work_item_id: "WI-0001", kind: "runtime", outcome: "pass", expires_at: "2020-01-01T00:00:00.000Z", invalidated_at: null },
     { id: invalidatedId, work_item_id: "WI-0001", kind: "runtime", outcome: "pass", expires_at: null, invalidated_at: "2026-08-30T00:00:00.000Z" }
   );
+  for (const entry of evidence.entries) entry.recorded_by = "agent-fixture-hollis";
   await fs.writeFile(evidencePath, `${JSON.stringify(evidence, null, 2)}\n`);
 
   for (const [reference, message] of [
@@ -1697,23 +1700,12 @@ test("collaborative profile supports principals, pooled membership, readiness, a
     "standard"
   ]);
   assert.equal(qualified.status, 0, qualified.stderr || qualified.stdout);
+  assert.equal(run(["collaboration", "add-principal", target, "--principal-id", "principal-owner", "--name", "Project owner"]).status, 0);
+  for (const agent of ["agent-fixture-rowan", "agent-fixture-linden", "agent-fixture-ellis"]) {
+    const sponsored = run(["collaboration", "sponsor", target, "--principal-id", "principal-owner", "--agent-id", agent]);
+    assert.equal(sponsored.status, 0, sponsored.stderr || sponsored.stdout);
+  }
   assert.equal(run(["collaboration", "set-profile", target, "--profile", "collaborative"]).status, 0);
-  const bound = run([
-    "collaboration",
-    "bind-identity",
-    target,
-    "--principal-id",
-    "principal-alice",
-    "--verification-class",
-    "external-evidence",
-    "--provider-id",
-    "fixture",
-    "--provider-subject",
-    "alice-immutable-subject",
-    "--evidence-ref",
-    "fixture:verified-principal-alice"
-  ]);
-  assert.equal(bound.status, 0, bound.stderr || bound.stdout);
 
   const created = run([
     "work-item",
@@ -1721,14 +1713,14 @@ test("collaborative profile supports principals, pooled membership, readiness, a
     target,
     "--title",
     "Coordinate a bounded company change",
+    "--principal-id",
+    "principal-owner",
     "--scope",
     "One repository-owned module",
     "--acceptance",
     "Independent evidence identifies the exact revision",
     "--affected-path",
     "src/company",
-    "--discipline",
-    "backend",
     "--base-revision",
     "abc123",
     "--integration-owner",
@@ -1746,12 +1738,18 @@ test("collaborative profile supports principals, pooled membership, readiness, a
     ["build", ["technical_design=docs/design.md", "risk_review=docs/design.md"]]
   ];
   for (const [state, requirements] of transitions) {
-    const args = ["transition", target, "--work-item", workItemId, "--to", state];
+    const args = ["transition", target, "--work-item", workItemId, "--to", state, "--principal-id", "principal-owner"];
     for (const requirement of requirements) args.push("--satisfy", requirement);
     const transitioned = run(args);
     assert.equal(transitioned.status, 0, transitioned.stderr || transitioned.stdout);
   }
 
+  // The existing project owners perform planning; Alice is qualified only for
+  // Developer and takes over at Build without impersonating those owners.
+  const bound = run(["collaboration", "bind-identity", target, "--principal-id", "principal-alice",
+    "--verification-class", "external-evidence", "--provider-id", "fixture",
+    "--provider-subject", "alice-immutable-subject", "--evidence-ref", "fixture:verified-principal-alice"]);
+  assert.equal(bound.status, 0, bound.stderr || bound.stdout);
   const configured = run([
     "work-item",
     "configure",
@@ -1760,6 +1758,8 @@ test("collaborative profile supports principals, pooled membership, readiness, a
     workItemId,
     "--agent-id",
     "agent-taylor",
+    "--discipline",
+    "backend",
     "--parallel-mode",
     "parallel"
   ]);

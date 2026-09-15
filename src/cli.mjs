@@ -2379,7 +2379,7 @@ async function runWorkItemConfigure(parsed) {
   ]);
   for (const flag of [...Object.keys(parsed.options), ...parsed.flags]) {
     if (!allowedOptions.has(flag) && !allowedFlags.has(flag)) {
-      throw new Error(`Unsupported work-item configure option: ${flag}. See temple work-item configure --help.`);
+      throw new OperationError("INVALID_INPUT", `Unsupported work-item configure option: ${flag}. See temple work-item configure --help.`);
     }
   }
   const target = await assertSafeTarget(parsed.target);
@@ -3183,7 +3183,7 @@ async function runContext(parsed) {
     return packet.acquisition === "complete" ? 0 : 1;
   }
   if (parsed.flags.has("--compact")) {
-    assertCommandOptions(parsed, ["--work-item", "--position", "--query", "--revision", "--stage", "--purpose", "--limit"], ["--compact", "--no-write", "--json"]);
+    assertCommandOptions(parsed, ["--work-item", "--position", "--agent-id", "--principal-id", "--query", "--revision", "--stage", "--purpose", "--limit"], ["--compact", "--no-write", "--json"]);
     if (!parsed.flags.has("--no-write") || !parsed.flags.has("--json")) throw new OperationError("INVALID_INPUT", "Compact context requires --no-write and --json");
     if (!parsed.options["--work-item"]) throw new OperationError("INVALID_INPUT", "context resolve requires --work-item");
   }
@@ -3307,7 +3307,9 @@ export async function main(argv) {
       for (let i = 2; i < argv.length; i++) {
         const name = argv[i];
         if (!name.startsWith("--")) continue;
-        if (seen.has(name) && !REPEATABLE_FLAGS.has(name)) throw new Error(`Duplicate option: ${name}`);
+        const learningId = argv[0] === "learning" && name === "--learning-id";
+        if (seen.has(name) && learningId && argv[1] !== "record-review") throw new Error("This Learning operation accepts exactly one --learning-id");
+        if (seen.has(name) && !REPEATABLE_FLAGS.has(name) && !(learningId && argv[1] === "record-review")) throw new Error(`Duplicate option: ${name}`);
         seen.add(name);
         if (VALUE_FLAGS.has(name)) i++;
       }

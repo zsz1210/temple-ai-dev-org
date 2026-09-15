@@ -1041,7 +1041,7 @@ export async function contributorReadiness(target, options = {}) {
   let actorPolicy;
   if (options.workItemId && !item) blockers.push(diagnostic(actorResolutionError("TEMPLE_CONTRIBUTOR_WORK_ITEM_MISSING",
     `Work Item ${options.workItemId} is missing.`, "Select an existing Work Item before checking its contributor readiness."), principalId));
-  try { actorPolicy = effectiveActorPolicy(collaboration, options); }
+  try { actorPolicy = effectiveActorPolicy(collaboration, { ...options, workflowProfile: options.workflowProfile ?? item?.workflow_profile }); }
   catch (error) { blockers.push(diagnostic(error, principalId)); }
   if (principalId && !(principalId === "human" && collaboration.profile === "solo") && (!principal || principalStatus(principal) !== "active")) {
     blockers.push(diagnostic(actorResolutionError("TEMPLE_ACTOR_PRINCIPAL_INACTIVE", `Unknown or inactive Principal: ${principalId}.`,

@@ -48,6 +48,11 @@ test("V01/V13/V15 named new-clone contributor completes candidate lifecycle with
   assert.equal(blocked.status, 1);
   const report = JSON.parse(cli(["context", "resolve", f.target, "--work-item", f.item.id, "--no-write", "--json"]).stdout);
   assert.equal(report.agent.id, "agent-second-builder");
+  const compact = JSON.parse(cli(["context", "resolve", f.target, "--work-item", f.item.id,
+    "--agent-id", "agent-second-builder", "--principal-id", "principal-second", "--compact", "--no-write", "--json"]).stdout);
+  assert.equal(compact.responsibility.selected_actor.agent_id, "agent-second-builder");
+  assert.equal(compact.responsibility.selected_actor.principal_id, "principal-second");
+  assert.equal(compact.mutation_performed, false);
   command("handoff", ["--to", "quality_evaluator", "--input-revision", f.request.revision, "--completed", "Verified existing parser candidate", "--evidence", "docs/developer-test.md"]);
   command("transition", ["--to", "test"]);
   claim("agent-second-reviewer");

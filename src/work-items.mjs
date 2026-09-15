@@ -511,6 +511,9 @@ export async function createWorkItem(target, options) {
   const state = context.workflow.initial_state;
   const ownerPosition = context.states.get(state)?.owner_position;
   if (!ownerPosition) throw new Error(`Workflow initial state ${state} has no owner Position`);
+  // Creation records intended work under the project's actor policy. It grants
+  // no execution eligibility for the declared task risk or implementation skills;
+  // claims and lifecycle operations check the actual item's current requirements.
   const selected = await operationActor(target, context, { owner_position: ownerPosition }, options);
   const assignedAgentIdValue = selected.agent_id;
   const actor = selected.agent_id;

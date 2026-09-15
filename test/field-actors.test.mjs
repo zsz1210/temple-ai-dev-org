@@ -114,6 +114,59 @@ test("V01/V14: member ambiguity, missing disciplines, expiry and risk ceilings n
   assert.equal(resolveActor(context, options).agent_id, second.id);
 });
 
+test("V01: item-derived stage disciplines replace the legacy fallback only at the named stage", () => {
+  const context = actorFixture();
+  const manager = { id: "agent-manager", display_name: "Morgan", active: true };
+  context.agents.set(manager.id, manager);
+  context.assignments.set("engineering_manager", manager.id);
+  context.collaboration.memberships.push(membership(manager.id, "engineering_manager", ["architecture"]));
+  context.collaboration.sponsorships.push({ agent_id: manager.id, principal_id: "principal-one", status: "active" });
+  const item = { owner_position: "engineering_manager", state: "intake", required_disciplines: ["general-development"],
+    stage_requirements: { build: { disciplines: ["general-development"] }, independent_qa: { disciplines: ["quality"] } } };
+  rejectsCode(() => resolveActor(context, { item }), "TEMPLE_ACTOR_INELIGIBLE");
+  item.stage_requirements.intake = { disciplines: ["architecture"] };
+  assert.equal(resolveActor(context, { item }).agent_id, manager.id);
+  item.owner_position = "independent_qa";
+  item.state = "independent_qa";
+  assert.equal(resolveActor(context, { item }).agent_id, "agent-review");
+  delete item.stage_requirements.independent_qa;
+  rejectsCode(() => resolveActor(context, { item }), "TEMPLE_ACTOR_INELIGIBLE");
+  item.stage_requirements.independent_qa = { disciplines: [] };
+  assert.equal(resolveActor(context, { item }).agent_id, "agent-review");
+});
+
+test("V01/V04: a bound Developer cannot fall through to another contributor's Engineering Manager", () => {
+  const context = actorFixture();
+  context.assignments.set("engineering_manager", "agent-default");
+  context.collaboration.memberships.push(membership("agent-default", "engineering_manager", ["architecture"]));
+  const binding = { schema_version: "temple.local-actor-binding/v1", project_id: context.project.id,
+    principal_id: "principal-two", verification_class: "external-evidence", provider: { id: "fixture", subject: "member" },
+    evidence_ref: "fixture:member-provenance", observed_at: "2026-01-01T00:00:00Z", expires_at: null, credential_stored: false };
+  rejectsCode(() => resolveActor(context, { positionId: "engineering_manager", binding }), "TEMPLE_ACTOR_INELIGIBLE");
+  assert.equal(resolveActor(context, { positionId: "developer", binding }).agent_id, "agent-member");
+  assert.equal(resolveActor(context, { positionId: "engineering_manager", principalId: "principal-one" }).agent_id, "agent-default");
+});
+
+test("V03/V16: contributor readiness enforces recorded stage disciplines and reports the actual Work Item actor policy", async (t) => {
+  const { target } = await repositoryFixture(t);
+  const item = { id: "WI-0001", owner_position: "developer", state: "build", required_disciplines: ["security"], claim: null };
+  await writeJson(target, ".ai-org/work-items/WI-0001.json", item);
+  const blocked = await contributorReadiness(target, { principalId: "principal-two", workItemId: item.id });
+  assert.equal(blocked.ready, false);
+  assert.equal(blocked.blockers[0].code, "TEMPLE_ACTOR_INELIGIBLE");
+  assert.deepEqual(blocked.blockers[0].details.required_disciplines, ["security"]);
+  item.stage_requirements = { build: { disciplines: ["general-development"] } };
+  await writeJson(target, ".ai-org/work-items/WI-0001.json", item);
+  assert.equal((await contributorReadiness(target, { principalId: "principal-two", workItemId: item.id })).ready, true);
+  item.workflow_profile = "high-assurance";
+  await writeJson(target, ".ai-org/work-items/WI-0001.json", item);
+  const strict = await contributorReadiness(target, { principalId: "principal-two", workItemId: item.id });
+  assert.equal(strict.ready, false);
+  assert.equal(strict.actor_policy.mode, "verified");
+  assert.equal(strict.selected_actor.agent_id, "agent-member");
+  assert.equal(strict.blockers[0].code, "TEMPLE_ACTOR_VERIFICATION_REQUIRED");
+});
+
 test("V04/V16: existing valid binding works; stale, mismatched and self-described provenance is never silently ignored", async (t) => {
   const { target, context } = await repositoryFixture(t);
   const options = { positionId: "developer", principalId: "principal-two" };
