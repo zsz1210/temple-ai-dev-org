@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-15T16:55:50.962Z",
-  "updated_at": "2026-09-15T16:56:14.168Z",
+  "updated_at": "2026-09-15T17:45:25.424Z",
   "scope": [
     "F08-F10 core APIs; V08 V10-V12 V15. Parent owns status, observer, console, CLI and schemas."
   ],
@@ -47,7 +47,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
+  "base_revision": "535c306e38355864adc336f0a1289f105855bbdd",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-rikku",
   "planned_agent_id": "agent-rikku",
@@ -59,14 +59,23 @@
     "WI-0230 owns integration callers and canonical lifecycle records; this child exclusively owns its listed module and test paths."
   ],
   "claim": {
-    "id": "claim-20260915165614-66969eb1",
+    "id": "claim-20260915174525-b7536717",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-rikku",
-    "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
+    "actor_provenance": {
+      "selection": "explicit-agent",
+      "principal_source": "explicit-principal",
+      "verification_class": "self-asserted",
+      "evidence_ref": null,
+      "provider_authenticated": false,
+      "externally_supplied_evidence": false
+    },
+    "position_id": "developer",
+    "base_revision": "535c306e38355864adc336f0a1289f105855bbdd",
     "branch": "codex/field-remediation",
     "worktree": null,
-    "claimed_at": "2026-09-15T16:56:14.168Z",
+    "claimed_at": "2026-09-15T17:45:25.424Z",
     "released_at": null
   },
   "claims": [
@@ -114,13 +123,57 @@
     },
     {
       "id": "claim-20260915165614-66969eb1",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
       "branch": "codex/field-remediation",
       "worktree": null,
       "claimed_at": "2026-09-15T16:56:14.168Z",
+      "released_at": "2026-09-15T17:39:46.823Z",
+      "release_reason": [
+        "Developer candidate handed off for verification"
+      ]
+    },
+    {
+      "id": "claim-20260915174505-12af2108",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "quality_evaluator",
+      "base_revision": "535c306e38355864adc336f0a1289f105855bbdd",
+      "branch": "codex/field-remediation",
+      "worktree": null,
+      "claimed_at": "2026-09-15T17:45:05.232Z",
+      "released_at": "2026-09-15T17:45:05.610Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260915174525-b7536717",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "developer",
+      "base_revision": "535c306e38355864adc336f0a1289f105855bbdd",
+      "branch": "codex/field-remediation",
+      "worktree": null,
+      "claimed_at": "2026-09-15T17:45:25.424Z",
       "released_at": null
     }
   ],
@@ -147,7 +200,9 @@
     ".ai-org/artifacts/WI-0233/handoff-002-product_manager-to-tech_lead.md",
     "docs/planning/field-remediation.md",
     ".ai-org/artifacts/WI-0233/handoff-003-tech_lead-to-developer.md",
-    "docs/adr/0067-low-friction-collaborative-delivery.md"
+    "docs/adr/0067-low-friction-collaborative-delivery.md",
+    ".ai-org/artifacts/WI-0233/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0230/verification-report.md"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -175,6 +230,64 @@
       "input_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
       "artifact": ".ai-org/artifacts/WI-0233/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-15T16:55:55.168Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "principal_id": "human",
+      "actor_provenance": {
+        "selection": "active-claim",
+        "principal_source": "active-claim",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "input_revision": "535c306e38355864adc336f0a1289f105855bbdd",
+      "artifact": ".ai-org/artifacts/WI-0233/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-15T17:39:45.676Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-15T17:45:05.610Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260915174505-12af2108",
+      "rejected_revision": "535c306e38355864adc336f0a1289f105855bbdd",
+      "reason": [
+        "Independent IR-02: retain unchanged active Work Item claims during identity reconciliation"
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0230/independent-review.md"
+      ],
+      "scope_digest": "507411d7f8a79fe8df5200a152416515aafdadbbe02c683b478c85432626f8ea",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0233/handoff-004-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0230/verification-report.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "535c306e38355864adc336f0a1289f105855bbdd"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0233/handoff-001-engineering_manager-to-product_manager.md",
+        ".ai-org/artifacts/WI-0233/handoff-002-product_manager-to-tech_lead.md",
+        ".ai-org/artifacts/WI-0233/handoff-003-tech_lead-to-developer.md",
+        ".ai-org/artifacts/WI-0233/handoff-004-developer-to-quality_evaluator.md"
+      ]
     }
   ]
 }

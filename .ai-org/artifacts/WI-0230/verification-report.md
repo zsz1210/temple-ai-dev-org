@@ -6,7 +6,8 @@ Scope: WI-0230 and joined modules WI-0231, WI-0232 and WI-0233. Baseline: Alpha.
 
 - `56700f3abe03a43ca1d2dd6c9ed19ba70231e53b`: first complete implementation. Full `npm run verify` on Node v24.20.0/macOS ran 1229 tests in 292.505 seconds: 1222 passed, 7 failed. This candidate was not accepted.
 - Repairs preserve eligibility and expiry rejection, correct scalar/repeated Learning argument parsing, classify configure argument rejection as no-write, expose actual selected actors in compact navigation, derive stage qualifications consistently, and repair old fixtures that substituted a default participant or omitted actual authorship.
-- Final corrected candidate and full verification result: pending below. No failed attempt is counted as a pass.
+- `535c306e38355864adc336f0a1289f105855bbdd`: full verification passed 1232/1232 in 297.835 seconds, and the repeated browser/installation gates passed. Independent Test/Eval rejected it for two V10 gaps (IR-01/IR-02): post-apply view rebuilding and unchanged active claims. Automated success did not authorize acceptance.
+- Same-scope rework is tracked by a new attempt-specific verification record and independent review; no failed attempt is counted as a pass.
 
 ## Finding-to-implementation map
 

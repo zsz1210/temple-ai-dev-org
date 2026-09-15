@@ -191,6 +191,7 @@ Usage:
   temple evidence verify-bundle|import-bundle [target] --bundle path [--json]
   temple reconcile preview|apply [target] --config request-or-preview.json [--fingerprint digest] [--json]
   temple reconcile recover [target] --transaction-id id [--json]
+  temple reconcile refresh-views [target] [--json]
   temple collaboration migrate [target] [--dry-run] [--json]
   temple collaboration show-identity [target] [--json]
   temple collaboration bind-identity [target] --principal-id principal-name|human --verification-class self-asserted|external-evidence|step-up-evidence [--provider-id id] [--provider-subject subject] [--provider-handle handle] [--evidence-ref ref] [--expires-at timestamp]

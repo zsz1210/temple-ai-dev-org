@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-15T16:55:57.644Z",
-  "source_fingerprint": "82f8ea2a46f8f6ce417abfa77d14626cc6342df13c9cda092ed5b56c0497abc2",
+  "generated_at": "2026-09-15T17:45:24.830Z",
+  "source_fingerprint": "6a798cbee6826cb6791e5515b2333f5e2df992bcdd31f12c909259d1293ec730",
   "scope": {
     "mode": "parent-descendants",
     "parent_work_item_id": "WI-0230",
@@ -11,12 +11,12 @@
       "WI-0233"
     ]
   },
-  "max_workers": 3,
+  "max_workers": 1,
   "summary": {
     "selected": 3,
-    "dispatchable": 3,
+    "dispatchable": 1,
     "active": 0,
-    "sequential": 0,
+    "sequential": 2,
     "blocked": 0,
     "waves": 1
   },
@@ -26,75 +26,13 @@
       "order": 1,
       "dispatch": [
         {
-          "work_item_id": "WI-0231",
-          "title": "Implement contributor attribution and Agent resolution",
-          "position_id": "developer",
-          "agent_id": "agent-rikku",
-          "agent_name": "Rikku",
-          "suggested_task_title": "WI-0231 · Implement contributor attri… · Developer (Rikku)",
-          "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
-          "affected_paths": [
-            "src/actor-resolution.mjs",
-            "src/collaboration.mjs",
-            "src/local-identity.mjs",
-            "src/model.mjs",
-            "test/field-actors.test.mjs"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "build",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "0410af1c78a495b94be5a19fe1e2c455378cdeb4a3a5697168af5b957b375dc0",
-          "integration_owner_agent_id": "agent-rikku",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0231 --position developer --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        },
-        {
-          "work_item_id": "WI-0232",
-          "title": "Implement reusable measurements and portable command checks",
-          "position_id": "developer",
-          "agent_id": "agent-rikku",
-          "agent_name": "Rikku",
-          "suggested_task_title": "WI-0232 · Implement reusable measurem… · Developer (Rikku)",
-          "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
-          "affected_paths": [
-            "src/verification.mjs",
-            "src/delivery-check.mjs",
-            "src/delivery-ledger.mjs",
-            "src/delivery-check-worker.mjs",
-            "test/field-verification.test.mjs"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "build",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "a231d443f2c5c93cc3ba45d78095239531112d953f5523e2471d5574187b29ff",
-          "integration_owner_agent_id": "agent-rikku",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0232 --position developer --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        },
-        {
           "work_item_id": "WI-0233",
           "title": "Implement durable evidence and collaborative reconciliation",
           "position_id": "developer",
           "agent_id": "agent-rikku",
           "agent_name": "Rikku",
           "suggested_task_title": "WI-0233 · Implement durable evidence … · Developer (Rikku)",
-          "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
+          "base_revision": "535c306e38355864adc336f0a1289f105855bbdd",
           "affected_paths": [
             "src/evidence-bundle.mjs",
             "src/reconciliation.mjs",
@@ -110,7 +48,7 @@
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "d9f9b9585c88e3fbd1ed5fac587e874e35971280fabb4b182a604218bc26a75c",
+          "preparation_fingerprint": "e30df85352800077a9c6b41b4bde6efab8cc0f9a55256c7ba9f9e46ead24ca53",
           "integration_owner_agent_id": "agent-rikku",
           "context_command": "node ./templew.mjs context resolve . --work-item WI-0233 --position developer --no-write --json",
           "claim_required_before_work": true,
@@ -134,12 +72,35 @@
     }
   ],
   "active": [],
-  "sequential": [],
+  "sequential": [
+    {
+      "work_item_id": "WI-0231",
+      "title": "Implement contributor attribution and Agent resolution",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-rikku",
+      "reasons": [
+        "requested_mode_sequential"
+      ]
+    },
+    {
+      "work_item_id": "WI-0232",
+      "title": "Implement reusable measurements and portable command checks",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-rikku",
+      "reasons": [
+        "requested_mode_sequential"
+      ]
+    }
+  ],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 3,
+    "runtime_capacity_limit": 1,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

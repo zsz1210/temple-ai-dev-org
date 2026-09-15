@@ -41,6 +41,46 @@ async function fixture(t) {
   return { root, git, files, write, baseRevision, incomingRevision, options: { baseRevision, incomingRevision, paths: files } };
 }
 
+async function claimFixture(t, change, { claimStatus = "active" } = {}) {
+  const result = await fixture(t);
+  const { root, git } = result;
+  git("reset", "--hard", result.baseRevision);
+  const paths = [".ai-org/project/agents.json", ".ai-org/project/collaboration.json"];
+  const agents = JSON.parse(await fs.readFile(path.join(root, paths[0]), "utf8"));
+  const collaboration = JSON.parse(await fs.readFile(path.join(root, paths[1]), "utf8"));
+  collaboration.profile = "collaborative";
+  collaboration.actor_policy.ordinary_development = "verified";
+  collaboration.principals.push({ id: "principal-fixture", display_name: "Fixture contributor", status: "active", active: true,
+    provider_identities: [], created_at: null, updated_at: null });
+  collaboration.sponsorships.push({ principal_id: "principal-fixture", agent_id: "agent-base", status: "active", active: true, created_at: null, ended_at: null });
+  collaboration.memberships.push({ ...clone(collaboration.memberships.find(member => member.agent_id === "agent-builder")), agent_id: "agent-base", default: false });
+  const itemFile = ".ai-org/work-items/WI-0001.json";
+  const claim = { id: "ordinary-claim", agent_id: "agent-base", principal_id: "principal-fixture", position_id: "developer", status: claimStatus };
+  const item = { id: "WI-0001", state: claimStatus === "active" ? "build" : "done", owner_position: "developer", workflow_profile: "standard", risk_tier: "standard",
+    required_disciplines: ["quality"], stage_requirements: { build: { disciplines: ["general-development"] } }, claim, claims: [clone(claim)] };
+  await fs.mkdir(path.join(root, ".ai-org/work-items"), { recursive: true });
+  await fs.writeFile(path.join(root, itemFile), JSON.stringify(item));
+  const writeIdentities = async () => {
+    await fs.writeFile(path.join(root, paths[0]), JSON.stringify(agents));
+    await fs.writeFile(path.join(root, paths[1]), JSON.stringify(collaboration));
+  };
+  await writeIdentities();
+  git("add", "."); git("commit", "-qm", "Ordinary claim without a runtime or task");
+  const baseRevision = git("rev-parse", "HEAD");
+  change(agents, collaboration);
+  await writeIdentities();
+  git("add", "."); git("commit", "-qm", "Incoming identity change");
+  const incomingRevision = git("rev-parse", "HEAD");
+  git("checkout", "--detach", baseRevision);
+  return { root, item, itemFile, paths, options: { baseRevision, incomingRevision, paths } };
+}
+
+const removeClaimant = (agents, collaboration) => {
+  agents.agents = agents.agents.filter(agent => agent.id !== "agent-base");
+  collaboration.memberships = collaboration.memberships.filter(member => member.agent_id !== "agent-base");
+  collaboration.sponsorships = collaboration.sponsorships.filter(sponsor => sponsor.agent_id !== "agent-base");
+};
+
 test("V10: stable IDs reconcile independent changes/additions and preserve exact distinct event histories deterministically", () => {
   const base = { agents: [{ id: "A", value: 1 }, { id: "B", value: 1 }] };
   const local = clone(base); local.agents[0].value = 2; local.agents.push({ id: "C", value: 3 });
@@ -174,6 +214,132 @@ test("V10/V12: schema and unchanged identity inputs participate in freshness; cu
   assert.ok(current.conflicts.some(entry => entry.reason === "worker-current-ownership-conflict"));
   assert.equal((await applyReconciliation(root, current)).mutation_performed, false);
   assert.equal(await fs.readFile(path.join(root, files[0]), "utf8"), before);
+});
+
+test("V10: identity-only reconciliation cannot orphan an unchanged ordinary claim without a worker or task", async t => {
+  const { root, itemFile, options, paths } = await claimFixture(t, removeClaimant);
+  const before = await Promise.all(paths.map(file => fs.readFile(path.join(root, file), "utf8")));
+  const preview = await previewReconciliation(root, options);
+  assert.equal(preview.valid, false, JSON.stringify(preview));
+  assert.ok(preview.conflicts.some(entry => entry.file === itemFile && entry.reason === "active-claim-agent-unavailable"));
+  assert.ok(preview.validation_inputs.some(([file]) => file === itemFile));
+  assert.ok(preview.validation_inputs.some(([file]) => file === ".ai-org/work-items/"));
+  assert.equal((await applyReconciliation(root, preview)).mutation_performed, false);
+  assert.deepEqual(await Promise.all(paths.map(file => fs.readFile(path.join(root, file), "utf8"))), before);
+});
+
+test("V10: unchanged active claims retain shared sponsor, Principal and current qualification requirements", async t => {
+  const cases = [
+    ["membership revocation", (_, collaboration) => { collaboration.memberships.find(member => member.agent_id === "agent-base").status = "revoked"; }],
+    ["expired qualification", (_, collaboration) => { collaboration.memberships.find(member => member.agent_id === "agent-base").qualification.expires_at = "2000-01-01T00:00:00Z"; }],
+    ["insufficient risk ceiling", (_, collaboration) => { collaboration.memberships.find(member => member.agent_id === "agent-base").qualification.risk_ceiling = "low"; }],
+    ["missing current stage discipline", (_, collaboration) => { collaboration.memberships.find(member => member.agent_id === "agent-base").disciplines = []; }],
+    ["inactive sponsorship", (_, collaboration) => { collaboration.sponsorships[0].status = "inactive"; collaboration.sponsorships[0].active = false; }],
+    ["inactive Principal", (_, collaboration) => { collaboration.principals[0].status = "inactive"; collaboration.principals[0].active = false; }]
+  ];
+  for (const [name, change] of cases) await t.test(name, async t => {
+    const { root, options, itemFile, paths } = await claimFixture(t, change);
+    const before = await Promise.all(paths.map(file => fs.readFile(path.join(root, file), "utf8")));
+    const preview = await previewReconciliation(root, options);
+    assert.equal(preview.valid, false, JSON.stringify(preview));
+    assert.ok(preview.conflicts.some(entry => entry.file === itemFile && entry.reason === "active-claim-actor-ineligible"), JSON.stringify(preview.conflicts));
+    assert.equal((await applyReconciliation(root, preview)).mutation_performed, false);
+    assert.deepEqual(await Promise.all(paths.map(file => fs.readFile(path.join(root, file), "utf8"))), before);
+  });
+});
+
+test("V10: released terminal claim history survives identity removal without becoming a live qualification gate", async t => {
+  const { root, options, itemFile } = await claimFixture(t, removeClaimant, { claimStatus: "released" });
+  const before = await fs.readFile(path.join(root, itemFile), "utf8");
+  const preview = await previewReconciliation(root, options);
+  assert.equal(preview.valid, true, JSON.stringify(preview));
+  assert.equal((await applyReconciliation(root, preview)).valid, true);
+  assert.equal(await fs.readFile(path.join(root, itemFile), "utf8"), before);
+});
+
+test("V10: reconciliation does not infer a missing team claimant Principal from current sponsorship", async t => {
+  const { root, options, item, itemFile } = await claimFixture(t, agents => { agents.agents[0].display_name = "Updated builder label"; });
+  item.claim.principal_id = null;
+  item.claims = [clone(item.claim)];
+  await fs.writeFile(path.join(root, itemFile), JSON.stringify(item));
+  const preview = await previewReconciliation(root, options);
+  assert.equal(preview.valid, false, JSON.stringify(preview));
+  assert.ok(preview.conflicts.some(entry => entry.reason === "active-claim-principal-unattributed"));
+  assert.equal((await applyReconciliation(root, preview)).mutation_performed, false);
+});
+
+test("V10/V12: a new or newly active unchanged claim invalidates an identity-removal preview before writes", async t => {
+  for (const mode of ["existing item gains a claim", "new Work Item gains a claim"]) await t.test(mode, async t => {
+    const { root, options, item, itemFile, paths } = await claimFixture(t, removeClaimant, { claimStatus: "released" });
+    const preview = await previewReconciliation(root, options);
+    assert.equal(preview.valid, true, JSON.stringify(preview));
+    const before = await Promise.all(paths.map(file => fs.readFile(path.join(root, file), "utf8")));
+    item.state = "build";
+    item.claim.status = "active";
+    item.claims = [clone(item.claim)];
+    if (mode.startsWith("new")) item.id = "WI-0002";
+    await fs.writeFile(path.join(root, mode.startsWith("new") ? ".ai-org/work-items/WI-0002.json" : itemFile), JSON.stringify(item));
+    const fresh = await previewReconciliation(root, options);
+    assert.equal(fresh.valid, false, JSON.stringify(fresh));
+    const stale = await applyReconciliation(root, preview);
+    assert.equal(stale.code, "RECONCILIATION_STALE_PREVIEW");
+    assert.equal(stale.mutation_performed, false);
+    assert.deepEqual(await Promise.all(paths.map(file => fs.readFile(path.join(root, file), "utf8"))), before);
+  });
+});
+
+test("V10/V12: inventory additions and changed eligible claim bytes invalidate otherwise valid identity previews", async t => {
+  const { root, options, item, itemFile, paths } = await claimFixture(t, agents => { agents.agents[0].display_name = "Updated builder label"; });
+  let preview = await previewReconciliation(root, options);
+  // Verified policy does not require this read-only validator to log in; this
+  // actual actor is still qualified for its stage, risk, membership and sponsor.
+  assert.equal(preview.valid, true, JSON.stringify(preview));
+  const before = await Promise.all(paths.map(file => fs.readFile(path.join(root, file), "utf8")));
+  item.claim.id = "replacement-claim";
+  item.claims = [clone(item.claim)];
+  await fs.writeFile(path.join(root, itemFile), JSON.stringify(item));
+  let fresh = await previewReconciliation(root, options);
+  assert.equal(fresh.valid, true, JSON.stringify(fresh));
+  assert.notEqual(fresh.fingerprint, preview.fingerprint);
+  assert.equal((await applyReconciliation(root, preview)).code, "RECONCILIATION_STALE_PREVIEW");
+  preview = fresh;
+  await fs.writeFile(path.join(root, ".ai-org/work-items/WI-0002.json"), JSON.stringify({ id: "WI-0002", state: "done", claim: null }));
+  fresh = await previewReconciliation(root, options);
+  assert.equal(fresh.valid, true, JSON.stringify(fresh));
+  assert.notEqual(fresh.fingerprint, preview.fingerprint);
+  assert.equal((await applyReconciliation(root, preview)).code, "RECONCILIATION_STALE_PREVIEW");
+  assert.deepEqual(await Promise.all(paths.map(file => fs.readFile(path.join(root, file), "utf8"))), before);
+});
+
+test("V10: unchanged Work Item inventory refuses symlinks, oversized files and unbounded entries", async t => {
+  const { root, options, itemFile } = await claimFixture(t, agents => { agents.agents[0].display_name = "Updated builder label"; });
+  const itemBytes = await fs.readFile(path.join(root, itemFile), "utf8");
+  await fs.unlink(path.join(root, itemFile));
+  await fs.symlink(path.join(root, ".ai-org/project/agents.json"), path.join(root, itemFile));
+  let preview = await previewReconciliation(root, options);
+  assert.equal(preview.code, "RECONCILIATION_INPUT_INVALID");
+  assert.match(preview.errors[0], /Unsafe Work Item/);
+  await fs.unlink(path.join(root, itemFile));
+  await fs.writeFile(path.join(root, itemFile), " ".repeat(4 * 1024 * 1024 + 1));
+  preview = await previewReconciliation(root, options);
+  assert.equal(preview.code, "RECONCILIATION_INPUT_INVALID");
+  assert.match(preview.errors[0], /Invalid validation input/);
+  await fs.writeFile(path.join(root, itemFile), itemBytes);
+  const itemDirectory = path.join(root, ".ai-org/work-items");
+  await fs.rename(itemDirectory, `${itemDirectory}-outside`);
+  await fs.symlink(`${itemDirectory}-outside`, itemDirectory);
+  preview = await previewReconciliation(root, options);
+  assert.equal(preview.code, "RECONCILIATION_INPUT_INVALID");
+  assert.match(preview.errors[0], /Unsafe Work Item validation directory/);
+  await fs.unlink(itemDirectory);
+  await fs.rename(`${itemDirectory}-outside`, itemDirectory);
+  t.mock.method(fs, "opendir", async () => (async function* () {
+    for (let index = 0; index < 10001; index++) yield { name: `ignored-${index}`, isFile: () => true, isDirectory: () => false };
+  })());
+  preview = await previewReconciliation(root, options);
+  assert.equal(preview.code, "RECONCILIATION_INPUT_INVALID");
+  assert.match(preview.errors[0], /inventory exceeds 10000/);
+  assert.equal(preview.mutation_performed, false);
 });
 
 test("V12: a real process interruption after one canonical rename is recoverable without partial remaining state", async t => {

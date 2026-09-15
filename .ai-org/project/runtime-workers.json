@@ -2124,7 +2124,7 @@
     {
       "id": "worker-20260915165613-fc7ad4f3",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0231",
       "position_id": "developer",
       "agent_id": "agent-rikku",
@@ -2140,17 +2140,19 @@
       "runtime_id": "/root/field_actors",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "535c306e38355864adc336f0a1289f105855bbdd",
+      "evidence": [
+        ".ai-org/artifacts/WI-0230/verification-report.md"
+      ],
       "reserved_at": "2026-09-15T16:56:13.275Z",
       "attached_at": "2026-09-15T17:00:14.493Z",
-      "completed_at": null,
-      "updated_at": "2026-09-15T17:00:14.493Z"
+      "completed_at": "2026-09-15T17:39:34.127Z",
+      "updated_at": "2026-09-15T17:39:34.127Z"
     },
     {
       "id": "worker-20260915165613-d30a234c",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0232",
       "position_id": "developer",
       "agent_id": "agent-rikku",
@@ -2166,17 +2168,19 @@
       "runtime_id": "/root/field_verification",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "535c306e38355864adc336f0a1289f105855bbdd",
+      "evidence": [
+        ".ai-org/artifacts/WI-0230/verification-report.md"
+      ],
       "reserved_at": "2026-09-15T16:56:13.688Z",
       "attached_at": "2026-09-15T17:00:14.855Z",
-      "completed_at": null,
-      "updated_at": "2026-09-15T17:00:14.855Z"
+      "completed_at": "2026-09-15T17:39:35.112Z",
+      "updated_at": "2026-09-15T17:39:35.112Z"
     },
     {
       "id": "worker-20260915165614-9bd36cf7",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0233",
       "position_id": "developer",
       "agent_id": "agent-rikku",
@@ -2192,12 +2196,68 @@
       "runtime_id": "/root/field_evidence",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "535c306e38355864adc336f0a1289f105855bbdd",
+      "evidence": [
+        ".ai-org/artifacts/WI-0230/verification-report.md"
+      ],
       "reserved_at": "2026-09-15T16:56:14.151Z",
       "attached_at": "2026-09-15T17:00:15.206Z",
+      "completed_at": "2026-09-15T17:39:36.065Z",
+      "updated_at": "2026-09-15T17:39:36.065Z"
+    },
+    {
+      "id": "worker-20260915174040-464e550f",
+      "runtime_kind": "internal-subagent",
+      "status": "failed",
+      "work_item_id": "WI-0230",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260915174040-a50e542b",
+      "base_revision": "535c306e38355864adc336f0a1289f105855bbdd",
+      "branch": "codex/field-remediation",
+      "worktree": null,
+      "plan_fingerprint": "23a4013bfffe0cb60b1e6f978298f9633e726698262bd88d8de7eebe04cf0c9d",
+      "plan_digest": "d9aa2434c7c905504cb2a52a6f033d04ad6bbb32f142323d41d225b15a1f3ae8",
+      "preparation_fingerprint": "0102cbd306e980c12955a4febb062e92c8bfb96209425dcdf5077f4cf2fd421f",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/field_acceptance",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "535c306e38355864adc336f0a1289f105855bbdd",
+      "evidence": [
+        ".ai-org/artifacts/WI-0230/independent-review.md"
+      ],
+      "reserved_at": "2026-09-15T17:40:40.396Z",
+      "attached_at": "2026-09-15T17:41:08.509Z",
+      "completed_at": "2026-09-15T17:45:04.448Z",
+      "updated_at": "2026-09-15T17:45:04.448Z"
+    },
+    {
+      "id": "worker-20260915174525-432c8360",
+      "runtime_kind": "internal-subagent",
+      "status": "active",
+      "work_item_id": "WI-0233",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "principal_id": "human",
+      "claim_id": "claim-20260915174525-b7536717",
+      "base_revision": "535c306e38355864adc336f0a1289f105855bbdd",
+      "branch": "codex/field-remediation",
+      "worktree": null,
+      "plan_fingerprint": "6a798cbee6826cb6791e5515b2333f5e2df992bcdd31f12c909259d1293ec730",
+      "plan_digest": "3837f0c3bdf449e72edd62b150c2e98032b2cc4129ce6b45b4c42d2df09053fe",
+      "preparation_fingerprint": "e30df85352800077a9c6b41b4bde6efab8cc0f9a55256c7ba9f9e46ead24ca53",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/field_reconciliation_repair",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": null,
+      "evidence": [],
+      "reserved_at": "2026-09-15T17:45:25.397Z",
+      "attached_at": "2026-09-15T17:46:54.629Z",
       "completed_at": null,
-      "updated_at": "2026-09-15T17:00:15.206Z"
+      "updated_at": "2026-09-15T17:46:54.629Z"
     }
   ]
 }

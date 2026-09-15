@@ -13,6 +13,30 @@ async function input(parsed, name = "--config") {
   return readJson(path.resolve(required(parsed, name)));
 }
 
+async function rebuildReconciliationViews(target, result) {
+  if (!result.views_rebuild_required) return result;
+  try {
+    const { inspectParallelPlan, buildParallelPlan, writeParallelPlan } = await import("./orchestration.mjs");
+    const existing = await inspectParallelPlan(target);
+    if (!existing.valid) throw new Error(`Existing parallel plan is invalid: ${existing.errors.join("; ")}`);
+    if (existing.installed) await writeParallelPlan(target, await buildParallelPlan(target, {
+      parentWorkItemId: existing.plan.scope.parent_work_item_id ?? undefined, maxWorkers: existing.plan.max_workers
+    }));
+    const { buildStatus, writeStatus } = await import("./status.mjs");
+    const { buildCapabilityRegistry, writeCapabilityRegistry } = await import("./context.mjs");
+    const registry = await buildCapabilityRegistry(target);
+    const status = await buildStatus(target, { capabilityRegistry: registry });
+    await writeCapabilityRegistry(target, registry);
+    await writeStatus(target, status);
+    return { ...result, views_rebuilt: true, views_rebuild_required: false,
+      next_action: "Run Doctor and assess candidate acceptance separately; no work was dispatched." };
+  } catch (error) {
+    return { ...result, valid: false, code: "RECONCILIATION_VIEWS_FAILED", views_rebuilt: false,
+      errors: [...(result.errors ?? []), error.message],
+      next_action: "Canonical mutation status is reported separately. Repair the named generated-view condition, then run reconcile refresh-views; do not repeat the original apply or discard canonical records." };
+  }
+}
+
 function output(parsed, result) {
   if (parsed.flags.has("--json")) console.log(JSON.stringify(result, null, 2));
   else {
@@ -35,7 +59,8 @@ export async function runFieldCommand(parsed) {
     "collaboration setup-contributor": ["--config"],
     "evidence durability": ["--work-item", "--revision"], "evidence export-bundle": ["--evidence", "--output"],
     "evidence verify-bundle": ["--bundle"], "evidence import-bundle": ["--bundle"],
-    "reconcile preview": ["--config"], "reconcile apply": ["--config", "--fingerprint"], "reconcile recover": ["--transaction-id"]
+    "reconcile preview": ["--config"], "reconcile apply": ["--config", "--fingerprint"], "reconcile recover": ["--transaction-id"],
+    "reconcile refresh-views": []
   };
   const allowed = new Set(["--json", ...(allowedByAction[`${parsed.command} ${parsed.action}`] ?? [])]);
   for (const flag of [...Object.keys(parsed.options), ...parsed.flags]) {
@@ -84,17 +109,17 @@ export async function runFieldCommand(parsed) {
       const preview = await input(parsed);
       result = await withProjectMutationLock(target, async () => {
         const applied = await applyReconciliation(target, preview, { expectedFingerprint: required(parsed, "--fingerprint") });
-        if (applied.views_rebuild_required) {
-          const { writeStatus } = await import("./status.mjs");
-          const { writeCapabilityRegistry } = await import("./context.mjs");
-          await writeCapabilityRegistry(target);
-          await writeStatus(target);
-        }
-        return applied;
+        return applied.valid ? rebuildReconciliationViews(target, applied) : applied;
       });
-    } else if (action === "recover") result = await withProjectMutationLock(target, () =>
-      recoverReconciliation(target, { transactionId: required(parsed, "--transaction-id"), action: "rollback" }), { reconciliationRecovery: true });
-    else throw new OperationError("INVALID_INPUT", "Use reconcile preview, apply or recover");
+    } else if (action === "recover") result = await withProjectMutationLock(target, async () => {
+      const recovered = await recoverReconciliation(target, { transactionId: required(parsed, "--transaction-id"), action: "rollback" });
+      return recovered.valid ? rebuildReconciliationViews(target, recovered) : recovered;
+    }, { reconciliationRecovery: true });
+    else if (action === "refresh-views") result = await withProjectMutationLock(target, () => rebuildReconciliationViews(target, {
+      valid: true, errors: [], mutation_performed: false, canonical_mutation_performed: false,
+      mutation_status: "unchanged", views_rebuild_required: true, acceptance_granted: false
+    }));
+    else throw new OperationError("INVALID_INPUT", "Use reconcile preview, apply, recover or refresh-views");
   }
   if (!result) throw new OperationError("INVALID_INPUT", "Unsupported field operation");
   return output(parsed, result);

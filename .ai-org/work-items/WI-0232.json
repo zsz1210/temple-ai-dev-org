@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0232",
   "title": "Implement reusable measurements and portable command checks",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-15T16:55:45.810Z",
-  "updated_at": "2026-09-15T16:56:13.705Z",
+  "updated_at": "2026-09-15T17:39:44.532Z",
   "scope": [
     "F06-F07 core APIs; V06-V07 V09 V13. Parent owns CLI, daily-delivery integration and schemas."
   ],
@@ -47,9 +47,9 @@
   "required_disciplines": [],
   "stage_requirements": {},
   "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
-  "parallel_mode": "parallel",
+  "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-rikku",
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": null,
   "shared_contract_refs": [
     "docs/adr/0067-low-friction-collaborative-delivery.md"
   ],
@@ -59,14 +59,17 @@
   ],
   "claim": {
     "id": "claim-20260915165613-83a58d31",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
     "branch": "codex/field-remediation",
     "worktree": null,
     "claimed_at": "2026-09-15T16:56:13.705Z",
-    "released_at": null
+    "released_at": "2026-09-15T17:39:42.388Z",
+    "release_reason": [
+      "Developer candidate handed off for verification"
+    ]
   },
   "claims": [
     {
@@ -113,14 +116,17 @@
     },
     {
       "id": "claim-20260915165613-83a58d31",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "base_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
       "branch": "codex/field-remediation",
       "worktree": null,
       "claimed_at": "2026-09-15T16:56:13.705Z",
-      "released_at": null
+      "released_at": "2026-09-15T17:39:42.388Z",
+      "release_reason": [
+        "Developer candidate handed off for verification"
+      ]
     }
   ],
   "gate_evidence": {
@@ -138,6 +144,12 @@
     ],
     "risk_review": [
       "docs/adr/0067-low-friction-collaborative-delivery.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0232/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0230/verification-report.md"
     ]
   },
   "evidence": [
@@ -146,7 +158,9 @@
     ".ai-org/artifacts/WI-0232/handoff-002-product_manager-to-tech_lead.md",
     "docs/planning/field-remediation.md",
     ".ai-org/artifacts/WI-0232/handoff-003-tech_lead-to-developer.md",
-    "docs/adr/0067-low-friction-collaborative-delivery.md"
+    "docs/adr/0067-low-friction-collaborative-delivery.md",
+    ".ai-org/artifacts/WI-0232/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0230/verification-report.md"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -174,6 +188,24 @@
       "input_revision": "d0947a3b67cea6b9347627ab692a2caf4a2f1bbb",
       "artifact": ".ai-org/artifacts/WI-0232/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-15T16:55:49.996Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "principal_id": "human",
+      "actor_provenance": {
+        "selection": "active-claim",
+        "principal_source": "active-claim",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "input_revision": "535c306e38355864adc336f0a1289f105855bbdd",
+      "artifact": ".ai-org/artifacts/WI-0232/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-15T17:39:41.514Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "535c306e38355864adc336f0a1289f105855bbdd"
 }

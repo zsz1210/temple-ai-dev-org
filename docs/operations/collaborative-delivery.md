@@ -38,6 +38,8 @@ Apply checks the exact proposed policy and current canonical inputs. Missing map
 
 Creating a Work Item records intended work under the project's actor policy; it does not authorize execution of the declared high-risk task. Claims and lifecycle operations validate the current stage's qualifications. Legacy `--discipline` applies wherever a stage has no override; use `--stage-discipline build=backend` for a Build-only skill rather than accidentally requiring every planning and review Position to be a backend developer.
 
+Reconciliation rebuilds status, capabilities and an existing valid parallel plan while retaining its scope and worker ceiling. It never dispatches the resulting plan. If generated-view rebuilding fails after a canonical apply or rollback, the result preserves that mutation status and names the failed view condition. Repair that condition and run `node ./templew.mjs reconcile refresh-views . --json`; this regenerates views without replaying canonical changes. A malformed existing plan is preserved for explicit repair.
+
 ## Reuse measurements without inventing tests
 
 Inspect `measurement capabilities . --json` before selecting an adapter. A measurement plan declares every input category, even empty categories, and the command's actual toolchain/environment identity:

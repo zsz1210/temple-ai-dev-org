@@ -3,8 +3,9 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { cli } from "./helpers/lean-delivery-fixture.mjs";
+import { cli, fixture, git } from "./helpers/lean-delivery-fixture.mjs";
 import { privateViewerSnapshot } from "../src/control-plane-server.mjs";
+import { inspectParallelPlan } from "../src/orchestration.mjs";
 
 test("V06/V07/V09 CLI reports reusable checks, actual execution and failures without stranded required status", async t => {
   const target = await fs.mkdtemp(path.join(os.tmpdir(), "temple-field-cli-"));
@@ -46,4 +47,51 @@ test("V08 diagnostic detail preserves private-view Principal and condition redac
   assert.ok(!bytes.includes("principal-private")); assert.ok(!bytes.includes("private device condition"));
   assert.equal(result.live_observer.work.items[0].delivery_attention.state, "awaiting-environment");
   assert.equal(snapshot.observer.work.items[0].delivery_attention.owner.principal_id, "principal-private");
+});
+
+for (const failView of [false, true]) test(`V10/V12 public reconciliation CLI rebuilds views and preserves canonical recovery facts (view failure=${failView})`, async t => {
+  const f = await fixture({ workflowProfile: "standard" }); t.after(f.cleanup);
+  const temporary = await fs.mkdtemp(path.join(os.tmpdir(), "temple-field-reconcile-cli-"));
+  t.after(() => fs.rm(temporary, { recursive: true, force: true }));
+  const resourcesPath = path.join(f.target, ".ai-org/project/resources.json");
+  git(f.target, ["add", "."]); git(f.target, ["commit", "--allow-empty", "-qm", "CLI reconciliation base"]);
+  const baseRevision = git(f.target, ["rev-parse", "HEAD"]);
+  const resources = JSON.parse(await fs.readFile(resourcesPath));
+  resources.resources.push({ id: "fixture-device", display_name: "Fixture device", capacity: 1, description: "CLI test", active: true });
+  await fs.writeFile(resourcesPath, JSON.stringify(resources));
+  git(f.target, ["add", "."]); git(f.target, ["commit", "-qm", "Incoming fixture resource"]);
+  const incomingRevision = git(f.target, ["rev-parse", "HEAD"]);
+  git(f.target, ["checkout", "--detach", baseRevision]);
+  cli(["parallel", "plan", f.target, "--max-workers", "2"]);
+  const config = path.join(temporary, "request.json");
+  await fs.writeFile(config, JSON.stringify({ baseRevision, incomingRevision, paths: [".ai-org/project/resources.json", ".ai-org/views/parallel-plan.json"] }));
+  const preview = JSON.parse(cli(["reconcile", "preview", f.target, "--config", config, "--json"]).stdout);
+  await fs.writeFile(config, JSON.stringify(preview));
+  const statusPath = path.join(f.target, ".ai-org/views/status.md");
+  if (failView) { await fs.rm(statusPath, { force: true }); await fs.mkdir(statusPath); }
+  const applied = cli(["reconcile", "apply", f.target, "--config", config, "--fingerprint", preview.fingerprint, "--json"], { allowFailure: true });
+  assert.equal(applied.status, failView ? 1 : 0, applied.stderr || applied.stdout);
+  const result = JSON.parse(applied.stdout);
+  assert.equal(result.mutation_status, "applied");
+  assert.equal(result.mutation_performed, true);
+  assert.equal(result.acceptance_granted, false);
+  assert.ok(JSON.parse(await fs.readFile(resourcesPath)).resources.some(entry => entry.id === "fixture-device"));
+  if (failView) {
+    assert.equal(result.code, "RECONCILIATION_VIEWS_FAILED");
+    assert.equal(result.views_rebuilt, false);
+    assert.match(result.next_action, /reconcile refresh-views/);
+    const canonical = await fs.readFile(resourcesPath);
+    await fs.rmdir(statusPath);
+    const refreshed = JSON.parse(cli(["reconcile", "refresh-views", f.target, "--json"]).stdout);
+    assert.equal(refreshed.canonical_mutation_performed, false);
+    assert.equal(refreshed.mutation_status, "unchanged");
+    assert.equal(refreshed.views_rebuilt, true);
+    assert.deepEqual(await fs.readFile(resourcesPath), canonical);
+  } else assert.equal(result.views_rebuilt, true);
+  const plan = await inspectParallelPlan(f.target);
+  assert.equal(plan.valid, true, plan.errors.join(";"));
+  assert.equal(plan.fresh, true);
+  assert.equal(plan.plan.max_workers, 2);
+  assert.equal(plan.plan.scope.parent_work_item_id, null);
+  assert.ok((await fs.readFile(statusPath, "utf8")).includes(f.item.id));
 });

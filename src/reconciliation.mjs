@@ -8,6 +8,8 @@ export const RECONCILIATION_SCHEMA = "temple.reconciliation-preview/v1";
 const REVISION = /^[a-f0-9]{40}$/;
 const MAX_FILE_BYTES = 4 * 1024 * 1024;
 const MAX_PATHS = 200;
+const MAX_WORK_ITEM_ENTRIES = 10000;
+const MAX_VALIDATION_BYTES = 64 * 1024 * 1024;
 const SUPPORTED = /^(?:\.ai-org\/work-items\/WI-(?:[0-9]{4,}|[0-9]{8}-[A-F0-9]{10})\.json|\.ai-org\/project\/(?:collaboration|agents|assignments|tasks|evidence|runtime-workers|resources)\.json|\.ai-org\/events\/events\.jsonl)$/;
 const SCHEMAS = { agents: "agents.schema.json", assignments: "assignments.schema.json", collaboration: "collaboration.schema.json",
   tasks: "task-registry.schema.json", evidence: "evidence-registry.schema.json", "runtime-workers": "runtime-worker-registry.schema.json", resources: "resource-registry.schema.json" };
@@ -200,20 +202,51 @@ async function validationBytes(target, relativePath) {
   return fs.readFile(current, "utf8");
 }
 
+async function workItemInventory(target) {
+  const relativePath = ".ai-org/work-items/";
+  let directory = await fs.realpath(target);
+  for (const part of [".ai-org", "work-items"]) {
+    directory = path.join(directory, part);
+    const stat = await fs.lstat(directory).catch(error => { if (error.code === "ENOENT") return null; throw error; });
+    if (!stat) return { path: relativePath, digest: null, files: [] };
+    if (!stat.isDirectory() || stat.isSymbolicLink()) throw new Error(`Unsafe Work Item validation directory: ${relativePath}`);
+  }
+  const entries = [];
+  const files = [];
+  for await (const entry of await fs.opendir(directory)) {
+    if (entries.length >= MAX_WORK_ITEM_ENTRIES) throw new Error(`Work Item validation inventory exceeds ${MAX_WORK_ITEM_ENTRIES} entries`);
+    const kind = entry.isFile() ? "file" : entry.isDirectory() ? "directory" : "other";
+    entries.push([entry.name, kind]);
+    if (!entry.name.startsWith("WI-") || !entry.name.endsWith(".json")) continue;
+    const file = relativePath + entry.name;
+    if (!SUPPORTED.test(file) || !entry.isFile() || entry.isSymbolicLink()) throw new Error(`Unsafe Work Item validation input: ${file}`);
+    files.push(file);
+  }
+  entries.sort(([a], [b]) => a.localeCompare(b));
+  return { path: relativePath, digest: hash(entries), files: files.sort() };
+}
+
 // Validate the virtual result before any writes, including unchanged supporting
 // identity records. Every consulted byte source joins the preview fingerprint.
 async function validateCombinedDocuments(target, documents) {
   const conflicts = [];
   const inputs = new Map();
+  const supportingDocuments = new Map();
+  let validationSize = 0;
   const read = async (file, required = true) => {
     if (documents.has(file)) return documents.get(file);
+    if (supportingDocuments.has(file)) return supportingDocuments.get(file);
     const bytes = await validationBytes(target, file);
+    validationSize += bytes === null ? 0 : Buffer.byteLength(bytes);
+    if (validationSize > MAX_VALIDATION_BYTES) throw new Error(`Reconciliation validation inputs exceed ${MAX_VALIDATION_BYTES} bytes`);
     inputs.set(file, bytes === null ? null : sha256(bytes));
     if (bytes === null) {
       if (required) throw new Error(`Required reconciliation validation input is missing: ${file}`);
       return null;
     }
-    return JSON.parse(bytes);
+    const document = JSON.parse(bytes);
+    supportingDocuments.set(file, document);
+    return document;
   };
   const [{ default: Ajv2020 }, { default: addFormats }] = await Promise.all([import("ajv/dist/2020.js"), import("ajv-formats")]);
   for (const [file, document] of documents) {
@@ -239,13 +272,14 @@ async function validateCombinedDocuments(target, documents) {
   let identity = null;
   if (needIdentity) {
     const [collaboration, agents, assignments, positions, project] = await Promise.all([...identityPaths.map(file => read(file)), read(".ai-org/core/positions.json"), read(".ai-org/project/project.json")]);
-    const [{ validateCollaborationState, membershipStatus }, { validateProjectState }] = await Promise.all([import("./collaboration.mjs"), import("./model.mjs")]);
+    const [{ validateCollaborationState }, { validateProjectState }, { inspectActor }] = await Promise.all([import("./collaboration.mjs"), import("./model.mjs"), import("./actor-resolution.mjs")]);
     const positionIds = new Set((positions.positions ?? []).map(entry => entry.id));
     const validation = validateCollaborationState(collaboration, agents, assignments, positionIds);
     conflicts.push(...validation.errors.map(reason => ({ file: identityPaths[0], path: "$", reason: `combined-collaboration-invalid:${reason}` })));
     conflicts.push(...validateProjectState(project, agents, assignments, positionIds).filter(check => check.status === "fail")
       .map(check => ({ file: identityPaths[1], path: "$", reason: `combined-identity-invalid:${check.message}` })));
-    identity = { collaboration, agents: new Map(agents.agents.map(entry => [entry.id, entry])), positionIds, membershipStatus };
+    identity = { collaboration, agents: new Map(agents.agents.map(entry => [entry.id, entry])), positionIds,
+      positionsDocument: positions, assignmentsDocument: assignments, project, inspectActor };
   }
   const checkedItems = new Map();
   const checkItem = async (id, supplied = undefined) => {
@@ -261,9 +295,15 @@ async function validateCombinedDocuments(target, documents) {
     if (claim?.status === "active") {
       if (Array.isArray(item.claims) && !item.claims.some(entry => entry.id === claim.id && equal(entry, claim))) conflicts.push({ file, path: "claims", reason: "active-claim-history-mismatch" });
       if (!identity.agents.has(claim.agent_id) || identity.agents.get(claim.agent_id).active === false) conflicts.push({ file, path: "claim", reason: "active-claim-agent-unavailable" });
-      const eligible = identity.collaboration.memberships.some(member => member.agent_id === claim.agent_id && member.position_id === item.owner_position && identity.membershipStatus(member) === "active");
-      if (!eligible) conflicts.push({ file, path: "claim", reason: "active-claim-membership-unavailable" });
-      if (identity.collaboration.profile !== "solo" && !identity.collaboration.sponsorships.some(sponsor => sponsor.agent_id === claim.agent_id && sponsor.principal_id === claim.principal_id && sponsor.status !== "inactive")) conflicts.push({ file, path: "claim", reason: "active-claim-sponsor-mismatch" });
+      if (identity.collaboration.profile !== "solo" && !claim.principal_id) conflicts.push({ file, path: "claim.principal_id",
+        reason: "active-claim-principal-unattributed", next_action: "Recover or hand off the anonymous claim before reconciling team responsibility; do not infer its owner from current sponsorship." });
+      // Reconciliation verifies recorded responsibility, not this clone's login.
+      // The shared inspector retains eligibility checks even when verified-policy
+      // provenance is unavailable locally. Never replace or infer another actor.
+      const actor = identity.inspectActor(identity, { item, agentId: claim.agent_id, principalId: claim.principal_id,
+        binding: { status: "missing" } });
+      if (!actor.selected_actor) for (const blocker of actor.blockers) conflicts.push({ file, path: "claim",
+        reason: "active-claim-actor-ineligible", code: blocker.code, message: blocker.message, next_action: blocker.next_action });
     }
     return item;
   };
@@ -297,6 +337,17 @@ async function validateCombinedDocuments(target, documents) {
     }
   }
   if (needIdentity) {
+    if (identityPaths.some(file => documents.has(file))) {
+      // Ordinary claimed work need not have a runtime or registered task. Identity
+      // changes therefore inspect the complete bounded inventory, including bytes
+      // of currently unclaimed/terminal records that could gain a claim later.
+      const inventory = await workItemInventory(target);
+      inputs.set(inventory.path, inventory.digest);
+      for (const file of inventory.files) {
+        const item = await read(file, false);
+        if (item?.claim?.status === "active") await checkItem(path.posix.basename(file, ".json"), item);
+      }
+    }
     // Changing an identity or Work Item can invalidate an unchanged live runtime.
     // Inspect only live responsibilities here; retain completed history as history.
     const workersPath = ".ai-org/project/runtime-workers.json";
