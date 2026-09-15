@@ -1,212 +1,26 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-15T17:53:28.416Z",
-  "source_fingerprint": "2bca104401304947e861de12afe460361331996810ca90e0be732a6bcc7b045b",
+  "generated_at": "2026-09-15T18:13:38.145Z",
+  "source_fingerprint": "216dfbf28fefca03659fdf896736a7df739136e4fe564c9d5e08b368893cdfca",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": [
-      "WI-0230",
-      "WI-0231",
-      "WI-0232",
-      "WI-0233"
-    ]
+    "selected_work_item_ids": []
   },
   "max_workers": 1,
   "summary": {
-    "selected": 4,
-    "dispatchable": 1,
+    "selected": 0,
+    "dispatchable": 0,
     "active": 0,
-    "sequential": 3,
+    "sequential": 0,
     "blocked": 0,
-    "waves": 1
+    "waves": 0
   },
-  "waves": [
-    {
-      "id": "wave-001",
-      "order": 1,
-      "dispatch": [
-        {
-          "work_item_id": "WI-0230",
-          "title": "Complete field-driven collaboration and delivery remediation",
-          "position_id": "quality_evaluator",
-          "agent_id": "agent-lulu",
-          "agent_name": "Lulu",
-          "suggested_task_title": "WI-0230 · Complete… · Quality & Evaluation Engineer (Lulu)",
-          "base_revision": "aff1b86e608b15273f9874cc49971cab9e69940a",
-          "affected_paths": [
-            "src/",
-            "test/",
-            "scripts/",
-            "docs/",
-            "project-overlay/",
-            ".agents/skills/",
-            ".github/",
-            ".ai-org/decisions/",
-            ".ai-org/artifacts/",
-            "README.md",
-            "README.ja.md",
-            "README.zh-TW.md",
-            "CHANGELOG.md",
-            "TEMPLE.md"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "test",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "9d0ba21d12d7adf68f3e628ebfec3c16cfbe729264ac68a0ac2e2e0cec34f82c",
-          "integration_owner_agent_id": "agent-rikku",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0230 --position quality_evaluator --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        }
-      ],
-      "join_gate": {
-        "integration_owner_agent_ids": [
-          "agent-rikku"
-        ],
-        "required_evidence": [
-          "exact_candidate_revision",
-          "verification_results",
-          "unresolved_items"
-        ],
-        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
-      }
-    }
-  ],
+  "waves": [],
   "active": [],
-  "sequential": [
-    {
-      "work_item_id": "WI-0231",
-      "title": "Implement contributor attribution and Agent resolution",
-      "disposition": "sequential",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": "agent-rikku",
-      "reasons": [
-        "requested_mode_sequential"
-      ]
-    },
-    {
-      "work_item_id": "WI-0232",
-      "title": "Implement reusable measurements and portable command checks",
-      "disposition": "sequential",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": "agent-rikku",
-      "reasons": [
-        "requested_mode_sequential"
-      ]
-    },
-    {
-      "work_item_id": "WI-0233",
-      "title": "Implement durable evidence and collaborative reconciliation",
-      "disposition": "sequential",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": "agent-rikku",
-      "reasons": [
-        "requested_mode_sequential"
-      ]
-    }
-  ],
+  "sequential": [],
   "blocked": [],
-  "conflicts": [
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0230",
-      "right_work_item_id": "WI-0231",
-      "paths": [
-        {
-          "left_path": "src/",
-          "right_path": "src/actor-resolution.mjs"
-        },
-        {
-          "left_path": "src/",
-          "right_path": "src/collaboration.mjs"
-        },
-        {
-          "left_path": "src/",
-          "right_path": "src/local-identity.mjs"
-        },
-        {
-          "left_path": "src/",
-          "right_path": "src/model.mjs"
-        },
-        {
-          "left_path": "test/",
-          "right_path": "test/field-actors.test.mjs"
-        }
-      ],
-      "resolution": "explicit-bidirectional"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0230",
-      "right_work_item_id": "WI-0232",
-      "paths": [
-        {
-          "left_path": "src/",
-          "right_path": "src/verification.mjs"
-        },
-        {
-          "left_path": "src/",
-          "right_path": "src/delivery-check.mjs"
-        },
-        {
-          "left_path": "src/",
-          "right_path": "src/delivery-ledger.mjs"
-        },
-        {
-          "left_path": "src/",
-          "right_path": "src/delivery-check-worker.mjs"
-        },
-        {
-          "left_path": "test/",
-          "right_path": "test/field-verification.test.mjs"
-        }
-      ],
-      "resolution": "explicit-bidirectional"
-    },
-    {
-      "kind": "affected-path",
-      "left_work_item_id": "WI-0230",
-      "right_work_item_id": "WI-0233",
-      "paths": [
-        {
-          "left_path": "src/",
-          "right_path": "src/evidence-bundle.mjs"
-        },
-        {
-          "left_path": "src/",
-          "right_path": "src/reconciliation.mjs"
-        },
-        {
-          "left_path": "src/",
-          "right_path": "src/delivery-attention.mjs"
-        },
-        {
-          "left_path": "test/",
-          "right_path": "test/field-evidence.test.mjs"
-        },
-        {
-          "left_path": "test/",
-          "right_path": "test/field-reconciliation.test.mjs"
-        },
-        {
-          "left_path": "test/",
-          "right_path": "test/field-attention.test.mjs"
-        }
-      ],
-      "resolution": "explicit-bidirectional"
-    }
-  ],
+  "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
     "runtime_capacity_limit": 1,

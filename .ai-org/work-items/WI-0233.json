@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0233",
   "title": "Implement durable evidence and collaborative reconciliation",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-15T16:55:50.962Z",
-  "updated_at": "2026-09-15T17:53:20.937Z",
+  "updated_at": "2026-09-15T18:12:58.166Z",
   "scope": [
     "F08-F10 core APIs; V08 V10-V12 V15. Parent owns status, observer, console, CLI and schemas."
   ],
@@ -47,7 +47,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "535c306e38355864adc336f0a1289f105855bbdd",
+  "base_revision": "aff1b86e608b15273f9874cc49971cab9e69940a",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-rikku",
   "planned_agent_id": null,
@@ -59,10 +59,10 @@
     "WI-0230 owns integration callers and canonical lifecycle records; this child exclusively owns its listed module and test paths."
   ],
   "claim": {
-    "id": "claim-20260915174525-b7536717",
+    "id": "claim-20260915181257-00738e55",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
+    "agent_id": "agent-mog",
     "actor_provenance": {
       "selection": "explicit-agent",
       "principal_source": "explicit-principal",
@@ -71,15 +71,13 @@
       "provider_authenticated": false,
       "externally_supplied_evidence": false
     },
-    "position_id": "developer",
-    "base_revision": "535c306e38355864adc336f0a1289f105855bbdd",
+    "position_id": "release_manager",
+    "base_revision": "aff1b86e608b15273f9874cc49971cab9e69940a",
     "branch": "codex/field-remediation",
     "worktree": null,
-    "claimed_at": "2026-09-15T17:45:25.424Z",
-    "released_at": "2026-09-15T17:53:18.827Z",
-    "release_reason": [
-      "Repaired candidate handed off for independent recheck"
-    ]
+    "claimed_at": "2026-09-15T18:12:57.782Z",
+    "released_at": "2026-09-15T18:12:58.166Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -181,6 +179,73 @@
       "release_reason": [
         "Repaired candidate handed off for independent recheck"
       ]
+    },
+    {
+      "id": "claim-20260915181254-6ceaf634",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "quality_evaluator",
+      "base_revision": "aff1b86e608b15273f9874cc49971cab9e69940a",
+      "branch": "codex/field-remediation",
+      "worktree": null,
+      "claimed_at": "2026-09-15T18:12:54.324Z",
+      "released_at": "2026-09-15T18:12:55.478Z",
+      "release_reason": [
+        "Actual evaluation judgment recorded; administrative Position handoff."
+      ]
+    },
+    {
+      "id": "claim-20260915181256-3915eb8a",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "independent_qa",
+      "base_revision": "aff1b86e608b15273f9874cc49971cab9e69940a",
+      "branch": "codex/field-remediation",
+      "worktree": null,
+      "claimed_at": "2026-09-15T18:12:56.264Z",
+      "released_at": "2026-09-15T18:12:57.007Z",
+      "release_reason": [
+        "Independent evidence judgment recorded; release owner records bounded local closeout."
+      ]
+    },
+    {
+      "id": "claim-20260915181257-00738e55",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "release_manager",
+      "base_revision": "aff1b86e608b15273f9874cc49971cab9e69940a",
+      "branch": "codex/field-remediation",
+      "worktree": null,
+      "claimed_at": "2026-09-15T18:12:57.782Z",
+      "released_at": "2026-09-15T18:12:58.166Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -204,6 +269,27 @@
     ],
     "developer_evidence": [
       ".ai-org/artifacts/WI-0230/rework-01-verification.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0230/rework-02-independent-review.md"
+    ],
+    "evaluation_report": [
+      ".ai-org/artifacts/WI-0230/rework-02-independent-review.md"
+    ],
+    "independent_qa_pass": [
+      ".ai-org/artifacts/WI-0230/rework-02-independent-review.md"
+    ],
+    "accepted_scope": [
+      "docs/planning/field-remediation.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0230/rework-02-independent-review.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0233/release-record.md"
+    ],
+    "required_human_approval": [
+      "not-required"
     ]
   },
   "evidence": [
@@ -216,10 +302,14 @@
     ".ai-org/artifacts/WI-0233/handoff-004-developer-to-quality_evaluator.md",
     ".ai-org/artifacts/WI-0230/verification-report.md",
     ".ai-org/artifacts/WI-0233/handoff-005-developer-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0230/rework-01-verification.md"
+    ".ai-org/artifacts/WI-0230/rework-01-verification.md",
+    ".ai-org/artifacts/WI-0230/rework-02-independent-review.md",
+    ".ai-org/artifacts/WI-0233/handoff-006-quality_evaluator-to-independent_qa.md",
+    ".ai-org/artifacts/WI-0233/handoff-007-independent_qa-to-release_manager.md",
+    ".ai-org/artifacts/WI-0233/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "engineering_manager",
@@ -278,6 +368,40 @@
       "input_revision": "aff1b86e608b15273f9874cc49971cab9e69940a",
       "artifact": ".ai-org/artifacts/WI-0233/handoff-005-developer-to-quality_evaluator.md",
       "created_at": "2026-09-15T17:53:17.860Z"
+    },
+    {
+      "from_position": "quality_evaluator",
+      "to_position": "independent_qa",
+      "actor": "agent-lulu",
+      "principal_id": "human",
+      "actor_provenance": {
+        "selection": "active-claim",
+        "principal_source": "active-claim",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "input_revision": "aff1b86e608b15273f9874cc49971cab9e69940a",
+      "artifact": ".ai-org/artifacts/WI-0233/handoff-006-quality_evaluator-to-independent_qa.md",
+      "created_at": "2026-09-15T18:12:55.102Z"
+    },
+    {
+      "from_position": "independent_qa",
+      "to_position": "release_manager",
+      "actor": "agent-lulu",
+      "principal_id": "human",
+      "actor_provenance": {
+        "selection": "active-claim",
+        "principal_source": "active-claim",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "input_revision": "aff1b86e608b15273f9874cc49971cab9e69940a",
+      "artifact": ".ai-org/artifacts/WI-0233/handoff-007-independent_qa-to-release_manager.md",
+      "created_at": "2026-09-15T18:12:56.642Z"
     }
   ],
   "rework_history": [
@@ -321,5 +445,11 @@
       ]
     }
   ],
-  "developer_candidate_revision": "aff1b86e608b15273f9874cc49971cab9e69940a"
+  "developer_candidate_revision": "aff1b86e608b15273f9874cc49971cab9e69940a",
+  "tested_revision": "aff1b86e608b15273f9874cc49971cab9e69940a",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": "not-required"
 }

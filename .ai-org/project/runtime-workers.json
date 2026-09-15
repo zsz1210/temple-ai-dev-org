@@ -2288,6 +2288,34 @@
       "attached_at": "2026-09-15T17:54:00.186Z",
       "completed_at": "2026-09-15T18:00:23.015Z",
       "updated_at": "2026-09-15T18:00:23.015Z"
+    },
+    {
+      "id": "worker-20260915180146-00efeac8",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0230",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260915180147-f873e8fe",
+      "base_revision": "8bfe38892283744ba0c71bec0cd25f7cf1a02986",
+      "branch": "codex/field-remediation",
+      "worktree": null,
+      "plan_fingerprint": "5466c0da96052e36fca7be28c6ae496041ba7eabe40e7397ff6f92185981ebeb",
+      "plan_digest": "a3c2301863e84e733e4a1921fc5131d53a71e8ba467e8d33bf9ced241c359a61",
+      "preparation_fingerprint": "bdd245a4fed4205796a4c5859fd1ac6ca4f12bb642d528ccbc3dd9c651f1b8d1",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/field_release_review",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "8bfe38892283744ba0c71bec0cd25f7cf1a02986",
+      "evidence": [
+        ".ai-org/artifacts/WI-0230/rework-02-independent-review.md"
+      ],
+      "reserved_at": "2026-09-15T18:01:46.902Z",
+      "attached_at": "2026-09-15T18:02:17.750Z",
+      "completed_at": "2026-09-15T18:11:31.339Z",
+      "updated_at": "2026-09-15T18:11:31.339Z"
     }
   ]
 }

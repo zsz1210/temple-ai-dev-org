@@ -13,4 +13,16 @@ No production module in `src/` changed after `aff1b86e`. The new candidate still
 
 The browser observation on `535c306e38355864adc336f0a1289f105855bbdd` remains applicable to unchanged dashboard/server/status/observer/attention/browser-script sources. Four viewports, six primary views, reduced motion and six synthetic attention states passed. `.ai-org/artifacts/WI-0230/ui-runtime.png` was visually inspected: completed review, environmental impediment, next step, not-running execution and not-complete acceptance agree. The independent reviewer also examined this image. No new browser execution is claimed for this attempt.
 
-The full corrected run, final independent decision and Doctor results will be appended when observed. Existing V01-V16/F01-F13 coverage is in the main verification record; no new scope, publication, deployment or external permission change is included.
+## Exact final verification
+
+Candidate `8bfe38892283744ba0c71bec0cd25f7cf1a02986` passed `npm run verify` on macOS / Node v24.20.0: 1250 tests, 1250 passed, 0 failed/cancelled/skipped/todo, 285611.118583 ms. The real Console refresh event test passed in 1754.319583 ms. Repository, documentation-link and package checks passed; package boundary was 443 files, 999159 packed bytes and 3880242 unpacked bytes.
+
+The raw full-run log is preserved in `verification-8bfe3889.log.gz`; the uncompressed SHA-256 is `a4ab6f69103f606850046f912cec6460e3f8322951da5cffe69a80135ba8030a`. `verification-metrics.json` records every attempt, digest, measured installation/browser applicability and the synthetic contributor timing limits. Earlier failed attempts remain preserved.
+
+`rework-02-independent-review.md` records actual independent Test/Eval/Independent QA PASS judgments for all V01-V16, IR-01/IR-02/IR-03 corrections and the unchanged named module candidates. It independently exercises the copied public JSON, successful reuse without execution and missing-PATH refusal. No behavioral files changed after the tested candidate. Canonical gate recording, derived views and final repository diagnostics are administrative closeout and are recorded separately.
+
+## Canonical closeout diagnostics
+
+WI-0230 and all three joined module items reached `done` with actual independent evidence, exact candidate references and rollback records. After rebuilding the parallel plan and Status, Doctor reported healthy: 37 pass, one legacy actor-policy warning, zero failures. This warning preserves existing project policy; no implicit migration was performed. Status reports acceptance complete, execution not running, no active claim and no unresolved item for WI-0230. The subsequent changes contain only canonical administration, evidence and report prose.
+
+Existing F01-F13 coverage is in the main verification record; no new scope, publication, deployment or external permission change is included.
