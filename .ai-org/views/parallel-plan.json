@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-15T23:23:07.853Z",
-  "source_fingerprint": "cf8f832e5be5fc49c190d2c3fffce2e788476e9efffab6d2bb8d7ea109c2916d",
+  "generated_at": "2026-09-15T23:31:18.822Z",
+  "source_fingerprint": "820ab33498c5ea89da7d41af0632c563ecd706eae976f6035864aa209812f923",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -12,67 +12,61 @@
       "WI-0237"
     ]
   },
-  "max_workers": 3,
+  "max_workers": 1,
   "summary": {
     "selected": 4,
     "dispatchable": 0,
-    "active": 3,
-    "sequential": 1,
+    "active": 1,
+    "sequential": 3,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
   "active": [
     {
-      "work_item_id": "WI-0235",
-      "title": "Audit and prune redundant core runtime tests",
+      "work_item_id": "WI-0234",
+      "title": "Prune redundant tests with retained regression coverage",
       "disposition": "active",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
       "integration_owner_agent_id": "agent-rikku",
       "reasons": [],
-      "claim_id": "claim-20260915231900-439a8251",
+      "claim_id": "claim-20260915233053-35ff5fa4",
       "principal_id": "human",
       "branch": "codex/prune-redundant-tests",
       "worktree": null,
-      "base_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01"
-    },
-    {
-      "work_item_id": "WI-0236",
-      "title": "Audit and prune redundant offline harness tests",
-      "disposition": "active",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
-      "integration_owner_agent_id": "agent-rikku",
-      "reasons": [],
-      "claim_id": "claim-20260915231900-35eb1df0",
-      "principal_id": "human",
-      "branch": "codex/prune-redundant-tests",
-      "worktree": null,
-      "base_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01"
-    },
-    {
-      "work_item_id": "WI-0237",
-      "title": "Audit and prune redundant optional runtime tests",
-      "disposition": "active",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
-      "integration_owner_agent_id": "agent-rikku",
-      "reasons": [],
-      "claim_id": "claim-20260915231901-1d759d1f",
-      "principal_id": "human",
-      "branch": "codex/prune-redundant-tests",
-      "worktree": null,
-      "base_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01"
+      "base_revision": "93fe381da11621d48493f350e67f9b8bfa51ef8c"
     }
   ],
   "sequential": [
     {
-      "work_item_id": "WI-0234",
-      "title": "Prune redundant tests with retained regression coverage",
+      "work_item_id": "WI-0235",
+      "title": "Audit and prune redundant core runtime tests",
       "disposition": "sequential",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-rikku",
+      "reasons": [
+        "requested_mode_sequential"
+      ]
+    },
+    {
+      "work_item_id": "WI-0236",
+      "title": "Audit and prune redundant offline harness tests",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-rikku",
+      "reasons": [
+        "requested_mode_sequential"
+      ]
+    },
+    {
+      "work_item_id": "WI-0237",
+      "title": "Audit and prune redundant optional runtime tests",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
       "integration_owner_agent_id": "agent-rikku",
       "reasons": [
         "requested_mode_sequential"
@@ -536,7 +530,7 @@
   ],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 3,
+    "runtime_capacity_limit": 1,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

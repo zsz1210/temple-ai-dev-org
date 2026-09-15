@@ -4,12 +4,14 @@ The maintainer authorized auditing the previously measured 1250 tests and deleti
 
 ## Completed change
 
-Fourteen unnecessary registrations were removed across eight files, without deleting a test file, narrowing discovery, introducing skips or changing production behavior. Ten removals have equivalent retained behavioral coverage; four stop locking decorative text or literal presentation tables. Five duplicate repository-fixture executions were eliminated. Existing detailed scenarios now retain every generic stopped/persisted/sealed/no-turn assertion from those five runs; no distinct failure mode was eliminated. The expected full count is 1236, to be confirmed by the complete final run.
+Thirteen unnecessary registrations were removed and one existing browser contract was rewritten across eight files, without deleting a test file, narrowing discovery, introducing skips or changing production behavior. Ten removals have equivalent retained behavioral coverage; three stop locking decorative text or SVG labels. Five duplicate repository-fixture executions were eliminated. Existing detailed scenarios now retain every generic stopped/persisted/sealed/no-turn assertion from those five runs; no distinct failure mode was eliminated. The expected full count is 1237, to be confirmed by the complete final run.
+
+The initial 14-removal candidate was independently rejected before full verification: deleting the browser-table contract lost the guard against an empty viewport list or omitted primary view. The corrected test retains semantic class/target coverage and the actual mobile breakpoint while releasing exact pixel/label pins. `independent-review.md` preserves the rejected attempt and counterexamples; `rework-01-verification.md` describes the correction. Earlier scope audits remain history and must be read with this correction.
 
 | Removed case or category | Count | Remaining protection or intentional difference |
 | --- | ---: | --- |
 | Static L1-L6 SVG label snapshot | 1 | Link parser and actual missing-asset checks remain. Exact diagram labels are intentionally no longer locked. |
-| Browser literal viewport/navigation table copy | 1 | Existing real browser sweep and navigation/parser contracts remain unchanged. Exact table duplication was not a runtime check. |
+| Browser literal viewport/navigation table copy | Rewritten, not deleted | Retains all four responsive classes, valid increasing dimensions, the mobile breakpoint and six stable navigation targets. Exact pixels/labels/order are no longer fixed. |
 | Decorative chamber output and optional-command help prose | 2 | Decorative copy is not enforced. Actual Console/Collector separation and command execution remain tested. |
 | Direct terminal-classifier duplicate | 1 | Existing App Server replay fixtures cover completed, invalid schema and interrupted outcomes through the same helper. Exact error prose is not locked. |
 | Earlier copy-collision duplicate | 1 | The retained later ordinary copy collision follows the same atomic-create branch, preserves competing bytes, requires EEXIST/no lock and additionally proves rollback. Distinct Claude copy behavior remains. |
@@ -17,7 +19,7 @@ Fourteen unnecessary registrations were removed across eight files, without dele
 | Identical format-command and model-observation tests copied into another harness | 2 | Byte-identical tests remain in context-format-comparison with the same imports, input and assertions. Each harness retains its different execution/approval/budget contracts. |
 | Repeated partial-usage, early-wrong-usage, private-command, route and interrupt-failure runs | 5 | The same five modes already run in the detailed diagnostic test. The old generic assertion set is now applied to those existing results, avoiding five additional fixture clones/replays. |
 
-Exact old titles, retained test titles, assertion differences and complete file-level retention decisions are in `root-audit.md`, `../WI-0235/audit.md`, `../WI-0236/audit.md` and `../WI-0237/audit.md`. The test patch has 15 added and 145 removed lines (net -130). Cases were not bundled solely to improve the reported count.
+Exact old titles, retained test titles, assertion differences and complete file-level retention decisions are in `root-audit.md`, `../WI-0235/audit.md`, `../WI-0236/audit.md` and `../WI-0237/audit.md`, qualified by the browser correction above. Cases were not bundled solely to improve the reported count.
 
 ## Why the remaining tests stay
 
@@ -33,6 +35,6 @@ During shared-checkout parallel auditing, Doctor exposed duplicate active claim 
 
 ## Interpretation and boundary
 
-Removing 14 of 1250 registrations is 1.12 percent. Five eliminated clones/replays and fewer duplicated assertions are concrete reductions; summed concurrent test durations are not wall-clock savings. A later single whole-suite time sample is diagnostic, not a controlled speed benchmark. No model generation, account polling or monetary measurement was performed. The next useful optimization would target repeated setup/CLI startup while retaining unique cases, under a separately authorized scope.
+Removing 13 of 1250 registrations is 1.04 percent. Five eliminated clones/replays and fewer duplicated assertions are concrete reductions; summed concurrent test durations are not wall-clock savings. A later single whole-suite time sample is diagnostic, not a controlled speed benchmark. No model generation, account polling or monetary measurement was performed. The next useful optimization would target repeated setup/CLI startup while retaining unique cases, under a separately authorized scope.
 
 This slice changes tests and work evidence only. No main merge, external publication, downstream adoption or broader policy change is included.

@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0235",
   "title": "Audit and prune redundant core runtime tests",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-15T23:18:42.660Z",
-  "updated_at": "2026-09-15T23:29:41.036Z",
+  "updated_at": "2026-09-15T23:30:49.336Z",
   "scope": [
     "Audit every file in audit-inventory.json groups.core; remove only justified redundant tests and document retained protection. Own those test paths and this child audit report only."
   ],
@@ -91,10 +91,10 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01",
+  "base_revision": "93fe381da11621d48493f350e67f9b8bfa51ef8c",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-rikku",
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": null,
   "shared_contract_refs": [
     ".ai-org/artifacts/WI-0234/pruning-plan.md"
   ],
@@ -103,7 +103,7 @@
     "WI-0234 owns integration, ten fast contract tests and aggregate artifacts; this child owns only its explicitly listed tests and its audit report."
   ],
   "claim": {
-    "id": "claim-20260915231900-439a8251",
+    "id": "claim-20260915233048-3d2a97df",
     "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
@@ -116,13 +116,13 @@
       "externally_supplied_evidence": false
     },
     "position_id": "developer",
-    "base_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01",
+    "base_revision": "93fe381da11621d48493f350e67f9b8bfa51ef8c",
     "branch": "codex/prune-redundant-tests",
     "worktree": null,
-    "claimed_at": "2026-09-15T23:19:00.439Z",
-    "released_at": "2026-09-15T23:27:18.397Z",
+    "claimed_at": "2026-09-15T23:30:48.191Z",
+    "released_at": "2026-09-15T23:30:48.950Z",
     "release_reason": [
-      "All core test edits frozen, 48 focused tests passed; root will record the joined candidate."
+      "Exact candidate handed off for full verification and independent review."
     ]
   },
   "claims": [
@@ -217,6 +217,29 @@
       "release_reason": [
         "All core test edits frozen, 48 focused tests passed; root will record the joined candidate."
       ]
+    },
+    {
+      "id": "claim-20260915233048-3d2a97df",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "developer",
+      "base_revision": "93fe381da11621d48493f350e67f9b8bfa51ef8c",
+      "branch": "codex/prune-redundant-tests",
+      "worktree": null,
+      "claimed_at": "2026-09-15T23:30:48.191Z",
+      "released_at": "2026-09-15T23:30:48.950Z",
+      "release_reason": [
+        "Exact candidate handed off for full verification and independent review."
+      ]
     }
   ],
   "gate_evidence": {
@@ -234,13 +257,23 @@
     ],
     "risk_review": [
       ".ai-org/artifacts/WI-0234/pruning-plan.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0235/handoff-004-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0234/verification.md",
+      ".ai-org/artifacts/WI-0235/audit.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0235/handoff-001-engineering_manager-to-product_manager.md",
     ".ai-org/artifacts/WI-0234/pruning-plan.md",
     ".ai-org/artifacts/WI-0235/handoff-002-product_manager-to-tech_lead.md",
-    ".ai-org/artifacts/WI-0235/handoff-003-tech_lead-to-developer.md"
+    ".ai-org/artifacts/WI-0235/handoff-003-tech_lead-to-developer.md",
+    ".ai-org/artifacts/WI-0235/handoff-004-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0234/verification.md",
+    ".ai-org/artifacts/WI-0235/audit.md"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -295,6 +328,24 @@
       "input_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01",
       "artifact": ".ai-org/artifacts/WI-0235/handoff-003-tech_lead-to-developer.md",
       "created_at": "2026-09-15T23:18:46.612Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "principal_id": "human",
+      "actor_provenance": {
+        "selection": "active-claim",
+        "principal_source": "active-claim",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "input_revision": "93fe381da11621d48493f350e67f9b8bfa51ef8c",
+      "artifact": ".ai-org/artifacts/WI-0235/handoff-004-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-15T23:30:48.577Z"
     }
-  ]
+  ],
+  "developer_candidate_revision": "93fe381da11621d48493f350e67f9b8bfa51ef8c"
 }

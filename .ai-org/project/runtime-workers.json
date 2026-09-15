@@ -2400,6 +2400,34 @@
       "attached_at": "2026-09-15T23:20:04.538Z",
       "completed_at": "2026-09-15T23:24:23.097Z",
       "updated_at": "2026-09-15T23:24:23.097Z"
+    },
+    {
+      "id": "worker-20260915233053-33b568eb",
+      "runtime_kind": "internal-subagent",
+      "status": "failed",
+      "work_item_id": "WI-0234",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260915233053-35ff5fa4",
+      "base_revision": "93fe381da11621d48493f350e67f9b8bfa51ef8c",
+      "branch": "codex/prune-redundant-tests",
+      "worktree": null,
+      "plan_fingerprint": "55b17731ebc011bdf6f6b8b9600edbdfa81b4ef983b0b7242fc22563d80e66ba",
+      "plan_digest": "88c21f233db237639b27be0ae91d92a9678a49df29219c575bb2fb53e272279e",
+      "preparation_fingerprint": "cef18499d4bff847da28998cc3ed0529b1ab69dc6bb1f515d714e15beb6afcae",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/pruning_independent_review",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "93fe381da11621d48493f350e67f9b8bfa51ef8c",
+      "evidence": [
+        ".ai-org/artifacts/WI-0234/independent-review.md"
+      ],
+      "reserved_at": "2026-09-15T23:30:53.942Z",
+      "attached_at": "2026-09-15T23:31:18.398Z",
+      "completed_at": "2026-09-15T23:36:30.068Z",
+      "updated_at": "2026-09-15T23:36:30.068Z"
     }
   ]
 }

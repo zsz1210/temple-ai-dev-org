@@ -7,7 +7,7 @@
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 237 total, 4 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 85 registered, 0 reserved, 0 active
+- Runtime workers: 86 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 24
+- Attention signals: 25
 
 ## Collaboration
 
@@ -40,7 +40,7 @@
 - Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 3 / 1 / 0
+- Active / sequential / blocked: 1 / 3 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -281,10 +281,10 @@
 | WI-0231 | Implement contributor attribution and Agent resolution | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `535c306e` | 0 | 12 | 0 |
 | WI-0232 | Implement reusable measurements and portable command checks | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `535c306e` | 0 | 12 | 0 |
 | WI-0233 | Implement durable evidence and collaborative reconciliation | done | Engineering Manager | Mog | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aff1b86e` | 0 | 14 | 0 |
-| WI-0234 | Prune redundant tests with retained regression coverage | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260915232942-be813138 | `—` | 0 | 4 | 0 |
-| WI-0235 | Audit and prune redundant core runtime tests | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 4 | 0 |
-| WI-0236 | Audit and prune redundant offline harness tests | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 4 | 0 |
-| WI-0237 | Audit and prune redundant optional runtime tests | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 4 | 0 |
+| WI-0234 | Prune redundant tests with retained regression coverage | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260915233723-dd45f68c | `—` | 0 | 7 | 0 |
+| WI-0235 | Audit and prune redundant core runtime tests | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `93fe381d` | 0 | 7 | 0 |
+| WI-0236 | Audit and prune redundant offline harness tests | test | Quality & Evaluation Engineer | Lulu | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `93fe381d` | 0 | 7 | 0 |
+| WI-0237 | Audit and prune redundant optional runtime tests | build | Developer | Rikku | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `—` | 0 | 7 | 0 |
 
 ## Delivery attention
 
@@ -403,6 +403,7 @@
 | worker-20260915231900-bcd542de | internal-subagent | WI-0235 | Developer / Rikku | completed | /root/prune_core_tests | `—` | 0 |
 | worker-20260915231900-1a6f0e7c | internal-subagent | WI-0236 | Developer / Rikku | completed | /root/prune_harness_tests | `—` | 0 |
 | worker-20260915231901-ef1dc0fc | internal-subagent | WI-0237 | Developer / Rikku | completed | /root/prune_optional_tests | `—` | 0 |
+| worker-20260915233053-33b568eb | internal-subagent | WI-0234 | Quality & Evaluation Engineer / Lulu | failed | /root/pruning_independent_review | `93fe381d` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -433,6 +434,7 @@
 - worker-20260905141644-4a85d8c7 is failed
 - worker-20260915174040-464e550f is failed
 - worker-20260915175330-3e16bfe8 is failed
+- worker-20260915233053-33b568eb is failed
 - Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
@@ -514,14 +516,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-15T23:29:42.389Z | work_item_claimed | WI-0234 | human |
-| 2026-09-15T23:29:41.898Z | work_item_coordination_configured | WI-0237 | agent-rikku |
-| 2026-09-15T23:29:41.456Z | work_item_coordination_configured | WI-0236 | agent-rikku |
-| 2026-09-15T23:29:41.036Z | work_item_coordination_configured | WI-0235 | agent-rikku |
-| 2026-09-15T23:29:40.653Z | work_item_claim_released | WI-0236 | human |
-| 2026-09-15T23:29:40.316Z | runtime_worker_status_changed | WI-0236 | agent-rikku |
-| 2026-09-15T23:27:18.397Z | work_item_claim_released | WI-0235 | human |
-| 2026-09-15T23:27:18.057Z | runtime_worker_status_changed | WI-0235 | agent-rikku |
+| 2026-09-15T23:37:23.972Z | work_item_claimed | WI-0234 | human |
+| 2026-09-15T23:37:23.563Z | work_item_claim_released | WI-0237 | human |
+| 2026-09-15T23:36:32.251Z | work_item_claimed | WI-0237 | human |
+| 2026-09-15T23:36:31.822Z | work_item_coordination_configured | WI-0234 | agent-rikku |
+| 2026-09-15T23:36:31.439Z | work_item_reworked | WI-0237 | agent-lulu |
+| 2026-09-15T23:36:31.041Z | work_item_claimed | WI-0237 | human |
+| 2026-09-15T23:36:30.553Z | work_item_reworked | WI-0234 | agent-lulu |
+| 2026-09-15T23:36:30.068Z | runtime_worker_status_changed | WI-0234 | agent-lulu |
 
 ## Assignments
 
