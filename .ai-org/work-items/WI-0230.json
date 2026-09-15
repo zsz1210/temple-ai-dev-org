@@ -1,0 +1,95 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0230",
+  "title": "Complete field-driven collaboration and delivery remediation",
+  "state": "intake",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
+  "created_at": "2026-09-15T16:47:34.185Z",
+  "updated_at": "2026-09-15T16:47:48.422Z",
+  "scope": [
+    "Design and implement all thirteen field findings: ordinary attribution, member Agent selection and naming, Solo transition, risk defaults, recovery guidance, verification reuse and status, durable evidence, collaborative reconciliation, supported execution adapters and consistent documentation."
+  ],
+  "acceptance_criteria": [
+    "Deliver the sixteen frozen field acceptance scenarios with meaningful positive and negative evidence, full Node 24 verification, applicable browser checks, independent review and explicit real-environment limitations."
+  ],
+  "affected_paths": [
+    "src/",
+    "test/",
+    "scripts/",
+    "docs/",
+    "project-overlay/",
+    ".agents/skills/",
+    ".github/",
+    ".ai-org/decisions/",
+    ".ai-org/artifacts/",
+    "README.md",
+    "README.ja.md",
+    "README.zh-TW.md",
+    "CHANGELOG.md",
+    "TEMPLE.md"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "code-first",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [
+      "schema-or-data-migration"
+    ],
+    "rationale": "Maintainer-authorized reversible framework implementation and offline compatibility validation. Local attribution is not provider authentication; hosting permissions and external operations remain unchanged. Retain strict assurance checks and independent review; no production activation or publication in this work item.",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-15T16:47:34.185Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "e63829dc01e50a10e8bbb4c7cdd4ea2a950c6f6b",
+  "parallel_mode": "sequential",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260915164748-c2822577",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-mog",
+    "base_revision": "e63829dc01e50a10e8bbb4c7cdd4ea2a950c6f6b",
+    "branch": "codex/field-remediation",
+    "worktree": null,
+    "claimed_at": "2026-09-15T16:47:48.422Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260915164748-c2822577",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "base_revision": "e63829dc01e50a10e8bbb4c7cdd4ea2a950c6f6b",
+      "branch": "codex/field-remediation",
+      "worktree": null,
+      "claimed_at": "2026-09-15T16:47:48.422Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {},
+  "evidence": [],
+  "unresolved": [],
+  "next_position": "product_manager"
+}
