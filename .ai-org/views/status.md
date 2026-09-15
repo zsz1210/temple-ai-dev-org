@@ -277,7 +277,7 @@
 | WI-0227 | Reduce always-loaded operating instructions without weakening gates | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f7062396` | 0 | 8 | 0 |
 | WI-0228 | Accept retained offline evaluation reliability independently of rejected Lean prototype | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 7 | 0 |
 | WI-0229 | Add opt-in exact-text mechanical completion with fail-closed boundaries | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e9c9ade2` | 0 | 13 | 0 |
-| WI-0230 | Complete field-driven collaboration and delivery remediation | intake | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260915164748-c2822577 | `—` | 0 | 0 | 0 |
+| WI-0230 | Complete field-driven collaboration and delivery remediation | spec | Product Manager | Yuna | sequential | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260915164857-054d6011 | `—` | 0 | 2 | 0 |
 
 ## Codex task registry
 
@@ -484,14 +484,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-15T16:48:57.066Z | work_item_claimed | WI-0230 | human |
+| 2026-09-15T16:48:56.365Z | work_item_transitioned | WI-0230 | agent-mog |
+| 2026-09-15T16:48:56.016Z | work_item_claim_released | WI-0230 | human |
+| 2026-09-15T16:48:55.673Z | handoff_created | WI-0230 | agent-mog |
 | 2026-09-15T16:47:48.422Z | work_item_claimed | WI-0230 | human |
 | 2026-09-15T16:47:48.034Z | work_item_coordination_configured | WI-0230 | agent-mog |
 | 2026-09-15T16:47:34.185Z | work_item_created | WI-0230 | agent-mog |
 | 2026-09-09T13:52:30.148Z | work_item_concluded | WI-0224 | agent-mog |
-| 2026-09-09T13:52:30.148Z | release_gate_completed | WI-0224 | agent-mog |
-| 2026-09-09T13:52:29.870Z | work_item_claimed | WI-0224 | human |
-| 2026-09-09T13:52:29.557Z | work_item_closed | WI-0220 | agent-mog |
-| 2026-09-09T13:52:29.557Z | release_gate_completed | WI-0220 | agent-mog |
 
 ## Assignments
 
