@@ -11,4 +11,12 @@ Developer: agent-rikku. Scope: WI-0230 integration and WI-0233 reconciliation. R
 
 The root's real public CLI regression passed four tests, including successful canonical merge plus fresh generated plan/status and an actual filesystem failure after canonical merge followed by view-only recovery. It verifies no canonical replay, no fabricated acceptance and retained worker ceiling. This is focused editing evidence only.
 
-The corrected candidate, complete suite, independent recheck and final diagnostics will be appended after they run. Previous browser evidence applies to the unchanged console source; source/data compatibility remains subject to the final full run. Windows execution and independent human-machine trials remain unperformed as documented in the main verification record.
+Corrected behavioral candidate: `aff1b86e608b15273f9874cc49971cab9e69940a`. Reconciliation focused verification passed 25/25 in 9.114 seconds, including the earlier actual SIGKILL recovery. Full `npm run verify` is in progress for this exact candidate; no full result is asserted here yet.
+
+## Runtime visual review applicability
+
+The real browser gate on `535c306e38355864adc336f0a1289f105855bbdd` passed four viewports, six primary views, reduced motion and six synthetic attention states. Its screenshot is retained at `.ai-org/artifacts/WI-0230/ui-runtime.png` and was visually inspected: the awaiting-environment row shows completed review, not-running execution, not-complete acceptance, the environmental impediment and a next step. Synthetic labels are intentional, not product observations.
+
+The diff from `535c306e` to `aff1b86e` is empty for `src/control-plane-dashboard.mjs`, `src/control-plane-server.mjs`, `src/status.mjs`, `src/observer.mjs`, `src/delivery-attention.mjs` and `scripts/verify-console-browser.mjs`. This attempt references compatible prior browser measurements and makes their applicability explicit; it does not claim another browser run occurred. Final full-suite and independent judgments still govern acceptance.
+
+Windows execution and independent human-machine trials remain unperformed as documented in the main verification record.

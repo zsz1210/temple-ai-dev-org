@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0233",
   "title": "Implement durable evidence and collaborative reconciliation",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "test",
+  "owner_position": "quality_evaluator",
+  "assigned_agent_id": "agent-lulu",
   "created_at": "2026-09-15T16:55:50.962Z",
-  "updated_at": "2026-09-15T17:45:25.424Z",
+  "updated_at": "2026-09-15T17:53:20.937Z",
   "scope": [
     "F08-F10 core APIs; V08 V10-V12 V15. Parent owns status, observer, console, CLI and schemas."
   ],
@@ -48,9 +48,9 @@
   "required_disciplines": [],
   "stage_requirements": {},
   "base_revision": "535c306e38355864adc336f0a1289f105855bbdd",
-  "parallel_mode": "parallel",
+  "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-rikku",
-  "planned_agent_id": "agent-rikku",
+  "planned_agent_id": null,
   "shared_contract_refs": [
     "docs/adr/0067-low-friction-collaborative-delivery.md"
   ],
@@ -60,7 +60,7 @@
   ],
   "claim": {
     "id": "claim-20260915174525-b7536717",
-    "status": "active",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "actor_provenance": {
@@ -76,7 +76,10 @@
     "branch": "codex/field-remediation",
     "worktree": null,
     "claimed_at": "2026-09-15T17:45:25.424Z",
-    "released_at": null
+    "released_at": "2026-09-15T17:53:18.827Z",
+    "release_reason": [
+      "Repaired candidate handed off for independent recheck"
+    ]
   },
   "claims": [
     {
@@ -158,7 +161,7 @@
     },
     {
       "id": "claim-20260915174525-b7536717",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "actor_provenance": {
@@ -174,7 +177,10 @@
       "branch": "codex/field-remediation",
       "worktree": null,
       "claimed_at": "2026-09-15T17:45:25.424Z",
-      "released_at": null
+      "released_at": "2026-09-15T17:53:18.827Z",
+      "release_reason": [
+        "Repaired candidate handed off for independent recheck"
+      ]
     }
   ],
   "gate_evidence": {
@@ -192,6 +198,12 @@
     ],
     "risk_review": [
       "docs/adr/0067-low-friction-collaborative-delivery.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0233/handoff-005-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0230/rework-01-verification.md"
     ]
   },
   "evidence": [
@@ -202,7 +214,9 @@
     ".ai-org/artifacts/WI-0233/handoff-003-tech_lead-to-developer.md",
     "docs/adr/0067-low-friction-collaborative-delivery.md",
     ".ai-org/artifacts/WI-0233/handoff-004-developer-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0230/verification-report.md"
+    ".ai-org/artifacts/WI-0230/verification-report.md",
+    ".ai-org/artifacts/WI-0233/handoff-005-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0230/rework-01-verification.md"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -247,6 +261,23 @@
       "input_revision": "535c306e38355864adc336f0a1289f105855bbdd",
       "artifact": ".ai-org/artifacts/WI-0233/handoff-004-developer-to-quality_evaluator.md",
       "created_at": "2026-09-15T17:39:45.676Z"
+    },
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "principal_id": "human",
+      "actor_provenance": {
+        "selection": "active-claim",
+        "principal_source": "active-claim",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "input_revision": "aff1b86e608b15273f9874cc49971cab9e69940a",
+      "artifact": ".ai-org/artifacts/WI-0233/handoff-005-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-15T17:53:17.860Z"
     }
   ],
   "rework_history": [
@@ -289,5 +320,6 @@
         ".ai-org/artifacts/WI-0233/handoff-004-developer-to-quality_evaluator.md"
       ]
     }
-  ]
+  ],
+  "developer_candidate_revision": "aff1b86e608b15273f9874cc49971cab9e69940a"
 }

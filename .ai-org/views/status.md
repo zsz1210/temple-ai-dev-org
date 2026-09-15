@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.32`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 2 active claims)
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 1 wave(s), fresh=false
 - Work items: 233 total, 4 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 80 registered, 0 reserved, 1 active
+- Runtime workers: 81 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 23
+- Attention signals: 24
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 2
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -40,8 +40,8 @@
 - Fresh: no
 - Safe waves: 1
 - Dispatchable Work Items: 1
-- Active / sequential / blocked: 0 / 2 / 0
-- Next wave: WI-0233
+- Active / sequential / blocked: 0 / 3 / 0
+- Next wave: WI-0230
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -277,10 +277,10 @@
 | WI-0227 | Reduce always-loaded operating instructions without weakening gates | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f7062396` | 0 | 8 | 0 |
 | WI-0228 | Accept retained offline evaluation reliability independently of rejected Lean prototype | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `5aca59ce` | 0 | 7 | 0 |
 | WI-0229 | Add opt-in exact-text mechanical completion with fail-closed boundaries | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e9c9ade2` | 0 | 13 | 0 |
-| WI-0230 | Complete field-driven collaboration and delivery remediation | build | Developer | Rikku | parallel | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260915174506-88c35d1e | `—` | 0 | 9 | 0 |
+| WI-0230 | Complete field-driven collaboration and delivery remediation | build | Developer | Rikku | parallel | team-visible | 0 | gate-evidence | code-first | 0 | 0 | 0 | claim-20260915180023-170beab5 | `—` | 0 | 11 | 0 |
 | WI-0231 | Implement contributor attribution and Agent resolution | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `535c306e` | 0 | 8 | 0 |
 | WI-0232 | Implement reusable measurements and portable command checks | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `535c306e` | 0 | 8 | 0 |
-| WI-0233 | Implement durable evidence and collaborative reconciliation | build | Developer | Rikku | parallel | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260915174525-b7536717 | `—` | 0 | 8 | 0 |
+| WI-0233 | Implement durable evidence and collaborative reconciliation | test | Quality & Evaluation Engineer | Lulu | sequential | internal | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aff1b86e` | 0 | 10 | 0 |
 
 ## Delivery attention
 
@@ -290,7 +290,8 @@
   - owner: No active eligible ownership claim is recorded.
 - WI-0232: awaiting-owner — Have the eligible owner claim or resume the next scoped responsibility.
   - owner: No active eligible ownership claim is recorded.
-- WI-0233: active-execution — Await the attached worker's scoped result and evidence.
+- WI-0233: awaiting-owner — Have the eligible owner claim or resume the next scoped responsibility.
+  - owner: No active eligible ownership claim is recorded.
 
 ## Codex task registry
 
@@ -392,7 +393,8 @@
 | worker-20260915165613-d30a234c | internal-subagent | WI-0232 | Developer / Rikku | completed | /root/field_verification | `535c306e` | 0 |
 | worker-20260915165614-9bd36cf7 | internal-subagent | WI-0233 | Developer / Rikku | completed | /root/field_evidence | `535c306e` | 0 |
 | worker-20260915174040-464e550f | internal-subagent | WI-0230 | Quality & Evaluation Engineer / Lulu | failed | /root/field_acceptance | `535c306e` | 0 |
-| worker-20260915174525-432c8360 | internal-subagent | WI-0233 | Developer / Rikku | active | /root/field_reconciliation_repair | `—` | 0 |
+| worker-20260915174525-432c8360 | internal-subagent | WI-0233 | Developer / Rikku | completed | /root/field_reconciliation_repair | `aff1b86e` | 0 |
+| worker-20260915175330-3e16bfe8 | internal-subagent | WI-0230 | Quality & Evaluation Engineer / Lulu | failed | /root/field_final_review | `aff1b86e` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -422,6 +424,7 @@
 - worker-20260905130828-87bb7969 is failed
 - worker-20260905141644-4a85d8c7 is failed
 - worker-20260915174040-464e550f is failed
+- worker-20260915175330-3e16bfe8 is failed
 - Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
@@ -503,14 +506,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-15T17:46:54.629Z | runtime_worker_attached | WI-0233 | agent-rikku |
-| 2026-09-15T17:45:25.397Z | runtime_worker_reserved | WI-0233 | human |
-| 2026-09-15T17:45:25.424Z | work_item_claimed | WI-0233 | human |
-| 2026-09-15T17:45:24.371Z | work_item_coordination_configured | WI-0233 | agent-rikku |
-| 2026-09-15T17:45:06.026Z | work_item_claimed | WI-0230 | human |
-| 2026-09-15T17:45:05.610Z | work_item_reworked | WI-0233 | agent-lulu |
-| 2026-09-15T17:45:05.232Z | work_item_claimed | WI-0233 | human |
-| 2026-09-15T17:45:04.834Z | work_item_reworked | WI-0230 | agent-lulu |
+| 2026-09-15T18:00:23.860Z | work_item_claimed | WI-0230 | human |
+| 2026-09-15T18:00:23.394Z | work_item_reworked | WI-0230 | agent-lulu |
+| 2026-09-15T18:00:23.015Z | runtime_worker_status_changed | WI-0230 | agent-lulu |
+| 2026-09-15T17:54:00.186Z | runtime_worker_attached | WI-0230 | agent-lulu |
+| 2026-09-15T17:53:30.311Z | runtime_worker_reserved | WI-0230 | human |
+| 2026-09-15T17:53:30.414Z | work_item_claimed | WI-0230 | human |
+| 2026-09-15T17:53:26.580Z | work_item_coordination_configured | WI-0230 | agent-lulu |
+| 2026-09-15T17:53:25.415Z | work_item_coordination_configured | WI-0230 | agent-lulu |
 
 ## Assignments
 

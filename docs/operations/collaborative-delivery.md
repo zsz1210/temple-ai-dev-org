@@ -51,12 +51,14 @@ Inspect `measurement capabilities . --json` before selecting an adapter. A measu
   "command": { "executable": "node", "args": ["--test", "test/parser.test.mjs"], "cwd": "." },
   "inputs": { "files": ["src/parser.mjs"], "directories": [], "tests": ["test/parser.test.mjs"], "fixtures": [], "dependencies": ["package-lock.json"] },
   "toolchain": { "identity": "node-24-project-toolchain", "files": [] },
-  "environment": { "identity": "local-development", "names": [] },
+  "environment": { "identity": "local-development", "names": ["PATH"] },
   "timeout_ms": 30000,
   "output_limit_bytes": 1048576,
   "outputs": []
 }
 ```
+
+Bare executable names such as `node` require `PATH` in the declared environment, as above. An absolute executable path avoids that lookup but still requires any environment variables the command itself uses. Undeclared variables are not inherited.
 
 Run `measurement inspect . --config plan.json --json` for read-only reuse eligibility, then `measurement run . --config plan.json --json`. A successful hit returns a completed result with `execution_started:false` and `acceptance_granted:false`. Failed or unavailable execution returns a failing CLI status. CI should execute this command and report its result rather than skip a required workflow using path filters. To share results between clones, restore the selected immutable measurement artifact store with CI's existing artifact mechanism and inspect it again; Temple introduces no hosted cache service.
 

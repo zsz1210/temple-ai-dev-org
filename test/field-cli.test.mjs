@@ -7,6 +7,31 @@ import { cli, fixture, git } from "./helpers/lean-delivery-fixture.mjs";
 import { privateViewerSnapshot } from "../src/control-plane-server.mjs";
 import { inspectParallelPlan } from "../src/orchestration.mjs";
 
+test("V09/V13 public measurement JSON runs verbatim with its declared executable lookup environment", async t => {
+  const target = await fs.mkdtemp(path.join(os.tmpdir(), "temple-field-doc-plan-"));
+  t.after(() => fs.rm(target, { recursive: true, force: true }));
+  const document = await fs.readFile(new URL("../docs/operations/collaborative-delivery.md", import.meta.url), "utf8");
+  const plans = [...document.matchAll(/```json\n([\s\S]*?)\n```/g)].map(match => JSON.parse(match[1]));
+  const plan = plans.find(value => value.schema_version === "temple.measurement-plan/v1");
+  assert.ok(plan, "The public guide must retain an executable measurement example");
+  await fs.mkdir(path.join(target, "src")); await fs.mkdir(path.join(target, "test"));
+  await fs.writeFile(path.join(target, "src/parser.mjs"), "export const parse = value => Number(value);\n");
+  await fs.writeFile(path.join(target, "test/parser.test.mjs"), 'import assert from "node:assert/strict"; import {parse} from "../src/parser.mjs"; assert.equal(parse("42"),42);\n');
+  await fs.writeFile(path.join(target, "package-lock.json"), "{}\n");
+  const config = path.join(target, "plan.json"); await fs.writeFile(config, JSON.stringify(plan));
+  const measured = JSON.parse(cli(["measurement", "run", target, "--config", config, "--json"]).stdout);
+  assert.equal(measured.successful, true);
+  assert.equal(measured.execution_started, true);
+  assert.equal(measured.acceptance_granted, false);
+  const missingLookup = structuredClone(plan); missingLookup.environment.names = [];
+  await fs.writeFile(config, JSON.stringify(missingLookup));
+  const rejected = cli(["measurement", "run", target, "--config", config, "--json"], { allowFailure: true });
+  assert.equal(rejected.status, 1);
+  const result = JSON.parse(rejected.stdout);
+  assert.equal(result.execution_started, false);
+  assert.equal(result.reason, "MEASUREMENT_TOOL_UNAVAILABLE");
+});
+
 test("V06/V07/V09 CLI reports reusable checks, actual execution and failures without stranded required status", async t => {
   const target = await fs.mkdtemp(path.join(os.tmpdir(), "temple-field-cli-"));
   t.after(() => fs.rm(target, { recursive: true, force: true }));

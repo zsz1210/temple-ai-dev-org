@@ -1,11 +1,12 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-15T17:45:24.830Z",
-  "source_fingerprint": "6a798cbee6826cb6791e5515b2333f5e2df992bcdd31f12c909259d1293ec730",
+  "generated_at": "2026-09-15T17:53:28.416Z",
+  "source_fingerprint": "2bca104401304947e861de12afe460361331996810ca90e0be732a6bcc7b045b",
   "scope": {
-    "mode": "parent-descendants",
-    "parent_work_item_id": "WI-0230",
+    "mode": "all-active",
+    "parent_work_item_id": null,
     "selected_work_item_ids": [
+      "WI-0230",
       "WI-0231",
       "WI-0232",
       "WI-0233"
@@ -13,10 +14,10 @@
   },
   "max_workers": 1,
   "summary": {
-    "selected": 3,
+    "selected": 4,
     "dispatchable": 1,
     "active": 0,
-    "sequential": 2,
+    "sequential": 3,
     "blocked": 0,
     "waves": 1
   },
@@ -26,31 +27,39 @@
       "order": 1,
       "dispatch": [
         {
-          "work_item_id": "WI-0233",
-          "title": "Implement durable evidence and collaborative reconciliation",
-          "position_id": "developer",
-          "agent_id": "agent-rikku",
-          "agent_name": "Rikku",
-          "suggested_task_title": "WI-0233 · Implement durable evidence … · Developer (Rikku)",
-          "base_revision": "535c306e38355864adc336f0a1289f105855bbdd",
+          "work_item_id": "WI-0230",
+          "title": "Complete field-driven collaboration and delivery remediation",
+          "position_id": "quality_evaluator",
+          "agent_id": "agent-lulu",
+          "agent_name": "Lulu",
+          "suggested_task_title": "WI-0230 · Complete… · Quality & Evaluation Engineer (Lulu)",
+          "base_revision": "aff1b86e608b15273f9874cc49971cab9e69940a",
           "affected_paths": [
-            "src/evidence-bundle.mjs",
-            "src/reconciliation.mjs",
-            "src/delivery-attention.mjs",
-            "test/field-evidence.test.mjs",
-            "test/field-reconciliation.test.mjs",
-            "test/field-attention.test.mjs"
+            "src/",
+            "test/",
+            "scripts/",
+            "docs/",
+            "project-overlay/",
+            ".agents/skills/",
+            ".github/",
+            ".ai-org/decisions/",
+            ".ai-org/artifacts/",
+            "README.md",
+            "README.ja.md",
+            "README.zh-TW.md",
+            "CHANGELOG.md",
+            "TEMPLE.md"
           ],
           "dependencies": [],
           "required_disciplines": [],
           "active_requirements": {
-            "stage": "build",
+            "stage": "test",
             "disciplines": [],
             "resources": []
           },
-          "preparation_fingerprint": "e30df85352800077a9c6b41b4bde6efab8cc0f9a55256c7ba9f9e46ead24ca53",
+          "preparation_fingerprint": "9d0ba21d12d7adf68f3e628ebfec3c16cfbe729264ac68a0ac2e2e0cec34f82c",
           "integration_owner_agent_id": "agent-rikku",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0233 --position developer --no-write --json",
+          "context_command": "node ./templew.mjs context resolve . --work-item WI-0230 --position quality_evaluator --no-write --json",
           "claim_required_before_work": true,
           "task_registration_required_after_creation": true,
           "task_creation_performed": false,
@@ -94,10 +103,110 @@
       "reasons": [
         "requested_mode_sequential"
       ]
+    },
+    {
+      "work_item_id": "WI-0233",
+      "title": "Implement durable evidence and collaborative reconciliation",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": "agent-rikku",
+      "reasons": [
+        "requested_mode_sequential"
+      ]
     }
   ],
   "blocked": [],
-  "conflicts": [],
+  "conflicts": [
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0230",
+      "right_work_item_id": "WI-0231",
+      "paths": [
+        {
+          "left_path": "src/",
+          "right_path": "src/actor-resolution.mjs"
+        },
+        {
+          "left_path": "src/",
+          "right_path": "src/collaboration.mjs"
+        },
+        {
+          "left_path": "src/",
+          "right_path": "src/local-identity.mjs"
+        },
+        {
+          "left_path": "src/",
+          "right_path": "src/model.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/field-actors.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0230",
+      "right_work_item_id": "WI-0232",
+      "paths": [
+        {
+          "left_path": "src/",
+          "right_path": "src/verification.mjs"
+        },
+        {
+          "left_path": "src/",
+          "right_path": "src/delivery-check.mjs"
+        },
+        {
+          "left_path": "src/",
+          "right_path": "src/delivery-ledger.mjs"
+        },
+        {
+          "left_path": "src/",
+          "right_path": "src/delivery-check-worker.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/field-verification.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0230",
+      "right_work_item_id": "WI-0233",
+      "paths": [
+        {
+          "left_path": "src/",
+          "right_path": "src/evidence-bundle.mjs"
+        },
+        {
+          "left_path": "src/",
+          "right_path": "src/reconciliation.mjs"
+        },
+        {
+          "left_path": "src/",
+          "right_path": "src/delivery-attention.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/field-evidence.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/field-reconciliation.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/field-attention.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    }
+  ],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
     "runtime_capacity_limit": 1,

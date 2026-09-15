@@ -2236,7 +2236,7 @@
     {
       "id": "worker-20260915174525-432c8360",
       "runtime_kind": "internal-subagent",
-      "status": "active",
+      "status": "completed",
       "work_item_id": "WI-0233",
       "position_id": "developer",
       "agent_id": "agent-rikku",
@@ -2252,12 +2252,42 @@
       "runtime_id": "/root/field_reconciliation_repair",
       "task_id": null,
       "resource_reservation_ids": [],
-      "current_revision": null,
-      "evidence": [],
+      "current_revision": "aff1b86e608b15273f9874cc49971cab9e69940a",
+      "evidence": [
+        ".ai-org/artifacts/WI-0230/rework-01-verification.md"
+      ],
       "reserved_at": "2026-09-15T17:45:25.397Z",
       "attached_at": "2026-09-15T17:46:54.629Z",
-      "completed_at": null,
-      "updated_at": "2026-09-15T17:46:54.629Z"
+      "completed_at": "2026-09-15T17:53:17.059Z",
+      "updated_at": "2026-09-15T17:53:17.059Z"
+    },
+    {
+      "id": "worker-20260915175330-3e16bfe8",
+      "runtime_kind": "internal-subagent",
+      "status": "failed",
+      "work_item_id": "WI-0230",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260915175330-b5103739",
+      "base_revision": "aff1b86e608b15273f9874cc49971cab9e69940a",
+      "branch": "codex/field-remediation",
+      "worktree": null,
+      "plan_fingerprint": "2bca104401304947e861de12afe460361331996810ca90e0be732a6bcc7b045b",
+      "plan_digest": "56d8d431daebb1ad0165ed165451eb83210eec8ac5be467b3b68eb57f53091b3",
+      "preparation_fingerprint": "9d0ba21d12d7adf68f3e628ebfec3c16cfbe729264ac68a0ac2e2e0cec34f82c",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/field_final_review",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "aff1b86e608b15273f9874cc49971cab9e69940a",
+      "evidence": [
+        ".ai-org/artifacts/WI-0230/rework-01-independent-review.md"
+      ],
+      "reserved_at": "2026-09-15T17:53:30.311Z",
+      "attached_at": "2026-09-15T17:54:00.186Z",
+      "completed_at": "2026-09-15T18:00:23.015Z",
+      "updated_at": "2026-09-15T18:00:23.015Z"
     }
   ]
 }

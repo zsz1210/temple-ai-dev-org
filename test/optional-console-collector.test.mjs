@@ -142,7 +142,9 @@ test("the optional Console emits a bounded refresh signal after canonical state 
   // This bounds test resources, not an OS notification latency guarantee. The
   // full suite contends with filesystem delivery; also bound connection/read and
   // cancel the timer/stream on both success and failure.
-  const timeout = setTimeout(() => controller.abort(new Error("Console refresh signal timed out")), 10000);
+  // Include headroom for full-suite filesystem/CPU contention. This is a harness
+  // deadline; the refresh event assertion below remains mandatory.
+  const timeout = setTimeout(() => controller.abort(new Error("Console refresh signal timed out")), 30000);
   try {
     const events = await fetch(`${consoleServer.url}/api/v1/events`, { signal: controller.signal });
     const reader = events.body.getReader();
