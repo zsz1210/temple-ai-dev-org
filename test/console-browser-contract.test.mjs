@@ -4,37 +4,12 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
-  CONSOLE_VIEWPORTS,
-  PRIMARY_VIEWS,
   failureScreenshotPath,
   rectanglesIntersect,
   verifyConsoleBrowser
 } from "../scripts/verify-console-browser.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-
-test("browser gate covers the approved responsive viewports and primary views", () => {
-  assert.deepEqual(
-    CONSOLE_VIEWPORTS.map(({ name, width, height }) => [name, width, height]),
-    [
-      ["mobile", 390, 844],
-      ["tablet", 768, 1024],
-      ["desktop", 1440, 1000],
-      ["ultrawide", 3440, 1440]
-    ]
-  );
-  assert.deepEqual(
-    PRIMARY_VIEWS.map(({ target, label }) => [target, label]),
-    [
-      ["now", "Overview"],
-      ["execution", "Work"],
-      ["organization", "Team"],
-      ["usage", "Usage"],
-      ["system", "System"],
-      ["history", "History"]
-    ]
-  );
-});
 
 test("overlap math treats shared edges as separate and catches real intersections", () => {
   const left = { left: 0, right: 100, top: 0, bottom: 100 };

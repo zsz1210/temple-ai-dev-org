@@ -9,7 +9,6 @@ import {
   normalizeTokenUsage,
   parseStructuredCompletion,
   replayAppServerProtocol,
-  terminalFailure,
   WAVE5_ALLOWED_COMMAND_PREFIXES,
   WAVE5_COMPLETION_SCHEMA,
   WAVE5_INHERITED_CODEX_ENVIRONMENT_KEYS,
@@ -120,18 +119,6 @@ test("Wave 5 child threads exclude parent task identity and host capability cont
   assert.equal("runtimeWorkspaceRoots" in thread, false);
   assert.equal("selectedCapabilityRoots" in thread, false);
   assert.equal("environments" in thread, false);
-});
-
-test("terminal classification distinguishes structured-output rejection from other incomplete turns", () => {
-  assert.equal(terminalFailure({ id: "turn-1", status: "completed" }), null);
-  assert.deepEqual(terminalFailure({ status: "failed", error: { code: "invalid_json_schema" } }), {
-    code: "provider-invalid-output-schema",
-    message: "provider rejected the structured-output schema before generation"
-  });
-  assert.deepEqual(terminalFailure({ status: "interrupted" }), {
-    code: "turn-not-completed",
-    message: "turn terminal status interrupted"
-  });
 });
 
 test("structured completion requires exactly the five declared typed fields", () => {

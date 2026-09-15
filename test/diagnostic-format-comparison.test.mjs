@@ -4,9 +4,8 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { schedule, limits, policy, validatePlan, validateApproval, consumeApproval, requestsFor, execute, families, evidenceScope, sealEvidence, verifySeal } from "../scripts/diagnostic-format-comparison.mjs";
-import { digest, contextEntryObservation, tokenBudgetDecision, recordTokenBudget } from "../scripts/delivery-control-pair.mjs";
+import { digest, tokenBudgetDecision, recordTokenBudget } from "../scripts/delivery-control-pair.mjs";
 import { maintenanceTask, maintenanceContract, seedSource, referenceSource } from "../scripts/diagnostic-maintenance-fixture.mjs";
-import { classifyCommandItem } from "../scripts/delivery-command-policy.mjs";
 const plan = () => ({ schema_version: "temple.diagnostic-format-comparison/v1", work_item_id: "WI-0224", model: "gpt-5.6-terra", reasoning_effort: "medium", schedule, limits, policy, source_revision: "revision", source_sha256: "digest", evidence_scope: evidenceScope, family_contract: { families, maintenanceContract, seed_sha256: digest(seedSource), reference_sha256: digest(referenceSource) },
   subjects: schedule.map((variant, i) => ({ family: families[i], variant, arm: "temple", root: `/fixture-${i}`, source_revision: "revision", source_sha256: "digest" })), isolation: { schema_version: "temple.comparison-isolation/v1", sources: [{ path: "/fixture", sha256: null }], mcp_servers: [], plugins: [], apps: [], fixture_trust_roots: schedule.map((_, i) => `/fixture-${i}`) } });
 const approval = p => ({ status: "approved", approved_by: "human", work_item_id: "WI-0224", protocol_sha256: digest(p), evidence_ref: ".ai-org/artifacts/WI-0223/execution-authorization.md", limits, policy });
@@ -33,29 +32,6 @@ test("requests differ only by explicit format and keep common developer instruct
     assert.match(a.instruction, /--material task --format full/);
     assert.match(a.instruction, /Writing only delivery, handoff or verification evidence/);
   }
-});
-test("format command guard rejects missing, opposite, duplicate and non-opted formats", () => {
-  const root = process.cwd();
-  const base = "node ./templew.mjs context enter . --work-item WI-0001 --position developer --agent-id agent-builder --principal-id human --no-write --json --material task";
-  const check = (command, format) => classifyCommandItem({ type: "commandExecution", id: "format-command", status: "inProgress", command, cwd: root, commandActions: [] }, { root, arm: "temple", stage: "build", contextMaterial: true, contextFormat: format });
-  for (const format of ["full", "model"]) {
-    assert.equal(check(`${base} --format ${format}`, format).allowed, true);
-    assert.equal(check(base, format).allowed, false);
-    assert.equal(check(`${base} --format ${format === "full" ? "model" : "full"}`, format).allowed, false);
-    assert.equal(check(`${base} --format ${format} --format ${format}`, format).allowed, false);
-    assert.equal(check(`${base} --format ${format}`, null).allowed, false);
-  }
-  assert.equal(check(base, null).allowed, true);
-});
-test("model root is recognized only by opted-in model observation", () => {
-  for (const format of ["full", "model"]) {
-    const body = { schema_version: format === "full" ? "temple.context-enter/v1" : "temple.context-model-view/v1", status: "eligible", packet: {} };
-    assert.deepEqual(contextEntryObservation(body, format), { entry_eligible: true, context_format: format });
-    assert.equal(contextEntryObservation(body, format === "full" ? "model" : "full").entry_eligible, false);
-    assert.equal(contextEntryObservation({ ...body, status: "fallback" }, format).entry_eligible, false);
-    assert.equal(contextEntryObservation({ ...body, packet: null }, format).entry_eligible, false);
-  }
-  assert.equal(contextEntryObservation({ schema_version: "temple.context-model-view/v1", status: "eligible", packet: {} }).entry_eligible, false);
 });
 test("sixteen-stage executor stops on failure and preserves partial measurements without retries", async () => {
   const record = { candidate_revision: "fixture", test_command: "node --test test/*.test.mjs", test_exit_code: 0, decision: "accept", unresolved: [] };

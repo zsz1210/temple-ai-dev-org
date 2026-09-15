@@ -1,21 +1,68 @@
 {
   "schema_version": "temple.work-item/v1",
-  "id": "WI-0234",
-  "title": "Prune redundant tests with retained regression coverage",
+  "id": "WI-0236",
+  "title": "Audit and prune redundant offline harness tests",
   "state": "build",
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
-  "created_at": "2026-09-15T23:16:57.010Z",
-  "updated_at": "2026-09-15T23:29:42.389Z",
+  "created_at": "2026-09-15T23:18:48.215Z",
+  "updated_at": "2026-09-15T23:29:41.456Z",
   "scope": [
-    "Audit the complete 1250-test inventory, remove unnecessary duplicate or implementation-mirroring tests, preserve distinct behavior and failure coverage, and record every deletion with retained protection."
+    "Audit every file in audit-inventory.json groups.experiments; remove only justified redundant tests and document retained protection. Own those test paths and this child audit report only."
   ],
   "acceptance_criteria": [
-    "Provide a complete test-file audit and exact deletion map; keep meaningful safety and regression coverage; run full verification on the final candidate and obtain independent review."
+    "Every removed test has a precise reason and retained equivalent assertion or documented lack of behavioral value; all owned files audited, focused tests pass; no source, policy or fixture changes."
   ],
   "affected_paths": [
-    "test/",
-    ".ai-org/artifacts/"
+    "test/autonomous-diagnostic.test.mjs",
+    "test/autonomy-experiment.test.mjs",
+    "test/autonomy-protocol-stop.test.mjs",
+    "test/context-capsule-ablation.test.mjs",
+    "test/context-enter.test.mjs",
+    "test/context-format-comparison.test.mjs",
+    "test/context-material-comparison.test.mjs",
+    "test/continuity-codex-adapter.test.mjs",
+    "test/continuity-delivery-contract.test.mjs",
+    "test/continuity-fixture.test.mjs",
+    "test/continuity-live-runner.test.mjs",
+    "test/continuity-named-permissions.test.mjs",
+    "test/core-autonomy-candidate.test.mjs",
+    "test/core-comparison-runner.test.mjs",
+    "test/core-comparison-successor.test.mjs",
+    "test/core-delivery-check.test.mjs",
+    "test/core-recovery-readonly.test.mjs",
+    "test/core-runtime-qualification.test.mjs",
+    "test/delivery-command-policy.test.mjs",
+    "test/delivery-control-pair.test.mjs",
+    "test/delivery-matrix-completion.test.mjs",
+    "test/delivery-matrix-experiment.test.mjs",
+    "test/delivery-matrix-fixtures.test.mjs",
+    "test/delivery-observations.test.mjs",
+    "test/diagnostic-format-comparison.test.mjs",
+    "test/diagnostic-maintenance-fixture.test.mjs",
+    "test/effectiveness-pilot-v2.test.mjs",
+    "test/effectiveness-pilot.test.mjs",
+    "test/evaluation-plan.test.mjs",
+    "test/evaluation-sequence.test.mjs",
+    "test/interruption-actor.test.mjs",
+    "test/lean-interruption-experiment.test.mjs",
+    "test/learning-review-experiment.test.mjs",
+    "test/learning-review-oracle.test.mjs",
+    "test/optimized-delivery-comparison.test.mjs",
+    "test/paired-entry-experiment.test.mjs",
+    "test/phase4-installation.test.mjs",
+    "test/real-doc-check-fixture-v2.test.mjs",
+    "test/real-doc-check-fixture-v3.test.mjs",
+    "test/real-doc-check-fixture-v4.test.mjs",
+    "test/real-doc-check-fixture.test.mjs",
+    "test/recovery-matrix-experiment.test.mjs",
+    "test/recovery-matrix-fixtures.test.mjs",
+    "test/representative-microservice-comparison.test.mjs",
+    "test/representative-microservice-protocol.test.mjs",
+    "test/solo-stability.test.mjs",
+    "test/validation-program.test.mjs",
+    "test/wave-5b-analysis.test.mjs",
+    "test/wave-5b-live-protocol.test.mjs"
   ],
   "context_refs": [],
   "spec_refs": [],
@@ -31,12 +78,12 @@
     "effective_profile": "standard",
     "scope_class": "ordinary",
     "escalation_triggers": [],
-    "rationale": "Authorized reversible test-suite maintenance; no product behavior, policy floors, CI scope or live provider changes.",
+    "rationale": "Test-only reversible pruning under WI-0234 approved contract.",
     "evidence_refs": [],
-    "evaluated_at": "2026-09-15T23:16:56.999Z",
+    "evaluated_at": "2026-09-15T23:18:48.205Z",
     "escalated": false
   },
-  "parent_work_item_id": null,
+  "parent_work_item_id": "WI-0234",
   "tracker_visibility": "team-visible",
   "tracker_refs": [],
   "tracker_reconciliations": [],
@@ -46,17 +93,17 @@
   "base_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01",
   "parallel_mode": "sequential",
   "integration_owner_agent_id": "agent-rikku",
-  "planned_agent_id": null,
+  "planned_agent_id": "agent-rikku",
   "shared_contract_refs": [
     ".ai-org/artifacts/WI-0234/pruning-plan.md"
   ],
   "contract_status": "stable",
   "overlap_resolution": [
-    "WI-0235, WI-0236 and WI-0237 exclusively own their listed tests and audit reports; WI-0234 only edits ten fast contract files and aggregate artifacts."
+    "WI-0234 owns integration, ten fast contract tests and aggregate artifacts; this child owns only its explicitly listed tests and its audit report."
   ],
   "claim": {
-    "id": "claim-20260915232942-be813138",
-    "status": "active",
+    "id": "claim-20260915231900-35eb1df0",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-rikku",
     "actor_provenance": {
@@ -71,12 +118,15 @@
     "base_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01",
     "branch": "codex/prune-redundant-tests",
     "worktree": null,
-    "claimed_at": "2026-09-15T23:29:42.389Z",
-    "released_at": null
+    "claimed_at": "2026-09-15T23:19:00.892Z",
+    "released_at": "2026-09-15T23:29:40.653Z",
+    "release_reason": [
+      "Offline harness audit and edits complete; 40 focused tests passed with retained log. Root joins exact candidate."
+    ]
   },
   "claims": [
     {
-      "id": "claim-20260915231657-8b3621d6",
+      "id": "claim-20260915231848-48757aa5",
       "status": "released",
       "principal_id": "human",
       "agent_id": "agent-mog",
@@ -89,17 +139,17 @@
         "externally_supplied_evidence": false
       },
       "position_id": "engineering_manager",
-      "base_revision": "477e0b60ecbe83caea18430ccb649c67ecd690ca",
+      "base_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01",
       "branch": "codex/prune-redundant-tests",
       "worktree": null,
-      "claimed_at": "2026-09-15T23:16:57.479Z",
-      "released_at": "2026-09-15T23:18:02.116Z",
+      "claimed_at": "2026-09-15T23:18:48.624Z",
+      "released_at": "2026-09-15T23:18:49.383Z",
       "release_reason": [
-        "Approved scoped design responsibility complete."
+        "Approved scoped responsibility complete."
       ]
     },
     {
-      "id": "claim-20260915231802-301075c9",
+      "id": "claim-20260915231850-99a7adec",
       "status": "released",
       "principal_id": "human",
       "agent_id": "agent-yuna",
@@ -112,17 +162,17 @@
         "externally_supplied_evidence": false
       },
       "position_id": "product_manager",
-      "base_revision": "477e0b60ecbe83caea18430ccb649c67ecd690ca",
+      "base_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01",
       "branch": "codex/prune-redundant-tests",
       "worktree": null,
-      "claimed_at": "2026-09-15T23:18:02.941Z",
-      "released_at": "2026-09-15T23:18:03.709Z",
+      "claimed_at": "2026-09-15T23:18:50.186Z",
+      "released_at": "2026-09-15T23:18:50.957Z",
       "release_reason": [
-        "Approved scoped design responsibility complete."
+        "Approved scoped responsibility complete."
       ]
     },
     {
-      "id": "claim-20260915231804-171a10a4",
+      "id": "claim-20260915231851-a174a81d",
       "status": "released",
       "principal_id": "human",
       "agent_id": "agent-tidus",
@@ -135,17 +185,17 @@
         "externally_supplied_evidence": false
       },
       "position_id": "tech_lead",
-      "base_revision": "477e0b60ecbe83caea18430ccb649c67ecd690ca",
+      "base_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01",
       "branch": "codex/prune-redundant-tests",
       "worktree": null,
-      "claimed_at": "2026-09-15T23:18:04.515Z",
-      "released_at": "2026-09-15T23:18:05.284Z",
+      "claimed_at": "2026-09-15T23:18:51.794Z",
+      "released_at": "2026-09-15T23:18:52.558Z",
       "release_reason": [
-        "Approved scoped design responsibility complete."
+        "Approved scoped responsibility complete."
       ]
     },
     {
-      "id": "claim-20260915232004-98be3045",
+      "id": "claim-20260915231900-35eb1df0",
       "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
@@ -161,31 +211,11 @@
       "base_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01",
       "branch": "codex/prune-redundant-tests",
       "worktree": null,
-      "claimed_at": "2026-09-15T23:20:04.972Z",
-      "released_at": "2026-09-15T23:23:07.375Z",
+      "claimed_at": "2026-09-15T23:19:00.892Z",
+      "released_at": "2026-09-15T23:29:40.653Z",
       "release_reason": [
-        "Parent test edits complete; release broad integration claim while disjoint child reservations finish. Reclaim for integration after join."
+        "Offline harness audit and edits complete; 40 focused tests passed with retained log. Root joins exact candidate."
       ]
-    },
-    {
-      "id": "claim-20260915232942-be813138",
-      "status": "active",
-      "principal_id": "human",
-      "agent_id": "agent-rikku",
-      "actor_provenance": {
-        "selection": "explicit-agent",
-        "principal_source": "explicit-principal",
-        "verification_class": "self-asserted",
-        "evidence_ref": null,
-        "provider_authenticated": false,
-        "externally_supplied_evidence": false
-      },
-      "position_id": "developer",
-      "base_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01",
-      "branch": "codex/prune-redundant-tests",
-      "worktree": null,
-      "claimed_at": "2026-09-15T23:29:42.389Z",
-      "released_at": null
     }
   ],
   "gate_evidence": {
@@ -206,10 +236,10 @@
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0234/handoff-001-engineering_manager-to-product_manager.md",
+    ".ai-org/artifacts/WI-0236/handoff-001-engineering_manager-to-product_manager.md",
     ".ai-org/artifacts/WI-0234/pruning-plan.md",
-    ".ai-org/artifacts/WI-0234/handoff-002-product_manager-to-tech_lead.md",
-    ".ai-org/artifacts/WI-0234/handoff-003-tech_lead-to-developer.md"
+    ".ai-org/artifacts/WI-0236/handoff-002-product_manager-to-tech_lead.md",
+    ".ai-org/artifacts/WI-0236/handoff-003-tech_lead-to-developer.md"
   ],
   "unresolved": [],
   "next_position": "quality_evaluator",
@@ -227,9 +257,9 @@
         "provider_authenticated": false,
         "externally_supplied_evidence": false
       },
-      "input_revision": "477e0b60ecbe83caea18430ccb649c67ecd690ca",
-      "artifact": ".ai-org/artifacts/WI-0234/handoff-001-engineering_manager-to-product_manager.md",
-      "created_at": "2026-09-15T23:18:01.737Z"
+      "input_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01",
+      "artifact": ".ai-org/artifacts/WI-0236/handoff-001-engineering_manager-to-product_manager.md",
+      "created_at": "2026-09-15T23:18:49.015Z"
     },
     {
       "from_position": "product_manager",
@@ -244,9 +274,9 @@
         "provider_authenticated": false,
         "externally_supplied_evidence": false
       },
-      "input_revision": "477e0b60ecbe83caea18430ccb649c67ecd690ca",
-      "artifact": ".ai-org/artifacts/WI-0234/handoff-002-product_manager-to-tech_lead.md",
-      "created_at": "2026-09-15T23:18:03.329Z"
+      "input_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01",
+      "artifact": ".ai-org/artifacts/WI-0236/handoff-002-product_manager-to-tech_lead.md",
+      "created_at": "2026-09-15T23:18:50.572Z"
     },
     {
       "from_position": "tech_lead",
@@ -261,9 +291,9 @@
         "provider_authenticated": false,
         "externally_supplied_evidence": false
       },
-      "input_revision": "477e0b60ecbe83caea18430ccb649c67ecd690ca",
-      "artifact": ".ai-org/artifacts/WI-0234/handoff-003-tech_lead-to-developer.md",
-      "created_at": "2026-09-15T23:18:04.910Z"
+      "input_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01",
+      "artifact": ".ai-org/artifacts/WI-0236/handoff-003-tech_lead-to-developer.md",
+      "created_at": "2026-09-15T23:18:52.186Z"
     }
   ]
 }

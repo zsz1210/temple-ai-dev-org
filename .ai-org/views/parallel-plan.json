@@ -1,29 +1,542 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-15T18:13:38.145Z",
-  "source_fingerprint": "216dfbf28fefca03659fdf896736a7df739136e4fe564c9d5e08b368893cdfca",
+  "generated_at": "2026-09-15T23:23:07.853Z",
+  "source_fingerprint": "cf8f832e5be5fc49c190d2c3fffce2e788476e9efffab6d2bb8d7ea109c2916d",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": []
+    "selected_work_item_ids": [
+      "WI-0234",
+      "WI-0235",
+      "WI-0236",
+      "WI-0237"
+    ]
   },
-  "max_workers": 1,
+  "max_workers": 3,
   "summary": {
-    "selected": 0,
+    "selected": 4,
     "dispatchable": 0,
-    "active": 0,
-    "sequential": 0,
+    "active": 3,
+    "sequential": 1,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
-  "active": [],
-  "sequential": [],
+  "active": [
+    {
+      "work_item_id": "WI-0235",
+      "title": "Audit and prune redundant core runtime tests",
+      "disposition": "active",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "integration_owner_agent_id": "agent-rikku",
+      "reasons": [],
+      "claim_id": "claim-20260915231900-439a8251",
+      "principal_id": "human",
+      "branch": "codex/prune-redundant-tests",
+      "worktree": null,
+      "base_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01"
+    },
+    {
+      "work_item_id": "WI-0236",
+      "title": "Audit and prune redundant offline harness tests",
+      "disposition": "active",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "integration_owner_agent_id": "agent-rikku",
+      "reasons": [],
+      "claim_id": "claim-20260915231900-35eb1df0",
+      "principal_id": "human",
+      "branch": "codex/prune-redundant-tests",
+      "worktree": null,
+      "base_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01"
+    },
+    {
+      "work_item_id": "WI-0237",
+      "title": "Audit and prune redundant optional runtime tests",
+      "disposition": "active",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "integration_owner_agent_id": "agent-rikku",
+      "reasons": [],
+      "claim_id": "claim-20260915231901-1d759d1f",
+      "principal_id": "human",
+      "branch": "codex/prune-redundant-tests",
+      "worktree": null,
+      "base_revision": "f9bbead6962d49f068c4a3d09cf40e871f2d8d01"
+    }
+  ],
+  "sequential": [
+    {
+      "work_item_id": "WI-0234",
+      "title": "Prune redundant tests with retained regression coverage",
+      "disposition": "sequential",
+      "position_id": "developer",
+      "agent_id": "agent-rikku",
+      "integration_owner_agent_id": "agent-rikku",
+      "reasons": [
+        "requested_mode_sequential"
+      ]
+    }
+  ],
   "blocked": [],
-  "conflicts": [],
+  "conflicts": [
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0234",
+      "right_work_item_id": "WI-0235",
+      "paths": [
+        {
+          "left_path": "test/",
+          "right_path": "test/app-server-protocol-replay.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/archify-adapter.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/audit-export.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/autonomous-delivery.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/autonomous-ui-close.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/cli.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/collaboration-governance.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/console-delivery-summary.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/context-packet.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/context.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/daily-delivery.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/delivery-entry.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/delivery-report-text.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/delivery-scope-entry.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/evidence-observer.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/execution-routing.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/federation.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/field-actors.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/field-attention.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/field-cli.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/field-evidence.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/field-lifecycle.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/field-reconciliation.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/field-verification.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/handoff-revision.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/high-assurance.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/json-rpc-process-cleanup.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/json-rpc-process-protocol.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/lean-delivery.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/lean-finish.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/learning-operations.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/learning-review-coverage.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/mechanical-completion.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/model-onboarding.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/operating-contract.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/orchestration.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/packs.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/phase-4b.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/phase2c-extension.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/phase4-cli.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/proportionate-work.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/publication-artifact-normalization.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/publication-normalization.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/recovery.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/runtime-coordination.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/solo-learning-revalidation.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/tracker.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/work-item-configure-options.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/work-item-rework.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/workflow.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0234",
+      "right_work_item_id": "WI-0236",
+      "paths": [
+        {
+          "left_path": "test/",
+          "right_path": "test/autonomous-diagnostic.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/autonomy-experiment.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/autonomy-protocol-stop.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/context-capsule-ablation.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/context-enter.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/context-format-comparison.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/context-material-comparison.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/continuity-codex-adapter.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/continuity-delivery-contract.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/continuity-fixture.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/continuity-live-runner.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/continuity-named-permissions.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/core-autonomy-candidate.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/core-comparison-runner.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/core-comparison-successor.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/core-delivery-check.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/core-recovery-readonly.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/core-runtime-qualification.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/delivery-command-policy.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/delivery-control-pair.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/delivery-matrix-completion.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/delivery-matrix-experiment.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/delivery-matrix-fixtures.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/delivery-observations.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/diagnostic-format-comparison.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/diagnostic-maintenance-fixture.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/effectiveness-pilot-v2.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/effectiveness-pilot.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/evaluation-plan.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/evaluation-sequence.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/interruption-actor.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/lean-interruption-experiment.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/learning-review-experiment.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/learning-review-oracle.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/optimized-delivery-comparison.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/paired-entry-experiment.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/phase4-installation.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/real-doc-check-fixture-v2.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/real-doc-check-fixture-v3.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/real-doc-check-fixture-v4.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/real-doc-check-fixture.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/recovery-matrix-experiment.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/recovery-matrix-fixtures.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/representative-microservice-comparison.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/representative-microservice-protocol.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/solo-stability.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/validation-program.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/wave-5b-analysis.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/wave-5b-live-protocol.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    },
+    {
+      "kind": "affected-path",
+      "left_work_item_id": "WI-0234",
+      "right_work_item_id": "WI-0237",
+      "paths": [
+        {
+          "left_path": "test/",
+          "right_path": "test/console-browser-contract.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/control-plane-foundation.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/control-plane-inbox.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/control-plane-live.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/control-plane-private-viewer.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/github-control-plane.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/local-observer-service.test.mjs"
+        },
+        {
+          "left_path": "test/",
+          "right_path": "test/optional-console-collector.test.mjs"
+        }
+      ],
+      "resolution": "explicit-bidirectional"
+    }
+  ],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 1,
+    "runtime_capacity_limit": 3,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

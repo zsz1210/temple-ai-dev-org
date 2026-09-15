@@ -5,8 +5,6 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
-import Ajv2020 from "ajv/dist/2020.js";
-import addFormats from "ajv-formats";
 
 import { defaultExecutionPolicy } from "../src/execution-routing.mjs";
 import {
@@ -16,7 +14,6 @@ import {
   validateModelOnboardingPlan
 } from "../src/model-onboarding.mjs";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const generatedAt = "2026-09-04T00:00:00.000Z";
 
 function catalogModel(model, efforts, defaultEffort = efforts[0]) {
@@ -225,19 +222,6 @@ test("onboarding rejects raw content, unsupported efforts, and unsupported compa
   assert.match(validateModelOnboardingInput(noEvidence, policy).errors.join("\n"), /must be non-empty/);
 });
 
-test("onboarding input and plan conform to the distributed JSON Schemas", async () => {
-  const ajv = new Ajv2020({ allErrors: true, strict: false });
-  addFormats(ajv);
-  const inputSchema = JSON.parse(await fs.readFile(path.join(root, "project-overlay/.ai-org/core/schemas/model-onboarding-input.schema.json"), "utf8"));
-  const planSchema = JSON.parse(await fs.readFile(path.join(root, "project-overlay/.ai-org/core/schemas/model-onboarding-plan.schema.json"), "utf8"));
-  const input = onboardingInput();
-  const plan = buildModelOnboardingPlan(defaultExecutionPolicy(), input, { generatedAt });
-  const validateInputSchema = ajv.compile(inputSchema);
-  const validatePlanSchema = ajv.compile(planSchema);
-  assert.equal(validateInputSchema(input), true, JSON.stringify(validateInputSchema.errors));
-  assert.equal(validatePlanSchema(plan), true, JSON.stringify(validatePlanSchema.errors));
-});
-
 test("the public CLI is repository-bounded and leaves policy and input unchanged", async (context) => {
   const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), "temple-model-onboarding-cli-"));
   context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
@@ -308,7 +292,11 @@ test("fresh installation distributes and manages both onboarding Schemas", async
     `${JSON.stringify(buildModelOnboardingPlan(defaultExecutionPolicy(), input, { generatedAt }), null, 2)}\n`
   );
   const { validateProjectSchemas } = await import("../src/schema-validation.mjs");
-  assert.equal((await validateProjectSchemas(target)).valid, true);
+  const valid = await validateProjectSchemas(target);
+  assert.equal(valid.valid, true);
+  for (const document of [".ai-org/evaluations/model-onboarding/initial.json", ".ai-org/views/model-onboarding-plan.json"]) {
+    assert.equal(valid.checked.find(entry => entry.document === document)?.valid, true, document);
+  }
 
   input.compatibility[0].reasoning_effort = "ultra";
   await fs.writeFile(path.join(evaluationDirectory, "initial.json"), `${JSON.stringify(input, null, 2)}\n`);

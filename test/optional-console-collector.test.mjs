@@ -326,11 +326,3 @@ test("the Console snapshot omits duplicate evidence and Provider task history", 
   assert.equal(safe.usage.totals.total_tokens, 42);
   assert.ok(JSON.stringify(safe).length < JSON.stringify(snapshot).length / 10);
 });
-
-test("CLI help presents Console and collection as separate optional commands", () => {
-  const help = run(["--help"]);
-  assert.equal(help.status, 0, help.stderr || help.stdout);
-  assert.match(help.stdout, /temple console start/);
-  assert.match(help.stdout, /temple usage collect/);
-  assert.match(help.stdout, /Optionally serve the read-only human Management Console/);
-});
