@@ -4,7 +4,7 @@ The maintainer authorized auditing the previously measured 1250 tests and deleti
 
 ## Completed change
 
-Thirteen unnecessary registrations were removed and one existing browser contract was rewritten across eight files, without deleting a test file, narrowing discovery, introducing skips or changing production behavior. Ten removals have equivalent retained behavioral coverage; three stop locking decorative text or SVG labels. Five duplicate repository-fixture executions were eliminated. Existing detailed scenarios now retain every generic stopped/persisted/sealed/no-turn assertion from those five runs; no distinct failure mode was eliminated. The expected full count is 1237, to be confirmed by the complete final run.
+Thirteen unnecessary registrations were removed and one existing browser contract was rewritten across eight files, without deleting a test file, narrowing discovery, introducing skips or changing production behavior. Ten removals have equivalent retained behavioral coverage; three stop locking decorative text or SVG labels. Five duplicate repository-fixture executions were eliminated. Existing detailed scenarios now retain every generic stopped/persisted/sealed/no-turn assertion from those five runs; no distinct failure mode was eliminated. The complete final run confirmed 1237 passing tests and zero failures or skips. Test-source changes add 33 lines and delete 141, a net reduction of 108 lines.
 
 The initial 14-removal candidate was independently rejected before full verification: deleting the browser-table contract lost the guard against an empty viewport list or omitted primary view. The corrected test retains semantic class/target coverage and the actual mobile breakpoint while releasing exact pixel/label pins. `independent-review.md` preserves the rejected attempt and counterexamples; `rework-01-verification.md` describes the correction. Earlier scope audits remain history and must be read with this correction.
 
@@ -29,9 +29,17 @@ Distinct failure modes and entry points remain necessary even when names overlap
 
 Node v24.20.0. Focused results: root document tests 3/3, core changed files 48/48, optional changed files 11/11, and harness changed files 40/40 passed, with no failed/cancelled/skipped/todo cases. These are editing evidence, not final integration acceptance. Harness log `/tmp/wi0236-focused-tests.tap` preserves the completed result; the worker's earlier invocation lost its completion capture and is explicitly not treated as passing evidence.
 
-The source baseline is `477e0b60ecbe83caea18430ccb649c67ecd690ca`, with production and tests unchanged from the previous full candidate `8bfe38892283744ba0c71bec0cd25f7cf1a02986`. The preserved baseline log records 1250/1250 and 285611.118583 ms. It was reused as baseline rather than rerun. Final candidate, complete result and independent decision will be recorded in `verification.md`.
+The source baseline is `477e0b60ecbe83caea18430ccb649c67ecd690ca`, with production and tests unchanged from the previous full candidate `8bfe38892283744ba0c71bec0cd25f7cf1a02986`. The preserved baseline log records 1250/1250 and 285611.118583 ms. It was reused as baseline rather than rerun. Corrected candidate `220eda6180c1806d4bc261c9332bf3e55ed92a0b` passed `npm run verify` with 1237/1237 and 288684.186083 ms, about 1.08 percent longer in this single sample. Exact results and raw-log hashes are in `rework-01-verification.md`; `verification.md` is historical evidence for the rejected attempt. The corrected focused browser contract additionally passed 5/5.
 
 During shared-checkout parallel auditing, Doctor exposed duplicate active claim branch identifiers in the prepared worker records. The integration owner released its completed broad claim and then completed/released the finished disjoint workers through the CLI; no validation rule was removed or hidden. Final candidate handoff and closeout use sequential claims. This was coordination-state reconciliation, not grounds for weakening a test or modifying production validation.
+
+## Independent acceptance and closeout
+
+The distinct reviewer `agent-lulu`, runtime `/root/pruning_final_review`, accepted all four named Work Item scopes in `rework-01-independent-review.md`. Six independent faulty selection controls each failed the restored browser contract, while the exact candidate and harmless dimensions/labels/order/additional-viewport control each passed. The original baseline contract rejected that harmless control. The reviewer independently verified all deletion mappings, inventory completeness, exact child-scope compatibility and full-log hashes, without rerunning the complete suite.
+
+The final reproduction script, result metadata and nine raw TAP outputs are preserved in `rework-01-qa-reproduction.tar.gz`, SHA-256 `9db92b328d142f365d2dc6e5d6ee30fe334e37c6a2a085def3b263f89d3d0b01`. This supplies measurement evidence; it does not claim real-browser rendering or live provider verification.
+
+WI-0234 through WI-0237 are `done` with bounded local `go` records. Workers and claims are terminal/released; the refreshed all-active parallel plan contains zero items and conflicts. Final Doctor returned 37 pass, one warning and zero failures. The warning preserves the existing absent actor-policy/legacy verification behavior, which is outside this test-only slice. Final administrative/evidence changes leave all code, tests, scripts, fixtures and package inputs identical to the tested candidate.
 
 ## Interpretation and boundary
 
