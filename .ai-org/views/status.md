@@ -3,9 +3,9 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.32`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
-- Parallel plan: 0 wave(s), fresh=true
-- Work items: 240 total, 0 active
+- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
+- Parallel plan: 0 wave(s), fresh=false
+- Work items: 241 total, 1 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 90 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 24
+- Attention signals: 25
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 0
+- Active Work Item claims: 1
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,7 +37,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: yes
+- Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
@@ -288,9 +288,12 @@
 | WI-0238 | Reduce repeated test setup and process overhead | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `472c1673` | 0 | 7 | 0 |
 | WI-0239 | Reduce shared fixture setup on the full-suite critical path | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aef4f2e3` | 0 | 7 | 0 |
 | WI-0240 | Batch continuity Git reads without weakening candidate validation | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2d4c018c` | 0 | 7 | 0 |
+| WI-0241 | Reuse Doctor compiler setup while preserving schema isolation | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260916045632-d69c65f3 | `—` | 0 | 1 | 0 |
 
 ## Delivery attention
 
+- WI-0241: awaiting-owner — The recorded owner can continue the scoped work; no attached active worker is recorded.
+  - owner: No attached active runtime is recorded for this claim.
 
 ## Codex task registry
 
@@ -434,13 +437,14 @@
 - worker-20260915174040-464e550f is failed
 - worker-20260915175330-3e16bfe8 is failed
 - worker-20260915233053-33b568eb is failed
+- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 89
+- Team-visible Work Items: 90
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -514,14 +518,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-16T03:24:42.496Z | work_item_closed | WI-0240 | agent-mog |
-| 2026-09-16T03:24:42.496Z | release_gate_completed | WI-0240 | agent-mog |
-| 2026-09-16T03:24:41.974Z | work_item_claimed | WI-0240 | human |
-| 2026-09-16T03:24:41.404Z | work_item_transitioned | WI-0240 | agent-lulu |
-| 2026-09-16T03:24:40.861Z | work_item_claim_released | WI-0240 | human |
-| 2026-09-16T03:24:40.330Z | handoff_created | WI-0240 | agent-lulu |
-| 2026-09-16T03:24:39.801Z | work_item_claimed | WI-0240 | human |
-| 2026-09-16T03:24:39.237Z | work_item_transitioned | WI-0240 | agent-lulu |
+| 2026-09-16T04:56:32.409Z | work_item_claimed | WI-0241 | human |
+| 2026-09-16T04:56:32.018Z | work_item_transitioned | WI-0241 | agent-tidus |
+| 2026-09-16T04:56:31.656Z | work_item_claimed | WI-0241 | human |
+| 2026-09-16T04:56:31.272Z | work_item_transitioned | WI-0241 | agent-yuna |
+| 2026-09-16T04:56:30.917Z | work_item_claimed | WI-0241 | human |
+| 2026-09-16T04:55:39.712Z | work_item_transitioned | WI-0241 | agent-mog |
+| 2026-09-16T04:55:39.342Z | work_item_claimed | WI-0241 | human |
+| 2026-09-16T04:54:54.335Z | work_item_created | WI-0241 | agent-mog |
 
 ## Assignments
 
