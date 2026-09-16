@@ -1,0 +1,219 @@
+{
+  "schema_version": "temple.alpha33-independent-qa-observation/v1",
+  "work_item": "WI-0243",
+  "position": "quality_evaluator",
+  "agent_id": "agent-lulu",
+  "developer_agent_id": "agent-rikku",
+  "identity_source": ".ai-org/project/assignments.json",
+  "claim": "claim-20260916065706-3f93383a",
+  "worker": "worker-20260916065706-dc3e8855",
+  "candidate_revision": "b2edfe22678beaa904eaec27b4d01330707623c6",
+  "status": "passed",
+  "observed_at": "2026-09-16T07:02:33.436816+00:00",
+  "environment": {
+    "node": "v24.20.0",
+    "platform": "darwin"
+  },
+  "independent_supplemental_controls": {
+    "candidate_revision": "b2edfe22678beaa904eaec27b4d01330707623c6",
+    "checks": [
+      {
+        "name": "exact corrected source repack",
+        "status": "passed",
+        "sha256": "03c725189ace782c362b7deee65854980d4072a22600983ed290ec1c652138d2",
+        "bytes": 997361,
+        "file_count": 444,
+        "integrity": "sha512-Dg28hI3SKc+kSOw6/TCSCC9c5zYNVttI40JLscG079EtKcBmkTWXcxQR1GLjwSskpHwjeodzdYAqq3P4BKpy+A==",
+        "changed_packaged_paths": []
+      },
+      {
+        "name": "old launcher rejects explicit Alpha.33 runtime before upgrade",
+        "status": "passed",
+        "exit_code": 1,
+        "error": "Organization CLI bootstrap error: TEMPLE_CLI_PATH version 0.1.0-alpha.33 does not match pinned version 0.1.0-alpha.32",
+        "unchanged_files": 128
+      },
+      {
+        "name": "true Alpha.32 pre-upgrade managed conflict rejects Alpha.33 upgrade atomically",
+        "status": "passed",
+        "exit_code": 1,
+        "old_version": "0.1.0-alpha.32",
+        "path": "TEMPLE.md",
+        "unchanged_files": 129,
+        "output": "Temple upgrade plan for <qa-scratch>/legacy\n- version: 0.1.0-alpha.32 -> 0.1.0-alpha.33\n- skip-collaboration-defaults: 1\n- skip-collaboration-state: 1\n- skip-context-map: 1\n- skip-control-plane-config: 1\n- skip-evidence-profiles: 1\n- skip-evidence-registry: 1\n- skip-execution-policy: 1\n- skip-federation-registry: 1\n- skip-identical: 94\n- skip-learning-index: 1\n- skip-project-tasks: 1\n- skip-resource-registry: 1\n- skip-retrieval-config: 1\n- skip-runtime-worker-registry: 1\n- skip-spec-index: 1\n- skip-tracker-config: 1\n- skip-ui-assignment: 1\n- skip-usage-policy: 1\n- update-lock: 1\n- update-managed: 4\nConflicts:\n- managed file changed since 0.1.0-alpha.32: TEMPLE.md"
+      },
+      {
+        "name": "project-owned file inside managed core directory survives upgrade",
+        "status": "passed",
+        "path": ".ai-org/core/qa-project-owned-note.txt",
+        "sha256": "1d131bb29fe3f32cafe88f2e96b104f0f049bc60c06e3396ff8be1c77cee04c5",
+        "not_in_managed_files": true
+      }
+    ],
+    "status": "passed"
+  },
+  "reused_independent_replay": {
+    "source_agent_runtime": "/root/alpha33_qa",
+    "source_candidate_revision": "02103e99d45adbf1f3bcc3abbc1325658aee11d3",
+    "source_observed_at": "2026-09-16T06:54:23.568Z",
+    "reuse_basis": "Current exact Git archive repacks byte-identically and no packaged path changed. Original seventh control was post-upgrade; a true pre-upgrade conflict is independently added above.",
+    "archive": {
+      "version": "0.1.0-alpha.33",
+      "archive": "zsz1210-temple-ai-dev-org-0.1.0-alpha.33.tgz",
+      "sha256": "03c725189ace782c362b7deee65854980d4072a22600983ed290ec1c652138d2",
+      "integrity": "sha512-Dg28hI3SKc+kSOw6/TCSCC9c5zYNVttI40JLscG079EtKcBmkTWXcxQR1GLjwSskpHwjeodzdYAqq3P4BKpy+A==",
+      "bytes": 997361
+    },
+    "baseline": {
+      "version": "0.1.0-alpha.32",
+      "archive": "zsz1210-temple-ai-dev-org-0.1.0-alpha.32.tgz",
+      "sha256": "44efc2ce60a714ec73613affbcb7748a14ab7a96b892660e8cf4113372dd26c2",
+      "integrity": "sha512-F7FbZ4gd45yvokVgtwj8mr667M9ZXKtVDmQlTPkUZiumcMqh3gCsAsJYP2NZ7/z9jqhVQdViyNKXAjA3dTvKJw==",
+      "bytes": 948896
+    },
+    "checks": [
+      {
+        "name": "fresh: dry init is read-only; repeated init preserves project and managed bytes",
+        "status": "passed",
+        "refreshable": [
+          "temple.lock",
+          ".ai-org/views/status.md",
+          ".ai-org/views/capabilities.json"
+        ],
+        "lock_difference": "installed/appended to present integration receipts only"
+      },
+      {
+        "name": "fresh: installed pinned launcher, doctor and status",
+        "status": "passed",
+        "doctor": {
+          "pass": 36,
+          "warn": 1,
+          "fail": 0
+        }
+      },
+      {
+        "name": "legacy: dry init is read-only; repeated init preserves project and managed bytes",
+        "status": "passed",
+        "refreshable": [
+          "temple.lock",
+          ".ai-org/views/status.md",
+          ".ai-org/views/capabilities.json"
+        ],
+        "lock_difference": "installed/appended to present integration receipts only"
+      },
+      {
+        "name": "legacy: installed pinned launcher, doctor and status",
+        "status": "passed",
+        "doctor": {
+          "pass": 36,
+          "warn": 1,
+          "fail": 0
+        }
+      },
+      {
+        "name": "upgrade: preserves every existing project-owned file and policy",
+        "status": "passed",
+        "files": [
+          ".ai-org/artifacts/README.md",
+          ".ai-org/decisions/README.md",
+          ".ai-org/events/README.md",
+          ".ai-org/events/events.jsonl",
+          ".ai-org/learning/index.json",
+          ".ai-org/project/agents.json",
+          ".ai-org/project/assignments.json",
+          ".ai-org/project/collaboration.json",
+          ".ai-org/project/context-map.json",
+          ".ai-org/project/control-plane.json",
+          ".ai-org/project/evidence-profiles.json",
+          ".ai-org/project/evidence.json",
+          ".ai-org/project/execution-policy.json",
+          ".ai-org/project/federation.json",
+          ".ai-org/project/project.json",
+          ".ai-org/project/repository-integration.json",
+          ".ai-org/project/resources.json",
+          ".ai-org/project/retrieval.json",
+          ".ai-org/project/runtime-workers.json",
+          ".ai-org/project/spec-index.json",
+          ".ai-org/project/tasks.json",
+          ".ai-org/project/tracker.json",
+          ".ai-org/project/usage-policy.json",
+          ".ai-org/views/README.md",
+          ".ai-org/work-items/README.md",
+          ".ai-org/work-items/WI-0001.json",
+          "AGENTS.md",
+          "CLAUDE.md",
+          "app.mjs",
+          "package-lock.json",
+          "package.json"
+        ],
+        "count": 31
+      },
+      {
+        "name": "upgraded: installed pinned launcher, doctor and status",
+        "status": "passed",
+        "doctor": {
+          "pass": 36,
+          "warn": 2,
+          "fail": 0
+        }
+      },
+      {
+        "name": "upgrade: managed conflict refuses and preserves all bytes",
+        "status": "passed",
+        "path": "TEMPLE.md",
+        "exit_code": 1
+      }
+    ]
+  },
+  "oracle_review": {
+    "status": "passed",
+    "changed_file": "test/continuity-live-runner.test.mjs",
+    "assessment": "Fake termination RPC waits up to 2000 ms for every owned PID before acknowledgment. Immediate post-executor ESRCH assertions, owned process ID matching, primary transport error, and scratch-retention assertions remain. No production source was changed.",
+    "additional_controls": [
+      {
+        "name": "executor cannot settle or close before delayed termination acknowledges",
+        "delay_ms": 120,
+        "status": "passed"
+      },
+      {
+        "name": "delayed failed termination retains scratch and original error",
+        "delay_ms": 120,
+        "status": "passed"
+      }
+    ],
+    "provider_boundary": "Offline fake-provider protocol and local owned process checks; a dishonest successful termination acknowledgment is not independently verified against a real provider."
+  },
+  "full_suite": {
+    "source": "parent execution, independently inspected retained log and summary; not rerun by this worker",
+    "command": "npm run verify",
+    "revision": "b2edfe22678beaa904eaec27b4d01330707623c6",
+    "exit_code": 0,
+    "tests": 1248,
+    "passed": 1248,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "duration_ms": 273728.85175,
+    "evidence": ".ai-org/artifacts/WI-0243/full-verification-final.log",
+    "log_sha256": "9ab78cd7dedb26a3a6f0f332b41a040a4ae06173059930b3b169424d6850d2a4"
+  },
+  "qa_harness_corrections": [
+    {
+      "issue": "Two supplemental instrumentation attempts addressed a nonexistent lock version field (framework_version, then version).",
+      "resolution": "Read current lock schema; assert template.version; complete corrected run passed. No implementation was changed."
+    }
+  ],
+  "audit_references": [
+    ".ai-org/artifacts/WI-0243/package-audit.json",
+    ".ai-org/artifacts/WI-0243/dependency-audit.json"
+  ],
+  "limitations": [
+    "Synthetic disposable project qualification; no real downstream upgrade.",
+    "No live model/provider, multi-machine, publication, tag, or deployment checks.",
+    "Earlier rejected full verification remains failed and is not reused as passing evidence."
+  ],
+  "package_published": false,
+  "downstream_projects_modified": false,
+  "model_calls": 0
+}

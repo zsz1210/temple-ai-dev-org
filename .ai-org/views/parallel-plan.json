@@ -1,76 +1,22 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-16T06:51:42.591Z",
-  "source_fingerprint": "6d4f68c27cb790bc497c4a1ab4e4d7bf59282e57697b54b799a49037475af90e",
+  "generated_at": "2026-09-16T07:04:35.555Z",
+  "source_fingerprint": "d86b3c2e90ad0e8d36bfe80136b2e046303e8a0f796ad971407d5265eef95b65",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": [
-      "WI-0243"
-    ]
+    "selected_work_item_ids": []
   },
   "max_workers": 1,
   "summary": {
-    "selected": 1,
-    "dispatchable": 1,
+    "selected": 0,
+    "dispatchable": 0,
     "active": 0,
     "sequential": 0,
     "blocked": 0,
-    "waves": 1
+    "waves": 0
   },
-  "waves": [
-    {
-      "id": "wave-001",
-      "order": 1,
-      "dispatch": [
-        {
-          "work_item_id": "WI-0243",
-          "title": "Qualify Alpha.33 package and existing-project upgrades",
-          "position_id": "quality_evaluator",
-          "agent_id": "agent-lulu",
-          "agent_name": "Lulu",
-          "suggested_task_title": "WI-0243 · Qualify … · Quality & Evaluation Engineer (Lulu)",
-          "base_revision": "02103e99d45adbf1f3bcc3abbc1325658aee11d3",
-          "affected_paths": [
-            "package.json",
-            "package-lock.json",
-            "src/constants.mjs",
-            "temple.lock",
-            "CHANGELOG.md",
-            "docs/planning/release-readiness.md",
-            "docs/validation/alpha-33-package-qualification.md",
-            ".ai-org/artifacts/WI-0243/"
-          ],
-          "dependencies": [],
-          "required_disciplines": [],
-          "active_requirements": {
-            "stage": "test",
-            "disciplines": [],
-            "resources": []
-          },
-          "preparation_fingerprint": "f0228722dddfd125d001797af29590766a261311e9ec197898dc77dd7367f8f9",
-          "integration_owner_agent_id": "agent-rikku",
-          "context_command": "node ./templew.mjs context resolve . --work-item WI-0243 --position quality_evaluator --no-write --json",
-          "claim_required_before_work": true,
-          "task_registration_required_after_creation": true,
-          "task_creation_performed": false,
-          "claim_performed": false,
-          "external_action_performed": false
-        }
-      ],
-      "join_gate": {
-        "integration_owner_agent_ids": [
-          "agent-rikku"
-        ],
-        "required_evidence": [
-          "exact_candidate_revision",
-          "verification_results",
-          "unresolved_items"
-        ],
-        "rule": "Join every dispatched Work Item through its Integration Owner before dispatching dependent work or advancing the lifecycle."
-      }
-    }
-  ],
+  "waves": [],
   "active": [],
   "sequential": [],
   "blocked": [],

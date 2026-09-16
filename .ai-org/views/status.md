@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.33`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
-- Parallel plan: 1 wave(s), fresh=false
-- Work items: 243 total, 1 active
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Parallel plan: 0 wave(s), fresh=true
+- Work items: 243 total, 0 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 93 registered, 0 reserved, 0 active
+- Runtime workers: 94 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 25
+- Attention signals: 24
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,11 +37,11 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
-- Safe waves: 1
-- Dispatchable Work Items: 1
+- Fresh: yes
+- Safe waves: 0
+- Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
-- Next wave: WI-0243
+- Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -290,12 +290,10 @@
 | WI-0240 | Batch continuity Git reads without weakening candidate validation | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2d4c018c` | 0 | 7 | 0 |
 | WI-0241 | Reuse Doctor compiler setup while preserving schema isolation | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `bcafc86e` | 0 | 7 | 0 |
 | WI-0242 | Make Console refresh delivery reliable and clean up streams | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f1629909` | 0 | 7 | 0 |
-| WI-0243 | Qualify Alpha.33 package and existing-project upgrades | build | Developer | Rikku | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260916065525-d04b8f6b | `—` | 0 | 3 | 0 |
+| WI-0243 | Qualify Alpha.33 package and existing-project upgrades | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b2edfe22` | 0 | 12 | 0 |
 
 ## Delivery attention
 
-- WI-0243: awaiting-owner — The recorded owner can continue the scoped work; no attached active worker is recorded.
-  - owner: No attached active runtime is recorded for this claim.
 
 ## Codex task registry
 
@@ -411,6 +409,7 @@
 | worker-20260916045941-d831ca3a | internal-subagent | WI-0241 | Quality & Evaluation Engineer / Lulu | completed | /root/doctor_compiler_qa | `bcafc86e` | 0 |
 | worker-20260916062712-2e1f6dc1 | internal-subagent | WI-0242 | Quality & Evaluation Engineer / Lulu | completed | /root/console_refresh_qa | `f1629909` | 0 |
 | worker-20260916065156-356bd6d2 | internal-subagent | WI-0243 | Quality & Evaluation Engineer / Lulu | completed | /root/alpha33_qa | `02103e99` | 0 |
+| worker-20260916065706-dc3e8855 | internal-subagent | WI-0243 | Quality & Evaluation Engineer / Lulu | completed | /root/alpha33_final_qa | `b2edfe22` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -442,7 +441,6 @@
 - worker-20260915174040-464e550f is failed
 - worker-20260915175330-3e16bfe8 is failed
 - worker-20260915233053-33b568eb is failed
-- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -523,14 +521,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-16T06:55:25.755Z | work_item_claimed | WI-0243 | human |
-| 2026-09-16T06:55:25.307Z | work_item_reworked | WI-0243 | agent-lulu |
-| 2026-09-16T06:55:24.834Z | runtime_worker_status_changed | WI-0243 | agent-lulu |
-| 2026-09-16T06:52:26.895Z | runtime_worker_attached | WI-0243 | agent-lulu |
-| 2026-09-16T06:51:56.838Z | runtime_worker_reserved | WI-0243 | human |
-| 2026-09-16T06:51:57.015Z | work_item_claimed | WI-0243 | human |
-| 2026-09-16T06:51:40.084Z | work_item_coordination_configured | WI-0243 | agent-lulu |
-| 2026-09-16T06:51:38.734Z | work_item_transitioned | WI-0243 | agent-rikku |
+| 2026-09-16T07:04:35.153Z | work_item_closed | WI-0243 | agent-mog |
+| 2026-09-16T07:04:35.153Z | release_gate_completed | WI-0243 | agent-mog |
+| 2026-09-16T07:04:34.758Z | work_item_claimed | WI-0243 | human |
+| 2026-09-16T07:04:34.344Z | work_item_transitioned | WI-0243 | agent-lulu |
+| 2026-09-16T07:04:33.957Z | handoff_created | WI-0243 | agent-lulu |
+| 2026-09-16T07:04:33.558Z | runtime_worker_status_changed | WI-0243 | agent-lulu |
+| 2026-09-16T07:03:31.117Z | work_item_claimed | WI-0243 | human |
+| 2026-09-16T07:03:30.703Z | work_item_transitioned | WI-0243 | agent-lulu |
 
 ## Assignments
 
