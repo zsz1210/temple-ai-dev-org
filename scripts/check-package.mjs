@@ -39,7 +39,8 @@ export const REQUIRED_PACKAGE_PATHS = [
   "project-overlay/.agents/skills/temple-work/references/read-only-support.md",
   "docs/adr/0059-proportionate-work-routes.md",
   "packs/build-quality/manifest.json",
-  "docs/getting-started/testing.md"
+  "docs/getting-started/testing.md",
+  "docs/validation/alpha-33-package-qualification.md"
 ];
 
 export const FORBIDDEN_PACKAGE_PREFIXES = [
@@ -76,7 +77,8 @@ const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overl
 // Demand-driven review coverage adds the four required generic files above.
 // The solo adoption guide adds one public documentation file.
 // WI-0230 adds six runtime modules, one field specification, one ADR and one guide.
-const MAX_FILE_COUNT = 443;
+// WI-0243 adds exactly one public Alpha.33 qualification and upgrade guide.
+const MAX_FILE_COUNT = 444;
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {

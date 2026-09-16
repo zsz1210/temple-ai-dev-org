@@ -310,7 +310,19 @@ test('oracle RPC failure cleans an owned hanging command and child before return
       assert.equal(pids.length,2);throw Error('injected-rpc-timeout');
     }
     assert.equal(method,'command/exec/terminate');assert.equal(params.processId,owned);
-    const exited=new Promise(resolve=>child.once('exit',resolve));process.kill(-child.pid,'SIGKILL');await exited;return {};
+    const exited=new Promise(resolve=>child.once('exit',resolve));process.kill(-child.pid,'SIGKILL');await exited;
+    // A direct child's exit does not prove its descendants have been reaped.
+    // Model a completed termination RPC only after every owned PID is gone;
+    // the immediate post-executor assertions below must still hold.
+    const deadline=performance.now()+2000;
+    for(const pid of pids){
+      for(;;){
+        try{process.kill(pid,0);}catch(error){if(error.code==='ESRCH')break;throw error;}
+        assert.ok(performance.now()<deadline,'owned descendant cleanup deadline exceeded');
+        await new Promise(resolve=>setTimeout(resolve,10));
+      }
+    }
+    return {};
   },async close(){assert.equal(child.exitCode!==null||child.signalCode!==null,true);}});
   await assert.rejects(()=>isolatedOracleExecutor(runtime,cwd,process.execPath,['-e',script],{timeout:2000,maxBuffer:100},{providerFactory}),e=>{
     assert.equal(e.message,'injected-rpc-timeout');assert.equal(e.instrumentFailure,true);assert.equal(e.retainScratch,undefined);return true;

@@ -2596,6 +2596,62 @@
       "attached_at": "2026-09-16T06:27:38.540Z",
       "completed_at": "2026-09-16T06:34:11.889Z",
       "updated_at": "2026-09-16T06:34:11.889Z"
+    },
+    {
+      "id": "worker-20260916065156-356bd6d2",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0243",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260916065157-10cb1c60",
+      "base_revision": "02103e99d45adbf1f3bcc3abbc1325658aee11d3",
+      "branch": "codex/alpha33-qualification",
+      "worktree": null,
+      "plan_fingerprint": "6d4f68c27cb790bc497c4a1ab4e4d7bf59282e57697b54b799a49037475af90e",
+      "plan_digest": "5c7511623849a717c6880247a0d1062db6f7ce72300b835f13b1a26a526a410a",
+      "preparation_fingerprint": "f0228722dddfd125d001797af29590766a261311e9ec197898dc77dd7367f8f9",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/alpha33_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "02103e99d45adbf1f3bcc3abbc1325658aee11d3",
+      "evidence": [
+        ".ai-org/artifacts/WI-0243/rejected-candidate.md"
+      ],
+      "reserved_at": "2026-09-16T06:51:56.838Z",
+      "attached_at": "2026-09-16T06:52:26.895Z",
+      "completed_at": "2026-09-16T06:55:24.834Z",
+      "updated_at": "2026-09-16T06:55:24.834Z"
+    },
+    {
+      "id": "worker-20260916065706-dc3e8855",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0243",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260916065706-3f93383a",
+      "base_revision": "b2edfe22678beaa904eaec27b4d01330707623c6",
+      "branch": "codex/alpha33-qualification",
+      "worktree": null,
+      "plan_fingerprint": "b36bd6d55d2310283f925af77f7371c045d82ac4493ac5a0910543983ba5be43",
+      "plan_digest": "ef34d90f528aaa171238db8a9bdc95e6c68e83f6154f0ad9f763f10e80906324",
+      "preparation_fingerprint": "84823b633f27e495fccdee0e64983e63566e32c9ccb0480afd989da7fe4e996a",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/alpha33_final_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "b2edfe22678beaa904eaec27b4d01330707623c6",
+      "evidence": [
+        ".ai-org/artifacts/WI-0243/independent-qa.md"
+      ],
+      "reserved_at": "2026-09-16T06:57:06.657Z",
+      "attached_at": "2026-09-16T06:58:08.820Z",
+      "completed_at": "2026-09-16T07:04:33.558Z",
+      "updated_at": "2026-09-16T07:04:33.558Z"
     }
   ]
 }

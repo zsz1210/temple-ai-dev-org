@@ -1,13 +1,13 @@
 # Temple AI Development Organization Framework — AI development organization status
 
 - Project ID: `temple`
-- Organization system version: `0.1.0-alpha.32`
+- Organization system version: `0.1.0-alpha.33`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 242 total, 0 active
+- Work items: 243 total, 0 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 92 registered, 0 reserved, 0 active
+- Runtime workers: 94 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -290,6 +290,7 @@
 | WI-0240 | Batch continuity Git reads without weakening candidate validation | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2d4c018c` | 0 | 7 | 0 |
 | WI-0241 | Reuse Doctor compiler setup while preserving schema isolation | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `bcafc86e` | 0 | 7 | 0 |
 | WI-0242 | Make Console refresh delivery reliable and clean up streams | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f1629909` | 0 | 7 | 0 |
+| WI-0243 | Qualify Alpha.33 package and existing-project upgrades | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b2edfe22` | 0 | 12 | 0 |
 
 ## Delivery attention
 
@@ -407,6 +408,8 @@
 | worker-20260916030935-ed63684a | internal-subagent | WI-0240 | Quality & Evaluation Engineer / Lulu | completed | /root/continuity_batch_qa | `2d4c018c` | 0 |
 | worker-20260916045941-d831ca3a | internal-subagent | WI-0241 | Quality & Evaluation Engineer / Lulu | completed | /root/doctor_compiler_qa | `bcafc86e` | 0 |
 | worker-20260916062712-2e1f6dc1 | internal-subagent | WI-0242 | Quality & Evaluation Engineer / Lulu | completed | /root/console_refresh_qa | `f1629909` | 0 |
+| worker-20260916065156-356bd6d2 | internal-subagent | WI-0243 | Quality & Evaluation Engineer / Lulu | completed | /root/alpha33_qa | `02103e99` | 0 |
+| worker-20260916065706-dc3e8855 | internal-subagent | WI-0243 | Quality & Evaluation Engineer / Lulu | completed | /root/alpha33_final_qa | `b2edfe22` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -444,7 +447,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 91
+- Team-visible Work Items: 92
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -518,14 +521,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-16T06:34:16.110Z | work_item_closed | WI-0242 | agent-mog |
-| 2026-09-16T06:34:16.110Z | release_gate_completed | WI-0242 | agent-mog |
-| 2026-09-16T06:34:15.706Z | work_item_claimed | WI-0242 | human |
-| 2026-09-16T06:34:15.266Z | work_item_transitioned | WI-0242 | agent-lulu |
-| 2026-09-16T06:34:14.863Z | work_item_claim_released | WI-0242 | human |
-| 2026-09-16T06:34:14.470Z | handoff_created | WI-0242 | agent-lulu |
-| 2026-09-16T06:34:14.053Z | work_item_claimed | WI-0242 | human |
-| 2026-09-16T06:34:13.627Z | work_item_transitioned | WI-0242 | agent-lulu |
+| 2026-09-16T07:04:35.153Z | work_item_closed | WI-0243 | agent-mog |
+| 2026-09-16T07:04:35.153Z | release_gate_completed | WI-0243 | agent-mog |
+| 2026-09-16T07:04:34.758Z | work_item_claimed | WI-0243 | human |
+| 2026-09-16T07:04:34.344Z | work_item_transitioned | WI-0243 | agent-lulu |
+| 2026-09-16T07:04:33.957Z | handoff_created | WI-0243 | agent-lulu |
+| 2026-09-16T07:04:33.558Z | runtime_worker_status_changed | WI-0243 | agent-lulu |
+| 2026-09-16T07:03:31.117Z | work_item_claimed | WI-0243 | human |
+| 2026-09-16T07:03:30.703Z | work_item_transitioned | WI-0243 | agent-lulu |
 
 ## Assignments
 

@@ -1,0 +1,59 @@
+{
+  "schema_version": "temple.alpha33-qualification-observation/v1",
+  "status": "failed",
+  "observed_at": "2026-09-16T06:48:02.807Z",
+  "runtime": "v24.20.0",
+  "platform": "darwin",
+  "checks": [],
+  "timeline": [
+    {
+      "label": "candidate Git identity",
+      "exit_code": 0,
+      "elapsed_ms": 12
+    },
+    {
+      "label": "candidate: inspect archive",
+      "exit_code": 0,
+      "elapsed_ms": 8
+    },
+    {
+      "label": "candidate: locked offline install",
+      "exit_code": 0,
+      "elapsed_ms": 263
+    },
+    {
+      "label": "candidate: version",
+      "exit_code": 0,
+      "elapsed_ms": 106
+    },
+    {
+      "label": "fresh: dry init",
+      "exit_code": 0,
+      "elapsed_ms": 117
+    },
+    {
+      "label": "fresh: init",
+      "exit_code": 0,
+      "elapsed_ms": 440
+    },
+    {
+      "label": "fresh: repeat init",
+      "exit_code": 0,
+      "elapsed_ms": 370
+    }
+  ],
+  "package_published": false,
+  "downstream_projects_modified": false,
+  "model_calls": 0,
+  "tokens": null,
+  "candidate_revision": "e27038c7144373f8a88a3a8c53ee8969440653c1",
+  "candidate": {
+    "version": "0.1.0-alpha.33",
+    "archive": "zsz1210-temple-ai-dev-org-0.1.0-alpha.33.tgz",
+    "sha256": "03c725189ace782c362b7deee65854980d4072a22600983ed290ec1c652138d2",
+    "integrity": "sha512-Dg28hI3SKc+kSOw6/TCSCC9c5zYNVttI40JLscG079EtKcBmkTWXcxQR1GLjwSskpHwjeodzdYAqq3P4BKpy+A==",
+    "bytes": 997361
+  },
+  "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    '.agents/skills/decision-interview/SKILL.md': '7e1c12bb642a630e480dc0d4ec677b67c58ebbdb1d270994e2455924286cc7cb',\n    '.agents/skills/domain-modeling/SKILL.md': '5a0aff2fccd9e431f3cd6ebe36821e05f4ab88a09c004e748888a4a32c555ccc',\n    '.agents/skills/project-documentation/SKILL.md': 'fa366000d024dd67734974b909ed581fab236d266b4106cd6aa4e28f23bd0728',\n    '.agents/skills/skill-authoring/SKILL.md': '218e2d02c86859eaf43a7d82eecbd220eef337781704bed4011ec4d5033e1da9',\n...\n    '.ai-org/views/README.md': 'c4fbc4c03735a02585b932e50a6ac6013ebf362c7f89a6accdb8e46c9f974d37',\n+   '.ai-org/views/capabilities.json': 'a404d36125cdb612f9794453927c305a43bd8efd4ff972d6d577ccd5e596ed8d',\n+   '.ai-org/views/status.md': 'da414ca22d0b67d7e865e71f136a65aa1c9b8ad0c27e456434e43f20ae701a34',\n-   '.ai-org/views/capabilities.json': 'bc5573da410d5af146f60e2672f6db0aca2d44bd226533090beb622017006f2e',\n-   '.ai-org/views/status.md': '2bdf8e2f91811c94517367405248d2592aa403126742859d70630b71037d56e3',\n    '.ai-org/work-items/README.md': '63a3b4e9cb96862b2841fc53111437aa90a9ea239295ebfc9f2d11c2706c995a',\n    '.codex/agents/developer.toml': '645629270190917b8b5ab3a56e9a12735cb7e9d66f8d8410e1e23e64995a2969',\n    '.codex/agents/engineering-manager.toml': '57d970fbc325fe4e7e00b0e98300cee2d524bccb029f2a520deea42eacc5e085',\n    '.codex/agents/independent-qa.toml': 'e98967b22ee56d9d1a574e6480aad81d81756f31b8abfbbf1e29a32a7449aff8',\n    '.codex/agents/observer.toml': '93f120e7e756c1e60cbed2eb87d79ade1186e1521c4e325830541fbc79101fbf',\n...\n    'package.json': '33dc62b89819cb34aeb48eacae9fe154bf96d92056a4488b2a4dabaa8e912f26',\n+   'temple.lock': 'b7400f630ab7908105d8d664279c8ecbc12d5894b708ad91854bdb54da3333e1',\n-   'temple.lock': '5a67ffb9df66b2d340c51337e8e5de0c0faf237b1f93217ed62792921fe25b3d',\n    'templew.mjs': '7dca8cbb2add57af81d023676012c83eedbed5b148014328911887c1f8868e3d'\n  }\n\n    at initialize (file://<repository-root>/.ai-org/artifacts/WI-0243/qualify-package.mjs:98:10)\n    at async file://<repository-root>/.ai-org/artifacts/WI-0243/qualify-package.mjs:114:3",
+  "temporary_resources_removed": true
+}
