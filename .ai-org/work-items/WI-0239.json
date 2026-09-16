@@ -1,0 +1,186 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0239",
+  "title": "Reduce shared fixture setup on the full-suite critical path",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-16T01:15:28.572Z",
+  "updated_at": "2026-09-16T01:15:32.625Z",
+  "scope": [
+    "Measure full-suite file timings and optimize opted-in shared test fixture setup while preserving fresh claims, isolated Git and product state, real tested CLI operations and all scenarios."
+  ],
+  "acceptance_criteria": [
+    "Comparable full-suite before and after evidence; original scenarios retained; cache-key, isolation, fresh-claim and cleanup controls pass; full verification and distinct independent review complete."
+  ],
+  "affected_paths": [
+    "test/",
+    ".ai-org/artifacts/"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-16T01:15:28.559Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "91b45470",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260916011532-84ec00c3",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "actor_provenance": {
+      "selection": "explicit-agent",
+      "principal_source": "explicit-principal",
+      "verification_class": "self-asserted",
+      "evidence_ref": null,
+      "provider_authenticated": false,
+      "externally_supplied_evidence": false
+    },
+    "position_id": "developer",
+    "base_revision": "91b45470",
+    "branch": "codex/shared-fixture-performance",
+    "worktree": null,
+    "claimed_at": "2026-09-16T01:15:32.625Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260916011529-2d9c2e97",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "engineering_manager",
+      "base_revision": "91b45470",
+      "branch": "codex/shared-fixture-performance",
+      "worktree": null,
+      "claimed_at": "2026-09-16T01:15:29.005Z",
+      "released_at": "2026-09-16T01:15:29.385Z",
+      "release_reason": [
+        "Authorized test-only performance design recorded."
+      ]
+    },
+    {
+      "id": "claim-20260916011530-ba2aa52c",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "product_manager",
+      "base_revision": "91b45470",
+      "branch": "codex/shared-fixture-performance",
+      "worktree": null,
+      "claimed_at": "2026-09-16T01:15:30.188Z",
+      "released_at": "2026-09-16T01:15:30.593Z",
+      "release_reason": [
+        "Authorized test-only performance design recorded."
+      ]
+    },
+    {
+      "id": "claim-20260916011531-90ee6319",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "tech_lead",
+      "base_revision": "91b45470",
+      "branch": "codex/shared-fixture-performance",
+      "worktree": null,
+      "claimed_at": "2026-09-16T01:15:31.450Z",
+      "released_at": "2026-09-16T01:15:31.826Z",
+      "release_reason": [
+        "Authorized test-only performance design recorded."
+      ]
+    },
+    {
+      "id": "claim-20260916011532-84ec00c3",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "developer",
+      "base_revision": "91b45470",
+      "branch": "codex/shared-fixture-performance",
+      "worktree": null,
+      "claimed_at": "2026-09-16T01:15:32.625Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0239/plan.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0239/plan.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0239/plan.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0239/plan.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0239/plan.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0239/plan.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}

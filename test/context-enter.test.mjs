@@ -4,7 +4,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { fixture, cli, git, deliveryArgs, itemState, canonicalBytes } from "./helpers/lean-delivery-fixture.mjs";
+import { cachedFixture as fixture, cli, git, deliveryArgs, itemState, canonicalBytes } from "./helpers/lean-delivery-fixture.mjs";
 import { finishLeanWorkItem } from "../src/lean-finish.mjs";
 import { withProjectMutationLock } from "../src/project.mjs";
 import { leanDeliveryStateDirectory } from "../src/lean-delivery-state.mjs";

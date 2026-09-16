@@ -6,7 +6,7 @@ import { sha256 } from "../src/files.mjs";
 import { finishLeanWorkItem } from "../src/lean-finish.mjs";
 import { verifyMechanicalCompletion } from "../src/mechanical-completion.mjs";
 import { withProjectMutationLock } from "../src/project.mjs";
-import { fixture, cli, git, itemState, canonicalBytes } from "./helpers/lean-delivery-fixture.mjs";
+import { cachedFixture as fixture, cli, git, itemState, canonicalBytes } from "./helpers/lean-delivery-fixture.mjs";
 
 async function setup(t, editContract = c => c, note = "docs/notes/reading.txt") {
   const f = await fixture(); t.after(f.cleanup);

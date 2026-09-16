@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { createHash } from "node:crypto";
-import { fixture, cli, canonicalBytes, deliveryArgs } from "./helpers/lean-delivery-fixture.mjs";
+import { cachedFixture as fixture, cli, canonicalBytes, deliveryArgs } from "./helpers/lean-delivery-fixture.mjs";
 import { PACKET_SOURCE_LIMIT } from "../src/context-packet.mjs";
 
 async function setup(t) { const f = await fixture(); t.after(f.cleanup); return f; }

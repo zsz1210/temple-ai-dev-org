@@ -6,7 +6,7 @@ import { withProjectMutationLock } from "../src/project.mjs";
 import { finishLeanWorkItem } from "../src/lean-finish.mjs";
 import { inspectParallelPlan } from "../src/orchestration.mjs";
 import { readPendingLeanDelivery, readLeanFinishDiagnostics, leanDeliveryStateDirectory } from "../src/lean-delivery-state.mjs";
-import { fixture, cli, git, deliveryArgs, itemState, canonicalBytes } from "./helpers/lean-delivery-fixture.mjs";
+import { cachedFixture as fixture, cli, git, deliveryArgs, itemState, canonicalBytes } from "./helpers/lean-delivery-fixture.mjs";
 
 async function setup(t, verifier = false) {
   const f = await fixture(); t.after(f.cleanup);
