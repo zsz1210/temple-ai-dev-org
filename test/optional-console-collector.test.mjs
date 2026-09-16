@@ -5,6 +5,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import { setTimeout as delay } from "node:timers/promises";
 import { renderControlPlaneDashboard } from "../src/control-plane-dashboard.mjs";
 import {
   managementConsoleSnapshot,
@@ -64,6 +65,48 @@ async function fileSize(targetPath) {
   } catch (error) {
     if (error.code === "ENOENT") return 0;
     throw error;
+  }
+}
+
+async function* refreshEvents(body) {
+  const decoder = new TextDecoder();
+  let pending = "";
+  for await (const chunk of body) {
+    pending += decoder.decode(chunk, { stream: true });
+    let boundary;
+    while ((boundary = pending.indexOf("\n\n")) !== -1) {
+      const frame = pending.slice(0, boundary);
+      pending = pending.slice(boundary + 2);
+      if (!/^event: temple\.refresh$/m.test(frame)) continue;
+      const data = /^data: (.+)$/m.exec(frame);
+      assert.ok(data, "refresh includes its revision data");
+      yield JSON.parse(data[1]);
+    }
+  }
+  throw new Error("Console event stream ended before the expected refresh");
+}
+
+async function establishRefreshDelivery(target, events, signal) {
+  // fs.watch returning is not a native readiness barrier on macOS. Establish
+  // a real round trip before the acceptance writes; do not retry those writes.
+  const stop = new AbortController();
+  const setupSignal = AbortSignal.any([signal, stop.signal]);
+  const probe = path.join(target, ".ai-org/project/.console-watch-readiness");
+  const writer = (async () => {
+    let revision = 0;
+    while (true) {
+      setupSignal.throwIfAborted();
+      await fs.writeFile(probe, String(++revision), { signal: setupSignal });
+      await delay(25, undefined, { signal: setupSignal });
+    }
+  })();
+  try {
+    return await Promise.race([events.next(), writer]);
+  } finally {
+    stop.abort();
+    await writer.catch((error) => {
+      if (error.name !== "AbortError") throw error;
+    });
   }
 }
 
@@ -139,32 +182,39 @@ test("the optional Console emits a bounded refresh signal after canonical state 
   context.after(() => consoleServer.close());
 
   const controller = new AbortController();
-  // This bounds test resources, not an OS notification latency guarantee. The
-  // full suite contends with filesystem delivery; also bound connection/read and
-  // cancel the timer/stream on both success and failure.
-  // Include headroom for full-suite filesystem/CPU contention. This is a harness
-  // deadline; the refresh event assertion below remains mandatory.
+  // One unchanged deadline covers startup synchronization, connection, both
+  // actual mutations, snapshot reads and failure cleanup. No assertion retries.
   const timeout = setTimeout(() => controller.abort(new Error("Console refresh signal timed out")), 30000);
+  let refreshes;
   try {
     const events = await fetch(`${consoleServer.url}/api/v1/events`, { signal: controller.signal });
-    const reader = events.body.getReader();
-    const decoder = new TextDecoder();
-    await reader.read();
+    assert.equal(events.status, 200);
+    refreshes = refreshEvents(events.body);
+    let { value: previous } = await establishRefreshDelivery(state.target, refreshes, controller.signal);
 
     const projectPath = path.join(state.target, ".ai-org/project/project.json");
     const project = JSON.parse(await fs.readFile(projectPath, "utf8"));
-    await writeJson(projectPath, { ...project, name: `${project.name} refreshed` });
-
-    let received = "";
-    while (!received.includes("event: temple.refresh")) {
-      const chunk = await reader.read();
-      if (chunk.done) break;
-      received += decoder.decode(chunk.value, { stream: true });
+    const readSnapshot = async () => {
+      const response = await fetch(`${consoleServer.url}/api/v1/snapshot`, { signal: controller.signal });
+      assert.equal(response.status, 200);
+      return response.json();
+    };
+    assert.equal((await readSnapshot()).project.name, project.name);
+    for (const suffix of ["first refresh", "second refresh"]) {
+      const name = `${project.name} ${suffix}`;
+      await writeJson(projectPath, { ...project, name });
+      const { value: current } = await refreshes.next();
+      assert.ok(current.revision > previous.revision, "a subsequent refresh revision reaches the subscriber");
+      assert.equal((await readSnapshot()).project.name, name, "the refresh invalidates the cached snapshot");
+      previous = current;
     }
-    assert.match(received, /event: temple\.refresh/);
   } finally {
     clearTimeout(timeout);
     controller.abort();
+    await refreshes?.return().catch((error) => {
+      if (error.name !== "AbortError" && error !== controller.signal.reason) throw error;
+    });
+    await consoleServer.close();
   }
 });
 
