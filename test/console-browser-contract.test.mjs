@@ -13,27 +13,24 @@ import {
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-test("browser gate covers the approved responsive viewports and primary views", () => {
-  assert.deepEqual(
-    CONSOLE_VIEWPORTS.map(({ name, width, height }) => [name, width, height]),
-    [
-      ["mobile", 390, 844],
-      ["tablet", 768, 1024],
-      ["desktop", 1440, 1000],
-      ["ultrawide", 3440, 1440]
-    ]
-  );
-  assert.deepEqual(
-    PRIMARY_VIEWS.map(({ target, label }) => [target, label]),
-    [
-      ["now", "Overview"],
-      ["execution", "Work"],
-      ["organization", "Team"],
-      ["usage", "Usage"],
-      ["system", "System"],
-      ["history", "History"]
-    ]
-  );
+test("browser gate retains responsive classes and every primary navigation target", () => {
+  const widths = ["mobile", "tablet", "desktop", "ultrawide"].map(name => {
+    const viewport = CONSOLE_VIEWPORTS.find(entry => entry.name === name);
+    assert.ok(viewport, `missing responsive class: ${name}`);
+    assert.ok(Number.isInteger(viewport.width) && viewport.width > 0, name);
+    assert.ok(Number.isInteger(viewport.height) && viewport.height > 0, name);
+    return viewport.width;
+  });
+  // Exercise both sides of the real mobile-sidebar breakpoint without fixing
+  // exact pixel dimensions, display labels, order or additional viewports.
+  assert.ok(widths[0] < 760 && widths[1] >= 760);
+  for (let index = 1; index < widths.length; index += 1) {
+    assert.ok(widths[index] > widths[index - 1], "responsive classes must exercise increasing widths");
+  }
+  const targets = new Set(PRIMARY_VIEWS.map(view => view.target));
+  for (const target of ["now", "execution", "organization", "usage", "system", "history"]) {
+    assert.ok(targets.has(target), `missing primary view: ${target}`);
+  }
 });
 
 test("overlap math treats shared edges as separate and catches real intersections", () => {

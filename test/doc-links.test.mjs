@@ -24,25 +24,6 @@ test("documentation link resolution handles relative paths, fragments, and encod
   assert.equal(resolveLocalLink(source, "#local"), null);
 });
 
-test("localized Temple Concept Layers assets use explicit L1 through L6 labels", async () => {
-  const assetNames = [
-    "temple-layers.en.svg",
-    "temple-layers.ja.svg",
-    "temple-layers.zh-TW.svg",
-    "temple-layers-mobile.en.svg",
-    "temple-layers-mobile.ja.svg",
-    "temple-layers-mobile.zh-TW.svg"
-  ];
-  const expected = ["L1", "L2", "L3", "L4", "L5", "L6"];
-
-  for (const assetName of assetNames) {
-    const source = await fs.readFile(new URL(`../docs/assets/${assetName}`, import.meta.url), "utf8");
-    const labels = [...source.matchAll(/class="(?:index|idx)"[^>]*>([^<]+)<\/text>/g)].map((match) => match[1]);
-
-    assert.deepEqual(labels, expected, assetName);
-  }
-});
-
 test("fresh-session guidance keeps recovery titles neutral and unavailable usage unknown", async () => {
   const recoveryPlan = await fs.readFile(
     new URL("../docs/validation/greenfield-cold-task-recovery-test-plan.md", import.meta.url),

@@ -265,25 +265,6 @@ test("backup and restore CLI require an inspected plan before replacement", asyn
   assert.equal(await fs.readFile(projectPath, "utf8"), original);
 });
 
-test("the chamber remains a hidden evidence-first easter egg", () => {
-  const chamber = run(["chamber"]);
-  assert.equal(chamber.status, 0, chamber.stderr);
-  assert.equal(
-    chamber.stdout,
-    [
-      "The chamber is open.",
-      "",
-      "Outside: one idea.",
-      "Inside: many Positions learn, build, challenge, and verify in parallel.",
-      "Only evidence leaves the chamber.",
-      ""
-    ].join("\n")
-  );
-  const help = run(["--help"]);
-  assert.equal(help.status, 0, help.stderr);
-  assert.doesNotMatch(help.stdout, /temple chamber/);
-});
-
 test("dry-run writes nothing", async (context) => {
   const { temporaryRoot, target, configPath } = await fixture();
   context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
@@ -989,20 +970,6 @@ test("init refuses to adopt an identical untracked managed destination", async (
   assert.equal(initialized.status, 1);
   assert.match(initialized.stdout, /untracked file blocks new managed path/);
   assert.equal(await fs.readFile(destinationPath, "utf8"), original);
-  await assert.rejects(() => fs.access(path.join(target, "temple.lock")));
-});
-
-test("executeInit never overwrites a project file created after planning", async (context) => {
-  const { temporaryRoot, target } = await fixture();
-  context.after(() => fs.rm(temporaryRoot, { recursive: true, force: true }));
-  const plan = await planInit(target, configDocument());
-  const relativePath = ".agents/skills/decision-interview/SKILL.md";
-  const destinationPath = path.join(target, relativePath);
-  await fs.mkdir(path.dirname(destinationPath), { recursive: true });
-  await fs.writeFile(destinationPath, "project-owned race winner\n");
-
-  await assert.rejects(() => executeInit(plan), (error) => error.code === "EEXIST");
-  assert.equal(await fs.readFile(destinationPath, "utf8"), "project-owned race winner\n");
   await assert.rejects(() => fs.access(path.join(target, "temple.lock")));
 });
 

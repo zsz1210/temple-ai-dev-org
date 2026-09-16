@@ -210,13 +210,24 @@ test("delivery pair readiness and actual injected lifecycles are generation-free
   assert.equal((await inspectReadiness({ labRoot: template, protocol, providerContract: contract })).model_generation_performed, false);
   let number = 0;
   let completeRun;
+  // Reuse only pristine setup, keyed by the exact arm order. Every scenario gets
+  // its own writable copy, including Git metadata; actor commands still run.
+  const initialPairs = new Map([[JSON.stringify(manifest.order), { root: template, manifest }]]);
+  async function copyInitialPair(labRoot, order = manifest.order) {
+    const key = JSON.stringify(order);
+    let initial = initialPairs.get(key);
+    if (!initial) {
+      const root = path.join(parent, `template-${initialPairs.size}`);
+      initial = { root, manifest: await preparePair({ labRoot: root, sourceRoot, order }) };
+      initialPairs.set(key, initial);
+    }
+    await fs.cp(initial.root, labRoot, { recursive: true });
+    return initial.manifest;
+  }
   async function run(options = {}, changeProtocol) {
     const labRoot = path.join(parent, `run-${number++}`);
-    let baseProtocol = protocol;
-    if (options.order) {
-      const ordered = await preparePair({ labRoot, sourceRoot, order: options.order });
-      baseProtocol = { ...protocol, manifest_sha256: digest(ordered), order: ordered.order };
-    } else await fs.cp(template, labRoot, { recursive: true });
+    const initial = await copyInitialPair(labRoot, options.order);
+    const baseProtocol = { ...protocol, manifest_sha256: digest(initial), order: initial.order };
     const p = changeProtocol ? changeProtocol(structuredClone(baseProtocol)) : baseProtocol;
     const calls = [],ledger=[],errors=[]; const result = await runPair({ labRoot, protocol: p, approval: approve(p), providerContract: contract, diagnosticKey, deadline: options.deadline, providerFactory: replayFactory({ ...options, calls,ledger,errors }) });
     return { result, labRoot, calls,ledger,errors };
@@ -264,6 +275,29 @@ test("delivery pair readiness and actual injected lifecycles are generation-free
     await fs.writeFile(sandboxReportPath,JSON.stringify({schema_version:"temple.delivery-sandbox-readiness/v1",status:"passed",model_generation_performed:false,provider_thread_requests:0,provider_turn_requests:0,transport:"installed-provider-command/exec; actual-zsh-envelope; sandboxed-file-writes",source_sha256:await sourceDigest(sourceRoot),process_contract_sha256:digest(deliveryProcessContract()),cli_version:contract.cli_version,completed_stages:4,negative_write_checks:negatives.length,negatives,operation_count:ledger.length,operations:[...new Set(ledger.map(e=>e.operation).filter(Boolean))],stages:result.stages.map(s=>({arm:s.arm,stage:s.stage,quality_passed:s.quality_passed,workflow:s.workflow,command_started_count:s.command_started_count,command_completed_count:s.command_completed_count,oracle_exit_code:s.oracle.exit_code})),synthetic_usage_excluded:true},null,2)+"\n");
     return;
   }
+  await t.test("initial pair copies isolate product, lifecycle and Git state in both orders", async () => {
+    for (const order of [["ordinary", "temple"], ["temple", "ordinary"]]) {
+      const left = path.join(parent, `isolation-${order[0]}-left`);
+      const right = path.join(parent, `isolation-${order[0]}-right`);
+      const initial = await copyInitialPair(left, order);
+      assert.deepEqual(initial.order, order);
+      const pristine = initialPairs.get(JSON.stringify(order)).root;
+      const paths = [
+        path.join(initial.arms.ordinary.id, "order.mjs"),
+        path.join(initial.arms.temple.id, ".ai-org/work-items/WI-0001.json"),
+        path.join(initial.arms.temple.id, ".git/config")
+      ];
+      const before = await Promise.all(paths.map(name => fs.readFile(path.join(pristine, name))));
+      for (const name of paths) await fs.appendFile(path.join(left, name), "\nchanged only in one copy\n");
+      await copyInitialPair(right, order);
+      for (const [index, name] of paths.entries()) {
+        assert.deepEqual(await fs.readFile(path.join(pristine, name)), before[index]);
+        assert.deepEqual(await fs.readFile(path.join(right, name)), before[index]);
+        assert.notDeepEqual(await fs.readFile(path.join(left, name)), before[index]);
+      }
+    }
+    assert.equal(initialPairs.size, 2, "one pristine setup per exact order");
+  });
   await t.test("broken actual product is a measured arm failure; other arm may run once", async () => {
     const { result } = await run({ mode: "broken" });
     assert.equal(result.status, "completed", result.stop_reason); assert.equal(result.efficiency_comparable, false); assert.equal(result.stages[0].status, "quality-failed"); assert.equal(result.stages.length, 3);
@@ -304,12 +338,14 @@ test("delivery pair readiness and actual injected lifecycles are generation-free
       } else assert.match(result.stop_reason, /write-scope|public-file-changed|verifier-product/);
     }
   });
-  for (const mode of ["missing-usage", "bad-usage", "route", "missing-model", "effort", "memory", "approval", "reroute", "cap", "timeout", "pending-start","private-error","private-command","wrong-usage","early-wrong-usage","partial-usage","unmatched","duplicate-start","duplicate-completion","completion-without-start","interrupt-failure"]) await t.test(`${mode} stops pair and retains output`, async () => {
-    const { result, labRoot, calls } = await run({ mode }, ["timeout", "pending-start"].includes(mode) ? p => { p.limits.per_stage_ms = 30; return p; } : undefined);
+  async function assertStoppedPair({ result, labRoot, calls }, mode) {
     assert.equal(result.status, "stopped", mode); assert.equal(result.stages.length, 1); assert.equal(result.efficiency_comparable, false);
     assert.ok(result.stop_reason); assert.equal(JSON.parse(await fs.readFile(path.join(labRoot, "run.json"))).status, "stopped"); await fs.access(path.join(labRoot, "seal.json"));
     if (mode === "missing-usage") { assert.equal(result.total_usage, null); assert.equal(result.usage_complete, false); assert.equal(result.known_usage_subtotal.operational_tokens, 0); }
     if (["route","missing-model","effort", "memory"].includes(mode)) assert.equal(calls.some(c => c.method === "turn/start"), false);
+  }
+  for (const mode of ["missing-usage", "bad-usage", "missing-model", "effort", "memory", "approval", "reroute", "cap", "timeout", "pending-start","private-error","wrong-usage","unmatched","duplicate-start","duplicate-completion","completion-without-start"]) await t.test(`${mode} stops pair and retains output`, async () => {
+    await assertStoppedPair(await run({ mode }, ["timeout", "pending-start"].includes(mode) ? p => { p.limits.per_stage_ms = 30; return p; } : undefined), mode);
   });
   await t.test("real observer retains first revision rejection across trailing completion without private operands", async () => {
     const { result, labRoot } = await run({ mode: "revision-diagnostic" });
@@ -330,18 +366,20 @@ test("delivery pair readiness and actual injected lifecycles are generation-free
   });
   await t.test("partial usage and rejected private envelopes remain diagnostic without raw content",async()=>{
     const partial=await run({mode:"partial-usage"});
+    await assertStoppedPair(partial,"partial-usage");
     assert.equal(partial.result.stages[0].usage.operational_tokens,80); assert.equal(partial.result.total_usage,null);
     assert.equal(partial.result.stages[0].interrupt_requested,true); assert.equal(partial.result.stages[0].interrupt_acknowledged,true);
     assert.equal(partial.result.stages[0].terminal_status,"interrupted"); assert.equal(partial.result.stop_reason,"provider-protocol");
     const regressed=await run({mode:"regressed-component"}); assert.equal(regressed.result.stop_reason,"usage-regressed"); assert.equal(regressed.result.stages[0].usage.input_tokens,100);
-    const wrong=await run({mode:"early-wrong-usage"}); assert.equal(wrong.result.stages[0].usage,null);
+    const wrong=await run({mode:"early-wrong-usage"}); await assertStoppedPair(wrong,"early-wrong-usage"); assert.equal(wrong.result.stages[0].usage,null);
     const privateRun=await run({mode:"private-command"});
+    await assertStoppedPair(privateRun,"private-command");
     const retained=await fs.readFile(path.join(privateRun.labRoot,"run.json"),"utf8");
     assert.equal(retained.includes("SECRET-SENTINEL"),false); assert.equal(retained.includes(diagnosticKey.toString("hex")),false);
     assert.equal(privateRun.result.stages[0].events.find(e=>e.classification)?.classification.allowed,false);
     assert.equal(privateRun.result.stages[0].command_started_count,1); assert.equal(privateRun.result.stages[0].command_completed_count,0); assert.equal(privateRun.result.stages[0].unmatched_command_starts,1);
-    const rejected=await run({mode:"route"}); assert.equal(rejected.result.stages[0].acknowledged_model,"gpt-5.6-sol"); assert.equal(rejected.result.stages[0].model_acknowledgement,"mismatched");
-    const noAck=await run({mode:"interrupt-failure"}); assert.equal(noAck.result.stages[0].interrupt_requested,true); assert.equal(noAck.result.stages[0].interrupt_acknowledged,false);
+    const rejected=await run({mode:"route"}); await assertStoppedPair(rejected,"route"); assert.equal(rejected.result.stages[0].acknowledged_model,"gpt-5.6-sol"); assert.equal(rejected.result.stages[0].model_acknowledgement,"mismatched");
+    const noAck=await run({mode:"interrupt-failure"}); await assertStoppedPair(noAck,"interrupt-failure"); assert.equal(noAck.result.stages[0].interrupt_requested,true); assert.equal(noAck.result.stages[0].interrupt_acknowledged,false);
     assert.equal(safeFailureCode(Error("SECRET-SENTINEL-ERROR")),"observation-invalid");
   });
   await t.test("invalid approval and source, fixture or provider drift never invoke provider", async () => {
