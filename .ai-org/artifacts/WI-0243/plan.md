@@ -51,3 +51,21 @@ are immutable and would require a separately authorized successor, not replaceme
 An initial create request used a documentation path as --context-ref. The empty
 context-map rejected it before mutation; no Work Item existed. The corrected request
 omitted the nonexistent route and retained the release procedure here as evidence.
+
+## Qualification corrections before the final candidate
+
+The package-boundary check rejected the one added public guide (444 versus 443
+reviewed entries). scripts/check-package.mjs is additionally affected: require
+that exact guide and raise only the count to 444; retain all forbidden paths and
+size limits. This is necessary package qualification work within the approved
+scope. No other active Work Item overlaps this check file. The CLI has no supported
+affected-path update operation; retain the precise addition here rather than
+manually rewriting the canonical Work Item.
+
+The first disposable harness attempt incorrectly treated generated view timestamps
+and lock integration receipts as project data. Its recorded failure is retained.
+Repeat-init verification now checks all other bytes and separately compares the
+lock while allowing only validated installed/appended-to-present native integration
+receipts to refresh. Subsequent attempts exposed those documented receipt values
+and are also retained. The installation timestamp remains checked. No runtime
+implementation changed.

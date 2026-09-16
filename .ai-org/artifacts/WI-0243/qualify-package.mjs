@@ -93,10 +93,19 @@ async function initialize(fixture, label, customized = false) {
   run(`${label}: dry init`, process.execPath, [cli, 'init', '.', '--config', configPath, ...flags, '--dry-run'], project);
   assert.deepEqual(await snapshot(project), before);
   run(`${label}: init`, process.execPath, [cli, 'init', '.', '--config', configPath, ...flags], project);
-  const initialized = await snapshot(project);
+  const refreshable = new Set(['temple.lock', '.ai-org/views/status.md', '.ai-org/views/capabilities.json']);
+  const initialized = await snapshot(project, refreshable);
+  const firstLock = await json(path.join(project, 'temple.lock'));
   run(`${label}: repeat init`, process.execPath, [cli, 'init', '.', '--config', configPath, ...flags], project);
-  assert.deepEqual(await snapshot(project), initialized);
-  check(`${label}: dry init is read-only and repeated init preserves bytes`);
+  assert.deepEqual(await snapshot(project, refreshable), initialized);
+  const repeatedLock = await json(path.join(project, 'temple.lock'));
+  for (const key of ['agents_md', 'claude_md']) {
+    assert(['installed', 'appended', 'present'].includes(firstLock.integrations[key]));
+    assert.equal(repeatedLock.integrations[key], 'present');
+    firstLock.integrations[key] = 'present';
+  }
+  assert.deepEqual(repeatedLock, firstLock);
+  check(`${label}: dry init is read-only; repeated init preserves project and managed bytes`, { refreshable: [...refreshable], lock_difference: 'installed/appended to present integration receipts only' });
 }
 function launcher(fixture, label, cli = fixture.cli) {
   const env = { TEMPLE_CLI_PATH: cli };
