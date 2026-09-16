@@ -5,9 +5,9 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 241 total, 0 active
+- Work items: 242 total, 0 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 91 registered, 0 reserved, 0 active
+- Runtime workers: 92 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -289,6 +289,7 @@
 | WI-0239 | Reduce shared fixture setup on the full-suite critical path | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aef4f2e3` | 0 | 7 | 0 |
 | WI-0240 | Batch continuity Git reads without weakening candidate validation | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2d4c018c` | 0 | 7 | 0 |
 | WI-0241 | Reuse Doctor compiler setup while preserving schema isolation | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `bcafc86e` | 0 | 7 | 0 |
+| WI-0242 | Make Console refresh delivery reliable and clean up streams | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f1629909` | 0 | 7 | 0 |
 
 ## Delivery attention
 
@@ -405,6 +406,7 @@
 | worker-20260916012820-b3d2b660 | internal-subagent | WI-0239 | Quality & Evaluation Engineer / Lulu | completed | /root/shared_fixture_qa | `aef4f2e3` | 0 |
 | worker-20260916030935-ed63684a | internal-subagent | WI-0240 | Quality & Evaluation Engineer / Lulu | completed | /root/continuity_batch_qa | `2d4c018c` | 0 |
 | worker-20260916045941-d831ca3a | internal-subagent | WI-0241 | Quality & Evaluation Engineer / Lulu | completed | /root/doctor_compiler_qa | `bcafc86e` | 0 |
+| worker-20260916062712-2e1f6dc1 | internal-subagent | WI-0242 | Quality & Evaluation Engineer / Lulu | completed | /root/console_refresh_qa | `f1629909` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -442,7 +444,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 90
+- Team-visible Work Items: 91
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -516,14 +518,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-16T05:16:07.004Z | work_item_closed | WI-0241 | agent-mog |
-| 2026-09-16T05:16:07.004Z | release_gate_completed | WI-0241 | agent-mog |
-| 2026-09-16T05:16:06.616Z | work_item_claimed | WI-0241 | human |
-| 2026-09-16T05:16:06.076Z | work_item_transitioned | WI-0241 | agent-lulu |
-| 2026-09-16T05:16:05.678Z | work_item_claim_released | WI-0241 | human |
-| 2026-09-16T05:16:05.291Z | handoff_created | WI-0241 | agent-lulu |
-| 2026-09-16T05:16:04.883Z | work_item_claimed | WI-0241 | human |
-| 2026-09-16T05:15:44.108Z | work_item_transitioned | WI-0241 | agent-lulu |
+| 2026-09-16T06:34:16.110Z | work_item_closed | WI-0242 | agent-mog |
+| 2026-09-16T06:34:16.110Z | release_gate_completed | WI-0242 | agent-mog |
+| 2026-09-16T06:34:15.706Z | work_item_claimed | WI-0242 | human |
+| 2026-09-16T06:34:15.266Z | work_item_transitioned | WI-0242 | agent-lulu |
+| 2026-09-16T06:34:14.863Z | work_item_claim_released | WI-0242 | human |
+| 2026-09-16T06:34:14.470Z | handoff_created | WI-0242 | agent-lulu |
+| 2026-09-16T06:34:14.053Z | work_item_claimed | WI-0242 | human |
+| 2026-09-16T06:34:13.627Z | work_item_transitioned | WI-0242 | agent-lulu |
 
 ## Assignments
 
