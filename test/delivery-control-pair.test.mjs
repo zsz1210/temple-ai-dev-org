@@ -210,13 +210,24 @@ test("delivery pair readiness and actual injected lifecycles are generation-free
   assert.equal((await inspectReadiness({ labRoot: template, protocol, providerContract: contract })).model_generation_performed, false);
   let number = 0;
   let completeRun;
+  // Reuse only pristine setup, keyed by the exact arm order. Every scenario gets
+  // its own writable copy, including Git metadata; actor commands still run.
+  const initialPairs = new Map([[JSON.stringify(manifest.order), { root: template, manifest }]]);
+  async function copyInitialPair(labRoot, order = manifest.order) {
+    const key = JSON.stringify(order);
+    let initial = initialPairs.get(key);
+    if (!initial) {
+      const root = path.join(parent, `template-${initialPairs.size}`);
+      initial = { root, manifest: await preparePair({ labRoot: root, sourceRoot, order }) };
+      initialPairs.set(key, initial);
+    }
+    await fs.cp(initial.root, labRoot, { recursive: true });
+    return initial.manifest;
+  }
   async function run(options = {}, changeProtocol) {
     const labRoot = path.join(parent, `run-${number++}`);
-    let baseProtocol = protocol;
-    if (options.order) {
-      const ordered = await preparePair({ labRoot, sourceRoot, order: options.order });
-      baseProtocol = { ...protocol, manifest_sha256: digest(ordered), order: ordered.order };
-    } else await fs.cp(template, labRoot, { recursive: true });
+    const initial = await copyInitialPair(labRoot, options.order);
+    const baseProtocol = { ...protocol, manifest_sha256: digest(initial), order: initial.order };
     const p = changeProtocol ? changeProtocol(structuredClone(baseProtocol)) : baseProtocol;
     const calls = [],ledger=[],errors=[]; const result = await runPair({ labRoot, protocol: p, approval: approve(p), providerContract: contract, diagnosticKey, deadline: options.deadline, providerFactory: replayFactory({ ...options, calls,ledger,errors }) });
     return { result, labRoot, calls,ledger,errors };
@@ -264,6 +275,29 @@ test("delivery pair readiness and actual injected lifecycles are generation-free
     await fs.writeFile(sandboxReportPath,JSON.stringify({schema_version:"temple.delivery-sandbox-readiness/v1",status:"passed",model_generation_performed:false,provider_thread_requests:0,provider_turn_requests:0,transport:"installed-provider-command/exec; actual-zsh-envelope; sandboxed-file-writes",source_sha256:await sourceDigest(sourceRoot),process_contract_sha256:digest(deliveryProcessContract()),cli_version:contract.cli_version,completed_stages:4,negative_write_checks:negatives.length,negatives,operation_count:ledger.length,operations:[...new Set(ledger.map(e=>e.operation).filter(Boolean))],stages:result.stages.map(s=>({arm:s.arm,stage:s.stage,quality_passed:s.quality_passed,workflow:s.workflow,command_started_count:s.command_started_count,command_completed_count:s.command_completed_count,oracle_exit_code:s.oracle.exit_code})),synthetic_usage_excluded:true},null,2)+"\n");
     return;
   }
+  await t.test("initial pair copies isolate product, lifecycle and Git state in both orders", async () => {
+    for (const order of [["ordinary", "temple"], ["temple", "ordinary"]]) {
+      const left = path.join(parent, `isolation-${order[0]}-left`);
+      const right = path.join(parent, `isolation-${order[0]}-right`);
+      const initial = await copyInitialPair(left, order);
+      assert.deepEqual(initial.order, order);
+      const pristine = initialPairs.get(JSON.stringify(order)).root;
+      const paths = [
+        path.join(initial.arms.ordinary.id, "order.mjs"),
+        path.join(initial.arms.temple.id, ".ai-org/work-items/WI-0001.json"),
+        path.join(initial.arms.temple.id, ".git/config")
+      ];
+      const before = await Promise.all(paths.map(name => fs.readFile(path.join(pristine, name))));
+      for (const name of paths) await fs.appendFile(path.join(left, name), "\nchanged only in one copy\n");
+      await copyInitialPair(right, order);
+      for (const [index, name] of paths.entries()) {
+        assert.deepEqual(await fs.readFile(path.join(pristine, name)), before[index]);
+        assert.deepEqual(await fs.readFile(path.join(right, name)), before[index]);
+        assert.notDeepEqual(await fs.readFile(path.join(left, name)), before[index]);
+      }
+    }
+    assert.equal(initialPairs.size, 2, "one pristine setup per exact order");
+  });
   await t.test("broken actual product is a measured arm failure; other arm may run once", async () => {
     const { result } = await run({ mode: "broken" });
     assert.equal(result.status, "completed", result.stop_reason); assert.equal(result.efficiency_comparable, false); assert.equal(result.stages[0].status, "quality-failed"); assert.equal(result.stages.length, 3);

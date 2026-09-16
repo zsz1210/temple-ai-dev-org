@@ -1,0 +1,492 @@
+{
+  "schema_version": "temple.test-performance-observation/v1",
+  "description": "Offline test profiling; exploratory orders uncontrolled, fixed pair forces Temple-first only in temporary profiler. Filesystem durations overlap and must not be summed into wall time. Baseline temporary copy has one additional trailing newline; otherwise exact baseline test body. Test/module behavior and all existing assertions unchanged.",
+  "observations": {
+    "baseline": {
+      "profile": {
+        "pid": 12501,
+        "node": "v24.20.0",
+        "elapsed_ms": 57710.221667,
+        "totals": {
+          "git:init": {
+            "count": 10,
+            "elapsed_ms": 137.8788760000074
+          },
+          "git:config": {
+            "count": 20,
+            "elapsed_ms": 197.79716499999216
+          },
+          "git:add": {
+            "count": 20,
+            "elapsed_ms": 489.5828340000164
+          },
+          "git:commit": {
+            "count": 20,
+            "elapsed_ms": 414.64141299999227
+          },
+          "fs.readdir": {
+            "count": 3335,
+            "elapsed_ms": 142.3499809999577
+          },
+          "fs.readFile": {
+            "count": 40060,
+            "elapsed_ms": 101815.73299700013
+          },
+          "git:rev-parse": {
+            "count": 163,
+            "elapsed_ms": 1661.4001229999712
+          },
+          "node:temple.mjs:init": {
+            "count": 5,
+            "elapsed_ms": 2625.5077090000004
+          },
+          "node:templew.mjs:work-item": {
+            "count": 10,
+            "elapsed_ms": 2885.6358329999885
+          },
+          "node:templew.mjs:transition": {
+            "count": 5,
+            "elapsed_ms": 1459.369126000004
+          },
+          "node:templew.mjs:doctor": {
+            "count": 5,
+            "elapsed_ms": 2674.1884580000024
+          },
+          "git:ls-files": {
+            "count": 95,
+            "elapsed_ms": 1016.0552059999836
+          },
+          "codex": {
+            "count": 2,
+            "elapsed_ms": 42.78099999999995
+          },
+          "git:status": {
+            "count": 76,
+            "elapsed_ms": 919.606121000008
+          },
+          "fs.cp": {
+            "count": 31,
+            "elapsed_ms": 2853.679085000008
+          },
+          "zsh:pwd": {
+            "count": 28,
+            "elapsed_ms": 148.99150300000565
+          },
+          "zsh:git": {
+            "count": 154,
+            "elapsed_ms": 2428.498459999978
+          },
+          "zsh:cat": {
+            "count": 230,
+            "elapsed_ms": 1264.3271640000594
+          },
+          "zsh:product-tests": {
+            "count": 28,
+            "elapsed_ms": 2301.832000000005
+          },
+          "git:merge-base": {
+            "count": 36,
+            "elapsed_ms": 364.0157500000132
+          },
+          "git:show": {
+            "count": 52,
+            "elapsed_ms": 522.1170830000001
+          },
+          "node:--test:test/added.test.mjs": {
+            "count": 17,
+            "elapsed_ms": 1332.0155439999962
+          },
+          "node:oracle.mjs:": {
+            "count": 17,
+            "elapsed_ms": 545.9159580000023
+          },
+          "zsh:temple:--help": {
+            "count": 13,
+            "elapsed_ms": 3152.461705000006
+          },
+          "zsh:temple:context": {
+            "count": 13,
+            "elapsed_ms": 5650.562542999996
+          },
+          "zsh:temple:work-item": {
+            "count": 26,
+            "elapsed_ms": 14371.354333000014
+          }
+        }
+      },
+      "runner_ms": 57754.851459,
+      "test_count": 35,
+      "pass": 35,
+      "fail": 0,
+      "setup_cli_count": 25,
+      "setup_cli_ms": 9644.701125999996,
+      "actor_shell_count": 492,
+      "all_measured_subprocesses": 1045
+    },
+    "candidate": {
+      "profile": {
+        "pid": 18791,
+        "node": "v24.20.0",
+        "elapsed_ms": 56084.581042,
+        "totals": {
+          "git:init": {
+            "count": 4,
+            "elapsed_ms": 59.067666999999986
+          },
+          "git:config": {
+            "count": 8,
+            "elapsed_ms": 83.59604099999868
+          },
+          "git:add": {
+            "count": 8,
+            "elapsed_ms": 198.87554100000096
+          },
+          "git:commit": {
+            "count": 8,
+            "elapsed_ms": 168.91107999999983
+          },
+          "node:temple.mjs:init": {
+            "count": 2,
+            "elapsed_ms": 1072.8968330000002
+          },
+          "node:templew.mjs:work-item": {
+            "count": 4,
+            "elapsed_ms": 1189.4468330000013
+          },
+          "git:rev-parse": {
+            "count": 148,
+            "elapsed_ms": 1547.3164969999862
+          },
+          "node:templew.mjs:transition": {
+            "count": 2,
+            "elapsed_ms": 595.3014170000004
+          },
+          "node:templew.mjs:doctor": {
+            "count": 2,
+            "elapsed_ms": 1064.3327090000007
+          },
+          "fs.readdir": {
+            "count": 3746,
+            "elapsed_ms": 170.151276000116
+          },
+          "fs.readFile": {
+            "count": 41207,
+            "elapsed_ms": 97051.08066799982
+          },
+          "git:ls-files": {
+            "count": 90,
+            "elapsed_ms": 1007.3870819999206
+          },
+          "codex": {
+            "count": 2,
+            "elapsed_ms": 41.73479099999986
+          },
+          "git:status": {
+            "count": 77,
+            "elapsed_ms": 972.3550880000116
+          },
+          "fs.cp": {
+            "count": 39,
+            "elapsed_ms": 3559.8856260000107
+          },
+          "zsh:pwd": {
+            "count": 26,
+            "elapsed_ms": 142.42004000000225
+          },
+          "zsh:git": {
+            "count": 142,
+            "elapsed_ms": 2266.475374999999
+          },
+          "zsh:cat": {
+            "count": 227,
+            "elapsed_ms": 1291.6540010000062
+          },
+          "zsh:temple:--help": {
+            "count": 15,
+            "elapsed_ms": 3709.719248999994
+          },
+          "zsh:temple:context": {
+            "count": 15,
+            "elapsed_ms": 6574.136329999997
+          },
+          "zsh:temple:work-item": {
+            "count": 30,
+            "elapsed_ms": 16932.194373
+          },
+          "zsh:product-tests": {
+            "count": 26,
+            "elapsed_ms": 2182.819249000005
+          },
+          "git:merge-base": {
+            "count": 34,
+            "elapsed_ms": 341.04828900000575
+          },
+          "git:show": {
+            "count": 51,
+            "elapsed_ms": 510.0322500000211
+          },
+          "node:--test:test/added.test.mjs": {
+            "count": 17,
+            "elapsed_ms": 1341.0587099999984
+          },
+          "node:oracle.mjs:": {
+            "count": 17,
+            "elapsed_ms": 552.679667999998
+          }
+        }
+      },
+      "runner_ms": 56133.856708,
+      "test_count": 36,
+      "pass": 36,
+      "fail": 0,
+      "setup_cli_count": 10,
+      "setup_cli_ms": 3921.977792000003,
+      "actor_shell_count": 481,
+      "all_measured_subprocesses": 955
+    },
+    "baseline-fixed": {
+      "profile": {
+        "pid": 24657,
+        "node": "v24.20.0",
+        "order": "temple-first",
+        "elapsed_ms": 62552.033458,
+        "totals": {
+          "git:init": {
+            "count": 10,
+            "elapsed_ms": 153.39154199999848
+          },
+          "git:config": {
+            "count": 20,
+            "elapsed_ms": 198.64371099999022
+          },
+          "git:add": {
+            "count": 20,
+            "elapsed_ms": 494.04450199999366
+          },
+          "git:commit": {
+            "count": 20,
+            "elapsed_ms": 418.08520899999667
+          },
+          "node:temple.mjs:init": {
+            "count": 5,
+            "elapsed_ms": 2680.550792
+          },
+          "node:templew.mjs:work-item": {
+            "count": 10,
+            "elapsed_ms": 2983.926625
+          },
+          "git:rev-parse": {
+            "count": 160,
+            "elapsed_ms": 1679.7204619999657
+          },
+          "node:templew.mjs:transition": {
+            "count": 5,
+            "elapsed_ms": 1503.4446679999949
+          },
+          "node:templew.mjs:doctor": {
+            "count": 5,
+            "elapsed_ms": 2700.9796679999977
+          },
+          "fs.readdir": {
+            "count": 3833,
+            "elapsed_ms": 176.9869240001981
+          },
+          "fs.readFile": {
+            "count": 42356,
+            "elapsed_ms": 99821.1082380013
+          },
+          "git:ls-files": {
+            "count": 93,
+            "elapsed_ms": 1038.5530429999908
+          },
+          "codex": {
+            "count": 2,
+            "elapsed_ms": 41.76195899999993
+          },
+          "git:status": {
+            "count": 77,
+            "elapsed_ms": 962.5847949999948
+          },
+          "fs.cp": {
+            "count": 31,
+            "elapsed_ms": 2817.352042
+          },
+          "zsh:pwd": {
+            "count": 26,
+            "elapsed_ms": 142.9665850000015
+          },
+          "zsh:git": {
+            "count": 142,
+            "elapsed_ms": 2279.278082999999
+          },
+          "zsh:cat": {
+            "count": 227,
+            "elapsed_ms": 1271.6965769999788
+          },
+          "zsh:temple:--help": {
+            "count": 15,
+            "elapsed_ms": 3752.8964159999973
+          },
+          "zsh:temple:context": {
+            "count": 15,
+            "elapsed_ms": 6637.726709000004
+          },
+          "zsh:temple:work-item": {
+            "count": 30,
+            "elapsed_ms": 17153.967959999965
+          },
+          "zsh:product-tests": {
+            "count": 26,
+            "elapsed_ms": 2184.3409600000095
+          },
+          "git:merge-base": {
+            "count": 34,
+            "elapsed_ms": 348.41845900000135
+          },
+          "git:show": {
+            "count": 51,
+            "elapsed_ms": 523.0220830000007
+          },
+          "node:--test:test/added.test.mjs": {
+            "count": 17,
+            "elapsed_ms": 1358.879248999996
+          },
+          "node:oracle.mjs:": {
+            "count": 17,
+            "elapsed_ms": 568.6122910000049
+          }
+        }
+      },
+      "runner_ms": 62638.900625,
+      "test_count": 35,
+      "pass": 35,
+      "fail": 0,
+      "setup_cli_count": 25,
+      "setup_cli_ms": 9868.901752999993,
+      "actor_shell_count": 481,
+      "all_measured_subprocesses": 1027
+    },
+    "candidate-fixed": {
+      "profile": {
+        "pid": 31096,
+        "node": "v24.20.0",
+        "order": "temple-first",
+        "elapsed_ms": 57785.697708,
+        "totals": {
+          "git:init": {
+            "count": 4,
+            "elapsed_ms": 61.513915999998815
+          },
+          "git:config": {
+            "count": 8,
+            "elapsed_ms": 88.32391799999932
+          },
+          "git:add": {
+            "count": 8,
+            "elapsed_ms": 202.0120839999975
+          },
+          "git:commit": {
+            "count": 8,
+            "elapsed_ms": 173.09195900000162
+          },
+          "node:temple.mjs:init": {
+            "count": 2,
+            "elapsed_ms": 1101.7589990000015
+          },
+          "node:templew.mjs:work-item": {
+            "count": 4,
+            "elapsed_ms": 1242.2232079999994
+          },
+          "git:rev-parse": {
+            "count": 148,
+            "elapsed_ms": 1592.4819570000232
+          },
+          "node:templew.mjs:transition": {
+            "count": 2,
+            "elapsed_ms": 611.6391239999996
+          },
+          "node:templew.mjs:doctor": {
+            "count": 2,
+            "elapsed_ms": 1104.2281669999988
+          },
+          "fs.readdir": {
+            "count": 3746,
+            "elapsed_ms": 162.6031249999637
+          },
+          "fs.readFile": {
+            "count": 41207,
+            "elapsed_ms": 96760.77092900028
+          },
+          "git:ls-files": {
+            "count": 90,
+            "elapsed_ms": 1025.725876999973
+          },
+          "codex": {
+            "count": 2,
+            "elapsed_ms": 43.512166000000434
+          },
+          "git:status": {
+            "count": 77,
+            "elapsed_ms": 997.7206259999671
+          },
+          "fs.cp": {
+            "count": 39,
+            "elapsed_ms": 3634.265828999987
+          },
+          "zsh:pwd": {
+            "count": 26,
+            "elapsed_ms": 145.24945799999387
+          },
+          "zsh:git": {
+            "count": 142,
+            "elapsed_ms": 2361.5265889999655
+          },
+          "zsh:cat": {
+            "count": 227,
+            "elapsed_ms": 1370.7594630000303
+          },
+          "zsh:temple:--help": {
+            "count": 15,
+            "elapsed_ms": 3809.2991239999974
+          },
+          "zsh:temple:context": {
+            "count": 15,
+            "elapsed_ms": 6915.684960999999
+          },
+          "zsh:temple:work-item": {
+            "count": 30,
+            "elapsed_ms": 17505.492084999976
+          },
+          "zsh:product-tests": {
+            "count": 26,
+            "elapsed_ms": 2231.7497899999944
+          },
+          "git:merge-base": {
+            "count": 34,
+            "elapsed_ms": 362.3292509999965
+          },
+          "git:show": {
+            "count": 51,
+            "elapsed_ms": 539.2955459999885
+          },
+          "node:--test:test/added.test.mjs": {
+            "count": 17,
+            "elapsed_ms": 1376.8166250000086
+          },
+          "node:oracle.mjs:": {
+            "count": 17,
+            "elapsed_ms": 564.5790839999963
+          }
+        }
+      },
+      "runner_ms": 57841.213125,
+      "test_count": 36,
+      "pass": 36,
+      "fail": 0,
+      "setup_cli_count": 10,
+      "setup_cli_ms": 4059.849497999999,
+      "actor_shell_count": 481,
+      "all_measured_subprocesses": 955
+    }
+  }
+}
