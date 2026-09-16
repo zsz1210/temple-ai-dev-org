@@ -1,17 +1,23 @@
 # Changelog
 
-## 0.1.0-alpha.32
+## 0.1.0-alpha.33
 
-- Corrected clean-host release qualification: synthetic runtime scratch stays within its owned temporary hierarchy, and offline package onboarding uses the exact source dependency lock instead of assuming cached registry metadata.
-- Increased the existing publication job reserve to 30 minutes after a complete hosted verification took more than 12 minutes; all verification, archive equality and Release-only publication gates remain required.
-- Supersedes Alpha.31's failed GitHub publication attempt, which stopped before npm upload. The prior tag and failures remain available; this successor retains the Solo trial scope and limits described below.
-
-## Unreleased development candidate
+Preparation candidate; publication is a separate release decision.
 
 - Added contributor readiness and fingerprinted Solo/team policy changes, ordinary attribution without Temple login, and stable-ID resolution for actual claimants and reviewers. Duplicate display names are supported; existing project-owned policy and history are preserved.
 - Added conservative measurement reuse, immutable attempts and non-Node trusted-local command checks on supported POSIX hosts. Confined execution retains explicit limits; Windows is not yet an available command adapter. Reuse never grants independent acceptance.
 - Added exact-byte evidence archives, semantic record reconciliation with interruption recovery, and actionable delivery states distinguishing running work, completed review, missing conditions and organizational acceptance.
 - Corrected task risk defaults and actual Developer/reviewer provenance. No hosting permissions, external publication authority, membership expiry or historical evidence is silently rewritten.
+- Reduced redundant test setup and decorative snapshot checks while retaining semantic and boundary coverage. Batched Git blob reads in continuity validation and reused eligible Doctor schema compiler setup within one call; validation results are not cached across calls.
+- Synchronized the Console refresh test with actual watcher readiness and bounded stream cleanup while retaining assertions for both subsequent project changes. This fixes a reproduced test-startup race, not a claim that every historical timeout has the same cause.
+- Prepared exact-package initialization and Alpha.32 upgrade qualification. Existing project-owned actor policies are preserved; adopting ordinary attribution in a legacy installation remains an explicit preview/apply decision. See the [qualification and upgrade guide](docs/validation/alpha-33-package-qualification.md).
+- Retains Alpha trial limits: local fixtures and measured improvements do not establish universal cost savings, production readiness, or mature multi-machine collaboration.
+
+## 0.1.0-alpha.32
+
+- Corrected clean-host release qualification: synthetic runtime scratch stays within its owned temporary hierarchy, and offline package onboarding uses the exact source dependency lock instead of assuming cached registry metadata.
+- Increased the existing publication job reserve to 30 minutes after a complete hosted verification took more than 12 minutes; all verification, archive equality and Release-only publication gates remain required.
+- Supersedes Alpha.31's failed GitHub publication attempt, which stopped before npm upload. The prior tag and failures remain available; this successor retains the Solo trial scope and limits described below.
 
 ## 0.1.0-alpha.31
 
