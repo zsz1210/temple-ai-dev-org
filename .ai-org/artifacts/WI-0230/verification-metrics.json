@@ -1,0 +1,113 @@
+{
+  "schema_version": "temple.field-remediation-observations/v1",
+  "candidate": "8bfe38892283744ba0c71bec0cd25f7cf1a02986",
+  "node": "v24.20.0",
+  "platform": "darwin",
+  "full_verification_attempts": [
+    {
+      "candidate": "56700f3a",
+      "command": "npm run verify",
+      "tests": 1229,
+      "pass": 1222,
+      "fail": 7,
+      "elapsed_ms": 292505.003083,
+      "log_artifact": ".ai-org/artifacts/WI-0230/verification-56700f3a.log.gz",
+      "uncompressed_sha256": "fa7baa41df4820735e6e606fec207f59e9f17c94bc6d9e70017db80c2eee2912"
+    },
+    {
+      "candidate": "535c306e",
+      "command": "npm run verify",
+      "tests": 1232,
+      "pass": 1232,
+      "fail": 0,
+      "elapsed_ms": 297834.925084,
+      "log_artifact": ".ai-org/artifacts/WI-0230/verification-535c306e.log.gz",
+      "uncompressed_sha256": "21acf867f62298156ca17e72e5f08deed2d3e719ea3f1c4523664fb844dd303b"
+    },
+    {
+      "candidate": "aff1b86e",
+      "command": "npm run verify",
+      "tests": 1249,
+      "pass": 1248,
+      "fail": 1,
+      "elapsed_ms": 285050.427375,
+      "log_artifact": ".ai-org/artifacts/WI-0230/verification-aff1b86e.log.gz",
+      "uncompressed_sha256": "929e97ee147b72ecb8b364a24670c323ab92cf7921f37307e387f316ff77acca"
+    },
+    {
+      "candidate": "8bfe3889",
+      "command": "npm run verify",
+      "tests": 1250,
+      "pass": 1250,
+      "fail": 0,
+      "elapsed_ms": 285611.118583,
+      "log_artifact": ".ai-org/artifacts/WI-0230/verification-8bfe3889.log.gz",
+      "uncompressed_sha256": "a4ab6f69103f606850046f912cec6460e3f8322951da5cffe69a80135ba8030a"
+    }
+  ],
+  "first_use": {
+    "first_claim_ms": 393,
+    "first_product_edit_ms": 394,
+    "first_verifiable_output_ms": 460,
+    "lifecycle_ms": 3948,
+    "extra_login": 0,
+    "human_interventions": 0,
+    "token_usage": "not observed",
+    "evidence_layer": "synthetic contributor with actual local product edit and measurement"
+  },
+  "installation_rehearsal": {
+    "candidate": "535c306e38355864adc336f0a1289f105855bbdd",
+    "fresh_healthy": true,
+    "upgrade_healthy": true,
+    "fresh_attributed": true,
+    "legacy_policy_bytes_preserved": true,
+    "project_owned_file_preserved": true,
+    "network_calls": 0,
+    "steps": [
+      {
+        "command": "init",
+        "elapsed_ms": 1440,
+        "exit": 0
+      },
+      {
+        "command": "doctor",
+        "elapsed_ms": 1095,
+        "exit": 0
+      },
+      {
+        "command": "upgrade",
+        "elapsed_ms": 1314,
+        "exit": 0
+      },
+      {
+        "command": "doctor",
+        "elapsed_ms": 1142,
+        "exit": 0
+      },
+      {
+        "command": "status",
+        "elapsed_ms": 448,
+        "exit": 0
+      }
+    ]
+  },
+  "browser": {
+    "candidate": "535c306e38355864adc336f0a1289f105855bbdd",
+    "viewports": 4,
+    "primary_views": 6,
+    "attention_states": 6,
+    "passed": true,
+    "rerun_on_final_candidate": false,
+    "applicability": "unchanged relevant source, independently reviewed"
+  },
+  "closeout": {
+    "work_items": ["WI-0230", "WI-0231", "WI-0232", "WI-0233"],
+    "state": "done",
+    "doctor": {"healthy": true, "pass": 37, "warn": 1, "fail": 0},
+    "warning": "Existing absent actor policy preserves legacy verification requirements until an explicit transition.",
+    "external_release_performed": false
+  },
+  "token_usage": null,
+  "monetary_cost": null,
+  "account_usage_polled": false
+}

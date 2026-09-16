@@ -59,7 +59,10 @@ test("configure rejects unsupported value and boolean options without changing a
     const offending = extra.find(flag => ["--affected-path", "--context-ref", "--title", "--principal-id", "--dry-run", "--no-write", "--same-scope"].includes(flag));
     assert.ok(result.stderr.includes(`Unsupported work-item configure option: ${offending}`), result.stderr);
     assert.match(result.stderr, /--help/);
-    assert.equal(result.stdout, "");
+    const error = JSON.parse(result.stdout);
+    assert.equal(error.code, "INVALID_INPUT");
+    assert.equal(error.mutation_status, "not_started");
+    assert.equal(error.automatic_retry, false);
     assert.deepEqual(await snapshot(f.target), before);
   }
 });

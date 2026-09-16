@@ -5,7 +5,8 @@ import path from "node:path";
 import { REQUIRED_SKILLS } from "./constants.mjs";
 import { atomicCreate, atomicWrite, formatJson, pathExists, readJson, sha256 } from "./files.mjs";
 import { emptyLearningIndex, LEARNING_INDEX_RELATIVE_PATH } from "./learning.mjs";
-import { assignedAgent, loadProjectContext } from "./project.mjs";
+import { loadProjectContext } from "./project.mjs";
+import { inspectProjectActor, formatAgentIdentity } from "./actor-resolution.mjs";
 import { lifecycleProjection } from "./workflow.mjs";
 import { compactContextEntry, contextAuthorityPaths } from "./context-entry.mjs";
 import { readPendingLeanDelivery } from "./lean-delivery-state.mjs";
@@ -889,8 +890,26 @@ export async function resolveWorkItemContext(target, options) {
   });
   const overlaps = await findAffectedPathOverlaps(target, item, context.workflow);
   const parallelExecution = await parallelExecutionForWorkItem(target, item.id);
-  const agent = assignedAgent(context, positionId);
   const warnings = [];
+  let actorSelection;
+  let actorDiagnostic = null;
+  try {
+    const inspection = await inspectProjectActor(target, context, {
+      item, positionId, agentId: options.agentId, principalId: options.principalId
+    });
+    actorSelection = inspection.selected_actor;
+    if (inspection.blockers.length) {
+      actorDiagnostic = inspection.blockers[0];
+      warnings.push(...inspection.blockers.map(entry => entry.message));
+    }
+  } catch (error) {
+    // Inspection remains available while a mutation prerequisite is missing.
+    actorDiagnostic = { code: error.code ?? "ACTOR_UNAVAILABLE", message: error.message,
+      next_action: error.next_action ?? "Inspect contributor readiness before claiming.", details: error.details ?? {} };
+    warnings.push(actorDiagnostic.message);
+  }
+  const agent = actorSelection?.agent ?? (item.owner_position === positionId && item.claim?.status === "active"
+    ? context.agents.get(item.claim.agent_id) : null) ?? { id: null, display_name: "Selection required" };
   if (missingContextRefs.length) warnings.push(`Missing context routes: ${missingContextRefs.join(", ")}`);
   if (deprecatedContextRefs.length) warnings.push(`Deprecated context routes: ${deprecatedContextRefs.join(", ")}`);
   if (outOfScopeContextRefs.length) {
@@ -963,7 +982,10 @@ export async function resolveWorkItemContext(target, options) {
       unresolved: item.unresolved ?? []
     },
     position: { id: positionId, name: context.positions.get(positionId).display_name },
-    agent: { id: agent.id, display_name: agent.display_name },
+    agent: { id: agent.id, display_name: agent.id ? formatAgentIdentity(context, agent.id) : agent.display_name },
+    actor_selection: actorSelection ? { agent_id: actorSelection.agent_id, principal_id: actorSelection.principal_id,
+      source: actorSelection.source, provenance: actorSelection.provenance, authority_granted: false } : null,
+    actor_diagnostic: actorDiagnostic,
     revision: inferredRevision(item, options.revision),
     route: {
       stage,

@@ -2,11 +2,18 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "temple.collaboration/v2",
   "$defs": {
+    "actor_policy": {
+      "type": "object",
+      "required": ["ordinary_development"],
+      "properties": { "ordinary_development": { "enum": ["attributed", "verified"] } },
+      "additionalProperties": false
+    },
     "legacy": {
       "type": "object",
       "required": ["schema_version", "profile", "coordination_backend", "principals", "sponsorships", "memberships", "large_scale_validation"],
       "properties": {
         "schema_version": { "const": "temple.collaboration/v1" },
+        "actor_policy": { "$ref": "#/$defs/actor_policy" },
         "profile": { "enum": ["solo", "collaborative", "high-assurance"] },
         "coordination_backend": { "const": "repository" },
         "principals": { "type": "array" },
@@ -132,6 +139,7 @@
       "required": ["schema_version", "profile", "coordination_backend", "principals", "sponsorships", "memberships", "authority_grants", "bootstrap_owner", "recovery", "validation"],
       "properties": {
         "schema_version": { "const": "temple.collaboration/v2" },
+        "actor_policy": { "$ref": "#/$defs/actor_policy" },
         "profile": { "enum": ["solo", "collaborative", "high-assurance"] },
         "coordination_backend": { "const": "repository" },
         "principals": { "type": "array", "items": { "$ref": "#/$defs/principal" } },

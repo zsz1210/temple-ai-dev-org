@@ -75,7 +75,8 @@ const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overl
 // WI-0282 adds two product modules, one guide and one ADR.
 // Demand-driven review coverage adds the four required generic files above.
 // The solo adoption guide adds one public documentation file.
-const MAX_FILE_COUNT = 434;
+// WI-0230 adds six runtime modules, one field specification, one ADR and one guide.
+const MAX_FILE_COUNT = 443;
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {

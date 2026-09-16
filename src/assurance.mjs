@@ -137,6 +137,33 @@ function currentEvidence(entry) {
   return !entry.invalidated_at && (!entry.expires_at || Date.parse(entry.expires_at) > Date.now());
 }
 
+export function actualDeveloper(context, item, collaboration, { allowLegacy = false } = {}) {
+  const handoffs = (item.handoffs ?? []).filter(entry => entry.from_position === "developer");
+  const candidate = item.developer_candidate_revision;
+  const handoff = handoffs.findLast(entry => !candidate || entry.input_revision === candidate);
+  if (handoffs.length && !handoff) throw new Error("Developer handoff does not match the actual candidate revision");
+  const agentId = handoff?.actor ?? (allowLegacy ? context.assignments.get("developer") : null);
+  if (!agentId || !context.agents.has(agentId)) throw new Error("The candidate needs an actual Developer handoff; a default assignment is not authorship evidence");
+  const sponsors = (collaboration.sponsorships ?? []).filter(entry => entry.agent_id === agentId &&
+    (entry.status ?? (entry.active === false ? "inactive" : "active")) === "active");
+  if (sponsors.length > 1) throw new Error("Developer sponsorship is ambiguous");
+  return { agent_id: agentId, principal_id: handoff?.principal_id ?? sponsors[0]?.principal_id ?? null,
+    source: handoff ? "candidate-handoff" : "legacy-default" };
+}
+
+export async function assertActualReviewer(target, context, item, entries, positionId) {
+  const { agentIsEligible } = await import("./collaboration.mjs");
+  const collaboration = await readJson(path.join(target, ".ai-org/project/collaboration.json"));
+  const developer = actualDeveloper(context, item, collaboration);
+  for (const entry of entries) {
+    const reviewer = context.agents.get(entry.recorded_by);
+    if (!reviewer || reviewer.active === false || !agentIsEligible(collaboration, reviewer.id, positionId)) {
+      throw new Error(`${entry.id} must be recorded by an eligible ${positionId} Agent Identity`);
+    }
+    if (reviewer.id === developer.agent_id) throw new Error("Independent QA must differ from the actual Developer Agent Identity");
+  }
+}
+
 function expectedScopeRevision(target, item) {
   const candidate = item.developer_candidate_revision ?? item.base_revision;
   if (!candidate) return null;
@@ -181,10 +208,7 @@ export async function assertHighAssuranceTransition(target, context, item, toSta
     }
   }
   if (contract.required_position) {
-    const expectedActor = context.assignments.get(contract.required_position);
-    if (entries.some((entry) => entry.recorded_by !== expectedActor)) {
-      throw new Error(`${contract.requirement} must be recorded by the assigned ${contract.required_position} Agent Identity`);
-    }
+    await assertActualReviewer(target, context, item, entries, contract.required_position);
   }
 }
 
@@ -221,10 +245,10 @@ async function validateApprovalRecord(target, approvalPath) {
   return record;
 }
 
-function assertNormalizedCloseEvidence(registry, item, gateEvidence, expectedRevision, context) {
-  for (const [requirement, kinds, requiredActor] of [
+async function assertNormalizedCloseEvidence(target, registry, item, gateEvidence, expectedRevision, context) {
+  for (const [requirement, kinds, requiredPosition] of [
     ["test_evidence", ["test"], null],
-    ["independent_qa_report", ["test", "runtime"], context.assignments.get("independent_qa")]
+    ["independent_qa_report", ["test", "runtime"], "independent_qa"]
   ]) {
     const references = uniqueStrings(gateEvidence[requirement]);
     if (references.length === 0) throw new Error(`High-Assurance close requires ${requirement}`);
@@ -234,7 +258,7 @@ function assertNormalizedCloseEvidence(registry, item, gateEvidence, expectedRev
         throw new Error(`${requirement} must contain current passing normalized ${kinds.join("/")} Evidence IDs`);
       }
       if (entry.scope_revision !== expectedRevision) throw new Error(`${reference} does not match tested revision ${expectedRevision}`);
-      if (requiredActor && entry.recorded_by !== requiredActor) throw new Error(`${reference} was not recorded by assigned Independent QA`);
+      if (requiredPosition) await assertActualReviewer(target, context, item, [entry], requiredPosition);
     }
   }
 }
@@ -253,7 +277,7 @@ export async function assertHighAssuranceCloseout(target, context, item, options
   }
 
   const registry = await readEvidenceRegistry(target);
-  assertNormalizedCloseEvidence(registry, item, gateEvidence, testedRevision, context);
+  await assertNormalizedCloseEvidence(target, registry, item, gateEvidence, testedRevision, context);
   const rollbackEntries = uniqueStrings(options.rollback).map((reference) => registry.entries.find((entry) => entry.id === reference));
   if (rollbackEntries.some((entry) => !entry || entry.work_item_id !== item.id || entry.kind !== "rollback" || !currentEvidence(entry))) {
     throw new Error("High-Assurance --rollback values must be current normalized rollback Evidence IDs for this Work Item");
@@ -278,8 +302,8 @@ export async function assertHighAssuranceCloseout(target, context, item, options
   if (approvalPrincipals.length < tier.minimum_approvals) {
     throw new Error(`High-Assurance ${item.risk_tier} risk requires ${tier.minimum_approvals} distinct Human Principal approvals`);
   }
-  const developerAgent = context.assignments.get("developer");
-  const developerSponsor = (collaboration.sponsorships ?? []).find((entry) => entry.agent_id === developerAgent && entry.active !== false)?.principal_id;
+  const developerSponsor = actualDeveloper(context, item, collaboration).principal_id;
+  if (!developerSponsor || !activePrincipalIds.has(developerSponsor)) throw new Error("High-Assurance approval requires the actual Developer's active Human Principal provenance");
   if (approvalPrincipals.every((id) => id === developerSponsor)) {
     throw new Error("High-Assurance approval requires a Human Principal independent of the Developer sponsor");
   }

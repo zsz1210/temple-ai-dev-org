@@ -48,6 +48,8 @@ export function compactContextEntry(capsule, item, context, pending = null) {
       owner_position: item.owner_position,
       recorded_agent: { id: currentAgentId ?? null, display_name: context.agents.get(currentAgentId)?.display_name ?? null },
       requested_position: capsule.position.id,
+      selected_actor: capsule.actor_selection ?? null,
+      actor_diagnostic: capsule.actor_diagnostic ?? null,
       claim: claim ? { id: claim.id, status: claim.status, agent_id: claim.agent_id, principal_id: claim.principal_id, base_revision: claim.base_revision } : null
     },
     candidate: {

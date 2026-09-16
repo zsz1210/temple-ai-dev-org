@@ -1,4 +1,6 @@
 import fs from "node:fs/promises";
+import { deriveDeliveryAttention } from "./delivery-attention.mjs";
+import { formatAgentIdentity } from "./actor-resolution.mjs";
 import path from "node:path";
 import { atomicWrite, formatJson, pathExists, readJson } from "./files.mjs";
 import { readEvidenceRegistry, resolveGitRevision } from "./evidence.mjs";
@@ -161,7 +163,7 @@ function buildOrganizationProjection({ agentsDocument, assignmentsDocument, posi
       .map((item) => ({ id: item.id, title: item.title, state: item.state, category: item.category }));
     return {
       id: agent.id,
-      display_name: agent.display_name,
+      display_name: formatAgentIdentity({ agents }, agent.id),
       active: agent.active !== false,
       assignments: agentAssignments,
       memberships,
@@ -281,6 +283,7 @@ export async function buildObserverProjection(target) {
       legacy_terminal_normalized: lifecycle.legacy_terminal_normalized,
       owner_position: item.owner_position,
       assigned_agent_id: item.assigned_agent_id ?? null,
+      delivery_attention: deriveDeliveryAttention(item, { workers: itemWorkers, evidence }),
       category,
       current_revision: revisions.get(item.id),
       active_claim: item.claim?.status === "active" ? item.claim.id : null,

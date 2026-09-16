@@ -15,10 +15,16 @@ authority requires recovery, not a best-effort substitute.
   Principal and scope. A Position is not an Identity, Assignment, Discipline or
   authority grant; Disciplines never expand authority. Collaborative/High-Assurance
   claims require the sponsored Identity and eligible Position Membership.
+  Fresh ordinary work uses attributed responsibility without framework-specific login;
+  missing legacy actor policy retains its prior behavior. Explicitly verified and
+  High-Assurance operations require current provenance. Local evidence metadata is
+  not provider authentication. Stable Agent IDs, not display names, select actors.
 - Follow `.ai-org/core/workflow.json` and the item's effective profile/risk.
   Standard retains Spec, Design, Build, Test, Eval, Independent QA and Release Gate;
   eligible Lean retains a distinct Verifier, not formal Independent QA. Never
   downgrade a gate or accept external completion as repository evidence.
+  Team profile alone does not raise a task's default workflow. Reuse compatible
+  measurements conservatively; an independent candidate judgment is still required.
 - Humans own business truth, priority, budget and external commitments. Material
   cost, irreversible actions, sensitive data and high-risk release need approval.
   Read `.ai-org/project/usage-policy.json` before model, reasoning, Credits or

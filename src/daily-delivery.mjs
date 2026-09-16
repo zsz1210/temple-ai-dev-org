@@ -4,7 +4,7 @@ import { readWorkItem, claimWorkItem, reworkWorkItem, prepareWorkItemRework, lis
 import { assessWorkflowProfile, profileTransitions } from "./workflow.mjs";
 import { deliveryStages } from "./workflow-completion.mjs";
 import { readCollaborationState, agentIsEligible, sponsoredPrincipal } from "./collaboration.mjs";
-import { assertLocalActorBinding } from "./local-identity.mjs";
+import { resolveProjectActor } from "./actor-resolution.mjs";
 import { resolveGitRevision } from "./evidence.mjs";
 import { finishLeanWorkItem } from "./lean-finish.mjs";
 import { requireProductScope } from "./lean-delivery.mjs";
@@ -73,9 +73,10 @@ async function actor(root, item, options, { claim = false } = {}) {
   ensure(textValue(options.agentId) && textValue(options.principalId), "Explicit Agent and Principal required");
   const { collaboration, project } = await coreItem(root, item.id);
   ensure(project.agents.get(options.agentId)?.active !== false && project.agents.has(options.agentId) && agentIsEligible(collaboration, options.agentId, item.owner_position, activeExecutionRequirements(item).disciplines), "Agent is not eligible for current Position");
-  if (collaboration.profile === "solo") ensure(options.principalId === "human", "Solo Principal must be human");
-  else { ensure(sponsoredPrincipal(collaboration, options.agentId) === options.principalId, "Principal sponsorship mismatch"); await assertLocalActorBinding(root, options.principalId); }
-  const context = await resolveWorkItemContext(root, { workItemId: item.id, position: item.owner_position, compact: true });
+  await resolveProjectActor(root, project, { collaboration, item, agentId: options.agentId, principalId: options.principalId,
+    requiredDisciplines: activeExecutionRequirements(item).disciplines });
+  const context = await resolveWorkItemContext(root, { workItemId: item.id, position: item.owner_position,
+    agentId: options.agentId, principalId: options.principalId, compact: true });
   const active = new Set((await listWorkItemDocuments(root)).filter(w => w.claim?.status === "active").map(w => w.id));
   ensure(!context.references.overlaps.some(o => active.has(o.work_item_id)), "Conflicting active Work Item scope; coordinate before continuing");
   const runtime = await readSource(root, ".ai-org/project/runtime-workers.json").catch(e => { if (e.code === "ENOENT") return null; throw e; });
@@ -179,7 +180,10 @@ export async function inspectDeliverySummary(root, id) {
       time: Object.fromEntries(Object.entries(report.time).map(([key, value]) => [key, key.endsWith("_ms") ? number(value) : text(value)])),
       usage: { ...Object.fromEntries(["observed_calls", "known_calls", "unknown_calls", "known_operational_tokens", "total_operational_tokens"].map(key => [key, number(report.usage[key])])), complete_task_coverage: report.usage.complete_task_coverage === true },
       checks: { total: report.checks.length, items: report.checks.slice(-5).map(c => ({
-        sequence: number(c.sequence), revision: text(c.revision), accepted: c.accepted === true ? true : c.accepted === false ? false : null, elapsed_ms: number(c.elapsed_ms)
+        sequence: number(c.sequence), revision: text(c.revision), accepted: c.accepted === true ? true : c.accepted === false ? false : null, elapsed_ms: number(c.elapsed_ms),
+        cache_status: text(c.cache_status ?? "not recorded"), cache_reason: text(c.cache_reason ?? "not recorded"),
+        execution_started: typeof c.execution_started === "boolean" ? c.execution_started : null,
+        measurement_ref: c.measurement_ref ? text(c.measurement_ref) : null
       })) },
       evidence: { test: refs(item.gate_evidence?.test_evidence), evaluation: refs(item.gate_evidence?.evaluation_report),
         independent_qa: refs([...(item.gate_evidence?.independent_qa_pass ?? []), ...(item.gate_evidence?.independent_qa_report ?? [])]) },

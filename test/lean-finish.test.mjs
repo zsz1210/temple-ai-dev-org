@@ -234,7 +234,7 @@ for (const phase of ["journal", "before-doctor"]) test(`Finish rechecks qualific
   if (phase === "journal") await assert.rejects(apply(f, interrupt(phase)), /injected/); else await apply(f, interrupt(phase));
   const before = await lifecycleBytes(f); const originalNow = Date.now;
   Date.now = () => Date.parse("2100-01-01T00:00:00.000Z");
-  try { await assert.rejects(apply(f), /no longer eligible/); } finally { Date.now = originalNow; }
+  try { await assert.rejects(apply(f), /no longer eligible|No eligible selected Agent/); } finally { Date.now = originalNow; }
   assert.deepEqual(await lifecycleBytes(f), before);
 });
 

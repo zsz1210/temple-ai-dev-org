@@ -61,7 +61,6 @@ export async function validateInitConfig(rawConfig) {
 
   const knownPositionData = await readJson(path.join(PROJECT_OVERLAY_ROOT, ".ai-org/core/positions.json"));
   const knownPositions = new Set(knownPositionData.positions.map((position) => position.id));
-  const seenNames = new Set();
   const seenIds = new Set();
   const positionOwners = new Map();
   const agents = [];
@@ -72,11 +71,6 @@ export async function validateInitConfig(rawConfig) {
     if (nameError) {
       errors.push(`agents[${index}].display_name ${nameError}`);
     }
-    const normalizedName = displayName.toLowerCase();
-    if (seenNames.has(normalizedName)) {
-      errors.push(`Agent display names must be unique: ${displayName}`);
-    }
-    seenNames.add(normalizedName);
 
     let agentId = rawAgent?.id;
     if (agentId !== undefined && (typeof agentId !== "string" || !AGENT_ID.test(agentId))) {
@@ -208,19 +202,13 @@ export function validateProjectState(project, agentsDocument, assignmentsDocumen
 
   const agents = Array.isArray(agentsDocument?.agents) ? agentsDocument.agents : [];
   const agentIds = new Set();
-  const names = new Set();
   let agentsValid = agents.length >= 2;
   for (const agent of agents) {
     const nameError = validateDisplayName(agent?.display_name);
     if (!agent?.id || agentIds.has(agent.id) || nameError) {
       agentsValid = false;
     }
-    const normalizedName = String(agent?.display_name ?? "").toLowerCase();
-    if (names.has(normalizedName)) {
-      agentsValid = false;
-    }
     agentIds.add(agent?.id);
-    names.add(normalizedName);
   }
   add(
     "agent_identities",

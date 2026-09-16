@@ -8,7 +8,7 @@ Use rework when a review finds a defect **inside the approved scope**. The Work 
 
 1. Save the findings in a repository file, naming the defect and acceptance criterion.
 2. Finish or explicitly cancel any runtime worker through the normal Worker commands. Rework does not stop processes or cancel workers for you.
-3. Claim the Work Item as its current review Position. Test and Eval belong to the Quality Evaluator; Independent QA belongs to Independent QA. Collaborative projects also require the claimant's sponsored Principal and verified local binding.
+3. Claim the Work Item as its current review Position. Test and Eval belong to the Quality Evaluator; Independent QA belongs to Independent QA. Team work requires the claimant's active sponsored Principal; ordinary attributed policy needs no Temple login. Legacy or explicitly verified/High-Assurance policy retains current provenance requirements. Use contributor readiness to inspect the applicable policy.
 4. Run the following from the project root, replacing the example ID and SHA with the current Developer handoff's exact values:
 
 ```sh

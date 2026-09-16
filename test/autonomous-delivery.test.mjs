@@ -129,6 +129,11 @@ test("synthetic High-Assurance uses the common entry but still rejects missing n
   const agents = JSON.parse(await fs.readFile(path.join(f.target, ".ai-org/project/agents.json"))).agents;
   for (const a of agents) cli(["collaboration", "sponsor", f.target, "--agent-id", a.id, "--principal-id", a.id === f.qualityAgent ? "principal-reviewer" : "principal-builder"]);
   cli(["collaboration", "set-profile", f.target, "--profile", "high-assurance"]);
+  const memberships = JSON.parse(await fs.readFile(path.join(f.target, ".ai-org/project/collaboration.json"))).memberships;
+  for (const membership of memberships) cli(["collaboration", "qualify-membership", f.target, "--agent-id", membership.agent_id,
+    "--position", membership.position_id, "--status", "active", "--risk-tier", "high", "--evidence", "docs/brief.md"]);
+  cli(["collaboration", "bind-identity", f.target, "--principal-id", "principal-builder", "--verification-class", "external-evidence",
+    "--provider-id", "synthetic-test-only", "--provider-subject", "principal-builder", "--evidence-ref", "docs/brief.md"]);
   // Synthetic prerequisite data inside this disposable fixture only. This does
   // not record or claim real multi-human qualification of Temple itself.
   cli(["collaboration", "record-validation", f.target, "--validation-level", "real_collaborative", "--status", "passed", "--revision", f.request.revision,

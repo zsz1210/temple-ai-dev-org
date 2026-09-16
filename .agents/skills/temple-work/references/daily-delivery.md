@@ -7,7 +7,7 @@ contracts. Prebuild gates and native instructions remain. This is an execution
 style, not a background service or a new workflow profile.
 
 1. The coordinator records an approved repository plan with authorization_ref,
-   explicit Git-visible Node test files, timeout and complete buffered time/repair
+   explicit Git-visible Node test files or a v2 measurement_plan, timeout and complete buffered time/repair
    limits. A positive token ceiling additionally needs complete scoped observations;
    unknown tokens never count as available enforced capacity.
 2. Run delivery open with --work-item, --agent-id, --principal-id and --request
@@ -46,6 +46,15 @@ Select trusted-local or confined-node explicitly in v2. The latter requires the
 macOS check adapter and compatible Node tests; unsupported execution has no fallback.
 It confines the check process, not the parent agent. Actual provider tools still
 need host enforcement. Real external actions retain separate authority and adapters.
+
+Before choosing a command plan, inspect `measurement capabilities`. A trusted-local
+measurement uses executable/argv, complete declared inputs and environment identity,
+bounded execution, and declared outputs. `measurement inspect` reports reuse
+eligibility; `measurement run` preserves immutable attempts. A hit did not execute
+the command again and never grants acceptance. Review current-candidate applicability;
+changed tests, dependencies, fixtures, toolchain or missing artifacts require a miss.
+Preserve native project checks and recorded environment limitations. Windows is
+reported unsupported until its required process cleanup adapter is available.
 
 Commands use node ./templew.mjs delivery <action> . --work-item WI-#### --json.
 Mutations require explicit actor/principal; open, finish, rework, observe, pause

@@ -180,6 +180,18 @@ Usage:
   temple control-plane observer-remove [target] --expected-plan sha256 --confirm-delete [--state-dir path] [--json]
   temple console start [target] [--host 127.0.0.1] [--port number] [--state-dir path] [--tailscale-viewer] [--lan-viewer-host private-ip] [--lan-viewer-port number]
   temple collaboration show [target] [--json]
+  temple collaboration readiness [target] [--principal-id id] [--work-item WI-ID] [--position role] [--json]
+  temple collaboration preview-profile [target] --profile solo|collaborative|high-assurance [--actor-policy attributed|verified] [--json]
+  temple collaboration apply-profile [target] --profile profile [--actor-policy policy] --fingerprint digest [--json]
+  temple collaboration setup-contributor [target] --config authorized-member.json [--json]
+  temple measurement capabilities [target] [--json]
+  temple measurement inspect|run [target] --config measurement-plan.json [--json]
+  temple evidence durability [target] [--work-item WI-ID] [--revision ref] [--json]
+  temple evidence export-bundle [target] --evidence EVID-ID [--output path] [--json]
+  temple evidence verify-bundle|import-bundle [target] --bundle path [--json]
+  temple reconcile preview|apply [target] --config request-or-preview.json [--fingerprint digest] [--json]
+  temple reconcile recover [target] --transaction-id id [--json]
+  temple reconcile refresh-views [target] [--json]
   temple collaboration migrate [target] [--dry-run] [--json]
   temple collaboration show-identity [target] [--json]
   temple collaboration bind-identity [target] --principal-id principal-name|human --verification-class self-asserted|external-evidence|step-up-evidence [--provider-id id] [--provider-subject subject] [--provider-handle handle] [--evidence-ref ref] [--expires-at timestamp]
@@ -352,6 +364,7 @@ const BOOLEAN_FLAGS = new Set([
   "--confirm-normalization"
 ]);
 const VALUE_FLAGS = new Set([
+  "--actor-policy", "--fingerprint", "--bundle", "--incoming-revision", "--transaction-id", "--condition-kind",
   "--supersedes",
   "--available-whole-sources",
   "--judgment", "--test-evidence", "--lean-closeout",
@@ -565,7 +578,7 @@ const REPEATABLE_FLAGS = new Set([
   "--participant-principal",
   "--environment"
 ]);
-const NESTED_COMMANDS = new Set(["delivery", "work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "evaluation", "usage", "execution", "adapter", "control-plane", "console", "backup", "restore", "audit", "publication", "federation", "portfolio", "experiment"]);
+const NESTED_COMMANDS = new Set(["measurement", "reconcile", "delivery", "work-item", "task", "tracker", "pack", "capability", "context", "collaboration", "parallel", "resource", "worker", "evidence", "schema", "migration", "learning", "retrieval", "evaluation", "usage", "execution", "adapter", "control-plane", "console", "backup", "restore", "audit", "publication", "federation", "portfolio", "experiment"]);
 
 function parseCommand(argv) {
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -2151,6 +2164,7 @@ async function runWorkItemCreate(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const result = await withProjectMutationLock(target, async () => {
     const created = await createWorkItem(target, {
+      agentId: parsed.options["--agent-id"], principalId: parsed.options["--principal-id"],
       title: parsed.options["--title"],
       actor: parsed.options["--actor"],
       scope: listOption(parsed, "--scope"),
@@ -2366,7 +2380,7 @@ async function runWorkItemConfigure(parsed) {
   ]);
   for (const flag of [...Object.keys(parsed.options), ...parsed.flags]) {
     if (!allowedOptions.has(flag) && !allowedFlags.has(flag)) {
-      throw new Error(`Unsupported work-item configure option: ${flag}. See temple work-item configure --help.`);
+      throw new OperationError("INVALID_INPUT", `Unsupported work-item configure option: ${flag}. See temple work-item configure --help.`);
     }
   }
   const target = await assertSafeTarget(parsed.target);
@@ -2720,6 +2734,8 @@ async function runWorkItemUnresolved(parsed) {
 
   const result = await withProjectMutationLock(target, async () => {
     const updated = await updateUnresolvedItems(target, {
+      conditionKind: parsed.options["--condition-kind"],
+      agentId: parsed.options["--agent-id"], principalId: parsed.options["--principal-id"],
       workItemId: parsed.options["--work-item"],
       actor: parsed.options["--actor"],
       resolve: resolutions,
@@ -2741,6 +2757,7 @@ async function runHandoff(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const result = await withProjectMutationLock(target, async () => {
     const handoff = await createHandoff(target, {
+      agentId: parsed.options["--agent-id"], principalId: parsed.options["--principal-id"],
       workItemId: parsed.options["--work-item"],
       toPosition: parsed.options["--to"],
       inputRevision: parsed.options["--input-revision"],
@@ -2764,6 +2781,7 @@ async function runTransition(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const result = await withProjectMutationLock(target, async () => {
     const transitioned = await transitionWorkItem(target, {
+      agentId: parsed.options["--agent-id"], principalId: parsed.options["--principal-id"],
       workItemId: parsed.options["--work-item"],
       toState: parsed.options["--to"],
       actor: parsed.options["--actor"],
@@ -2785,6 +2803,7 @@ async function runClose(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const result = await withProjectMutationLock(target, async () => {
     const closed = await closeWorkItem(target, {
+      agentId: parsed.options["--agent-id"], principalId: parsed.options["--principal-id"],
       workItemId: parsed.options["--work-item"],
       decision: parsed.options["--decision"],
       outcome: parsed.options["--outcome"],
@@ -3165,7 +3184,7 @@ async function runContext(parsed) {
     return packet.acquisition === "complete" ? 0 : 1;
   }
   if (parsed.flags.has("--compact")) {
-    assertCommandOptions(parsed, ["--work-item", "--position", "--query", "--revision", "--stage", "--purpose", "--limit"], ["--compact", "--no-write", "--json"]);
+    assertCommandOptions(parsed, ["--work-item", "--position", "--agent-id", "--principal-id", "--query", "--revision", "--stage", "--purpose", "--limit"], ["--compact", "--no-write", "--json"]);
     if (!parsed.flags.has("--no-write") || !parsed.flags.has("--json")) throw new OperationError("INVALID_INPUT", "Compact context requires --no-write and --json");
     if (!parsed.options["--work-item"]) throw new OperationError("INVALID_INPUT", "context resolve requires --work-item");
   }
@@ -3173,6 +3192,7 @@ async function runContext(parsed) {
   if (parsed.action !== "resolve") throw new Error(`Unknown context action: ${parsed.action}`);
   if (!parsed.options["--work-item"]) throw new Error("context resolve requires --work-item");
   const capsule = await resolveWorkItemContext(target, {
+    agentId: parsed.options["--agent-id"], principalId: parsed.options["--principal-id"],
     workItemId: parsed.options["--work-item"],
     position: parsed.options["--position"],
     query: parsed.options["--query"],
@@ -3217,6 +3237,12 @@ async function dispatch(argv) {
   if (parsed.command === "chamber") {
     console.log(CHAMBER);
     return 0;
+  }
+  if (["measurement", "reconcile"].includes(parsed.command) ||
+      parsed.command === "collaboration" && ["readiness", "preview-profile", "apply-profile", "setup-contributor"].includes(parsed.action) ||
+      parsed.command === "evidence" && ["durability", "export-bundle", "verify-bundle", "import-bundle"].includes(parsed.action)) {
+    const { runFieldCommand } = await import("./field-commands.mjs");
+    return runFieldCommand(parsed);
   }
   if (parsed.command === "init") return runInit(parsed);
   if (parsed.command === "upgrade") return runUpgrade(parsed);
@@ -3269,14 +3295,22 @@ async function dispatch(argv) {
 export async function main(argv) {
   const delivery = argv[0] === "delivery" || argv[0] === "work-item" && ["deliver", "finish"].includes(argv[1]);
   const compact = argv[0] === "context" && ((argv[1] === "resolve" && argv.includes("--compact")) || ["packet", "enter"].includes(argv[1]));
-  if (!delivery && !compact) return dispatch(argv);
+  if (!delivery && !compact && !argv.includes("--json")) {
+    try { return await dispatch(argv); }
+    catch (error) {
+      if (error.next_action) error.message += `\nNext action: ${error.next_action}`;
+      throw error;
+    }
+  }
   try {
     try {
       const seen = new Set();
       for (let i = 2; i < argv.length; i++) {
         const name = argv[i];
         if (!name.startsWith("--")) continue;
-        if (seen.has(name) && !REPEATABLE_FLAGS.has(name)) throw new Error(`Duplicate option: ${name}`);
+        const learningId = argv[0] === "learning" && name === "--learning-id";
+        if (seen.has(name) && learningId && argv[1] !== "record-review") throw new Error("This Learning operation accepts exactly one --learning-id");
+        if (seen.has(name) && !REPEATABLE_FLAGS.has(name) && !(learningId && argv[1] === "record-review")) throw new Error(`Duplicate option: ${name}`);
         seen.add(name);
         if (VALUE_FLAGS.has(name)) i++;
       }

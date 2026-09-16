@@ -26,6 +26,13 @@ mutation. Scope claims with affected paths and coordinate named overlaps first.
 Release ownership on handoff or abandonment, after applicable worker cleanup.
 Discovery, a candidate operation and a prepared plan do not grant authority.
 
+For a new contributor or a Solo/team change, inspect `collaboration readiness`
+with the intended Principal and Work Item. Fresh ordinary attribution requires no
+framework login; legacy or explicitly verified policies report their own provenance
+requirements. Reuse stable Agent IDs, select qualified membership, and never choose
+another person's default to bypass ambiguity. Preview profile changes and apply
+their exact fingerprint; preserve existing claims and already-authorized scope.
+
 ## Finish the assigned stage
 
 - Developer evidence must name the exact tested candidate. Verification supplies
@@ -46,4 +53,6 @@ Discovery, a candidate operation and a prepared plan do not grant authority.
 On failure, inspect structured code, mutation status and next action where available.
 Correct only within existing scope; uncertain writes, conflicts or missing approval
 require investigation. Do not bypass with manual JSON, deleted journals, changed
-profiles or invented evidence. Stop at the recorded stage and next owner.
+profiles or invented evidence. Record the stage and next owner; when the user has
+authorized the whole delivery, continue its eligible next step without renewed
+permission. Pause only for an actual unresolved condition or authority boundary.

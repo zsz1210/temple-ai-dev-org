@@ -34,6 +34,8 @@ Temple はアプリケーションフレームワークでも、課題管理ツ�
 
 ## Temple Concept Layers
 
+現在の開発候補には、参加者の準備状況、Temple ログインを必須にしない通常作業の責任記録、検証結果の再利用、記録の競合調整が含まれます。既存導入先のプロジェクト所有ポリシーは維持します。導入手順と実行上の制限は[協働開発ガイド](docs/operations/collaborative-delivery.md)を参照してください。リリースの公開とは別です。
+
 <picture>
   <source media="(max-width: 640px)" srcset="docs/assets/temple-layers-mobile.ja.svg">
   <img alt="Temple は人の方針の下に、責任、範囲を持つ作業、コンテキストと実行のガイダンス、連携、保証、記憶と学習をつなぎ、リポジトリに残る組織の記憶で全体を支えます。" src="docs/assets/temple-layers.ja.svg">

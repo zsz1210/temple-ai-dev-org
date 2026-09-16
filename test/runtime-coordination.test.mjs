@@ -375,8 +375,6 @@ test("upgrade adds the runtime coordination contract without adopting project-ow
 test("stage-specific Disciplines replace a legacy build requirement at later lifecycle stages", async (context) => {
   const { target } = await fixture(context);
   const workItemId = createItem(target, "Stage-specific delivery", "src/stages", [
-    "--discipline",
-    "general-development",
     "--stage-discipline",
     "build=general-development",
     "--stage-discipline",
@@ -385,6 +383,10 @@ test("stage-specific Disciplines replace a legacy build requirement at later lif
     "independent_qa=quality"
   ]);
   transitionToBuild(target, workItemId);
+  // The legacy fallback applies to every stage without an override. Introduce
+  // the old Build requirement at Build, not as an Intake manager qualification.
+  const legacy = run(["work-item", "configure", target, "--work-item", workItemId, "--discipline", "general-development"]);
+  assert.equal(legacy.status, 0, legacy.stderr || legacy.stdout);
 
   const buildReadiness = JSON.parse(
     run(["parallel", "check", target, "--work-item", workItemId, "--json"]).stdout

@@ -76,12 +76,26 @@ async function enableHighAssurance(target) {
     assert.equal(added.status, 0, added.stderr || added.stdout);
   }
   const agents = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/agents.json"), "utf8")).agents;
+  const memberships = JSON.parse(await fs.readFile(path.join(target, ".ai-org/project/collaboration.json"), "utf8")).memberships;
+  for (const membership of memberships) {
+    const qualified = run(["collaboration", "qualify-membership", target, "--agent-id", membership.agent_id,
+      "--position", membership.position_id, "--status", "active", "--risk-tier", "high", "--evidence", "docs/risk.md"]);
+    assert.equal(qualified.status, 0, qualified.stderr || qualified.stdout);
+  }
   for (const [index, agent] of agents.entries()) {
     const sponsored = run(["collaboration", "sponsor", target, "--principal-id", index === agents.length - 1 ? "principal-reviewer" : "principal-owner", "--agent-id", agent.id]);
     assert.equal(sponsored.status, 0, sponsored.stderr || sponsored.stdout);
   }
   const enabled = run(["collaboration", "set-profile", target, "--profile", "high-assurance"]);
   assert.equal(enabled.status, 0, enabled.stderr || enabled.stdout);
+  bind(target, "principal-owner");
+}
+
+function bind(target, principal) {
+  const result = run(["collaboration", "bind-identity", target, "--principal-id", principal,
+    "--verification-class", "external-evidence", "--provider-id", "synthetic-fixture",
+    "--provider-subject", principal, "--evidence-ref", "docs/risk.md"]);
+  assert.equal(result.status, 0, result.stderr || result.stdout);
 }
 
 test("High-Assurance is selectable only after its human-accountability prerequisites", async (context) => {
@@ -152,6 +166,7 @@ test("High-Assurance scales UI, evidence, rollback, and approval gates by risk",
   assert.equal(toTest.status, 0, toTest.stderr || toTest.stdout);
 
   const testObservationPath = ".ai-org/artifacts/high-assurance-test.json";
+  bind(target, "principal-reviewer");
   await fs.mkdir(path.dirname(path.join(target, testObservationPath)), { recursive: true });
   await fs.writeFile(path.join(target, testObservationPath), `${JSON.stringify({ schema_version: "temple.test-observation/v1", revision: "HEAD", command: ["npm", "test"], result: "pass", exit_code: 0, started_at: "2026-08-30T00:00:00.000Z", completed_at: "2026-08-30T00:01:00.000Z", artifact_refs: [] }, null, 2)}\n`);
   const testEvidence = run(["evidence", "test", target, "--work-item", workItemId, "--observation", testObservationPath, "--actor", "agent-fixture-hollis"]);
@@ -177,6 +192,7 @@ test("High-Assurance scales UI, evidence, rollback, and approval gates by risk",
   const exactRevision = git(target, ["rev-parse", "HEAD"]).stdout.trim();
   const approvalPath = ".ai-org/artifacts/high-assurance-approval.json";
   await fs.writeFile(path.join(target, approvalPath), `${JSON.stringify({ schema_version: "temple.approval/v1", work_item_id: workItemId, decision: "go", scope_revision: exactRevision, approved_at: "2026-08-30T00:03:00.000Z", approvals: [{ principal_id: "principal-reviewer", approved_at: "2026-08-30T00:03:00.000Z" }], external_action_authorized: false }, null, 2)}\n`);
+  bind(target, "principal-owner");
   const closed = run(["close", target, "--work-item", workItemId, "--decision", "go", "--tested-revision", "HEAD", "--approval", approvalPath, "--rollback", rollbackId, "--satisfy", "accepted_scope=docs/spec.md", "--satisfy", `test_evidence=${testId}`, "--satisfy", "evaluation_report=docs/eval.md", "--satisfy", `independent_qa_report=${qaId}`]);
   assert.equal(closed.status, 0, closed.stderr || closed.stdout);
   assert.equal(JSON.parse(await fs.readFile(itemPath, "utf8")).state, "done");
