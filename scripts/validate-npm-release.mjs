@@ -8,6 +8,13 @@ import { fileURLToPath } from "node:url";
 const SEMVER_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/;
 const MINIMUM_NPM_VERSION = "11.5.1";
 
+// Release packing only; consumer engines and ordinary development stay independent.
+export const RELEASE_TOOLCHAIN = Object.freeze({
+  node: "24.20.0",
+  npm: "11.19.0",
+  zlib: "1.3.2.1-motley-42c2f19"
+});
+
 export class ReleaseValidationError extends Error {
   constructor(message) {
     super(message);
@@ -17,6 +24,19 @@ export class ReleaseValidationError extends Error {
 
 function fail(message) {
   throw new ReleaseValidationError(message);
+}
+
+export function validateReleaseToolchain({ versions = process.versions, npmVersion,
+  platform = process.platform, arch = process.arch }) {
+  const observed = { node: versions.node, npm: npmVersion, zlib: versions.zlib };
+  const mismatches = Object.keys(RELEASE_TOOLCHAIN).filter((key) => observed[key] !== RELEASE_TOOLCHAIN[key]);
+  if (mismatches.length) {
+    fail(`Release packaging toolchain mismatch (${mismatches.join(", ")}). ` +
+      `Expected ${JSON.stringify(RELEASE_TOOLCHAIN)}; observed ${JSON.stringify(observed)}. ` +
+      `Use the checksum-verified official Node ${RELEASE_TOOLCHAIN.node} distribution; ` +
+      "see docs/operations/npm-release.md. No release archive was created.");
+  }
+  return { ...observed, platform, arch };
 }
 
 function parseBoolean(value, label) {

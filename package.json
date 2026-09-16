@@ -34,6 +34,7 @@
     "tag": "next"
   },
   "scripts": {
+    "release:pack": "node scripts/pack-npm-release.mjs",
     "check": "node scripts/check-repo.mjs && node scripts/check-doc-links.mjs && node scripts/check-package.mjs",
     "test": "node --test",
     "test:browser": "node scripts/verify-console-browser.mjs",

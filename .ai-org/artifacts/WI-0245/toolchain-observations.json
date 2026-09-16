@@ -1,0 +1,25 @@
+[
+  {
+    "runtime_source": "homebrew",
+    "exit_code": 1,
+    "elapsed_ms": 255,
+    "output_created": false,
+    "diagnostic": "Release packing failed: Release packaging toolchain mismatch (zlib). Expected {\"node\":\"24.20.0\",\"npm\":\"11.19.0\",\"zlib\":\"1.3.2.1-motley-42c2f19\"}; observed {\"node\":\"24.20.0\",\"npm\":\"11.19.0\",\"zlib\":\"1.2.12\"}. Use the checksum-verified official Node 24.20.0 distribution; see docs/operations/npm-release.md. No release archive was created."
+  },
+  {
+    "runtime_source": "official",
+    "exit_code": 0,
+    "elapsed_ms": 1862,
+    "output_created": true,
+    "toolchain": {
+      "node": "24.20.0",
+      "npm": "11.19.0",
+      "zlib": "1.3.2.1-motley-42c2f19",
+      "platform": "darwin",
+      "arch": "arm64"
+    },
+    "archive_sha256": "754435f17928400ff0d0f838304e63b3e947456cc30027554955ff3f25eb3900",
+    "bytes": 1000044,
+    "existing_candidate_preserved": true
+  }
+]
