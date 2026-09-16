@@ -1,0 +1,82 @@
+{
+  "candidate": "1a98048da0990c04c0cb9b02ffa5d25ad778d013",
+  "base": "5106bf13c0dc006f60d227ee2156e15d88c8ea52",
+  "agent_id": "agent-lulu",
+  "developer_agent_id": "agent-rikku",
+  "environment": {
+    "os": "Darwin arm64",
+    "node": "24.20.0",
+    "npm": "11.19.0"
+  },
+  "binary_inventory": {
+    "total": 110,
+    "reused_prior_png": 68,
+    "new_png": 1,
+    "archives": 41,
+    "expanded_members_scanned": 197,
+    "unresolved_pattern_matches": 0,
+    "new_png_chunks": [
+      "IHDR",
+      "IDAT",
+      "IEND"
+    ],
+    "recognized_redacted_or_fixture_home_occurrences": 42,
+    "visual_judgment": "Synthetic WI-9900 through WI-9905 entries, generic framework labels, no visible private values; publication image review, not a new browser behavior test."
+  },
+  "normalization": {
+    "archives": 12,
+    "members_compared": 53,
+    "home_substitutions": 2766,
+    "email_substitutions": 4,
+    "removed_appledouble_records": 47,
+    "other_payload_changes": 0,
+    "active_registry_impacts": 0
+  },
+  "package": {
+    "sha256": "03c725189ace782c362b7deee65854980d4072a22600983ed290ec1c652138d2",
+    "bytes": 997361,
+    "files": 444,
+    "equals_candidate_archive": true
+  },
+  "behavioral_source_and_test_changes": 0,
+  "full_verification": {
+    "command": "npm run verify",
+    "candidate": "1a98048da0990c04c0cb9b02ffa5d25ad778d013",
+    "executor": "parent Developer process; independently inspected retained log",
+    "exit_code": 0,
+    "tests": 1248,
+    "passed": 1248,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "duration_ms": 283474.274875,
+    "log": ".ai-org/artifacts/WI-0244/full-verification.log",
+    "sha256": "f91fb238213518ae07123e7a05c41ca9c41c3286ae6ba5e652bc0e0ff2312271"
+  },
+  "formal_independent_qa": "PASS at independent_qa stage; claim claim-20260916074701-dfa13cb3; see independent-qa.md",
+  "schema_version": "temple.publication-qa-observation/v1",
+  "publication_audit": {
+    "status": "review-required",
+    "blocked": 0,
+    "review_required": 110,
+    "reviewed_adapter_fixtures": 1,
+    "repository_files": 4906,
+    "repository_text_files": 4796,
+    "package_files": 444,
+    "package_findings": 0
+  },
+  "methodology": [
+    "Read exact candidate/base Git blobs independently; compare current tracked binaries against candidate blobs and review digests.",
+    "Read bounded gzip payloads in memory; reject unsafe tar names, duplicate names, non-file/directory types and oversized members; execute and extract no archive code.",
+    "Apply only approved home/email substitutions to original member bytes and assert complete equality to public member bytes; validate removed AppleDouble magic and original hashes.",
+    "Run fresh npm pack --ignore-scripts and compare complete bytes to qualified candidate archive.",
+    "Read active evidence registry and reject changed-path references; check source/test/package Git delta is empty."
+  ],
+  "verdict": "pass-for-quality-evaluation",
+  "registry_smoke_review": {
+    "execution": "not performed; post-publication only",
+    "syntax_check": "passed",
+    "review": "Pins Alpha.33 version and expected SHA-256, next Alpha.33 and unchanged latest Alpha.30; compares registry integrity; installs in owned scratch directory with scripts disabled; exercises CLI/init/Doctor/Status; finally removes owned fixture. No external write command."
+  }
+}

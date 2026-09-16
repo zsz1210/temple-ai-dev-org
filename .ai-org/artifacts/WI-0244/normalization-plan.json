@@ -1,0 +1,729 @@
+{
+  "schema_version": "temple.public-evidence-copy-observation/v1",
+  "applied": false,
+  "source_revision": "5106bf13c0dc006f60d227ee2156e15d88c8ea52",
+  "originals_retained": "unchanged Git history; original hashes do not certify normalized current copies",
+  "policy": "replace home paths and email literals with explicit placeholders; remove only AppleDouble auxiliary records and owner metadata; retain test result and metric fields",
+  "archives": [
+    {
+      "path": ".ai-org/artifacts/WI-0230/verification-56700f3a.log.gz",
+      "original_archive_sha256": "b1e3af6a24b9f958384653ad69ce360a0cd84ba51ab623484672a6fc0f31327e",
+      "public_archive_sha256": "9dc47b3ea17f886ed26a193affc397091f33762ee2ba581f622e915c0eeebbe2",
+      "members": [
+        {
+          "path": "verification-56700f3a.log",
+          "original_sha256": "fa7baa41df4820735e6e606fec207f59e9f17c94bc6d9e70017db80c2eee2912",
+          "public_sha256": "d3f5ba99b7b84599b6556790f4453c05815dc3324b9c4c53314d68b623608e5d",
+          "home_path_occurrences": 33,
+          "email_occurrences": 0
+        }
+      ],
+      "removed_metadata": [],
+      "active_registry_impact": []
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0230/verification-aff1b86e.log.gz",
+      "original_archive_sha256": "1718b24f32b56451620c65ba34396855b3cb509e620786231022086a1a9cce34",
+      "public_archive_sha256": "f2605c6a9a6d94db0c30be1c2914fb675006934310ffe398cc5939dd43ba3176",
+      "members": [
+        {
+          "path": "verification-aff1b86e.log",
+          "original_sha256": "929e97ee147b72ecb8b364a24670c323ab92cf7921f37307e387f316ff77acca",
+          "public_sha256": "3432e345d5d270f088bcd1f9addb84557abcacc3155bd5f8973d8f8d419bd3e9",
+          "home_path_occurrences": 1,
+          "email_occurrences": 0
+        }
+      ],
+      "removed_metadata": [],
+      "active_registry_impact": []
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0234/rework-01-qa-reproduction.tar.gz",
+      "original_archive_sha256": "9db92b328d142f365d2dc6e5d6ee30fe334e37c6a2a085def3b263f89d3d0b01",
+      "public_archive_sha256": "b4b3884a7c56ff52d3aa2b25d73b1de34b685e48bee23442330066ead1b29805",
+      "members": [
+        {
+          "path": "repro.mjs",
+          "original_sha256": "ff2ad370c037a346c9241c1b925511d993a51a76fdb83d9668b9faf9e2a7d28c",
+          "public_sha256": "bd2445ce677045602f0677708a16987014db55ea5129acd433577da35542d45d",
+          "home_path_occurrences": 1,
+          "email_occurrences": 0
+        },
+        {
+          "path": "results.json",
+          "original_sha256": "4ba3ac7a14ba28ddecd76806fffb6ff13d57028dafbadb63328b94ea029e3082",
+          "public_sha256": "4ba3ac7a14ba28ddecd76806fffb6ff13d57028dafbadb63328b94ea029e3082",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "unchanged.tap",
+          "original_sha256": "aa66e3cc327f2e6b0306e21ca2bf7e96b4de720885a55fd07f1a0c49abad406b",
+          "public_sha256": "aa66e3cc327f2e6b0306e21ca2bf7e96b4de720885a55fd07f1a0c49abad406b",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "empty-viewports.tap",
+          "original_sha256": "97802ab1911ce906640ffdb68afb55cc32c123c8336145f492aa527670cc4f4d",
+          "public_sha256": "97802ab1911ce906640ffdb68afb55cc32c123c8336145f492aa527670cc4f4d",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "omitted-organization.tap",
+          "original_sha256": "69fd8e9c5c3523d2a7c5f2384e4da6a54a80d11c890efc9f831fb45b4c469ea0",
+          "public_sha256": "69fd8e9c5c3523d2a7c5f2384e4da6a54a80d11c890efc9f831fb45b4c469ea0",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "omitted-tablet.tap",
+          "original_sha256": "2324e39f4ec43f5ba8bcc17918e10146e792acf10abfc4b02b661f791e00379c",
+          "public_sha256": "2324e39f4ec43f5ba8bcc17918e10146e792acf10abfc4b02b661f791e00379c",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "invalid-height.tap",
+          "original_sha256": "53b12f84a08d9e00a86a0c1e8904f1425e92ce39402ed3f7e99a861371a3ef98",
+          "public_sha256": "53b12f84a08d9e00a86a0c1e8904f1425e92ce39402ed3f7e99a861371a3ef98",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "same-width-classes.tap",
+          "original_sha256": "aeb77b484bf2354435afbc9e10ca717eec4f440ec9c4513fcd049e04ef9c3151",
+          "public_sha256": "aeb77b484bf2354435afbc9e10ca717eec4f440ec9c4513fcd049e04ef9c3151",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "lost-mobile-breakpoint.tap",
+          "original_sha256": "cce5a7483a2b7bcd9b66868bb257ee0e09914310a747ca47653b04ac4834b639",
+          "public_sha256": "cce5a7483a2b7bcd9b66868bb257ee0e09914310a747ca47653b04ac4834b639",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "harmless-pixels-labels-order-extra.tap",
+          "original_sha256": "44897635b9d4526c19ecb6e9951f8805a582680618caf7ca70078692f7d7c5db",
+          "public_sha256": "44897635b9d4526c19ecb6e9951f8805a582680618caf7ca70078692f7d7c5db",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "baseline-harmless-pixels-labels-order-extra.tap",
+          "original_sha256": "b8cdc939dacf7cb3fc63fc5cd456af15d9a787c9658a8f05beb9fbb5f6d15929",
+          "public_sha256": "b8cdc939dacf7cb3fc63fc5cd456af15d9a787c9658a8f05beb9fbb5f6d15929",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        }
+      ],
+      "removed_metadata": [
+        {
+          "path": "._repro.mjs",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._results.json",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._unchanged.tap",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._empty-viewports.tap",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._omitted-organization.tap",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._omitted-tablet.tap",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._invalid-height.tap",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._same-width-classes.tap",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._lost-mobile-breakpoint.tap",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._harmless-pixels-labels-order-extra.tap",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._baseline-harmless-pixels-labels-order-extra.tap",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        }
+      ],
+      "active_registry_impact": []
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0238/focused-profiling.tar.gz",
+      "original_archive_sha256": "d13d531ef6366efda158ff52ba7b2c00b18128180ddce60a48a2e6a9e43630be",
+      "public_archive_sha256": "518465b7da6c3c11639e509bfdfbfa3d826f1a83145d236a454542817b2d9cf2",
+      "members": [
+        {
+          "path": "temple-test-profile.mjs",
+          "original_sha256": "7dafb967d469be0fff616fe56eefe88aa13707459d6ce4e1837499c486144889",
+          "public_sha256": "7dafb967d469be0fff616fe56eefe88aa13707459d6ce4e1837499c486144889",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "temple-profile-baseline",
+          "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "public_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "temple-profile-baseline/12501.json",
+          "original_sha256": "6e9b40d8b3c7247c66dddc238a9eee0c2ee476fca38be41fdace9e4724594181",
+          "public_sha256": "6e9b40d8b3c7247c66dddc238a9eee0c2ee476fca38be41fdace9e4724594181",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "temple-profile-candidate",
+          "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "public_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "temple-profile-candidate/18791.json",
+          "original_sha256": "4d1a3b7816c8da458bcca77a4e73095bb4af1e5e2c3f2f584536ad838926e52c",
+          "public_sha256": "4d1a3b7816c8da458bcca77a4e73095bb4af1e5e2c3f2f584536ad838926e52c",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "temple-profile-baseline-fixed",
+          "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "public_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "temple-profile-baseline-fixed/24657.json",
+          "original_sha256": "4a4b47025bca0bd8b8dc1eb6fcba4a2b1694dc031dcbb0959239ac23f8a40125",
+          "public_sha256": "4a4b47025bca0bd8b8dc1eb6fcba4a2b1694dc031dcbb0959239ac23f8a40125",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "temple-profile-candidate-fixed",
+          "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "public_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "temple-profile-candidate-fixed/31096.json",
+          "original_sha256": "c3e73310b333ee56bb096a150db146499c607d4d03398b2439b58a0a7f17f9c5",
+          "public_sha256": "c3e73310b333ee56bb096a150db146499c607d4d03398b2439b58a0a7f17f9c5",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "temple-profile-baseline.log",
+          "original_sha256": "3da61ba9ff010bd5140535b084826b3a03c507ee95ea11935bb0a6136dd712e2",
+          "public_sha256": "3da61ba9ff010bd5140535b084826b3a03c507ee95ea11935bb0a6136dd712e2",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "temple-profile-candidate.log",
+          "original_sha256": "2f150b3ae17306c1d8c7c386bb8d9fab70a58c8474e62aa76df84840a620def8",
+          "public_sha256": "2f150b3ae17306c1d8c7c386bb8d9fab70a58c8474e62aa76df84840a620def8",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "temple-profile-baseline-fixed.log",
+          "original_sha256": "804ad43ae5c19442d03588ffdb7f1efebdfebfcd6b53f2aa19e1f21b4cf04120",
+          "public_sha256": "804ad43ae5c19442d03588ffdb7f1efebdfebfcd6b53f2aa19e1f21b4cf04120",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "temple-profile-candidate-fixed.log",
+          "original_sha256": "73952561a93aa8b92d7337fae73bde354ea7b27a07142c696e253b9d9f30c38e",
+          "public_sha256": "73952561a93aa8b92d7337fae73bde354ea7b27a07142c696e253b9d9f30c38e",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        }
+      ],
+      "removed_metadata": [
+        {
+          "path": "._temple-test-profile.mjs",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._temple-profile-baseline",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "temple-profile-baseline/._12501.json",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._temple-profile-candidate",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "temple-profile-candidate/._18791.json",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._temple-profile-baseline-fixed",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "temple-profile-baseline-fixed/._24657.json",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._temple-profile-candidate-fixed",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "temple-profile-candidate-fixed/._31096.json",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._temple-profile-baseline.log",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._temple-profile-candidate.log",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._temple-profile-baseline-fixed.log",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._temple-profile-candidate-fixed.log",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        }
+      ],
+      "active_registry_impact": []
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0238/independent-controls.tar.gz",
+      "original_archive_sha256": "5d4922303fa254e94f6c2294b627d4b5a39a423d566470db2f11da811f54d058",
+      "public_archive_sha256": "43c7a9e398537b8ed74c0afa2cee5a1ec3dcad4d1a9bbe19457941af6b26af9c",
+      "members": [
+        {
+          "path": "wi0238-independent-controls.mjs",
+          "original_sha256": "bfb1ca151004d5b5d251d1cbf37a4938f5790dd47ef30ee72f20226683cb742e",
+          "public_sha256": "f92c066e2c4bc0fc9811e7ae7b3a0fcc896464757e9366f033f9f0d493de0b73",
+          "home_path_occurrences": 1,
+          "email_occurrences": 0
+        },
+        {
+          "path": "wi0238-independent-controls.json",
+          "original_sha256": "d656bfd533ed0e73885eb9d442212bbc240d9db94cc9a23a4b0b573575d66b2a",
+          "public_sha256": "d656bfd533ed0e73885eb9d442212bbc240d9db94cc9a23a4b0b573575d66b2a",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        }
+      ],
+      "removed_metadata": [
+        {
+          "path": "._wi0238-independent-controls.mjs",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._wi0238-independent-controls.json",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        }
+      ],
+      "active_registry_impact": []
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0239/baseline-timing.jsonl.gz",
+      "original_archive_sha256": "d7c3379e13632597acdcf5dd2af41e8a67f5b1aec578fde87f538d25e9e8a2bf",
+      "public_archive_sha256": "09c7483a4f0c459d28a76bb08165b2095e28482346e6e5b2682540b042acba72",
+      "members": [
+        {
+          "path": "baseline-timing.jsonl",
+          "original_sha256": "ffca8b4161298cd1798c65f9d7d569ff9b2157b787479a234fe056e0cf2b118e",
+          "public_sha256": "3b7b89fe06ef731f46afc80190f85316001f1bec98085a9f924ed12cfa64ebeb",
+          "home_path_occurrences": 1355,
+          "email_occurrences": 0
+        }
+      ],
+      "removed_metadata": [],
+      "active_registry_impact": []
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0239/candidate-timing.jsonl.gz",
+      "original_archive_sha256": "9fdc77917db7ab629f7f04a45e367996349fd62ea0abf7a9d12e692af9be1feb",
+      "public_archive_sha256": "356d14ce76816de7b5dcfd132f28236d1e219f0d894c0fb4922d97d69bcff677",
+      "members": [
+        {
+          "path": "candidate-timing.jsonl",
+          "original_sha256": "54ad07f3af1c86f39139368fb94c77c8176c5ea4474bf20918c304ed42e14817",
+          "public_sha256": "947dcf7b0ee29eb4b5d7178bbd8e208c5d08fe7a4c383be1ac984911d2be30e4",
+          "home_path_occurrences": 1361,
+          "email_occurrences": 0
+        }
+      ],
+      "removed_metadata": [],
+      "active_registry_impact": []
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0239/doctor.json.gz",
+      "original_archive_sha256": "2b151d0cbe0741ac7eda319531e1c2c2611d77dfb1ecd16920e9f520c3036b6b",
+      "public_archive_sha256": "e9910bb5f2b6f4575f8e96bb6e5b18010c1514f6693e06c2a9dd5b8b9f0edc59",
+      "members": [
+        {
+          "path": "doctor.json",
+          "original_sha256": "b897e77a3f9a8c1791fb6f8c64594054dcccb88f00be1b6521633aa4baf46907",
+          "public_sha256": "61839535866de8b047ef43952ecbb136557401e08a659f432d51f06722e33394",
+          "home_path_occurrences": 1,
+          "email_occurrences": 0
+        }
+      ],
+      "removed_metadata": [],
+      "active_registry_impact": []
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0239/qa-claim-failure.test.mjs.gz",
+      "original_archive_sha256": "7dea91b8eeb7d6dc863aef6e211da60fd1387bd5fd9294729dee5aaa6c4070eb",
+      "public_archive_sha256": "d28590a830e664c0f198fc08546cfdee1cb6a09aaa30d55bcb33ccce633d8725",
+      "members": [
+        {
+          "path": "qa-claim-failure.test.mjs",
+          "original_sha256": "82a4c6565c608550fa4f3d8ae4ab3c14fbda716e26a6ab01ca92d2b114318a10",
+          "public_sha256": "2adc325571897b62387f8a939c5a3a74076394436694fc84fb8ce0a93a5e450e",
+          "home_path_occurrences": 1,
+          "email_occurrences": 0
+        }
+      ],
+      "removed_metadata": [],
+      "active_registry_impact": []
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0240/closeout-evidence.tar.gz",
+      "original_archive_sha256": "e6f244637fdc35c7f908c548e06d56b43a666f6dc2128a15f8dff9ac43a5b445",
+      "public_archive_sha256": "abe234f2523930b17f8c1cefd2f57776fa3bef109e216f6436e3580a47388a3e",
+      "members": [
+        {
+          "path": "wi0240-final-plan.json",
+          "original_sha256": "f95af000888b0399fc0101587293a2d9f11dc2e57b1b1d63396eab592a6a1e8b",
+          "public_sha256": "f95af000888b0399fc0101587293a2d9f11dc2e57b1b1d63396eab592a6a1e8b",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "wi0240-final-status.json",
+          "original_sha256": "f6912ddba818bbfbd7cc2886b5201ff4839bf350147cb160911c9c23356c9f17",
+          "public_sha256": "f6912ddba818bbfbd7cc2886b5201ff4839bf350147cb160911c9c23356c9f17",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "wi0240-final-doctor.json",
+          "original_sha256": "d9e6f7e2a4cebbbbbcc4955e064ff9bbc9afb12135f5ea246bcd374d89b78679",
+          "public_sha256": "a35ae28ff8e16d2a88cf1f06eb040167f46f0714cf00a76f399e79dff8112fb2",
+          "home_path_occurrences": 1,
+          "email_occurrences": 0
+        },
+        {
+          "path": "wi0240-fast.log",
+          "original_sha256": "807fceb5b42f1cba6d8143616c8e48751b8ccc0f678b9f4ea183c20c24ff26b2",
+          "public_sha256": "807fceb5b42f1cba6d8143616c8e48751b8ccc0f678b9f4ea183c20c24ff26b2",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "wi0240-final-fast.log",
+          "original_sha256": "507a3f513dea3f6ab67e0b24ee701464dc2a7d5144fc156ed569fa83d2142c13",
+          "public_sha256": "507a3f513dea3f6ab67e0b24ee701464dc2a7d5144fc156ed569fa83d2142c13",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "wi0240-worker-complete.json",
+          "original_sha256": "d5b3107c895b30d02dadefaf1ce1d204b05e76e2a2b5e5c15925bb5508873dde",
+          "public_sha256": "d5b3107c895b30d02dadefaf1ce1d204b05e76e2a2b5e5c15925bb5508873dde",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        }
+      ],
+      "removed_metadata": [
+        {
+          "path": "._wi0240-final-plan.json",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._wi0240-final-status.json",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._wi0240-final-doctor.json",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._wi0240-fast.log",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._wi0240-final-fast.log",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._wi0240-worker-complete.json",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        }
+      ],
+      "active_registry_impact": []
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0240/independent-probe.tar.gz",
+      "original_archive_sha256": "99945d5d72aedcf40485900ce300c51c380e3278ee78a5519575f21f0d4c9f14",
+      "public_archive_sha256": "2715813a378e958e940da9a6418cd65c05dc09d14f8b91f32a61c92c5a516dae",
+      "members": [
+        {
+          "path": "wi0240-independent-probe.mjs",
+          "original_sha256": "42613dee0d79b2314135c4ff977a707c551cb1348fe46f150cca70338e71ba73",
+          "public_sha256": "2ddf995b437d240a1f19fc0c21b2b6e1a0f4d6fc6b37965e78851cb0a3beb3b2",
+          "home_path_occurrences": 3,
+          "email_occurrences": 0
+        },
+        {
+          "path": "wi0240-independent-probe.json",
+          "original_sha256": "c73f8cbd686df7b417cbb5497443fda21e5011c36d885ddcb0fa8c47f25d23b9",
+          "public_sha256": "c73f8cbd686df7b417cbb5497443fda21e5011c36d885ddcb0fa8c47f25d23b9",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        }
+      ],
+      "removed_metadata": [
+        {
+          "path": "._wi0240-independent-probe.mjs",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._wi0240-independent-probe.json",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        }
+      ],
+      "active_registry_impact": []
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0240/profiling-evidence.tar.gz",
+      "original_archive_sha256": "3123cc5ff7c248f590e3bf18c8e71863927594280110420c6176ab5014eb81d5",
+      "public_archive_sha256": "3ec32b2ef653f0cf180ecb2b506a746e33e3e73f88bc17a767569fca991a74c8",
+      "members": [
+        {
+          "path": "temple-continuity-profile-wrapper.mjs",
+          "original_sha256": "6865289004e6378dac615e359fb1175fb281b64af575423e623472f169cf7c41",
+          "public_sha256": "43047baad9009eec7c437f78eb64499ee4cfa2ec17d215a5b6e1e484009cb5ab",
+          "home_path_occurrences": 1,
+          "email_occurrences": 0
+        },
+        {
+          "path": "temple-continuity-profile.test.mjs",
+          "original_sha256": "c347b0ab246c38fae8e4162b273db0b1cc298989afe4ca92b4a5bf95f616132d",
+          "public_sha256": "31e7ab74060fa37b98d0e74e1abb3e7a1c9831019d4579c74ce2b6cfa5f15abc",
+          "home_path_occurrences": 3,
+          "email_occurrences": 2
+        },
+        {
+          "path": "temple-continuity-profile.log",
+          "original_sha256": "d60a89bbf2365b531d58339134b50475defbfc51bfb93a10acdd03a79cd813ee",
+          "public_sha256": "d60a89bbf2365b531d58339134b50475defbfc51bfb93a10acdd03a79cd813ee",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "temple-continuity-profile.json",
+          "original_sha256": "b995e29a69e383d90822f4e45bd67ebdc856359ed60042e4d09fdbd021fecf13",
+          "public_sha256": "b995e29a69e383d90822f4e45bd67ebdc856359ed60042e4d09fdbd021fecf13",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "temple-continuity-summary.json",
+          "original_sha256": "e65f437ec4d416756331d7ae2fbb4ce07394ae4253f4ad742f2fd9d66122bf8c",
+          "public_sha256": "e65f437ec4d416756331d7ae2fbb4ce07394ae4253f4ad742f2fd9d66122bf8c",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "temple-continuity-summarize.mjs",
+          "original_sha256": "0e4aae6bc3aea410bd1edf876d628ed232ed60e9cfb0951ba57973474765f94e",
+          "public_sha256": "0e4aae6bc3aea410bd1edf876d628ed232ed60e9cfb0951ba57973474765f94e",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "wi0240-profile-wrapper.mjs",
+          "original_sha256": "201b0f57b7f2c0300e0bc640b667d3a9d4b544426a16677acf342d6759b21d7e",
+          "public_sha256": "da0ace4b734938c99508be605ad1ed75869b32b492b8865566f9bd5fa6c2731d",
+          "home_path_occurrences": 1,
+          "email_occurrences": 0
+        },
+        {
+          "path": "wi0240-profile.test.mjs",
+          "original_sha256": "0e75873c2efaf99a31d9f2339f5158891508ff0b984c682d24951342335defca",
+          "public_sha256": "7a030773dff34539abbee35c322e453eb27f878b5db489bd3d64848d13db5145",
+          "home_path_occurrences": 3,
+          "email_occurrences": 2
+        },
+        {
+          "path": "wi0240-profile.log",
+          "original_sha256": "fb35192bbed0c689c424155193f54656a0b0700ddcb6c1f39b5f9daa25a8ecfe",
+          "public_sha256": "fb35192bbed0c689c424155193f54656a0b0700ddcb6c1f39b5f9daa25a8ecfe",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "wi0240-profile.json",
+          "original_sha256": "c3378dafce273e129df65e43efa7103eafea4dab3228d71e7a83e099e1e2ca0d",
+          "public_sha256": "c3378dafce273e129df65e43efa7103eafea4dab3228d71e7a83e099e1e2ca0d",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "wi0240-summary.json",
+          "original_sha256": "7209a60529b1f5742f53a2bdb4fadebfd54cae9f86a8e1962bc9e650065661ce",
+          "public_sha256": "7209a60529b1f5742f53a2bdb4fadebfd54cae9f86a8e1962bc9e650065661ce",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "wi0240-summarize.mjs",
+          "original_sha256": "037b49595b973e47b2262d470364add42e3b525663d24d3660070db98f2fb213",
+          "public_sha256": "037b49595b973e47b2262d470364add42e3b525663d24d3660070db98f2fb213",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        },
+        {
+          "path": "wi0240-controls.log",
+          "original_sha256": "cdd8a57ba1a1cddcdeaeebe400fed7bf1dd7b24aee262d3919e57ebd468ece17",
+          "public_sha256": "cdd8a57ba1a1cddcdeaeebe400fed7bf1dd7b24aee262d3919e57ebd468ece17",
+          "home_path_occurrences": 0,
+          "email_occurrences": 0
+        }
+      ],
+      "removed_metadata": [
+        {
+          "path": "._temple-continuity-profile-wrapper.mjs",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._temple-continuity-profile.test.mjs",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._temple-continuity-profile.log",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._temple-continuity-profile.json",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._temple-continuity-summary.json",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._temple-continuity-summarize.mjs",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._wi0240-profile-wrapper.mjs",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._wi0240-profile.test.mjs",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._wi0240-profile.log",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._wi0240-profile.json",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._wi0240-summary.json",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._wi0240-summarize.mjs",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        },
+        {
+          "path": "._wi0240-controls.log",
+          "sha256": "e98442ffb44d3261c9c925ec0bf886b369bfeb6fff0a886e71face0a7984d5fb",
+          "reason": "AppleDouble auxiliary metadata"
+        }
+      ],
+      "active_registry_impact": []
+    }
+  ]
+}

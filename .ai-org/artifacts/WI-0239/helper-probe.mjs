@@ -12,7 +12,7 @@ test('measure fresh and pooled helper setup with real command counts', async () 
     return original.call(this, command, args, options);
   };
   syncBuiltinESMExports();
-  const { fixture, createFixturePool } = await import('/Users/zsz1210/Documents/ChatGPT/temple-ai-dev-org/test/helpers/lean-delivery-fixture.mjs');
+  const { fixture, createFixturePool } = await import('../../../test/helpers/lean-delivery-fixture.mjs');
   const pool = createFixturePool(), records = [];
   try {
     for (let sample = 0; sample < 4; sample++) {

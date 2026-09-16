@@ -2652,6 +2652,34 @@
       "attached_at": "2026-09-16T06:58:08.820Z",
       "completed_at": "2026-09-16T07:04:33.558Z",
       "updated_at": "2026-09-16T07:04:33.558Z"
+    },
+    {
+      "id": "worker-20260916074130-1c012a45",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0244",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260916074131-e15caf84",
+      "base_revision": "1a98048da0990c04c0cb9b02ffa5d25ad778d013",
+      "branch": "codex/alpha33-release",
+      "worktree": null,
+      "plan_fingerprint": "9edfde0029554e726938b68956d1f923143b6188c221ca5c6e9bb53b94222f84",
+      "plan_digest": "4be6a7573b4e1d754edb21ba65270e06ab3bb91887cb38eda1499eddc33337f2",
+      "preparation_fingerprint": "79197a1264999c1e12355bd4da3bdef4e5231e81fb9f2af439094c95702bfe59",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/alpha33_publication_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "1a98048da0990c04c0cb9b02ffa5d25ad778d013",
+      "evidence": [
+        ".ai-org/artifacts/WI-0244/independent-qa.md"
+      ],
+      "reserved_at": "2026-09-16T07:41:30.901Z",
+      "attached_at": "2026-09-16T07:42:01.267Z",
+      "completed_at": "2026-09-16T07:48:18.751Z",
+      "updated_at": "2026-09-16T07:48:18.751Z"
     }
   ]
 }

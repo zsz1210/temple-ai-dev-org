@@ -22,7 +22,7 @@ existing intermittent event timeout, then measure an optional lower-concurrency
 test configuration without dropping tests or isolation.
 
 Integration preparation: public archive copies replace maintainer home paths with
-`/Users/REDACTED/` and omit archive owner and AppleDouble metadata. Original raw
+the literal redacted-home placeholder and omit archive owner and AppleDouble metadata. Original raw
 hashes in verification records still identify the retained private originals;
 `public-evidence-provenance.json` maps those hashes to each public copy. No test
 result, measurement, assertion or behavioral source was changed. The unpushed

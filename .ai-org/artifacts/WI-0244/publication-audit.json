@@ -1,0 +1,1168 @@
+{
+  "schema_version": "temple.publication-audit/v1",
+  "profile": "public",
+  "profile_source": "project",
+  "requested_surface": "both",
+  "status": "review-required",
+  "legacy_baseline": {
+    "revision": "03a523758b040bac931826deb36f5029f94d46bc",
+    "scope": "repository-only",
+    "values_retained_in_report": false
+  },
+  "summary": {
+    "blocked": 0,
+    "review_required": 110,
+    "reviewed_adapter_fixtures": 1,
+    "allowed_files": 5239,
+    "files": 5349,
+    "text_files": 5239,
+    "binary_files_requiring_review": 110
+  },
+  "allowed_evidence": [
+    "lifecycle-and-handoffs",
+    "quality-and-release-gates",
+    "model-routing-metadata",
+    "token-counts-and-budgets",
+    "credits-reset-retry-and-fallback-approvals",
+    "experiment-protocols-observations-and-outcomes"
+  ],
+  "local_only_evidence": [
+    "credentials-and-secret-values",
+    "raw-provider-telemetry",
+    "raw-prompts-and-responses",
+    "live-account-balance-and-reset-availability"
+  ],
+  "surfaces": [
+    {
+      "id": "repository",
+      "files": 4905,
+      "text_files": 4795,
+      "binary_files_requiring_review": 110,
+      "findings": [
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0047/runtime-1440-dark.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0047/runtime-1440-light.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0047/runtime-2560-dark.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0047/runtime-390-drawer-dark.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0060/team-mobile-model-card.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0060/team-mobile.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0060/team-tablet.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0060/team-wide.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0076/screenshots/team-authority-1440.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0076/screenshots/team-authority-390.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0076/screenshots/team-people-agents-390.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0076/screenshots/team-responsibilities-1440.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0076/screenshots/team-responsibilities-390.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0079/temple-engineering.390x844.dark.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0079/temple-engineering.390x844.light.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0079/temple-engineering.visual-check.1440x900.dark.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0079/temple-engineering.visual-check.1440x900.light.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0079/temple-engineering.visual-check.2048x1320.dark.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0079/temple-engineering.visual-check.2048x1320.light.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0101/console-desktop.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0101/console-mobile.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0230/ui-runtime.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0230/verification-535c306e.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0230/verification-56700f3a.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0230/verification-8bfe3889.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0230/verification-aff1b86e.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0234/closeout-verify-fast.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0234/rework-01-qa-reproduction.tar.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0234/verification-220eda61.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0238/closeout-verify-fast.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0238/focused-profiling.tar.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0238/independent-controls.tar.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0238/verification-472c1673.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0239/baseline-timing.jsonl.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0239/baseline.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0239/bench.json.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0239/bench.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0239/candidate-timing.jsonl.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0239/candidate.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0239/comparison.json.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0239/controls.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0239/doctor.json.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0239/final-fast.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0239/final-plan.json.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0239/final-status.json.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0239/focused.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0239/qa-claim-failure.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0239/qa-claim-failure.test.mjs.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0240/closeout-evidence.tar.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0240/full-verification.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0240/independent-probe.tar.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0240/profiling-evidence.tar.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0241/final-diagnostics.tar.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0241/full-attempt-1-memory.json.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0241/full-attempt-1.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0241/full-attempt-2-memory.json.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0241/full-attempt-2.log.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0241/independent-probe.tar.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0241/measurement-evidence.tar.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0241/verification-monitors.tar.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0242/closeout-checks.tar.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0242/diagnostic-evidence.tar.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": ".ai-org/artifacts/WI-0242/final-verification.tar.gz",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0029-command-history-desktop.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0029-command-history-narrow.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0029-confirmed-preview.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0029-disabled-desktop.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0029-idle-desktop.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0029-quality-command-history-desktop.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0029-quality-command-history-narrow.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0029-quality-confirmed-preview.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0029-quality-disabled-desktop.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/WI-0065-team-narrow.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/WI-0065-team-wide.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/activity-wide.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/controlled-comparison/baseline-mobile.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/controlled-comparison/baseline-overview.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/controlled-comparison/proposal-mobile.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/controlled-comparison/proposal-overview.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/health-wide.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/overview-tablet.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/overview-wide.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/private-overview-tablet.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/proposed-overview-running-wide.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/proposed-overview-tablet.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/proposed-overview-wide.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/proposed-system-configuration-320.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/proposed-system-configuration-mobile.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/proposed-system-configuration-tablet.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/proposed-system-configuration-wide.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/proposed-team-tablet.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/proposed-team-wide.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/proposed-usage-wide.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/proposed-work-320.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/proposed-work-mobile.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/proposed-work-wide.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/team-tablet.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/team-wide.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/usability-rehearsal/baseline-activity.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/usability-rehearsal/baseline-health.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/usability-rehearsal/baseline-overview.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/usability-rehearsal/baseline-work-detail.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/usability-rehearsal/preview-history.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/usability-rehearsal/preview-overview.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/usability-rehearsal/preview-system-status.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/usability-rehearsal/preview-usage.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/usability-rehearsal/preview-work.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/usage-wide.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/work-mobile.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "binary-review",
+          "evidence_class": "binary-content",
+          "classification": "review-required",
+          "disposition": "manual-review",
+          "path": "output/playwright/wi-0077/work-wide.png",
+          "line": 1,
+          "count": 1,
+          "remediation": "Review rendered binary content separately; this text audit does not declare it safe."
+        },
+        {
+          "rule_id": "private-ipv4",
+          "evidence_class": "local-environment",
+          "classification": "allowed",
+          "disposition": "reviewed-adapter-fixture",
+          "path": ".ai-org/adapters/archify/v2.16.0/archify/test/brand-marks.test.mjs",
+          "line": 387,
+          "count": 1,
+          "remediation": "Replace the private network address with a documentation-range address or placeholder."
+        }
+      ]
+    },
+    {
+      "id": "package",
+      "files": 444,
+      "text_files": 444,
+      "binary_files_requiring_review": 0,
+      "findings": []
+    }
+  ],
+  "authority": {
+    "canonical_state_changed": false,
+    "repository_visibility_changed": false,
+    "publication_authorized": false,
+    "security_certification": false
+  }
+}

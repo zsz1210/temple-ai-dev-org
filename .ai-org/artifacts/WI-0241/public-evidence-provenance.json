@@ -1,5 +1,5 @@
 {
-  "policy": "Public evidence copies replace maintainer home directory with /Users/REDACTED/ and omit AppleDouble/archive owner metadata. Original hashes describe private unredacted inputs, not public copies. Behavioral candidate unchanged. Originals retained locally.",
+  "policy": "Public evidence copies replace maintainer home directory with a literal redacted-home placeholder and omit AppleDouble/archive owner metadata. Original hashes describe private unredacted inputs, not public copies. Behavioral candidate unchanged. Originals retained locally.",
   "archives": [
     {
       "path": ".ai-org/artifacts/WI-0241/final-diagnostics.tar.gz",
