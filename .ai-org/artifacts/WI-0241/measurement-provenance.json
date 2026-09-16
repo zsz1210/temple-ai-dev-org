@@ -1,0 +1,39 @@
+{
+  "baseline_import_only_normalization_verified": true,
+  "baseline": "d3892f6b018c006c28d6cf13590548fed9561f53",
+  "candidate": "bcafc86e27b59207b0ec5ae78c5089e5c3c86b87",
+  "files": [
+    {
+      "name": "wi0241-baseline-schema-validation.mjs",
+      "sha256": "31f9d284b7eeba1ba689a4ff3d55f01fd61af27e76da966df2766073f9424980"
+    },
+    {
+      "name": "wi0241-baseline-doctor.mjs",
+      "sha256": "4d47d16fc17df649337c1faaa548d3aae3c55470d198a9125a1496dce5ccd10e"
+    },
+    {
+      "name": "wi0241-memory-driver.mjs",
+      "sha256": "29d4bcc87d1a3579d3b48e86de189860048f1d9071b217dea86bab524845a80f"
+    },
+    {
+      "name": "wi0241-memory-benchmark.mjs",
+      "sha256": "07f19e23bd907bcb6f0d9c38582f20b7a106482b09e440c4a17bb1d955c2b9fe"
+    },
+    {
+      "name": "wi0241-memory-results.json",
+      "sha256": "04bec71cbdb71e4c2df6f790c0b541e8764bd54ebe61f2656fc7ff1fc4f57519"
+    },
+    {
+      "name": "wi0241-memory-summary.json",
+      "sha256": "253e76068e1ab5aeb4bc4881bf102c3023e5e52b4d6302f4547d99981571de82"
+    },
+    {
+      "name": "wi0241-memory-benchmark.log",
+      "sha256": "e69f172c23024c8c24afd125019115d176e33b0a263a1e8b3bc2e841806b2a67"
+    },
+    {
+      "name": "wi0241-focused.log",
+      "sha256": "bab1faa540bdb40581b96aab309a815b32a33b598e83ed604636ac6a1d73e6b7"
+    }
+  ]
+}
