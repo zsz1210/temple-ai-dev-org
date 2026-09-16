@@ -4,10 +4,10 @@
 - Organization system version: `0.1.0-alpha.33`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 1 active claims)
-- Parallel plan: 0 wave(s), fresh=false
+- Parallel plan: 1 wave(s), fresh=false
 - Work items: 243 total, 1 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 92 registered, 0 reserved, 0 active
+- Runtime workers: 93 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -38,10 +38,10 @@
 - Installed: yes
 - Valid: yes
 - Fresh: no
-- Safe waves: 0
-- Dispatchable Work Items: 0
+- Safe waves: 1
+- Dispatchable Work Items: 1
 - Active / sequential / blocked: 0 / 0 / 0
-- Next wave: none
+- Next wave: WI-0243
 - Codex tasks, claims, or external actions performed by planning: no
 
 ## Work items
@@ -290,7 +290,7 @@
 | WI-0240 | Batch continuity Git reads without weakening candidate validation | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `2d4c018c` | 0 | 7 | 0 |
 | WI-0241 | Reuse Doctor compiler setup while preserving schema isolation | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `bcafc86e` | 0 | 7 | 0 |
 | WI-0242 | Make Console refresh delivery reliable and clean up streams | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f1629909` | 0 | 7 | 0 |
-| WI-0243 | Qualify Alpha.33 package and existing-project upgrades | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260916064349-522ab842 | `—` | 0 | 1 | 0 |
+| WI-0243 | Qualify Alpha.33 package and existing-project upgrades | build | Developer | Rikku | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260916065525-d04b8f6b | `—` | 0 | 3 | 0 |
 
 ## Delivery attention
 
@@ -410,6 +410,7 @@
 | worker-20260916030935-ed63684a | internal-subagent | WI-0240 | Quality & Evaluation Engineer / Lulu | completed | /root/continuity_batch_qa | `2d4c018c` | 0 |
 | worker-20260916045941-d831ca3a | internal-subagent | WI-0241 | Quality & Evaluation Engineer / Lulu | completed | /root/doctor_compiler_qa | `bcafc86e` | 0 |
 | worker-20260916062712-2e1f6dc1 | internal-subagent | WI-0242 | Quality & Evaluation Engineer / Lulu | completed | /root/console_refresh_qa | `f1629909` | 0 |
+| worker-20260916065156-356bd6d2 | internal-subagent | WI-0243 | Quality & Evaluation Engineer / Lulu | completed | /root/alpha33_qa | `02103e99` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -522,14 +523,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-16T06:43:49.747Z | work_item_claimed | WI-0243 | human |
-| 2026-09-16T06:43:49.308Z | work_item_transitioned | WI-0243 | agent-tidus |
-| 2026-09-16T06:43:48.854Z | work_item_claimed | WI-0243 | human |
-| 2026-09-16T06:43:48.430Z | work_item_transitioned | WI-0243 | agent-yuna |
-| 2026-09-16T06:43:48.029Z | work_item_claimed | WI-0243 | human |
-| 2026-09-16T06:43:47.562Z | work_item_transitioned | WI-0243 | agent-mog |
-| 2026-09-16T06:43:09.200Z | work_item_claimed | WI-0243 | human |
-| 2026-09-16T06:43:08.386Z | work_item_created | WI-0243 | agent-mog |
+| 2026-09-16T06:55:25.755Z | work_item_claimed | WI-0243 | human |
+| 2026-09-16T06:55:25.307Z | work_item_reworked | WI-0243 | agent-lulu |
+| 2026-09-16T06:55:24.834Z | runtime_worker_status_changed | WI-0243 | agent-lulu |
+| 2026-09-16T06:52:26.895Z | runtime_worker_attached | WI-0243 | agent-lulu |
+| 2026-09-16T06:51:56.838Z | runtime_worker_reserved | WI-0243 | human |
+| 2026-09-16T06:51:57.015Z | work_item_claimed | WI-0243 | human |
+| 2026-09-16T06:51:40.084Z | work_item_coordination_configured | WI-0243 | agent-lulu |
+| 2026-09-16T06:51:38.734Z | work_item_transitioned | WI-0243 | agent-rikku |
 
 ## Assignments
 

@@ -1,0 +1,126 @@
+{
+  "schema_version": "temple.alpha33-qualification-observation/v1",
+  "status": "failed",
+  "observed_at": "2026-09-16T06:49:26.723Z",
+  "runtime": "v24.20.0",
+  "platform": "darwin",
+  "checks": [
+    {
+      "name": "fresh: dry init is read-only; repeated init preserves project and managed bytes",
+      "status": "passed",
+      "refreshable": [
+        "temple.lock",
+        ".ai-org/views/status.md",
+        ".ai-org/views/capabilities.json"
+      ],
+      "lock_difference": "installation timestamp and installed/merged to present integration receipts only"
+    },
+    {
+      "name": "fresh: installed pinned launcher, doctor and status",
+      "status": "passed",
+      "doctor": {
+        "pass": 36,
+        "warn": 1,
+        "fail": 0
+      }
+    }
+  ],
+  "timeline": [
+    {
+      "label": "candidate Git identity",
+      "exit_code": 0,
+      "elapsed_ms": 11
+    },
+    {
+      "label": "candidate: inspect archive",
+      "exit_code": 0,
+      "elapsed_ms": 7
+    },
+    {
+      "label": "candidate: locked offline install",
+      "exit_code": 0,
+      "elapsed_ms": 250
+    },
+    {
+      "label": "candidate: version",
+      "exit_code": 0,
+      "elapsed_ms": 107
+    },
+    {
+      "label": "fresh: dry init",
+      "exit_code": 0,
+      "elapsed_ms": 120
+    },
+    {
+      "label": "fresh: init",
+      "exit_code": 0,
+      "elapsed_ms": 404
+    },
+    {
+      "label": "fresh: repeat init",
+      "exit_code": 0,
+      "elapsed_ms": 365
+    },
+    {
+      "label": "fresh: pinned doctor",
+      "exit_code": 0,
+      "elapsed_ms": 430
+    },
+    {
+      "label": "fresh: pinned status",
+      "exit_code": 0,
+      "elapsed_ms": 270
+    },
+    {
+      "label": "baseline: inspect archive",
+      "exit_code": 0,
+      "elapsed_ms": 8
+    },
+    {
+      "label": "baseline: locked offline install",
+      "exit_code": 0,
+      "elapsed_ms": 258
+    },
+    {
+      "label": "baseline: version",
+      "exit_code": 0,
+      "elapsed_ms": 113
+    },
+    {
+      "label": "legacy: dry init",
+      "exit_code": 0,
+      "elapsed_ms": 118
+    },
+    {
+      "label": "legacy: init",
+      "exit_code": 0,
+      "elapsed_ms": 506
+    },
+    {
+      "label": "legacy: repeat init",
+      "exit_code": 0,
+      "elapsed_ms": 466
+    }
+  ],
+  "package_published": false,
+  "downstream_projects_modified": false,
+  "model_calls": 0,
+  "tokens": null,
+  "candidate_revision": "e27038c7144373f8a88a3a8c53ee8969440653c1",
+  "candidate": {
+    "version": "0.1.0-alpha.33",
+    "archive": "zsz1210-temple-ai-dev-org-0.1.0-alpha.33.tgz",
+    "sha256": "03c725189ace782c362b7deee65854980d4072a22600983ed290ec1c652138d2",
+    "integrity": "sha512-Dg28hI3SKc+kSOw6/TCSCC9c5zYNVttI40JLscG079EtKcBmkTWXcxQR1GLjwSskpHwjeodzdYAqq3P4BKpy+A==",
+    "bytes": 997361
+  },
+  "baseline": {
+    "version": "0.1.0-alpha.32",
+    "archive": "zsz1210-temple-ai-dev-org-0.1.0-alpha.32.tgz",
+    "sha256": "44efc2ce60a714ec73613affbcb7748a14ab7a96b892660e8cf4113372dd26c2",
+    "integrity": "sha512-F7FbZ4gd45yvokVgtwj8mr667M9ZXKtVDmQlTPkUZiumcMqh3gCsAsJYP2NZ7/z9jqhVQdViyNKXAjA3dTvKJw==",
+    "bytes": 948896
+  },
+  "failure": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(['installed', 'merged', 'present'].includes(firstLock.integrations[key]))\n\n    at initialize (file://<repository-root>/.ai-org/artifacts/WI-0243/qualify-package.mjs:105:5)\n    at async file://<repository-root>/.ai-org/artifacts/WI-0243/qualify-package.mjs:128:3",
+  "temporary_resources_removed": true
+}

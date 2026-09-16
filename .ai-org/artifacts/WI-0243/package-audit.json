@@ -1,0 +1,46 @@
+{
+  "schema_version": "temple.publication-audit/v1",
+  "profile": "public",
+  "profile_source": "project",
+  "requested_surface": "package",
+  "status": "allowed",
+  "legacy_baseline": null,
+  "summary": {
+    "blocked": 0,
+    "review_required": 0,
+    "reviewed_adapter_fixtures": 0,
+    "allowed_files": 444,
+    "files": 444,
+    "text_files": 444,
+    "binary_files_requiring_review": 0
+  },
+  "allowed_evidence": [
+    "lifecycle-and-handoffs",
+    "quality-and-release-gates",
+    "model-routing-metadata",
+    "token-counts-and-budgets",
+    "credits-reset-retry-and-fallback-approvals",
+    "experiment-protocols-observations-and-outcomes"
+  ],
+  "local_only_evidence": [
+    "credentials-and-secret-values",
+    "raw-provider-telemetry",
+    "raw-prompts-and-responses",
+    "live-account-balance-and-reset-availability"
+  ],
+  "surfaces": [
+    {
+      "id": "package",
+      "files": 444,
+      "text_files": 444,
+      "binary_files_requiring_review": 0,
+      "findings": []
+    }
+  ],
+  "authority": {
+    "canonical_state_changed": false,
+    "repository_visibility_changed": false,
+    "publication_authorized": false,
+    "security_certification": false
+  }
+}

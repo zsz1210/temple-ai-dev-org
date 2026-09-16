@@ -1,0 +1,59 @@
+{
+  "schema_version": "temple.alpha33-qualification-observation/v1",
+  "status": "failed",
+  "observed_at": "2026-09-16T06:48:58.802Z",
+  "runtime": "v24.20.0",
+  "platform": "darwin",
+  "checks": [],
+  "timeline": [
+    {
+      "label": "candidate Git identity",
+      "exit_code": 0,
+      "elapsed_ms": 14
+    },
+    {
+      "label": "candidate: inspect archive",
+      "exit_code": 0,
+      "elapsed_ms": 8
+    },
+    {
+      "label": "candidate: locked offline install",
+      "exit_code": 0,
+      "elapsed_ms": 334
+    },
+    {
+      "label": "candidate: version",
+      "exit_code": 0,
+      "elapsed_ms": 117
+    },
+    {
+      "label": "fresh: dry init",
+      "exit_code": 0,
+      "elapsed_ms": 130
+    },
+    {
+      "label": "fresh: init",
+      "exit_code": 0,
+      "elapsed_ms": 412
+    },
+    {
+      "label": "fresh: repeat init",
+      "exit_code": 0,
+      "elapsed_ms": 374
+    }
+  ],
+  "package_published": false,
+  "downstream_projects_modified": false,
+  "model_calls": 0,
+  "tokens": null,
+  "candidate_revision": "e27038c7144373f8a88a3a8c53ee8969440653c1",
+  "candidate": {
+    "version": "0.1.0-alpha.33",
+    "archive": "zsz1210-temple-ai-dev-org-0.1.0-alpha.33.tgz",
+    "sha256": "03c725189ace782c362b7deee65854980d4072a22600983ed290ec1c652138d2",
+    "integrity": "sha512-Dg28hI3SKc+kSOw6/TCSCC9c5zYNVttI40JLscG079EtKcBmkTWXcxQR1GLjwSskpHwjeodzdYAqq3P4BKpy+A==",
+    "bytes": 997361
+  },
+  "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    boundaries: {\n      allowed_managed_exact_paths: [\n        'TEMPLE.md',\n        'templew.mjs'\n...\n    integrations: {\n+     agents_md: 'present',\n-     agents_md: 'installed',\n      archify: {\n        downstream_patch_ids: [\n          'fast-uri-3.1.7-security-override'\n        ],\n        pinned_commit: 'c826e6c3a7abad19c0f3cd1ca57207d54b1ad8de',\n...\n      },\n+     claude_md: 'present'\n-     claude_md: 'installed'\n    },\n    managed_files: [\n      {\n        path: '.agents/skills/decision-interview/SKILL.md',\n        sha256: '7e1c12bb642a630e480dc0d4ec677b67c58ebbdb1d270994e2455924286cc7cb'\n\n    at initialize (file://<repository-root>/.ai-org/artifacts/WI-0243/qualify-package.mjs:104:10)\n    at async file://<repository-root>/.ai-org/artifacts/WI-0243/qualify-package.mjs:120:3",
+  "temporary_resources_removed": true
+}
