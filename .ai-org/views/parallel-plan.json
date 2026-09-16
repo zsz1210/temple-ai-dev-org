@@ -1,46 +1,29 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-16T07:48:20.434Z",
-  "source_fingerprint": "6f9a94890ed7a848f0f65859ed5907f9cec96d63ce82f811f718bd6db840f604",
+  "generated_at": "2026-09-16T08:32:30.093Z",
+  "source_fingerprint": "d5e473464361e56ee5e162a46660ef6b75e793dd946bafa14b58255e9bb497ab",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": [
-      "WI-0244"
-    ]
+    "selected_work_item_ids": []
   },
-  "max_workers": 1,
+  "max_workers": null,
   "summary": {
-    "selected": 1,
+    "selected": 0,
     "dispatchable": 0,
-    "active": 1,
+    "active": 0,
     "sequential": 0,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
-  "active": [
-    {
-      "work_item_id": "WI-0244",
-      "title": "Reconcile publication evidence and publish Alpha.33",
-      "disposition": "active",
-      "position_id": "release_manager",
-      "agent_id": "agent-mog",
-      "integration_owner_agent_id": "agent-rikku",
-      "reasons": [],
-      "claim_id": "claim-20260916074820-c2638b6c",
-      "principal_id": "human",
-      "branch": "codex/alpha33-release",
-      "worktree": null,
-      "base_revision": "1a98048da0990c04c0cb9b02ffa5d25ad778d013"
-    }
-  ],
+  "active": [],
   "sequential": [],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": 1,
+    "runtime_capacity_limit": null,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,

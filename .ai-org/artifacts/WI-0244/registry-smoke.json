@@ -1,0 +1,70 @@
+{
+  "version": "0.1.0-alpha.33",
+  "status": "passed",
+  "observed_at": "2026-09-16T08:29:50.961Z",
+  "runtime": "v24.20.0",
+  "steps": [
+    {
+      "label": "registry metadata",
+      "exit_code": 0,
+      "elapsed_ms": 218
+    },
+    {
+      "label": "fresh-cache registry download",
+      "exit_code": 0,
+      "elapsed_ms": 1075
+    },
+    {
+      "label": "registry installation",
+      "exit_code": 0,
+      "elapsed_ms": 632
+    },
+    {
+      "label": "installed CLI version",
+      "exit_code": 0,
+      "elapsed_ms": 106
+    },
+    {
+      "label": "dry initialization",
+      "exit_code": 0,
+      "elapsed_ms": 111
+    },
+    {
+      "label": "initialization",
+      "exit_code": 0,
+      "elapsed_ms": 379
+    },
+    {
+      "label": "pinned installed launcher Doctor",
+      "exit_code": 0,
+      "elapsed_ms": 408
+    },
+    {
+      "label": "pinned installed launcher Status",
+      "exit_code": 0,
+      "elapsed_ms": 260
+    }
+  ],
+  "registry": {
+    "version": "0.1.0-alpha.33",
+    "dist_tags": {
+      "latest": "0.1.0-alpha.30",
+      "next": "0.1.0-alpha.33"
+    },
+    "integrity": "sha512-yGDf00IpT2C/2kyUSkxXRiQiofWtIbGQyktstrUo2n2LPhYrMdsp5V69u3FFhPIIVtgCG1aT1LBEFtpBzmZ5EQ==",
+    "sha256": "d1d91dfb054ed68837661bf6c2fe243eba7a5ea6d7b6cb6dec8dfdb602808ace",
+    "bytes": 998942,
+    "attestations": {
+      "url": "https://registry.npmjs.org/-/npm/v1/attestations/@zsz1210%2ftemple-ai-dev-org@0.1.0-alpha.33",
+      "provenance": {
+        "predicateType": "https://slsa.dev/provenance/v1"
+      }
+    }
+  },
+  "doctor": {
+    "pass": 36,
+    "warn": 1,
+    "fail": 0
+  },
+  "owned_fixture_removed": true
+}

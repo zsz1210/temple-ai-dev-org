@@ -1,0 +1,32 @@
+{
+  "npm_accepted_at": "2026-09-16T08:23:11Z",
+  "publisher_notice": "Package is being processed and may take a few minutes to become available.",
+  "observations": [
+    {
+      "observed_at": "2026-09-16T08:23:47.596Z",
+      "status": "failed",
+      "steps": [
+        {
+          "label": "registry metadata",
+          "exit_code": 1,
+          "elapsed_ms": 699
+        }
+      ],
+      "failure_class": "E404: published version not yet publicly available",
+      "owned_fixture_removed": true
+    },
+    {
+      "observed_at": "2026-09-16T08:25:17.469Z",
+      "status": "failed",
+      "steps": [
+        {
+          "label": "registry metadata",
+          "exit_code": 1,
+          "elapsed_ms": 575
+        }
+      ],
+      "failure_class": "E404: published version not yet publicly available",
+      "owned_fixture_removed": true
+    }
+  ]
+}

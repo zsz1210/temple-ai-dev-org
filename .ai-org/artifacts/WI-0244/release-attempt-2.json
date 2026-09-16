@@ -1,0 +1,124 @@
+{
+  "attempt": 2,
+  "conclusion": "success",
+  "headSha": "2e269d67bd764d3c47df665bc9043263cf8082e8",
+  "jobs": [
+    {
+      "completedAt": "2026-09-16T08:23:13Z",
+      "conclusion": "success",
+      "databaseId": 104716910584,
+      "name": "Publish verified Release asset",
+      "startedAt": "2026-09-16T08:11:46Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-09-16T08:11:48Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-09-16T08:11:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-16T08:11:51Z",
+          "conclusion": "success",
+          "name": "Check out the exact Release tag",
+          "number": 2,
+          "startedAt": "2026-09-16T08:11:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-16T08:11:52Z",
+          "conclusion": "success",
+          "name": "Use Node.js 24 without a release cache",
+          "number": 3,
+          "startedAt": "2026-09-16T08:11:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-16T08:11:53Z",
+          "conclusion": "success",
+          "name": "Install the exact dependency lock",
+          "number": 4,
+          "startedAt": "2026-09-16T08:11:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-16T08:23:04Z",
+          "conclusion": "success",
+          "name": "Verify the exact Release source",
+          "number": 5,
+          "startedAt": "2026-09-16T08:11:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-16T08:23:05Z",
+          "conclusion": "success",
+          "name": "Pack and validate Release metadata",
+          "number": 6,
+          "startedAt": "2026-09-16T08:23:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-16T08:23:05Z",
+          "conclusion": "success",
+          "name": "Download the package attached to the GitHub Release",
+          "number": 7,
+          "startedAt": "2026-09-16T08:23:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-16T08:23:05Z",
+          "conclusion": "success",
+          "name": "Verify the attached package bytes",
+          "number": 8,
+          "startedAt": "2026-09-16T08:23:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-16T08:23:11Z",
+          "conclusion": "success",
+          "name": "Publish through npm Trusted Publishing",
+          "number": 9,
+          "startedAt": "2026-09-16T08:23:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-16T08:23:11Z",
+          "conclusion": "success",
+          "name": "Post Use Node.js 24 without a release cache",
+          "number": 17,
+          "startedAt": "2026-09-16T08:23:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-16T08:23:11Z",
+          "conclusion": "success",
+          "name": "Post Check out the exact Release tag",
+          "number": 18,
+          "startedAt": "2026-09-16T08:23:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-16T08:23:11Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 19,
+          "startedAt": "2026-09-16T08:23:11Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/zsz1210/temple-ai-dev-org/actions/runs/35070834620/job/104716910584"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/zsz1210/temple-ai-dev-org/actions/runs/35070834620",
+  "registered_tests": 1218,
+  "passed_tests": 1215,
+  "skipped_tests": 3,
+  "failed_tests": 0,
+  "duration_ms": 667913.855682,
+  "archive_sha256": "d1d91dfb054ed68837661bf6c2fe243eba7a5ea6d7b6cb6dec8dfdb602808ace",
+  "archive_size": 998942,
+  "npm_publish_exit_code": 0
+}
