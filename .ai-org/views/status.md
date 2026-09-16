@@ -3,11 +3,11 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.32`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
-- Parallel plan: 0 wave(s), fresh=false
-- Work items: 239 total, 1 active
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Parallel plan: 0 wave(s), fresh=true
+- Work items: 239 total, 0 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 88 registered, 0 reserved, 0 active
+- Runtime workers: 89 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 25
+- Attention signals: 24
 
 ## Collaboration
 
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,7 +37,7 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
 - Active / sequential / blocked: 0 / 0 / 0
@@ -286,12 +286,10 @@
 | WI-0236 | Audit and prune redundant offline harness tests | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `93fe381d` | 0 | 11 | 0 |
 | WI-0237 | Audit and prune redundant optional runtime tests | done | Engineering Manager | Mog | sequential | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `220eda61` | 0 | 13 | 0 |
 | WI-0238 | Reduce repeated test setup and process overhead | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `472c1673` | 0 | 7 | 0 |
-| WI-0239 | Reduce shared fixture setup on the full-suite critical path | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260916011532-84ec00c3 | `—` | 0 | 1 | 0 |
+| WI-0239 | Reduce shared fixture setup on the full-suite critical path | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `aef4f2e3` | 0 | 7 | 0 |
 
 ## Delivery attention
 
-- WI-0239: awaiting-owner — The recorded owner can continue the scoped work; no attached active worker is recorded.
-  - owner: No attached active runtime is recorded for this claim.
 
 ## Codex task registry
 
@@ -402,6 +400,7 @@
 | worker-20260915233053-33b568eb | internal-subagent | WI-0234 | Quality & Evaluation Engineer / Lulu | failed | /root/pruning_independent_review | `93fe381d` | 0 |
 | worker-20260915234127-5239c0ed | internal-subagent | WI-0234 | Quality & Evaluation Engineer / Lulu | completed | /root/pruning_final_review | `220eda61` | 0 |
 | worker-20260916005447-8c1c7065 | internal-subagent | WI-0238 | Quality & Evaluation Engineer / Lulu | completed | /root/setup_performance_qa | `472c1673` | 0 |
+| worker-20260916012820-b3d2b660 | internal-subagent | WI-0239 | Quality & Evaluation Engineer / Lulu | completed | /root/shared_fixture_qa | `aef4f2e3` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -433,7 +432,6 @@
 - worker-20260915174040-464e550f is failed
 - worker-20260915175330-3e16bfe8 is failed
 - worker-20260915233053-33b568eb is failed
-- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -514,14 +512,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-16T01:15:32.625Z | work_item_claimed | WI-0239 | human |
-| 2026-09-16T01:15:32.216Z | work_item_transitioned | WI-0239 | agent-tidus |
-| 2026-09-16T01:15:31.826Z | work_item_claim_released | WI-0239 | human |
-| 2026-09-16T01:15:31.450Z | work_item_claimed | WI-0239 | human |
-| 2026-09-16T01:15:31.018Z | work_item_transitioned | WI-0239 | agent-yuna |
-| 2026-09-16T01:15:30.593Z | work_item_claim_released | WI-0239 | human |
-| 2026-09-16T01:15:30.188Z | work_item_claimed | WI-0239 | human |
-| 2026-09-16T01:15:29.773Z | work_item_transitioned | WI-0239 | agent-mog |
+| 2026-09-16T01:37:10.706Z | work_item_closed | WI-0239 | agent-mog |
+| 2026-09-16T01:37:10.706Z | release_gate_completed | WI-0239 | agent-mog |
+| 2026-09-16T01:37:10.330Z | work_item_claimed | WI-0239 | human |
+| 2026-09-16T01:37:09.929Z | work_item_transitioned | WI-0239 | agent-lulu |
+| 2026-09-16T01:37:09.545Z | work_item_claim_released | WI-0239 | human |
+| 2026-09-16T01:37:09.175Z | handoff_created | WI-0239 | agent-lulu |
+| 2026-09-16T01:37:08.785Z | work_item_claimed | WI-0239 | human |
+| 2026-09-16T01:37:08.383Z | work_item_transitioned | WI-0239 | agent-lulu |
 
 ## Assignments
 

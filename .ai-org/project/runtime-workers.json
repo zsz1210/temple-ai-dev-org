@@ -2484,6 +2484,34 @@
       "attached_at": "2026-09-16T00:55:13.710Z",
       "completed_at": "2026-09-16T01:01:43.493Z",
       "updated_at": "2026-09-16T01:01:43.493Z"
+    },
+    {
+      "id": "worker-20260916012820-b3d2b660",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0239",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260916012820-3b0e5229",
+      "base_revision": "aef4f2e35439637fded508e7edf3862aff724adf",
+      "branch": "codex/shared-fixture-performance",
+      "worktree": null,
+      "plan_fingerprint": "0cd2321f76de33c4774c76c854b1854974df7ed3690b15c39f38fd1ee21811aa",
+      "plan_digest": "51a41747451dcd2162c3fd169c6ad62d06c5ba5bf1e2c8b38b0a257849e926b8",
+      "preparation_fingerprint": "3819a273c43803e5620be60eee56009ba1f37c7b9fe690424ab3a96ab24c6e2d",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/shared_fixture_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "aef4f2e35439637fded508e7edf3862aff724adf",
+      "evidence": [
+        ".ai-org/artifacts/WI-0239/independent-review.md"
+      ],
+      "reserved_at": "2026-09-16T01:28:20.813Z",
+      "attached_at": "2026-09-16T01:28:44.952Z",
+      "completed_at": "2026-09-16T01:36:31.700Z",
+      "updated_at": "2026-09-16T01:36:31.700Z"
     }
   ]
 }
