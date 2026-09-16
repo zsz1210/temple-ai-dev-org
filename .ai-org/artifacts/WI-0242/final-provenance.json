@@ -1,0 +1,37 @@
+{
+  "candidate": "f1629909739eb08b4616e39d68065da74d29f5d2",
+  "policy": "Public copies redact local home paths and omit archive owner metadata. Original hashes refer to retained local inputs. Negative-control failure is intentional and is not a full-gate failure.",
+  "archive_sha256": "b5ca7b660232829553b90d7506122447c19f6eca0927a975bfd1f96dfc3cf68a",
+  "files": [
+    {
+      "name": "wi0242-full.log",
+      "original_sha256": "f57fee4a1dcf322ea401fab29c689ccbd4d76555377be72ff209c4a63787c3e9",
+      "public_sha256": "f57fee4a1dcf322ea401fab29c689ccbd4d76555377be72ff209c4a63787c3e9"
+    },
+    {
+      "name": "wi0242-browser.log",
+      "original_sha256": "fdc4d0289d401c687b7b92f71cdd66dc2116daa4391814b14fe94e2d09b4cb21",
+      "public_sha256": "fdc4d0289d401c687b7b92f71cdd66dc2116daa4391814b14fe94e2d09b4cb21"
+    },
+    {
+      "name": "wi0242-qa-helpers.mjs",
+      "original_sha256": "da7ca524eccb7bd5006777de88a9be31def5e663704f0fe75616d60b934ffde6",
+      "public_sha256": "da7ca524eccb7bd5006777de88a9be31def5e663704f0fe75616d60b934ffde6"
+    },
+    {
+      "name": "wi0242-qa-helpers.log",
+      "original_sha256": "96f7545967f6be4996d01e6d0f2663dcbc72be2d1d09d64a04607643109f96f0",
+      "public_sha256": "96f7545967f6be4996d01e6d0f2663dcbc72be2d1d09d64a04607643109f96f0"
+    },
+    {
+      "name": "wi0242-qa-drop-project.mjs",
+      "original_sha256": "2d180b3a2a432f75cab4ab7cb3b8347ae1593842a1dfb3b395c7735e06c03cd1",
+      "public_sha256": "2d180b3a2a432f75cab4ab7cb3b8347ae1593842a1dfb3b395c7735e06c03cd1"
+    },
+    {
+      "name": "wi0242-qa-drop-project.log",
+      "original_sha256": "5b41544c2c5e160507f04a26ef2c510e2c7a435e20921847920b8cb00f4c771d",
+      "public_sha256": "0d954a845bcc663ed0e4c9d04d2144a6fb37f38c195a7a36b52e4b572b03f135"
+    }
+  ]
+}

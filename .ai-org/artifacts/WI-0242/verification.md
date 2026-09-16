@@ -45,5 +45,22 @@ skips/cancellations/todos, 4067.821042 ms. Corrected focused case: 24/24 pass wi
 eight concurrent processes; slowest process 2.302 seconds. Existing test count
 is unchanged. No production polling or startup sleep was added.
 
-The final candidate still requires full verification, browser gate and distinct
-QA. Focused passes and the baseline diagnostic run do not satisfy that gate.
+## Final candidate gates
+
+Exact candidate `f1629909739eb08b4616e39d68065da74d29f5d2` passed
+`npm run verify`: repository/document/package checks and 1248/1248 tests, zero
+failures/cancellations/skips/todos, 291757.777459 ms. The strengthened actual
+Console case passed in 2259.067584 ms. This is the single final candidate full run;
+the earlier baseline diagnostic run is separately identified. Production, test,
+script, dependency and CI bytes remain unchanged from the candidate.
+
+`npm run test:browser` exited 0 with Chrome 152.0.7977.84: four viewports,
+six primary views, reduced motion and six synthetic attention states passed.
+The full and browser runs overlapped, so total time is not a controlled performance
+comparison with the earlier baseline run. No speedup claim is made.
+
+Distinct QA exercised eight framing/writer cleanup controls and verified that
+forwarding setup events while suppressing actual project-change events still
+fails at the unchanged deadline. Its separate substantive acceptance judgment is
+in `independent-review.md`. Public log copies redact home paths; provenance maps
+their hashes to local originals. The native platform limitations remain unchanged.

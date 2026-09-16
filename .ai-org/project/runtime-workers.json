@@ -2568,6 +2568,34 @@
       "attached_at": "2026-09-16T05:00:22.172Z",
       "completed_at": "2026-09-16T05:15:42.411Z",
       "updated_at": "2026-09-16T05:15:42.411Z"
+    },
+    {
+      "id": "worker-20260916062712-2e1f6dc1",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0242",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260916062712-1d9eb492",
+      "base_revision": "f1629909739eb08b4616e39d68065da74d29f5d2",
+      "branch": "codex/console-refresh-reliability",
+      "worktree": null,
+      "plan_fingerprint": "02d198589d2aebc3d36747b297e236a7505985953f546604982afa7862cad939",
+      "plan_digest": "88dd706dd62baca56ba6296ec2029a56d06865b52ee8a30528810adbcd5e992a",
+      "preparation_fingerprint": "1b91e509d9611ae5e9b862c72867021e967f36acc4dce57777de2400ac6d6cc1",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/console_refresh_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "f1629909739eb08b4616e39d68065da74d29f5d2",
+      "evidence": [
+        ".ai-org/artifacts/WI-0242/independent-review.md"
+      ],
+      "reserved_at": "2026-09-16T06:27:12.141Z",
+      "attached_at": "2026-09-16T06:27:38.540Z",
+      "completed_at": "2026-09-16T06:34:11.889Z",
+      "updated_at": "2026-09-16T06:34:11.889Z"
     }
   ]
 }
