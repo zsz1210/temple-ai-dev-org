@@ -1,0 +1,53 @@
+{
+  "inspection": "Registry provenance statement subject and build metadata; no separate cryptographic signature verification claimed",
+  "npm_webpage": "Automated web fetch returned HTTP 403; inspected the official public registry attestation endpoint instead",
+  "statement": {
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [
+      {
+        "name": "pkg:npm/%40zsz1210/temple-ai-dev-org@0.1.0-alpha.33",
+        "digest": {
+          "sha512": "c860dfd342294f60bfda4c944a4c57462422a1f5ad21b190ca4b6cb6b528da7d8b3e162b31db29e55ebdbb714584f20856d8021b5693d4b04416da41ce667911"
+        }
+      }
+    ],
+    "predicateType": "https://slsa.dev/provenance/v1",
+    "predicate": {
+      "buildDefinition": {
+        "buildType": "https://slsa-framework.github.io/github-actions-buildtypes/workflow/v1",
+        "externalParameters": {
+          "workflow": {
+            "ref": "refs/tags/v0.1.0-alpha.33",
+            "repository": "https://github.com/zsz1210/temple-ai-dev-org",
+            "path": ".github/workflows/publish-npm.yml"
+          }
+        },
+        "internalParameters": {
+          "github": {
+            "event_name": "release",
+            "repository_id": "1350310959",
+            "repository_owner_id": "9893016"
+          }
+        },
+        "resolvedDependencies": [
+          {
+            "uri": "git+https://github.com/zsz1210/temple-ai-dev-org@refs/tags/v0.1.0-alpha.33",
+            "digest": {
+              "gitCommit": "2e269d67bd764d3c47df665bc9043263cf8082e8"
+            }
+          }
+        ]
+      },
+      "runDetails": {
+        "builder": {
+          "id": "https://github.com/actions/runner/github-hosted"
+        },
+        "metadata": {
+          "invocationId": "https://github.com/zsz1210/temple-ai-dev-org/actions/runs/35070834620/attempts/2"
+        }
+      }
+    }
+  },
+  "subject_digest_matches_downloaded_archive": true,
+  "source_matches_published_tag": true
+}

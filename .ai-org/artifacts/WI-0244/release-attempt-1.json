@@ -1,0 +1,131 @@
+{
+  "run_id": 35070834620,
+  "attempt": 1,
+  "status": "completed",
+  "conclusion": "failure",
+  "source_revision": "2e269d67bd764d3c47df665bc9043263cf8082e8",
+  "job": {
+    "completedAt": "2026-09-16T08:05:15Z",
+    "conclusion": "failure",
+    "databaseId": 104711687362,
+    "name": "Publish verified Release asset",
+    "startedAt": "2026-09-16T07:53:23Z",
+    "status": "completed",
+    "steps": [
+      {
+        "completedAt": "2026-09-16T07:53:24Z",
+        "conclusion": "success",
+        "name": "Set up job",
+        "number": 1,
+        "startedAt": "2026-09-16T07:53:24Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-09-16T07:53:29Z",
+        "conclusion": "success",
+        "name": "Check out the exact Release tag",
+        "number": 2,
+        "startedAt": "2026-09-16T07:53:24Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-09-16T07:53:29Z",
+        "conclusion": "success",
+        "name": "Use Node.js 24 without a release cache",
+        "number": 3,
+        "startedAt": "2026-09-16T07:53:29Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-09-16T07:53:30Z",
+        "conclusion": "success",
+        "name": "Install the exact dependency lock",
+        "number": 4,
+        "startedAt": "2026-09-16T07:53:29Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-09-16T08:05:11Z",
+        "conclusion": "success",
+        "name": "Verify the exact Release source",
+        "number": 5,
+        "startedAt": "2026-09-16T07:53:30Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-09-16T08:05:12Z",
+        "conclusion": "success",
+        "name": "Pack and validate Release metadata",
+        "number": 6,
+        "startedAt": "2026-09-16T08:05:11Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-09-16T08:05:13Z",
+        "conclusion": "success",
+        "name": "Download the package attached to the GitHub Release",
+        "number": 7,
+        "startedAt": "2026-09-16T08:05:12Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-09-16T08:05:13Z",
+        "conclusion": "failure",
+        "name": "Verify the attached package bytes",
+        "number": 8,
+        "startedAt": "2026-09-16T08:05:13Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-09-16T08:05:13Z",
+        "conclusion": "skipped",
+        "name": "Publish through npm Trusted Publishing",
+        "number": 9,
+        "startedAt": "2026-09-16T08:05:13Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-09-16T08:05:13Z",
+        "conclusion": "skipped",
+        "name": "Post Use Node.js 24 without a release cache",
+        "number": 17,
+        "startedAt": "2026-09-16T08:05:13Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-09-16T08:05:13Z",
+        "conclusion": "success",
+        "name": "Post Check out the exact Release tag",
+        "number": 18,
+        "startedAt": "2026-09-16T08:05:13Z",
+        "status": "completed"
+      },
+      {
+        "completedAt": "2026-09-16T08:05:13Z",
+        "conclusion": "success",
+        "name": "Complete job",
+        "number": 19,
+        "startedAt": "2026-09-16T08:05:13Z",
+        "status": "completed"
+      }
+    ],
+    "url": "https://github.com/zsz1210/temple-ai-dev-org/actions/runs/35070834620/job/104711687362"
+  },
+  "registered_tests": 1218,
+  "passed_tests": 1215,
+  "skipped_tests": 3,
+  "failed_tests": 0,
+  "duration_ms": 697124.500535,
+  "npm_upload_executed": false,
+  "original_gzip": {
+    "bytes": 997361,
+    "sha256": "03c725189ace782c362b7deee65854980d4072a22600983ed290ec1c652138d2"
+  },
+  "corrected_gzip": {
+    "bytes": 998942,
+    "sha256": "d1d91dfb054ed68837661bf6c2fe243eba7a5ea6d7b6cb6dec8dfdb602808ace",
+    "integrity": "sha512-yGDf00IpT2C/2kyUSkxXRiQiofWtIbGQyktstrUo2n2LPhYrMdsp5V69u3FFhPIIVtgCG1aT1LBEFtpBzmZ5EQ=="
+  },
+  "tar_byte_equal": true,
+  "tar_sha256": "5367accd2b0da5705f5a87c5ca69d7ea6115fbd2110a7e54dcd29cf1bc124f33"
+}

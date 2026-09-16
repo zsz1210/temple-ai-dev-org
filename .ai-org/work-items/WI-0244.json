@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0244",
   "title": "Reconcile publication evidence and publish Alpha.33",
-  "state": "release_gate",
-  "owner_position": "release_manager",
+  "state": "done",
+  "owner_position": "engineering_manager",
   "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-16T07:35:00.969Z",
-  "updated_at": "2026-09-16T07:48:20.005Z",
+  "updated_at": "2026-09-16T08:32:14.741Z",
   "scope": [
     "Resolve current publication reminders using exact prior evidence and bounded new review; preserve qualified package bytes; integrate through ordinary PR then publish Alpha.33 prerelease to npm next and verify clean registry use."
   ],
@@ -47,7 +47,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "1a98048da0990c04c0cb9b02ffa5d25ad778d013",
+  "base_revision": "2e269d67bd764d3c47df665bc9043263cf8082e8",
   "parallel_mode": "parallel",
   "integration_owner_agent_id": "agent-rikku",
   "planned_agent_id": null,
@@ -55,8 +55,8 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260916074820-c2638b6c",
-    "status": "active",
+    "id": "claim-20260916080127-3ca4c5d5",
+    "status": "released",
     "principal_id": "human",
     "agent_id": "agent-mog",
     "actor_provenance": {
@@ -68,11 +68,12 @@
       "externally_supplied_evidence": false
     },
     "position_id": "release_manager",
-    "base_revision": "1a98048da0990c04c0cb9b02ffa5d25ad778d013",
-    "branch": "codex/alpha33-release",
+    "base_revision": "2e269d67bd764d3c47df665bc9043263cf8082e8",
+    "branch": "codex/alpha33-publication-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-16T07:48:20.005Z",
-    "released_at": null
+    "claimed_at": "2026-09-16T08:01:27.447Z",
+    "released_at": "2026-09-16T08:32:14.741Z",
+    "release_reason": "work_item_closed"
   },
   "claims": [
     {
@@ -205,7 +206,7 @@
     },
     {
       "id": "claim-20260916074820-c2638b6c",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-mog",
       "actor_provenance": {
@@ -221,7 +222,31 @@
       "branch": "codex/alpha33-release",
       "worktree": null,
       "claimed_at": "2026-09-16T07:48:20.005Z",
-      "released_at": null
+      "released_at": "2026-09-16T08:01:26.971Z",
+      "release_reason": [
+        "Publication preparation merged through PR 102; continue the same authorized release closeout on its evidence branch."
+      ]
+    },
+    {
+      "id": "claim-20260916080127-3ca4c5d5",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "release_manager",
+      "base_revision": "2e269d67bd764d3c47df665bc9043263cf8082e8",
+      "branch": "codex/alpha33-publication-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-16T08:01:27.447Z",
+      "released_at": "2026-09-16T08:32:14.741Z",
+      "release_reason": "work_item_closed"
     }
   ],
   "gate_evidence": {
@@ -254,6 +279,18 @@
     ],
     "independent_qa_pass": [
       ".ai-org/artifacts/WI-0244/independent-qa.md"
+    ],
+    "accepted_scope": [
+      ".ai-org/artifacts/WI-0244/plan.md"
+    ],
+    "independent_qa_report": [
+      ".ai-org/artifacts/WI-0244/independent-qa.md"
+    ],
+    "rollback_plan": [
+      ".ai-org/artifacts/WI-0244/release-record.md"
+    ],
+    "required_human_approval": [
+      ".ai-org/artifacts/WI-0244/owner-approval.md"
     ]
   },
   "evidence": [
@@ -265,10 +302,11 @@
     ".ai-org/artifacts/WI-0244/evaluation.md",
     ".ai-org/artifacts/WI-0244/qa-observations.json",
     ".ai-org/artifacts/WI-0244/handoff-003-independent_qa-to-release_manager.md",
-    ".ai-org/artifacts/WI-0244/independent-qa.md"
+    ".ai-org/artifacts/WI-0244/independent-qa.md",
+    ".ai-org/artifacts/WI-0244/release-record.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -322,5 +360,11 @@
       "created_at": "2026-09-16T07:48:19.171Z"
     }
   ],
-  "developer_candidate_revision": "1a98048da0990c04c0cb9b02ffa5d25ad778d013"
+  "developer_candidate_revision": "1a98048da0990c04c0cb9b02ffa5d25ad778d013",
+  "tested_revision": "1a98048da0990c04c0cb9b02ffa5d25ad778d013",
+  "release_gate_result": "go",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed",
+  "approval_record": ".ai-org/artifacts/WI-0244/owner-approval.md"
 }

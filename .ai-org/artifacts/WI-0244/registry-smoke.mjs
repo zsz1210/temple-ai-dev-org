@@ -12,7 +12,8 @@ assert(output, 'result path required');
 const scratch = await fs.mkdtemp(path.join(os.tmpdir(), 'alpha33-registry-smoke-'));
 const packageName = '@zsz1210/temple-ai-dev-org';
 const version = '0.1.0-alpha.33';
-const expected = '03c725189ace782c362b7deee65854980d4072a22600983ed290ec1c652138d2';
+// Same qualified tar payload; see compression-recovery.md for gzip provenance.
+const expected = 'd1d91dfb054ed68837661bf6c2fe243eba7a5ea6d7b6cb6dec8dfdb602808ace';
 const report = { version, status: 'running', observed_at: new Date().toISOString(), runtime: process.version, steps: [] };
 function run(label, command, args, env = {}) {
   const started = performance.now();

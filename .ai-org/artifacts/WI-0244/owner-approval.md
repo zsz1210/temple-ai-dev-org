@@ -16,3 +16,8 @@ uploaded asset before publishing it; preserve the existing Release-only OIDC che
 Not authorized here: npm latest promotion, permissions/credentials changes, paid
 model experiments, production deployment, real downstream upgrades, replacing an
 immutable published version/tag, or bypassing a failed release gate.
+
+The initial gzip hash above is preserved as the original qualification record.
+The subsequent packaging correction and Release Manager's scope reasoning are
+explicit in compression-recovery.md; the whole tar payload and source tag remain
+unchanged. That record does not invent an additional user instruction.

@@ -62,3 +62,18 @@ entries before modifying anything. The corrected reader explicitly identifies
 non-text members for review and permits only safe directories/regular files.
 It neither extracts nor executes content. The new screenshot shows only synthetic
 Work Items and public framework labels; rendered inspection found no private values.
+
+## Packaging recovery after the first Release attempt
+
+See compression-recovery.md for the observed environment-dependent gzip mismatch.
+The original exact-gzip goal could not pass the unchanged hosted byte gate. Retain
+that archive as a named reference; the recovery qualifies an official-Node gzip
+whose complete decompressed tar is byte-identical, without changing the published
+source tag or replacing any npm version. This explicit packaging correction stays
+within the authorized release repair and is not a new product change. The final
+asset and registry must match the newly qualified gzip exactly; original hashes
+and the failed workflow remain visible. No verification gate is waived.
+
+Final publication and acceptance observations are in closeout.md and
+completion-checks.md; registry-smoke.json proves the successfully retrieved
+qualified package, intended next channel and unchanged latest channel.
