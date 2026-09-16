@@ -16,6 +16,23 @@ Use npm Trusted Publishing with GitHub Actions. A single workflow subscribes onl
 
 Before publication, the workflow checks out the Release tag, runs complete verification, creates a fresh package archive, validates tag and channel metadata, downloads the same-named archive attached to the Release, and requires byte identity. It publishes the matched Release asset only after every check succeeds.
 
+### Packaging preflight amendment (2026-09-16)
+
+Alpha.33 exposed a compressor mismatch despite identical Node/npm version strings:
+Homebrew and official Node builds produced different gzip bytes from an identical
+tar stream. Pin release packaging to the qualified official Node distribution and
+check exact Node, npm and zlib versions through the shared release pack helper.
+Record the observed fingerprint with each archive. It establishes compatibility;
+it is not runtime-distribution authentication. Ordinary consumer runtime support
+and ordinary CI do not inherit these stricter release-only pins.
+
+Move qualified packing, Release metadata validation, asset download and exact-byte
+comparison before complete verification. An incompatible environment or asset then
+fails before the long suite starts. After complete verification, pack again with
+the same helper and recheck the retained Release asset before publishing it. This
+detects a changed source or asset during verification and retains every original
+publication condition. Do not replace byte identity with decompressed equality.
+
 Semantic prerelease versions require a GitHub prerelease and publish under npm `next`. Stable versions require a non-prerelease GitHub Release and publish under npm `latest`. The package-level default remains `next`; the validated workflow supplies the selected dist-tag explicitly.
 
 Publishing a draft, editing a Release, pushing a tag, merging a pull request, or manually dispatching a workflow cannot invoke this path.

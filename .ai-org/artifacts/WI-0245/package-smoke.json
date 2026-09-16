@@ -1,0 +1,232 @@
+{
+  "schema_version": "temple.alpha33-qualification-observation/v1",
+  "status": "passed",
+  "observed_at": "2026-09-16T08:48:54.382Z",
+  "runtime": "v24.20.0",
+  "platform": "darwin",
+  "checks": [
+    {
+      "name": "fresh: dry init is read-only; repeated init preserves project and managed bytes",
+      "status": "passed",
+      "refreshable": [
+        "temple.lock",
+        ".ai-org/views/status.md",
+        ".ai-org/views/capabilities.json"
+      ],
+      "lock_difference": "installed/appended to present integration receipts only"
+    },
+    {
+      "name": "fresh: installed pinned launcher, doctor and status",
+      "status": "passed",
+      "doctor": {
+        "pass": 36,
+        "warn": 1,
+        "fail": 0
+      }
+    },
+    {
+      "name": "legacy: dry init is read-only; repeated init preserves project and managed bytes",
+      "status": "passed",
+      "refreshable": [
+        "temple.lock",
+        ".ai-org/views/status.md",
+        ".ai-org/views/capabilities.json"
+      ],
+      "lock_difference": "installed/appended to present integration receipts only"
+    },
+    {
+      "name": "legacy: installed pinned launcher, doctor and status",
+      "status": "passed",
+      "doctor": {
+        "pass": 36,
+        "warn": 1,
+        "fail": 0
+      }
+    },
+    {
+      "name": "upgrade: preserves every existing project-owned file and policy",
+      "status": "passed",
+      "files": [
+        ".ai-org/artifacts/README.md",
+        ".ai-org/decisions/README.md",
+        ".ai-org/events/README.md",
+        ".ai-org/events/events.jsonl",
+        ".ai-org/learning/index.json",
+        ".ai-org/project/agents.json",
+        ".ai-org/project/assignments.json",
+        ".ai-org/project/collaboration.json",
+        ".ai-org/project/context-map.json",
+        ".ai-org/project/control-plane.json",
+        ".ai-org/project/evidence-profiles.json",
+        ".ai-org/project/evidence.json",
+        ".ai-org/project/execution-policy.json",
+        ".ai-org/project/federation.json",
+        ".ai-org/project/project.json",
+        ".ai-org/project/repository-integration.json",
+        ".ai-org/project/resources.json",
+        ".ai-org/project/retrieval.json",
+        ".ai-org/project/runtime-workers.json",
+        ".ai-org/project/spec-index.json",
+        ".ai-org/project/tasks.json",
+        ".ai-org/project/tracker.json",
+        ".ai-org/project/usage-policy.json",
+        ".ai-org/views/README.md",
+        ".ai-org/work-items/README.md",
+        ".ai-org/work-items/WI-0001.json",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "app.mjs",
+        "package-lock.json",
+        "package.json"
+      ],
+      "count": 31
+    },
+    {
+      "name": "upgraded: installed pinned launcher, doctor and status",
+      "status": "passed",
+      "doctor": {
+        "pass": 36,
+        "warn": 2,
+        "fail": 0
+      }
+    },
+    {
+      "name": "upgrade: managed conflict refuses and preserves all bytes",
+      "status": "passed",
+      "path": "TEMPLE.md",
+      "exit_code": 1
+    }
+  ],
+  "timeline": [
+    {
+      "label": "candidate Git identity",
+      "exit_code": 0,
+      "elapsed_ms": 14
+    },
+    {
+      "label": "candidate: inspect archive",
+      "exit_code": 0,
+      "elapsed_ms": 14
+    },
+    {
+      "label": "candidate: locked offline install",
+      "exit_code": 0,
+      "elapsed_ms": 277
+    },
+    {
+      "label": "candidate: version",
+      "exit_code": 0,
+      "elapsed_ms": 124
+    },
+    {
+      "label": "fresh: dry init",
+      "exit_code": 0,
+      "elapsed_ms": 120
+    },
+    {
+      "label": "fresh: init",
+      "exit_code": 0,
+      "elapsed_ms": 643
+    },
+    {
+      "label": "fresh: repeat init",
+      "exit_code": 0,
+      "elapsed_ms": 452
+    },
+    {
+      "label": "fresh: pinned doctor",
+      "exit_code": 0,
+      "elapsed_ms": 619
+    },
+    {
+      "label": "fresh: pinned status",
+      "exit_code": 0,
+      "elapsed_ms": 273
+    },
+    {
+      "label": "baseline: inspect archive",
+      "exit_code": 0,
+      "elapsed_ms": 9
+    },
+    {
+      "label": "baseline: locked offline install",
+      "exit_code": 0,
+      "elapsed_ms": 295
+    },
+    {
+      "label": "baseline: version",
+      "exit_code": 0,
+      "elapsed_ms": 109
+    },
+    {
+      "label": "legacy: dry init",
+      "exit_code": 0,
+      "elapsed_ms": 122
+    },
+    {
+      "label": "legacy: init",
+      "exit_code": 0,
+      "elapsed_ms": 578
+    },
+    {
+      "label": "legacy: repeat init",
+      "exit_code": 0,
+      "elapsed_ms": 672
+    },
+    {
+      "label": "legacy: work history",
+      "exit_code": 0,
+      "elapsed_ms": 208
+    },
+    {
+      "label": "legacy: pinned doctor",
+      "exit_code": 0,
+      "elapsed_ms": 1145
+    },
+    {
+      "label": "legacy: pinned status",
+      "exit_code": 0,
+      "elapsed_ms": 287
+    },
+    {
+      "label": "upgrade: dry run",
+      "exit_code": 0,
+      "elapsed_ms": 141
+    },
+    {
+      "label": "upgrade: apply",
+      "exit_code": 0,
+      "elapsed_ms": 420
+    },
+    {
+      "label": "upgraded: pinned doctor",
+      "exit_code": 0,
+      "elapsed_ms": 493
+    },
+    {
+      "label": "upgraded: pinned status",
+      "exit_code": 0,
+      "elapsed_ms": 1695
+    }
+  ],
+  "package_published": false,
+  "downstream_projects_modified": false,
+  "model_calls": 0,
+  "tokens": null,
+  "candidate_revision": "6e429face64c1f1adfdad99f6447dea29507e3e1",
+  "candidate": {
+    "version": "0.1.0-alpha.33",
+    "archive": "zsz1210-temple-ai-dev-org-0.1.0-alpha.33.tgz",
+    "sha256": "754435f17928400ff0d0f838304e63b3e947456cc30027554955ff3f25eb3900",
+    "integrity": "sha512-iN/Pw3IJ9qAD7HRyfBT2Ko1x3E1SqMFNeBctcMdB+W4Pafyj640CL8p7EWCt+NqO/dKO7TaQYv6zeHTVcN8BWQ==",
+    "bytes": 1000044
+  },
+  "baseline": {
+    "version": "0.1.0-alpha.32",
+    "archive": "zsz1210-temple-ai-dev-org-0.1.0-alpha.32.tgz",
+    "sha256": "44efc2ce60a714ec73613affbcb7748a14ab7a96b892660e8cf4113372dd26c2",
+    "integrity": "sha512-F7FbZ4gd45yvokVgtwj8mr667M9ZXKtVDmQlTPkUZiumcMqh3gCsAsJYP2NZ7/z9jqhVQdViyNKXAjA3dTvKJw==",
+    "bytes": 948896
+  },
+  "temporary_resources_removed": true
+}

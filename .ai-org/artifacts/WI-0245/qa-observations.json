@@ -1,0 +1,35 @@
+{
+  "candidate": "471bdc0d76eafb2479bafd4fa4b9f2863cea69d1",
+  "agent_id": "agent-lulu",
+  "developer_agent_id": "agent-rikku",
+  "assignment_source": ".ai-org/project/assignments.json",
+  "independent_observations": {
+    "focused_suite": {
+      "command": "node --test test/npm-release-workflow.test.mjs",
+      "exit_code": 0,
+      "tests": 10,
+      "pass": 10,
+      "fail": 0,
+      "duration_ms": 3553.669708
+    },
+    "additional_controls": [
+      {"name": "actual_official_node_pack", "status": "pass", "archive_bytes": 212},
+      {"name": "existing_output_preserved", "status": "pass", "archive_sha256": "9257746f6c3b29aec70f4b4982c452a3f73ff7d878ccfacc8b558c7786e4b05b"},
+      {"name": "symlink_parent_into_source_rejected", "status": "pass"},
+      {"name": "existing_output_symlink_preserved", "status": "pass"},
+      {"name": "same_node_for_version_and_pack_with_hostile_path", "status": "pass", "observed_calls": ["--version", "pack"]},
+      {"name": "each_fingerprint_component_fails_closed", "status": "pass"},
+      {"name": "same_size_equal_payload_changed_gzip_header_rejected", "status": "pass"},
+      {"name": "asset_symlink_rejected", "status": "pass"}
+    ],
+    "official_runtime": {"node": "24.20.0", "npm": "11.19.0", "zlib": "1.3.2.1-motley-42c2f19", "platform": "darwin", "arch": "arm64"},
+    "owned_temporary_files_removed": true,
+    "implementation_changes_by_reviewer": false
+  },
+  "limits": [
+    "Focused execution reuses repository tests; the eight extra controls were independently authored and executed against the frozen implementation.",
+    "Workflow shell bodies use disposable npm/gh transports and the real metadata/archive validator; no hosted Release, OIDC, npm upload, or registry mutation was performed.",
+    "Runtime fingerprint demonstrates compatibility, not distribution origin authentication.",
+    "Full verification completion is recorded separately in evaluation.md; this observation record alone grants no gate pass."
+  ]
+}

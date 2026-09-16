@@ -5,9 +5,9 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 244 total, 0 active
+- Work items: 245 total, 0 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 95 registered, 0 reserved, 0 active
+- Runtime workers: 96 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -292,6 +292,7 @@
 | WI-0242 | Make Console refresh delivery reliable and clean up streams | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f1629909` | 0 | 7 | 0 |
 | WI-0243 | Qualify Alpha.33 package and existing-project upgrades | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b2edfe22` | 0 | 12 | 0 |
 | WI-0244 | Reconcile publication evidence and publish Alpha.33 | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1a98048d` | 0 | 10 | 0 |
+| WI-0245 | Pin release packaging toolchain and reject archive mismatches before full verification | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `471bdc0d` | 0 | 9 | 0 |
 
 ## Delivery attention
 
@@ -412,6 +413,7 @@
 | worker-20260916065156-356bd6d2 | internal-subagent | WI-0243 | Quality & Evaluation Engineer / Lulu | completed | /root/alpha33_qa | `02103e99` | 0 |
 | worker-20260916065706-dc3e8855 | internal-subagent | WI-0243 | Quality & Evaluation Engineer / Lulu | completed | /root/alpha33_final_qa | `b2edfe22` | 0 |
 | worker-20260916074130-1c012a45 | internal-subagent | WI-0244 | Quality & Evaluation Engineer / Lulu | completed | /root/alpha33_publication_qa | `1a98048d` | 0 |
+| worker-20260916085041-27f629ff | internal-subagent | WI-0245 | Quality & Evaluation Engineer / Lulu | completed | /root/release_toolchain_qa | `471bdc0d` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -449,7 +451,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 93
+- Team-visible Work Items: 94
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -523,14 +525,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-16T08:32:14.741Z | work_item_closed | WI-0244 | agent-mog |
-| 2026-09-16T08:32:14.741Z | release_gate_completed | WI-0244 | agent-mog |
-| 2026-09-16T08:01:27.447Z | work_item_claimed | WI-0244 | human |
-| 2026-09-16T08:01:26.971Z | work_item_claim_released | WI-0244 | human |
-| 2026-09-16T07:48:20.005Z | work_item_claimed | WI-0244 | human |
-| 2026-09-16T07:48:19.573Z | work_item_transitioned | WI-0244 | agent-lulu |
-| 2026-09-16T07:48:19.171Z | handoff_created | WI-0244 | agent-lulu |
-| 2026-09-16T07:48:18.751Z | runtime_worker_status_changed | WI-0244 | agent-lulu |
+| 2026-09-16T08:57:49.664Z | work_item_closed | WI-0245 | agent-mog |
+| 2026-09-16T08:57:49.664Z | release_gate_completed | WI-0245 | agent-mog |
+| 2026-09-16T08:57:49.244Z | work_item_claimed | WI-0245 | human |
+| 2026-09-16T08:57:48.788Z | work_item_transitioned | WI-0245 | agent-lulu |
+| 2026-09-16T08:57:48.335Z | handoff_created | WI-0245 | agent-lulu |
+| 2026-09-16T08:57:47.864Z | runtime_worker_status_changed | WI-0245 | agent-lulu |
+| 2026-09-16T08:56:32.535Z | work_item_claimed | WI-0245 | human |
+| 2026-09-16T08:56:32.133Z | work_item_transitioned | WI-0245 | agent-lulu |
 
 ## Assignments
 

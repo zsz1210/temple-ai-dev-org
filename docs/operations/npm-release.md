@@ -15,7 +15,7 @@ The package owner creates one [npm Trusted Publisher](https://docs.npmjs.com/tru
 | Environment | none |
 | Allowed action | direct `npm publish` |
 
-The filename is case-sensitive and names only the file inside `.github/workflows/`. Do not add an npm write token to GitHub. npm CLI 11.5.1 or newer and Node.js 24 are required by the workflow.
+The filename is case-sensitive and names only the file inside `.github/workflows/`. Do not add an npm write token to GitHub. Trusted Publishing requires npm CLI 11.5.1 or newer; Temple's release packaging uses the stricter qualified toolchain below.
 
 After `publish-npm.yml` reaches the repository's default branch, an authenticated maintainer can create the relationship with the npm CLI:
 
@@ -33,16 +33,43 @@ After the first successful OIDC release, the package owner should confirm the re
 
 ## Prepare a release
 
+Use the official Node **24.20.0** distribution from
+[nodejs.org](https://nodejs.org/dist/v24.20.0/), verified against its published
+`SHASUMS256.txt`, with npm **11.19.0** and zlib **1.3.2.1-motley-42c2f19**. Put that
+distribution's `bin` directory first on `PATH` for these commands. The release
+workflow pins the same official Node version through `actions/setup-node`.
+This requirement is for framework release maintainers; consumer Node >=24 support
+and ordinary development/CI are unchanged.
+
+Node/npm version strings alone are insufficient: Homebrew Node produced different
+gzip bytes during Alpha.33 despite identical complete uncompressed tar contents.
+`release:pack` checks all three versions and runs npm with the same Node executable.
+Its recorded fingerprint is compatibility evidence, not cryptographic proof of
+distribution origin. Update the pinned fingerprint and workflow together only after
+qualifying a new official runtime and pack result; never silently accept a new zlib.
+
 1. Choose a new semantic version. Use a prerelease version such as `0.2.0-alpha.1` for npm `next`, or a stable version such as `0.2.0` for npm `latest`.
 2. Update all version-bearing files and the changelog on a reviewed branch.
-3. Run `npm ci --ignore-scripts` and `npm run verify` on the exact candidate.
-4. Run `npm pack --ignore-scripts --json` and retain the resulting `.tgz` as the package candidate.
+3. Run `npm ci --ignore-scripts`, then the release pack command below to catch an incompatible environment before full testing. The output directory must be new, its parent must exist, and it must be outside the source checkout.
+4. Run `npm run verify` on the exact candidate, then pack into a second new directory and compare against the first archive with `node scripts/validate-npm-release.mjs verify-asset --fresh <second-archive> --release <first-archive>`. Retain the verified `.tgz`, `toolchain.json` and `pack-result.json` as the candidate evidence.
 5. Merge the candidate through the repository's normal review path.
 6. Create a draft GitHub Release whose tag is exactly `v<package version>` at the verified commit.
 7. Attach the exact candidate `.tgz`. Mark the GitHub Release as a prerelease if and only if the package version contains a semantic prerelease component.
 8. Review the tag, target commit, prerelease flag, notes, and asset, then publish the GitHub Release.
 
-Publishing the Release triggers `.github/workflows/publish-npm.yml`. GitHub recommends the `release.published` event for workflows that must cover both stable and prerelease publications, including prereleases published from drafts. The workflow rechecks the source, creates a fresh archive, downloads the attached archive, and compares their bytes before calling npm through OIDC. See [GitHub's release-event reference](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#release).
+From the framework source checkout, prepare an archive without installing dependencies or publishing:
+
+```bash
+release_parent=$(mktemp -d)
+npm run release:pack -- --output "$release_parent/candidate"
+```
+
+The helper refuses existing output directories and leaves diagnostics in its owned
+output directory if packing fails. It does not overwrite a candidate or change
+your Node installation. Inspect and remove only your own failed output directory
+before using a new destination.
+
+Publishing the Release triggers `.github/workflows/publish-npm.yml`. GitHub recommends the `release.published` event for workflows that must cover both stable and prerelease publications, including prereleases published from drafts. The workflow first packs with the qualified toolchain, validates metadata, downloads the attached archive, and compares bytes. Only then does it run complete verification. It repacks and compares the retained asset again after testing before calling npm through OIDC. A mismatch never becomes acceptable merely because the decompressed contents match. See [GitHub's release-event reference](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#release).
 
 ## Channel mapping
 
