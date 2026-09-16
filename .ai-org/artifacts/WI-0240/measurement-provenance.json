@@ -1,0 +1,64 @@
+{
+  "baseline": "860344965b36a95714fd0087f2148b8f2b23d1dd",
+  "candidate": "2d4c018cacde20072c2deba738117da689ad9ce3",
+  "instrumentation_identical_after_output_and_revision_normalization": true,
+  "test_body_identical_after_wrapper_path_normalization": true,
+  "all_other_operation_counts_equal": true,
+  "phase_calls_and_outcomes_equal": true,
+  "direct_processes_before": 3469,
+  "direct_processes_after": 1246,
+  "files": [
+    {
+      "name": "temple-continuity-profile-wrapper.mjs",
+      "sha256": "6865289004e6378dac615e359fb1175fb281b64af575423e623472f169cf7c41"
+    },
+    {
+      "name": "temple-continuity-profile.test.mjs",
+      "sha256": "c347b0ab246c38fae8e4162b273db0b1cc298989afe4ca92b4a5bf95f616132d"
+    },
+    {
+      "name": "temple-continuity-profile.log",
+      "sha256": "d60a89bbf2365b531d58339134b50475defbfc51bfb93a10acdd03a79cd813ee"
+    },
+    {
+      "name": "temple-continuity-profile.json",
+      "sha256": "b995e29a69e383d90822f4e45bd67ebdc856359ed60042e4d09fdbd021fecf13"
+    },
+    {
+      "name": "temple-continuity-summary.json",
+      "sha256": "e65f437ec4d416756331d7ae2fbb4ce07394ae4253f4ad742f2fd9d66122bf8c"
+    },
+    {
+      "name": "temple-continuity-summarize.mjs",
+      "sha256": "0e4aae6bc3aea410bd1edf876d628ed232ed60e9cfb0951ba57973474765f94e"
+    },
+    {
+      "name": "wi0240-profile-wrapper.mjs",
+      "sha256": "201b0f57b7f2c0300e0bc640b667d3a9d4b544426a16677acf342d6759b21d7e"
+    },
+    {
+      "name": "wi0240-profile.test.mjs",
+      "sha256": "0e75873c2efaf99a31d9f2339f5158891508ff0b984c682d24951342335defca"
+    },
+    {
+      "name": "wi0240-profile.log",
+      "sha256": "fb35192bbed0c689c424155193f54656a0b0700ddcb6c1f39b5f9daa25a8ecfe"
+    },
+    {
+      "name": "wi0240-profile.json",
+      "sha256": "c3378dafce273e129df65e43efa7103eafea4dab3228d71e7a83e099e1e2ca0d"
+    },
+    {
+      "name": "wi0240-summary.json",
+      "sha256": "7209a60529b1f5742f53a2bdb4fadebfd54cae9f86a8e1962bc9e650065661ce"
+    },
+    {
+      "name": "wi0240-summarize.mjs",
+      "sha256": "037b49595b973e47b2262d470364add42e3b525663d24d3660070db98f2fb213"
+    },
+    {
+      "name": "wi0240-controls.log",
+      "sha256": "cdd8a57ba1a1cddcdeaeebe400fed7bf1dd7b24aee262d3919e57ebd468ece17"
+    }
+  ]
+}

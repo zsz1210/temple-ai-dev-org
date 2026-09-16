@@ -2512,6 +2512,34 @@
       "attached_at": "2026-09-16T01:28:44.952Z",
       "completed_at": "2026-09-16T01:36:31.700Z",
       "updated_at": "2026-09-16T01:36:31.700Z"
+    },
+    {
+      "id": "worker-20260916030935-ed63684a",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0240",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260916030935-9993cddc",
+      "base_revision": "2d4c018cacde20072c2deba738117da689ad9ce3",
+      "branch": "codex/continuity-batched-git",
+      "worktree": null,
+      "plan_fingerprint": "3f57e1487e0aa312b198289247ac3e48d4d00eab5a727e1f945f22e3d3d78f17",
+      "plan_digest": "53bc38ab5a64ee127951f0387f378df325ef1803f33fc94809d392d4d9ce7371",
+      "preparation_fingerprint": "93f7f988ca2df5e2160bfdfcd215ae5cbf20267578e00513a9a7a32523d2697b",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/continuity_batch_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "2d4c018cacde20072c2deba738117da689ad9ce3",
+      "evidence": [
+        ".ai-org/artifacts/WI-0240/independent-review.md"
+      ],
+      "reserved_at": "2026-09-16T03:09:35.913Z",
+      "attached_at": "2026-09-16T03:09:59.672Z",
+      "completed_at": "2026-09-16T03:24:37.064Z",
+      "updated_at": "2026-09-16T03:24:37.064Z"
     }
   ]
 }
