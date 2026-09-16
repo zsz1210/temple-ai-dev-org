@@ -46,6 +46,32 @@ function normalizeAjvErrors(document, schemaPath, errors = []) {
   }));
 }
 
+function createCompiler() {
+  const ajv = new Ajv2020({ allErrors: true, strict: false, validateFormats: true });
+  addFormats(ajv);
+  return ajv;
+}
+
+// Restrict reuse to self-contained schemas. Other dialects, identities and
+// references keep the original isolated compiler and resolution behavior.
+function canReuseCompiler(schema) {
+  const draft = "https://json-schema.org/draft/2020-12/schema";
+  if (!schema || typeof schema !== "object" || Array.isArray(schema) || schema.$schema !== draft) return false;
+  const pending = [schema];
+  while (pending.length) {
+    const value = pending.pop();
+    if (!value || typeof value !== "object") continue;
+    if (Object.hasOwn(value, "$id") && (value !== schema || typeof value.$id !== "string" ||
+      /^https?:\/\/json-schema\.org\//i.test(value.$id))) return false;
+    if (Object.hasOwn(value, "$schema") && value.$schema !== draft) return false;
+    for (const key of ["$ref", "$dynamicRef", "$recursiveRef"]) {
+      if (Object.hasOwn(value, key) && (typeof value[key] !== "string" || !value[key].startsWith("#"))) return false;
+    }
+    for (const child of Object.values(value)) if (child && typeof child === "object") pending.push(child);
+  }
+  return true;
+}
+
 export async function validateProjectSchemas(target) {
   const catalog = await readJson(path.join(target, SCHEMA_CATALOG_RELATIVE_PATH));
   if (catalog.schema_version !== "temple.schema-catalog/v1" || !Array.isArray(catalog.documents)) {
@@ -54,11 +80,13 @@ export async function validateProjectSchemas(target) {
   const errors = [];
   const checked = [];
   let executionPolicy = null;
+  let sharedCompiler;
   for (const entry of catalog.documents) {
     const schemaPath = `.ai-org/core/schemas/${entry.schema}`;
     const schema = await readJson(path.join(target, schemaPath));
-    const ajv = new Ajv2020({ allErrors: true, strict: false, validateFormats: true });
-    addFormats(ajv);
+    const ajv = canReuseCompiler(schema) ? (sharedCompiler ??= createCompiler()) : createCompiler();
+    // Retain built-in meta-schemas, never a previous project's/user schema.
+    if (ajv === sharedCompiler) ajv.removeSchema();
     let validate;
     try {
       validate = ajv.compile(schema);

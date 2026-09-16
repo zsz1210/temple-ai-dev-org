@@ -1,0 +1,9 @@
+# Full verification retry rationale
+
+Attempt 1 on exact candidate `bcafc86e27b59207b0ec5ae78c5089e5c3c86b87`: 1248 tests, 1247 pass, one failure, no skipped/cancelled/todo; runner duration 260461.299042 ms. The optional Console refresh notification test at `test/optional-console-collector.test.mjs:133` exhausted its unchanged 30-second resource deadline. Full raw output and owned-process RSS samples are preserved separately as `full-attempt-1.log.gz` and `full-attempt-1-memory.json.gz`; this is not passing verification.
+
+Investigation: Console source attaches directory watchers before accepting the SSE connection. This change modifies neither the watcher, notification handler, test assertion nor deadline; `git diff bcafc86e -- src test package.json .github` remains empty. The same named timeout was observed before this work in WI-0230 (`rework-01-independent-review.md`, `rework-02-verification.md`), where the deadline had already been raised from 10 to 30 seconds. No further deadline increase is made here.
+
+An unchanged focused replay with `node --test --test-name-pattern='the optional Console emits a bounded refresh signal' test/optional-console-collector.test.mjs` exited 0 and received the actual event. This distinguishes the observed intermittent failure from an always-failing assertion but does not establish the exact OS/runtime cause or prove there is no defect. It is not a substitute for the full gate.
+
+Run one unchanged complete verification with the same default concurrency and passive RSS monitor to resolve the mandatory failed gate. Retain both attempts and disclose this existing intermittent notification risk even if the second passes. If it fails again, do not repeatedly rerun or weaken the check; investigate the reproducible notification issue separately. Independent compiler probes already match baseline; overall acceptance remains pending full success and reviewer judgment.

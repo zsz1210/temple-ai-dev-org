@@ -1,0 +1,166 @@
+{
+  "policy": "Public evidence copies replace maintainer home directory with /Users/REDACTED/ and omit AppleDouble/archive owner metadata. Original hashes describe private unredacted inputs, not public copies. Behavioral candidate unchanged. Originals retained locally.",
+  "archives": [
+    {
+      "path": ".ai-org/artifacts/WI-0241/final-diagnostics.tar.gz",
+      "original_archive_sha256": "8aade95bc67b32ba369a41ab2f73decb6e389ff36db8dd08422c4debb699e0d8",
+      "public_archive_sha256": "9e2637f325d131c4063059cd2c3650f1c057fd0b590a5dd0934bea39f2342569",
+      "members": [
+        {
+          "name": "wi0241-final-doctor.json",
+          "original_sha256": "adfd8a67f0ba7b59945599c3fb06894d618eace4e5a9fd445447e1b1651d0cf7",
+          "public_sha256": "c4c422dee17245925ff5f996340c3b9dc85f743ceb9960ad318f1644855b0399"
+        },
+        {
+          "name": "wi0241-final-status.json",
+          "original_sha256": "8939a6a174edfa37c5281a34d2430b485c86567abaae880f5a9c3d87abbb908e",
+          "public_sha256": "8939a6a174edfa37c5281a34d2430b485c86567abaae880f5a9c3d87abbb908e"
+        },
+        {
+          "name": "wi0241-final-plan.json",
+          "original_sha256": "d1d0c6430c09e78188bd3911e68ab2317792204916e18b5acfd8f65edebd1650",
+          "public_sha256": "d1d0c6430c09e78188bd3911e68ab2317792204916e18b5acfd8f65edebd1650"
+        },
+        {
+          "name": "wi0241-final-fast.log",
+          "original_sha256": "9d211a5287d971410b3891eb277c09b00cdb266abb317e9f14f98728f2968778",
+          "public_sha256": "9d211a5287d971410b3891eb277c09b00cdb266abb317e9f14f98728f2968778"
+        }
+      ]
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0241/full-attempt-1-memory.json.gz",
+      "original_archive_sha256": "8e2668f971cd9ab9696bd1d164db20685bc58cec179a060f17bc0622e3541bba",
+      "public_archive_sha256": "8e2668f971cd9ab9696bd1d164db20685bc58cec179a060f17bc0622e3541bba",
+      "members": [
+        {
+          "name": "full-attempt-1-memory.json",
+          "original_sha256": "4322b2b6f1a96111c31ec1e3cd0ca47af2eded95131261fcc5e0b6a9c7a7a1fc",
+          "public_sha256": "4322b2b6f1a96111c31ec1e3cd0ca47af2eded95131261fcc5e0b6a9c7a7a1fc"
+        }
+      ]
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0241/full-attempt-1.log.gz",
+      "original_archive_sha256": "c439334bb8157da57e7a6f06e16a643fe356eea61991edd37c3ff34011e9c963",
+      "public_archive_sha256": "4bcf5fd34bd7566d5cd66a0b80f7e0970ceafbf97d4eb1ac2f59fe73e7fc7224",
+      "members": [
+        {
+          "name": "full-attempt-1.log",
+          "original_sha256": "5302ac6700fc7bf312b29bb685b13887667dc68cfef10a27689a8d5bfd489679",
+          "public_sha256": "447195b435b21e50b94748ac523a20ec8bad8a95d8a6315b7f5ced4e0695818a"
+        }
+      ]
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0241/full-attempt-2-memory.json.gz",
+      "original_archive_sha256": "ecdf6e60d26a95eccbefc889fe75478a1015b86e7267cda48123758bc262949b",
+      "public_archive_sha256": "ecdf6e60d26a95eccbefc889fe75478a1015b86e7267cda48123758bc262949b",
+      "members": [
+        {
+          "name": "full-attempt-2-memory.json",
+          "original_sha256": "26ae51e0616492b3cfa6a7d3e4c35a4228fd334fcc29b9c2a6c069e76170e978",
+          "public_sha256": "26ae51e0616492b3cfa6a7d3e4c35a4228fd334fcc29b9c2a6c069e76170e978"
+        }
+      ]
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0241/full-attempt-2.log.gz",
+      "original_archive_sha256": "b56b616178940aa18c6b13f390fb1f44aedcea16b4367cfb8407af2333b9a217",
+      "public_archive_sha256": "b56b616178940aa18c6b13f390fb1f44aedcea16b4367cfb8407af2333b9a217",
+      "members": [
+        {
+          "name": "full-attempt-2.log",
+          "original_sha256": "90e64a38172d6bbfa71d5d6bde6d5c4e0e00337056ab2f6e21cd66512de44934",
+          "public_sha256": "90e64a38172d6bbfa71d5d6bde6d5c4e0e00337056ab2f6e21cd66512de44934"
+        }
+      ]
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0241/independent-probe.tar.gz",
+      "original_archive_sha256": "4d2bbbd9042c3650c043c6cfba9a7d11db92a9f726c3c48b70e7c9128bab076b",
+      "public_archive_sha256": "215ffb1c69be763b986d70dd0e50a17ea2f60d9eebc6736aa10b5b2edb53b5b3",
+      "members": [
+        {
+          "name": "wi0241-qa-probe.mjs",
+          "original_sha256": "ab4cc573c06e8a80f1b0f66610bc53716b7639fcc4ca54c37e83a495d03251bf",
+          "public_sha256": "c7e29483226dce722a962ee6d540dbbe24558239a5d39be48d5bd238c2aa00c7"
+        },
+        {
+          "name": "wi0241-qa-probe.log",
+          "original_sha256": "4ffe541499ec1c05ddabadb75ea9a74effc00b85fa9c5e91aaff0f49a741b1a0",
+          "public_sha256": "4ffe541499ec1c05ddabadb75ea9a74effc00b85fa9c5e91aaff0f49a741b1a0"
+        }
+      ]
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0241/measurement-evidence.tar.gz",
+      "original_archive_sha256": "9c9de2e57cc5732ec234ff38525d8e6b149d8483196ddbda881fcd84bb7d9d9a",
+      "public_archive_sha256": "53c82a1771ef0f43970950f474a698b7de916f355ae76335b60e5baba17cbac8",
+      "members": [
+        {
+          "name": "wi0241-baseline-schema-validation.mjs",
+          "original_sha256": "31f9d284b7eeba1ba689a4ff3d55f01fd61af27e76da966df2766073f9424980",
+          "public_sha256": "4e0fc2227c98367b070d9f7433d19ae1fe46a5eca18d059dbf1b3ee1772656ac"
+        },
+        {
+          "name": "wi0241-baseline-doctor.mjs",
+          "original_sha256": "4d47d16fc17df649337c1faaa548d3aae3c55470d198a9125a1496dce5ccd10e",
+          "public_sha256": "a4c1bedd2d5ab9c8d12d3c902711f310e81c3eff5f9ea7de12c36d4aabfb12be"
+        },
+        {
+          "name": "wi0241-memory-driver.mjs",
+          "original_sha256": "29d4bcc87d1a3579d3b48e86de189860048f1d9071b217dea86bab524845a80f",
+          "public_sha256": "29d4bcc87d1a3579d3b48e86de189860048f1d9071b217dea86bab524845a80f"
+        },
+        {
+          "name": "wi0241-memory-benchmark.mjs",
+          "original_sha256": "07f19e23bd907bcb6f0d9c38582f20b7a106482b09e440c4a17bb1d955c2b9fe",
+          "public_sha256": "8967b6c55cfd11db834bc7eeef90c94ceb20a84accf2a52793a04684fc7b9ccb"
+        },
+        {
+          "name": "wi0241-memory-results.json",
+          "original_sha256": "04bec71cbdb71e4c2df6f790c0b541e8764bd54ebe61f2656fc7ff1fc4f57519",
+          "public_sha256": "04bec71cbdb71e4c2df6f790c0b541e8764bd54ebe61f2656fc7ff1fc4f57519"
+        },
+        {
+          "name": "wi0241-memory-summary.json",
+          "original_sha256": "253e76068e1ab5aeb4bc4881bf102c3023e5e52b4d6302f4547d99981571de82",
+          "public_sha256": "253e76068e1ab5aeb4bc4881bf102c3023e5e52b4d6302f4547d99981571de82"
+        },
+        {
+          "name": "wi0241-memory-benchmark.log",
+          "original_sha256": "e69f172c23024c8c24afd125019115d176e33b0a263a1e8b3bc2e841806b2a67",
+          "public_sha256": "e69f172c23024c8c24afd125019115d176e33b0a263a1e8b3bc2e841806b2a67"
+        },
+        {
+          "name": "wi0241-focused.log",
+          "original_sha256": "bab1faa540bdb40581b96aab309a815b32a33b598e83ed604636ac6a1d73e6b7",
+          "public_sha256": "bab1faa540bdb40581b96aab309a815b32a33b598e83ed604636ac6a1d73e6b7"
+        }
+      ]
+    },
+    {
+      "path": ".ai-org/artifacts/WI-0241/verification-monitors.tar.gz",
+      "original_archive_sha256": "af14d2e792ccfa46f1ec0380e83636788b04cc5275dadfba46d5145901da3770",
+      "public_archive_sha256": "85ea204ea6d1d563ccd515152c51558c02407077f8fdda6d59024767c304f464",
+      "members": [
+        {
+          "name": "wi0241-monitor.py",
+          "original_sha256": "3a6030df50b9442a73564156df6b88ccfdda6fb9a84d1e3850b987921ba74c30",
+          "public_sha256": "de2c5dcec069eccef7bf6d6c251963092e7a246cf2aea80fa90899b71cbc3a97"
+        },
+        {
+          "name": "wi0241-monitor-attempt-2.py",
+          "original_sha256": "0d60551706d883a437ac4bb96081789d96c5708920a5a8f08e7a76b6e7695bdf",
+          "public_sha256": "62d768225cbc28bf6dfaa33bbe2fd4c8d9b93611101bc28a45e1d71c57c4aa32"
+        },
+        {
+          "name": "wi0241-console-recheck.log",
+          "original_sha256": "6dbad8345f1658493d154d462e15748a7a6a5c151f0678cb20f646aaf819925a",
+          "public_sha256": "6dbad8345f1658493d154d462e15748a7a6a5c151f0678cb20f646aaf819925a"
+        }
+      ]
+    }
+  ]
+}
