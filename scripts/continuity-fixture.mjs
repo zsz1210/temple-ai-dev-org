@@ -7,6 +7,7 @@ import { spawnSync } from 'node:child_process';
 import { isDeepStrictEqual } from 'node:util';
 import { digest, subprocessEnvironment } from './delivery-control-pair.mjs';
 import { formatJson, sha256 } from '../src/files.mjs';
+import { CONTINUITY_BLOB_BATCH_LIMIT, readContinuityBlobs } from './continuity-git-blobs.mjs';
 
 const source = path.resolve(import.meta.dirname, '..');
 const check = (condition, reason) => { if (!condition) throw Error(reason); };
@@ -265,21 +266,36 @@ export async function assessContinuityCandidate(root, checkpoint, arm, revision,
   }
   // Check every tracked non-bookkeeping byte and mode plus untracked files; Git's
   // status alone can hide assume-unchanged files or ignore-listed additions.
-  const disk = {};
+  const disk = {}, pending = [];
+  async function safeWorkingFile(file) {
+    const stat = await fs.lstat(path.join(root,file));
+    check(stat.isFile() && stat.nlink === 1 && !(stat.mode & 0o111) && stat.size <= 1024*1024, 'unsafe-working-file');
+  }
+  async function comparePending() {
+    if (!pending.length) return;
+    const blobs = readContinuityBlobs(root, pending.map(file => (deliveryTree??tree)[file].oid), { env:env(), failure:'dirty-source' });
+    for (let index = 0; index < pending.length; index++) {
+      const file = pending[index];
+      // Recheck after collecting a batch; never reuse a disk observation.
+      await safeWorkingFile(file);
+      check((await fs.readFile(path.join(root,file))).equals(blobs[index]), 'dirty-source');
+    }
+    pending.length = 0;
+  }
   async function walk(relative = '') {
     for (const entry of await fs.readdir(path.join(root, relative), { withFileTypes: true })) {
       const file = path.posix.join(relative, entry.name); if (file === '.git' || !deliveryTree&&bookkeeping(file, base.item_id)) continue;
       if (entry.isDirectory()) { await walk(file); continue; }
-      const stat = await fs.lstat(path.join(root,file));
-      check(stat.isFile() && stat.nlink === 1 && !(stat.mode & 0o111) && stat.size <= 1024*1024, 'unsafe-working-file');
+      await safeWorkingFile(file);
       disk[file] = true;
       check((deliveryTree??tree)[file], 'untracked-source');
       // Binary-safe object comparison, independent of trim/UTF-8 decoding.
-      const bytes = spawnSync('git', ['show', `${deliveryTree?finalRevision:revision}:${file}`], { cwd:root, env:env(), timeout:15000, maxBuffer:1024*1024 });
-      check(bytes.status === 0 && (await fs.readFile(path.join(root,file))).equals(bytes.stdout), 'dirty-source');
+      pending.push(file);
+      if (pending.length === CONTINUITY_BLOB_BATCH_LIMIT) await comparePending();
     }
   }
   await walk();
+  await comparePending();
   for (const file of Object.keys(deliveryTree??tree))
     if (deliveryTree || !bookkeeping(file,base.item_id)) check(disk[file], 'missing-source');
   const scratch = await fs.mkdtemp(path.join(scratchParent, 'continuity-oracle-'));
@@ -287,11 +303,11 @@ export async function assessContinuityCandidate(root, checkpoint, arm, revision,
   try {
     const testPaths = ['test/discount.test.mjs','test/public.test.mjs', ...(tree['test/additional.test.mjs'] ? ['test/additional.test.mjs'] : [])];
     const extracted = {};
-    for (const file of ['discount.mjs','quote.mjs', ...testPaths]) {
-      const b = spawnSync('git', ['show', `${revision}:${file}`], { cwd:root, env:env(), timeout:15000,maxBuffer:65536 });
-      check(b.status === 0, 'unreadable-candidate');
+    const files = ['discount.mjs','quote.mjs', ...testPaths];
+    const blobs = readContinuityBlobs(root, files.map(file => tree[file]?.oid), { env:env(), maxBlobBytes:65536 });
+    for (const [index, file] of files.entries()) {
       await fs.mkdir(path.dirname(path.join(scratch,file)),{recursive:true});
-      await fs.writeFile(path.join(scratch,file), b.stdout); extracted[file] = b.stdout;
+      await fs.writeFile(path.join(scratch,file), blobs[index]); extracted[file] = blobs[index];
     }
     const inputs = vectors(checkpoint.threshold);
     // Preserve properties JSON would erase, and distinguish real error types

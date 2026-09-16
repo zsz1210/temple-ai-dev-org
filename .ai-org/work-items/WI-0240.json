@@ -1,0 +1,189 @@
+{
+  "schema_version": "temple.work-item/v1",
+  "id": "WI-0240",
+  "title": "Batch continuity Git reads without weakening candidate validation",
+  "state": "build",
+  "owner_position": "developer",
+  "assigned_agent_id": "agent-rikku",
+  "created_at": "2026-09-16T03:04:40.793Z",
+  "updated_at": "2026-09-16T03:05:00.749Z",
+  "scope": [
+    "Bounded batch blob reads in the continuity coordinator verifier; preserve all disk, candidate, history and oracle checks."
+  ],
+  "acceptance_criteria": [
+    "Original continuity cases and bounded binary/malformed reader controls pass; fewer real subprocesses; full verification, distinct QA and diagnostics complete."
+  ],
+  "affected_paths": [
+    "scripts/continuity-fixture.mjs",
+    "scripts/continuity-git-blobs.mjs",
+    "test/continuity-git-blobs.test.mjs",
+    "test/continuity-fixture.test.mjs",
+    ".ai-org/artifacts/WI-0240/"
+  ],
+  "context_refs": [],
+  "spec_refs": [],
+  "ux_refs": [],
+  "ui_refs": [],
+  "contract_refs": [],
+  "specification_mode": "gate-evidence",
+  "ui_delivery_mode": "not-applicable",
+  "workflow_profile": "standard",
+  "risk_tier": "standard",
+  "profile_assessment": {
+    "requested_profile": "standard",
+    "effective_profile": "standard",
+    "scope_class": "ordinary",
+    "escalation_triggers": [],
+    "rationale": "",
+    "evidence_refs": [],
+    "evaluated_at": "2026-09-16T03:04:40.778Z",
+    "escalated": false
+  },
+  "parent_work_item_id": null,
+  "tracker_visibility": "team-visible",
+  "tracker_refs": [],
+  "tracker_reconciliations": [],
+  "dependencies": [],
+  "required_disciplines": [],
+  "stage_requirements": {},
+  "base_revision": "86034496",
+  "parallel_mode": "pending",
+  "integration_owner_agent_id": null,
+  "planned_agent_id": null,
+  "shared_contract_refs": [],
+  "contract_status": "not_required",
+  "overlap_resolution": [],
+  "claim": {
+    "id": "claim-20260916030500-da3d624f",
+    "status": "active",
+    "principal_id": "human",
+    "agent_id": "agent-rikku",
+    "actor_provenance": {
+      "selection": "explicit-agent",
+      "principal_source": "explicit-principal",
+      "verification_class": "self-asserted",
+      "evidence_ref": null,
+      "provider_authenticated": false,
+      "externally_supplied_evidence": false
+    },
+    "position_id": "developer",
+    "base_revision": "86034496",
+    "branch": "codex/continuity-batched-git",
+    "worktree": null,
+    "claimed_at": "2026-09-16T03:05:00.749Z",
+    "released_at": null
+  },
+  "claims": [
+    {
+      "id": "claim-20260916030455-f07a0c46",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-mog",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "engineering_manager",
+      "base_revision": "86034496",
+      "branch": "codex/continuity-batched-git",
+      "worktree": null,
+      "claimed_at": "2026-09-16T03:04:55.255Z",
+      "released_at": "2026-09-16T03:04:55.789Z",
+      "release_reason": [
+        "Approved bounded design and acceptance recorded in work plan."
+      ]
+    },
+    {
+      "id": "claim-20260916030456-66de4bf8",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-yuna",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "product_manager",
+      "base_revision": "86034496",
+      "branch": "codex/continuity-batched-git",
+      "worktree": null,
+      "claimed_at": "2026-09-16T03:04:56.939Z",
+      "released_at": "2026-09-16T03:04:57.480Z",
+      "release_reason": [
+        "Approved bounded design and acceptance recorded in work plan."
+      ]
+    },
+    {
+      "id": "claim-20260916030458-fe73b626",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-tidus",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "tech_lead",
+      "base_revision": "86034496",
+      "branch": "codex/continuity-batched-git",
+      "worktree": null,
+      "claimed_at": "2026-09-16T03:04:58.632Z",
+      "released_at": "2026-09-16T03:04:59.169Z",
+      "release_reason": [
+        "Approved bounded design and acceptance recorded in work plan."
+      ]
+    },
+    {
+      "id": "claim-20260916030500-da3d624f",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "developer",
+      "base_revision": "86034496",
+      "branch": "codex/continuity-batched-git",
+      "worktree": null,
+      "claimed_at": "2026-09-16T03:05:00.749Z",
+      "released_at": null
+    }
+  ],
+  "gate_evidence": {
+    "work_order": [
+      ".ai-org/artifacts/WI-0240/plan.md"
+    ],
+    "approved_scope": [
+      ".ai-org/artifacts/WI-0240/plan.md"
+    ],
+    "acceptance_criteria": [
+      ".ai-org/artifacts/WI-0240/plan.md"
+    ],
+    "technical_design": [
+      ".ai-org/artifacts/WI-0240/plan.md"
+    ],
+    "risk_review": [
+      ".ai-org/artifacts/WI-0240/plan.md"
+    ]
+  },
+  "evidence": [
+    ".ai-org/artifacts/WI-0240/plan.md"
+  ],
+  "unresolved": [],
+  "next_position": "quality_evaluator"
+}
