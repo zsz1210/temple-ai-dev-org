@@ -1,23 +1,40 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-16T07:04:35.555Z",
-  "source_fingerprint": "d86b3c2e90ad0e8d36bfe80136b2e046303e8a0f796ad971407d5265eef95b65",
+  "generated_at": "2026-09-16T07:48:20.434Z",
+  "source_fingerprint": "6f9a94890ed7a848f0f65859ed5907f9cec96d63ce82f811f718bd6db840f604",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": []
+    "selected_work_item_ids": [
+      "WI-0244"
+    ]
   },
   "max_workers": 1,
   "summary": {
-    "selected": 0,
+    "selected": 1,
     "dispatchable": 0,
-    "active": 0,
+    "active": 1,
     "sequential": 0,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
-  "active": [],
+  "active": [
+    {
+      "work_item_id": "WI-0244",
+      "title": "Reconcile publication evidence and publish Alpha.33",
+      "disposition": "active",
+      "position_id": "release_manager",
+      "agent_id": "agent-mog",
+      "integration_owner_agent_id": "agent-rikku",
+      "reasons": [],
+      "claim_id": "claim-20260916074820-c2638b6c",
+      "principal_id": "human",
+      "branch": "codex/alpha33-release",
+      "worktree": null,
+      "base_revision": "1a98048da0990c04c0cb9b02ffa5d25ad778d013"
+    }
+  ],
   "sequential": [],
   "blocked": [],
   "conflicts": [],

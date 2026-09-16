@@ -4,10 +4,10 @@
 - Organization system version: `0.1.0-alpha.33`
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 1 active claims)
-- Parallel plan: 0 wave(s), fresh=false
+- Parallel plan: 0 wave(s), fresh=true
 - Work items: 244 total, 1 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 94 registered, 0 reserved, 0 active
+- Runtime workers: 95 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 25
+- Attention signals: 24
 
 ## Collaboration
 
@@ -37,10 +37,10 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 0 / 0
+- Active / sequential / blocked: 1 / 0 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -291,12 +291,11 @@
 | WI-0241 | Reuse Doctor compiler setup while preserving schema isolation | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `bcafc86e` | 0 | 7 | 0 |
 | WI-0242 | Make Console refresh delivery reliable and clean up streams | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `f1629909` | 0 | 7 | 0 |
 | WI-0243 | Qualify Alpha.33 package and existing-project upgrades | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b2edfe22` | 0 | 12 | 0 |
-| WI-0244 | Reconcile publication evidence and publish Alpha.33 | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260916073548-486ae33d | `—` | 0 | 1 | 0 |
+| WI-0244 | Reconcile publication evidence and publish Alpha.33 | release_gate | Release Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260916074820-c2638b6c | `1a98048d` | 0 | 9 | 0 |
 
 ## Delivery attention
 
-- WI-0244: awaiting-owner — The recorded owner can continue the scoped work; no attached active worker is recorded.
-  - owner: No attached active runtime is recorded for this claim.
+- WI-0244: review-completed — Complete the next eligible owner or acceptance step using the recorded review and remaining requirements.
 
 ## Codex task registry
 
@@ -413,6 +412,7 @@
 | worker-20260916062712-2e1f6dc1 | internal-subagent | WI-0242 | Quality & Evaluation Engineer / Lulu | completed | /root/console_refresh_qa | `f1629909` | 0 |
 | worker-20260916065156-356bd6d2 | internal-subagent | WI-0243 | Quality & Evaluation Engineer / Lulu | completed | /root/alpha33_qa | `02103e99` | 0 |
 | worker-20260916065706-dc3e8855 | internal-subagent | WI-0243 | Quality & Evaluation Engineer / Lulu | completed | /root/alpha33_final_qa | `b2edfe22` | 0 |
+| worker-20260916074130-1c012a45 | internal-subagent | WI-0244 | Quality & Evaluation Engineer / Lulu | completed | /root/alpha33_publication_qa | `1a98048d` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -444,7 +444,6 @@
 - worker-20260915174040-464e550f is failed
 - worker-20260915175330-3e16bfe8 is failed
 - worker-20260915233053-33b568eb is failed
-- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -525,14 +524,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-16T07:35:48.619Z | work_item_claimed | WI-0244 | human |
-| 2026-09-16T07:35:48.213Z | work_item_transitioned | WI-0244 | agent-tidus |
-| 2026-09-16T07:35:47.839Z | work_item_claimed | WI-0244 | human |
-| 2026-09-16T07:35:47.437Z | work_item_transitioned | WI-0244 | agent-yuna |
-| 2026-09-16T07:35:47.064Z | work_item_claimed | WI-0244 | human |
-| 2026-09-16T07:35:46.653Z | work_item_transitioned | WI-0244 | agent-mog |
-| 2026-09-16T07:35:01.855Z | work_item_claimed | WI-0244 | human |
-| 2026-09-16T07:35:00.969Z | work_item_created | WI-0244 | agent-mog |
+| 2026-09-16T07:48:20.005Z | work_item_claimed | WI-0244 | human |
+| 2026-09-16T07:48:19.573Z | work_item_transitioned | WI-0244 | agent-lulu |
+| 2026-09-16T07:48:19.171Z | handoff_created | WI-0244 | agent-lulu |
+| 2026-09-16T07:48:18.751Z | runtime_worker_status_changed | WI-0244 | agent-lulu |
+| 2026-09-16T07:47:01.242Z | work_item_claimed | WI-0244 | human |
+| 2026-09-16T07:47:00.622Z | work_item_transitioned | WI-0244 | agent-lulu |
+| 2026-09-16T07:47:00.199Z | handoff_created | WI-0244 | agent-lulu |
+| 2026-09-16T07:46:59.792Z | work_item_transitioned | WI-0244 | agent-lulu |
 
 ## Assignments
 
