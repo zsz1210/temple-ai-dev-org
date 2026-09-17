@@ -77,12 +77,12 @@ test("Recovery directly checks literal directory inventory, binary bytes, modes 
   await assert.rejects(previewLeanFinishRecovery(f.target, f.recovery), /Product scope changed/);
   await fs.unlink(path.join(f.target, dir, "hidden.tmp"));
   await fs.unlink(file); await fs.symlink(path.join(f.target, "app.mjs"), file);
-  await assert.rejects(previewLeanFinishRecovery(f.target, f.recovery), /Unsafe recovery product/);
+  await assert.rejects(previewLeanFinishRecovery(f.target, f.recovery), /Unsafe product scope/);
   await fs.unlink(file); await fs.writeFile(file, original);
   const moved = path.join(f.temporary, "outside-product");
   await fs.rename(path.join(f.target, dir), moved);
   await fs.symlink(moved, path.join(f.target, dir));
-  await assert.rejects(previewLeanFinishRecovery(f.target, f.recovery), /Unsafe recovery product|Product scope changed/);
+  await assert.rejects(previewLeanFinishRecovery(f.target, f.recovery), /Unsafe product scope|Product scope changed/);
   await fs.unlink(path.join(f.target, dir)); await fs.rename(moved, path.join(f.target, dir));
   assert.equal((await apply(f, { expectedPlan: preview.fingerprint })).status, "reconciled");
 });

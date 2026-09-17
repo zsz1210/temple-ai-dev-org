@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { durableAtomicWrite, durableAtomicCreate, formatJson, sha256 } from "./files.mjs";
 import { isWorkItemId } from "./ids.mjs";
 import { loadProjectContext, uniqueStrings } from "./project.mjs";
@@ -100,12 +101,56 @@ export function requireProductScope(affectedPaths) {
   return productPaths;
 }
 
-function assertCandidate(target, request, affectedPaths) {
+// Shared by ordinary completion and diagnostics-only recovery. Git status alone
+// cannot detect working bytes hidden by assume-unchanged or skip-worktree.
+export async function assertWorkingProduct(target, revision, paths) {
+  if (!paths.length || paths.some(p => !safeRelative(p))) throw new Error("Unsafe product scope");
+  const algorithm = git(target, ["rev-parse", "--show-object-format"]).trim();
+  if (!["sha1", "sha256"].includes(algorithm)) throw new Error("Unsupported product Git object format");
+  const expected = new Map();
+  // NUL records preserve tabs/newlines; literal paths never act as Git patterns.
+  for (const row of git(target, ["--literal-pathspecs", "ls-tree", "-r", "-z", "--full-tree", revision, "--", ...paths]).split("\0").filter(Boolean)) {
+    const tab = row.indexOf("\t"), file = row.slice(tab + 1);
+    if (!paths.some(p => file === p || file.startsWith(`${p}/`))) continue;
+    const [mode, type, oid] = row.slice(0, tab).split(" ");
+    if (tab < 0 || type !== "blob" || !["100644", "100755"].includes(mode)) throw new Error("Product scope requires regular Git files");
+    expected.set(file, { mode, oid });
+  }
+  const seen = new Set(), visited = new Set();
+  async function walk(file) {
+    if (visited.has(file)) return;
+    visited.add(file);
+    let current = target, stat;
+    const parts = file.split("/");
+    for (const [index, part] of parts.entries()) {
+      current = path.join(current, part);
+      stat = await fs.lstat(current).catch(error => { if (error.code === "ENOENT") return null; throw error; });
+      if (!stat) return;
+      if (stat.isSymbolicLink() || (index < parts.length - 1 && !stat.isDirectory())) throw new Error("Unsafe product scope path");
+    }
+    if (stat.isDirectory()) {
+      for (const name of await fs.readdir(current)) await walk(`${file}/${name}`);
+      return;
+    }
+    const entry = expected.get(file);
+    if (!stat.isFile() || !entry) throw new Error("Product scope changed: unexpected filesystem entry");
+    const body = await fileBytes(target, file);
+    const oid = createHash(algorithm).update(`blob ${body.length}\0`).update(body).digest("hex");
+    const mode = stat.mode & 0o111 ? "100755" : "100644";
+    if (oid !== entry.oid || mode !== entry.mode) throw new Error("Product scope changed: actual bytes or mode differ from candidate");
+    seen.add(file);
+  }
+  for (const file of paths) await walk(file);
+  if (seen.size !== expected.size) throw new Error("Product scope changed: candidate file is missing");
+}
+
+async function assertCandidate(target, request, affectedPaths) {
   if (resolveGitRevision(target, "HEAD") !== request.candidate_revision) throw new Error("Lean delivery candidate must match current HEAD");
   const productPaths = requireProductScope(affectedPaths);
-  if (git(target, ["status", "--porcelain=v1", "-z", "--untracked-files=all", "--", ...productPaths])) {
+  if (git(target, ["--literal-pathspecs", "status", "--porcelain=v1", "-z", "--untracked-files=all", "--", ...productPaths])) {
     throw new Error("Lean delivery affected product scope has uncommitted changes");
   }
+  await assertWorkingProduct(target, request.candidate_revision, productPaths);
 }
 
 async function inputSnapshot(target, item, request, mechanical = null) {
@@ -209,7 +254,7 @@ async function prepareDelivery(target, request) {
   if (workers && (JSON.parse(workers).workers ?? []).some((worker) => worker.work_item_id === item.id && !["completed", "failed", "cancelled"].includes(worker.status))) {
     throw new Error("Complete the runtime worker before Lean delivery");
   }
-  assertCandidate(target, request, item.affected_paths ?? []);
+  await assertCandidate(target, request, item.affected_paths ?? []);
   if (accepting && resolveGitRevision(target, item.claim.base_revision) !== request.candidate_revision) throw new Error("Lean Verifier claim must pin the exact candidate");
   if (accepting) {
     const handoff = [...(item.handoffs ?? [])].reverse().find((entry) => entry.from_position === "developer");
@@ -267,7 +312,7 @@ async function prepareAutonomousDelivery(target, request) {
   const { item, prepared, artifact_kind, events } = await prepareWorkflowStage(target, request);
   const workers = await fileBytes(target, ".ai-org/project/runtime-workers.json", true);
   if (workers && JSON.parse(workers).workers.some(w => w.work_item_id === item.id && !["completed", "failed", "cancelled"].includes(w.status))) throw new Error("Complete runtime workers before autonomous completion");
-  assertCandidate(target, request, item.affected_paths ?? []);
+  await assertCandidate(target, request, item.affected_paths ?? []);
   const inputs = await inputSnapshot(target, item, request);
   const receiptPath = `.ai-org/artifacts/${item.id}/finish-${request.operation_id}.json`;
   const outputPaths = [...(prepared.artifact ? [prepared.artifact] : []), `.ai-org/work-items/${item.id}.json`, EVENTS, receiptPath];
@@ -332,7 +377,7 @@ export async function validateLeanCompletionSnapshot(target, journal, { applied 
     throw new Error(`Lean completion Agent is no longer eligible for ${position}`);
   }
   await currentEvidencePaths(target, resultingItem, journal.request);
-  assertCandidate(target, journal.request, journal.affected_paths);
+  await assertCandidate(target, journal.request, journal.affected_paths);
   await assertInputs(target, journal.inputs, journal.writes);
   // Requalify filesystem modes, links and whole-worktree scope after interruption.
   // The original item is byte-bound above; current canonical state must separately

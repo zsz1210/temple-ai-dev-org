@@ -8,8 +8,8 @@ import { inspectParallelPlan } from "../src/orchestration.mjs";
 import { readPendingLeanDelivery, readLeanFinishDiagnostics, leanDeliveryStateDirectory } from "../src/lean-delivery-state.mjs";
 import { cachedFixture as fixture, cli, git, deliveryArgs, itemState, canonicalBytes } from "./helpers/lean-delivery-fixture.mjs";
 
-async function setup(t, verifier = false) {
-  const f = await fixture(); t.after(f.cleanup);
+async function setup(t, verifier = false, options) {
+  const f = await fixture(options); t.after(f.cleanup);
   // Synthetic fixtures may author policy/evidence; production uses governed records.
   const integrationPath = path.join(f.target, ".ai-org/project/repository-integration.json");
   const integration = JSON.parse(await fs.readFile(integrationPath));
@@ -77,6 +77,92 @@ test("Developer finishes a candidate committed after claiming its base", async t
   git(f.target, ["add", "app.mjs"]); git(f.target, ["commit", "-m", "Implement after claim"]);
   f.request.revision = git(f.target, ["rev-parse", "HEAD"]);
   assert.notEqual((await itemState(f)).claim.base_revision, f.request.revision);
+  assert.equal(JSON.parse(cli(args(f)).stdout).success, true);
+});
+
+for (const verifier of [false, true]) for (const flag of ["--assume-unchanged", "--skip-worktree"]) {
+  test(`Finish ${verifier ? "Verifier" : "Developer"} rejects hidden product drift under ${flag}`, async t => {
+    const f = await setup(t, verifier), file = path.join(f.target, "app.mjs"), original = await fs.readFile(file);
+    const preview = JSON.parse(cli(args(f, ["--dry-run"])).stdout);
+    const before = await canonicalBytes(f);
+    // Visible edits must still fail through the original guard.
+    await fs.appendFile(file, "// visible change\n");
+    assert.match(cli(args(f), { allowFailure: true }).stderr, /uncommitted changes/);
+    await fs.writeFile(file, original);
+    git(f.target, ["update-index", flag, "app.mjs"]);
+    assert.equal(JSON.parse(cli(args(f, ["--dry-run"])).stdout).status, "ready");
+    for (const change of [() => fs.writeFile(file, Buffer.from([0, 255, 1])), () => fs.unlink(file)]) {
+      await change();
+      assert.equal(git(f.target, ["status", "--porcelain", "--", "app.mjs"]), "");
+      for (const extra of [["--dry-run"], ["--expected-plan", preview.mutation.plan_digest]]) {
+        const result = cli(args(f, extra), { allowFailure: true });
+        assert.notEqual(result.status, 0); assert.match(result.stderr, /Product scope changed/);
+        assert.deepEqual(await canonicalBytes(f), before);
+      }
+      assert.equal(await readPendingLeanDelivery(f.target), null);
+      assert.equal((await readLeanFinishDiagnostics(f.target)).length, 0);
+      await fs.writeFile(file, original);
+    }
+    const result = JSON.parse(cli(args(f, ["--expected-plan", preview.mutation.plan_digest])).stdout);
+    assert.equal(result.success, true);
+    assert.equal((await itemState(f)).state, verifier ? "done" : "test");
+    assert.match(git(f.target, ["ls-files", "-v", "app.mjs"]), flag === "--assume-unchanged" ? /^h / : /^S /);
+  });
+}
+
+for (const verifier of [false, true]) test(`Finish ${verifier ? "Verifier" : "Developer"} retains interrupted journal on hidden drift`, async t => {
+  const f = await setup(t, verifier), file = path.join(f.target, "app.mjs"), original = await fs.readFile(file);
+  git(f.target, ["update-index", "--skip-worktree", "app.mjs"]);
+  await assert.rejects(apply(f, interrupt("journal")), /injected/);
+  const pending = await readPendingLeanDelivery(f.target), before = await canonicalBytes(f);
+  await fs.appendFile(file, "// hidden after interruption\n");
+  await assert.rejects(apply(f), /Product scope changed/);
+  assert.deepEqual(await readPendingLeanDelivery(f.target), pending);
+  assert.deepEqual(await canonicalBytes(f), before);
+  await fs.writeFile(file, original);
+  assert.equal((await apply(f)).success, true);
+  assert.equal((await itemState(f)).state, verifier ? "done" : "test");
+});
+
+for (const verifier of [false, true]) test(`Finish ${verifier ? "Verifier" : "Developer"} does not settle diagnostics after hidden drift`, async t => {
+  const f = await setup(t, verifier), file = path.join(f.target, "app.mjs"), original = await fs.readFile(file);
+  git(f.target, ["update-index", "--assume-unchanged", "app.mjs"]);
+  await assert.rejects(apply(f, { checkpoint: async point => {
+    if (point === "after-doctor") await fs.appendFile(file, "// hidden during diagnostics\n");
+  } }), /Product scope changed/);
+  // Lifecycle was already applied before diagnostics; never pretend it rolled back.
+  assert.equal((await itemState(f)).state, verifier ? "done" : "test");
+  assert.equal((await readLeanFinishDiagnostics(f.target))[0].status, "pending");
+  await fs.writeFile(file, original);
+  assert.equal((await apply(f)).success, true);
+});
+
+test("Direct deliver also rejects hidden product drift without canonical writes", async t => {
+  const f = await setup(t), file = path.join(f.target, "app.mjs"), original = await fs.readFile(file);
+  git(f.target, ["update-index", "--skip-worktree", "app.mjs"]);
+  const before = await canonicalBytes(f);
+  await fs.appendFile(file, "// hidden direct-delivery change\n");
+  const result = cli(deliveryArgs(f), { allowFailure: true });
+  assert.notEqual(result.status, 0); assert.match(result.stderr, /Product scope changed/);
+  assert.deepEqual(await canonicalBytes(f), before);
+  await fs.writeFile(file, original);
+  assert.equal(cli(deliveryArgs(f)).status, 0);
+});
+
+test("Finish uses literal directory scope and rejects ignored inventory additions", async t => {
+  const dir = "product [literal]", file = `${dir}/binary\tname\n.bin`;
+  const f = await setup(t, false, { affectedPaths: [dir] });
+  await fs.mkdir(path.join(f.target, dir));
+  await fs.writeFile(path.join(f.target, file), Buffer.from([0, 255, 10]));
+  git(f.target, ["add", "--", dir]); git(f.target, ["commit", "-m", "Literal scoped binary"]);
+  f.request.revision = git(f.target, ["rev-parse", "HEAD"]);
+  const before = await canonicalBytes(f);
+  await fs.appendFile(path.join(f.target, ".git/info/exclude"), "\nhidden.tmp\n");
+  await fs.writeFile(path.join(f.target, dir, "hidden.tmp"), "ignored extra product\n");
+  assert.equal(git(f.target, ["--literal-pathspecs", "status", "--porcelain", "--", dir]), "");
+  assert.match(cli(args(f), { allowFailure: true }).stderr, /Product scope changed/);
+  assert.deepEqual(await canonicalBytes(f), before);
+  await fs.unlink(path.join(f.target, dir, "hidden.tmp"));
   assert.equal(JSON.parse(cli(args(f)).stdout).success, true);
 });
 
