@@ -2820,6 +2820,62 @@
       "attached_at": "2026-09-17T14:44:34.888Z",
       "completed_at": "2026-09-17T14:47:20.766Z",
       "updated_at": "2026-09-17T14:47:20.766Z"
+    },
+    {
+      "id": "worker-20260917154023-35507fd7",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0248",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260917154023-f287817b",
+      "base_revision": "0c1c6f1cc999bcf50a8d8ae0e1e89fe05b991ed7",
+      "branch": "codex/readme-alpha33-onboarding",
+      "worktree": null,
+      "plan_fingerprint": "c401c6f3e13629a230df3f44e62387691e7b88659110730a45cd3cd3d3087c86",
+      "plan_digest": "ed76ba5766a2b1cd23196498dc6d497a9026ca4a60c4bccc102f54729070f8f7",
+      "preparation_fingerprint": "0c8901e7a9f1081f2ffd91e3b7cb37e4b04efb0bef78ddd845a3a35e3f4c4850",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/physical_recovery_test",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "0c1c6f1cc999bcf50a8d8ae0e1e89fe05b991ed7",
+      "evidence": [
+        ".ai-org/artifacts/WI-0248/test-evaluation.md"
+      ],
+      "reserved_at": "2026-09-17T15:40:23.545Z",
+      "attached_at": "2026-09-17T15:40:48.558Z",
+      "completed_at": "2026-09-17T15:46:42.587Z",
+      "updated_at": "2026-09-17T15:46:42.587Z"
+    },
+    {
+      "id": "worker-20260917154651-bbe4f0e9",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0248",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260917154651-168f21f2",
+      "base_revision": "0c1c6f1cc999bcf50a8d8ae0e1e89fe05b991ed7",
+      "branch": "codex/readme-alpha33-onboarding",
+      "worktree": null,
+      "plan_fingerprint": "4c944f9ed4688ca66ba3f784bcc9133327f2b3d83984d145316c4c58b6d9818d",
+      "plan_digest": "00f63951f14a14611ee8e624047213452b4f65dba86d56b7e9019297789f249d",
+      "preparation_fingerprint": "9881b3153a39e6359cf696feff473887c431ef5256ae08aae998083a2cabe943",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/physical_recovery_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "0c1c6f1cc999bcf50a8d8ae0e1e89fe05b991ed7",
+      "evidence": [
+        ".ai-org/artifacts/WI-0248/independent-qa.md"
+      ],
+      "reserved_at": "2026-09-17T15:46:51.456Z",
+      "attached_at": "2026-09-17T15:47:17.350Z",
+      "completed_at": "2026-09-17T15:50:39.606Z",
+      "updated_at": "2026-09-17T15:50:39.606Z"
     }
   ]
 }
