@@ -1077,7 +1077,7 @@ export async function contributorReadiness(target, options = {}) {
     if (options.positionId && options.positionId !== item.owner_position) addTaskBlocker("TEMPLE_TASK_WRONG_POSITION",
       `${item.id} currently belongs to ${item.owner_position}, not ${options.positionId}.`, claim?.agent_id ?? item.assigned_agent_id ?? item.owner_position,
       `Inspect context for ${item.owner_position}; complete the current stage before taking another responsibility.`);
-    if (selected && item.planned_agent_id && item.planned_agent_id !== selected.agent_id) addTaskBlocker("TEMPLE_ACTOR_PLAN_MISMATCH",
+    if (!claim && selected && item.planned_agent_id && item.planned_agent_id !== selected.agent_id) addTaskBlocker("TEMPLE_ACTOR_PLAN_MISMATCH",
       `${item.id} is planned for ${item.planned_agent_id}, not ${selected.agent_id}.`, item.planned_agent_id,
       "Ask the authorized coordinator to reconcile the planned assignment with the intended contributor; do not select another person's identity to bypass it.");
   }
@@ -1085,6 +1085,7 @@ export async function contributorReadiness(target, options = {}) {
   const task = item ? { work_item_id: item.id, state: item.state, owner_position: item.owner_position,
     recorded_agent_id: item.assigned_agent_id ?? null, planned_agent_id: item.planned_agent_id ?? null,
     active_claim: claim ? { id: claim.id, agent_id: claim.agent_id, principal_id: claim.principal_id, branch: claim.branch ?? null } : null,
+    assignment_note: claim && item.planned_agent_id && item.planned_agent_id !== claim.agent_id ? "The active claim owns current work; the different planned assignment remains visible for coordinator reconciliation after handoff." : null,
     ready: taskReady, readiness_scope: "actor-and-assignment-only; execution guards still apply", blockers: taskBlockers,
     next_operation: taskReady ? claim ? "context resolve" : "work-item claim" : "resolve-task-blockers",
     responsible_actor: taskBlockers[0]?.responsible_actor ?? claim?.agent_id ?? selected?.agent_id ?? item.owner_position,

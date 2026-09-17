@@ -41,11 +41,14 @@ test("qualified member sees planned-owner blocker and actionable CLI failure wit
 
 test("claim continuation and conflicts name actual owner, while wrong stage and terminal work cannot start", async t => {
   const { root, options, item, write } = await fixture(t);
-  item.planned_agent_id = null; item.claim = { id: "claim-one", status: "active", agent_id: "agent-build", principal_id: "human", position_id: "developer" };
+  item.claim = { id: "claim-one", status: "active", agent_id: "agent-build", principal_id: "human", position_id: "developer" };
   await write(".ai-org/work-items/WI-0001.json", item);
   let result = await contributorReadiness(root, options);
   assert.equal(result.task_ready, true); assert.equal(result.task.next_operation, "context resolve");
   assert.equal(result.task.active_claim.id, "claim-one");
+  assert.equal(result.task.responsible_actor, "agent-build");
+  assert.equal(result.task.planned_agent_id, "agent-other");
+  assert.match(result.task.assignment_note, /active claim owns current work/);
   result = await contributorReadiness(root, { ...options, agentId: "agent-other" });
   assert.equal(result.task_ready, false); assert.equal(result.task.responsible_actor, "agent-build");
   result = await contributorReadiness(root, { ...options, agentId: "agent-review", positionId: "quality_evaluator" });

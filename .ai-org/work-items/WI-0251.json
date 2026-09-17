@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0251",
   "title": "Include reviewed closeout files in package boundary",
-  "state": "build",
-  "owner_position": "developer",
-  "assigned_agent_id": "agent-rikku",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-17T16:45:32.791Z",
-  "updated_at": "2026-09-17T16:46:01.467Z",
+  "updated_at": "2026-09-17T17:03:21.306Z",
   "scope": [
     "Account for exactly two new distributable files from WI-0250 in the existing package allowlist ceiling."
   ],
@@ -42,7 +42,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "HEAD",
+  "base_revision": "41a1a4f7367fc09bdc80f4ef2a5ad6b0e5914261",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -50,10 +50,10 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260917164601-edb0062b",
-    "status": "active",
+    "id": "claim-20260917170320-9781a9c5",
+    "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
+    "agent_id": "agent-lulu",
     "actor_provenance": {
       "selection": "explicit-agent",
       "principal_source": "explicit-principal",
@@ -62,12 +62,13 @@
       "provider_authenticated": false,
       "externally_supplied_evidence": false
     },
-    "position_id": "developer",
-    "base_revision": "HEAD",
+    "position_id": "quality_evaluator",
+    "base_revision": "41a1a4f7367fc09bdc80f4ef2a5ad6b0e5914261",
     "branch": "codex/collaboration-closeout",
     "worktree": null,
-    "claimed_at": "2026-09-17T16:46:01.467Z",
-    "released_at": null
+    "claimed_at": "2026-09-17T17:03:20.766Z",
+    "released_at": "2026-09-17T17:03:21.295Z",
+    "release_reason": "completed"
   },
   "claims": [
     {
@@ -95,7 +96,7 @@
     },
     {
       "id": "claim-20260917164601-edb0062b",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "actor_provenance": {
@@ -111,7 +112,29 @@
       "branch": "codex/collaboration-closeout",
       "worktree": null,
       "claimed_at": "2026-09-17T16:46:01.467Z",
-      "released_at": null
+      "released_at": "2026-09-17T16:52:09.029Z",
+      "release_reason": "developer_delivery"
+    },
+    {
+      "id": "claim-20260917170320-9781a9c5",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "quality_evaluator",
+      "base_revision": "41a1a4f7367fc09bdc80f4ef2a5ad6b0e5914261",
+      "branch": "codex/collaboration-closeout",
+      "worktree": null,
+      "claimed_at": "2026-09-17T17:03:20.766Z",
+      "released_at": "2026-09-17T17:03:21.295Z",
+      "release_reason": "completed"
     }
   ],
   "gate_evidence": {
@@ -132,11 +155,49 @@
     ],
     "profile_eligibility": [
       ".ai-org/artifacts/WI-0250/design.md"
+    ],
+    "developer_handoff": [
+      ".ai-org/artifacts/WI-0251/handoff-001-developer-to-quality_evaluator.md"
+    ],
+    "developer_evidence": [
+      ".ai-org/artifacts/WI-0251/developer-evidence.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0251/independent-verification.md"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0251/independent-verification.md"
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0250/design.md"
+    ".ai-org/artifacts/WI-0250/design.md",
+    ".ai-org/artifacts/WI-0251/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0251/developer-evidence.md",
+    ".ai-org/artifacts/WI-0251/independent-verification.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": null,
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "principal_id": "human",
+      "actor_provenance": {
+        "selection": "active-claim",
+        "principal_source": "active-claim",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "input_revision": "41a1a4f7367fc09bdc80f4ef2a5ad6b0e5914261",
+      "artifact": ".ai-org/artifacts/WI-0251/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-17T16:52:09.029Z"
+    }
+  ],
+  "developer_candidate_revision": "41a1a4f7367fc09bdc80f4ef2a5ad6b0e5914261",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
 }

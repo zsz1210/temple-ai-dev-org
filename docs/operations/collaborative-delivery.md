@@ -35,6 +35,8 @@ task's actor and assignment conditions). Inspect `task.owner_position`,
 A qualified member may still need the coordinator to reconcile a planned
 assignment. An existing claim should be continued, not claimed again. These are
 navigation observations; context, policy and execution guards still apply.
+An active claim takes precedence over a different planned assignment; that
+difference remains visible as `assignment_note` without blocking its current owner.
 
 `--context-ref` accepts an ID from `.ai-org/project/context-map.json`. Use
 `--affected-path` for changed files. Unknown route IDs fail before item creation.

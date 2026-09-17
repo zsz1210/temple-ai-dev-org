@@ -1,0 +1,35 @@
+{
+  "schema_version": "temple.lean-finish-receipt/v1",
+  "request_digest": "f22c697065be649cb79add957dc44e5b26073cd94f9fab6148fde8c728d6c60f",
+  "request": {
+    "schema_version": "temple.lean-finish-request/v1",
+    "operation_id": "wi0251-package-build",
+    "work_item_id": "WI-0251",
+    "claim_id": "claim-20260917164601-edb0062b",
+    "agent_id": "agent-rikku",
+    "principal_id": "human",
+    "candidate_revision": "41a1a4f7367fc09bdc80f4ef2a5ad6b0e5914261",
+    "completed": [
+      "Reviewed two-file package ceiling; full verification passed 1288 tests"
+    ],
+    "evidence": [
+      ".ai-org/artifacts/WI-0251/developer-evidence.md"
+    ],
+    "unresolved": [],
+    "position": "developer"
+  },
+  "result": {
+    "schema_version": "temple.lean-finish-lifecycle/v1",
+    "operation_id": "wi0251-package-build",
+    "work_item_id": "WI-0251",
+    "candidate_revision": "41a1a4f7367fc09bdc80f4ef2a5ad6b0e5914261",
+    "plan_digest": "0782deaa9d97a1a4fa687446b859c6095aa9dd3c84f43a8cbc70499ae54bdc39",
+    "handoff": ".ai-org/artifacts/WI-0251/handoff-001-developer-to-quality_evaluator.md",
+    "receipt": ".ai-org/artifacts/WI-0251/finish-wi0251-package-build.json",
+    "resulting_state": "test",
+    "next_action": "The assigned Quality Evaluator must claim Test and verify acceptance.",
+    "testing_performed": false,
+    "external_action_performed": false
+  },
+  "applied_at": "2026-09-17T16:52:09.039Z"
+}
