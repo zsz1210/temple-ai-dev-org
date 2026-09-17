@@ -2876,6 +2876,62 @@
       "attached_at": "2026-09-17T15:47:17.350Z",
       "completed_at": "2026-09-17T15:50:39.606Z",
       "updated_at": "2026-09-17T15:50:39.606Z"
+    },
+    {
+      "id": "worker-20260917160948-5466d2ac",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0249",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260917160948-3e6c3915",
+      "base_revision": "360b1b86266692aadda590b18419d3c3f004c352",
+      "branch": "codex/finish-physical-product-check",
+      "worktree": null,
+      "plan_fingerprint": "8db5aed4d4e20166d93b297091029973779b8bea2cdb22bc73253a8f519c4d25",
+      "plan_digest": "43cec7c9424577d531e9b89067a87f19d8cbaa624bd12c628d5ac3df6406fc41",
+      "preparation_fingerprint": "ba1177b049c961c7c1f2c6d3a9f432476d5e261b35c041d5936ef38a4bd6508c",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/finish_physical_test",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "360b1b86266692aadda590b18419d3c3f004c352",
+      "evidence": [
+        ".ai-org/artifacts/WI-0249/test-evaluation.md"
+      ],
+      "reserved_at": "2026-09-17T16:09:48.832Z",
+      "attached_at": "2026-09-17T16:10:26.486Z",
+      "completed_at": "2026-09-17T16:13:27.039Z",
+      "updated_at": "2026-09-17T16:13:27.039Z"
+    },
+    {
+      "id": "worker-20260917161330-18d6211d",
+      "runtime_kind": "internal-subagent",
+      "status": "completed",
+      "work_item_id": "WI-0249",
+      "position_id": "independent_qa",
+      "agent_id": "agent-lulu",
+      "principal_id": "human",
+      "claim_id": "claim-20260917161331-b9eccc74",
+      "base_revision": "360b1b86266692aadda590b18419d3c3f004c352",
+      "branch": "codex/finish-physical-product-check",
+      "worktree": null,
+      "plan_fingerprint": "891ab82cbc989eb22fee46eeeb11df4c3597b7158921fa973a629189efe7c7cc",
+      "plan_digest": "a8f31b55f21786b237d5b5dba1b3bd2dd61c098b0acd35092c5a6115a63b2340",
+      "preparation_fingerprint": "49542866000dc486bb0c0d69d771e94d510c39a3736b94ee8059dc1d09bde3a0",
+      "wave_id": "wave-001",
+      "runtime_id": "/root/finish_physical_qa",
+      "task_id": null,
+      "resource_reservation_ids": [],
+      "current_revision": "360b1b86266692aadda590b18419d3c3f004c352",
+      "evidence": [
+        ".ai-org/artifacts/WI-0249/independent-qa.md"
+      ],
+      "reserved_at": "2026-09-17T16:13:30.969Z",
+      "attached_at": "2026-09-17T16:14:03.665Z",
+      "completed_at": "2026-09-17T16:16:59.503Z",
+      "updated_at": "2026-09-17T16:16:59.503Z"
     }
   ]
 }

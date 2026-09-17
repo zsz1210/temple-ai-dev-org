@@ -5,9 +5,9 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 248 total, 0 active
+- Work items: 249 total, 0 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 102 registered, 0 reserved, 0 active
+- Runtime workers: 104 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -296,6 +296,7 @@
 | WI-0246 | Refresh trilingual README for Alpha.33 users | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ca962508` | 0 | 4 | 0 |
 | WI-0247 | Recover applied Lean handoffs after diagnostic input changes | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e8e1e462` | 0 | 10 | 0 |
 | WI-0248 | Reject Git-hidden product changes during diagnostic recovery | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0c1c6f1c` | 0 | 7 | 0 |
+| WI-0249 | Reject hidden product drift during ordinary completion | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `360b1b86` | 0 | 7 | 0 |
 
 ## Delivery attention
 
@@ -423,6 +424,8 @@
 | worker-20260917144358-d942740a | internal-subagent | WI-0246 | Quality & Evaluation Engineer / Lulu | completed | /root/readme_verifier | `ca962508` | 0 |
 | worker-20260917154023-35507fd7 | internal-subagent | WI-0248 | Quality & Evaluation Engineer / Lulu | completed | /root/physical_recovery_test | `0c1c6f1c` | 0 |
 | worker-20260917154651-bbe4f0e9 | internal-subagent | WI-0248 | Independent QA / Lulu | completed | /root/physical_recovery_qa | `0c1c6f1c` | 0 |
+| worker-20260917160948-5466d2ac | internal-subagent | WI-0249 | Quality & Evaluation Engineer / Lulu | completed | /root/finish_physical_test | `360b1b86` | 0 |
+| worker-20260917161330-18d6211d | internal-subagent | WI-0249 | Independent QA / Lulu | completed | /root/finish_physical_qa | `360b1b86` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -460,7 +463,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 97
+- Team-visible Work Items: 98
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -534,14 +537,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-17T15:50:53.031Z | work_item_closed | WI-0248 | agent-mog |
-| 2026-09-17T15:50:53.031Z | release_gate_completed | WI-0248 | agent-mog |
-| 2026-09-17T15:50:40.574Z | work_item_claimed | WI-0248 | human |
-| 2026-09-17T15:50:40.106Z | work_item_transitioned | WI-0248 | agent-lulu |
-| 2026-09-17T15:50:39.606Z | runtime_worker_status_changed | WI-0248 | agent-lulu |
-| 2026-09-17T15:47:17.350Z | runtime_worker_attached | WI-0248 | agent-lulu |
-| 2026-09-17T15:46:51.456Z | runtime_worker_reserved | WI-0248 | human |
-| 2026-09-17T15:46:51.484Z | work_item_claimed | WI-0248 | human |
+| 2026-09-17T16:17:00.903Z | work_item_closed | WI-0249 | agent-mog |
+| 2026-09-17T16:17:00.903Z | release_gate_completed | WI-0249 | agent-mog |
+| 2026-09-17T16:17:00.441Z | work_item_claimed | WI-0249 | human |
+| 2026-09-17T16:16:59.963Z | work_item_transitioned | WI-0249 | agent-lulu |
+| 2026-09-17T16:16:59.503Z | runtime_worker_status_changed | WI-0249 | agent-lulu |
+| 2026-09-17T16:14:03.665Z | runtime_worker_attached | WI-0249 | agent-lulu |
+| 2026-09-17T16:13:30.969Z | runtime_worker_reserved | WI-0249 | human |
+| 2026-09-17T16:13:31.048Z | work_item_claimed | WI-0249 | human |
 
 ## Assignments
 

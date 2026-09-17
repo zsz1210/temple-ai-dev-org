@@ -25,6 +25,16 @@ links, submodules and nonregular product entries require separate qualification.
 The comparison uses raw blob bytes without executing Git filters; a checkout with
 content transformations must match those bytes before using this narrow route.
 
+The source candidate shares this physical check with ordinary `finish` and
+`deliver`, including Developer and Verifier completion. It runs before lifecycle
+writes and on journal revalidation; ordinary completion still requires candidate
+HEAD equality. This is a consistency check, not a product-test runner. A hidden
+change before completion is rejected without advancing the item. If files change
+after lifecycle writes during diagnostics, the command rejects settlement but
+does not roll back the already-applied lifecycle. Inspect the pending diagnostic
+record and recover only with the original inputs; a lifecycle state alone is not
+proof of successful completion. Historical replay remains explicitly historical.
+
 Original item, receipt and handoff bytes must match. Events may only be appended.
 Other bound inputs must match, except amended Developer evidence and the exact
 legacy Solo to explicit attributed policy migration. Evidence amendments are
