@@ -72,6 +72,28 @@ export async function readLeanFinishDiagnostics(target) {
         record.diagnostics.doctor?.schema_version !== "temple.doctor-summary/v1" || record.diagnostics.doctor.validation_scope !== "full" || record.diagnostics.doctor.healthy !== true ||
         !Number.isInteger(record.diagnostics.doctor.summary?.pass) || !Array.isArray(record.diagnostics.doctor.checks) || record.diagnostics.doctor.checks.length || record.diagnostics.doctor.summary?.fail !== 0 || record.diagnostics.doctor.summary?.warn !== 0 ||
         !Array.isArray(record.diagnostics.errors) || record.diagnostics.errors.length))) throw new Error("Invalid Lean finish diagnostic outcome or binding");
+    if (record.recovery) {
+      const expected = `.ai-org/artifacts/${record.journal.request.work_item_id}/finish-recovery-${record.journal.request.operation_id}.json`;
+      if (record.status !== "passed" || record.recovery.ref !== expected) throw new Error("Invalid Lean recovery binding");
+      let current = root;
+      const parts = expected.split("/");
+      for (const [index, part] of parts.entries()) {
+        current = path.join(current, part);
+        const stat = await fs.lstat(current);
+        if (stat.isSymbolicLink() || (index === parts.length - 1 ? !stat.isFile() : !stat.isDirectory())) throw new Error("Unsafe Lean recovery artifact");
+      }
+      const body = await fs.readFile(current);
+      if (sha256(body) !== record.recovery.sha256) throw new Error("Lean recovery artifact digest mismatch");
+      const recovery = JSON.parse(body);
+      const preview = { ...recovery.preview }; delete preview.fingerprint;
+      const original = { ...record, status: record.recovery.original_status, diagnostics: record.recovery.original_diagnostics }; delete original.recovery;
+      if (recovery.schema_version !== "temple.lean-finish-recovery/v1" || recovery.original_status !== "failed" || record.recovery.original_status !== "failed" ||
+          sha256(formatJson(record.recovery.original_diagnostics)) !== recovery.original_diagnostics_sha256 ||
+          recovery.preview.operation_key !== record.operation_key || recovery.preview.candidate_revision !== record.journal.request.candidate_revision ||
+          recovery.preview.recovery_ref !== expected || recovery.acceptance_granted !== false || recovery.authority_granted !== false ||
+          sha256(formatJson(preview)) !== recovery.preview.fingerprint ||
+          sha256(formatJson(original)) !== recovery.preview.original_record_sha256) throw new Error("Lean recovery does not preserve its original failed record");
+    }
     records.push(record);
   }
   return records;

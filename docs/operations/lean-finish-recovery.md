@@ -1,0 +1,49 @@
+# Recover an applied Lean handoff
+
+Use ordinary identical `work-item finish` replay when its original inputs still
+match. Do not commit administrative records or amend bound evidence while its
+diagnostics are pending. A passing CI does not settle local recovery state.
+
+The source candidate additionally provides an explicit, bounded recovery command
+for a fully applied Developer handoff whose diagnostics failed. It is not part of
+the published Alpha.33 CLI. This command does not rerun lifecycle writes, grant
+acceptance, start a model, or permit a merge or release.
+
+## Supported case
+
+The item must still be unclaimed, low-risk Lean Test in Solo mode, without UI,
+indexed specifications, normalized evidence references, active workers or reserved
+resources. The original candidate must be an ancestor of HEAD, and both committed
+and working product files must be unchanged. Other cases require separately
+qualified recovery or rework; do not force this route.
+
+Original item, receipt and handoff bytes must match. Events may only be appended.
+Other bound inputs must match, except amended Developer evidence and the exact
+legacy Solo to explicit attributed policy migration. Evidence amendments are
+listed for review; they are not new acceptance. All current actor checks remain.
+
+## Preview, approve and apply
+
+Keep the human's actual recovery authorization in a new Work Item artifact.
+Do not edit the original evidence to add recovery notes. Use the original actor:
+
+```bash
+node ./templew.mjs work-item finish-recover . \
+  --work-item WI-0001 --operation-id original-operation \
+  --agent-id agent-builder --principal-id human \
+  --approval-ref .ai-org/artifacts/WI-0001/recovery-approval.md --dry-run --json
+```
+
+Review every changed input. With explicit authorization, repeat the command without
+`--dry-run` and with `--expected-plan` set to the returned fingerprint. Changing
+approval text, HEAD, evidence or a bound input invalidates that preview.
+
+The CLI reruns full Doctor and status diagnostics. It retains the original journal
+and receipt, writes an immutable recovery artifact with the original failed result,
+and only then settles local diagnostic bookkeeping. A crash after the artifact
+write can resume with the identical fingerprint if all inputs still match. A
+conflicting artifact is a blocker, not permission to overwrite it.
+
+After recovery, a distinct Verifier must claim and verify the unchanged Developer
+candidate. Historical finish replay remains historical; it is not fresh acceptance.
+Do not reinterpret the recovery record as Test, Independent QA or release evidence.

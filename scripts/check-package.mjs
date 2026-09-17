@@ -78,7 +78,8 @@ const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overl
 // The solo adoption guide adds one public documentation file.
 // WI-0230 adds six runtime modules, one field specification, one ADR and one guide.
 // WI-0243 adds exactly one public Alpha.33 qualification and upgrade guide.
-const MAX_FILE_COUNT = 444;
+// Reviewed addition: bounded finish-recovery module and its operator guide.
+const MAX_FILE_COUNT = 446;
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {
