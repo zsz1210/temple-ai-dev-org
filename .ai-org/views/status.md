@@ -3,10 +3,10 @@
 - Project ID: `temple`
 - Organization system version: `0.1.0-alpha.33`
 - Active Agent Identities: 5
-- Collaboration profile: `solo` (0 Human Principals, 1 active claims)
-- Parallel plan: 0 wave(s), fresh=false
-- Work items: 251 total, 1 active
-- Codex tasks: 12 registered, 12 archive-ready
+- Collaboration profile: `solo` (0 Human Principals, 0 active claims)
+- Parallel plan: 0 wave(s), fresh=true
+- Work items: 251 total, 0 active
+- Codex tasks: 13 registered, 13 archive-ready
 - Runtime workers: 104 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
@@ -27,7 +27,7 @@
 - Human Principals: 0
 - Agent sponsorships: 0
 - Active Position memberships: 10
-- Active Work Item claims: 1
+- Active Work Item claims: 0
 - Active Human Authority Grants: 0
 - Governance recovery: `not_configured`
 - Real Collaborative validation: `not_run` (.ai-org/templates/collaborative-large-scale-test-plan.md)
@@ -37,10 +37,10 @@
 - Generated plan: `.ai-org/views/parallel-plan.json`
 - Installed: yes
 - Valid: yes
-- Fresh: no
+- Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 1 / 0
+- Active / sequential / blocked: 0 / 0 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -297,13 +297,11 @@
 | WI-0247 | Recover applied Lean handoffs after diagnostic input changes | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e8e1e462` | 0 | 10 | 0 |
 | WI-0248 | Reject Git-hidden product changes during diagnostic recovery | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0c1c6f1c` | 0 | 7 | 0 |
 | WI-0249 | Reject hidden product drift during ordinary completion | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `360b1b86` | 0 | 7 | 0 |
-| WI-0250 | Automate measurement closeout and clarify task readiness | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260917170346-487779dd | `—` | 0 | 3 | 0 |
+| WI-0250 | Automate measurement closeout and clarify task readiness | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9148bd64` | 1 | 10 | 0 |
 | WI-0251 | Include reviewed closeout files in package boundary | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `41a1a4f7` | 0 | 4 | 0 |
 
 ## Delivery attention
 
-- WI-0250: awaiting-owner — The recorded owner can continue the scoped work; no attached active worker is recorded.
-  - owner: No attached active runtime is recorded for this claim.
 
 ## Codex task registry
 
@@ -321,6 +319,7 @@
 | task-0010 | WI-0156 | WI-0156 · Reduce fresh-session on… · Independent QA (Lulu) | Independent QA / Lulu | human | codex/wi-0156-onboarding-hardening | completed | `—` | ready |
 | task-0011 | WI-0158 | WI-0158 · Run final pre-Alpha clean-r… · Developer (Rikku) | Developer / Rikku | human | codex/wi-0158-final-clean-room | completed | `—` | ready |
 | task-0012 | WI-0158 | WI-0158 · Run final pre-Alpha cle… · Independent QA (Lulu) | Independent QA / Lulu | human | codex/wi-0158-final-clean-room | completed | `—` | ready |
+| task-0013 | WI-0250 | WI-0250 · Automate… · Quality & Evaluation Engineer (Lulu) | Quality & Evaluation Engineer / Lulu | human | codex/collaboration-closeout | completed | `—` | ready |
 
 ## Runtime workers and shared resources
 
@@ -449,6 +448,7 @@
 - task-0010 can be archived
 - task-0011 can be archived
 - task-0012 can be archived
+- task-0013 can be archived
 - worker-20260830090102-322fa6b7 is failed
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
@@ -461,7 +461,6 @@
 - worker-20260915174040-464e550f is failed
 - worker-20260915175330-3e16bfe8 is failed
 - worker-20260915233053-33b568eb is failed
-- Generated parallel plan is stale; rebuild it before dispatch
 
 ## External tracker coordination
 
@@ -542,14 +541,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-17T17:03:46.821Z | work_item_claimed | WI-0250 | human |
-| 2026-09-17T17:03:21.306Z | work_item_closed | WI-0251 | agent-lulu |
-| 2026-09-17T17:03:21.306Z | work_item_transitioned | WI-0251 | agent-lulu |
-| 2026-09-17T17:03:21.295Z | work_item_claim_released | WI-0251 | human |
-| 2026-09-17T17:03:20.766Z | work_item_claimed | WI-0251 | human |
-| 2026-09-17T17:03:20.363Z | work_item_claim_released | WI-0250 | human |
-| 2026-09-17T17:00:42.939Z | work_item_claimed | WI-0250 | human |
-| 2026-09-17T17:00:42.520Z | work_item_reworked | WI-0250 | agent-lulu |
+| 2026-09-17T17:11:45.551Z | work_item_closed | WI-0250 | agent-mog |
+| 2026-09-17T17:11:45.551Z | release_gate_completed | WI-0250 | agent-mog |
+| 2026-09-17T17:11:45.180Z | work_item_claimed | WI-0250 | human |
+| 2026-09-17T17:11:44.788Z | work_item_transitioned | WI-0250 | agent-lulu |
+| 2026-09-17T17:11:44.419Z | work_item_claim_released | WI-0250 | human |
+| 2026-09-17T17:11:44.061Z | handoff_created | WI-0250 | agent-lulu |
+| 2026-09-17T17:11:43.685Z | task_status_changed | WI-0250 | agent-lulu |
+| 2026-09-17T17:11:12.885Z | work_item_claimed | WI-0250 | human |
 
 ## Assignments
 

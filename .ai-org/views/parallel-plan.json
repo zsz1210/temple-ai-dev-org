@@ -1,38 +1,24 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-17T17:03:21.589Z",
-  "source_fingerprint": "427339af8ce7ae60a0f3a88eaddacc06410c78e3100284af0664b1550b551657",
+  "generated_at": "2026-09-17T17:11:46.026Z",
+  "source_fingerprint": "261010da968a270195dbd16a86576a533f966b19f71bf2bc4304490c68a406bc",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": [
-      "WI-0250"
-    ]
+    "selected_work_item_ids": []
   },
   "max_workers": 1,
   "summary": {
-    "selected": 1,
+    "selected": 0,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 1,
+    "sequential": 0,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
   "active": [],
-  "sequential": [
-    {
-      "work_item_id": "WI-0250",
-      "title": "Automate measurement closeout and clarify task readiness",
-      "disposition": "sequential",
-      "position_id": "developer",
-      "agent_id": "agent-rikku",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "integration_owner_assigned"
-      ]
-    }
-  ],
+  "sequential": [],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {
