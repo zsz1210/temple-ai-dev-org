@@ -79,7 +79,8 @@ const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overl
 // WI-0230 adds six runtime modules, one field specification, one ADR and one guide.
 // WI-0243 adds exactly one public Alpha.33 qualification and upgrade guide.
 // Reviewed addition: bounded finish-recovery module and its operator guide.
-const MAX_FILE_COUNT = 446;
+// WI-0250 adds the measurement report module and its ADR; no new package roots.
+const MAX_FILE_COUNT = 448;
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {

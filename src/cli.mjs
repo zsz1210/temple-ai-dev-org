@@ -187,6 +187,7 @@ Usage:
   temple collaboration setup-contributor [target] --config authorized-member.json [--json]
   temple measurement capabilities [target] [--json]
   temple measurement inspect|run [target] --config measurement-plan.json [--json]
+  temple measurement report [target] --config measurement-plan.json --work-item WI-ID --revision full-sha [--output filename.md] [--json]
   temple evidence durability [target] [--work-item WI-ID] [--revision ref] [--json]
   temple evidence export-bundle [target] --evidence EVID-ID [--output path] [--json]
   temple evidence verify-bundle|import-bundle [target] --bundle path [--json]

@@ -214,7 +214,7 @@ export async function runMeasurement(root, plan, { env = process.env, storePath 
   if (!inspected.fingerprint.complete) return { ...inspected, status: "blocked", successful: false };
   const capabilities = measurementCapabilities(), adapter = capabilities.adapters[plan.check_policy];
   if (!adapter.supported) return envelope(inspected.fingerprint, "unsupported-execution-adapter", { status: "blocked", successful: false, capabilities, next_action: "Use a supported host; no weaker adapter will be selected automatically." });
-  const started = Date.now(), attemptId = `attempt-${started}-${randomUUID()}`, attemptPath = `${storePath}/${attemptId}`;
+  const started = Date.now(), monotonicStarted = performance.now(), attemptId = `attempt-${started}-${randomUUID()}`, attemptPath = `${storePath}/${attemptId}`;
   let temporary = null, result, mutationStatus = "not-performed";
   try {
     await safePath(root, storePath, { directory: true, create: true }); mutationStatus = "performed";
@@ -272,6 +272,7 @@ export async function runMeasurement(root, plan, { env = process.env, storePath 
     }
   }
   result.elapsed_ms = Date.now() - started;
+  result.monotonic_elapsed_ms = performance.now() - monotonicStarted;
   result.completed_at_ms = Date.now();
   try {
     // If setup failed before attempt creation, still preserve the failed attempt.

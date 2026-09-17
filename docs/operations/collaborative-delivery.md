@@ -29,6 +29,16 @@ The configuration records authorization already given for these roles. It grants
 
 ## Change Solo/team policy deliberately
 
+Readiness distinguishes `ready` (actor eligibility) from `task_ready` (the current
+task's actor and assignment conditions). Inspect `task.owner_position`,
+`recorded_agent_id`, `planned_agent_id`, `active_claim`, `blockers` and `next_action`.
+A qualified member may still need the coordinator to reconcile a planned
+assignment. An existing claim should be continued, not claimed again. These are
+navigation observations; context, policy and execution guards still apply.
+
+`--context-ref` accepts an ID from `.ai-org/project/context-map.json`. Use
+`--affected-path` for changed files. Unknown route IDs fail before item creation.
+
 ```sh
 node ./templew.mjs collaboration preview-profile . --profile collaborative --actor-policy attributed --json
 node ./templew.mjs collaboration apply-profile . --profile collaborative --actor-policy attributed --fingerprint '<preview fingerprint>' --json
@@ -67,6 +77,23 @@ A v2 autonomous delivery plan may embed `measurement_plan` instead of legacy `te
 Trusted-local executes argv without shell expansion and supports non-Node tools on supported POSIX hosts. It is not a sandbox: detached sessions, transient writes and external side effects are outside its process-group/workspace observation boundary. Commands must not daemonize. Confined-node retains its exact macOS Node adapter and has no unrestricted fallback. Windows is explicitly unavailable pending a Job Object cleanup adapter and real Windows validation.
 
 ## Explain waits and recover records
+
+After a measurement, generate mechanical closeout evidence without rerunning it:
+
+```sh
+node ./templew.mjs measurement report . --config plan.json --work-item WI-0001 --revision '<full candidate commit>' --output measurement-attempt-01.md --json
+```
+
+Omit `--output` for a read-only report. Output filenames are confined to
+`.ai-org/artifacts/WI-0001/`; identical exports are idempotent and different bytes
+cannot overwrite evidence. The report preserves the original attempt's duration,
+exit status and raw artifact references. Token usage and cost stay null. A cache
+hit means reuse is currently eligible, not that a caller performed another test.
+Failed, incomplete, stale or candidate-mismatched results produce a failing CLI
+status, even when saved for diagnosis. Only declared inputs are compared with Git;
+the reviewer must assess dependency completeness and acceptance coverage. Add the
+reviewer's judgment by reference rather than rewriting this report or treating it
+as independent QA. See [ADR-0069](../adr/0069-mechanical-closeout-and-task-readiness.md).
 
 Record an actual missing condition with `work-item unresolved . --work-item WI-0001 --merge 'Real device observation unavailable' --condition-kind environment`. Resolve that same text after obtaining evidence using `--resolve`. CLI status and the Console distinguish attached execution, review completion, missing environment/decision/evidence and organizational acceptance. A finished or unattached reviewer is not running QA. Merged code is not automatically accepted.
 

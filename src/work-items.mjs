@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { OperationError } from "./operation-errors.mjs";
 import { verifyMechanicalCompletion } from "./mechanical-completion.mjs";
 import {
   DISCIPLINES,
@@ -452,7 +453,11 @@ export async function createWorkItem(target, options) {
   const routeIds = new Set((contextMap.routes ?? []).map((route) => route.id));
   const missingContextRefs = contextRefs.filter((value) => !routeIds.has(value));
   if (missingContextRefs.length > 0) {
-    throw new Error(`Unknown context route: ${missingContextRefs.join(", ")}`);
+    throw Object.assign(new OperationError("INVALID_INPUT", `Unknown context route: ${missingContextRefs.join(", ")}`), {
+      responsible_actor: "requesting-contributor",
+      next_action: "--context-ref takes a route ID from .ai-org/project/context-map.json, not a file path. Use --affected-path for changed files; omit --context-ref when no explicit route applies.",
+      details: { missing_context_refs: missingContextRefs, available_context_refs: [...routeIds] }
+    });
   }
 
   const parentWorkItemId = String(options.parentWorkItemId ?? "").trim() || null;

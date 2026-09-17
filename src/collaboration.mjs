@@ -1021,7 +1021,7 @@ function anonymousClaims(snapshot) {
 
 function diagnostic(error, principalId = null) {
   return { code: error.code ?? "TEMPLE_CONTRIBUTOR_NOT_READY", message: error.message,
-    mutation_status: "no-write", responsible_actor: principalId,
+    mutation_status: "no-write", responsible_actor: error.details?.claim?.agent_id ?? error.details?.responsible_actor ?? principalId,
     next_action: error.next_action ?? "Inspect the contributor's current membership and attribution.", details: error.details ?? {} };
 }
 
@@ -1053,7 +1053,8 @@ export async function contributorReadiness(target, options = {}) {
       try {
         const inspection = await inspectProjectActor(target, context, { ...options, item, collaboration, positionId });
         const actor = inspection.selected_actor;
-        blockers.push(...inspection.blockers.map((entry) => ({ ...entry, responsible_actor: principalId })));
+        blockers.push(...inspection.blockers.map((entry) => ({ ...entry,
+          responsible_actor: entry.details?.claim?.agent_id ?? entry.details?.responsible_actor ?? principalId })));
         if (actor) eligiblePositions.push({ position_id: positionId, agent_id: actor.agent_id, principal_id: actor.principal_id, provenance: actor.provenance, ready: inspection.ready });
         if (requestedPosition && actor) selected = actor;
       } catch (error) { blockers.push(diagnostic(error, principalId)); }
@@ -1063,12 +1064,38 @@ export async function contributorReadiness(target, options = {}) {
     blockers.push(diagnostic(actorResolutionError("TEMPLE_CONTRIBUTOR_MEMBERSHIP_REQUIRED", "No eligible Position membership is configured.",
       "Select the required delivery/review roles during explicitly authorized member setup."), principalId));
   }
+  const taskBlockers = [...blockers];
+  const claim = item?.claim?.status === "active" ? item.claim : null;
+  const addTaskBlocker = (code, message, responsibleActor, nextAction) => taskBlockers.push({
+    code, message, responsible_actor: responsibleActor, mutation_status: "no-write", next_action: nextAction
+  });
+  if (item) {
+    if (["done", "cancelled", "concluded"].includes(item.state)) addTaskBlocker("TEMPLE_TASK_TERMINAL",
+      `${item.id} is ${item.state}.`, item.owner_position, "Inspect the completed record; new work needs a separately authorized Work Item.");
+    if (item.state === "blocked") addTaskBlocker("TEMPLE_TASK_BLOCKED", `${item.id} is blocked.`, item.owner_position,
+      "Inspect the recorded unresolved conditions and obtain resolution evidence before resuming the previous stage.");
+    if (options.positionId && options.positionId !== item.owner_position) addTaskBlocker("TEMPLE_TASK_WRONG_POSITION",
+      `${item.id} currently belongs to ${item.owner_position}, not ${options.positionId}.`, claim?.agent_id ?? item.assigned_agent_id ?? item.owner_position,
+      `Inspect context for ${item.owner_position}; complete the current stage before taking another responsibility.`);
+    if (selected && item.planned_agent_id && item.planned_agent_id !== selected.agent_id) addTaskBlocker("TEMPLE_ACTOR_PLAN_MISMATCH",
+      `${item.id} is planned for ${item.planned_agent_id}, not ${selected.agent_id}.`, item.planned_agent_id,
+      "Ask the authorized coordinator to reconcile the planned assignment with the intended contributor; do not select another person's identity to bypass it.");
+  }
+  const taskReady = item ? taskBlockers.length === 0 && selected !== null : null;
+  const task = item ? { work_item_id: item.id, state: item.state, owner_position: item.owner_position,
+    recorded_agent_id: item.assigned_agent_id ?? null, planned_agent_id: item.planned_agent_id ?? null,
+    active_claim: claim ? { id: claim.id, agent_id: claim.agent_id, principal_id: claim.principal_id, branch: claim.branch ?? null } : null,
+    ready: taskReady, readiness_scope: "actor-and-assignment-only; execution guards still apply", blockers: taskBlockers,
+    next_operation: taskReady ? claim ? "context resolve" : "work-item claim" : "resolve-task-blockers",
+    responsible_actor: taskBlockers[0]?.responsible_actor ?? claim?.agent_id ?? selected?.agent_id ?? item.owner_position,
+    next_action: taskBlockers[0]?.next_action ?? (claim ? `Continue the recorded claim ${claim.id} through the current ${item.owner_position} context; do not claim again.` : "Inspect current context, then claim as the selected contributor within the authorized scope.") } : null;
   return { schema_version: "temple.contributor-readiness/v1", authority: "navigation-only", mutation_status: "no-write",
+    ready_scope: "actor-eligibility-only", task_ready: taskReady, task,
     ready: blockers.length === 0 && eligiblePositions.length > 0, principal_id: principalId, principal,
     actor_policy: actorPolicy ?? null, selected_actor: selected, eligible_positions: eligiblePositions,
     agents: ownAgents.map((agent) => ({ ...agent, label: formatAgentIdentity(context, agent.id, collaboration), sponsor_principal_id: sponsoredPrincipal(collaboration, agent.id) })),
     blockers, active_work: activeWorkSummary(snapshot), anonymous_active_claims: anonymousClaims(snapshot),
-    next_action: blockers[0]?.next_action ?? "Begin or continue the authorized task using the selected eligible Agent.", fingerprint: snapshot.fingerprint };
+    next_action: task?.next_action ?? blockers[0]?.next_action ?? "Inspect the authorized Work Item before claiming with the selected eligible Agent.", fingerprint: snapshot.fingerprint };
 }
 
 export async function previewCollaborationTransition(target, options = {}) {
