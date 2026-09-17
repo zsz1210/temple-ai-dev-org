@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { sha256, formatJson, durableAtomicCreate } from "./files.mjs";
 import { readLeanFinishDiagnostics, readPendingLeanDelivery, writeLeanFinishDiagnostics, validateLeanRecoveryArtifact } from "./lean-delivery-state.mjs";
 import { validateLeanCompletionReceipt, requireProductScope } from "./lean-delivery.mjs";
@@ -61,6 +62,48 @@ function compatibleUnrelatedRuntime(target, input, current, request) {
   return formatJson(project(original)) === formatJson(project(current));
 }
 
+async function assertWorkingProduct(target, revision, paths) {
+  const algorithm = git(target, ["rev-parse", "--show-object-format"]).trim();
+  if (!["sha1", "sha256"].includes(algorithm)) throw new Error("Unsupported recovery Git object format");
+  const expected = new Map();
+  // Select only literal scope, not the whole repository. Use NUL records so
+  // spaces, tabs and newlines are not Git-quoted names.
+  for (const row of git(target, ["--literal-pathspecs", "ls-tree", "-r", "-z", "--full-tree", revision, "--", ...paths]).split("\0").filter(Boolean)) {
+    const tab = row.indexOf("\t"), file = row.slice(tab + 1);
+    if (!paths.some(p => file === p || file.startsWith(`${p}/`))) continue;
+    const [mode, type, oid] = row.slice(0, tab).split(" ");
+    if (tab < 0 || type !== "blob" || !["100644", "100755"].includes(mode)) throw new Error("Recovery product scope requires regular Git files");
+    expected.set(file, { mode, oid });
+  }
+  const seen = new Set(), visited = new Set();
+  async function walk(file) {
+    if (visited.has(file)) return;
+    visited.add(file);
+    // Check ancestors too: lstat of a leaf alone can follow a linked parent.
+    let current = target, stat;
+    const parts = file.split("/");
+    for (const [index, part] of parts.entries()) {
+      current = path.join(current, part);
+      stat = await fs.lstat(current).catch(error => { if (error.code === "ENOENT") return null; throw error; });
+      if (!stat) return;
+      if (stat.isSymbolicLink() || (index < parts.length - 1 && !stat.isDirectory())) throw new Error("Unsafe recovery product path");
+    }
+    if (stat.isDirectory()) {
+      for (const name of await fs.readdir(current)) await walk(`${file}/${name}`);
+      return;
+    }
+    const entry = expected.get(file);
+    if (!stat.isFile() || !entry) throw new Error("Product scope changed: unexpected filesystem entry");
+    const body = await bytes(target, file);
+    const oid = createHash(algorithm).update(`blob ${body.length}\0`).update(body).digest("hex");
+    const mode = stat.mode & 0o111 ? "100755" : "100644";
+    if (oid !== entry.oid || mode !== entry.mode) throw new Error("Product scope changed: actual bytes or mode differ from candidate");
+    seen.add(file);
+  }
+  for (const file of paths) await walk(file);
+  if (seen.size !== expected.size) throw new Error("Product scope changed: candidate file is missing");
+}
+
 /** Read-only, narrow reconciliation of an applied Developer handoff. Never acceptance. */
 export async function previewLeanFinishRecovery(target, options) {
   target = await fs.realpath(target);
@@ -96,6 +139,7 @@ export async function previewLeanFinishRecovery(target, options) {
   const scope = paths.map(p => `:(literal)${p}`);
   if (git(target, ["diff", "--name-only", request.candidate_revision, head, "--", ...scope]) ||
       git(target, ["status", "--porcelain=v1", "--untracked-files=all", "--", ...scope])) throw new Error("Product scope changed; recovery cannot accept or rebase a new product candidate");
+  await assertWorkingProduct(target, request.candidate_revision, paths);
   if (!options.approvalRef || !options.approvalRef.startsWith(`.ai-org/artifacts/${item.id}/`)) throw new Error("Recovery requires a Work Item approval artifact");
   const approval = await bytes(target, options.approvalRef);
   if (!approval.toString().trim()) throw new Error("Recovery approval artifact is empty");

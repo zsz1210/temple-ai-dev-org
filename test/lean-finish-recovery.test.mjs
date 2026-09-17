@@ -9,8 +9,8 @@ import { formatJson, sha256 } from "../src/files.mjs";
 import { withProjectMutationLock } from "../src/project.mjs";
 import { cachedFixture, cli, git, canonicalBytes, itemState } from "./helpers/lean-delivery-fixture.mjs";
 
-async function setup(t, { legacy = false, failAt = "before-doctor", beforeFinish } = {}) {
-  const f = await cachedFixture(); t.after(f.cleanup);
+async function setup(t, { legacy = false, failAt = "before-doctor", beforeFinish, affectedPaths } = {}) {
+  const f = await cachedFixture(affectedPaths ? { affectedPaths } : undefined); t.after(f.cleanup);
   const file = path.join(f.target, ".ai-org/project/repository-integration.json");
   const integration = JSON.parse(await fs.readFile(file));
   await fs.writeFile(file, formatJson({ ...integration, status: "confirmed", source: "human-confirmed", summary: "Fixture only",
@@ -32,6 +32,60 @@ async function setup(t, { legacy = false, failAt = "before-doctor", beforeFinish
   return f;
 }
 const apply = (f, options, hooks) => withProjectMutationLock(f.target, () => recoverLeanFinish(f.target, { ...f.recovery, ...options }, hooks));
+
+for (const flag of ["--assume-unchanged", "--skip-worktree"]) {
+  test(`Recovery directly checks changed/missing bytes under ${flag}, but accepts unchanged flagged files`, async t => {
+    const f = await setup(t), file = path.join(f.target, "app.mjs"), original = await fs.readFile(file);
+    git(f.target, ["update-index", flag, "app.mjs"]);
+    const preview = await previewLeanFinishRecovery(f.target, f.recovery);
+    const before = await canonicalBytes(f);
+    for (const change of [() => fs.writeFile(file, Buffer.from([0, 255, 1])), () => fs.unlink(file)]) {
+      await change();
+      await assert.rejects(previewLeanFinishRecovery(f.target, f.recovery), /Product scope changed/);
+      await assert.rejects(apply(f, { expectedPlan: preview.fingerprint }), /Product scope changed/);
+      assert.deepEqual(await canonicalBytes(f), before);
+      assert.equal((await readLeanFinishDiagnostics(f.target))[0].status, "failed");
+      await fs.writeFile(file, original);
+    }
+    await assert.rejects(apply(f, { expectedPlan: preview.fingerprint }, { checkpoint: async point => {
+      if (point === "after-diagnostics") await fs.appendFile(file, "// hidden mid-check change\n");
+    } }), /Product scope changed/);
+    assert.equal((await readLeanFinishDiagnostics(f.target))[0].status, "failed");
+    await fs.writeFile(file, original);
+    assert.equal((await apply(f, { expectedPlan: preview.fingerprint })).status, "reconciled");
+    assert.match(git(f.target, ["ls-files", "-v", "app.mjs"]), flag === "--assume-unchanged" ? /^h / : /^S /);
+  });
+}
+
+test("Recovery directly checks literal directory inventory, binary bytes, modes and unsafe links", async t => {
+  const dir = "product [literal]", relative = `${dir}/binary\tname\n.bin`;
+  const f = await setup(t, { affectedPaths: [dir], beforeFinish: async f => {
+    await fs.mkdir(path.join(f.target, dir));
+    await fs.writeFile(path.join(f.target, relative), Buffer.from([0, 255, 128, 10]));
+    git(f.target, ["add", dir]); git(f.target, ["commit", "-m", "Binary product scope"]);
+    f.request.revision = git(f.target, ["rev-parse", "HEAD"]);
+  } });
+  const file = path.join(f.target, relative), original = await fs.readFile(file);
+  git(f.target, ["update-index", "--assume-unchanged", relative]);
+  const preview = await previewLeanFinishRecovery(f.target, f.recovery);
+  await fs.chmod(file, 0o755);
+  await assert.rejects(previewLeanFinishRecovery(f.target, f.recovery), /Product scope changed/);
+  await fs.chmod(file, 0o644);
+  await fs.appendFile(path.join(f.target, ".git/info/exclude"), "\nhidden.tmp\n");
+  await fs.writeFile(path.join(f.target, dir, "hidden.tmp"), "ignored product addition");
+  assert.equal(git(f.target, ["status", "--porcelain", "--", dir]), "");
+  await assert.rejects(previewLeanFinishRecovery(f.target, f.recovery), /Product scope changed/);
+  await fs.unlink(path.join(f.target, dir, "hidden.tmp"));
+  await fs.unlink(file); await fs.symlink(path.join(f.target, "app.mjs"), file);
+  await assert.rejects(previewLeanFinishRecovery(f.target, f.recovery), /Unsafe recovery product/);
+  await fs.unlink(file); await fs.writeFile(file, original);
+  const moved = path.join(f.temporary, "outside-product");
+  await fs.rename(path.join(f.target, dir), moved);
+  await fs.symlink(moved, path.join(f.target, dir));
+  await assert.rejects(previewLeanFinishRecovery(f.target, f.recovery), /Unsafe recovery product|Product scope changed/);
+  await fs.unlink(path.join(f.target, dir)); await fs.rename(moved, path.join(f.target, dir));
+  assert.equal((await apply(f, { expectedPlan: preview.fingerprint })).status, "reconciled");
+});
 
 test("Explicit recovery handles administrative HEAD, amended evidence and compatible Solo migration without replaying lifecycle", async t => {
   const f = await setup(t, { legacy: true });

@@ -17,6 +17,14 @@ resources. The original candidate must be an ancestor of HEAD, and both committe
 and working product files must be unchanged. Other cases require separately
 qualified recovery or rework; do not force this route.
 
+Recovery compares the actual scoped filesystem inventory, file bytes and executable
+modes with the candidate Git tree. Index flags such as `assume-unchanged` and
+`skip-worktree` cannot hide a change; unchanged flagged files need no index reset.
+Ignored extra files within a scoped directory also prevent recovery. Symbolic
+links, submodules and nonregular product entries require separate qualification.
+The comparison uses raw blob bytes without executing Git filters; a checkout with
+content transformations must match those bytes before using this narrow route.
+
 Original item, receipt and handoff bytes must match. Events may only be appended.
 Other bound inputs must match, except amended Developer evidence and the exact
 legacy Solo to explicit attributed policy migration. Evidence amendments are
