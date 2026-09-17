@@ -31,7 +31,7 @@ In a synthetic fixture with:
 }
 ```
 
-This misidentifies the planned agent as responsible and blocks the existing claimant instead of directing continuation of the active claim. It conflicts with the candidate’s active-claim continuation guidance. The relevant condition is introduced at [src/collaboration.mjs](../../../..//src/collaboration.mjs), line 1080 in the reviewed candidate.
+This misidentifies the planned agent as responsible and blocks the existing claimant instead of directing continuation of the active claim. It conflicts with the candidate’s active-claim continuation guidance. The relevant condition is introduced at [src/collaboration.mjs](../../../src/collaboration.mjs), line 1080 in the reviewed candidate.
 
 Impact is navigation/ownership misdirection; no state mutation or impersonation occurred.
 
