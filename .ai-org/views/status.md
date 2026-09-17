@@ -5,9 +5,9 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 245 total, 0 active
+- Work items: 248 total, 0 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 96 registered, 0 reserved, 0 active
+- Runtime workers: 102 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -293,6 +293,9 @@
 | WI-0243 | Qualify Alpha.33 package and existing-project upgrades | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b2edfe22` | 0 | 12 | 0 |
 | WI-0244 | Reconcile publication evidence and publish Alpha.33 | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1a98048d` | 0 | 10 | 0 |
 | WI-0245 | Pin release packaging toolchain and reject archive mismatches before full verification | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `471bdc0d` | 0 | 9 | 0 |
+| WI-0246 | Refresh trilingual README for Alpha.33 users | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ca962508` | 0 | 4 | 0 |
+| WI-0247 | Recover applied Lean handoffs after diagnostic input changes | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e8e1e462` | 0 | 10 | 0 |
+| WI-0248 | Reject Git-hidden product changes during diagnostic recovery | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0c1c6f1c` | 0 | 7 | 0 |
 
 ## Delivery attention
 
@@ -414,6 +417,12 @@
 | worker-20260916065706-dc3e8855 | internal-subagent | WI-0243 | Quality & Evaluation Engineer / Lulu | completed | /root/alpha33_final_qa | `b2edfe22` | 0 |
 | worker-20260916074130-1c012a45 | internal-subagent | WI-0244 | Quality & Evaluation Engineer / Lulu | completed | /root/alpha33_publication_qa | `1a98048d` | 0 |
 | worker-20260916085041-27f629ff | internal-subagent | WI-0245 | Quality & Evaluation Engineer / Lulu | completed | /root/release_toolchain_qa | `471bdc0d` | 0 |
+| worker-20260917142343-4d4c9bfe | internal-subagent | WI-0247 | Quality & Evaluation Engineer / Lulu | completed | /root/recovery_verifier | `d7c81d8d` | 0 |
+| worker-20260917143352-7f0e49e3 | internal-subagent | WI-0247 | Quality & Evaluation Engineer / Lulu | completed | /root/recovery_verifier_v2 | `e8e1e462` | 0 |
+| worker-20260917144057-4925007e | internal-subagent | WI-0247 | Independent QA / Lulu | completed | /root/recovery_qa | `e8e1e462` | 0 |
+| worker-20260917144358-d942740a | internal-subagent | WI-0246 | Quality & Evaluation Engineer / Lulu | completed | /root/readme_verifier | `ca962508` | 0 |
+| worker-20260917154023-35507fd7 | internal-subagent | WI-0248 | Quality & Evaluation Engineer / Lulu | completed | /root/physical_recovery_test | `0c1c6f1c` | 0 |
+| worker-20260917154651-bbe4f0e9 | internal-subagent | WI-0248 | Independent QA / Lulu | completed | /root/physical_recovery_qa | `0c1c6f1c` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -451,7 +460,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 94
+- Team-visible Work Items: 97
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -525,14 +534,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-16T08:57:49.664Z | work_item_closed | WI-0245 | agent-mog |
-| 2026-09-16T08:57:49.664Z | release_gate_completed | WI-0245 | agent-mog |
-| 2026-09-16T08:57:49.244Z | work_item_claimed | WI-0245 | human |
-| 2026-09-16T08:57:48.788Z | work_item_transitioned | WI-0245 | agent-lulu |
-| 2026-09-16T08:57:48.335Z | handoff_created | WI-0245 | agent-lulu |
-| 2026-09-16T08:57:47.864Z | runtime_worker_status_changed | WI-0245 | agent-lulu |
-| 2026-09-16T08:56:32.535Z | work_item_claimed | WI-0245 | human |
-| 2026-09-16T08:56:32.133Z | work_item_transitioned | WI-0245 | agent-lulu |
+| 2026-09-17T15:50:53.031Z | work_item_closed | WI-0248 | agent-mog |
+| 2026-09-17T15:50:53.031Z | release_gate_completed | WI-0248 | agent-mog |
+| 2026-09-17T15:50:40.574Z | work_item_claimed | WI-0248 | human |
+| 2026-09-17T15:50:40.106Z | work_item_transitioned | WI-0248 | agent-lulu |
+| 2026-09-17T15:50:39.606Z | runtime_worker_status_changed | WI-0248 | agent-lulu |
+| 2026-09-17T15:47:17.350Z | runtime_worker_attached | WI-0248 | agent-lulu |
+| 2026-09-17T15:46:51.456Z | runtime_worker_reserved | WI-0248 | human |
+| 2026-09-17T15:46:51.484Z | work_item_claimed | WI-0248 | human |
 
 ## Assignments
 

@@ -52,6 +52,27 @@ export async function assertNoPendingLeanDelivery(target, allowedOperation = nul
   throw new OperationError("PENDING_RECOVERY", `Lean delivery recovery is pending (${pending.journal.operation_key ?? "invalid journal"}); retry the identical work-item ${pending.journal.request?.position ? "finish" : "deliver"} request before other mutations`, "pending_recovery");
 }
 
+export function validateLeanRecoveryArtifact(recovery, original) {
+  const preview = { ...recovery?.preview }; delete preview.fingerprint;
+  const diagnostic = recovery?.diagnostics, doctor = diagnostic?.doctor;
+  const expected = `.ai-org/artifacts/${original.journal.request.work_item_id}/finish-recovery-${original.journal.request.operation_id}.json`;
+  if (recovery?.schema_version !== "temple.lean-finish-recovery/v1" || recovery.original_status !== "failed" || original.status !== "failed" ||
+      typeof recovery.recorded_at !== "string" || !Number.isFinite(Date.parse(recovery.recorded_at)) ||
+      recovery.acceptance_granted !== false || recovery.authority_granted !== false ||
+      preview.schema_version !== "temple.lean-finish-recovery-preview/v1" || preview.authority_granted !== false ||
+      preview.acceptance_granted !== false || preview.mutation_performed !== false ||
+      preview.operation_key !== original.operation_key || preview.candidate_revision !== original.journal.request.candidate_revision ||
+      preview.agent_id !== original.journal.request.agent_id || preview.principal_id !== original.journal.request.principal_id ||
+      preview.recovery_ref !== expected || sha256(formatJson(preview)) !== recovery.preview.fingerprint ||
+      sha256(formatJson(original)) !== preview.original_record_sha256 ||
+      sha256(formatJson(original.diagnostics)) !== recovery.original_diagnostics_sha256 ||
+      diagnostic?.status !== "passed" || !Array.isArray(diagnostic.errors) || diagnostic.errors.length ||
+      doctor?.healthy !== true || !Number.isInteger(doctor.summary?.pass) || doctor.summary.pass < 1 ||
+      doctor.summary.fail !== 0 || doctor.summary.warn !== 0 || !Array.isArray(doctor.checks) || doctor.checks.length) {
+    throw new Error("Invalid Lean recovery artifact diagnostics or original binding");
+  }
+}
+
 export async function readLeanFinishDiagnostics(target) {
   const directory = await leanDeliveryStateDirectory(target);
   if (!directory) return [];
@@ -72,6 +93,22 @@ export async function readLeanFinishDiagnostics(target) {
         record.diagnostics.doctor?.schema_version !== "temple.doctor-summary/v1" || record.diagnostics.doctor.validation_scope !== "full" || record.diagnostics.doctor.healthy !== true ||
         !Number.isInteger(record.diagnostics.doctor.summary?.pass) || !Array.isArray(record.diagnostics.doctor.checks) || record.diagnostics.doctor.checks.length || record.diagnostics.doctor.summary?.fail !== 0 || record.diagnostics.doctor.summary?.warn !== 0 ||
         !Array.isArray(record.diagnostics.errors) || record.diagnostics.errors.length))) throw new Error("Invalid Lean finish diagnostic outcome or binding");
+    if (record.recovery) {
+      const expected = `.ai-org/artifacts/${record.journal.request.work_item_id}/finish-recovery-${record.journal.request.operation_id}.json`;
+      if (record.status !== "passed" || record.recovery.ref !== expected) throw new Error("Invalid Lean recovery binding");
+      let current = root;
+      const parts = expected.split("/");
+      for (const [index, part] of parts.entries()) {
+        current = path.join(current, part);
+        const stat = await fs.lstat(current);
+        if (stat.isSymbolicLink() || (index === parts.length - 1 ? !stat.isFile() : !stat.isDirectory())) throw new Error("Unsafe Lean recovery artifact");
+      }
+      const body = await fs.readFile(current);
+      if (sha256(body) !== record.recovery.sha256) throw new Error("Lean recovery artifact digest mismatch");
+      const recovery = JSON.parse(body);
+      const original = { ...record, status: record.recovery.original_status, diagnostics: record.recovery.original_diagnostics }; delete original.recovery;
+      validateLeanRecoveryArtifact(recovery, original);
+    }
     records.push(record);
   }
   return records;

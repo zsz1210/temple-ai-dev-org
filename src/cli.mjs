@@ -13,6 +13,7 @@ import {
 import { runDoctor, formatDoctor, compactDoctor } from "./doctor.mjs";
 import { deliverLeanWorkItem } from "./lean-delivery.mjs";
 import { finishLeanWorkItem } from "./lean-finish.mjs";
+import { recoverLeanFinish } from "./lean-finish-recovery.mjs";
 import { OperationError, operationErrorResult } from "./operation-errors.mjs";
 import {
   addMembership,
@@ -218,6 +219,7 @@ Usage:
   temple work-item finish [target] --work-item WI-ID --position developer|quality_evaluator --operation-id id --claim-id id --agent-id id --principal-id id --revision commit [--completed text --evidence path | --judgment pass --test-evidence path --lean-closeout path] [--dry-run] [--expected-plan sha256] [--json]
   temple work-item finish [target] --work-item WI-ID --position developer --operation-id id --claim-id id --agent-id id --principal-id id --revision commit --mechanical-contract .ai-org/artifacts/WI-ID/mechanical-contract.json [--dry-run] [--expected-plan sha256] [--json]
   temple work-item rework [target] --work-item WI-ID --same-scope --input-revision full-sha --reason text --evidence repository-path [--actor agent-name] [--json]
+  temple work-item finish-recover [target] --work-item WI-ID --operation-id id --agent-id id --principal-id id --approval-ref path [--dry-run | --expected-plan sha256] [--json]
   temple work-item unresolved [target] --work-item WI-0001 [--resolve text] [--merge text]
   temple parallel check [target] --work-item WI-ID [--agent-id agent-name] [--json]
   temple parallel plan [target] [--parent WI-ID] [--max-workers number] [--json] [--no-write]
@@ -459,6 +461,7 @@ const VALUE_FLAGS = new Set([
   "--integration-owner",
   "--shared-contract-ref",
   "--contract-status",
+  "--approval-ref",
   "--overlap-resolution",
   "--branch",
   "--worktree",
@@ -2556,6 +2559,18 @@ async function runWorkItemFinish(parsed) {
   return result.success || result.mutation.dry_run ? 0 : 1;
 }
 
+async function runWorkItemFinishRecovery(parsed) {
+  assertCommandOptions(parsed, ["--work-item", "--operation-id", "--agent-id", "--principal-id", "--approval-ref", "--expected-plan"], ["--dry-run", "--json"]);
+  const target = await assertSafeTarget(parsed.target);
+  const result = await withProjectMutationLock(target, () => recoverLeanFinish(target, {
+    workItemId: parsed.options["--work-item"], operationId: parsed.options["--operation-id"],
+    agentId: parsed.options["--agent-id"], principalId: parsed.options["--principal-id"],
+    approvalRef: parsed.options["--approval-ref"], expectedPlan: parsed.options["--expected-plan"], dryRun: parsed.flags.has("--dry-run")
+  }));
+  printResult(parsed, result, [result.status ?? "Recovery preview", result.next_action]);
+  return 0;
+}
+
 async function runDailyDelivery(parsed) {
   const readOnly = ["next", "report"].includes(parsed.action);
   assertCommandOptions(parsed, readOnly ? ["--work-item"] : ["--work-item", "--agent-id", "--principal-id", "--request"], ["--json"]);
@@ -3265,6 +3280,7 @@ async function dispatch(argv) {
   if (parsed.command === "work-item" && parsed.action === "release") return runWorkItemRelease(parsed);
   if (parsed.command === "work-item" && parsed.action === "deliver") return runWorkItemDeliver(parsed);
   if (parsed.command === "work-item" && parsed.action === "finish") return runWorkItemFinish(parsed);
+  if (parsed.command === "work-item" && parsed.action === "finish-recover") return runWorkItemFinishRecovery(parsed);
   if (parsed.command === "work-item" && parsed.action === "rework") return runWorkItemRework(parsed);
   if (parsed.command === "work-item" && parsed.action === "migrate-outcomes") return runWorkItemMigrateOutcomes(parsed);
   if (parsed.command === "work-item" && parsed.action === "unresolved") return runWorkItemUnresolved(parsed);

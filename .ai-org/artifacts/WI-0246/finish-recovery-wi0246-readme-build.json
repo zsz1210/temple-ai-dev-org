@@ -1,0 +1,174 @@
+{
+  "schema_version": "temple.lean-finish-recovery/v1",
+  "recorded_at": "2026-09-17T14:43:46.037Z",
+  "preview": {
+    "schema_version": "temple.lean-finish-recovery-preview/v1",
+    "operation_key": "WI-0246/wi0246-readme-build",
+    "authority_granted": false,
+    "acceptance_granted": false,
+    "mutation_performed": false,
+    "candidate_revision": "ca962508ef41d7e6b16f9e8b9d5ddf56f6684765",
+    "current_revision": "e8e1e462ae07a2b6884f30bdb6fb90dde2dda73c",
+    "agent_id": "agent-rikku",
+    "principal_id": "human",
+    "approval_ref": ".ai-org/artifacts/WI-0246/recovery-approval.md",
+    "approval_sha256": "1b4dc2f7391c2857150353de306354683d3584c9cd8c8a6be943e3e432446f69",
+    "original_record_sha256": "c286812c51676817cdb7476b76f75f27575cc2f299bd497eb7ba49a491631799",
+    "recovery_ref": ".ai-org/artifacts/WI-0246/finish-recovery-wi0246-readme-build.json",
+    "changes": [
+      {
+        "path": ".ai-org/artifacts/WI-0246/verification.md",
+        "before_sha256": "542937dd2df33689772b8251f1fbfdbdd0df2a1aa98f6a2d270b4beb76169693",
+        "after_sha256": "0d3d25dba58a2e8b44c851c5cb6400c72a3c084ac9bdb27fc3f65ea613391a95",
+        "classification": "amended-developer-evidence-not-acceptance"
+      },
+      {
+        "path": ".ai-org/project/collaboration.json",
+        "before_sha256": "719737eaf6704638f9cfaaa447cdc9acb15cb6c89dd8e14f1b95e71481242b45",
+        "after_sha256": "3be8857bd7f9446116ff5794a98a95d80bea562a03bcc932ef5fda17be73d58e",
+        "classification": "explicit-compatible-solo-policy"
+      },
+      {
+        "path": ".ai-org/project/runtime-workers.json",
+        "before_sha256": "4394b32317ca50684b0c76ad8622f5d360c8f1ac67ccf2a65b3e525096701132",
+        "after_sha256": "d58d24d330064124f68c6e9c60339e0a91c19f1f5fe6162ed62a88d5b73bf927",
+        "classification": "proven-unrelated-runtime-change"
+      },
+      {
+        "path": ".ai-org/events/events.jsonl",
+        "before_sha256": "4ce4df6e807a45e652b23f0c65fe626edf4b007e6d5fc64e49f504e522c176a9",
+        "after_sha256": "012781ec412ca7abf50b5a222c9fd558d4e91bdd93ee6562e15709d89191a62c",
+        "classification": "appended-events"
+      }
+    ],
+    "snapshot": [
+      {
+        "path": ".ai-org/artifacts/WI-0246/handoff-001-developer-to-quality_evaluator.md",
+        "sha256": "69210063edc34b7bc2b336b2dbc078b417b34dc0481727039077a58d162b8238"
+      },
+      {
+        "path": ".ai-org/work-items/WI-0246.json",
+        "sha256": "7af521f80360c51ab506aafb6e159750e41b2a9ddd0525547207d12a10b811e4"
+      },
+      {
+        "path": ".ai-org/events/events.jsonl",
+        "sha256": "012781ec412ca7abf50b5a222c9fd558d4e91bdd93ee6562e15709d89191a62c"
+      },
+      {
+        "path": ".ai-org/artifacts/WI-0246/finish-wi0246-readme-build.json",
+        "sha256": "f575331ec3c2e1336eb1ff375e138b611a32c2bc1cab0265e4950fc3a913ec96"
+      },
+      {
+        "path": ".agents/skills/temple-work/SKILL.md",
+        "sha256": "073446287fc512900be5a95b06fa815fbacf1f38253cbf26ee227f4c7ad925aa"
+      },
+      {
+        "path": ".agents/skills/temple-work/references/assurance-and-recovery.md",
+        "sha256": "807e0fa8ef4f80e50eb519dc3518b6c5822acf02d04150548dc8be22f5c7c42f"
+      },
+      {
+        "path": ".agents/skills/temple-work/references/lean-delivery.md",
+        "sha256": "1aff92afd7ec6ac4bea16662b1f249023878797ab87413ede3bf2a7a4ac1efba"
+      },
+      {
+        "path": ".ai-org/artifacts/WI-0246/readme-brief.md",
+        "sha256": "f948eaa39e0e105ed6d1a9f72d639eabbf34af28e4d0a522d1c7fc4dc41b8fb5"
+      },
+      {
+        "path": ".ai-org/artifacts/WI-0246/verification.md",
+        "sha256": "0d3d25dba58a2e8b44c851c5cb6400c72a3c084ac9bdb27fc3f65ea613391a95"
+      },
+      {
+        "path": ".ai-org/core/high-assurance.json",
+        "sha256": "47b580fd826d5121c41eab8e40e64ccb958935cae7498b63fe46ed64e397dd2f"
+      },
+      {
+        "path": ".ai-org/core/policies.json",
+        "sha256": "b6b7c56c14615e887a82c86eb40428bb14d8e0fcfaeabbddc482e9e9b946a7e5"
+      },
+      {
+        "path": ".ai-org/core/positions.json",
+        "sha256": "196012586b9b68da2aaf949a7715dcd213827422df449793e8f7c9f0099f529b"
+      },
+      {
+        "path": ".ai-org/core/ui-design.json",
+        "sha256": "0ee2c90fce6d26ee1c1d644e46f9fd1913d128ad524a1614893ac52882d2f89b"
+      },
+      {
+        "path": ".ai-org/core/workflow.json",
+        "sha256": "faf331a25d95b74d9beaecc3c0b4d6036485bf1352961b31382aa8adef42a9c1"
+      },
+      {
+        "path": ".ai-org/project/agents.json",
+        "sha256": "22ddaef971c201022fe45ce5f0a7ad9036d3a455c9e39e332abad358740d201d"
+      },
+      {
+        "path": ".ai-org/project/assignments.json",
+        "sha256": "4601f67d3687df15bb1ce563eaf95b8d941c30909b9b3c21924f1882ec007650"
+      },
+      {
+        "path": ".ai-org/project/collaboration.json",
+        "sha256": "3be8857bd7f9446116ff5794a98a95d80bea562a03bcc932ef5fda17be73d58e"
+      },
+      {
+        "path": ".ai-org/project/evidence.json",
+        "sha256": "f0b3f0f58200a111828dda9fafc99046a586f49ec95107dee3e3bef3758b16e3"
+      },
+      {
+        "path": ".ai-org/project/project.json",
+        "sha256": "3bbc258c7cf8d9f1611d2824b5bf9a1d0e6010a592554a209ddc24d3a249ec27"
+      },
+      {
+        "path": ".ai-org/project/repository-integration.json",
+        "sha256": "e3fb3e2d7882526042d071509363ea5dd428540db09c144696b82654cc844d02"
+      },
+      {
+        "path": ".ai-org/project/resources.json",
+        "sha256": "982a06783c278c31e78088e0ce4b857ab38784dde6f653bc2309449c324f7faa"
+      },
+      {
+        "path": ".ai-org/project/runtime-workers.json",
+        "sha256": "d58d24d330064124f68c6e9c60339e0a91c19f1f5fe6162ed62a88d5b73bf927"
+      },
+      {
+        "path": ".ai-org/project/spec-index.json",
+        "sha256": "ae2f7ef9856f13f23e2e55a66ad0e1a085501d67928328557494b7c9d8529c85"
+      },
+      {
+        "path": ".ai-org/project/usage-policy.json",
+        "sha256": "a1c228f2af59529293f6af55e2e443834361a4a652ab53dfc393e385d7f5a32c"
+      },
+      {
+        "path": "AGENTS.md",
+        "sha256": "95068f4b5e7fc3a2bd0c803969fd3b62813314a0d25be2a84c2322d9b81b5e27"
+      },
+      {
+        "path": "TEMPLE.md",
+        "sha256": "d421344f577691db86c620929ca791b7245c005396ea25b7314f787e2fc30bcf"
+      },
+      {
+        "path": "temple.lock",
+        "sha256": "5f60fced6e9263a7c93376836045b4be5c6e4b5cd413828e69b542e6bb154294"
+      }
+    ],
+    "next_action": "Apply only the explicitly approved fingerprint; a distinct Verifier must still verify the candidate.",
+    "fingerprint": "e37ba4f2ee8cc9db0b8aed7eff0f8669118375f519288d42554edf9bd717ff50"
+  },
+  "diagnostics": {
+    "status": "passed",
+    "doctor": {
+      "healthy": true,
+      "summary": {
+        "pass": 37,
+        "warn": 0,
+        "fail": 0
+      },
+      "checks": []
+    },
+    "errors": []
+  },
+  "original_status": "failed",
+  "original_diagnostics_sha256": "d3f4b420df91bfba1c3b6a912f8b1a1aa3885aefd9b9e4e7226306b1daf218bf",
+  "acceptance_granted": false,
+  "authority_granted": false
+}

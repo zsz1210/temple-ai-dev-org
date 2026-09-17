@@ -32,9 +32,74 @@ Temple 不是應用程式框架、任務追蹤工具，也不是會自行發號�
 
 > **產品要怎麼做，由你的專案決定；工作如何分配、驗證與留下紀錄，則由 Temple 協助整理。**
 
-## Temple Concept Layers
+## 從一個專案開始
 
-目前的開發候選版本加入成員就緒檢查、普通工作免 Temple 登入的責任紀錄、測試結果重用，以及可恢復的紀錄衝突調和。既有專案持有的政策會保留。採用方式與執行限制見[協作交付指南](docs/operations/collaborative-delivery.md)；這與正式發布版本是不同步驟。
+請準備 Git、Node.js 24 以上版本、專案目錄，以及用於引導式設定的 Codex。目前公開預覽版為 [Alpha.33](https://github.com/zsz1210/temple-ai-dev-org/releases/tag/v0.1.0-alpha.33)，可透過 npm 的 `next` 頻道取得。
+
+### AI 引導式設定
+
+先下載一次 Temple，讓 Codex 能讀取初始化 Skill：
+
+```bash
+git clone https://github.com/zsz1210/temple-ai-dev-org.git
+cd temple-ai-dev-org
+npm ci
+```
+
+在 Codex 開啟這份原始碼，然後提出：
+
+> 使用 [`$temple-init`](docs/getting-started/core-skills.md#temple-init) 初始化 `/absolute/path/to/my-project`。先查看既有的開發與整合規範，提議 Agent 的名字與職責，只詢問缺少的選項。請提供設定摘要，等我確認後再寫入檔案。
+
+初始化後，先處理工具提示的指令檔合併問題，並完成 bootstrap 檢查。接著在**已初始化的專案中開啟新對話**，確認專案指令已載入。安裝成功不代表目前的對話已讀過這些指令。詳見[首次初始化指南（英文）](docs/getting-started/usage.md#2-first-initialization)。
+
+Temple 會導入各個專案，不必為每個產品 fork 整套框架。原本的程式碼、文件與版本庫代管規範都可以保留。
+
+<details>
+<summary>只安裝 CLI，或參與 Temple 開發</summary>
+
+```bash
+npm install --global @zsz1210/temple-ai-dev-org@next
+temple --version
+```
+
+這會安裝 CLI，但不會讓尚未初始化的專案預先取得 `$temple-init` Skill。設定與確認步驟請看[初始化指南（英文）](docs/getting-started/usage.md#2-first-initialization)；需要 AI 引導時，使用上面的原始碼方式。
+
+若要開發 Temple 本體，請依照[參與貢獻（英文）](CONTRIBUTING.md)與[測試指南（英文）](docs/getting-started/testing.md)。完整行為驗證與可選的全域連結屬於這個流程：
+
+```bash
+npm run verify
+npm link
+```
+
+這些指令在 Temple 原始碼目錄執行，不是每項產品任務開始前都要做的例行工作。
+
+</details>
+
+## 實際工作時怎麼用
+
+在完成初始化的專案中，先提出一項具體需求：
+
+> 修正套用折扣後的結帳金額。只修改計算邏輯與相關測試，不要部署。使用 Temple 記錄核准範圍、完成修正，再交給另一位 Agent 驗證。只有缺少必要決策或授權時才詢問我。
+
+成果還不明確時，先用 [`$decision-interview`](docs/getting-started/core-skills.md#decision-interview) 釐清；若範圍與驗收條件已核准，就用 [`$temple-work`](docs/getting-started/core-skills.md#temple-work) 接續工作，不必重新訪談。
+
+- **Lean：** 範圍清楚、低風險、可復原的工作，由不同的驗證者確認結果。
+- **Standard：** 需要評估與獨立 QA 的產品交付。
+- **High-Assurance：** 風險較高，需要更強的驗證依據與人類核准。
+
+可選用的 [Autonomous Delivery（英文）](docs/operations/autonomous-delivery.md) 讓協調工作的 AI 在授權範圍內接續實作、驗證與有限次數的修正，由 CLI 協助固定檢查與紀錄。它是一種執行方式，不是背景管理員：不會啟動模型或增加權限，也不要求每個階段另開一次模型對話。必要的職責與獨立判斷仍然保留。
+
+Console、Observer 與使用量收集都是**選配**。不啟用它們，也能查看工作狀態：
+
+```bash
+node ./templew.mjs doctor .
+node ./templew.mjs status .
+node ./templew.mjs observe .
+```
+
+第一次可以從 [Solo 指南（英文）](docs/getting-started/solo.md)或[逐步操作指南（英文）](docs/getting-started/core-path.md)開始。Solo 描述由誰主導工作；工作流程則描述各項變更需要怎樣的驗證。
+
+## Temple Concept Layers
 
 <picture>
   <source media="(max-width: 640px)" srcset="docs/assets/temple-layers-mobile.zh-TW.svg">
@@ -53,7 +118,7 @@ Temple 是一套分層的運作模式，不是一段巨大的 prompt，也不是
 - **能解釋的執行選擇：** Adaptive Execution Routing 依據步驟所需能力，挑出符合條件且由專案管理的 execution profile；不會把 Position 綁死在特定模型上。
 - **有證據才能前進：** 實作、評估、Independent QA 與發布準備是不同結論，不能互相取代。
 - **安全的平行開發：** 互不依賴的工作可以同時進行；可能互相影響的工作，必須先協調並指定整合負責者。
-- **經得起驗證的學習：** Lesson 會先被重新驗證，再由人決定是否升級成 Practice 或 Skill，不會因為一次成功就自動變成規則。可選用成果回顧紀錄，區分尚未回顧、已回顧與成果變更，不會自動執行 AI 回顧。
+- **經得起驗證的學習：** Lesson 會先被重新驗證，再由人決定是否升級成 Practice 或 Skill，不會因為一次成功就自動變成規則。
 
 這些約定都和程式碼放在一起。Jira、GitHub Projects、Figma、既有規格與公司文件仍然可以管理它們原本負責的資訊，不必全部轉換成 Temple 格式。
 
@@ -67,44 +132,6 @@ Temple 是一套分層的運作模式，不是一段巨大的 prompt，也不是
 Work Item 只有在下一階段需要的依據都準備好之後，才會繼續前進。Workflow Profile 與風險會決定需要多深的獨立審查與發布準備。Temple 會在每個階段分別解析負責的 Position、所需 Context，以及符合條件的 Execution Route。
 
 這些階段描述的是責任，不是固定職稱。Temple 目前提供的是核心開發 Position；自訂 Position 與 Workflow 仍在規劃中。未來不同領域可以改由其他 Position 負責，而不必更換整套運作模型。
-
-## 從一個專案開始
-
-開始前請準備 Git、Node.js 24 以上版本、Codex，以及要導入 Temple 的專案目錄。目前 CI 以 Node.js 24 為基準。
-
-以下的 AI 引導式安裝會使用原始碼 checkout，讓 Codex 能讀到 Temple 版本庫裡的 Skills：
-
-```bash
-git clone https://github.com/zsz1210/temple-ai-dev-org.git
-cd temple-ai-dev-org
-npm ci
-npm run verify
-npm link
-```
-
-公開 Alpha 的 CLI 也可以用 `npm install --global @zsz1210/temple-ai-dev-org@next` 安裝。第一次需要 AI 引導或想參與貢獻時，仍建議使用原始碼；npm 指令只會安裝 CLI，不會預先把 `$temple-init` Skill 的內容交給尚未初始化的專案。
-
-在 Codex 裡開啟 Temple，然後提出：
-
-> 使用 [`$temple-init`](docs/getting-started/core-skills.md#temple-init) 初始化 `/absolute/path/to/my-project`。請先檢查專案現有的分支、審查與整合規範；若資料不足，只詢問會影響執行的部分。接著提議 Agent Identity 的英文名字與整合方式摘要，等我確認後再寫入檔案。
-
-專案原本採用的 GitHub、GitLab 或公司開發流程仍然具有最終效力。Temple 只記錄 AI 執行工作時需要的流程摘要，不會強制改用 GitHub Flow，也不會變更代管平台的設定。
-
-完成初始化後，先從一個範圍明確的成果開始：
-
-> 使用 [`$decision-interview`](docs/getting-started/core-skills.md#decision-interview) 釐清這項變更，再使用 [`$temple-work`](docs/getting-started/core-skills.md#temple-work) 建立最小且能被獨立驗證的 Work Item。
-
-你可以在本機檢查建立後的組織狀態：
-
-```bash
-node ./templew.mjs doctor .
-node ./templew.mjs status .
-node ./templew.mjs observe .
-```
-
-Temple 會安裝到每個產品專案裡；不必為每個產品各自 fork 一份框架。
-
-本版本庫根目錄的 `.ai-org/` 是 Temple 自己的開發紀錄。讀者可以直接查核它的範圍、交接、評估與審查，不必只相信框架的自我介紹。Temple 將這種作法稱為 **Auditable Self-Hosting**。由專案管理的 **Evidence Profile** 會把值得公開的治理依據，和認證資訊、原始執行資料、即時帳號狀態、本機專屬資訊分開。這份紀錄不會進入 npm 套件，也不會被複製到其他專案。詳細規則請參考 [Auditable Self-Hosting and Evidence Profiles（英文）](docs/operations/auditable-self-hosting.md)。
 
 ## 同一套運作模式，可以用在不同規模
 
@@ -126,7 +153,7 @@ Skill 不會授予權限、核准依賴套件，也不能跳過交付階段。�
 
 Temple 目前是 **Early Alpha**，適合在有人監督的情況下，用於低風險的本機專案與範圍明確的試行。
 
-- **現在可以使用：** 以版本庫為核心的 Solo 流程、穩定的 Position、Work Item、可重現的資料與 Capability 導引、可解釋且不會直接執行 Provider 的 Adaptive Execution Routing、受到管理的 Skill 與學習、生命週期證據、Auditable Self-Hosting Profile、本機狀態以及升級界線。
+- **現在可以使用：** 以版本庫為核心的 Solo 流程、依風險選擇的工作流程、可選的自主交付方式、穩定的 Position、Work Item、可重現的資料與 Capability 導引、可解釋且不會直接執行 Provider 的 Adaptive Execution Routing、受到管理的 Skill 與學習、生命週期證據、Auditable Self-Hosting Profile、本機狀態以及升級界線。
 - **仍屬實驗或有限驗證：** Collaborative 與 High-Assurance 契約、平行開發規劃、Provider 觀測與校準、本機 Control Plane、外部追蹤工具協調，以及逐 Work Item 的使用量歸屬。
 - **尚未宣稱完成：** 大型多人與多台電腦的充分驗證、正式環境監測或修復、無人值守的外部寫入、自動模型路由、受法規管制環境的驗收，以及對所有專案都成立的時間或 Token 節省數據。
 
@@ -134,12 +161,10 @@ Temple 會保留尚未解決的驗證缺口，不會把一次本機測試通過�
 
 ## 接下來可以閱讀
 
-對於已事先批准、且不作為規格或指令使用的筆記文字修正，原始碼候選版本提供可選的
-[機械驗證完成流程](docs/operations/mechanical-completion.md)。它不取代一般程式審查或獨立 QA。
-
 - [使用指南（英文）](docs/getting-started/usage.md) — 導入、運作、升級與疑難排解。
 - [Temple 術語表（英文）](docs/concepts/terminology.md) — Position、Agent Identity、Work Item、Evidence 與運作模式。
 - [系統架構（英文）](docs/concepts/architecture.md) — 版本庫界線與正式狀態。
+- [可稽核的自我開發紀錄（英文）](docs/operations/auditable-self-hosting.md) — 查看 Temple 本身如何開發；這些紀錄不會複製到你的專案。
 - [文件導覽（英文）](docs/README.md) — 多人協作、UI 模式、外部追蹤、品質保證、學習、驗證與決策。
 - [參與貢獻（英文）](CONTRIBUTING.md)、[行為準則（英文）](CODE_OF_CONDUCT.md)與[安全回報方式（英文）](SECURITY.md) — 說明如何參與，以及遇到行為事件或安全問題時該從哪個非公開管道聯絡。
 

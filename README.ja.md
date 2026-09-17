@@ -32,9 +32,74 @@ Temple はアプリケーションフレームワークでも、課題管理ツ�
 
 > **プロダクトをどう作るかは、プロジェクトが決めます。仕事をどう組織し、検証し、次へ残すかを Temple が整えます。**
 
-## Temple Concept Layers
+## 一つのプロジェクトから始める
 
-現在の開発候補には、参加者の準備状況、Temple ログインを必須にしない通常作業の責任記録、検証結果の再利用、記録の競合調整が含まれます。既存導入先のプロジェクト所有ポリシーは維持します。導入手順と実行上の制限は[協働開発ガイド](docs/operations/collaborative-delivery.md)を参照してください。リリースの公開とは別です。
+Git、Node.js 24 以降、プロジェクトディレクトリ、案内付きセットアップ用の Codex を用意してください。公開プレビュー版は [Alpha.33](https://github.com/zsz1210/temple-ai-dev-org/releases/tag/v0.1.0-alpha.33) で、npm の `next` チャネルから入手できます。
+
+### AI によるセットアップ
+
+Codex が初期化 Skill を読めるよう、Temple を一度クローンします。
+
+```bash
+git clone https://github.com/zsz1210/temple-ai-dev-org.git
+cd temple-ai-dev-org
+npm ci
+```
+
+このソースを Codex で開き、次のように依頼します。
+
+> [`$temple-init`](docs/getting-started/core-skills.md#temple-init) で `/absolute/path/to/my-project` を初期化してください。既存の開発・統合ルールを確認し、Agent の名前と担当を提案してください。足りない選択事項だけを質問し、設定の要約を見せて、私が確認するまでファイルを書き込まないでください。
+
+初期化後は、指摘された指示ファイルの競合を解消し、bootstrap の確認を完了します。その後、**初期化したプロジェクトで新しい会話を開き**、プロジェクトの指示が読み込まれたことを確認してください。インストール成功だけでは、現在の会話が指示を読んだとは限りません。詳しくは[初回初期化ガイド（英語）](docs/getting-started/usage.md#2-first-initialization)を参照してください。
+
+Temple は各プロジェクトに導入します。プロダクトごとにフレームワークを fork する必要はありません。既存のコード、文書、リポジトリの運用ルールは維持できます。
+
+<details>
+<summary>CLI のみの導入、または Temple への貢献</summary>
+
+```bash
+npm install --global @zsz1210/temple-ai-dev-org@next
+temple --version
+```
+
+これは CLI のインストールであり、未初期化のプロジェクトに事前の `$temple-init` Skill を提供するものではありません。設定と確認は[初期化ガイド（英語）](docs/getting-started/usage.md#2-first-initialization)に従ってください。AI による案内には上記のソース版を使います。
+
+Temple 自体を開発する場合は、[Contributing（英語）](CONTRIBUTING.md)と[テストガイド（英語）](docs/getting-started/testing.md)に従ってください。動作変更の完全な検証と、任意のグローバルリンクは、その開発手順に含まれます。
+
+```bash
+npm run verify
+npm link
+```
+
+Temple のソースディレクトリで実行するコマンドであり、プロダクトの作業ごとに繰り返す準備ではありません。
+
+</details>
+
+## 実際の仕事の進め方
+
+初期化したプロジェクトで、具体的な依頼から始めます。
+
+> 割引を適用したときの会計金額を修正してください。計算処理と関連テストだけを変更し、デプロイはしないでください。Temple で承認範囲を記録して修正し、別の Agent に検証してもらってください。必要な判断や許可が足りないときだけ質問してください。
+
+成果が曖昧な場合は、先に [`$decision-interview`](docs/getting-started/core-skills.md#decision-interview) で整理します。範囲と受け入れ条件が承認済みなら、ヒアリングを繰り返さず [`$temple-work`](docs/getting-started/core-skills.md#temple-work) で作業を進めます。
+
+- **Lean:** 範囲が明確で低リスク、元に戻せる作業を、別の検証者が確認します。
+- **Standard:** 評価と独立 QA が必要なプロダクトの変更に使います。
+- **High-Assurance:** より強い根拠と人の承認を必要とする、高リスクの作業に使います。
+
+任意の [Autonomous Delivery（英語）](docs/operations/autonomous-delivery.md) では、調整役の AI が承認範囲内で実装、検証、回数を限定した修正を続け、CLI が定型的なチェックと記録を支援します。これは実行方式であり、常駐マネージャーではありません。モデルを起動せず、権限も追加せず、各段階で別のモデル会話を開く必要もありません。必要な責任と独立した判断は維持します。
+
+Console、Observer、使用量の収集は**任意**です。使わなくても作業状態を確認できます。
+
+```bash
+node ./templew.mjs doctor .
+node ./templew.mjs status .
+node ./templew.mjs observe .
+```
+
+まずは [Solo ガイド（英語）](docs/getting-started/solo.md)か[手順別の Core Path（英語）](docs/getting-started/core-path.md)を参照してください。Solo は誰が仕事を主導するかを表し、ワークフローは個々の変更をどう検証するかを表します。
+
+## Temple Concept Layers
 
 <picture>
   <source media="(max-width: 640px)" srcset="docs/assets/temple-layers-mobile.ja.svg">
@@ -53,7 +118,7 @@ Temple は巨大な一つのプロンプトでも、自律的な一体の Agent 
 - **説明できる実行方法：** Adaptive Execution Routing は手順が必要とする能力から、条件に合うプロジェクト所有の実行プロファイルを選びます。Position にモデルを固定しません。
 - **根拠をそろえてから進む：** 実装、評価、Independent QA、リリース準備を別々の結論として記録します。
 - **安全な並行作業：** 独立した作業は同時に進め、重なる作業は調整と明確な統合責任者を待ちます。
-- **信頼できる学習：** Lesson は再検証を経て、必要なときだけ Practice や Skill へ昇格します。成功例が自動的に規則になることはありません。任意の成果レビュー記録で未レビュー・レビュー済み・成果変更を区別でき、AI の振り返りを自動実行しません。
+- **信頼できる学習：** Lesson は再検証を経て、必要なときだけ Practice や Skill へ昇格します。成功例が自動的に規則になることはありません。
 
 これらの約束はコードと同じリポジトリに残ります。Jira、GitHub Projects、Figma、既存の仕様書、社内文書は、それぞれが管理してきた情報の正式な保管場所であり続けられます。
 
@@ -67,44 +132,6 @@ Temple は巨大な一つのプロンプトでも、自律的な一体の Agent 
 Work Item は、次の段階に必要な根拠がそろったときだけ先へ進みます。独立レビューとリリース準備の深さは、Workflow Profile とリスクに応じて変わります。各段階で Temple は、担当 Position、必要な Context、条件に合う Execution Route を別々に決めます。
 
 各段階が示すのは責任であり、固定された職種名ではありません。現在の Temple が提供するのは開発向けの Core Position です。Custom Position と Workflow はまだ計画段階ですが、将来の分野別構成でも、この運用モデルを変えずに別の Position を割り当てられます。
-
-## 一つのプロジェクトから始める
-
-必要なものは Git、Node.js 24 以降、Codex、導入先のプロジェクトディレクトリです。CI では Node.js 24 を基準環境として検証します。
-
-以下の AI 支援付きセットアップでは、Codex が Temple のリポジトリ Skill を読めるよう、ソースをチェックアウトして使います。
-
-```bash
-git clone https://github.com/zsz1210/temple-ai-dev-org.git
-cd temple-ai-dev-org
-npm ci
-npm run verify
-npm link
-```
-
-公開 Alpha の CLI は `npm install --global @zsz1210/temple-ai-dev-org@next` でも導入できます。最初の案内付きセットアップやコントリビューションにはソース版を使ってください。npm から入るのは CLI だけで、未初期化のプロジェクトに `$temple-init` の事前コンテキストまでは提供しません。
-
-Codex で Temple を開き、次のように依頼します。
-
-> [`$temple-init`](docs/getting-started/core-skills.md#temple-init) を使って `/absolute/path/to/my-project` を初期化してください。既存のブランチ運用、レビュー、統合ルールを先に確認し、不足している情報のうち実行方法に影響する点だけを質問してください。その後、Agent Identity の英語名と統合方法の要約を提示し、私の確認を待ってからファイルを書き込んでください。
-
-既存の GitHub、GitLab、または社内の開発フローが引き続き正式なルールです。Temple が記録するのは AI の作業に必要な運用の要約だけであり、GitHub Flow を強制したり、ホスティングサービスの設定を変更したりはしません。
-
-初期化したプロジェクトでは、まず一つの成果に範囲を絞ります。
-
-> [`$decision-interview`](docs/getting-started/core-skills.md#decision-interview) で今回の変更を明確にし、次に [`$temple-work`](docs/getting-started/core-skills.md#temple-work) で独立して検証できる最小の Work Item を作成してください。
-
-作成された組織の状態はローカルで確認できます。
-
-```bash
-node ./templew.mjs doctor .
-node ./templew.mjs status .
-node ./templew.mjs observe .
-```
-
-Temple は各プロダクトのリポジトリへ導入します。プロダクトごとにフレームワークを fork する必要はありません。
-
-このリポジトリ直下の `.ai-org/` は、Temple 自身の開発記録です。スコープ、引き継ぎ、評価、レビューを実際に確認できるため、フレームワークの説明だけを信じる必要はありません。Temple ではこれを **Auditable Self-Hosting** と呼びます。プロジェクト所有の **Evidence Profile** が、公開できる開発上の根拠と、認証情報、未加工の実行データ、現在のアカウント状態、端末固有情報を分けます。この記録は npm パッケージには含まれず、別のプロジェクトにもコピーされません。詳しくは [Auditable Self-Hosting and Evidence Profiles（英語）](docs/operations/auditable-self-hosting.md)を参照してください。
 
 ## 一つの運用モデルを、異なる規模で使う
 
@@ -126,7 +153,7 @@ Skill は許可を与えず、依存関係を承認せず、工程上のゲー�
 
 Temple は、有人監督のある低リスクなローカルプロジェクトと、範囲を限定した試行を対象とする **Early Alpha** です。
 
-- **現在利用できるもの：** リポジトリ中心の Solo ワークフロー、安定した Position、Work Item、決定的なコンテキスト・Capability ルーティング、説明可能で実行を伴わない Adaptive Execution Routing、管理された Skill と学習、ライフサイクル証拠、Auditable Self-Hosting Profile、ローカル状態確認、アップグレード境界。
+- **現在利用できるもの：** リポジトリ中心の Solo ワークフロー、リスクに応じた工程、任意の Autonomous Delivery、安定した Position、Work Item、決定的なコンテキスト・Capability ルーティング、説明可能で実行を伴わない Adaptive Execution Routing、管理された Skill と学習、ライフサイクル証拠、Auditable Self-Hosting Profile、ローカル状態確認、アップグレード境界。
 - **実験中または限定的なもの：** Collaborative と High-Assurance の契約、並行計画、Provider の観測とキャリブレーション、ローカル Control Plane、外部トラッカー連携、Work Item 単位の使用量帰属。
 - **まだ保証していないもの：** 大規模な複数人・複数マシン運用、本番監視や自動修復、無人の外部書き込み、自動モデルルーティング、規制環境での受け入れ、あらゆるプロジェクトに共通する時間・Token 削減効果。
 
@@ -134,13 +161,10 @@ Temple は、有人監督のある低リスクなローカルプロジェクト�
 
 ## 次に読むもの
 
-事前承認済みの非規範的なメモの文字修正には、ソース候補版で明示的に有効化する
-[機械的な完了判定](docs/operations/mechanical-completion.md)を用意しています。
-通常のコードレビューや独立 QA を置き換える機能ではありません。
-
 - [Usage guide（英語）](docs/getting-started/usage.md) — 導入、運用、アップグレード、トラブルシューティング。
 - [Temple terminology（英語）](docs/concepts/terminology.md) — Position、Agent Identity、Work Item、Evidence、運用プロファイル。
 - [Architecture（英語）](docs/concepts/architecture.md) — リポジトリ境界と正式な状態。
+- [Auditable Self-Hosting（英語）](docs/operations/auditable-self-hosting.md) — Temple 自身の開発記録を確認できます。導入先のプロジェクトにはコピーされません。
 - [Documentation map（英語）](docs/README.md) — コラボレーション、UI モード、トラッカー、品質保証、学習、検証、意思決定。
 - [Contributing（英語）](CONTRIBUTING.md)、[Code of Conduct（英語）](CODE_OF_CONDUCT.md)、[Security（英語）](SECURITY.md) — 参加方法と、行為上の問題や脆弱性を非公開で報告する窓口。
 
