@@ -2,7 +2,7 @@
 
 ## 0.1.0-alpha.33
 
-Preparation candidate; publication is a separate release decision.
+Published as a GitHub prerelease and on npm's `next` channel on 2026-09-16.
 
 - Added contributor readiness and fingerprinted Solo/team policy changes, ordinary attribution without Temple login, and stable-ID resolution for actual claimants and reviewers. Duplicate display names are supported; existing project-owned policy and history are preserved.
 - Added conservative measurement reuse, immutable attempts and non-Node trusted-local command checks on supported POSIX hosts. Confined execution retains explicit limits; Windows is not yet an available command adapter. Reuse never grants independent acceptance.

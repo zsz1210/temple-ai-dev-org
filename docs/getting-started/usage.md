@@ -4,19 +4,21 @@ This is the complete reference. If this is your first Work Item, follow the shor
 
 ## 1. Install the central framework
 
-For the AI-assisted first run or framework contribution, use a source checkout:
+For the AI-assisted first run, use a source checkout so the Agent can read the pre-init Skill:
 
 ```bash
-git clone git@github.com:zsz1210/temple-ai-dev-org.git
+git clone https://github.com/zsz1210/temple-ai-dev-org.git
 cd temple-ai-dev-org
 npm ci
-npm run verify
-# Optional: expose the local CLI as `temple`
-npm link
-temple --version
 ```
 
-Clone the central framework once and install its exact lockfile dependencies with `npm ci`. Install it into each product repository with `temple init`; no fork is required. `project-overlay/` is only the installation source inside the central repository. Its contents are installed directly at the product repository root.
+Clone the central framework once and install its exact lockfile dependencies with `npm ci`. The initialization Skill uses the source CLI to install into each product repository; no fork is required. `project-overlay/` is only the installation source inside the central repository. Its contents are installed directly at the product repository root.
+
+Full framework verification and an optional `npm link` are contributor operations,
+not routine preparation for each product task. Follow [Contributing](../../CONTRIBUTING.md)
+and the [testing guide](testing.md) when modifying Temple itself. Later manual
+`temple` examples assume the public CLI installation below or a deliberate source link;
+initialized projects use their pinned `node ./templew.mjs` launcher.
 
 For CLI-only evaluation, the public Alpha is also available from npm:
 
