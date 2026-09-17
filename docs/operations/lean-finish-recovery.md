@@ -21,6 +21,14 @@ Original item, receipt and handoff bytes must match. Events may only be appended
 Other bound inputs must match, except amended Developer evidence and the exact
 legacy Solo to explicit attributed policy migration. Evidence amendments are
 listed for review; they are not new acceptance. All current actor checks remain.
+The original receipt's plan digest binds the complete input list and product scope;
+editing a local diagnostic journal cannot narrow those checks.
+
+Unrelated worker or resource reservation entries may change only when the original
+registry bytes can be recovered from the candidate Git commit and match the
+original snapshot hash. This item's entries, registry metadata and global resource
+definitions must remain identical. Uncommitted original registry changes cannot be
+reconstructed by guessing. Current diagnostics still validate the entire registry.
 
 ## Preview, approve and apply
 
@@ -43,6 +51,9 @@ and receipt, writes an immutable recovery artifact with the original failed resu
 and only then settles local diagnostic bookkeeping. A crash after the artifact
 write can resume with the identical fingerprint if all inputs still match. A
 conflicting artifact is a blocker, not permission to overwrite it.
+Both crash resume and later reads validate the artifact's clean diagnostic outcome
+and its original-record binding. This is local consistency checking, not a signature
+or a security boundary against someone able to rewrite all repository/local state.
 
 After recovery, a distinct Verifier must claim and verify the unchanged Developer
 candidate. Historical finish replay remains historical; it is not fresh acceptance.

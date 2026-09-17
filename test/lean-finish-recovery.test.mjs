@@ -4,12 +4,12 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { finishLeanWorkItem } from "../src/lean-finish.mjs";
 import { recoverLeanFinish, previewLeanFinishRecovery } from "../src/lean-finish-recovery.mjs";
-import { readLeanFinishDiagnostics, leanFinishAttention } from "../src/lean-delivery-state.mjs";
+import { readLeanFinishDiagnostics, leanFinishAttention, leanDeliveryStateDirectory } from "../src/lean-delivery-state.mjs";
 import { formatJson, sha256 } from "../src/files.mjs";
 import { withProjectMutationLock } from "../src/project.mjs";
 import { cachedFixture, cli, git, canonicalBytes, itemState } from "./helpers/lean-delivery-fixture.mjs";
 
-async function setup(t, { legacy = false, failAt = "before-doctor" } = {}) {
+async function setup(t, { legacy = false, failAt = "before-doctor", beforeFinish } = {}) {
   const f = await cachedFixture(); t.after(f.cleanup);
   const file = path.join(f.target, ".ai-org/project/repository-integration.json");
   const integration = JSON.parse(await fs.readFile(file));
@@ -18,6 +18,7 @@ async function setup(t, { legacy = false, failAt = "before-doctor" } = {}) {
   const policyFile = path.join(f.target, ".ai-org/project/collaboration.json");
   if (legacy) { const policy = JSON.parse(await fs.readFile(policyFile)); delete policy.actor_policy; await fs.writeFile(policyFile, formatJson(policy)); }
   f.request.position = "developer";
+  await beforeFinish?.(f);
   const result = await finishLeanWorkItem(f.target, f.request, { checkpoint: point => { if (point === failAt) throw new Error("injected diagnostic failure"); } });
   assert.equal(result.status, "diagnostics_failed");
   f.original = (await readLeanFinishDiagnostics(f.target))[0];
@@ -170,4 +171,83 @@ test("Recovery refuses a conflicting persisted artifact and unrelated failed dia
   const directory = await leanDeliveryStateDirectory(f.target);
   await fs.writeFile(path.join(directory, "finish-unrelated.json"), "{}\n");
   await assert.rejects(previewLeanFinishRecovery(f.target, f.recovery), /Invalid Lean finish/);
+});
+
+test("Recovery binds scope and all inputs to the original canonical plan digest", async t => {
+  const f = await setup(t), directory = await leanDeliveryStateDirectory(f.target);
+  const filename = path.join(directory, `finish-${f.original.operation_key.replace("/", "-")}.json`);
+  const receipt = await fs.readFile(path.join(f.target, f.original.journal.result.receipt));
+  await fs.appendFile(path.join(f.target, "app.mjs"), "// Changed product\n");
+  for (const mutate of [
+    journal => { journal.affected_paths = ["app.test.mjs"]; },
+    journal => { journal.inputs.pop(); },
+    journal => { journal.inputs[0].sha256 = "0".repeat(64); },
+    journal => { journal.affected_paths = ["app.test.mjs"]; journal.plan_digest = sha256(formatJson({ request: journal.request, inputs: journal.inputs, output_paths: journal.writes.map(w => w.path), affected_paths: journal.affected_paths })); }
+  ]) {
+    const changed = structuredClone(f.original); mutate(changed.journal);
+    await fs.writeFile(filename, formatJson(changed));
+    await assert.rejects(previewLeanFinishRecovery(f.target, f.recovery), /plan digest/);
+    assert.deepEqual(await fs.readFile(path.join(f.target, f.original.journal.result.receipt)), receipt);
+  }
+});
+
+test("Crash resume rejects failed or malformed persisted diagnostics and altered original bindings", async t => {
+  const f = await setup(t), preview = await previewLeanFinishRecovery(f.target, f.recovery);
+  await assert.rejects(apply(f, { expectedPlan: preview.fingerprint }, { checkpoint: point => { if (point === "after-artifact") throw new Error("crash"); } }), /crash/);
+  const filename = path.join(f.target, preview.recovery_ref), original = JSON.parse(await fs.readFile(filename));
+  for (const mutate of [
+    r => { r.diagnostics = { status: "failed", doctor: { healthy: false }, errors: ["tampered"] }; },
+    r => { delete r.diagnostics.doctor.summary; },
+    r => { r.diagnostics.doctor.summary.warn = 1; },
+    r => { r.diagnostics.doctor.checks.push({ status: "fail" }); },
+    r => { r.original_diagnostics_sha256 = "0".repeat(64); },
+    r => { r.original_status = "passed"; },
+    r => { r.acceptance_granted = true; },
+    r => { r.recorded_at = "invalid"; }
+  ]) {
+    const changed = structuredClone(original); mutate(changed);
+    await fs.writeFile(filename, formatJson(changed));
+    const before = await canonicalBytes(f);
+    await assert.rejects(apply(f, { expectedPlan: preview.fingerprint }), /recovery artifact/);
+    assert.deepEqual(await canonicalBytes(f), before);
+    assert.equal((await readLeanFinishDiagnostics(f.target))[0].status, "failed");
+  }
+  await fs.writeFile(filename, formatJson(original));
+  await apply(f, { expectedPlan: preview.fingerprint });
+  // Even updating the local artifact hash cannot hide an inconsistent outcome.
+  const directory = await leanDeliveryStateDirectory(f.target);
+  const recordPath = path.join(directory, `finish-${f.original.operation_key.replace("/", "-")}.json`);
+  const record = JSON.parse(await fs.readFile(recordPath));
+  original.diagnostics.status = "failed";
+  const changed = formatJson(original); await fs.writeFile(filename, changed);
+  record.recovery.sha256 = sha256(changed); await fs.writeFile(recordPath, formatJson(record));
+  assert.equal((await leanFinishAttention(f.target))[0].status, "invalid");
+});
+
+test("Recovery permits only Git-proven unrelated runtime drift, not target or global definition drift", async t => {
+  const f = await setup(t);
+  for (const [relative, field] of [[".ai-org/project/runtime-workers.json", "workers"], [".ai-org/project/resources.json", "reservations"]]) {
+    const filename = path.join(f.target, relative), original = await fs.readFile(filename), body = JSON.parse(original);
+    assert.equal(sha256(git(f.target, ["show", `${f.request.revision}:${relative}`]) + "\n"), sha256(original));
+    body[field].push({ work_item_id: "WI-9999", status: "completed", id: "unrelated-fixture" });
+    await fs.writeFile(filename, formatJson(body));
+    const preview = await previewLeanFinishRecovery(f.target, f.recovery);
+    assert.equal(preview.changes.find(c => c.path === relative).classification, "proven-unrelated-runtime-change");
+    body[field][body[field].length - 1].work_item_id = f.item.id;
+    await fs.writeFile(filename, formatJson(body));
+    await assert.rejects(previewLeanFinishRecovery(f.target, f.recovery), /Incompatible recovery input/);
+    body[field] = JSON.parse(original)[field]; body.schema_version = "changed";
+    await fs.writeFile(filename, formatJson(body));
+    await assert.rejects(previewLeanFinishRecovery(f.target, f.recovery));
+    await fs.writeFile(filename, original);
+  }
+});
+
+test("Recovery cannot guess original runtime bytes that were not committed in the candidate", async t => {
+  const relative = ".ai-org/project/runtime-workers.json";
+  const f = await setup(t, { beforeFinish: f => fs.appendFile(path.join(f.target, relative), "\n") });
+  // Both versions parse to the same empty registry, but the bound original bytes
+  // differ from the candidate blob. No semantic reconstruction is permitted.
+  await fs.appendFile(path.join(f.target, relative), "\n");
+  await assert.rejects(previewLeanFinishRecovery(f.target, f.recovery), /Incompatible recovery input/);
 });

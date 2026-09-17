@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { sha256, formatJson, durableAtomicCreate } from "./files.mjs";
-import { readLeanFinishDiagnostics, readPendingLeanDelivery, writeLeanFinishDiagnostics } from "./lean-delivery-state.mjs";
+import { readLeanFinishDiagnostics, readPendingLeanDelivery, writeLeanFinishDiagnostics, validateLeanRecoveryArtifact } from "./lean-delivery-state.mjs";
 import { validateLeanCompletionReceipt, requireProductScope } from "./lean-delivery.mjs";
 import { loadProjectContext } from "./project.mjs";
 import { resolveProjectActor } from "./actor-resolution.mjs";
@@ -43,6 +43,24 @@ function compatibleSoloMigration(current, originalHash) {
   return [formatJson(before), JSON.stringify(before), JSON.stringify(before, null, 2)].some(value => sha256(value) === originalHash);
 }
 
+function compatibleUnrelatedRuntime(target, input, current, request) {
+  const field = { ".ai-org/project/runtime-workers.json": "workers", ".ai-org/project/resources.json": "reservations" }[input.path];
+  if (!field || !current || !input.sha256) return false;
+  // Never guess the prior registry. The candidate Git blob must prove the exact
+  // original snapshot, including changes that may have been uncommitted then.
+  let original;
+  try { original = git(target, ["show", `${request.candidate_revision}:${input.path}`]); } catch { return false; }
+  if (sha256(original) !== input.sha256) return false;
+  const project = body => {
+    const registry = JSON.parse(body);
+    if (!Array.isArray(registry[field])) throw new Error("Invalid recovery runtime registry");
+    return { ...registry, [field]: registry[field].filter(entry => entry.work_item_id === request.work_item_id) };
+  };
+  // Global definitions/schema and this item's entries stay exact. Only entries
+  // belonging to other items may differ; current Doctor still validates them.
+  return formatJson(project(original)) === formatJson(project(current));
+}
+
 /** Read-only, narrow reconciliation of an applied Developer handoff. Never acceptance. */
 export async function previewLeanFinishRecovery(target, options) {
   target = await fs.realpath(target);
@@ -54,6 +72,9 @@ export async function previewLeanFinishRecovery(target, options) {
   if (request.position !== "developer" || request.workflow_stage || request.mechanical_contract) throw new Error("Recovery supports ordinary Developer Lean handoffs only");
   if (options.agentId !== request.agent_id || options.principalId !== request.principal_id) throw new Error("Recovery actor must match the original responsible actor");
   await validateLeanCompletionReceipt(target, journal);
+  const planDigest = sha256(formatJson({ request, inputs: journal.inputs,
+    output_paths: journal.writes.map(write => write.path), affected_paths: journal.affected_paths }));
+  if (planDigest !== journal.plan_digest || planDigest !== journal.result.plan_digest) throw new Error("Recovery journal plan digest mismatch");
   const itemPath = `.ai-org/work-items/${request.work_item_id}.json`;
   const item = JSON.parse(await bytes(target, itemPath));
   if (item.state !== "test" || item.owner_position !== "quality_evaluator" || item.claim?.status === "active" ||
@@ -101,11 +122,12 @@ export async function previewLeanFinishRecovery(target, options) {
     snapshot.push({ path: input.path, sha256: hash });
     if (hash === input.sha256) continue;
     const compatiblePolicy = input.path === COLLABORATION && compatibleSoloMigration(collaboration, input.sha256);
+    const unrelatedRuntime = compatibleUnrelatedRuntime(target, input, current, request);
     const amendedEvidence = evidence.has(input.path) && !protectedEvidence.has(input.path) &&
       (input.path.startsWith(`.ai-org/artifacts/${item.id}/`) || input.path.startsWith("docs/"));
-    if (!compatiblePolicy && (!amendedEvidence || current === null)) throw new Error(`Incompatible recovery input: ${input.path}`);
+    if (!compatiblePolicy && !unrelatedRuntime && (!amendedEvidence || current === null)) throw new Error(`Incompatible recovery input: ${input.path}`);
     changes.push({ path: input.path, before_sha256: input.sha256, after_sha256: hash,
-      classification: compatiblePolicy ? "explicit-compatible-solo-policy" : "amended-developer-evidence-not-acceptance" });
+      classification: compatiblePolicy ? "explicit-compatible-solo-policy" : unrelatedRuntime ? "proven-unrelated-runtime-change" : "amended-developer-evidence-not-acceptance" });
   }
   const eventInput = journal.writes.find(write => write.path === EVENTS);
   const eventHash = snapshot.find(input => input.path === EVENTS).sha256;
@@ -131,6 +153,7 @@ export async function recoverLeanFinish(target, options, hooks = {}) {
     recovery = JSON.parse(existing);
     if (recovery.schema_version !== "temple.lean-finish-recovery/v1" || recovery.preview?.fingerprint !== preview.fingerprint ||
         formatJson(recovery.preview) !== formatJson(preview)) throw new Error("Existing recovery artifact conflicts with this preview");
+    validateLeanRecoveryArtifact(recovery, original);
   }
   const plan = await inspectParallelPlan(target);
   if (!plan.valid) throw new Error(plan.errors.join("; "));
@@ -150,6 +173,7 @@ export async function recoverLeanFinish(target, options, hooks = {}) {
       diagnostics: { status: "passed", doctor: { healthy: doctor.healthy, summary: doctor.summary, checks: doctor.checks }, errors: [] },
       original_status: original.status, original_diagnostics_sha256: sha256(formatJson(original.diagnostics)),
       acceptance_granted: false, authority_granted: false };
+    validateLeanRecoveryArtifact(recovery, original);
     await durableAtomicCreate(path.join(target, preview.recovery_ref), formatJson(recovery));
   }
   await hooks.checkpoint?.("after-artifact");
