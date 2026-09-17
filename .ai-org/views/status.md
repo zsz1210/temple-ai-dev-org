@@ -5,9 +5,9 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 246 total, 1 active
+- Work items: 247 total, 0 active
 - Codex tasks: 12 registered, 12 archive-ready
-- Runtime workers: 96 registered, 0 reserved, 0 active
+- Runtime workers: 100 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
 - Repository capabilities: 6 available, 0 invalid
@@ -40,7 +40,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 1 / 0
+- Active / sequential / blocked: 0 / 0 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -293,12 +293,11 @@
 | WI-0243 | Qualify Alpha.33 package and existing-project upgrades | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b2edfe22` | 0 | 12 | 0 |
 | WI-0244 | Reconcile publication evidence and publish Alpha.33 | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1a98048d` | 0 | 10 | 0 |
 | WI-0245 | Pin release packaging toolchain and reject archive mismatches before full verification | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `471bdc0d` | 0 | 9 | 0 |
-| WI-0246 | Refresh trilingual README for Alpha.33 users | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ca962508` | 0 | 3 | 0 |
+| WI-0246 | Refresh trilingual README for Alpha.33 users | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ca962508` | 0 | 4 | 0 |
+| WI-0247 | Recover applied Lean handoffs after diagnostic input changes | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e8e1e462` | 0 | 10 | 0 |
 
 ## Delivery attention
 
-- WI-0246: awaiting-owner — Have the eligible owner claim or resume the next scoped responsibility.
-  - owner: No active eligible ownership claim is recorded.
 
 ## Codex task registry
 
@@ -417,6 +416,10 @@
 | worker-20260916065706-dc3e8855 | internal-subagent | WI-0243 | Quality & Evaluation Engineer / Lulu | completed | /root/alpha33_final_qa | `b2edfe22` | 0 |
 | worker-20260916074130-1c012a45 | internal-subagent | WI-0244 | Quality & Evaluation Engineer / Lulu | completed | /root/alpha33_publication_qa | `1a98048d` | 0 |
 | worker-20260916085041-27f629ff | internal-subagent | WI-0245 | Quality & Evaluation Engineer / Lulu | completed | /root/release_toolchain_qa | `471bdc0d` | 0 |
+| worker-20260917142343-4d4c9bfe | internal-subagent | WI-0247 | Quality & Evaluation Engineer / Lulu | completed | /root/recovery_verifier | `d7c81d8d` | 0 |
+| worker-20260917143352-7f0e49e3 | internal-subagent | WI-0247 | Quality & Evaluation Engineer / Lulu | completed | /root/recovery_verifier_v2 | `e8e1e462` | 0 |
+| worker-20260917144057-4925007e | internal-subagent | WI-0247 | Independent QA / Lulu | completed | /root/recovery_qa | `e8e1e462` | 0 |
+| worker-20260917144358-d942740a | internal-subagent | WI-0246 | Quality & Evaluation Engineer / Lulu | completed | /root/readme_verifier | `ca962508` | 0 |
 
 - Shared resource registry: `.ai-org/project/resources.json`
 - Runtime worker registry: `.ai-org/project/runtime-workers.json`
@@ -454,7 +457,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 95
+- Team-visible Work Items: 96
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -528,14 +531,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-17T02:13:13.521Z | work_item_transitioned | WI-0246 | agent-rikku |
-| 2026-09-17T02:13:13.509Z | work_item_claim_released | WI-0246 | human |
-| 2026-09-17T02:13:13.509Z | handoff_created | WI-0246 | agent-rikku |
-| 2026-09-17T02:04:54.681Z | work_item_claimed | WI-0246 | human |
-| 2026-09-17T02:04:54.218Z | work_item_transitioned | WI-0246 | agent-mog |
-| 2026-09-17T02:04:53.701Z | work_item_claim_released | WI-0246 | human |
-| 2026-09-17T02:04:53.268Z | work_item_claimed | WI-0246 | human |
-| 2026-09-17T02:04:05.348Z | work_item_created | WI-0246 | agent-mog |
+| 2026-09-17T14:47:21.194Z | work_item_closed | WI-0246 | agent-lulu |
+| 2026-09-17T14:47:21.194Z | work_item_transitioned | WI-0246 | agent-lulu |
+| 2026-09-17T14:47:20.766Z | runtime_worker_status_changed | WI-0246 | agent-lulu |
+| 2026-09-17T14:44:34.888Z | runtime_worker_attached | WI-0246 | agent-lulu |
+| 2026-09-17T14:43:58.466Z | runtime_worker_reserved | WI-0246 | human |
+| 2026-09-17T14:43:58.492Z | work_item_claimed | WI-0246 | human |
+| 2026-09-17T14:43:57.477Z | work_item_coordination_configured | WI-0246 | agent-lulu |
+| 2026-09-17T14:43:34.069Z | work_item_closed | WI-0247 | agent-mog |
 
 ## Assignments
 

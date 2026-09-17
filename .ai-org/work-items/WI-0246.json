@@ -2,11 +2,11 @@
   "schema_version": "temple.work-item/v1",
   "id": "WI-0246",
   "title": "Refresh trilingual README for Alpha.33 users",
-  "state": "test",
-  "owner_position": "quality_evaluator",
-  "assigned_agent_id": "agent-lulu",
+  "state": "done",
+  "owner_position": "engineering_manager",
+  "assigned_agent_id": "agent-mog",
   "created_at": "2026-09-17T02:04:05.348Z",
-  "updated_at": "2026-09-17T02:13:13.521Z",
+  "updated_at": "2026-09-17T14:47:21.194Z",
   "scope": [
     "Update the three READMEs and correct related usage, Solo and changelog prose; no runtime or policy change"
   ],
@@ -49,18 +49,18 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "44a1c76332fec97ed086a135f4886ea5f919e681",
+  "base_revision": "ca962508ef41d7e6b16f9e8b9d5ddf56f6684765",
   "parallel_mode": "pending",
-  "integration_owner_agent_id": null,
+  "integration_owner_agent_id": "agent-mog",
   "planned_agent_id": null,
   "shared_contract_refs": [],
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260917020454-0c050afa",
+    "id": "claim-20260917144358-fe5b6485",
     "status": "released",
     "principal_id": "human",
-    "agent_id": "agent-rikku",
+    "agent_id": "agent-lulu",
     "actor_provenance": {
       "selection": "explicit-agent",
       "principal_source": "explicit-principal",
@@ -69,13 +69,13 @@
       "provider_authenticated": false,
       "externally_supplied_evidence": false
     },
-    "position_id": "developer",
-    "base_revision": "44a1c76332fec97ed086a135f4886ea5f919e681",
+    "position_id": "quality_evaluator",
+    "base_revision": "ca962508ef41d7e6b16f9e8b9d5ddf56f6684765",
     "branch": "codex/readme-alpha33-onboarding",
     "worktree": null,
-    "claimed_at": "2026-09-17T02:04:54.681Z",
-    "released_at": "2026-09-17T02:13:13.509Z",
-    "release_reason": "developer_delivery"
+    "claimed_at": "2026-09-17T14:43:58.492Z",
+    "released_at": "2026-09-17T14:47:21.194Z",
+    "release_reason": "position_transition"
   },
   "claims": [
     {
@@ -121,6 +121,27 @@
       "claimed_at": "2026-09-17T02:04:54.681Z",
       "released_at": "2026-09-17T02:13:13.509Z",
       "release_reason": "developer_delivery"
+    },
+    {
+      "id": "claim-20260917144358-fe5b6485",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "quality_evaluator",
+      "base_revision": "ca962508ef41d7e6b16f9e8b9d5ddf56f6684765",
+      "branch": "codex/readme-alpha33-onboarding",
+      "worktree": null,
+      "claimed_at": "2026-09-17T14:43:58.492Z",
+      "released_at": "2026-09-17T14:47:21.194Z",
+      "release_reason": "position_transition"
     }
   ],
   "gate_evidence": {
@@ -147,15 +168,22 @@
     ],
     "developer_evidence": [
       ".ai-org/artifacts/WI-0246/verification.md"
+    ],
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0246/independent-verification.md"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0246/independent-verification.md"
     ]
   },
   "evidence": [
     ".ai-org/artifacts/WI-0246/readme-brief.md",
     ".ai-org/artifacts/WI-0246/handoff-001-developer-to-quality_evaluator.md",
-    ".ai-org/artifacts/WI-0246/verification.md"
+    ".ai-org/artifacts/WI-0246/verification.md",
+    ".ai-org/artifacts/WI-0246/independent-verification.md"
   ],
   "unresolved": [],
-  "next_position": "engineering_manager",
+  "next_position": null,
   "handoffs": [
     {
       "from_position": "developer",
@@ -175,5 +203,8 @@
       "created_at": "2026-09-17T02:13:13.509Z"
     }
   ],
-  "developer_candidate_revision": "ca962508ef41d7e6b16f9e8b9d5ddf56f6684765"
+  "developer_candidate_revision": "ca962508ef41d7e6b16f9e8b9d5ddf56f6684765",
+  "lifecycle_outcome": "accepted",
+  "closeout_reasons": [],
+  "external_release_status": "not_performed"
 }

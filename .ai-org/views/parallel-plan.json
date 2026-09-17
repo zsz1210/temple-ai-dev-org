@@ -1,43 +1,29 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-17T02:13:13.821Z",
-  "source_fingerprint": "f456eae45730707bb4eee56ee730857e694f10e238798324bf8f3c9899fa295c",
+  "generated_at": "2026-09-17T14:47:21.602Z",
+  "source_fingerprint": "21d9988a07be579cdae995b9a6474e4d5107f0a1cbf51fea08fff9fb7a06d66e",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": [
-      "WI-0246"
-    ]
+    "selected_work_item_ids": []
   },
-  "max_workers": null,
+  "max_workers": 1,
   "summary": {
-    "selected": 1,
+    "selected": 0,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 1,
+    "sequential": 0,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
   "active": [],
-  "sequential": [
-    {
-      "work_item_id": "WI-0246",
-      "title": "Refresh trilingual README for Alpha.33 users",
-      "disposition": "sequential",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": null,
-      "reasons": [
-        "integration_owner_assigned"
-      ]
-    }
-  ],
+  "sequential": [],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {
     "parallel_by_default_when_safe": true,
-    "runtime_capacity_limit": null,
+    "runtime_capacity_limit": 1,
     "fallback": "Execute each wave sequentially when concurrent task dispatch is unavailable.",
     "replan_after_join": true,
     "task_creation_performed": false,
