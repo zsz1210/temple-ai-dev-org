@@ -1,24 +1,38 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-16T08:57:50.105Z",
-  "source_fingerprint": "20614e6abd5c398dd7297af7b94b6fa94a7407fb80a219621300b9891a5bf9cf",
+  "generated_at": "2026-09-17T02:13:13.821Z",
+  "source_fingerprint": "f456eae45730707bb4eee56ee730857e694f10e238798324bf8f3c9899fa295c",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": []
+    "selected_work_item_ids": [
+      "WI-0246"
+    ]
   },
   "max_workers": null,
   "summary": {
-    "selected": 0,
+    "selected": 1,
     "dispatchable": 0,
     "active": 0,
-    "sequential": 0,
+    "sequential": 1,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
   "active": [],
-  "sequential": [],
+  "sequential": [
+    {
+      "work_item_id": "WI-0246",
+      "title": "Refresh trilingual README for Alpha.33 users",
+      "disposition": "sequential",
+      "position_id": "quality_evaluator",
+      "agent_id": "agent-lulu",
+      "integration_owner_agent_id": null,
+      "reasons": [
+        "integration_owner_assigned"
+      ]
+    }
+  ],
   "blocked": [],
   "conflicts": [],
   "execution_policy": {

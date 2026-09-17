@@ -1,0 +1,35 @@
+{
+  "schema_version": "temple.lean-finish-receipt/v1",
+  "request_digest": "9c40a802f6dd441885046a7932891f382ab22655b46d520a5df7a3ef412e7226",
+  "request": {
+    "schema_version": "temple.lean-finish-request/v1",
+    "operation_id": "wi0246-readme-build",
+    "work_item_id": "WI-0246",
+    "claim_id": "claim-20260917020454-0c050afa",
+    "agent_id": "agent-rikku",
+    "principal_id": "human",
+    "candidate_revision": "ca962508ef41d7e6b16f9e8b9d5ddf56f6684765",
+    "completed": [
+      "Updated three README languages and related onboarding prose; fast verification passed 58 tests"
+    ],
+    "evidence": [
+      ".ai-org/artifacts/WI-0246/verification.md"
+    ],
+    "unresolved": [],
+    "position": "developer"
+  },
+  "result": {
+    "schema_version": "temple.lean-finish-lifecycle/v1",
+    "operation_id": "wi0246-readme-build",
+    "work_item_id": "WI-0246",
+    "candidate_revision": "ca962508ef41d7e6b16f9e8b9d5ddf56f6684765",
+    "plan_digest": "5e7f0c92530ae97b806bd6180c55db599b67ac524de76770efd7ad73ad9824e7",
+    "handoff": ".ai-org/artifacts/WI-0246/handoff-001-developer-to-quality_evaluator.md",
+    "receipt": ".ai-org/artifacts/WI-0246/finish-wi0246-readme-build.json",
+    "resulting_state": "test",
+    "next_action": "The assigned Quality Evaluator must claim Test and verify acceptance.",
+    "testing_performed": false,
+    "external_action_performed": false
+  },
+  "applied_at": "2026-09-17T02:13:13.521Z"
+}

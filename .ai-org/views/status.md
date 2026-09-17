@@ -5,7 +5,7 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 245 total, 0 active
+- Work items: 246 total, 1 active
 - Codex tasks: 12 registered, 12 archive-ready
 - Runtime workers: 96 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
@@ -40,7 +40,7 @@
 - Fresh: yes
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 0 / 0
+- Active / sequential / blocked: 0 / 1 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -293,9 +293,12 @@
 | WI-0243 | Qualify Alpha.33 package and existing-project upgrades | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `b2edfe22` | 0 | 12 | 0 |
 | WI-0244 | Reconcile publication evidence and publish Alpha.33 | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `1a98048d` | 0 | 10 | 0 |
 | WI-0245 | Pin release packaging toolchain and reject archive mismatches before full verification | done | Engineering Manager | Mog | parallel | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `471bdc0d` | 0 | 9 | 0 |
+| WI-0246 | Refresh trilingual README for Alpha.33 users | test | Quality & Evaluation Engineer | Lulu | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `ca962508` | 0 | 3 | 0 |
 
 ## Delivery attention
 
+- WI-0246: awaiting-owner — Have the eligible owner claim or resume the next scoped responsibility.
+  - owner: No active eligible ownership claim is recorded.
 
 ## Codex task registry
 
@@ -451,7 +454,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 94
+- Team-visible Work Items: 95
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -525,14 +528,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-16T08:57:49.664Z | work_item_closed | WI-0245 | agent-mog |
-| 2026-09-16T08:57:49.664Z | release_gate_completed | WI-0245 | agent-mog |
-| 2026-09-16T08:57:49.244Z | work_item_claimed | WI-0245 | human |
-| 2026-09-16T08:57:48.788Z | work_item_transitioned | WI-0245 | agent-lulu |
-| 2026-09-16T08:57:48.335Z | handoff_created | WI-0245 | agent-lulu |
-| 2026-09-16T08:57:47.864Z | runtime_worker_status_changed | WI-0245 | agent-lulu |
-| 2026-09-16T08:56:32.535Z | work_item_claimed | WI-0245 | human |
-| 2026-09-16T08:56:32.133Z | work_item_transitioned | WI-0245 | agent-lulu |
+| 2026-09-17T02:13:13.521Z | work_item_transitioned | WI-0246 | agent-rikku |
+| 2026-09-17T02:13:13.509Z | work_item_claim_released | WI-0246 | human |
+| 2026-09-17T02:13:13.509Z | handoff_created | WI-0246 | agent-rikku |
+| 2026-09-17T02:04:54.681Z | work_item_claimed | WI-0246 | human |
+| 2026-09-17T02:04:54.218Z | work_item_transitioned | WI-0246 | agent-mog |
+| 2026-09-17T02:04:53.701Z | work_item_claim_released | WI-0246 | human |
+| 2026-09-17T02:04:53.268Z | work_item_claimed | WI-0246 | human |
+| 2026-09-17T02:04:05.348Z | work_item_created | WI-0246 | agent-mog |
 
 ## Assignments
 
