@@ -2,7 +2,8 @@
 
 Source: separate remote Codex task `01a0b044-ef77-7f01-af96-11e93d5b2f28` over SSH.
 Model/runtime observed: gpt-5.6-sol, xhigh; Node.js v24.7.0.
-The reviewer left tracked files unchanged. Its complete final report follows.
+The reviewer left tracked files unchanged. Its final report follows; its remote
+absolute source link is normalized to a repository-relative link for portability.
 
 ## Independent review result
 
@@ -30,7 +31,7 @@ In a synthetic fixture with:
 }
 ```
 
-This misidentifies the planned agent as responsible and blocks the existing claimant instead of directing continuation of the active claim. It conflicts with the candidate’s active-claim continuation guidance. The relevant condition is introduced at [src/collaboration.mjs](/Users/zsz1210/Documents/Codex/temple-wi0250-check/repo/src/collaboration.mjs:1080).
+This misidentifies the planned agent as responsible and blocks the existing claimant instead of directing continuation of the active claim. It conflicts with the candidate’s active-claim continuation guidance. The relevant condition is introduced at [src/collaboration.mjs](../../../..//src/collaboration.mjs), line 1080 in the reviewed candidate.
 
 Impact is navigation/ownership misdirection; no state mutation or impersonation occurred.
 
@@ -71,4 +72,3 @@ No billing amount or quota was queried.
   "reasoning_output_tokens": 9857
 }
 ```
-
