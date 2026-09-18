@@ -71,5 +71,6 @@
 - [ADR-0060: Task material and proportionate instructions](0060-task-material-and-proportionate-instructions.md)
 - [ADR-0068: Portable completion diagnostics and contributor proposals](0068-collaborative-completion-recovery.md)
 - [ADR-0069: Mechanical closeout evidence and explicit task readiness](0069-mechanical-closeout-and-task-readiness.md)
+- [ADR-0070: Optional compact evidence reading view](0070-compact-evidence-reading-view.md)
 
 An ADR is an Architecture Decision Record. It preserves the context, decision, rationale, and consequences of an important technical or organizational choice so that later Agents do not have to infer why it was made from chat memory.
