@@ -6,7 +6,7 @@
   "owner_position": "developer",
   "assigned_agent_id": "agent-rikku",
   "created_at": "2026-09-18T00:38:41.779Z",
-  "updated_at": "2026-09-18T00:39:32.846Z",
+  "updated_at": "2026-09-18T00:50:30.975Z",
   "scope": [
     "Combine qualified collaboration recovery and closeout changes with current main physical safeguards; archive branch-qualified collided history; qualify one PR and analyze retained rehearsal data."
   ],
@@ -46,7 +46,7 @@
   "dependencies": [],
   "required_disciplines": [],
   "stage_requirements": {},
-  "base_revision": "dd824741dbaa4fceca91976a259db02fc7bb00cb",
+  "base_revision": "11b464126c99ddc9c0b39c455ec81b9704f76479",
   "parallel_mode": "pending",
   "integration_owner_agent_id": null,
   "planned_agent_id": null,
@@ -54,7 +54,7 @@
   "contract_status": "not_required",
   "overlap_resolution": [],
   "claim": {
-    "id": "claim-20260918003932-65571ee6",
+    "id": "claim-20260918005030-25ce2dd1",
     "status": "active",
     "principal_id": "human",
     "agent_id": "agent-rikku",
@@ -67,10 +67,10 @@
       "externally_supplied_evidence": false
     },
     "position_id": "developer",
-    "base_revision": "dd824741dbaa4fceca91976a259db02fc7bb00cb",
+    "base_revision": "11b464126c99ddc9c0b39c455ec81b9704f76479",
     "branch": "codex/collaboration-integration",
     "worktree": null,
-    "claimed_at": "2026-09-18T00:39:32.846Z",
+    "claimed_at": "2026-09-18T00:50:30.975Z",
     "released_at": null
   },
   "claims": [
@@ -99,7 +99,7 @@
     },
     {
       "id": "claim-20260918003932-65571ee6",
-      "status": "active",
+      "status": "released",
       "principal_id": "human",
       "agent_id": "agent-rikku",
       "actor_provenance": {
@@ -115,6 +115,50 @@
       "branch": "codex/collaboration-integration",
       "worktree": null,
       "claimed_at": "2026-09-18T00:39:32.846Z",
+      "released_at": "2026-09-18T00:47:19.931Z",
+      "release_reason": [
+        "Candidate delivered for actual independent assessment"
+      ]
+    },
+    {
+      "id": "claim-20260918004722-d0659414",
+      "status": "released",
+      "principal_id": "human",
+      "agent_id": "agent-lulu",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "quality_evaluator",
+      "base_revision": "11b464126c99ddc9c0b39c455ec81b9704f76479",
+      "branch": "codex/collaboration-integration",
+      "worktree": null,
+      "claimed_at": "2026-09-18T00:47:22.812Z",
+      "released_at": "2026-09-18T00:50:30.571Z",
+      "release_reason": "review_rework"
+    },
+    {
+      "id": "claim-20260918005030-25ce2dd1",
+      "status": "active",
+      "principal_id": "human",
+      "agent_id": "agent-rikku",
+      "actor_provenance": {
+        "selection": "explicit-agent",
+        "principal_source": "explicit-principal",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "position_id": "developer",
+      "base_revision": "11b464126c99ddc9c0b39c455ec81b9704f76479",
+      "branch": "codex/collaboration-integration",
+      "worktree": null,
+      "claimed_at": "2026-09-18T00:50:30.975Z",
       "released_at": null
     }
   ],
@@ -136,8 +180,67 @@
     ]
   },
   "evidence": [
-    ".ai-org/artifacts/WI-0252/design.md"
+    ".ai-org/artifacts/WI-0252/design.md",
+    ".ai-org/artifacts/WI-0252/handoff-001-developer-to-quality_evaluator.md",
+    ".ai-org/artifacts/WI-0252/developer-evidence.md"
   ],
   "unresolved": [],
-  "next_position": "quality_evaluator"
+  "next_position": "quality_evaluator",
+  "handoffs": [
+    {
+      "from_position": "developer",
+      "to_position": "quality_evaluator",
+      "actor": "agent-rikku",
+      "principal_id": "human",
+      "actor_provenance": {
+        "selection": "active-claim",
+        "principal_source": "active-claim",
+        "verification_class": "self-asserted",
+        "evidence_ref": null,
+        "provider_authenticated": false,
+        "externally_supplied_evidence": false
+      },
+      "input_revision": "11b464126c99ddc9c0b39c455ec81b9704f76479",
+      "artifact": ".ai-org/artifacts/WI-0252/handoff-001-developer-to-quality_evaluator.md",
+      "created_at": "2026-09-18T00:47:18.637Z"
+    }
+  ],
+  "rework_history": [
+    {
+      "sequence": 1,
+      "returned_at": "2026-09-18T00:50:30.571Z",
+      "from_state": "test",
+      "reviewer_agent_id": "agent-lulu",
+      "reviewer_claim_id": "claim-20260918004722-d0659414",
+      "rejected_revision": "11b464126c99ddc9c0b39c455ec81b9704f76479",
+      "reason": [
+        "Full verification found an additional stale physical-mismatch assertion in delivery tests"
+      ],
+      "findings": [
+        ".ai-org/artifacts/WI-0252/integration-findings-01.md"
+      ],
+      "scope_digest": "aee0c0cb80d54300e91912dc89be16dc5a28e57a9166dc7e2c1bafaef931ec2c",
+      "retained_requirements": [
+        "work_order",
+        "approved_scope",
+        "acceptance_criteria",
+        "technical_design",
+        "risk_review"
+      ],
+      "retired_gate_evidence": {
+        "developer_handoff": [
+          ".ai-org/artifacts/WI-0252/handoff-001-developer-to-quality_evaluator.md"
+        ],
+        "developer_evidence": [
+          ".ai-org/artifacts/WI-0252/developer-evidence.md"
+        ]
+      },
+      "retired_candidate_fields": {
+        "developer_candidate_revision": "11b464126c99ddc9c0b39c455ec81b9704f76479"
+      },
+      "handoff_refs": [
+        ".ai-org/artifacts/WI-0252/handoff-001-developer-to-quality_evaluator.md"
+      ]
+    }
+  ]
 }

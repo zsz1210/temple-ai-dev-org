@@ -6,7 +6,7 @@
 - Collaboration profile: `solo` (0 Human Principals, 1 active claims)
 - Parallel plan: 0 wave(s), fresh=false
 - Work items: 252 total, 1 active
-- Codex tasks: 13 registered, 13 archive-ready
+- Codex tasks: 14 registered, 13 archive-ready
 - Runtime workers: 104 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
@@ -40,7 +40,7 @@
 - Fresh: no
 - Safe waves: 0
 - Dispatchable Work Items: 0
-- Active / sequential / blocked: 0 / 0 / 0
+- Active / sequential / blocked: 1 / 0 / 0
 - Next wave: none
 - Codex tasks, claims, or external actions performed by planning: no
 
@@ -299,7 +299,7 @@
 | WI-0249 | Reject hidden product drift during ordinary completion | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `360b1b86` | 0 | 7 | 0 |
 | WI-0250 | Automate measurement closeout and clarify task readiness | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9148bd64` | 1 | 10 | 0 |
 | WI-0251 | Include reviewed closeout files in package boundary | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `41a1a4f7` | 0 | 4 | 0 |
-| WI-0252 | Integrate collaboration recovery and measured closeout | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260918003932-65571ee6 | `—` | 0 | 1 | 0 |
+| WI-0252 | Integrate collaboration recovery and measured closeout | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260918005030-25ce2dd1 | `—` | 1 | 3 | 0 |
 
 ## Delivery attention
 
@@ -323,6 +323,7 @@
 | task-0011 | WI-0158 | WI-0158 · Run final pre-Alpha clean-r… · Developer (Rikku) | Developer / Rikku | human | codex/wi-0158-final-clean-room | completed | `—` | ready |
 | task-0012 | WI-0158 | WI-0158 · Run final pre-Alpha cle… · Independent QA (Lulu) | Independent QA / Lulu | human | codex/wi-0158-final-clean-room | completed | `—` | ready |
 | task-0013 | WI-0250 | WI-0250 · Automate… · Quality & Evaluation Engineer (Lulu) | Quality & Evaluation Engineer / Lulu | human | codex/collaboration-closeout | completed | `—` | ready |
+| task-0014 | WI-0252 | WI-0252 · Integrat… · Quality & Evaluation Engineer (Lulu) | Quality & Evaluation Engineer / Lulu | human | codex/collaboration-integration | active | `—` | — |
 
 ## Runtime workers and shared resources
 
@@ -545,14 +546,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-18T00:39:32.846Z | work_item_claimed | WI-0252 | human |
-| 2026-09-18T00:39:32.471Z | work_item_transitioned | WI-0252 | agent-tidus |
-| 2026-09-18T00:39:32.124Z | work_item_transitioned | WI-0252 | agent-yuna |
-| 2026-09-18T00:39:31.773Z | work_item_transitioned | WI-0252 | agent-mog |
-| 2026-09-18T00:39:31.418Z | work_item_claim_released | WI-0252 | human |
-| 2026-09-18T00:38:51.912Z | work_item_claimed | WI-0252 | human |
-| 2026-09-18T00:38:41.779Z | work_item_created | WI-0252 | agent-mog |
-| 2026-09-17T17:11:45.551Z | work_item_closed | WI-0250 | agent-mog |
+| 2026-09-18T00:50:30.975Z | work_item_claimed | WI-0252 | human |
+| 2026-09-18T00:50:30.571Z | work_item_reworked | WI-0252 | agent-lulu |
+| 2026-09-18T00:49:20.759Z | task_metadata_updated | WI-0252 | agent-lulu |
+| 2026-09-18T00:47:58.671Z | task_registered | WI-0252 | agent-mog |
+| 2026-09-18T00:47:22.812Z | work_item_claimed | WI-0252 | human |
+| 2026-09-18T00:47:21.264Z | work_item_transitioned | WI-0252 | agent-rikku |
+| 2026-09-18T00:47:19.931Z | work_item_claim_released | WI-0252 | human |
+| 2026-09-18T00:47:18.637Z | handoff_created | WI-0252 | agent-rikku |
 
 ## Assignments
 
