@@ -28,6 +28,14 @@ Developer cannot submit a new intake item under their own identity.
   clean product scope, unchanged product blobs, current
   qualification, evidence hashes and snapshot guards remain required. Developer
   first delivery still pins current HEAD.
+  Scope, approval, design and other pre-delivery gate evidence outrank the
+  administrative path allowance, even in the item's own artifact directory or
+  through normalized evidence references. Check pre-candidate authority bytes
+  physically so Git index flags cannot hide drift; reverted authority changes
+  remain non-administrative history.
+  Other own-item artifacts must also be absent from the candidate and explicitly
+  referenced evidence or named finish/diagnostic outputs; a directory is not a
+  blanket allowance for changed existing artifacts or unreferenced new files.
 - Add explicit `work-item propose`: a contributor acts in their own qualified
   Position and records provenance, while the item remains unclaimed at intake
   under its configured manager. Existing create, claim, transition, assignment

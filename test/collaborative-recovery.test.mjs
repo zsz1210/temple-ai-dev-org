@@ -135,6 +135,67 @@ test("Verifier can accept exact product through a committed handoff, but rejects
   assert.equal((await itemState(f)).state, "done");
 });
 
+test("Gate authority inside own artifacts remains immutable across handoff descendants", async t => {
+  const f = await fixture(t);
+  const relative = `.ai-org/artifacts/${f.item.id}/approved-scope.md`;
+  const filename = path.join(f.target, relative);
+  await fs.mkdir(path.dirname(filename), { recursive: true });
+  const approved = "# Approved scope\nReject negative parser input.\n";
+  await fs.writeFile(filename, approved);
+  const existingOther = `.ai-org/artifacts/${f.item.id}/prior-note.md`;
+  await fs.writeFile(path.join(f.target, existingOther), "# Existing note\n");
+  const item = await itemState(f);
+  item.gate_evidence.approved_scope = [relative];
+  await write(f.target, `.ai-org/work-items/${f.item.id}.json`, item);
+  // A shared reference is still authority even when it is Developer evidence.
+  f.request.evidence = [...f.request.evidence, relative];
+  git(f.target, ["add", "."]); git(f.target, ["commit", "-m", "Freeze scoped authority"]);
+  f.request.revision = git(f.target, ["rev-parse", "HEAD"]);
+  assert.equal((await finish(f)).success, true);
+  git(f.target, ["add", "."]); git(f.target, ["commit", "-m", "Commit handoff administration"]);
+  const deliveryHead = git(f.target, ["rev-parse", "HEAD"]);
+  f.request = { ...f.request, position: "quality_evaluator", operationId: "verify-authority", agentId: f.qualityAgent,
+    completed: [], evidence: [], judgment: "pass", testEvidence: ["docs/verification.md"], leanCloseout: ["docs/verification.md"] };
+  f.request.claimId = JSON.parse(cli(["work-item", "claim", f.target, "--work-item", f.item.id, "--agent-id", f.qualityAgent,
+    "--principal-id", "principal-a", "--base-revision", f.request.revision, "--branch", "main", "--json"]).stdout).item.claim.id;
+  await fs.writeFile(path.join(f.target, "docs/verification.md"), "# Review\nOriginal approved parser scope verified.\n");
+  const beforeItem = await fs.readFile(path.join(f.target, `.ai-org/work-items/${f.item.id}.json`));
+  const beforeEvents = await fs.readFile(path.join(f.target, ".ai-org/events/events.jsonl"));
+  const rejectsWithoutWrites = async () => {
+    await assert.rejects(finish(f), /Product scope changed|current HEAD/);
+    assert.deepEqual(await fs.readFile(path.join(f.target, `.ai-org/work-items/${f.item.id}.json`)), beforeItem);
+    assert.deepEqual(await fs.readFile(path.join(f.target, ".ai-org/events/events.jsonl")), beforeEvents);
+  };
+  const unexpected = path.join(f.target, `.ai-org/artifacts/${f.item.id}/unreferenced.json`);
+  await fs.writeFile(unexpected, "{}\n");
+  await rejectsWithoutWrites();
+  await fs.unlink(unexpected);
+  await fs.appendFile(path.join(f.target, existingOther), "Unexpected update\n");
+  await rejectsWithoutWrites();
+  await fs.writeFile(path.join(f.target, existingOther), "# Existing note\n");
+  for (const flag of [null, "assume-unchanged", "skip-worktree"]) {
+    if (flag) git(f.target, ["update-index", `--${flag}`, relative]);
+    await fs.writeFile(filename, "# Changed authority\nAccept negative parser input.\n");
+    await rejectsWithoutWrites();
+    await fs.writeFile(filename, approved);
+    if (flag) git(f.target, ["update-index", `--no-${flag}`, relative]);
+  }
+  await fs.writeFile(filename, "# Committed authority drift\n");
+  git(f.target, ["add", relative]); git(f.target, ["commit", "-m", "Change approval"]);
+  await rejectsWithoutWrites();
+  await fs.writeFile(filename, approved);
+  git(f.target, ["add", relative]); git(f.target, ["commit", "-m", "Restore approval bytes"]);
+  await rejectsWithoutWrites();
+  git(f.target, ["reset", "--mixed", deliveryHead]);
+  const reviewerEvidence = `.ai-org/artifacts/${f.item.id}/new-review.md`;
+  await fs.writeFile(path.join(f.target, reviewerEvidence), "# Reviewer judgment\nOriginal scope holds.\n");
+  f.request.testEvidence = [reviewerEvidence];
+  f.request.leanCloseout = [reviewerEvidence];
+  await fs.unlink(path.join(f.target, "docs/verification.md"));
+  assert.equal((await finish(f)).success, true);
+  assert.equal((await itemState(f)).state, "done");
+});
+
 test("Contributor proposal preserves manager ownership, provenance, unique IDs and execution restrictions", async t => {
   const f = await fixture(t);
   const args = [f.target, "--title", "Proposed by contributor", "--agent-id", "agent-contributor", "--principal-id", "principal-b", "--ui-mode", "not-applicable", "--affected-path", "docs/new.md", "--json"];

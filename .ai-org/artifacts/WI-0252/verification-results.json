@@ -1,0 +1,38 @@
+{
+  "schema_version": "temple.integration-observations/v1",
+  "work_item_id": "WI-0252",
+  "runtime": "v24.20.0",
+  "runs": [
+    {
+      "candidate": "11b464126c99ddc9c0b39c455ec81b9704f76479",
+      "command": "npm run verify",
+      "wall_seconds": 257.731084875,
+      "runner_ms": 256393.913292,
+      "tests": 1294,
+      "pass": 1293,
+      "fail": 1,
+      "exit_code": 1,
+      "log": "full-attempt-01.log"
+    },
+    {
+      "candidate": "4a6c9d8f2571e27e8419674fc7a919285e7509f8",
+      "command": "npm run verify",
+      "wall_seconds": 257.600320125,
+      "runner_ms": 256162.298208,
+      "tests": 1294,
+      "pass": 1294,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "exit_code": 0,
+      "log": "full-final.log"
+    }
+  ],
+  "package": { "files": 451, "packed_bytes": 1017175, "unpacked_bytes": 3947555 },
+  "archive": { "files_verified_against_source": 23, "event_delta_lines": 31, "canonical_WI0247_unchanged": true },
+  "model_experiment": false,
+  "total_provider_tokens": null,
+  "billed_cost": null,
+  "quota_polled": false,
+  "interpretation": "Full suite rerun after correction, not matched performance or billing comparison. Reviewer usage is retained separately."
+}

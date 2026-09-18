@@ -145,7 +145,7 @@ export async function assertWorkingProduct(target, revision, paths) {
   if (seen.size !== expected.size) throw new Error("Product scope changed: candidate file is missing");
 }
 
-async function assertCandidate(target, request, affectedPaths, { recovery = false, evidenceReferences = [] } = {}) {
+async function assertCandidate(target, request, affectedPaths, { recovery = false, evidenceReferences = [], gateEvidence = {} } = {}) {
   const productPaths = requireProductScope(affectedPaths);
   if (git(target, ["--literal-pathspecs", "status", "--porcelain=v1", "-z", "--untracked-files=all", "--", ...productPaths])) {
     throw new Error("Lean delivery affected product scope has uncommitted changes");
@@ -156,12 +156,32 @@ async function assertCandidate(target, request, affectedPaths, { recovery = fals
   if (request.workflow_stage || request.mechanical_contract || !(request.position === "quality_evaluator" || recovery)) reject();
   if (git(target, ["merge-base", request.candidate_revision, "HEAD"]).trim() !== request.candidate_revision) reject();
   if (git(target, ["--literal-pathspecs", "diff", "--name-only", "-z", request.candidate_revision, "HEAD", "--", ...productPaths])) reject();
+  // Scope/approval inputs remain authority even inside this item's artifact
+  // directory. Resolve normalized evidence too; directory ownership cannot turn
+  // an authority input into mutable delivery administration.
+  const protectedGates = Object.fromEntries(Object.entries(gateEvidence)
+    .filter(([gate]) => !["developer_evidence", "developer_handoff", "test_evidence", "lean_closeout"].includes(gate)));
+  const protectedEvidence = await currentEvidencePaths(target,
+    { id: request.work_item_id, gate_evidence: protectedGates }, { ...request, evidence: [] });
+  const committedAuthority = [...protectedEvidence].filter(ref =>
+    git(target, ["--literal-pathspecs", "ls-tree", "--name-only", request.candidate_revision, "--", ref]).trim());
+  // Index flags must not hide physical changes to the pre-candidate authority.
+  if (committedAuthority.length) await assertWorkingProduct(target, request.candidate_revision, committedAuthority);
   const itemRoot = `.ai-org/artifacts/${request.work_item_id}/`;
+  const candidatePaths = new Set(git(target, ["--literal-pathspecs", "ls-tree", "-r", "--name-only", "-z", request.candidate_revision,
+    "--", itemRoot]).split("\0").filter(Boolean));
+  const declaredEvidence = await currentEvidencePaths(target,
+    { id: request.work_item_id, gate_evidence: gateEvidence }, request);
+  for (const ref of evidenceReferences.filter(safeRelative)) declaredEvidence.add(ref);
+  const artifactAllowed = name => name.startsWith(itemRoot) && !candidatePaths.has(name) &&
+    (declaredEvidence.has(name) || /^(finish|diagnostics)-[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}\.json$/.test(name.slice(itemRoot.length)));
   const evidence = new Set([...request.evidence, ...evidenceReferences].filter(ref => safeRelative(ref) &&
     /^(docs|evidence)\/.+\.md$/.test(ref) && !/(^|\/)(AGENTS|CLAUDE|TEMPLE)\.md$/.test(ref) &&
     !git(target, ["--literal-pathspecs", "ls-tree", "--name-only", request.candidate_revision, "--", ref]).trim()));
-  const allowed = name => name === `.ai-org/work-items/${request.work_item_id}.json` || name === EVENTS ||
-    name.startsWith(itemRoot) || name.startsWith(".ai-org/views/") || evidence.has(name);
+  const allowed = name => !protectedEvidence.has(name) &&
+    !/(^|\/)(AGENTS|CLAUDE|TEMPLE)\.md$/.test(name) &&
+    (name === `.ai-org/work-items/${request.work_item_id}.json` || name === EVENTS ||
+      artifactAllowed(name) || name.startsWith(".ai-org/views/") || evidence.has(name));
   const changed = git(target, ["diff", "--no-renames", "--name-only", "-z", request.candidate_revision, "HEAD"]).split("\0").filter(Boolean);
   if (changed.some(name => !allowed(name))) reject();
   // A reverted source/policy commit is not an administration-only history. Check
@@ -277,7 +297,7 @@ async function prepareDelivery(target, request) {
   if (workers && (JSON.parse(workers).workers ?? []).some((worker) => worker.work_item_id === item.id && !["completed", "failed", "cancelled"].includes(worker.status))) {
     throw new Error("Complete the runtime worker before Lean delivery");
   }
-  await assertCandidate(target, request, item.affected_paths ?? [], { evidenceReferences: item.evidence ?? [] });
+  await assertCandidate(target, request, item.affected_paths ?? [], { evidenceReferences: item.evidence ?? [], gateEvidence: item.gate_evidence });
   if (accepting && resolveGitRevision(target, item.claim.base_revision) !== request.candidate_revision) throw new Error("Lean Verifier claim must pin the exact candidate");
   if (accepting) {
     const handoff = [...(item.handoffs ?? [])].reverse().find((entry) => entry.from_position === "developer");
@@ -402,7 +422,7 @@ export async function validateLeanCompletionSnapshot(target, journal, { applied 
     throw new Error(`Lean completion Agent is no longer eligible for ${position}`);
   }
   await currentEvidencePaths(target, resultingItem, journal.request);
-  await assertCandidate(target, journal.request, journal.affected_paths, { recovery: true, evidenceReferences: resultingItem.evidence ?? [] });
+  await assertCandidate(target, journal.request, journal.affected_paths, { recovery: true, evidenceReferences: resultingItem.evidence ?? [], gateEvidence: resultingItem.gate_evidence });
   await assertInputs(target, journal.inputs, journal.writes);
   // Requalify filesystem modes, links and whole-worktree scope after interruption.
   // The original item is byte-bound above; current canonical state must separately
