@@ -1,0 +1,40 @@
+{
+  "schema_version": "temple.lean-finish-receipt/v1",
+  "request_digest": "6bf619d5bc803e2fb5391bbc1a84650137e28e7a40a6f7e4b22679bbdf17289e",
+  "request": {
+    "schema_version": "temple.lean-finish-request/v1",
+    "operation_id": "wi0251-package-verified",
+    "work_item_id": "WI-0251",
+    "claim_id": "claim-20260917170320-9781a9c5",
+    "agent_id": "agent-lulu",
+    "principal_id": "human",
+    "candidate_revision": "41a1a4f7367fc09bdc80f4ef2a5ad6b0e5914261",
+    "completed": [],
+    "evidence": [
+      ".ai-org/artifacts/WI-0251/independent-verification.md"
+    ],
+    "unresolved": [],
+    "position": "quality_evaluator",
+    "judgment": "pass",
+    "test_evidence": [
+      ".ai-org/artifacts/WI-0251/independent-verification.md"
+    ],
+    "lean_closeout": [
+      ".ai-org/artifacts/WI-0251/independent-verification.md"
+    ]
+  },
+  "result": {
+    "schema_version": "temple.lean-finish-lifecycle/v1",
+    "operation_id": "wi0251-package-verified",
+    "work_item_id": "WI-0251",
+    "candidate_revision": "41a1a4f7367fc09bdc80f4ef2a5ad6b0e5914261",
+    "plan_digest": "57c8997ed2f8c29605b349cf932bbcf13853576a1c9749e16e10fde08cc9edb9",
+    "handoff": null,
+    "receipt": ".ai-org/artifacts/WI-0251/finish-wi0251-package-verified.json",
+    "resulting_state": "done",
+    "next_action": "Lean acceptance is recorded; no external release is authorized.",
+    "testing_performed": false,
+    "external_action_performed": false
+  },
+  "applied_at": "2026-09-17T17:03:21.306Z"
+}

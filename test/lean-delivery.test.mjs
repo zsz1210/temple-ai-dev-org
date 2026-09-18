@@ -78,7 +78,9 @@ test("Lean delivery requires the exact clean candidate and regular evidence file
   await fs.appendFile(path.join(f.target, "app.mjs"), "\n// Changed\n");
   assert.match(cli(deliveryArgs(f), { allowFailure: true }).stderr, /uncommitted/);
   git(f.target, ["add", "app.mjs"]); git(f.target, ["commit", "-m", "Change candidate"]);
-  assert.match(cli(deliveryArgs(f), { allowFailure: true }).stderr, /current HEAD/);
+  const before = await canonicalBytes(f);
+  assert.match(cli(deliveryArgs(f), { allowFailure: true }).stderr, /Product scope changed/);
+  assert.deepEqual(await canonicalBytes(f), before);
   f.request.revision = git(f.target, ["rev-parse", "HEAD"]);
   await fs.symlink(path.join(f.temporary, "init.json"), path.join(f.target, "docs/linked.md"));
   f.request.evidence = ["docs/linked.md"];

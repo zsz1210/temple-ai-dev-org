@@ -187,6 +187,7 @@ Usage:
   temple collaboration setup-contributor [target] --config authorized-member.json [--json]
   temple measurement capabilities [target] [--json]
   temple measurement inspect|run [target] --config measurement-plan.json [--json]
+  temple measurement report [target] --config measurement-plan.json --work-item WI-ID --revision full-sha [--output filename.md] [--json]
   temple evidence durability [target] [--work-item WI-ID] [--revision ref] [--json]
   temple evidence export-bundle [target] --evidence EVID-ID [--output path] [--json]
   temple evidence verify-bundle|import-bundle [target] --bundle path [--json]
@@ -212,6 +213,7 @@ Usage:
   temple collaboration record-validation [target] --validation-level level --status status [--revision ref] [--evidence ref] [--participant-principal principal-name] [--environment id]
   temple work-item create [target] --title text [--scope text] [--acceptance text] [--affected-path path] [--context-ref id] [--spec-mode gate-evidence|indexed] [--spec-ref ID@revision] [--ui-mode mode] [--workflow-profile lean|standard|high-assurance] [--risk-tier low|standard|high|critical] [--scope-class bounded|ordinary|cross-system] [--escalation-trigger id] [--profile-rationale text] [--profile-evidence ref] [--discipline backend] [--stage-discipline build=backend] [--stage-resource test=ios-simulator[:units]] [--tracker-visibility internal|team-visible]
   temple work-item configure [target] --work-item WI-ID [--parent WI-ID] [--depends-on WI-ID] [--agent-id agent-name] [--workflow-profile profile] [--risk-tier tier] [--scope-class class] [--escalation-trigger id] [--profile-rationale text] [--profile-evidence ref] [--discipline backend] [--clear-disciplines] [--stage-discipline build=backend] [--stage-resource test=ios-simulator[:units]] [--clear-stage-requirement test] [--base-revision ref] [--parallel-mode mode] [--spec-ref ID@revision] [--replace-spec-refs]
+  temple work-item propose [target] --title text --agent-id id --principal-id id [--position developer] [creation scope options; creates unclaimed intake only]
   temple work-item migrate-outcomes [target] [--work-item WI-ID] [--outcome no-go|inconclusive] [--reason text] [--dry-run] [--json]
   temple work-item claim [target] --work-item WI-ID --agent-id agent-name --principal-id principal-name --base-revision ref --branch name [--worktree path]
   temple work-item release [target] --work-item WI-ID [--agent-id agent-name] [--principal-id principal-name] [--reason text]
@@ -2167,6 +2169,7 @@ async function runWorkItemCreate(parsed) {
   const target = await assertSafeTarget(parsed.target);
   const result = await withProjectMutationLock(target, async () => {
     const created = await createWorkItem(target, {
+      proposal: parsed.action === "propose", proposalPosition: parsed.options["--position"],
       agentId: parsed.options["--agent-id"], principalId: parsed.options["--principal-id"],
       title: parsed.options["--title"],
       actor: parsed.options["--actor"],
@@ -2207,7 +2210,7 @@ async function runWorkItemCreate(parsed) {
     return created;
   });
   printResult(parsed, result, [
-    `Created ${result.item.id}: ${result.item.title}`,
+    `${parsed.action === "propose" ? "Proposed" : "Created"} ${result.item.id}: ${result.item.title}`,
     `State: ${result.item.state} (${result.item.owner_position})`,
     `Suggested Codex title: ${result.suggested_title}`
   ]);
@@ -3274,7 +3277,7 @@ async function dispatch(argv) {
   if (parsed.command === "control-plane") return runControlPlane(parsed);
   if (parsed.command === "console") return runConsole(parsed);
   if (parsed.command === "collaboration") return runCollaboration(parsed);
-  if (parsed.command === "work-item" && parsed.action === "create") return runWorkItemCreate(parsed);
+  if (parsed.command === "work-item" && ["create", "propose"].includes(parsed.action)) return runWorkItemCreate(parsed);
   if (parsed.command === "work-item" && parsed.action === "configure") return runWorkItemConfigure(parsed);
   if (parsed.command === "work-item" && parsed.action === "claim") return runWorkItemClaim(parsed);
   if (parsed.command === "work-item" && parsed.action === "release") return runWorkItemRelease(parsed);

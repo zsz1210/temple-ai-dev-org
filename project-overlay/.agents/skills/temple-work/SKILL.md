@@ -32,6 +32,9 @@ framework login; legacy or explicitly verified policies report their own provena
 requirements. Reuse stable Agent IDs, select qualified membership, and never choose
 another person's default to bypass ambiguity. Preview profile changes and apply
 their exact fingerprint; preserve existing claims and already-authorized scope.
+An eligible contributor without intake ownership may use `work-item propose` with
+their own explicit Agent, Principal and Position. It creates an unclaimed request
+for the intake owner; it grants no assignment, approved scope or execution right.
 
 ## Finish the assigned stage
 
@@ -41,7 +44,7 @@ their exact fingerprint; preserve existing claims and already-authorized scope.
   generated handoff once; put actual defects in unresolved and unperformed next-
   owner work in its next action. Do not call later stages complete.
 - After canonical changes inspect Status and Doctor. Prefer `status --compact
-  --json --work-item WI-####` and `doctor --compact`. Successful `finish` already
+  --json --no-write --work-item WI-####` and `doctor --compact`. Successful `finish` already
   returns these diagnostics: inspect mutation and diagnostics separately and reuse
   only for unchanged scope. Failed diagnostics remain unresolved after a lifecycle
   write; historical receipts are not fresh verification. Mandatory project tests remain required.

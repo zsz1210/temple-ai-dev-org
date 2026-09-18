@@ -14,7 +14,7 @@ export function contextAuthorityPaths(item) {
   ];
 }
 
-export function compactContextEntry(capsule, item, context, pending = null) {
+export function compactContextEntry(capsule, item, context, pending = null, diagnostics = []) {
   const authorityPaths = new Set(contextAuthorityPaths(item));
   const selected = capsule.source_manifest.sources.filter(source => !authorityPaths.has(source.path));
   const authoritySources = capsule.source_manifest.sources.filter(source => authorityPaths.has(source.path));
@@ -59,13 +59,14 @@ export function compactContextEntry(capsule, item, context, pending = null) {
     },
     route: capsule.route,
     next_step: {
-      candidate_operation: pending ? null : operation,
+      candidate_operation: pending || diagnostics.length ? null : operation,
       workflow_edge: edge ? { from: item.state, to: nextState, requirements: edge.requires ?? [] } : null,
       gate_refs: Object.fromEntries((edge?.requires ?? []).map(key => [key, item.gate_evidence?.[key] ?? []])),
-      note: pending ? "A delivery is pending; inspect and recover it before other mutations." : terminal ? "Terminal work has no continuation." : !requestedOwner
+      note: pending ? "A delivery is pending; inspect and recover it before other mutations." : diagnostics.length ? "Completion diagnostics remain unresolved; inspect their source and recovery instructions before continuing." : terminal ? "Terminal work has no continuation." : !requestedOwner
         ? "Requested Position is not the current owner; coordinate the handoff before mutation."
         : "Finish this responsibility first; all policy, evidence, claim and runtime guards still require validation.",
       pending_operation: pending?.journal.operation_key ?? null,
+      completion_diagnostics: diagnostics,
       authorization_granted: false
     },
     references: {

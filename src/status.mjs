@@ -168,6 +168,7 @@ export async function buildStatus(target, options = {}) {
   const evidencePath = path.join(target, ".ai-org/project/evidence.json");
   const evidence = await pathExists(evidencePath) ? (await readJson(evidencePath)).entries ?? [] : [];
   const workItems = [];
+  const completionAttention = await leanFinishAttention(target, options.settlingLeanFinish);
   const rawItems = new Map();
   if (await pathExists(workItemsDirectory)) {
     const entries = await fs.readdir(workItemsDirectory, { withFileTypes: true });
@@ -200,7 +201,9 @@ export async function buildStatus(target, options = {}) {
           owner_name: positions.get(item.owner_position)?.display_name ?? item.owner_position ?? "unknown",
           assigned_agent_id: assignedAgentId,
           assigned_agent_name: assignedAgentId ? formatAgentIdentity({ agents }, assignedAgentId, collaboration ?? {}) : "Unassigned",
-          delivery_attention: deriveDeliveryAttention(item, { workers: workerRegistry.workers ?? [], evidence }),
+          delivery_attention: deriveDeliveryAttention(item, { workers: workerRegistry.workers ?? [], evidence,
+            missingConditions: completionAttention.filter(entry => !entry.work_item_id || entry.work_item_id === item.id)
+              .map(entry => ({ kind: "evidence", description: entry.message, next_action: entry.next_action ?? "Inspect unresolved completion diagnostics before continuing." })) }),
           latest_revision: latestRevision,
           evidence_count: Array.isArray(item.evidence) ? item.evidence.length : 0,
           unresolved_count: Array.isArray(item.unresolved) ? item.unresolved.length : 0,
@@ -312,7 +315,7 @@ export async function buildStatus(target, options = {}) {
     external_action_performed: false
   };
   const attention = [
-    ...await leanFinishAttention(target, options.settlingLeanFinish),
+    ...completionAttention,
     ...workItems
       .filter((item) => item.state === "blocked")
       .map((item) => ({ type: "blocked_work_item", work_item_id: item.id, message: `${item.id} is blocked` })),

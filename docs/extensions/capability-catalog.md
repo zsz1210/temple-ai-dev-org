@@ -14,6 +14,15 @@ existing risk profiles under [ADR-0065](../adr/0065-unified-autonomous-delivery.
 
 WI-0190 revises the existing core `temple-work` source with a bounded read-only-support reference and explicit composed-finish diagnostic reuse. This is original Temple instruction text, not copied external material or a new Skill/promotion. Adoption is source-candidate only until qualification and release. Static scenarios and installation checks do not prove model adherence, Independent QA or Token savings. Existing projects retain managed ownership and receive changes through upgrade. See [ADR-0059](../adr/0059-proportionate-work-routes.md).
 
+ADR-0068 adds original contributor-proposal and portable-diagnostic recovery guidance
+to that same source Skill under [ADR-0068](../adr/0068-collaborative-completion-recovery.md).
+Dependencies remain the pinned CLI and Node runtime. No new Skill, external source,
+installation or authority grant is introduced. Static scenarios and synthetic
+regressions validate the contract; real two-account forward validation remains
+separate, and adoption is unreleased source-candidate only. WI-0252 integrates this
+source with the later closeout changes; the earlier branch-local WI-0247 evidence
+is preserved as a historical archive because main's WI-0247 is a different task.
+
 Temple keeps installed Skills deliberately small. A Skill belongs in `project-overlay/` only when most product repositories need it and its trigger is distinct. Other useful capabilities remain here with source, version, license, intended Position, and an explicit adoption state.
 
 The Matt Pocock catalog was reviewed at commit `6654f6b60cd9d5be8b54c6fafe44346dabeb3b76` under the MIT License. Temple does not vendor or invoke that repository at runtime.

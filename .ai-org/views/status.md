@@ -5,8 +5,8 @@
 - Active Agent Identities: 5
 - Collaboration profile: `solo` (0 Human Principals, 0 active claims)
 - Parallel plan: 0 wave(s), fresh=true
-- Work items: 249 total, 0 active
-- Codex tasks: 12 registered, 12 archive-ready
+- Work items: 252 total, 0 active
+- Codex tasks: 14 registered, 14 archive-ready
 - Runtime workers: 104 registered, 0 reserved, 0 active
 - Shared resources: 0 defined, 0 active reservation(s)
 - Optional Skill packs: 0 installed
@@ -18,7 +18,7 @@
 - Specifications: 2 indexed, 2 approved (hybrid)
 - Tracker: `repository-only` (0 active provider(s), 0 linked Work Item(s))
 - Repository integration: `confirmed` (Develop focused changes on short-lived branches and submit them through pull requests; the maintainer owns final integration and release decisions.)
-- Attention signals: 24
+- Attention signals: 26
 
 ## Collaboration
 
@@ -297,6 +297,9 @@
 | WI-0247 | Recover applied Lean handoffs after diagnostic input changes | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `e8e1e462` | 0 | 10 | 0 |
 | WI-0248 | Reject Git-hidden product changes during diagnostic recovery | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `0c1c6f1c` | 0 | 7 | 0 |
 | WI-0249 | Reject hidden product drift during ordinary completion | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `360b1b86` | 0 | 7 | 0 |
+| WI-0250 | Automate measurement closeout and clarify task readiness | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9148bd64` | 1 | 10 | 0 |
+| WI-0251 | Include reviewed closeout files in package boundary | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `41a1a4f7` | 0 | 4 | 0 |
+| WI-0252 | Integrate collaboration recovery and measured closeout | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `8f7ab5f0` | 1 | 14 | 0 |
 
 ## Delivery attention
 
@@ -317,6 +320,8 @@
 | task-0010 | WI-0156 | WI-0156 · Reduce fresh-session on… · Independent QA (Lulu) | Independent QA / Lulu | human | codex/wi-0156-onboarding-hardening | completed | `—` | ready |
 | task-0011 | WI-0158 | WI-0158 · Run final pre-Alpha clean-r… · Developer (Rikku) | Developer / Rikku | human | codex/wi-0158-final-clean-room | completed | `—` | ready |
 | task-0012 | WI-0158 | WI-0158 · Run final pre-Alpha cle… · Independent QA (Lulu) | Independent QA / Lulu | human | codex/wi-0158-final-clean-room | completed | `—` | ready |
+| task-0013 | WI-0250 | WI-0250 · Automate… · Quality & Evaluation Engineer (Lulu) | Quality & Evaluation Engineer / Lulu | human | codex/collaboration-closeout | completed | `—` | ready |
+| task-0014 | WI-0252 | WI-0252 · Integrat… · Quality & Evaluation Engineer (Lulu) | Quality & Evaluation Engineer / Lulu | human | codex/collaboration-integration | completed | `—` | ready |
 
 ## Runtime workers and shared resources
 
@@ -445,6 +450,8 @@
 - task-0010 can be archived
 - task-0011 can be archived
 - task-0012 can be archived
+- task-0013 can be archived
+- task-0014 can be archived
 - worker-20260830090102-322fa6b7 is failed
 - worker-20260830090103-b1811194 is failed
 - worker-20260830091123-8cde42d0 is failed
@@ -463,7 +470,7 @@
 - Profile: `repository-only`
 - Sync granularity: `team-visible`
 - Active providers: 0
-- Team-visible Work Items: 98
+- Team-visible Work Items: 101
 - Linked Work Items: 0
 - Observed external items: 0
 - Reconciliation actions: 0
@@ -537,14 +544,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
-| 2026-09-17T16:17:00.903Z | work_item_closed | WI-0249 | agent-mog |
-| 2026-09-17T16:17:00.903Z | release_gate_completed | WI-0249 | agent-mog |
-| 2026-09-17T16:17:00.441Z | work_item_claimed | WI-0249 | human |
-| 2026-09-17T16:16:59.963Z | work_item_transitioned | WI-0249 | agent-lulu |
-| 2026-09-17T16:16:59.503Z | runtime_worker_status_changed | WI-0249 | agent-lulu |
-| 2026-09-17T16:14:03.665Z | runtime_worker_attached | WI-0249 | agent-lulu |
-| 2026-09-17T16:13:30.969Z | runtime_worker_reserved | WI-0249 | human |
-| 2026-09-17T16:13:31.048Z | work_item_claimed | WI-0249 | human |
+| 2026-09-18T01:29:01.795Z | work_item_closed | WI-0252 | agent-mog |
+| 2026-09-18T01:29:01.795Z | release_gate_completed | WI-0252 | agent-mog |
+| 2026-09-18T01:29:01.407Z | work_item_claimed | WI-0252 | human |
+| 2026-09-18T01:29:00.998Z | work_item_transitioned | WI-0252 | agent-lulu |
+| 2026-09-18T01:29:00.613Z | work_item_claim_released | WI-0252 | human |
+| 2026-09-18T01:29:00.234Z | handoff_created | WI-0252 | agent-lulu |
+| 2026-09-18T01:28:59.833Z | work_item_claimed | WI-0252 | human |
+| 2026-09-18T01:28:59.427Z | work_item_transitioned | WI-0252 | agent-lulu |
 
 ## Assignments
 

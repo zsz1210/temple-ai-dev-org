@@ -101,7 +101,15 @@ test("Explicit recovery handles administrative HEAD, amended evidence and compat
   assert.equal(result.status, "reconciled"); assert.equal(result.acceptance_granted, false);
   assert.deepEqual(await itemState(f), item);
   const after = await canonicalBytes(f);
-  for (const [name, body] of Object.entries(before)) if (!name.startsWith(".ai-org/views/")) assert.equal(after[name], body, name);
+  const observationPath = `.ai-org/artifacts/${f.item.id}/diagnostics-${f.request.operationId}.json`;
+  for (const [name, body] of Object.entries(before)) if (!name.startsWith(".ai-org/views/") && name !== observationPath) assert.equal(after[name], body, name);
+  const beforeObservation = JSON.parse(before[observationPath]), afterObservation = JSON.parse(after[observationPath]);
+  assert.equal(beforeObservation.status, "failed");
+  assert.equal(afterObservation.status, "passed");
+  assert.deepEqual(afterObservation.errors, []);
+  for (const key of Object.keys(beforeObservation).filter(key => !["status", "errors", "observed_at"].includes(key))) {
+    assert.deepEqual(afterObservation[key], beforeObservation[key], key);
+  }
   const record = (await readLeanFinishDiagnostics(f.target))[0];
   assert.deepEqual(record.journal, f.original.journal);
   const retained = JSON.parse(await fs.readFile(path.join(f.target, result.recovery_ref)));

@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { OperationError } from "./operation-errors.mjs";
 import { verifyMechanicalCompletion } from "./mechanical-completion.mjs";
 import {
   DISCIPLINES,
@@ -452,7 +453,11 @@ export async function createWorkItem(target, options) {
   const routeIds = new Set((contextMap.routes ?? []).map((route) => route.id));
   const missingContextRefs = contextRefs.filter((value) => !routeIds.has(value));
   if (missingContextRefs.length > 0) {
-    throw new Error(`Unknown context route: ${missingContextRefs.join(", ")}`);
+    throw Object.assign(new OperationError("INVALID_INPUT", `Unknown context route: ${missingContextRefs.join(", ")}`), {
+      responsible_actor: "requesting-contributor",
+      next_action: "--context-ref takes a route ID from .ai-org/project/context-map.json, not a file path. Use --affected-path for changed files; omit --context-ref when no explicit route applies.",
+      details: { missing_context_refs: missingContextRefs, available_context_refs: [...routeIds] }
+    });
   }
 
   const parentWorkItemId = String(options.parentWorkItemId ?? "").trim() || null;
@@ -514,8 +519,17 @@ export async function createWorkItem(target, options) {
   // Creation records intended work under the project's actor policy. It grants
   // no execution eligibility for the declared task risk or implementation skills;
   // claims and lifecycle operations check the actual item's current requirements.
-  const selected = await operationActor(target, context, { owner_position: ownerPosition }, options);
-  const assignedAgentIdValue = selected.agent_id;
+  if (options.proposal && (!options.agentId || !options.principalId)) {
+    throw new Error("Contributor proposals require your own explicit --agent-id and --principal-id");
+  }
+  let selected;
+  try {
+    selected = await operationActor(target, context, { owner_position: options.proposal ? options.proposalPosition ?? "developer" : ownerPosition }, options);
+  } catch (error) {
+    if (!options.proposal && error.code === "TEMPLE_ACTOR_INELIGIBLE") error.next_action = "To submit an unclaimed intake request as a contributor, use work-item propose with your own --position, --agent-id and --principal-id. An eligible intake owner still controls approval and assignment.";
+    throw error;
+  }
+  const assignedAgentIdValue = options.proposal ? context.assignments.get(ownerPosition) ?? null : selected.agent_id;
   const actor = selected.agent_id;
   const timestamp = new Date().toISOString();
   const item = {
@@ -525,6 +539,8 @@ export async function createWorkItem(target, options) {
     state,
     owner_position: ownerPosition,
     assigned_agent_id: assignedAgentIdValue,
+    ...(options.proposal ? { proposed_by: { agent_id: selected.agent_id, principal_id: selected.principal_id,
+      position_id: selected.position_id, actor_provenance: selected.provenance, proposed_at: timestamp } } : {}),
     created_at: timestamp,
     updated_at: timestamp,
     scope: uniqueStrings(options.scope),
@@ -580,6 +596,7 @@ export async function createWorkItem(target, options) {
     timestamp,
     event_type: "work_item_created",
     actor,
+    ...(options.proposal ? { principal_id: selected.principal_id, actor_provenance: selected.provenance, proposal: true } : {}),
     work_item_id: workItemId,
     state,
     refs: [`.ai-org/work-items/${workItemId}.json`]

@@ -5,6 +5,7 @@ import { buildStatus, compactStatus, writeStatus } from "./status.mjs";
 import { runDoctor, compactDoctor } from "./doctor.mjs";
 import { OperationError } from "./operation-errors.mjs";
 import { inspectParallelPlan, buildParallelPlan, writeParallelPlan } from "./orchestration.mjs";
+import { completionDoctorPassed } from "./completion-diagnostics.mjs";
 
 function finishResult(lifecycle, diagnostics, status) {
   const success = diagnostics.status === "passed";
@@ -81,7 +82,7 @@ export async function finishLeanWorkItem(target, options, hooks = {}) {
       await hooks.checkpoint?.("before-doctor");
       const doctor = await runDoctor(target, { settlingLeanFinish: operationKey });
       diagnostics.doctor = compactDoctor(doctor);
-      if (doctor.summary.fail || doctor.summary.warn) diagnostics.errors.push("Doctor has non-passing checks");
+      if (!completionDoctorPassed(diagnostics.doctor)) diagnostics.errors.push("Doctor has blocking checks");
       await hooks.checkpoint?.("after-doctor");
     } catch (error) { diagnostics.errors.push(`Doctor: ${error.message}`); }
     diagnostics.status = diagnostics.errors.length ? "failed" : "passed";

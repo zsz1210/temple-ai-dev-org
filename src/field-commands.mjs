@@ -45,7 +45,7 @@ function output(parsed, result) {
     if (result.next_action) console.log(`Next action: ${result.next_action}`);
     console.log(JSON.stringify(result, null, 2));
   }
-  return result.valid === false || result.applicable === false || result.ready === false ||
+  return result.valid === false || result.applicable === false || result.ready === false || result.task_ready === false ||
     result.successful === false || result.result?.successful === false || result.status === "conflict" || result.result?.outcome === "fail" ? 1 : 0;
 }
 
@@ -53,6 +53,7 @@ function output(parsed, result) {
 export async function runFieldCommand(parsed) {
   const allowedByAction = {
     "measurement capabilities": [], "measurement inspect": ["--config"], "measurement run": ["--config"],
+    "measurement report": ["--config", "--work-item", "--revision", "--output"],
     "collaboration readiness": ["--principal-id", "--agent-id", "--work-item", "--position"],
     "collaboration preview-profile": ["--profile", "--actor-policy"],
     "collaboration apply-profile": ["--profile", "--actor-policy", "--fingerprint"],
@@ -74,7 +75,11 @@ export async function runFieldCommand(parsed) {
     if (action === "capabilities") result = measurementCapabilities();
     else if (action === "inspect") result = await inspectMeasurement(target, await input(parsed));
     else if (action === "run") result = await runMeasurement(target, await input(parsed));
-    else throw new OperationError("INVALID_INPUT", "Use measurement capabilities, inspect or run");
+    else if (action === "report") {
+      const { measurementReport } = await import("./measurement-report.mjs");
+      result = await measurementReport(target, await input(parsed), { workItemId: required(parsed, "--work-item"),
+        revision: required(parsed, "--revision"), output: parsed.options["--output"] });
+    } else throw new OperationError("INVALID_INPUT", "Use measurement capabilities, inspect, run or report");
   } else if (parsed.command === "collaboration") {
     const { contributorReadiness, previewCollaborationTransition, applyCollaborationTransition, setupContributor } = await import("./collaboration.mjs");
     const options = { profile: parsed.options["--profile"], actorPolicy: parsed.options["--actor-policy"],

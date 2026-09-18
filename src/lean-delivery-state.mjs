@@ -4,6 +4,8 @@ import { spawnSync } from "node:child_process";
 import { sha256, durableAtomicWrite, formatJson } from "./files.mjs";
 import { OperationError } from "./operation-errors.mjs";
 import { isWorkItemId } from "./ids.mjs";
+import { completionDoctorPassed } from "./completion-diagnostics.mjs";
+import { writePortableFinishDiagnostics, portableFinishAttention } from "./portable-finish-diagnostics.mjs";
 
 function validOperation(value) {
   if (typeof value !== "string") return false;
@@ -91,7 +93,7 @@ export async function readLeanFinishDiagnostics(target) {
       `${record.journal.request?.work_item_id}/${record.journal.request?.operation_id}` !== record.operation_key ||
       (record.status === "passed" && (record.diagnostics?.status !== "passed" || record.diagnostics.status_rebuild?.status !== "passed" || record.diagnostics.status_rebuild.result?.projection_scope !== "full" ||
         record.diagnostics.doctor?.schema_version !== "temple.doctor-summary/v1" || record.diagnostics.doctor.validation_scope !== "full" || record.diagnostics.doctor.healthy !== true ||
-        !Number.isInteger(record.diagnostics.doctor.summary?.pass) || !Array.isArray(record.diagnostics.doctor.checks) || record.diagnostics.doctor.checks.length || record.diagnostics.doctor.summary?.fail !== 0 || record.diagnostics.doctor.summary?.warn !== 0 ||
+        !completionDoctorPassed(record.diagnostics.doctor) ||
         !Array.isArray(record.diagnostics.errors) || record.diagnostics.errors.length))) throw new Error("Invalid Lean finish diagnostic outcome or binding");
     if (record.recovery) {
       const expected = `.ai-org/artifacts/${record.journal.request.work_item_id}/finish-recovery-${record.journal.request.operation_id}.json`;
@@ -121,14 +123,17 @@ export async function writeLeanFinishDiagnostics(target, record) {
   const filename = path.join(directory, `finish-${record.operation_key.replace("/", "-")}.json`);
   const existing = await fs.lstat(filename).catch(error => { if (error.code === "ENOENT") return null; throw error; });
   if (existing && (!existing.isFile() || existing.isSymbolicLink())) throw new Error("Unsafe Lean finish diagnostic record");
+  await writePortableFinishDiagnostics(target, record);
   await durableAtomicWrite(filename, formatJson(record));
 }
 
 export async function leanFinishAttention(target, settlingOperation = null) {
   try {
-    return (await readLeanFinishDiagnostics(target))
+    const records = await readLeanFinishDiagnostics(target);
+    return [...records
       .filter(record => record.status !== "passed" && record.operation_key !== settlingOperation)
-      .map(record => ({ type: "lean_finish_diagnostics", work_item_id: record.operation_key.split("/")[0], operation_id: record.operation_key.split("/")[1], status: record.status, message: `${record.operation_key}: Lean completion diagnostics ${record.status}; lifecycle facts remain applied` }));
+      .map(record => ({ type: "lean_finish_diagnostics", work_item_id: record.operation_key.split("/")[0], operation_id: record.operation_key.split("/")[1], status: record.status, source: "local-journal", local_journal_available: true, message: `${record.operation_key}: Lean completion diagnostics ${record.status}; lifecycle facts remain applied`, next_action: "Recover only the identical finish request in this checkout before further lifecycle work." })),
+      ...await portableFinishAttention(target, records, settlingOperation)];
   } catch (error) {
     return [{ type: "lean_finish_diagnostics", status: "invalid", message: `Lean completion diagnostics cannot be inspected: ${error.message}` }];
   }

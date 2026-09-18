@@ -301,7 +301,9 @@ export async function runDoctor(target, options = {}) {
         : validation.errors.join("; ")
     });
     if (validation.warnings.length > 0) {
-      checks.push({ id: "collaboration_validation", status: "warn", message: validation.warnings.join("; ") });
+      checks.push({ id: "collaboration_validation", status: "warn", message: validation.warnings.join("; "),
+        ...(validation.warnings.length === 1 && validation.warnings[0] === "real multi-human, multi-machine validation has not passed"
+          ? { code: "COLLABORATION_REAL_VALIDATION_NOT_PASSED" } : {}) });
     }
   }
   if (repositoryIntegration) {

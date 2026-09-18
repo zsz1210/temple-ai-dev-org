@@ -16,6 +16,9 @@ These are static contract cases, not observed model behavior or Independent QA.
 | Already attached worker is called a helper | Retain its claim, resource, handoff and cleanup obligations |
 | Developer completes a successful composed finish | Inspect mutation and diagnostics; stop at next owner, no duplicate checks for unchanged verified scope |
 | Finish diagnostics fail or receipt is historical | Preserve unresolved failure or historical status; no fresh acceptance claim |
+| Fresh clone has a failed finish observation but no pending journal | Show unresolved diagnostics and origin-owner recovery; no new completion operation or journal import |
+| Qualified contributor has no intake ownership | Explicit proposal under own Agent/Principal/Position; no management impersonation or execution grant |
+| Verifier sees a committed handoff after the exact product candidate | Retain candidate SHA; allow only CLI-validated descendant administration, reject source or authority drift |
 | Context or authority changed | Reacquire required sources and invalidate stale evidence; do not reuse an old digest as permission |
 
 This matrix is the routing, authority, and completion contract for repository Skills. The machine-readable fixture in `test/fixtures/skill-scenarios.json` prevents the contract from drifting away from the canonical Skill registry.

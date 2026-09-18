@@ -27,7 +27,34 @@ An authorized coordinator can reuse or create explicit member identities using `
 
 The configuration records authorization already given for these roles. It grants no human approval authority, extends no expiry, and changes no default Assignments. Repeating identical setup reuses identities. Existing inactive/conflicting identities or memberships need explicit recovery, not replacement IDs.
 
+## Propose a task as a contributor
+
+The unreleased [ADR-0068 candidate](../adr/0068-collaborative-completion-recovery.md)
+adds an explicit intake route for an already qualified contributor:
+
+```sh
+node ./templew.mjs work-item propose . --title 'Describe the requested outcome' --position developer --agent-id agent-member-build --principal-id principal-member --ui-mode not-applicable --affected-path src/example.mjs --json
+```
+
+Use your own stable actor IDs. The new item records `proposed_by`, remains unclaimed
+at intake, and retains the configured intake owner. A proposal is not approved
+implementation scope. The coordinator still reviews and assigns it through normal
+workflow. `create` retains its existing intake-owner requirement. This avoids
+impersonating the manager or granting every developer a management membership.
+
 ## Change Solo/team policy deliberately
+
+Readiness distinguishes `ready` (actor eligibility) from `task_ready` (the current
+task's actor and assignment conditions). Inspect `task.owner_position`,
+`recorded_agent_id`, `planned_agent_id`, `active_claim`, `blockers` and `next_action`.
+A qualified member may still need the coordinator to reconcile a planned
+assignment. An existing claim should be continued, not claimed again. These are
+navigation observations; context, policy and execution guards still apply.
+An active claim takes precedence over a different planned assignment; that
+difference remains visible as `assignment_note` without blocking its current owner.
+
+`--context-ref` accepts an ID from `.ai-org/project/context-map.json`. Use
+`--affected-path` for changed files. Unknown route IDs fail before item creation.
 
 ```sh
 node ./templew.mjs collaboration preview-profile . --profile collaborative --actor-policy attributed --json
@@ -67,6 +94,44 @@ A v2 autonomous delivery plan may embed `measurement_plan` instead of legacy `te
 Trusted-local executes argv without shell expansion and supports non-Node tools on supported POSIX hosts. It is not a sandbox: detached sessions, transient writes and external side effects are outside its process-group/workspace observation boundary. Commands must not daemonize. Confined-node retains its exact macOS Node adapter and has no unrestricted fallback. Windows is explicitly unavailable pending a Job Object cleanup adapter and real Windows validation.
 
 ## Explain waits and recover records
+
+After a measurement, generate mechanical closeout evidence without rerunning it:
+
+```sh
+node ./templew.mjs measurement report . --config plan.json --work-item WI-0001 --revision '<full candidate commit>' --output measurement-attempt-01.md --json
+```
+
+Omit `--output` for a read-only report. Output filenames are confined to
+`.ai-org/artifacts/WI-0001/`; identical exports are idempotent and different bytes
+cannot overwrite evidence. The report preserves the original attempt's duration,
+exit status and raw artifact references. Token usage and cost stay null. A cache
+hit means reuse is currently eligible, not that a caller performed another test.
+Failed, incomplete, stale or candidate-mismatched results produce a failing CLI
+status, even when saved for diagnosis. Only declared inputs are compared with Git;
+the reviewer must assess dependency completeness and acceptance coverage. Add the
+reviewer's judgment by reference rather than rewriting this report or treating it
+as independent QA. See [ADR-0069](../adr/0069-mechanical-closeout-and-task-readiness.md).
+
+The ADR-0068 candidate preserves an exact product SHA across subsequent committed
+handoff records. A Lean verifier or identical-request recovery can use that SHA
+only when it is an ancestor of HEAD and every changed path is permitted delivery
+administration for the same item, a generated view, or explicitly referenced new
+Markdown evidence. Source, dependency, instruction, policy and unrelated-item
+changes still block; Developer first delivery still requires current HEAD.
+
+Finish writes a small diagnostic observation alongside its immutable receipt.
+Commit both. A new clone exposes failed, missing or conflicting observations in
+Status, Doctor and recovery Context, including a responsible next action. It cannot
+recover without the original checkout's matching journal. Ask the original owner
+to retry the identical request there, inspect the result and commit its observation.
+Do not copy journals or delete records. Old receipts without an observation marker
+remain readable; a subsequent recovery can add an observation. This is not a
+distributed transaction service or independent acceptance evidence.
+
+The isolated warning that real multi-human/multi-machine validation has not passed
+remains visible but no longer fails ordinary Lean finish. A mixed warning about
+actor policy, sponsorship or other debt still blocks, as do every unknown warning
+and failure. A passed historical receipt is not current verification.
 
 Record an actual missing condition with `work-item unresolved . --work-item WI-0001 --merge 'Real device observation unavailable' --condition-kind environment`. Resolve that same text after obtaining evidence using `--resolve`. CLI status and the Console distinguish attached execution, review completion, missing environment/decision/evidence and organizational acceptance. A finished or unattached reviewer is not running QA. Merged code is not automatically accepted.
 

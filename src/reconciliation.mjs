@@ -35,9 +35,16 @@ function recordKey(record, field) {
   return null;
 }
 function conflict(conflicts, location, reason, base, local, incoming) {
+  const competing = local?.claim?.status === "active" && incoming?.claim?.status === "active" &&
+    !equal(local.claim, incoming.claim);
   conflicts.push({ path: location || "$", reason, base: base === MISSING ? null : base,
     local: local === MISSING ? null : local, incoming: incoming === MISSING ? null : incoming,
-    next_action: "Resolve this record with its responsible owner, retain both histories, then create a fresh preview." });
+    ...(competing ? { condition: "competing-active-claims", responsible_actors: [local.claim, incoming.claim].map(claim => ({
+      principal_id: claim.principal_id ?? null, agent_id: claim.agent_id, claim_id: claim.id,
+      branch: claim.branch ?? null, base_revision: claim.base_revision ?? null })) } : {}),
+    next_action: competing
+      ? "Coordinate both named claim owners. Preserve both branches, explicitly release or hand off the displaced claim through the CLI, then make a fresh preview; never choose ours/theirs for canonical records."
+      : "Resolve this record with its responsible owner, retain both histories, then create a fresh preview." });
   return local;
 }
 function validateIds(value, location, conflicts) {
