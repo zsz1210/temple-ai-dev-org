@@ -86,6 +86,7 @@ import { buildUsageBaseline, buildUsagePreflight, evaluateMatchedModelFixture } 
 import { resolveExecutionRequestFile } from "./execution-routing.mjs";
 import { buildModelOnboardingPlanFile } from "./model-onboarding.mjs";
 import { installArchifyAdapter, inspectArchifyAdapter } from "./archify-adapter.mjs";
+import { createHeadroomView, readHeadroomOriginal } from "./headroom-adapter.mjs";
 import { listTasks, refreshTaskTitles, registerTask, updateTask } from "./tasks.mjs";
 import {
   configureTracker,
@@ -267,6 +268,8 @@ Usage:
   temple execution onboarding-plan [target] --input path [--json]
   temple adapter archify-status [target] [--json]
   temple adapter archify-install [target] --source local-git-checkout [--json]
+  temple adapter headroom-view [target] --input file --kind log|json [--enable-headroom --python absolute-path --snapshot fresh-absolute-file] [--query text] [--json]
+  temple adapter headroom-read [target] --input snapshot --expected-sha256 digest [--json]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
   temple transition [target] --work-item WI-0001 --to state --satisfy requirement=reference
   temple close [target] --work-item WI-0001 --decision go|no-go --tested-revision ref --rollback text --approval record --satisfy accepted_scope=ref --satisfy test_evidence=ref --satisfy evaluation_report=ref --satisfy independent_qa_report=ref
@@ -346,6 +349,7 @@ Inside: many Positions learn, build, challenge, and verify in parallel.
 Only evidence leaves the chamber.`;
 
 const BOOLEAN_FLAGS = new Set([
+  "--enable-headroom",
   "--same-scope",
   "--compact",
   "--dry-run",
@@ -369,6 +373,7 @@ const BOOLEAN_FLAGS = new Set([
   "--confirm-normalization"
 ]);
 const VALUE_FLAGS = new Set([
+  "--kind", "--python", "--snapshot",
   "--actor-policy", "--fingerprint", "--bundle", "--incoming-revision", "--transaction-id", "--condition-kind",
   "--supersedes",
   "--available-whole-sources",
@@ -2152,6 +2157,18 @@ async function runExecution(parsed) {
 
 async function runAdapter(parsed) {
   const target = await assertSafeTarget(parsed.target);
+  if (["headroom-view", "headroom-read"].includes(parsed.action)) {
+    if (!parsed.options["--input"]) throw new Error(`${parsed.action} requires --input`);
+    const input = path.resolve(target, parsed.options["--input"]);
+    const result = parsed.action === "headroom-read"
+      ? await readHeadroomOriginal({ input, sha256: parsed.options["--expected-sha256"] })
+      : await createHeadroomView({ input, kind: parsed.options["--kind"],
+        enabled: parsed.flags.has("--enable-headroom"), python: parsed.options["--python"],
+        snapshot: parsed.options["--snapshot"], query: parsed.options["--query"] ?? "" });
+    // This envelope is the tool result. Do not silently strip readback or metrics.
+    console.log(formatJson(result));
+    return 0;
+  }
   if (parsed.action === "archify-status") {
     const status = await inspectArchifyAdapter(target);
     printResult(parsed, status, [

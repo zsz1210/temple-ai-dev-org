@@ -35,6 +35,20 @@ Temple uses Playwright Core only for repository development and the Management C
 
 Temple commits independently authored Mermaid source and the resulting static SVG documentation assets. Mermaid is used only during documentation authoring; it is not vendored, installed as a runtime dependency, or required to operate Temple.
 
+## Headroom optional tool-output adapter
+
+- Project: <https://github.com/headroomlabs-ai/headroom>
+- Pinned package: `headroom-ai==0.37.0`, upstream tag `v0.37.0`
+- License: Apache-2.0; Copyright 2025 Headroom Contributors
+- Local tokenizer: `tiktoken==0.14.0`, MIT, OpenAI contributors
+
+Temple's independently authored wrapper uses an explicitly supplied, separately
+installed Python environment. No Headroom/tokenizer source, environment or model
+weights are vendored, downloaded or installed by Temple. The upstream LICENSE and
+NOTICE were reviewed; the operator must retain the environment's licenses, notices
+and dependency lock. Default-off operation needs no Python packages. The version
+pin is not a full environment integrity attestation. See the [adapter guide](docs/extensions/headroom-adapter.md).
+
 ## Archify
 
 - Project: <https://github.com/tt-a1i/archify>

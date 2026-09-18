@@ -87,6 +87,7 @@ a general small-code-change or Independent QA shortcut.
 - [Skill design policy](extensions/skill-design.md) and [scenario matrix](extensions/skill-scenarios.md) — maintainer rules and routing expectations.
 - [Extension and migration contracts](extensions/extension-and-migrations.md) — Packs, provenance, compatibility, schemas, and explicit state migration.
 - [Archify adapter](extensions/archify-adapter.md) — an optional, pinned, isolated adapter boundary.
+- [Headroom adapter](extensions/headroom-adapter.md) — explicit large tool-output compression and exact original readback.
 - [Tailscale private Dashboard](integrations/tailscale-private-dashboard.md) — a pinned, tailnet-only, read-only tablet viewer that leaves Agent control on loopback.
 
 ### Planning and historical boundaries
