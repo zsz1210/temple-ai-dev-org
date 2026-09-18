@@ -77,6 +77,8 @@ test('real claim and finish record commit preserves exact product candidate, wit
     ['test',r=>fs.appendFile(path.join(r,'test/public.test.mjs'),'\n// changed after test\n'),/delivery-source-drift/],
     ['missing',r=>fs.unlink(path.join(r,evidence)),/delivery-record-invalid/],
     ['stale',r=>fs.writeFile(path.join(r,evidence),JSON.stringify({candidate_revision:pair.arms.temple.baseline})),/delivery-record-invalid/],
+    ['diagnostics',async r=>{const file=path.join(r,`.ai-org/artifacts/${itemId}/diagnostics-qualification.json`);const record=JSON.parse(await fs.readFile(file));record.receipt_sha256='0'.repeat(64);await fs.writeFile(file,JSON.stringify(record));},/delivery-record-invalid/],
+    ['receipt-bytes',r=>fs.appendFile(path.join(r,`.ai-org/artifacts/${itemId}/finish-qualification.json`),' '),/delivery-record-invalid/],
     ['extra',r=>fs.writeFile(path.join(r,`.ai-org/artifacts/${itemId}/arbitrary.mjs`),'export const x=1;'),/delivery-source-drift/],
     ['scope',async r=>{const w=JSON.parse(await fs.readFile(path.join(r,itemPath)));w.scope=['changed authority'];await fs.writeFile(path.join(r,itemPath),JSON.stringify(w));},/delivery-record-invalid/],
     ['events',r=>fs.appendFile(path.join(r,'.ai-org/events/events.jsonl'),'\n{"work_item_id":"WI-9999"}\n'),/delivery-record-invalid/]

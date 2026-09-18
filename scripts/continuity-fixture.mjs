@@ -223,18 +223,33 @@ function deliveryRecords(root, base, revision, finalRevision, finalTree) {
       evidence.every(file=>artifact(file)&&read(file).includes(revision)),'delivery-record-invalid');
     const receipts=Object.keys(finalTree).filter(file=>file.startsWith(prefix+'finish-')&&file.endsWith('.json'));
     check(receipts.length===1,'delivery-record-invalid');
-    const receipt=JSON.parse(read(receipts[0])),q=receipt.request,r=receipt.result;
+    const receiptBytes=run(root,'git',['show',`${finalRevision}:${receipts[0]}`]);
+    check(receiptBytes.exit_code===0,'delivery-record-invalid');
+    const receipt=JSON.parse(receiptBytes.stdout),q=receipt.request,r=receipt.result;
     check(receipt.schema_version==='temple.lean-finish-receipt/v1'&&receipt.request_digest===sha256(formatJson(q))&&
       q.work_item_id===base.item_id&&q.candidate_revision===revision&&q.position==='developer'&&
       q.agent_id===handoff.actor&&q.claim_id===item.claim.id&&q.principal_id===item.claim.principal_id&&
       isDeepStrictEqual(q.evidence,evidence)&&r.candidate_revision===revision&&r.work_item_id===base.item_id&&
       r.handoff===handoff.artifact&&r.receipt===receipts[0]&&r.resulting_state==='test','delivery-record-invalid');
+    const observations=[];
+    if(receipt.diagnostics_observation!==undefined){
+      const file=prefix+`diagnostics-${q.operation_id}.json`;
+      check(receipt.diagnostics_observation===file&&artifact(file),'delivery-record-invalid');
+      const observation=JSON.parse(read(file));
+      check(observation.schema_version==='temple.finish-observation/v1'&&observation.authority==='observation-only'&&
+        observation.work_item_id===base.item_id&&observation.operation_id===q.operation_id&&
+        observation.candidate_revision===revision&&observation.request_digest===receipt.request_digest&&
+        observation.plan_digest===r.plan_digest&&observation.receipt_sha256===sha256(receiptBytes.stdout)&&
+        observation.status==='passed'&&Array.isArray(observation.errors)&&observation.errors.length===0&&
+        Number.isFinite(Date.parse(observation.observed_at)),'delivery-record-invalid');
+      observations.push(file);
+    }
     const eventPath='.ai-org/events/events.jsonl',oldEvents=git(root,'show',`${base.baseline}:${eventPath}`);
     const events=read(eventPath);
     check(events.startsWith(oldEvents+'\n')&&events.slice(oldEvents.length).trim().split('\n')
       .every(line=>JSON.parse(line).work_item_id===base.item_id),'delivery-record-invalid');
     return new Set([itemPath,'.ai-org/events/events.jsonl','.ai-org/views/status.md',
-      '.ai-org/views/capabilities.json',handoff.artifact,...evidence,...receipts]);
+      '.ai-org/views/capabilities.json',handoff.artifact,...evidence,...receipts,...observations]);
   } catch {throw Error('delivery-record-invalid');}
 }
 

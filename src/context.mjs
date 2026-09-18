@@ -9,7 +9,7 @@ import { loadProjectContext } from "./project.mjs";
 import { inspectProjectActor, formatAgentIdentity } from "./actor-resolution.mjs";
 import { lifecycleProjection } from "./workflow.mjs";
 import { compactContextEntry, contextAuthorityPaths } from "./context-entry.mjs";
-import { readPendingLeanDelivery } from "./lean-delivery-state.mjs";
+import { leanFinishAttention, readPendingLeanDelivery } from "./lean-delivery-state.mjs";
 import { readWorkItem } from "./work-items.mjs";
 import { isWorkItemId } from "./ids.mjs";
 import { parallelExecutionForWorkItem } from "./orchestration.mjs";
@@ -1063,7 +1063,8 @@ export async function resolveWorkItemContext(target, options) {
     source_manifest: sourceManifest,
     warnings
   };
-  return options.compact ? compactContextEntry(capsule, item, context, await readPendingLeanDelivery(target)) : capsule;
+  const diagnostics = (await leanFinishAttention(target)).filter(entry => !entry.work_item_id || entry.work_item_id === item.id);
+  return options.compact ? compactContextEntry(capsule, item, context, await readPendingLeanDelivery(target), diagnostics) : { ...capsule, completion_diagnostics: diagnostics };
 }
 
 export async function writeContextCapsule(target, capsule) {

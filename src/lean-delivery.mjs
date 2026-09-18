@@ -14,6 +14,7 @@ import { leanDeliveryStateDirectory, readPendingLeanDelivery } from "./lean-deli
 import { OperationError } from "./operation-errors.mjs";
 import { verifyMechanicalCompletion } from "./mechanical-completion.mjs";
 import { workflowRequest, prepareWorkflowStage } from "./workflow-completion.mjs";
+import { finishObservationPath } from "./portable-finish-diagnostics.mjs";
 
 const OPERATION = /^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$/;
 const JOURNAL_SCHEMA = "temple.lean-delivery-journal/v1";
@@ -144,13 +145,35 @@ export async function assertWorkingProduct(target, revision, paths) {
   if (seen.size !== expected.size) throw new Error("Product scope changed: candidate file is missing");
 }
 
-async function assertCandidate(target, request, affectedPaths) {
-  if (resolveGitRevision(target, "HEAD") !== request.candidate_revision) throw new Error("Lean delivery candidate must match current HEAD");
+async function assertCandidate(target, request, affectedPaths, { recovery = false, evidenceReferences = [] } = {}) {
   const productPaths = requireProductScope(affectedPaths);
   if (git(target, ["--literal-pathspecs", "status", "--porcelain=v1", "-z", "--untracked-files=all", "--", ...productPaths])) {
     throw new Error("Lean delivery affected product scope has uncommitted changes");
   }
   await assertWorkingProduct(target, request.candidate_revision, productPaths);
+  if (resolveGitRevision(target, "HEAD") === request.candidate_revision) return;
+  const reject = () => { throw new Error("Lean delivery candidate must match current HEAD unless only bounded delivery administration follows the exact candidate; preserve the original revision and inspect the intervening diff"); };
+  if (request.workflow_stage || request.mechanical_contract || !(request.position === "quality_evaluator" || recovery)) reject();
+  if (git(target, ["merge-base", request.candidate_revision, "HEAD"]).trim() !== request.candidate_revision) reject();
+  if (git(target, ["--literal-pathspecs", "diff", "--name-only", "-z", request.candidate_revision, "HEAD", "--", ...productPaths])) reject();
+  const itemRoot = `.ai-org/artifacts/${request.work_item_id}/`;
+  const evidence = new Set([...request.evidence, ...evidenceReferences].filter(ref => safeRelative(ref) &&
+    /^(docs|evidence)\/.+\.md$/.test(ref) && !/(^|\/)(AGENTS|CLAUDE|TEMPLE)\.md$/.test(ref) &&
+    !git(target, ["--literal-pathspecs", "ls-tree", "--name-only", request.candidate_revision, "--", ref]).trim()));
+  const allowed = name => name === `.ai-org/work-items/${request.work_item_id}.json` || name === EVENTS ||
+    name.startsWith(itemRoot) || name.startsWith(".ai-org/views/") || evidence.has(name);
+  const changed = git(target, ["diff", "--no-renames", "--name-only", "-z", request.candidate_revision, "HEAD"]).split("\0").filter(Boolean);
+  if (changed.some(name => !allowed(name))) reject();
+  // A reverted source/policy commit is not an administration-only history. Check
+  // every parent edge, including merges, instead of trusting only the net tree.
+  const commits = git(target, ["rev-list", `${request.candidate_revision}..HEAD`]).trim().split("\n").filter(Boolean);
+  for (const commit of commits) {
+    const paths = git(target, ["diff-tree", "--root", "-m", "--no-commit-id", "--no-renames", "--name-only", "-r", "-z", commit]).split("\0").filter(Boolean);
+    if (paths.some(name => !allowed(name))) reject();
+  }
+  const dirty = [git(target, ["diff", "--no-renames", "--name-only", "-z", "HEAD"]),
+    git(target, ["ls-files", "--others", "--exclude-standard", "-z"])].flatMap(output => output.split("\0").filter(Boolean));
+  if (dirty.some(name => !allowed(name))) reject();
 }
 
 async function inputSnapshot(target, item, request, mechanical = null) {
@@ -254,7 +277,7 @@ async function prepareDelivery(target, request) {
   if (workers && (JSON.parse(workers).workers ?? []).some((worker) => worker.work_item_id === item.id && !["completed", "failed", "cancelled"].includes(worker.status))) {
     throw new Error("Complete the runtime worker before Lean delivery");
   }
-  await assertCandidate(target, request, item.affected_paths ?? []);
+  await assertCandidate(target, request, item.affected_paths ?? [], { evidenceReferences: item.evidence ?? [] });
   if (accepting && resolveGitRevision(target, item.claim.base_revision) !== request.candidate_revision) throw new Error("Lean Verifier claim must pin the exact candidate");
   if (accepting) {
     const handoff = [...(item.handoffs ?? [])].reverse().find((entry) => entry.from_position === "developer");
@@ -292,7 +315,8 @@ async function prepareDelivery(target, request) {
     resulting_state: accepting || mechanical ? "done" : "test", next_action: mechanical ? "Exact-text mechanical completion recorded; not Independent QA or external release." : accepting ? "Lean acceptance is recorded; no external release is authorized." : "The assigned Quality Evaluator must claim Test and verify acceptance.",
     testing_performed: false, external_action_performed: false
   };
-  const receipt = { schema_version: finishing ? "temple.lean-finish-receipt/v1" : RECEIPT_SCHEMA, request_digest: requestDigest, request, result, applied_at: transition.item.updated_at };
+  const receipt = { schema_version: finishing ? "temple.lean-finish-receipt/v1" : RECEIPT_SCHEMA, request_digest: requestDigest, request, result, applied_at: transition.item.updated_at,
+    ...(finishing ? { diagnostics_observation: finishObservationPath(item.id, request.operation_id) } : {}) };
   const beforeEvents = (await fileBytes(target, EVENTS)).toString("utf8");
   const events = [...(handoff?.events ?? []), ...released.events, ...transition.events];
   const contents = [...(handoff ? [handoff.content] : []), formatJson(transition.item), `${beforeEvents}${beforeEvents && !beforeEvents.endsWith("\n") ? "\n" : ""}${events.map((event) => JSON.stringify(event)).join("\n")}\n`, formatJson(receipt)];
@@ -323,7 +347,8 @@ async function prepareAutonomousDelivery(target, request) {
     artifact_kind, artifact: prepared.artifact ?? null, receipt: receiptPath, resulting_state: prepared.item.state,
     next_action: prepared.item.state === "done" ? "Organizational acceptance recorded; external actions remain separately authorized." : `Continue authorized work as ${prepared.item.owner_position}; do not request repeated routine approval.`,
     testing_performed: false, external_action_performed: false };
-  const receipt = { schema_version: "temple.lean-finish-receipt/v1", request_digest: requestDigest, request, result, applied_at: prepared.item.updated_at };
+  const receipt = { schema_version: "temple.lean-finish-receipt/v1", request_digest: requestDigest, request, result, applied_at: prepared.item.updated_at,
+    diagnostics_observation: finishObservationPath(item.id, request.operation_id) };
   const beforeEvents = (await fileBytes(target, EVENTS)).toString("utf8");
   const contents = [...(prepared.artifact ? [prepared.content] : []), formatJson(prepared.item), `${beforeEvents}${beforeEvents && !beforeEvents.endsWith("\n") ? "\n" : ""}${events.map(e => JSON.stringify(e)).join("\n")}\n`, formatJson(receipt)];
   const writes = [];
@@ -377,7 +402,7 @@ export async function validateLeanCompletionSnapshot(target, journal, { applied 
     throw new Error(`Lean completion Agent is no longer eligible for ${position}`);
   }
   await currentEvidencePaths(target, resultingItem, journal.request);
-  await assertCandidate(target, journal.request, journal.affected_paths);
+  await assertCandidate(target, journal.request, journal.affected_paths, { recovery: true, evidenceReferences: resultingItem.evidence ?? [] });
   await assertInputs(target, journal.inputs, journal.writes);
   // Requalify filesystem modes, links and whole-worktree scope after interruption.
   // The original item is byte-bound above; current canonical state must separately

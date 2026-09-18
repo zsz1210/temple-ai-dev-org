@@ -17,6 +17,9 @@ export const REQUIRED_PACKAGE_PATHS = [
   "bin/temple.mjs",
   "src/cli.mjs",
   "src/learning-review.mjs",
+  "src/completion-diagnostics.mjs",
+  "src/portable-finish-diagnostics.mjs",
+  "docs/adr/0068-collaborative-completion-recovery.md",
   "project-overlay/.ai-org/core/schemas/learning-review.schema.json",
   "project-overlay/.ai-org/templates/learning-review.json",
   "docs/adr/0066-demand-driven-learning-review-coverage.md",
@@ -80,7 +83,8 @@ const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overl
 // WI-0243 adds exactly one public Alpha.33 qualification and upgrade guide.
 // Reviewed addition: bounded finish-recovery module and its operator guide.
 // WI-0250 adds the measurement report module and its ADR; no new package roots.
-const MAX_FILE_COUNT = 448;
+// WI-0252 integrates two diagnostic modules and ADR-0068; roots unchanged.
+const MAX_FILE_COUNT = 451;
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {

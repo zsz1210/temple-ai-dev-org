@@ -10,6 +10,17 @@
     "state": { "type": "string" },
     "owner_position": { "type": "string" },
     "assigned_agent_id": { "type": ["string", "null"] },
+    "proposed_by": {
+      "type": "object", "additionalProperties": false,
+      "required": ["agent_id", "principal_id", "position_id", "actor_provenance", "proposed_at"],
+      "properties": {
+        "agent_id": { "type": "string", "minLength": 1 },
+        "principal_id": { "type": "string", "minLength": 1 },
+        "position_id": { "type": "string", "minLength": 1 },
+        "actor_provenance": { "type": "object" },
+        "proposed_at": { "type": "string", "format": "date-time" }
+      }
+    },
     "created_at": { "type": "string" },
     "updated_at": { "type": "string" },
     "rework_history": {

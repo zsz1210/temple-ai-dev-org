@@ -125,6 +125,7 @@ export async function acquireContextPacket(target, options = {}) {
   if (!entry.work_item.scope.length || !entry.work_item.acceptance_criteria.length) problem("missing-task-contract");
   if (entry.work_item.unresolved.length) problem("unresolved-work");
   if (entry.next_step.pending_operation) problem("pending-delivery");
+  if (entry.next_step.completion_diagnostics?.length) problem("unresolved-completion-diagnostics");
   for (const warning of entry.warnings) problem("resolver-warning", warning);
 
   const selected = new Map();

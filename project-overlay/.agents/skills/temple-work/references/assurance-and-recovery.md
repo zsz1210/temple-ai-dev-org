@@ -12,6 +12,16 @@ For a rejected candidate within approved scope, the active eligible reviewer may
 
 ## Failed operations
 
+Use read-only Status/Context to distinguish a pending mutation journal from failed
+post-mutation diagnostics. `no_pending_operation` does not mean completion passed.
+A fresh clone can read a committed `finish-<operation>.json` receipt and bound
+`diagnostics-<operation>.json` observation, but cannot replay the origin's journal.
+Return the exact operation to its original owner/checkout for identical-request
+recovery and commit the resulting observation. Missing or conflicting observations
+remain unresolved. Never copy a journal or hand-edit a diagnostic to manufacture a
+pass. Competing claims require the named owners to coordinate a handoff or release;
+do not choose a winner with Git ours/theirs.
+
 New delivery and compact Context JSON failures report `code`, `mutation_status` and `next_action`. They do not execute a retry:
 
 | Code | Response |

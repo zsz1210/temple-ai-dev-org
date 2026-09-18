@@ -36,7 +36,7 @@ function args(f, extra = []) {
 }
 const apply = (f, hooks) => withProjectMutationLock(f.target, () => finishLeanWorkItem(f.target, f.request, hooks), { leanDeliveryOperation: `${f.item.id}/${f.request.operationId}` });
 const interrupt = point => ({ checkpoint: current => { if (current === point) throw new Error(`injected ${point}`); } });
-async function lifecycleBytes(f) { return Object.fromEntries(Object.entries(await canonicalBytes(f)).filter(([name]) => !name.startsWith(".ai-org/views/"))); }
+async function lifecycleBytes(f) { return Object.fromEntries(Object.entries(await canonicalBytes(f)).filter(([name]) => !name.startsWith(".ai-org/views/") && !/^\.ai-org\/artifacts\/WI-[^/]+\/diagnostics-[^/]+\.json$/.test(name))); }
 async function events(f) { return (await fs.readFile(path.join(f.target, ".ai-org/events/events.jsonl"), "utf8")).trim().split("\n").map(JSON.parse); }
 function normalize(value) {
   if (Array.isArray(value)) return value.map(normalize);
@@ -274,7 +274,9 @@ test("Diagnostic repair rejects changed evidence, authority, request, resulting 
   assert.notEqual(cli(args(f), { allowFailure: true }).status, 0); f.request = originalRequest;
   await fs.appendFile(path.join(f.target, "app.mjs"), "\n// dirty\n"); assert.match(cli(args(f), { allowFailure: true }).stderr, /uncommitted/);
   git(f.target, ["add", "app.mjs"]); git(f.target, ["commit", "-m", "Advance candidate"]);
-  assert.match(cli(args(f), { allowFailure: true }).stderr, /current HEAD/);
+  const before = await lifecycleBytes(f);
+  assert.match(cli(args(f), { allowFailure: true }).stderr, /Product scope changed/);
+  assert.deepEqual(await lifecycleBytes(f), before);
 });
 
 test("Journal recovery rejects authority and canonical output drift before missing writes", async t => {

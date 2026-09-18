@@ -1,0 +1,87 @@
+{
+  "source_root_name": "separate-account",
+  "source_sha256": {
+    "report.zh-TW.md": "ec21c2df1e26bdfe5a827d5f88037d88c92f0d340c6d95db305f1aee67428167",
+    "metrics.json": "95db60bacf2c4c8c0f46f33f9a0d2dfb53fb36f2c2cba2e70d6d8b3e60f42708",
+    "cases.json": "933017eb58c6e8e05178282767200d2166051f4b9d959d96c9eb7a4d37f1798d",
+    "observations/timeline.jsonl": "fb1977d539701604d05dab450dea2e3d25e4ac4811914486efe8ae4f5cf52f13"
+  },
+  "metrics_excerpt": {
+    "schema_version": "temple.separate-account-measurements/v1",
+    "generated_at": "2026-09-17T16:28:03.716Z",
+    "framework_source": "711ab8e74e5aea7f8874026fb2e8bd07013f1a2e",
+    "evidence_class": "two-physical-machines-two-github-accounts-one-human-operator",
+    "provider_tokens": null,
+    "provider_billed_cost": null,
+    "quota_polled": false,
+    "local_recorded_command_count": 52,
+    "local_recorded_process_ms_sum": 32409,
+    "sum_is_not_wall_time": true,
+    "command_exit_nonzero_count": 5,
+    "nonzero_exits_include_intentional_controls_and_harness_errors": true,
+    "baseline": {
+      "report": "../report.zh-TW.md",
+      "metrics": "../metrics.json",
+      "directly_comparable_speed_or_cost_trial": false
+    }
+  },
+  "cases": {
+    "schema_version": "temple.bounded-rehearsal-cases/v1",
+    "completed": true,
+    "independent_human_qualification": false,
+    "framework_published": false,
+    "cases": [
+      {
+        "id": "C01",
+        "outcome": "pass",
+        "summary": "Separate GitHub account proposed its own unclaimed intake; coordinator assigned Build. Initial invalid context route self-corrected and preserved.",
+        "first_attempt_clean": false,
+        "evidence": "metrics.json:sources.proposal"
+      },
+      {
+        "id": "C02",
+        "outcome": "pass-after-rework",
+        "summary": "Both disjoint candidates accepted by different Agent identities/accounts; 54 distinct event records and exact verified product/test blobs preserved; 7/7 integrated tests on both Macs; PR7 merged only into isolated base.",
+        "first_attempt_clean": false,
+        "rework_cause": "Coordinator requested post-candidate measurement JSON outside the permitted administrative path.",
+        "evidence": "observations/1789662165379-final-integrated-evidence-corrected.stdout"
+      },
+      {
+        "id": "C03",
+        "outcome": "pass",
+        "summary": "Ordinary Developer and verifier finish pass with only the real-collaboration maturity warning preserved. No warning or gate disabled.",
+        "first_attempt_clean": true,
+        "evidence": "metrics.json:sources.developer_attempt_1"
+      },
+      {
+        "id": "C04",
+        "outcome": "pass",
+        "summary": "Fresh remote session reconstructed the injected failed diagnostics and origin-only recovery action; exact-request origin recovery completed without duplicate lifecycle writes; later verifier accepted the original A product candidate.",
+        "first_attempt_clean": false,
+        "note": "The failure itself was deliberately injected; read-only navigation/argument mistakes remain recorded.",
+        "evidence": "metrics.json:sources.fresh_recovery"
+      },
+      {
+        "id": "C05",
+        "outcome": "pass",
+        "summary": "Competing stale-clone claims rejected with both responsible owners and next action; apply rejected without writes; both original owners released their own claim and preserved branches.",
+        "first_attempt_clean": true,
+        "evidence": "metrics.json:sources.competing_b_cleanup"
+      }
+    ],
+    "outcome_counts": {
+      "pass": 4,
+      "pass-after-rework": 1,
+      "blocked": 0,
+      "not-run": 0
+    },
+    "remaining_limitations": [
+      "One human operator",
+      "Synthetic small project",
+      "No measured provider token or billing data",
+      "No statistical speed comparison",
+      "SSH-shell GitHub authentication returned 401",
+      "Original historical fixture work remains outside this run"
+    ]
+  }
+}

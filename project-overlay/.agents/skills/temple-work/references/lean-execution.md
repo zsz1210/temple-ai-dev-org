@@ -37,6 +37,12 @@ Developer candidate. Record Test/Lean-closeout evidence; only on passing accepta
 node ./templew.mjs work-item finish . --work-item WI-#### --position quality_evaluator --operation-id <stable-id> --claim-id <active-claim> --agent-id <verifier-id> --principal-id <principal-id> --revision <full-candidate-sha> --judgment pass --test-evidence <repository-ref> --lean-closeout <repository-ref> --json
 ```
 
+Keep the original Developer candidate SHA after committing handoff records. The
+CLI permits descendant HEAD only for verification or identical-request recovery,
+and only for that item's administration, generated views and explicitly referenced
+new Markdown evidence. Changed product, dependencies, instructions or policy still
+reject; do not substitute HEAD or amend the candidate to evade a mismatch.
+
 Do not also call `deliver` or a second manual handoff/release/transition. `--dry-run`
 and `--expected-plan` are optional, not required round trips. A failed verification
 uses issue/rework handling. Never reuse an unsettled operation ID with changed facts.
@@ -49,3 +55,8 @@ evidence and authority still match. Interrupted journals use that identical requ
 not individual mutations or deletion. Read [Assurance and recovery](assurance-and-recovery.md)
 when needed. Stop at this stage's result and next owner; formal QA, merge, publication
 and another task are not implied.
+
+Only the isolated real-collaboration maturity warning is informational for finish.
+Other warnings and failures remain unresolved. Commit the generated receipt and
+diagnostic observation with delivery records so another clone can see failures;
+the observation is not replay authority or fresh acceptance evidence.
