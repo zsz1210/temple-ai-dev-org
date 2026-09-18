@@ -9,6 +9,7 @@ const execFileAsync = promisify(execFile);
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 export const REQUIRED_PACKAGE_PATHS = [
+  "docs/getting-started/team-entry.md",
   "LICENSE",
   "README.md",
   "README.ja.md",
@@ -87,7 +88,7 @@ const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overl
 // Reviewed addition: bounded finish-recovery module and its operator guide.
 // WI-0250 adds the measurement report module and its ADR; no new package roots.
 // WI-0252 integrates two diagnostic modules and ADR-0068; roots unchanged.
-const MAX_FILE_COUNT = 454;
+const MAX_FILE_COUNT = 455;
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {

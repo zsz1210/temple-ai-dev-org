@@ -15,6 +15,7 @@ a general small-code-change or Independent QA shortcut.
 | Complete the first Work Item | [Core Path](getting-started/core-path.md) | [Usage guide](getting-started/usage.md), [Workflow profiles](concepts/workflow-profiles.md) |
 | Install or adopt Temple | [Usage guide](getting-started/usage.md) | [Core Path](getting-started/core-path.md), [Enterprise document adoption](getting-started/enterprise-document-adoption.md) |
 | Coordinate people and AI agents | [Collaborative development](operations/collaboration.md) | [Parallel orchestration](operations/parallel-orchestration.md), [Runtime coordination](operations/runtime-coordination.md) |
+| Join an existing team project | [Team entry](getting-started/team-entry.md) | [Contributor setup and recovery](operations/collaborative-delivery.md) |
 | Choose proportionate delivery controls | [Workflow profiles and outcomes](concepts/workflow-profiles.md) | [High-Assurance](operations/high-assurance.md), [ADR-0045](adr/0045-adaptive-workflow-profiles.md) |
 | Hand off a small change with fewer administrative steps | [Lean delivery](operations/lean-delivery.md) | [Compact context entry](extensions/context-routing.md#compact-entry), [Workflow profiles](concepts/workflow-profiles.md) |
 | Resolve a model or execution profile for one step | [Adaptive execution routing](concepts/adaptive-execution-routing.md) | [Execution routing operations](operations/execution-routing.md), [ADR-0046](adr/0046-separate-adaptive-execution-routing.md) |

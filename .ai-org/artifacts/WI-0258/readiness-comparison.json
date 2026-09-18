@@ -1,0 +1,74 @@
+{
+  "base_revision": "1a3b132dc106ca9fb483443fdd2cbdcb0f8e9e7d",
+  "candidate_revision": "8518841bdb2b0d66529652507cb9d83516d8b813",
+  "same_target": "/Users/zsz1210/Documents/ChatGPT/temple-compact-evidence",
+  "tokenizer": "o200k_base",
+  "additional_model_calls": 0,
+  "canonical_source_hashes_unchanged": true,
+  "command_calls": 12,
+  "rows": [
+    {
+      "case": "eligible-terminal-task",
+      "before": {
+        "exit_code": 1,
+        "bytes": 6383,
+        "tokens": 1789,
+        "process_ms": 126.74879195401445,
+        "headline": "collaboration readiness: complete"
+      },
+      "after": {
+        "exit_code": 1,
+        "bytes": 736,
+        "tokens": 154,
+        "process_ms": 137.24712503608316,
+        "headline": "collaboration readiness: needs attention"
+      },
+      "json_equal": true,
+      "text_reduction_percent": 91.39183901621017
+    },
+    {
+      "case": "unknown-contributor",
+      "before": {
+        "exit_code": 1,
+        "bytes": 4920,
+        "tokens": 1275,
+        "process_ms": 117.97629098873585,
+        "headline": "collaboration readiness: complete"
+      },
+      "after": {
+        "exit_code": 1,
+        "bytes": 934,
+        "tokens": 187,
+        "process_ms": 117.29633301729336,
+        "headline": "collaboration readiness: needs attention"
+      },
+      "json_equal": true,
+      "text_reduction_percent": 85.33333333333333
+    },
+    {
+      "case": "eligible-no-task",
+      "before": {
+        "exit_code": 0,
+        "bytes": 8561,
+        "tokens": 2303,
+        "process_ms": 198.11329199001193,
+        "headline": "collaboration readiness: complete"
+      },
+      "after": {
+        "exit_code": 0,
+        "bytes": 1032,
+        "tokens": 211,
+        "process_ms": 196.89137500245124,
+        "headline": "collaboration readiness: select a Work Item"
+      },
+      "json_equal": true,
+      "text_reduction_percent": 90.8380373425966
+    }
+  ],
+  "limits": [
+    "Three selected states, not a representative workload or independent-human usability study.",
+    "Serialized human text only; not actual provider usage, cost or prompt reduction.",
+    "One process sample per state/version; timings are diagnostic, not causal speed evidence.",
+    "CLI algorithm and machine JSON remain unchanged."
+  ]
+}

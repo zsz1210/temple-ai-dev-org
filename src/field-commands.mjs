@@ -37,8 +37,42 @@ async function rebuildReconciliationViews(target, result) {
   }
 }
 
+function readinessText(result) {
+  const task = result.task;
+  const blocked = result.ready === false || result.task_ready === false;
+  const lines = [
+    `collaboration readiness: ${blocked ? "needs attention" : task ? "actor and task checks passed" : "select a Work Item"}`,
+    `Actor eligibility: ${result.ready ? "eligible" : "not eligible"}`,
+    `Task readiness: ${task ? result.task_ready ? "actor and assignment checks passed" : "needs attention" : "not checked (no resolved Work Item)"}`,
+    `Principal: ${result.principal_id ?? result.selected_actor?.principal_id ?? "not selected"}`
+  ];
+  if (result.selected_actor) lines.push(`Selected Agent: ${result.selected_actor.agent_id} (${result.selected_actor.position_id})`);
+  else for (const entry of result.eligible_positions ?? []) {
+    lines.push(`Role candidate: ${entry.position_id} — ${entry.agent_id} (Principal ${entry.principal_id})`);
+  }
+  if (task) {
+    lines.push(`Work Item: ${task.work_item_id} — ${task.state}`, `Current Position: ${task.owner_position}`);
+    if (task.recorded_agent_id) lines.push(`Recorded Agent: ${task.recorded_agent_id}`);
+    if (task.planned_agent_id) lines.push(`Planned Agent: ${task.planned_agent_id}`);
+    if (task.active_claim) lines.push(`Active claim: ${task.active_claim.id} — ${task.active_claim.agent_id} (Principal ${task.active_claim.principal_id})`);
+    if (task.assignment_note) lines.push(`Assignment note: ${task.assignment_note}`);
+  }
+  for (const blocker of task?.blockers ?? result.blockers ?? []) {
+    lines.push(`Blocker [${blocker.code}]: ${blocker.message}`,
+      `  Responsible: ${blocker.responsible_actor ?? "not resolved; consult the project coordinator"}`,
+      `  Next action: ${blocker.next_action}`);
+  }
+  if (result.anonymous_active_claims?.length) lines.push(`Unattributed active claims: ${result.anonymous_active_claims.length}; inspect --json before changing team policy.`);
+  if (task?.next_operation) lines.push(`Next operation: ${task.next_operation}`);
+  if (result.next_action) lines.push(`Next action: ${result.next_action}`);
+  lines.push("Read-only guidance; execution and approval checks still apply. No state was changed.",
+    "Add --json for the full structured report; use stable Agent IDs when names repeat.");
+  return lines.join("\n");
+}
+
 function output(parsed, result) {
   if (parsed.flags.has("--json")) console.log(JSON.stringify(result, null, 2));
+  else if (parsed.command === "collaboration" && parsed.action === "readiness") console.log(readinessText(result));
   else {
     console.log(`${parsed.command} ${parsed.action}: ${result.status ?? result.cache_status ?? (result.valid === false ? "needs attention" : "complete")}`);
     if (result.reason) console.log(`Reason: ${result.reason}`);

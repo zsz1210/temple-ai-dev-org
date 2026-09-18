@@ -36,7 +36,65 @@ test("qualified member sees planned-owner blocker and actionable CLI failure wit
   const cli = spawnSync(process.execPath, [new URL("../bin/temple.mjs", import.meta.url).pathname, "collaboration", "readiness", root,
     "--work-item", options.workItemId, "--principal-id", "human", "--agent-id", "agent-build", "--position", "developer", "--json"], { encoding: "utf8" });
   assert.equal(cli.status, 1, cli.stderr); assert.equal(JSON.parse(cli.stdout).task_ready, false);
+  const human = spawnSync(process.execPath, [new URL("../bin/temple.mjs", import.meta.url).pathname, "collaboration", "readiness", root,
+    "--work-item", options.workItemId, "--principal-id", "human", "--agent-id", "agent-build", "--position", "developer"], { encoding: "utf8" });
+  assert.equal(human.status, cli.status, human.stderr);
+  assert.match(human.stdout, /^collaboration readiness: needs attention\n/);
+  assert.match(human.stdout, /Actor eligibility: eligible/);
+  assert.match(human.stdout, /Task readiness: needs attention/);
+  assert.match(human.stdout, /TEMPLE_ACTOR_PLAN_MISMATCH/);
+  assert.match(human.stdout, /Responsible: agent-other/);
+  assert.match(human.stdout, /authorized coordinator/);
+  assert.match(human.stdout, /--json/);
+  assert.doesNotMatch(human.stdout, /"schema_version"|readiness: complete/);
+  assert.deepEqual(JSON.parse(cli.stdout), result);
   assert.deepEqual(await fs.readFile(path.join(root, ".ai-org/work-items/WI-0001.json")), before);
+});
+
+test("human readiness distinguishes continuation, multiple blockers, no task and missing actors without writes", async t => {
+  const { root, item, write } = await fixture(t);
+  const args = [new URL("../bin/temple.mjs", import.meta.url).pathname, "collaboration", "readiness", root];
+  const run = (...flags) => spawnSync(process.execPath, [...args, ...flags], { encoding: "utf8" });
+  const snapshot = async () => {
+    const files = await fs.readdir(path.join(root, ".ai-org"), { recursive: true, withFileTypes: true });
+    return Promise.all(files.filter(e => e.isFile()).map(async e => {
+      const p = path.join(e.parentPath, e.name); return [p, await fs.readFile(p, "utf8")];
+    }));
+  };
+  item.claim = { id: "claim-one", status: "active", agent_id: "agent-build", principal_id: "human", position_id: "developer" };
+  await write(".ai-org/work-items/WI-0001.json", item);
+  let before = await snapshot();
+  let result = run("--principal-id", "human", "--agent-id", "agent-build", "--work-item", item.id);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /actor and task checks passed/);
+  assert.match(result.stdout, /Active claim: claim-one — agent-build/);
+  assert.match(result.stdout, /Planned Agent: agent-other/);
+  assert.match(result.stdout, /active claim owns current work/);
+  assert.match(result.stdout, /do not claim again/);
+  assert.deepEqual(await snapshot(), before);
+
+  item.claim = null; item.state = "done"; await write(".ai-org/work-items/WI-0001.json", item);
+  before = await snapshot();
+  result = run("--principal-id", "human", "--agent-id", "agent-build", "--work-item", item.id);
+  assert.equal(result.status, 1);
+  assert.match(result.stdout, /TEMPLE_TASK_TERMINAL/);
+  assert.match(result.stdout, /TEMPLE_ACTOR_PLAN_MISMATCH/);
+  assert.match(result.stdout, /separately authorized Work Item/);
+  assert.doesNotMatch(result.stdout, /readiness: complete/);
+  result = run("--principal-id", "human", "--agent-id", "agent-build", "--position", "developer");
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /select a Work Item/);
+  assert.match(result.stdout, /Task readiness: not checked/);
+  result = run("--principal-id", "missing-member", "--work-item", item.id);
+  assert.equal(result.status, 1);
+  assert.match(result.stdout, /Actor eligibility: not eligible/);
+  assert.match(result.stdout, /TEMPLE_ACTOR_PRINCIPAL_INACTIVE/);
+  assert.match(result.stdout, /contributor setup/);
+  result = run("--principal-id", "human", "--work-item", "WI-9999");
+  assert.equal(result.status, 1);
+  assert.match(result.stdout, /TEMPLE_CONTRIBUTOR_WORK_ITEM_MISSING/);
+  assert.match(result.stdout, /no resolved Work Item/);
+  assert.deepEqual(await snapshot(), before);
 });
 
 test("claim continuation and conflicts name actual owner, while wrong stage and terminal work cannot start", async t => {
