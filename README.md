@@ -115,6 +115,7 @@ The Guidance layer deliberately contains two different routes. **Context Routing
 - **Stable responsibilities:** Positions define ownership and authority without tying them permanently to one person or AI.
 - **Bounded work:** every change becomes a Work Item with scope, dependencies, acceptance criteria, and a durable state.
 - **Relevant context:** Context Routing points each Position to the specifications, decisions, Skills, and evidence needed for the current step.
+- **Compact evidence:** an optional [reading view](docs/operations/compact-evidence.md) shortens saved test logs and JSON while retaining failure details, limitations, and a digest-bound path to the original.
 - **Explainable execution choices:** Adaptive Execution Routing selects an eligible project-owned execution profile from the step's needs; responsibility never hard-codes a model.
 - **Evidence-gated delivery:** implementation, evaluation, Independent QA, and release readiness remain separate claims.
 - **Safe parallel work:** independent tasks can run together; overlapping work waits for coordination and an explicit integration owner.

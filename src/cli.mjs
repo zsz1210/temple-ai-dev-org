@@ -189,6 +189,7 @@ Usage:
   temple measurement inspect|run [target] --config measurement-plan.json [--json]
   temple measurement report [target] --config measurement-plan.json --work-item WI-ID --revision full-sha [--output filename.md] [--json]
   temple evidence durability [target] [--work-item WI-ID] [--revision ref] [--json]
+  temple evidence view [target] --source repository-path [--format text|json|node-test] [--compact] [--expected-sha256 digest] [--json]
   temple evidence export-bundle [target] --evidence EVID-ID [--output path] [--json]
   temple evidence verify-bundle|import-bundle [target] --bundle path [--json]
   temple reconcile preview|apply [target] --config request-or-preview.json [--fingerprint digest] [--json]
@@ -389,6 +390,7 @@ const VALUE_FLAGS = new Set([
   "--material",
   "--mechanical-contract",
   "--format",
+  "--expected-sha256",
   "--thread-id",
   "--client-thread-id",
   "--host-id",
@@ -1738,6 +1740,15 @@ export function createShutdownSignalLatch(signalSource = process) {
 
 async function runEvidence(parsed) {
   const target = await assertSafeTarget(parsed.target);
+  if (parsed.action === "view") {
+    assertCommandOptions(parsed, ["--source", "--format", "--expected-sha256"], ["--compact", "--json"]);
+    const { evidenceView, renderEvidenceView } = await import("./evidence-view.mjs");
+    const result = await evidenceView(target, { source: parsed.options["--source"], format: parsed.options["--format"],
+      compact: parsed.flags.has("--compact"), expectedSha256: parsed.options["--expected-sha256"] });
+    if (parsed.flags.has("--json")) console.log(JSON.stringify(result));
+    else console.log(renderEvidenceView(result));
+    return 0;
+  }
   if (parsed.action === "list") {
     const registry = await readEvidenceRegistry(target);
     const entries = parsed.options["--work-item"]

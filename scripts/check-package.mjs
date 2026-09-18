@@ -16,6 +16,9 @@ export const REQUIRED_PACKAGE_PATHS = [
   "package.json",
   "bin/temple.mjs",
   "src/cli.mjs",
+  "src/evidence-view.mjs",
+  "docs/operations/compact-evidence.md",
+  "docs/adr/0070-compact-evidence-reading-view.md",
   "src/learning-review.mjs",
   "src/completion-diagnostics.mjs",
   "src/portable-finish-diagnostics.mjs",
@@ -84,7 +87,7 @@ const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overl
 // Reviewed addition: bounded finish-recovery module and its operator guide.
 // WI-0250 adds the measurement report module and its ADR; no new package roots.
 // WI-0252 integrates two diagnostic modules and ADR-0068; roots unchanged.
-const MAX_FILE_COUNT = 451;
+const MAX_FILE_COUNT = 454;
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {

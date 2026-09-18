@@ -67,6 +67,7 @@ a general small-code-change or Independent QA shortcut.
 - [Legacy combined control plane](operations/control-plane.md) — replay-safe events, providers, live projections, and the Human Inbox compatibility path.
 - [Backup and recovery](operations/backup-and-recovery.md) — project-owned-state manifests, integrity checks, restore preview, and interrupted-write rollback.
 - [Auditable Self-Hosting and Evidence Profiles](operations/auditable-self-hosting.md) — preserve useful development evidence while blocking new secrets, local runtime data, and machine-specific publication leaks.
+- [Compact evidence reading](operations/compact-evidence.md) — opt-in saved-log and JSON views with failure details, limitations and digest-bound original references.
 - [Adversarial policy evaluation](operations/policy-evaluation.md) — versioned failure scenarios, profile fixtures, fail-closed scorecards, and authority boundaries.
 - [Token Efficiency and Model Routing](operations/token-efficiency-and-model-routing.md) — provider-reported usage, project-local calibration, Credits provenance, exception-only autonomy, and the boundary before automatic routing.
 - [Execution routing](operations/execution-routing.md) — configure and inspect per-step deterministic routes without launching a Provider or mutating project state.
