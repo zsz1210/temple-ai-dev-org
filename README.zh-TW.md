@@ -166,6 +166,7 @@ Temple 會保留尚未解決的驗證缺口，不會把一次本機測試通過�
 - [Temple 術語表（英文）](docs/concepts/terminology.md) — Position、Agent Identity、Work Item、Evidence 與運作模式。
 - [系統架構（英文）](docs/concepts/architecture.md) — 版本庫界線與正式狀態。
 - [可稽核的自我開發紀錄（英文）](docs/operations/auditable-self-hosting.md) — 查看 Temple 本身如何開發；這些紀錄不會複製到你的專案。
+- [加入既有團隊（英文）](docs/getting-started/team-entry.md) — 第一次操作、任務歸屬，以及被擋住時的處理方式。
 - [文件導覽（英文）](docs/README.md) — 多人協作、UI 模式、外部追蹤、品質保證、學習、驗證與決策。
 - [參與貢獻（英文）](CONTRIBUTING.md)、[行為準則（英文）](CODE_OF_CONDUCT.md)與[安全回報方式（英文）](SECURITY.md) — 說明如何參與，以及遇到行為事件或安全問題時該從哪個非公開管道聯絡。
 

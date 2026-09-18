@@ -1,5 +1,7 @@
 # Contributor onboarding and reusable delivery evidence
 
+New to an existing team repository? Start with [Join an existing Temple project](../getting-started/team-entry.md), then return here for coordinator setup, reuse or recovery details.
+
 This guide describes the WI-0230 candidate implemented under [ADR-0067](../adr/0067-low-friction-collaborative-delivery.md). It does not install the candidate into another project or change Git hosting permissions. The fixed [field specification](../planning/field-remediation.md) records its acceptance cases.
 
 ## Start ordinary work

@@ -166,6 +166,7 @@ The framework reports retained gaps instead of treating a passing local test as 
 - [Temple terminology](docs/concepts/terminology.md) — Positions, Agent Identities, Work Items, Evidence, and profiles.
 - [Architecture](docs/concepts/architecture.md) — repository boundaries and canonical state.
 - [Auditable Self-Hosting](docs/operations/auditable-self-hosting.md) — inspect Temple's own development records; they are not copied into your project.
+- [Join an existing team](docs/getting-started/team-entry.md) — your first commands, task ownership, and help when blocked.
 - [Documentation map](docs/README.md) — collaboration, UI modes, trackers, assurance, learning, validation, and decisions.
 - [Contributing](CONTRIBUTING.md), [Code of Conduct](CODE_OF_CONDUCT.md), and [Security](SECURITY.md) — contribution expectations and private reporting routes.
 

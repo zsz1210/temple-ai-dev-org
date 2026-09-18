@@ -166,6 +166,7 @@ Temple は、有人監督のある低リスクなローカルプロジェクト�
 - [Temple terminology（英語）](docs/concepts/terminology.md) — Position、Agent Identity、Work Item、Evidence、運用プロファイル。
 - [Architecture（英語）](docs/concepts/architecture.md) — リポジトリ境界と正式な状態。
 - [Auditable Self-Hosting（英語）](docs/operations/auditable-self-hosting.md) — Temple 自身の開発記録を確認できます。導入先のプロジェクトにはコピーされません。
+- [既存のチームに参加する（英語）](docs/getting-started/team-entry.md) — 最初のコマンド、タスクの担当、行き詰まったときの案内。
 - [Documentation map（英語）](docs/README.md) — コラボレーション、UI モード、トラッカー、品質保証、学習、検証、意思決定。
 - [Contributing（英語）](CONTRIBUTING.md)、[Code of Conduct（英語）](CODE_OF_CONDUCT.md)、[Security（英語）](SECURITY.md) — 参加方法と、行為上の問題や脆弱性を非公開で報告する窓口。
 
