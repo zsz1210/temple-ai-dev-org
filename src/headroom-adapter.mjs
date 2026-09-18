@@ -1,5 +1,5 @@
 import fs from "node:fs/promises";
-import { constants } from "node:fs";
+import fsSync, { constants } from "node:fs";
 import path from "node:path";
 import os from "node:os";
 import { createHash } from "node:crypto";
@@ -11,6 +11,7 @@ export const HEADROOM_CONTRACT = Object.freeze({
   minimumBytes: 16 * 1024, maximumBytes: 1024 * 1024, timeoutMs: 15000
 });
 const workerFile = fileURLToPath(new URL("./headroom-worker.py", import.meta.url));
+const adapterFile = fileURLToPath(import.meta.url);
 const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const byteLength = (value) => Buffer.byteLength(value, "utf8");
 const envelopeBytes = (value) => byteLength(JSON.stringify(value));
@@ -72,7 +73,27 @@ function validWorker(result, originalHash) {
 
 function safeSnapshot(filename) {
   if (typeof filename !== "string" || !path.isAbsolute(filename)) return false;
-  return !path.resolve(filename).split(path.sep).some((part) => [".git", ".ai-org", ".agents", ".codex"].includes(part));
+  return !path.resolve(filename).split(path.sep).some((part) => [".git", ".ai-org", ".agents", ".codex"].includes(part.toLowerCase()));
+}
+
+function writeSnapshot({ parent, device, inode, name, content }) {
+  const snapshot = path.join(parent, name);
+  const args = [adapterFile, "--snapshot-writer"];
+  let command = process.execPath;
+  if (process.platform === "darwin") {
+    const profile = `(version 1)(allow default)(deny network*)(deny process-fork)(deny file-write*)(allow file-write* (literal ${JSON.stringify(snapshot)}) (literal "/dev/null"))`;
+    args.unshift("-p", profile, process.execPath); command = "/usr/bin/sandbox-exec";
+  }
+  const result = spawnSync(command, args, {
+    cwd: parent, env: { PATH: "/usr/bin:/bin" }, encoding: "utf8",
+    input: JSON.stringify({ parent, device, inode, name, content }),
+    timeout: HEADROOM_CONTRACT.timeoutMs, killSignal: "SIGKILL", maxBuffer: 16384
+  });
+  try {
+    const value = JSON.parse(result.stdout);
+    if (result.error || result.status !== 0) return { written: false, partial_possible: value.partial_possible === true };
+    return value;
+  } catch { return { written: false, partial_possible: true }; }
 }
 
 export async function createHeadroomView({ input, kind, enabled = false, python, snapshot, query = "" }, { runWorker = runHeadroomWorker } = {}) {
@@ -93,7 +114,7 @@ export async function createHeadroomView({ input, kind, enabled = false, python,
   };
   if (enabled !== true) return finish();
   const physicalInput = await fs.realpath(input);
-  if (!safeSnapshot(physicalInput) || ["AGENTS.md", "TEMPLE.md", "CLAUDE.md"].includes(path.basename(physicalInput))) {
+  if (!safeSnapshot(physicalInput) || ["AGENTS.MD", "TEMPLE.MD", "CLAUDE.MD"].includes(path.basename(physicalInput).toUpperCase())) {
     output.reason = "protected-source"; return finish();
   }
   if (!["log", "json"].includes(kind)) { output.reason = "unsupported-kind"; return finish(); }
@@ -103,10 +124,13 @@ export async function createHeadroomView({ input, kind, enabled = false, python,
   if (bytes.length < HEADROOM_CONTRACT.minimumBytes) { output.reason = "below-threshold"; return finish(); }
   if (typeof query !== "string" || byteLength(query) > 4096) throw new Error("Query must be UTF-8 text no larger than 4 KiB");
   if (!safeSnapshot(snapshot)) { output.reason = "snapshot-unconfigured"; return finish(); }
+  let snapshotParent;
   // Reject a symlinked parent resolving into canonical organization state as well.
   try {
     const parent = await fs.realpath(path.dirname(snapshot));
     if (!safeSnapshot(path.join(parent, path.basename(snapshot)))) throw new Error("protected parent");
+    const stat = await fs.stat(parent, { bigint: true });
+    snapshotParent = { parent, device: stat.dev.toString(), inode: stat.ino.toString(), name: path.basename(snapshot) };
     try { await fs.lstat(snapshot); output.reason = "snapshot-exists"; return finish(); }
     catch (error) { if (error.code !== "ENOENT") throw error; }
   } catch { output.reason = "snapshot-unavailable"; return finish(); }
@@ -129,27 +153,24 @@ export async function createHeadroomView({ input, kind, enabled = false, python,
   if (hasCcr(result.content)) { output.reason = "ephemeral-ccr-unsupported"; return finish(); }
   const candidate = { ...output, status: "compressed", reason: "smaller-view",
     content: result.content, headroom_version: result.version, transforms: result.transforms,
-    readback: { snapshot: path.resolve(snapshot), sha256: originalHash },
+    readback: { snapshot: path.join(snapshotParent.parent, snapshotParent.name), sha256: originalHash },
     metrics: { ...output.metrics, output_bytes: byteLength(result.content), snapshot_bytes: bytes.length,
       local_token_estimate: { ...output.metrics.local_token_estimate, returned_output: result.output_tokens } }
   };
   if (envelopeBytes(candidate) >= envelopeBytes(output) || result.output_tokens >= result.input_tokens) {
     output.reason = "no-net-reduction"; return finish();
   }
-  let handle;
-  try {
-    handle = await fs.open(snapshot, "wx", 0o600);
-    await handle.writeFile(bytes);
-    await handle.sync();
-    await handle.close(); handle = null;
-  } catch {
-    if (handle) {
-      output.metrics.snapshot_bytes = null;
-      await handle.close().catch(() => {});
-      // Do not delete an uncertain path; an incomplete snapshot is never returned.
-    }
+  const receipt = writeSnapshot({ ...snapshotParent, content });
+  if (receipt.written !== true || receipt.sha256 !== originalHash || receipt.bytes !== bytes.length) {
+    if (receipt.partial_possible) output.metrics.snapshot_bytes = null;
     output.reason = "snapshot-write-failed";
     return finish();
+  }
+  try {
+    const reread = await readBoundedFile(candidate.readback.snapshot);
+    if (digest(reread) !== originalHash) throw new Error("snapshot drift");
+  } catch {
+    output.metrics.snapshot_bytes = null; output.reason = "snapshot-readback-failed"; return finish();
   }
   candidate.metrics.total_ms = performance.now() - started;
   return candidate;
@@ -163,4 +184,39 @@ export async function readHeadroomOriginal({ input, sha256 }) {
   return { schema_version: "temple.tool-output-readback/v1", content: bytes.toString("utf8"),
     source_sha256: sha256, metrics: { output_bytes: bytes.length, total_ms: performance.now() - started,
       model_usage: null, provider_calls_by_adapter: 0 } };
+}
+
+// Internal one-shot writer. CWD anchors the directory; never reopen a full
+// caller pathname after compression. The parent supplies its pre-worker identity.
+function writeSnapshotInAnchoredDirectory() {
+  let handle;
+  let created = false;
+  try {
+    const request = JSON.parse(fsSync.readFileSync(0, "utf8"));
+    const cwd = process.cwd();
+    const stat = fsSync.statSync(".", { bigint: true });
+    if (cwd !== request.parent || stat.dev.toString() !== request.device || stat.ino.toString() !== request.inode ||
+        !safeSnapshot(cwd) || typeof request.name !== "string" || !request.name ||
+        [".", ".."].includes(request.name) || path.basename(request.name) !== request.name ||
+        typeof request.content !== "string") throw new Error("snapshot parent or leaf mismatch");
+    const bytes = Buffer.from(request.content, "utf8");
+    if (bytes.length > HEADROOM_CONTRACT.maximumBytes) throw new Error("snapshot size limit");
+    handle = fsSync.openSync(request.name, "wx", 0o600); created = true;
+    fsSync.writeFileSync(handle, bytes); fsSync.fsyncSync(handle);
+    const written = fsSync.fstatSync(handle, { bigint: true });
+    const current = fsSync.lstatSync(request.name, { bigint: true });
+    if (process.cwd() !== request.parent || !current.isFile() || written.dev !== current.dev || written.ino !== current.ino) {
+      throw new Error("snapshot moved during write");
+    }
+    fsSync.closeSync(handle); handle = undefined;
+    console.log(JSON.stringify({ written: true, bytes: bytes.length, sha256: digest(bytes) }));
+  } catch {
+    if (handle !== undefined) { try { fsSync.closeSync(handle); } catch {} }
+    console.log(JSON.stringify({ written: false, partial_possible: created }));
+    process.exitCode = 1;
+  }
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === adapterFile && process.argv[2] === "--snapshot-writer") {
+  writeSnapshotInAnchoredDirectory();
 }

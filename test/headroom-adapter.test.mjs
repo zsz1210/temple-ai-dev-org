@@ -87,6 +87,32 @@ test("snapshot conflict during compression preserves competing file and returns 
   assert.equal(await fs.readFile(f.snapshot, "utf8"), "other owner");
 });
 
+test("replacing the checked snapshot parent cannot redirect a write into canonical state", async (t) => {
+  const f = await fixture(t);
+  const parent = path.join(f.root, "snapshots"), protectedDir = path.join(f.root, ".ai-org");
+  await fs.mkdir(parent); await fs.mkdir(protectedDir);
+  const snapshot = path.join(parent, "original.txt");
+  const result = await createHeadroomView({ ...f, snapshot, enabled: true, kind: "log" }, { runWorker: async (data) => {
+    await fs.rename(parent, path.join(f.root, "moved"));
+    await fs.symlink(protectedDir, parent);
+    return worker()(data);
+  } });
+  assert.equal(result.status, "original"); assert.equal(result.content, f.content);
+  assert.equal(result.reason, "snapshot-write-failed"); assert.equal(result.readback, null);
+  assert.deepEqual(await fs.readdir(protectedDir), []);
+  assert.deepEqual(await fs.readdir(path.join(f.root, "moved")), []);
+});
+
+test("a new directory at the same snapshot pathname fails the pinned identity check", async (t) => {
+  const f = await fixture(t); const parent = path.join(f.root, "snapshots"); await fs.mkdir(parent);
+  const result = await createHeadroomView({ ...f, snapshot: path.join(parent, "original.txt"), enabled: true, kind: "log" }, { runWorker: async (data) => {
+    await fs.rename(parent, path.join(f.root, "moved")); await fs.mkdir(parent);
+    return worker()(data);
+  } });
+  assert.equal(result.reason, "snapshot-write-failed"); assert.equal(result.readback, null);
+  assert.deepEqual(await fs.readdir(parent), []);
+});
+
 test("readback rejects corruption, missing files, symlinks, binary and oversized data", async (t) => {
   const f = await fixture(t);
   await assert.rejects(readHeadroomOriginal({ input: f.input, sha256: "invalid" }), /exact lowercase/);

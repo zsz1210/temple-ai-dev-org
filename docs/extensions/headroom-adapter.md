@@ -48,7 +48,10 @@ untrusted executable sandbox or a complete supply-chain attestation.
 
 The adapter returns compression only when the complete response envelope shrinks,
 the content token estimate improves, and the original snapshot was written with
-exclusive creation and owner-only permissions. It never overwrites a snapshot.
+exclusive creation and owner-only permissions. A one-shot Node writer validates
+the pre-compression directory identity, writes relative to its anchored working
+directory, and on macOS can write only the exact snapshot. The parent checks
+readback before returning the compressed view. It never overwrites a snapshot.
 Keep snapshots local, outside `.git`, `.ai-org`, `.agents` and `.codex`; parent
 directories must exist. The caller owns retention and deletes its own snapshots
 after the task. A snapshot-write failure can leave an incomplete file (`snapshot_bytes`
@@ -100,6 +103,6 @@ automatic retrieval loop. A CCR-marked result falls back to raw because the loca
 worker's cache does not survive its exit. The earlier synthetic diagnostic supports
 trying this optional boundary, not a global default or a promise of faster tasks.
 
-See [ADR-0070](../adr/0070-opt-in-tool-output-compression.md),
+See [ADR-0071](../adr/0071-opt-in-tool-output-compression.md),
 [third-party notices](../../THIRD_PARTY_NOTICES.md) and the
 [pinned upstream release](https://github.com/headroomlabs-ai/headroom/releases/tag/v0.37.0).

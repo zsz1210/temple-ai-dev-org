@@ -1,4 +1,4 @@
-# ADR-0070: Opt-in tool-output compression with exact original readback
+# ADR-0071: Opt-in tool-output compression with exact original readback
 
 - Status: Accepted for an optional local adapter
 - Date: 2026-09-19
@@ -27,7 +27,10 @@ complete supply-chain attestation. Operators retain its lockfile and notices.
 The first supported compression runner is macOS with OS-enforced network denial,
 isolated Python startup, constrained writes, fresh scratch and no persistent
 worker. Other platforms safely return originals. The snapshot uses exclusive
-creation, restrictive permissions and a digest; readback rejects missing, changed
+creation, restrictive permissions and a digest. A one-shot Node writer anchors
+the physical working directory and checks its pre-compression device/inode before
+opening only the relative leaf; on macOS writes are also confined to that exact
+snapshot. Parent replacement therefore cannot redirect creation. Readback rejects missing, changed
 or unsupported files. No canonical state is mutated. The caller owns retention.
 
 Compression failure, unavailable runtime, unsupported input, a CCR marker or no
