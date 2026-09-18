@@ -107,6 +107,22 @@ handoff. Canonical main WI-0247 stays intact; the colliding recovery record and 
 evidence/event delta are archived with immutable source identities, not renumbered
 or replayed as current lifecycle facts.
 
+Integration verification added a second substantive reason to retain independent
+judgment. After 1,294/1,294 local tests and 101/101 remote affected tests passed, the
+remote reviewer independently changed a pre-candidate approved-scope artifact.
+The verifier incorrectly accepted it because the own-artifact directory was too
+broadly allowed. That candidate was rejected, preserved, and returned to Build.
+The correction protects gate authority regardless of its directory, checks its
+physical bytes, and limits ordinary artifact additions. The final integration
+record separately identifies the corrected candidate and its qualification.
+
+This failure is distinct from the stale error-message assertion that caused one
+earlier full rerun. The former is a product defect found by an independent probe;
+the latter is test-maintenance overhead that better affected-test selection could
+have caught earlier. Passing counts are evidence of covered behavior, not a proof
+that all authority combinations are correct. Additional process stages would not
+automatically improve this; focused counterexamples did.
+
 The next useful validation is one small task by a genuinely independent teammate,
 starting from a qualified version and receiving only the written entry guide.
 Record time to first meaningful change, unexplained blockers, help requests,

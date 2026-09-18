@@ -33,6 +33,8 @@ Developer cannot submit a new intake item under their own identity.
   through normalized evidence references. Check pre-candidate authority bytes
   physically so Git index flags cannot hide drift; reverted authority changes
   remain non-administrative history.
+  Physical authority validation also precedes exact-HEAD completion, for both
+  Developer and Verifier; HEAD equality is not proof of unchanged working bytes.
   Other own-item artifacts must also be absent from the candidate and explicitly
   referenced evidence or named finish/diagnostic outputs; a directory is not a
   blanket allowance for changed existing artifacts or unreferenced new files.

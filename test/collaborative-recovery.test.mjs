@@ -196,6 +196,37 @@ test("Gate authority inside own artifacts remains immutable across handoff desce
   assert.equal((await itemState(f)).state, "done");
 });
 
+test("Exact HEAD does not bypass physical gate authority for Developer or Verifier", async t => {
+  for (const position of ["developer", "quality_evaluator"]) {
+    const f = await fixture(t);
+    if (position === "quality_evaluator") {
+      assert.equal((await finish(f)).success, true);
+      f.request = { ...f.request, position, operationId: "exact-head-review", agentId: f.qualityAgent,
+        completed: [], evidence: [], judgment: "pass", testEvidence: ["docs/verification.md"], leanCloseout: ["docs/verification.md"] };
+      f.request.claimId = JSON.parse(cli(["work-item", "claim", f.target, "--work-item", f.item.id, "--agent-id", f.qualityAgent,
+        "--principal-id", "principal-a", "--base-revision", f.request.revision, "--branch", "main", "--json"]).stdout).item.claim.id;
+      await fs.writeFile(path.join(f.target, "docs/verification.md"), "# Review\nApproved scope independently checked.\n");
+    }
+    const authority = "docs/brief.md", file = path.join(f.target, authority), original = await fs.readFile(file);
+    const itemPath = path.join(f.target, `.ai-org/work-items/${f.item.id}.json`);
+    const eventsPath = path.join(f.target, ".ai-org/events/events.jsonl");
+    const beforeItem = await fs.readFile(itemPath), beforeEvents = await fs.readFile(eventsPath);
+    for (const flag of [null, "assume-unchanged", "skip-worktree"]) {
+      if (flag) git(f.target, ["update-index", `--${flag}`, authority]);
+      await fs.appendFile(file, "\nChange the approved behavior.\n");
+      assert.equal(git(f.target, ["rev-parse", "HEAD"]), f.request.revision);
+      if (flag) assert.equal(git(f.target, ["status", "--porcelain", "--", authority]), "");
+      await assert.rejects(finish(f), /Product scope changed/);
+      assert.deepEqual(await fs.readFile(itemPath), beforeItem);
+      assert.deepEqual(await fs.readFile(eventsPath), beforeEvents);
+      await fs.writeFile(file, original);
+      if (flag) git(f.target, ["update-index", `--no-${flag}`, authority]);
+    }
+    assert.equal((await finish(f)).success, true);
+    assert.equal((await itemState(f)).state, position === "developer" ? "test" : "done");
+  }
+});
+
 test("Contributor proposal preserves manager ownership, provenance, unique IDs and execution restrictions", async t => {
   const f = await fixture(t);
   const args = [f.target, "--title", "Proposed by contributor", "--agent-id", "agent-contributor", "--principal-id", "principal-b", "--ui-mode", "not-applicable", "--affected-path", "docs/new.md", "--json"];

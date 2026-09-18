@@ -151,11 +151,6 @@ async function assertCandidate(target, request, affectedPaths, { recovery = fals
     throw new Error("Lean delivery affected product scope has uncommitted changes");
   }
   await assertWorkingProduct(target, request.candidate_revision, productPaths);
-  if (resolveGitRevision(target, "HEAD") === request.candidate_revision) return;
-  const reject = () => { throw new Error("Lean delivery candidate must match current HEAD unless only bounded delivery administration follows the exact candidate; preserve the original revision and inspect the intervening diff"); };
-  if (request.workflow_stage || request.mechanical_contract || !(request.position === "quality_evaluator" || recovery)) reject();
-  if (git(target, ["merge-base", request.candidate_revision, "HEAD"]).trim() !== request.candidate_revision) reject();
-  if (git(target, ["--literal-pathspecs", "diff", "--name-only", "-z", request.candidate_revision, "HEAD", "--", ...productPaths])) reject();
   // Scope/approval inputs remain authority even inside this item's artifact
   // directory. Resolve normalized evidence too; directory ownership cannot turn
   // an authority input into mutable delivery administration.
@@ -167,6 +162,11 @@ async function assertCandidate(target, request, affectedPaths, { recovery = fals
     git(target, ["--literal-pathspecs", "ls-tree", "--name-only", request.candidate_revision, "--", ref]).trim());
   // Index flags must not hide physical changes to the pre-candidate authority.
   if (committedAuthority.length) await assertWorkingProduct(target, request.candidate_revision, committedAuthority);
+  if (resolveGitRevision(target, "HEAD") === request.candidate_revision) return;
+  const reject = () => { throw new Error("Lean delivery candidate must match current HEAD unless only bounded delivery administration follows the exact candidate; preserve the original revision and inspect the intervening diff"); };
+  if (request.workflow_stage || request.mechanical_contract || !(request.position === "quality_evaluator" || recovery)) reject();
+  if (git(target, ["merge-base", request.candidate_revision, "HEAD"]).trim() !== request.candidate_revision) reject();
+  if (git(target, ["--literal-pathspecs", "diff", "--name-only", "-z", request.candidate_revision, "HEAD", "--", ...productPaths])) reject();
   const itemRoot = `.ai-org/artifacts/${request.work_item_id}/`;
   const candidatePaths = new Set(git(target, ["--literal-pathspecs", "ls-tree", "-r", "--name-only", "-z", request.candidate_revision,
     "--", itemRoot]).split("\0").filter(Boolean));
@@ -174,7 +174,7 @@ async function assertCandidate(target, request, affectedPaths, { recovery = fals
     { id: request.work_item_id, gate_evidence: gateEvidence }, request);
   for (const ref of evidenceReferences.filter(safeRelative)) declaredEvidence.add(ref);
   const artifactAllowed = name => name.startsWith(itemRoot) && !candidatePaths.has(name) &&
-    (declaredEvidence.has(name) || /^(finish|diagnostics)-[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}\.json$/.test(name.slice(itemRoot.length)));
+    (declaredEvidence.has(name) || /^(finish(?:-recovery)?|diagnostics)-[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}\.json$/.test(name.slice(itemRoot.length)));
   const evidence = new Set([...request.evidence, ...evidenceReferences].filter(ref => safeRelative(ref) &&
     /^(docs|evidence)\/.+\.md$/.test(ref) && !/(^|\/)(AGENTS|CLAUDE|TEMPLE)\.md$/.test(ref) &&
     !git(target, ["--literal-pathspecs", "ls-tree", "--name-only", request.candidate_revision, "--", ref]).trim()));

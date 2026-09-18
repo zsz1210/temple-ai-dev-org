@@ -1,7 +1,7 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-18T00:57:08.048Z",
-  "source_fingerprint": "e7ad7f4797f96c58341fc743a63a7ec2e2c5f77e88cd155250ba4e235cee3a06",
+  "generated_at": "2026-09-18T01:08:52.888Z",
+  "source_fingerprint": "abcfb0a30083d814f8b8852c0084c8a48e508c7ceeb1196c10e5074d2facfdf0",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
@@ -24,15 +24,15 @@
       "work_item_id": "WI-0252",
       "title": "Integrate collaboration recovery and measured closeout",
       "disposition": "active",
-      "position_id": "independent_qa",
+      "position_id": "quality_evaluator",
       "agent_id": "agent-lulu",
       "integration_owner_agent_id": null,
       "reasons": [],
-      "claim_id": "claim-20260918005628-3e360e67",
+      "claim_id": "claim-20260918010630-17b15423",
       "principal_id": "human",
       "branch": "codex/collaboration-integration",
       "worktree": null,
-      "base_revision": "4a6c9d8f2571e27e8419674fc7a919285e7509f8"
+      "base_revision": "213c9e3133018bdd3a3404ff5c18a557880d293f"
     }
   ],
   "sequential": [],

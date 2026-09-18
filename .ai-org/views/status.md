@@ -299,7 +299,7 @@
 | WI-0249 | Reject hidden product drift during ordinary completion | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `360b1b86` | 0 | 7 | 0 |
 | WI-0250 | Automate measurement closeout and clarify task readiness | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `9148bd64` | 1 | 10 | 0 |
 | WI-0251 | Include reviewed closeout files in package boundary | done | Engineering Manager | Mog | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | — | `41a1a4f7` | 0 | 4 | 0 |
-| WI-0252 | Integrate collaboration recovery and measured closeout | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260918010103-9fe69ca5 | `—` | 1 | 6 | 0 |
+| WI-0252 | Integrate collaboration recovery and measured closeout | build | Developer | Rikku | pending | team-visible | 0 | gate-evidence | not-applicable | 0 | 0 | 0 | claim-20260918011234-4c95071f | `—` | 1 | 8 | 0 |
 
 ## Delivery attention
 
@@ -323,7 +323,7 @@
 | task-0011 | WI-0158 | WI-0158 · Run final pre-Alpha clean-r… · Developer (Rikku) | Developer / Rikku | human | codex/wi-0158-final-clean-room | completed | `—` | ready |
 | task-0012 | WI-0158 | WI-0158 · Run final pre-Alpha cle… · Independent QA (Lulu) | Independent QA / Lulu | human | codex/wi-0158-final-clean-room | completed | `—` | ready |
 | task-0013 | WI-0250 | WI-0250 · Automate… · Quality & Evaluation Engineer (Lulu) | Quality & Evaluation Engineer / Lulu | human | codex/collaboration-closeout | completed | `—` | ready |
-| task-0014 | WI-0252 | WI-0252 · Integrat… · Quality & Evaluation Engineer (Lulu) | Quality & Evaluation Engineer / Lulu | human | codex/collaboration-integration | completed | `—` | — |
+| task-0014 | WI-0252 | WI-0252 · Integrat… · Quality & Evaluation Engineer (Lulu) | Quality & Evaluation Engineer / Lulu | human | codex/collaboration-integration | active | `—` | — |
 
 ## Runtime workers and shared resources
 
@@ -546,14 +546,14 @@
 
 | Time | Event | Work item | Actor |
 |---|---|---|---|
+| 2026-09-18T01:12:34.989Z | work_item_claimed | WI-0252 | human |
+| 2026-09-18T01:12:34.558Z | work_item_reworked | WI-0252 | agent-lulu |
+| 2026-09-18T01:06:31.644Z | task_status_changed | WI-0252 | agent-lulu |
+| 2026-09-18T01:06:30.329Z | work_item_claimed | WI-0252 | human |
+| 2026-09-18T01:06:28.802Z | work_item_transitioned | WI-0252 | agent-rikku |
+| 2026-09-18T01:06:27.371Z | work_item_claim_released | WI-0252 | human |
+| 2026-09-18T01:06:25.751Z | handoff_created | WI-0252 | agent-rikku |
 | 2026-09-18T01:04:47.931Z | task_status_changed | WI-0252 | agent-lulu |
-| 2026-09-18T01:01:03.592Z | work_item_claimed | WI-0252 | human |
-| 2026-09-18T01:01:03.037Z | work_item_reworked | WI-0252 | agent-lulu |
-| 2026-09-18T00:56:28.812Z | work_item_claimed | WI-0252 | human |
-| 2026-09-18T00:56:28.416Z | work_item_transitioned | WI-0252 | agent-lulu |
-| 2026-09-18T00:56:28.036Z | work_item_claim_released | WI-0252 | human |
-| 2026-09-18T00:56:27.645Z | work_item_transitioned | WI-0252 | agent-lulu |
-| 2026-09-18T00:52:18.692Z | work_item_claimed | WI-0252 | human |
 
 ## Assignments
 
