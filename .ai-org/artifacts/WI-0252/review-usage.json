@@ -1,0 +1,60 @@
+{
+  "schema_version": "temple.review-usage-observation/v1",
+  "thread_id": "01a0b1fb-7c1d-7f40-8e27-701d232a62e9",
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "xhigh",
+  "scope": "remote independent integration review only; excludes coordinator and previous WI-0250 review",
+  "counter_semantics": "Session cumulative. Each resumed first total equals previous final total plus its last_token_usage; increments below are differences, not sums of cumulative totals.",
+  "turns": [
+    {
+      "turn_id": "01a0b1fb-7c88-73a3-b122-b6f07958d9ad",
+      "start": "2026-09-18T00:47:23.817Z",
+      "end": "2026-09-18T01:00:52.933Z",
+      "wall_seconds": 809.116,
+      "input_tokens": 3704770,
+      "cached_input_tokens": 3315968,
+      "output_tokens": 30282,
+      "reasoning_output_tokens": 14630,
+      "judgment": "reject"
+    },
+    {
+      "turn_id": "01a0b20e-3778-7601-8fea-06eda1da158b",
+      "start": "2026-09-18T01:07:51.294Z",
+      "end": "2026-09-18T01:12:09.934Z",
+      "wall_seconds": 258.640,
+      "input_tokens": 1703611,
+      "cached_input_tokens": 1508096,
+      "output_tokens": 11031,
+      "reasoning_output_tokens": 5750,
+      "judgment": "reject"
+    },
+    {
+      "turn_id": "01a0b215-0cd7-7ce3-9ddd-9de920d4db10",
+      "start": "2026-09-18T01:15:19.132Z",
+      "end": "2026-09-18T01:20:26.606Z",
+      "wall_seconds": 307.474,
+      "input_tokens": 2772140,
+      "cached_input_tokens": 2738432,
+      "output_tokens": 12876,
+      "reasoning_output_tokens": 6409,
+      "judgment": "pass-bounded-correction"
+    }
+  ],
+  "totals": {
+    "input_tokens": 8180521,
+    "cached_input_tokens": 7562496,
+    "uncached_input_tokens": 618025,
+    "output_tokens": 54189,
+    "reasoning_output_tokens": 26789,
+    "sum_turn_wall_seconds": 1375.230
+  },
+  "request_observations": {
+    "first_request_input_tokens": 21262,
+    "final_request_input_tokens": 210119,
+    "final_request_cached_input_tokens": 209536
+  },
+  "cache_write_input_tokens": 0,
+  "billed_cost": null,
+  "quota_polled": false,
+  "limits": "Cached input is included in input; reasoning is included in output. Totals aggregate many requests, not unique prompt size or an invoice. Wall intervals overlap coordinator work and are not additive with full-suite wall time. No matched ordinary-mode or model baseline."
+}

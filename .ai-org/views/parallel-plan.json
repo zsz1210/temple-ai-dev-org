@@ -1,40 +1,23 @@
 {
   "schema_version": "temple.parallel-plan/v1",
-  "generated_at": "2026-09-18T01:08:52.888Z",
-  "source_fingerprint": "abcfb0a30083d814f8b8852c0084c8a48e508c7ceeb1196c10e5074d2facfdf0",
+  "generated_at": "2026-09-18T01:29:02.234Z",
+  "source_fingerprint": "9b4e46bd2e74283c01a9f238d1d383a49287bf999edc620b80a0740a30d8a84e",
   "scope": {
     "mode": "all-active",
     "parent_work_item_id": null,
-    "selected_work_item_ids": [
-      "WI-0252"
-    ]
+    "selected_work_item_ids": []
   },
   "max_workers": 1,
   "summary": {
-    "selected": 1,
+    "selected": 0,
     "dispatchable": 0,
-    "active": 1,
+    "active": 0,
     "sequential": 0,
     "blocked": 0,
     "waves": 0
   },
   "waves": [],
-  "active": [
-    {
-      "work_item_id": "WI-0252",
-      "title": "Integrate collaboration recovery and measured closeout",
-      "disposition": "active",
-      "position_id": "quality_evaluator",
-      "agent_id": "agent-lulu",
-      "integration_owner_agent_id": null,
-      "reasons": [],
-      "claim_id": "claim-20260918010630-17b15423",
-      "principal_id": "human",
-      "branch": "codex/collaboration-integration",
-      "worktree": null,
-      "base_revision": "213c9e3133018bdd3a3404ff5c18a557880d293f"
-    }
-  ],
+  "active": [],
   "sequential": [],
   "blocked": [],
   "conflicts": [],

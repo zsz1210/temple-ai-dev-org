@@ -25,10 +25,38 @@
       "skipped": 0,
       "cancelled": 0,
       "exit_code": 0,
-      "log": "full-final.log"
+      "log": "full-final.log",
+      "qualification": "subsequently rejected by independent authority-drift probe"
+    },
+    {
+      "candidate": "213c9e3133018bdd3a3404ff5c18a557880d293f",
+      "command": "npm run verify",
+      "wall_seconds": 296.504729,
+      "tests": 1295,
+      "pass": 1295,
+      "fail": 0,
+      "exit_code": 0,
+      "log": "full-attempt-03.log",
+      "qualification": "subsequently rejected by independent exact-HEAD probe"
+    },
+    {
+      "candidate": "8f7ab5f0b4455dda0d51cb0a1e79ea3b72978462",
+      "command": "npm run verify",
+      "wall_seconds": 317.33979225,
+      "runner_ms": 315695.760709,
+      "tests": 1296,
+      "pass": 1296,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "exit_code": 0,
+      "log": "full-accepted.log",
+      "qualification": "full verification plus distinct independent correction pass"
     }
   ],
-  "package": { "files": 451, "packed_bytes": 1017175, "unpacked_bytes": 3947555 },
+  "qualified_candidate": "8f7ab5f0b4455dda0d51cb0a1e79ea3b72978462",
+  "sum_full_run_wall_seconds": 1129.17592625,
+  "package": { "files": 451, "packed_bytes": 1017971, "unpacked_bytes": 3950084 },
   "archive": { "files_verified_against_source": 23, "event_delta_lines": 31, "canonical_WI0247_unchanged": true },
   "model_experiment": false,
   "total_provider_tokens": null,

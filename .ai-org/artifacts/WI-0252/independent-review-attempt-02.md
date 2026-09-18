@@ -5,7 +5,7 @@ rejection remains retained. Counters below are cumulative for the resumed sessio
 
 ## Revised judgment: REJECT
 
-Candidate: `213c9e3133018bdd3a3404ff5c18a557880d293f`  
+Candidate: `213c9e3133018bdd3a3404ff5c18a557880d293f`
 Prior REJECT for `11b464126c99ddc9c0b39c455ec81b9704f76479` remains preserved.
 
 The original post-handoff counterexample is fixed:

@@ -123,6 +123,33 @@ have caught earlier. Passing counts are evidence of covered behavior, not a proo
 that all authority combinations are correct. Additional process stages would not
 automatically improve this; focused counterexamples did.
 
+The first authority repair was incomplete: the reviewer found that exact HEAD
+returned before the physical authority check. That second rejection was also
+retained. Candidate 8f7ab5f0 moves the check before the return for Developer and
+Verifier. The same independent reproducer then rejected the drift without writes,
+and a real maximum-length operation-ID recovery remained usable. Final narrow
+independent review passed; complete final verification is reported separately.
+
+The integration review itself was expensive. Its three remote turns totalled
+1,375.230 seconds (22 minutes 55 seconds), 8,180,521 input tokens including
+7,562,496 cached, and 54,189 output tokens. Uncached input was 618,025. These are
+this review session only and exclude coordinator usage and WI-0250. The last
+request carried 210,119 input tokens versus 21,262 in the first request; most of
+the final input was cached. High cache use did not stop context from growing.
+The counters aggregate multiple requests, not unique instructions or billed cost.
+See [verified reviewer usage](review-usage.json). Turn wall intervals overlap
+other work and must not be added to full-suite time as end-to-end latency.
+
+The benefit was two independently reproduced authority paths fixed before a PR;
+the inefficiency was large retained context, an incomplete first repair, fixture
+setup corrections, and full runs started before a final narrow review. For future
+changes, challenge the affected invariants early, complete correction review, then
+run the required complete regression on unchanged code. Pass compact candidate
+and diff evidence to the next responsibility and avoid rereading large unchanged
+histories. A fresh compact review versus resumed review would still need a matched
+measurement before claiming token or billing savings. This task supplies no such
+comparison, and these repair-session costs are not a normal per-task Temple cost.
+
 The next useful validation is one small task by a genuinely independent teammate,
 starting from a qualified version and receiving only the written entry guide.
 Record time to first meaningful change, unexplained blockers, help requests,
