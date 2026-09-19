@@ -59,7 +59,7 @@ a general small-code-change or Independent QA shortcut.
 - [Collaborative development](operations/collaboration.md) — Human Principals, specialists, Position pools, claims, and multi-maintainer boundaries.
 - [Parallel orchestration](operations/parallel-orchestration.md) — safe waves, affected paths, preparation, and integration joins.
 - [Runtime coordination](operations/runtime-coordination.md) — pinned launcher, workers, resources, task correlation, and recovery.
-- [Review rework](operations/review-rework.md) — return a rejected candidate to Build within the same approved Work Item; unreleased.
+- [Review rework](operations/review-rework.md) — return a rejected candidate to Build within the same approved Work Item; included in Alpha.33.
 - [Task and tracker coordination](operations/task-and-tracker-coordination.md) — company tracker, Temple Work Item, and Codex task boundaries.
 - [Evidence and Observer](operations/evidence-and-observer.md) — normalized evidence, exact revisions, stale signals, and closeout.
 - [High-Assurance profile](operations/high-assurance.md) — risk-scaled evidence, separation of duties, rollback, and human approvals.
@@ -68,7 +68,7 @@ a general small-code-change or Independent QA shortcut.
 - [Legacy combined control plane](operations/control-plane.md) — replay-safe events, providers, live projections, and the Human Inbox compatibility path.
 - [Backup and recovery](operations/backup-and-recovery.md) — project-owned-state manifests, integrity checks, restore preview, and interrupted-write rollback.
 - [Auditable Self-Hosting and Evidence Profiles](operations/auditable-self-hosting.md) — preserve useful development evidence while blocking new secrets, local runtime data, and machine-specific publication leaks.
-- [Compact evidence reading](operations/compact-evidence.md) — opt-in saved-log and JSON views with failure details, limitations and digest-bound original references.
+- [Compact evidence reading](operations/compact-evidence.md) — unreleased main: opt-in saved-log and JSON views with failure details, limitations and digest-bound original references.
 - [Adversarial policy evaluation](operations/policy-evaluation.md) — versioned failure scenarios, profile fixtures, fail-closed scorecards, and authority boundaries.
 - [Token Efficiency and Model Routing](operations/token-efficiency-and-model-routing.md) — provider-reported usage, project-local calibration, Credits provenance, exception-only autonomy, and the boundary before automatic routing.
 - [Execution routing](operations/execution-routing.md) — configure and inspect per-step deterministic routes without launching a Provider or mutating project state.
@@ -87,7 +87,7 @@ a general small-code-change or Independent QA shortcut.
 - [Skill design policy](extensions/skill-design.md) and [scenario matrix](extensions/skill-scenarios.md) — maintainer rules and routing expectations.
 - [Extension and migration contracts](extensions/extension-and-migrations.md) — Packs, provenance, compatibility, schemas, and explicit state migration.
 - [Archify adapter](extensions/archify-adapter.md) — an optional, pinned, isolated adapter boundary.
-- [Headroom adapter](extensions/headroom-adapter.md) — explicit large tool-output compression and exact original readback.
+- [Headroom adapter](extensions/headroom-adapter.md) — unreleased main: explicit large tool-output compression and exact original readback; off by default.
 - [Tailscale private Dashboard](integrations/tailscale-private-dashboard.md) — a pinned, tailnet-only, read-only tablet viewer that leaves Agent control on loopback.
 
 ### Planning and historical boundaries

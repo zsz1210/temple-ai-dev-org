@@ -1,11 +1,13 @@
 # Alpha.33 package qualification and upgrade guide
 
-Alpha.33 is a preparation candidate. Until its public release is verified, the
-published Alpha channel remains Alpha.32. The exact-candidate results are retained
-in WI-0243; this document defines the reusable acceptance boundary rather than
-embedding a self-referential archive hash.
+Alpha.33 was published on GitHub and npm's `next` channel on 2026-09-16.
+WI-0243 retains the candidate qualification; WI-0244 retains publication and
+registry verification. This guide preserves the reusable acceptance boundary
+rather than embedding a self-referential archive hash. See
+[release readiness](../planning/release-readiness.md) for dated channel observations;
+later main changes are not part of the published Alpha.33 package.
 
-## What is being qualified
+## Qualification boundary
 
 - Node.js 24 with lockfile-strict dependency installation and complete verification.
 - The allowlisted npm archive, package version, manifest, integrity and SHA-256.
@@ -19,12 +21,13 @@ embedding a self-referential archive hash.
 - Distinct Independent QA judgment and exact evidence before ordinary integration.
 
 These are synthetic local fixtures, not real multi-machine collaboration or
-evidence that every downstream project is ready. This preparation changes no real
-consumer repository, publishes no registry version and launches no paid model run.
+evidence that every downstream project is ready. The qualification procedure
+changes no real consumer repository, publishes no registry version and launches
+no paid model run; publication was a separate operation.
 
 ## Upgrading an existing project
 
-After Alpha.33 publication has been explicitly completed and verified:
+To adopt the published Alpha.33 package:
 
 1. Save or commit project changes and preserve a backup of organization state and
    the old lock. Rehearse on a disposable copy before a shared project.

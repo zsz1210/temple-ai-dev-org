@@ -36,6 +36,8 @@ Temple 不是應用程式框架、任務追蹤工具，也不是會自行發號�
 
 請準備 Git、Node.js 24 以上版本、專案目錄，以及用於引導式設定的 Codex。目前公開預覽版為 [Alpha.33](https://github.com/zsz1210/temple-ai-dev-org/releases/tag/v0.1.0-alpha.33)，可透過 npm 的 `next` 頻道取得。
 
+**先選擇導入來源：** npm `@next` 安裝的是已發布的 Alpha.33。下方下載原始碼的方式會取得 `main`，其中也包含[尚未發布的修改](CHANGELOG.md#unreleased-changes)。Compact evidence 與可選的 Headroom adapter 目前需要這份開發中原始碼，Alpha.33 尚未包含。若要使用已發布版本的原始碼，請將下方 clone 指令改成 `git clone --branch v0.1.0-alpha.33 https://github.com/zsz1210/temple-ai-dev-org.git`。
+
 ### AI 引導式設定
 
 先下載一次 Temple，讓 Codex 能讀取初始化 Skill：
@@ -115,7 +117,7 @@ Temple 是一套分層的運作模式，不是一段巨大的 prompt，也不是
 - **穩定的職責：** Position 定義長期存在的責任與權限，不會綁死在某一個人或 AI 身上。
 - **有邊界的工作：** 每項變更都成為 Work Item，清楚記錄範圍、相依關係、驗收條件與狀態。
 - **只提供需要的資料：** Context Routing 依照目前的 Position 與步驟，把規格、決策、Skill 與驗證紀錄導向正確的執行者。
-- **精簡閱讀證據：** 可選的[閱讀視圖（英文）](docs/operations/compact-evidence.md)縮短已保存的測試日誌與 JSON，同時保留失敗細節、限制說明及原文位置與雜湊。
+- **精簡閱讀證據（main 尚未發布）：** 可選的[閱讀視圖（英文）](docs/operations/compact-evidence.md)縮短已保存的測試日誌與 JSON，同時保留失敗細節、限制說明及原文位置與雜湊。
 - **能解釋的執行選擇：** Adaptive Execution Routing 依據步驟所需能力，挑出符合條件且由專案管理的 execution profile；不會把 Position 綁死在特定模型上。
 - **有證據才能前進：** 實作、評估、Independent QA 與發布準備是不同結論，不能互相取代。
 - **安全的平行開發：** 互不依賴的工作可以同時進行；可能互相影響的工作，必須先協調並指定整合負責者。

@@ -1,6 +1,6 @@
 # Lean delivery
 
-The source CLI provides `work-item deliver` for a low-risk, bounded Lean change that is ready to hand from Developer to Quality Evaluator. It combines the handoff, claim release and entry into Test. This addition is unreleased; use the repository-pinned source launcher containing ADR-0054.
+The CLI provides `work-item deliver` for a low-risk, bounded Lean change that is ready to hand from Developer to Quality Evaluator. It combines the handoff, claim release and entry into Test. This command is included in published Alpha.33; use the repository-pinned launcher. Its design is recorded in ADR-0054.
 
 It does **not** run tests, approve the result or close the Work Item. Standard, High-Assurance, interface work and work with active runtime workers keep their existing workflow. Never lower a profile just to use this command.
 

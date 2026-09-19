@@ -1,6 +1,6 @@
 # Correct a change without opening another Work Item
 
-Availability: unreleased source behavior. Published `0.1.0-alpha.30` does not include this command. Integrate a verified candidate before relying on it.
+Availability: included in published Alpha.33. Alpha.30 does not include this command; explicitly upgrade older projects before relying on it.
 
 Use rework when a review finds a defect **inside the approved scope**. The Work Item keeps its ID, scope, acceptance criteria and design approvals. The rejected candidate and its evidence remain in history; they no longer count as proof for the repair.
 

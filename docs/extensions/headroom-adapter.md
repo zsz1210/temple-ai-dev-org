@@ -1,5 +1,10 @@
 # Optional Headroom tool-output adapter
 
+Availability: unreleased `main` source; not included in the published Alpha.33
+package. Use a project initialized or explicitly upgraded from a source revision
+containing this adapter, through its pinned launcher. Installing npm `@next`
+alone does not provide it. See the [unreleased changes](../../CHANGELOG.md#unreleased-changes).
+
 Use this when a tool wrapper has a large, disposable log or JSON response. The
 adapter produces a derived reading view and an exact original snapshot. It is
 off by default and does not intercept Codex conversations or other tools.

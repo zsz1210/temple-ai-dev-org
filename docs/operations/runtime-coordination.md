@@ -17,7 +17,7 @@ This wrapper makes the CLI discoverable from the product repository and prevents
 
 ## Handoff revision identity
 
-The development implementation under [ADR-0052](../adr/0052-immutable-handoff-revisions.md) resolves every new handoff input to an exact Git commit before writing artifacts or canonical state. This is not behavior of the published Alpha.30 package, which resolves handoff inputs automatically only for High-Assurance work; Alpha.30 users should supply a full commit SHA themselves.
+Published Alpha.33 includes [ADR-0052](../adr/0052-immutable-handoff-revisions.md): every new handoff input resolves to an exact Git commit before artifacts or canonical state are written. Older Alpha.30 resolves handoff inputs automatically only for High-Assurance work; Alpha.30 users should supply a full commit SHA themselves.
 
 HEAD, branches, commit tags, and abbreviated commits are convenient inputs, not durable stored identities. Unresolvable or non-commit inputs fail without creating a handoff. A resolved commit does not establish tests, a clean working tree, approval, or permission to advance. Existing historical handoffs are preserved; never infer their original commit from today's HEAD.
 

@@ -29,7 +29,7 @@ The Management Console and continuous Usage observation are optional. Semantic r
 
 ## Availability
 
-The source repository and **Alpha.30** are public on GitHub and npm. The published package is an early Alpha, not a stable or enterprise-qualified release. See [release readiness](release-readiness.md) for the exact published version and qualification evidence.
+The source repository and **Alpha.33** are public on GitHub and npm (`next` channel). The published package is an early Alpha, not a stable or enterprise-qualified release. See [release readiness](release-readiness.md) for dated channel observations and qualification evidence.
 
 Work on `main` after a release is unreleased until a separate version is qualified and published. Development fixes, draft comparisons, and planned capabilities must not be presented as behavior or results of the installed npm package. Adaptive execution routing currently recommends a route; it does not automatically select and launch a model.
 

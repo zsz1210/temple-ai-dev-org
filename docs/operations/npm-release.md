@@ -49,7 +49,7 @@ distribution origin. Update the pinned fingerprint and workflow together only af
 qualifying a new official runtime and pack result; never silently accept a new zlib.
 
 1. Choose a new semantic version. Use a prerelease version such as `0.2.0-alpha.1` for npm `next`, or a stable version such as `0.2.0` for npm `latest`.
-2. Update all version-bearing files and the changelog on a reviewed branch.
+2. Update all version-bearing files and the changelog on a reviewed branch. Review the documentation synchronization checklist below before freezing the candidate; planned publication must remain labeled as pending until registry verification.
 3. Run `npm ci --ignore-scripts`, then the release pack command below to catch an incompatible environment before full testing. The output directory must be new, its parent must exist, and it must be outside the source checkout.
 4. Run `npm run verify` on the exact candidate, then pack into a second new directory and compare against the first archive with `node scripts/validate-npm-release.mjs verify-asset --fresh <second-archive> --release <first-archive>`. Retain the verified `.tgz`, `toolchain.json` and `pack-result.json` as the candidate evidence.
 5. Merge the candidate through the repository's normal review path.
@@ -89,6 +89,23 @@ npm view @zsz1210/temple-ai-dev-org dist-tags --json
 ```
 
 Also inspect the npm package page for provenance and perform a clean installation from the intended dist-tag. A green GitHub job alone is not proof that consumers can retrieve and execute the package.
+
+## Synchronize release documentation
+
+Before freezing the candidate, review the English, Japanese and Traditional Chinese
+README and Roadmap editions, release readiness, the qualification/upgrade guide,
+documentation index and command availability notes. Match feature claims to the
+candidate revision, move only included changes out of `Unreleased`, and keep
+development-source instructions distinct from published-package instructions.
+Do not describe a planned release as already published.
+
+After successful registry verification, record the observed GitHub tag/target,
+publication date and npm dist-tags in release readiness. Update the three public
+entry editions and any remaining preparation-only wording on a follow-up docs
+branch. Remove obsolete `unreleased` labels only for features actually shipped;
+retain later main changes under `Unreleased`. Run `npm run verify:fast` for the
+prose-only follow-up. Do not move a published tag or rewrite historical candidate
+evidence to make packaged documentation appear newer.
 
 ## Failure and recovery
 

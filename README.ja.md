@@ -36,6 +36,8 @@ Temple はアプリケーションフレームワークでも、課題管理ツ�
 
 Git、Node.js 24 以降、プロジェクトディレクトリ、案内付きセットアップ用の Codex を用意してください。公開プレビュー版は [Alpha.33](https://github.com/zsz1210/temple-ai-dev-org/releases/tag/v0.1.0-alpha.33) で、npm の `next` チャネルから入手できます。
 
+**導入元を選ぶ：** npm の `@next` は公開済みの Alpha.33 をインストールします。下記のソース取得は、[未リリースの変更](CHANGELOG.md#unreleased-changes)も含む `main` を使います。Compact evidence と任意の Headroom adapter は現在、この開発ソースが必要で、Alpha.33 には含まれません。公開版のソースを使う場合は、下記の clone コマンドを `git clone --branch v0.1.0-alpha.33 https://github.com/zsz1210/temple-ai-dev-org.git` に置き換えてください。
+
 ### AI によるセットアップ
 
 Codex が初期化 Skill を読めるよう、Temple を一度クローンします。
@@ -115,7 +117,7 @@ Temple は巨大な一つのプロンプトでも、自律的な一体の Agent 
 - **変わらない責任の置き場所：** Position は、担当する人や AI が交代しても、責任と権限の境界を保ちます。
 - **範囲を持つ作業：** すべての変更を、スコープ、依存関係、受け入れ条件、状態を持つ Work Item として扱います。
 - **必要な文脈だけを渡す：** Context Routing が、現在の Position と手順に必要な仕様、判断、Skill、検証記録へ案内します。
-- **検証記録を簡潔に読む：** 任意の[読み取りビュー（英語）](docs/operations/compact-evidence.md)で保存済みのテストログや JSON を短く表示し、失敗の詳細、制約、原文の場所とハッシュを保持します。
+- **検証記録を簡潔に読む（未リリースの main）：** 任意の[読み取りビュー（英語）](docs/operations/compact-evidence.md)で保存済みのテストログや JSON を短く表示し、失敗の詳細、制約、原文の場所とハッシュを保持します。
 - **説明できる実行方法：** Adaptive Execution Routing は手順が必要とする能力から、条件に合うプロジェクト所有の実行プロファイルを選びます。Position にモデルを固定しません。
 - **根拠をそろえてから進む：** 実装、評価、Independent QA、リリース準備を別々の結論として記録します。
 - **安全な並行作業：** 独立した作業は同時に進め、重なる作業は調整と明確な統合責任者を待ちます。
