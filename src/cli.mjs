@@ -268,8 +268,8 @@ Usage:
   temple execution onboarding-plan [target] --input path [--json]
   temple adapter archify-status [target] [--json]
   temple adapter archify-install [target] --source local-git-checkout [--json]
-  temple adapter headroom-view [target] --input file --kind log|json [--enable-headroom --python absolute-path --snapshot fresh-absolute-file] [--query text] [--json]
-  temple adapter headroom-payload [target] --input file --kind log|json [--enable-headroom --python absolute-path --snapshot fresh-absolute-file] [--query text] [--json]
+  temple adapter headroom-view [target] --input file --kind log|json [--enable-headroom --python absolute-path --snapshot fresh-absolute-file] [--allow-lossy-headroom] [--query text] [--json]
+  temple adapter headroom-payload [target] --input file --kind log|json [--enable-headroom --python absolute-path --snapshot fresh-absolute-file] [--allow-lossy-headroom] [--query text] [--json]
   temple adapter headroom-read [target] --input snapshot --expected-sha256 digest [--json]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
   temple transition [target] --work-item WI-0001 --to state --satisfy requirement=reference
@@ -351,6 +351,7 @@ Only evidence leaves the chamber.`;
 
 const BOOLEAN_FLAGS = new Set([
   "--enable-headroom",
+  "--allow-lossy-headroom",
   "--same-scope",
   "--compact",
   "--dry-run",
@@ -2164,7 +2165,7 @@ async function runAdapter(parsed) {
     const result = parsed.action === "headroom-read"
       ? await readHeadroomOriginal({ input, sha256: parsed.options["--expected-sha256"] })
       : await (parsed.action === "headroom-payload" ? createHeadroomPayload : createHeadroomView)({ input, kind: parsed.options["--kind"],
-        enabled: parsed.flags.has("--enable-headroom"), python: parsed.options["--python"],
+        enabled: parsed.flags.has("--enable-headroom"), allowLossy: parsed.flags.has("--allow-lossy-headroom"), python: parsed.options["--python"],
         snapshot: parsed.options["--snapshot"], query: parsed.options["--query"] ?? "" });
     if (parsed.action === "headroom-payload" && !parsed.flags.has("--json")) process.stdout.write(result.text);
     else console.log(formatJson(result));

@@ -16,8 +16,116 @@ const adapterFile = fileURLToPath(import.meta.url);
 const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const byteLength = (value) => Buffer.byteLength(value, "utf8");
 const envelopeBytes = (value) => byteLength(JSON.stringify(value));
-const modelText = (content, readback) => JSON.stringify({ content, readback });
+const lossyNotice = "This view may omit details. Read the exact original when required facts are missing.";
+const modelText = (content, readback, notice) => JSON.stringify({ content, readback, ...(notice ? { notice } : {}) });
 const hasCcr = (text) => /<<ccr:|\[\s*(?:HEADROOM|CCR)|\bhash=[A-Za-z0-9_-]+/i.test(text);
+
+// Conservative proof for JSON values and pinned Headroom string/int tables.
+// Numbers retain their lexical spelling; no IEEE-754 conversion can hide drift.
+function parseJson(text) {
+  let at = 0;
+  const space = () => { while (/[\x20\t\r\n]/.test(text[at] ?? "!") && at < text.length) at++; };
+  const take = (c) => { space(); if (text[at] !== c) throw new Error("syntax"); at++; };
+  function value(depth = 0) {
+    if (depth > 128) throw new Error("depth");
+    space(); const c = text[at];
+    if (c === '{') {
+      at++; const fields = new Map(); space();
+      if (text[at] !== '}') while (true) {
+        const key = value(depth + 1);
+        if (key.type !== 'string' || fields.has(key.value)) throw new Error("duplicate or invalid key");
+        take(':'); fields.set(key.value, value(depth + 1)); space();
+        if (text[at] !== ',') break;
+        at++;
+      }
+      take('}'); return { type: 'object', value: fields };
+    }
+    if (c === '[') {
+      at++; const items = []; space();
+      if (text[at] !== ']') while (true) {
+        items.push(value(depth + 1)); space();
+        if (text[at] !== ',') break;
+        at++;
+      }
+      take(']'); return { type: 'array', value: items };
+    }
+    const pattern = /"(?:[^"\\\u0000-\u001f]|\\(?:["\\/bfnrt]|u[0-9a-fA-F]{4}))*"|-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?|true|false|null/y;
+    pattern.lastIndex = at; const token = pattern.exec(text)?.[0];
+    if (!token) throw new Error("token");
+    at += token.length;
+    if (token[0] === '"') return { type: 'string', value: JSON.parse(token) };
+    return { type: /^(true|false|null)$/.test(token) ? token : 'number', value: token };
+  }
+  const tree = value(); space(); if (at !== text.length) throw new Error("trailing data");
+  return tree;
+}
+
+function csv(text) {
+  const rows = []; let row = [], cell = '', quoted = false, closed = false;
+  const field = () => { row.push(cell); cell = ''; closed = false; };
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (quoted) {
+      if (c !== '"') cell += c;
+      else if (text[i + 1] === '"') { cell += '"'; i++; }
+      else { quoted = false; closed = true; }
+      continue;
+    }
+    if (c === ',') { field(); continue; }
+    if (c === '\n' || c === '\r') {
+      if (c === '\r' && text[++i] !== '\n') throw new Error("csv newline");
+      field(); rows.push(row); row = []; continue;
+    }
+    if (closed) throw new Error("csv trailing data");
+    if (c === '"') { if (cell) throw new Error("csv quote"); quoted = true; }
+    else cell += c;
+  }
+  if (quoted) throw new Error("csv unterminated");
+  if (cell || closed || row.length) { field(); rows.push(row); }
+  return rows;
+}
+
+function table(text, expectedRows) {
+  const header = /^\[(0|[1-9]\d*)\]\{([^}\r\n]+)\}\n/.exec(text);
+  if (!header || header[1] !== String(expectedRows)) throw new Error("unsupported table");
+  const fields = header[2].split(',').map((field) => {
+    const match = /^([A-Za-z_][A-Za-z0-9_.-]*):(string|int)$/.exec(field);
+    if (!match) throw new Error("unsupported field");
+    return { key: match[1], type: match[2] };
+  });
+  if (new Set(fields.map((x) => x.key)).size !== fields.length) throw new Error("duplicate table key");
+  const rows = csv(text.slice(header[0].length));
+  if (rows.length !== expectedRows) throw new Error("row count");
+  return { type: 'array', value: rows.map((row) => {
+    if (row.length !== fields.length) throw new Error("column count");
+    return { type: 'object', value: new Map(fields.map((field, i) => {
+      if (field.type === 'int' && !/^-?(0|[1-9]\d*)$/.test(row[i])) throw new Error("integer");
+      return [field.key, { type: field.type === 'int' ? 'number' : 'string', value: row[i] }];
+    })) };
+  }) };
+}
+
+function equal(original, candidate) {
+  // Only an original array can authorize table interpretation. Literal source
+  // strings resembling tables must stay strings and match exactly.
+  if (original.type === 'array' && candidate.type === 'string') candidate = table(candidate.value, original.value.length);
+  if (original.type !== candidate.type) return false;
+  if (original.type === 'array') return original.value.length === candidate.value.length &&
+    original.value.every((v, i) => equal(v, candidate.value[i]));
+  if (original.type === 'object') return original.value.size === candidate.value.size &&
+    [...original.value].every(([k, v]) => candidate.value.has(k) && equal(v, candidate.value.get(k)));
+  return original.value === candidate.value;
+}
+
+export function preservesJsonValues(original, compressed) {
+  if ([original, compressed].some((s) => typeof s !== 'string' || Buffer.byteLength(s, 'utf8') > HEADROOM_CONTRACT.maximumBytes)) return false;
+  try {
+    const source = parseJson(original); let candidate;
+    try { candidate = parseJson(compressed); }
+    catch { if (source.type !== 'array') return false; candidate = { type: 'string', value: compressed }; }
+    return equal(source, candidate);
+  } catch { return false; }
+}
 
 async function readBoundedFile(filename) {
   const file = await fs.open(filename, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
@@ -39,7 +147,7 @@ async function readBoundedFile(filename) {
 }
 
 // Only explicitly selected, operator-trusted Python environments are executed.
-export async function runHeadroomWorker({ content, query, python, modelReadback }) {
+export async function runHeadroomWorker({ content, query, python, modelReadback, modelNotice }) {
   if (process.platform !== "darwin") return { failure: "unsupported-platform" };
   if (typeof python !== "string" || !path.isAbsolute(python)) return { failure: "runtime-unconfigured" };
   const scratch = await fs.mkdtemp(path.join(os.tmpdir(), "temple-headroom-"));
@@ -47,7 +155,7 @@ export async function runHeadroomWorker({ content, query, python, modelReadback 
     const realScratch = await fs.realpath(scratch);
     const profile = `(version 1)(allow default)(deny network*)(deny process-fork)(deny file-write*)(allow file-write* (subpath ${JSON.stringify(realScratch)}) (literal "/dev/null"))`;
     const result = spawnSync("/usr/bin/sandbox-exec", ["-p", profile, python, "-I", "-B", workerFile], {
-      input: JSON.stringify({ content, query, model_readback: modelReadback }), encoding: "utf8", cwd: realScratch,
+      input: JSON.stringify({ content, query, model_readback: modelReadback, model_notice: modelNotice }), encoding: "utf8", cwd: realScratch,
       timeout: HEADROOM_CONTRACT.timeoutMs, killSignal: "SIGKILL", maxBuffer: 8 * 1024 * 1024,
       env: {
         PATH: "/usr/bin:/bin", HOME: realScratch, TMPDIR: realScratch,
@@ -106,11 +214,12 @@ export async function createHeadroomView(options, dependencies) {
 export async function createHeadroomPayload(options, dependencies) {
   const diagnostics = await buildHeadroomView(options, dependencies, true);
   const text = diagnostics.status === "compressed"
-    ? modelText(diagnostics.content, diagnostics.readback) : diagnostics.content;
+    ? modelText(diagnostics.content, diagnostics.readback, diagnostics.notice) : diagnostics.content;
   return { text, diagnostics };
 }
 
-async function buildHeadroomView({ input, kind, enabled = false, python, snapshot, query = "" }, { runWorker = runHeadroomWorker } = {}, payload = false) {
+async function buildHeadroomView({ input, kind, enabled = false, python, snapshot, query = "", allowLossy = false }, { runWorker = runHeadroomWorker } = {}, payload = false) {
+  if (typeof allowLossy !== "boolean") throw new Error("allowLossy must be a boolean");
   const started = performance.now();
   const bytes = await readBoundedFile(input);
   const content = bytes.toString("utf8");
@@ -118,6 +227,7 @@ async function buildHeadroomView({ input, kind, enabled = false, python, snapsho
   const output = {
     schema_version: "temple.tool-output-view/v1", status: "original", reason: "disabled",
     content, source_sha256: originalHash, readback: null,
+    compression_policy: allowLossy ? "allow-lossy" : "lossless-only", preservation: "original",
     metrics: { input_bytes: bytes.length, output_bytes: bytes.length, worker_attempts: 0,
       worker_ms: 0, total_ms: 0, snapshot_bytes: 0, local_token_estimate: null,
       model_usage: null, provider_calls_by_adapter: 0 }
@@ -136,6 +246,7 @@ async function buildHeadroomView({ input, kind, enabled = false, python, snapsho
     try { JSON.parse(content); } catch { output.reason = "invalid-json"; return finish(); }
   }
   if (bytes.length < HEADROOM_CONTRACT.minimumBytes) { output.reason = "below-threshold"; return finish(); }
+  if (!allowLossy && kind !== "json") { output.reason = "lossless-json-only"; return finish(); }
   if (typeof query !== "string" || byteLength(query) > 4096) throw new Error("Query must be UTF-8 text no larger than 4 KiB");
   if (!safeSnapshot(snapshot)) { output.reason = "snapshot-unconfigured"; return finish(); }
   let snapshotParent;
@@ -152,7 +263,8 @@ async function buildHeadroomView({ input, kind, enabled = false, python, snapsho
   const readback = { snapshot: path.join(snapshotParent.parent, snapshotParent.name), sha256: originalHash };
   const workerStarted = performance.now();
   let result;
-  try { result = await runWorker({ content, query, python, ...(payload ? { modelReadback: readback } : {}) }); }
+  const notice = allowLossy ? lossyNotice : undefined;
+  try { result = await runWorker({ content, query, python, ...(payload ? { modelReadback: readback, ...(notice ? { modelNotice: notice } : {}) } : {}) }); }
   catch { result = { failure: "worker-unavailable" }; }
   output.metrics.worker_ms = performance.now() - workerStarted;
   if (!validWorker(result, originalHash)) {
@@ -166,14 +278,17 @@ async function buildHeadroomView({ input, kind, enabled = false, python, snapsho
     scope: "content-only; excludes envelope, history, model output and readback"
   };
   if (hasCcr(result.content)) { output.reason = "ephemeral-ccr-unsupported"; return finish(); }
+  const preserved = kind === "json" && preservesJsonValues(content, result.content);
+  if (!preserved && !allowLossy) { output.reason = "lossless-unverified"; return finish(); }
   const candidate = { ...output, status: "compressed", reason: "smaller-view",
     content: result.content, headroom_version: result.version, transforms: result.transforms,
+    preservation: preserved ? "verified-json-values" : "unverified", ...(notice ? { notice } : {}),
     readback,
     metrics: { ...output.metrics, output_bytes: byteLength(result.content), snapshot_bytes: bytes.length,
       local_token_estimate: { ...output.metrics.local_token_estimate, returned_output: result.output_tokens } }
   };
   if (payload) {
-    const text = modelText(result.content, readback);
+    const text = modelText(result.content, readback, notice);
     const measured = result.model_payload;
     if (!measured || measured.text !== text || measured.sha256 !== digest(text) ||
         !Number.isSafeInteger(measured.tokens) || measured.tokens < 0) {
