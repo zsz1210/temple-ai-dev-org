@@ -69,3 +69,28 @@ No global tool routing, new tokenizer dependency, model call or additional worke
 invocation is introduced. Estimates exclude caller framing, history, model output
 and later readback. The caller must provide original recovery and evaluate those
 costs and correctness before considering automatic enablement.
+
+## Verified lossless default within enabled adapters
+
+A bounded omitted-detail test found a string array reduced from 250 to 15 values
+without a CCR marker. Original readback recovered the omitted answers, but the
+extra turns increased token use on those questions. Other measured package/history
+outputs preserved all values through tabular representation. Treat those behaviors
+separately; transform labels and marker absence are not preservation proof.
+
+Both enabled view and payload APIs now require independently verified JSON-value
+preservation by default. A bounded deterministic parser compares exact numeric
+spellings, strings, booleans/null, object members and ordered arrays including
+duplicates. It supports ordinary JSON and the pinned runtime's narrow string/int
+CSV table form. Original member ordering/whitespace may differ; duplicate object
+keys, unknown table schemas and malformed/deep content fail to raw. Logs skip the
+worker in this mode. This is conservative supported-format verification, not an
+assertion that every upstream transform is lossless or that unknown formats lose data.
+
+An explicit allowLossy / --allow-lossy-headroom selection permits unverified
+log/JSON views while retaining exact snapshot recovery. A notice about possible
+omission is present in model text and counted in its complete-text savings gate.
+The flag does not enable the adapter itself. This intentionally tightens enabled
+legacy callers: prior possibly lossy results need the new flag. Global disabled
+default, runtime/version/license boundaries and all confinement remain unchanged.
+No new model call, dependency or automatic tool routing is introduced.

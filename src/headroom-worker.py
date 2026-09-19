@@ -33,8 +33,10 @@ output = {"version": VERSION, "tokenizer_version": TOKENIZER_VERSION,
            "input_tokens": len(enc.encode(data["content"], disallowed_special=())),
            "output_tokens": len(enc.encode(content, disallowed_special=()))}
 if "model_readback" in data:
-    text = json.dumps({"content": content, "readback": data["model_readback"]},
-                      ensure_ascii=False, separators=(",", ":"))
+    payload = {"content": content, "readback": data["model_readback"]}
+    if "model_notice" in data:
+        payload["notice"] = data["model_notice"]
+    text = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     output["model_payload"] = {"text": text, "sha256": hashlib.sha256(text.encode()).hexdigest(),
                                "tokens": len(enc.encode(text, disallowed_special=()))}
 json.dump(output, sys.stdout, ensure_ascii=False)

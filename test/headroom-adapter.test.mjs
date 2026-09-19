@@ -15,7 +15,8 @@ async function fixture(t, content = "record: example value\r\n".repeat(1000)) {
   t.after(() => fs.rm(root, { recursive: true, force: true }));
   const input = path.join(root, "input.txt"), snapshot = path.join(root, "original.txt");
   await fs.writeFile(input, content);
-  return { root, input, snapshot, content };
+  // Existing adversarial snapshot/worker tests explicitly exercise lossy views.
+  return { root, input, snapshot, content, allowLossy: true };
 }
 function worker(content = "Condensed fictional result") {
   return async ({ content: original }) => ({ version: "0.37.0", tokenizer_version: "0.14.0",
@@ -26,10 +27,62 @@ const forbidden = async () => { throw new Error("must not execute"); };
 function payloadWorker({ inputTokens = 6000, tokens = 100, content = "Condensed result" } = {}) {
   return async (data) => {
     const base = await worker(content)(data);
-    const text = JSON.stringify({ content, readback: data.modelReadback });
+    const text = JSON.stringify({ content, readback: data.modelReadback, ...(data.modelNotice ? { notice: data.modelNotice } : {}) });
     return { ...base, input_tokens: inputTokens, model_payload: { text, sha256: hash(text), tokens } };
   };
 }
+
+test("enabled default admits complete JSON tables and rejects unmarked row loss in both APIs", async (t) => {
+  const rows = Array.from({ length: 400 }, (_,id) => ({ id, detail: `unique-detail-${id}` }));
+  const f = await fixture(t, JSON.stringify(rows, null, 2));
+  const table = '[400]{id:int,detail:string}\n'+rows.map(r=>`${r.id},${r.detail}`).join('\n');
+  for (const [name, create] of [["view", createHeadroomView], ["payload", createHeadroomPayload]]) {
+    const snapshot = path.join(f.root, `${name}.txt`);
+    const answer = await create({ ...f, allowLossy: undefined, snapshot, enabled: true, kind: "json" }, { runWorker: payloadWorker({ content: table }) });
+    const view = answer.diagnostics ?? answer;
+    assert.equal(view.status, "compressed"); assert.equal(view.preservation, "verified-json-values");
+    assert.equal(view.compression_policy, "lossless-only"); assert.equal(view.notice, undefined);
+    if (name === "payload") assert.deepEqual(Object.keys(JSON.parse(answer.text)), ["content", "readback"]);
+    assert.equal((await readHeadroomOriginal({ input: snapshot, sha256: hash(f.content) })).content, f.content);
+    const rejectedSnapshot = path.join(f.root, `${name}-rejected.txt`);
+    const dropped = await create({ ...f, allowLossy: undefined, snapshot: rejectedSnapshot, enabled: true, kind: "json" }, { runWorker: payloadWorker({ content: JSON.stringify(rows.slice(0,15)) }) });
+    const rejected = dropped.diagnostics ?? dropped;
+    assert.equal(rejected.reason, "lossless-unverified"); assert.equal(rejected.content, f.content);
+    assert.equal(rejected.preservation, "original"); assert.equal(rejected.readback, null);
+    await assert.rejects(fs.access(rejectedSnapshot));
+  }
+});
+
+test("lossy selection needs separate opt-in and includes its notice in measured model text", async (t) => {
+  const f = await fixture(t, JSON.stringify(Array.from({length:400},(_,i)=>`${i}:`+'abcdef'.repeat(20)),null,2));
+  const short = JSON.stringify(JSON.parse(f.content).slice(0,15));
+  const result = await createHeadroomPayload({ ...f, enabled:true, kind:"json" }, {runWorker:payloadWorker({content:short})});
+  assert.equal(result.diagnostics.status,'compressed'); assert.equal(result.diagnostics.preservation,'unverified');
+  assert.match(JSON.parse(result.text).notice,/may omit details/);
+  const noNotice = await createHeadroomPayload({ ...f, snapshot:path.join(f.root,'bad.txt'), enabled:true, kind:'json' }, {runWorker:async data=>{
+    const r=await payloadWorker({content:short})(data);
+    r.model_payload.text=JSON.stringify({content:short,readback:data.modelReadback});r.model_payload.sha256=hash(r.model_payload.text);
+    return r;
+  }});
+  assert.equal(noNotice.diagnostics.reason,'invalid-payload-measurement'); assert.equal(noNotice.text,f.content);
+  await assert.rejects(fs.access(path.join(f.root,'bad.txt')));
+});
+
+test("default text bypass avoids workers; opting into lossy does not enable a disabled adapter", async (t) => {
+  const f=await fixture(t);let calls=0;const runWorker=async()=>{calls++;return {};};
+  const raw=await createHeadroomPayload({...f,allowLossy:undefined,enabled:true,kind:'log'},{runWorker});
+  assert.equal(raw.text,f.content);assert.equal(raw.diagnostics.reason,'lossless-json-only');
+  const disabled=await createHeadroomPayload({...f,enabled:false,kind:'log'},{runWorker});
+  assert.equal(disabled.diagnostics.reason,'disabled');assert.equal(calls,0);
+  await assert.rejects(createHeadroomPayload({...f,allowLossy:'true'}),/boolean/);
+  const args=[cli,'adapter','headroom-payload',f.root,'--input','input.txt','--kind','log','--json'];
+  const selected=spawnSync(process.execPath,[...args,'--allow-lossy-headroom'],{encoding:'utf8'});
+  assert.equal(selected.status,0,selected.stderr);
+  assert.equal(JSON.parse(selected.stdout).diagnostics.compression_policy,'allow-lossy');
+  assert.equal(JSON.parse(selected.stdout).diagnostics.reason,'disabled');
+  const plain=spawnSync(process.execPath,[...args,'--enable-headroom'],{encoding:'utf8'});
+  assert.equal(plain.status,0,plain.stderr);assert.equal(JSON.parse(plain.stdout).diagnostics.reason,'lossless-json-only');
+});
 
 test("model payload passthrough is byte exact without a worker or diagnostic wrapper", async (t) => {
   const f = await fixture(t, "\ufeff日本語 😀\r\nno trailing newline");
@@ -52,7 +105,8 @@ test("payload admission counts metadata and enforces absolute and proportional s
     assert.equal(estimate.returned_output, accepted ? tokens : inputTokens);
     if (accepted) {
       const body = JSON.parse(result.text);
-      assert.deepEqual(Object.keys(body), ["content", "readback"]);
+      assert.deepEqual(Object.keys(body), ["content", "readback", "notice"]);
+      assert.match(body.notice, /may omit details/);
       assert.equal((await readHeadroomOriginal({ input: body.readback.snapshot, sha256: body.readback.sha256 })).content, f.content);
     } else {
       assert.equal(result.text, f.content); assert.equal(result.diagnostics.reason, "insufficient-payload-savings");

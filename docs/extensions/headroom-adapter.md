@@ -4,6 +4,12 @@ Use this when a tool wrapper has a large, disposable log or JSON response. The
 adapter produces a derived reading view and an exact original snapshot. It is
 off by default and does not intercept Codex conversations or other tools.
 
+When enabled, compression defaults to **verified lossless JSON values**. Temple
+compares the actual source and returned representation itself; absence of a CCR
+marker or an upstream transform label is not proof. Logs pass through without a
+Python invocation in this mode. Possible content omission needs the separate
+`--allow-lossy-headroom` flag (`allowLossy: true` for library calls).
+
 ## Choose the output for a model caller
 
 Use `adapter headroom-payload` when a wrapper needs the text to send to a model:
@@ -17,24 +23,43 @@ without a diagnostic envelope or an added newline. Small inputs below 16 KiB als
 take this path when enabled; no Python process or snapshot is created.
 The input safety/size rules below still apply. Diagnostics never become source data.
 
-To try compression, use the same explicit runtime and fresh snapshot configuration:
+To try lossless JSON compaction, configure an explicit runtime and fresh snapshot:
 
 ```bash
 node ./templew.mjs adapter headroom-payload . \
-  --input output/build.log --kind log --enable-headroom \
+  --input output/packages.json --kind json --enable-headroom \
   --python /absolute/path/to/venv/bin/python \
-  --snapshot /absolute/path/to/project/output/headroom/build-original.txt \
-  --query 'Which failures require follow-up?'
+  --snapshot /absolute/path/to/project/output/headroom/packages-original.txt \
+  --query 'Which files have the largest sizes?'
 ```
 
-The candidate model text contains only `content` and the exact `readback`
-descriptor. The existing pinned worker counts that complete serialized text,
-including JSON escaping, snapshot path and SHA256, in the same invocation as
+The lossless candidate model text contains `content` and the exact `readback`
+descriptor. The explicit lossy route also includes a `notice` that details may
+be omitted and the original should be read when needed. The existing pinned
+worker counts that complete serialized text, including the notice, JSON escaping,
+snapshot path and SHA256, in the same invocation as
 compression. The parent verifies the measured text and its digest. Admission
 requires smaller text bytes and a token saving of at least **10% and 256 tokens**
 against the plain original. These are initial operational bounds, not calibrated
-optimal settings or a quality guarantee. Large logs with little reduction may
-still consume one worker invocation before being rejected.
+optimal settings or a quality guarantee. Eligible JSON and opted-in logs with
+little reduction may still consume one worker invocation before being rejected.
+
+The verifier accepts ordinary JSON or a narrow typed table form produced by the
+pinned runtime: string and integer columns with supported ASCII field names,
+including nested tables. It preserves every value, array order and duplicate row.
+Numbers are compared as exact numeric spellings without conversion to floating
+point; a changed spelling such as `1.0` to `1` is conservatively rejected. Object
+member order and whitespace can change. Duplicate object keys, unsupported table
+types/encodings, malformed CSV or nesting beyond 128 levels return the original.
+Source strings that resemble tables stay literal strings. Lossless here means
+verified JSON values under these rules; original formatting remains in the exact
+snapshot. This is not a general decoder for every Headroom output format.
+
+To intentionally allow lossy log or JSON views, add `--allow-lossy-headroom` to
+the enabled command. The flag alone does not enable compression. Both view and
+payload diagnostics record `compression_policy` and `preservation`; unverified
+views never claim losslessness. The model-facing notice is retained whenever this
+route is selected, even if a particular result also passes JSON verification.
 
 Insufficient savings, missing/invalid complete-text measurements or any existing
 compression/snapshot failure returns the exact original text. Rejection before
@@ -58,7 +83,9 @@ model outputs and subsequent original reads. Raw fallback's returned estimate
 remains the original count. Passthrough without a worker has no token estimate.
 
 The legacy `headroom-view` command below retains its diagnostic envelope and
-original admission rule for compatibility. Its content-only token estimate is
+byte/content-token savings rule, but also enforces the new lossless default.
+Existing enabled callers that relied on potentially lossy log/JSON results must
+explicitly add `--allow-lossy-headroom`. Its content-only token estimate is
 not the complete model-text estimate used by `headroom-payload`.
 
 ## Read an original, without optional dependencies
@@ -86,14 +113,14 @@ on macOS with `/usr/bin/sandbox-exec`; other platforms return the original with
 ```bash
 mkdir -p output/headroom
 node ./templew.mjs adapter headroom-view . \
-  --input output/build.log --kind log --enable-headroom \
+  --input output/build.log --kind log --enable-headroom --allow-lossy-headroom \
   --python /absolute/path/to/venv/bin/python \
   --snapshot /absolute/path/to/project/output/headroom/build-original.txt \
   --query 'Which failures require follow-up?' --json
 ```
 
 Use a new snapshot filename for each invocation. Only an explicit enable flag,
-`log` or valid `json`, and at least 16 KiB can start compression. Inputs must be
+valid `json` (or opted-in `log`), and at least 16 KiB can start compression. Inputs must be
 regular UTF-8 files no larger than 1 MiB; query text is limited to 4 KiB. These
 initial bounds are conservative operational limits, not calibrated optima.
 
@@ -103,7 +130,8 @@ a 15-second limit. It exits after each invocation; no idle Node/Python service i
 created. A separately configured Python environment is trusted local code, not an
 untrusted executable sandbox or a complete supply-chain attestation.
 
-The adapter returns compression only when the complete response envelope shrinks,
+The view adapter returns compression only when preservation policy permits it,
+the complete response envelope shrinks,
 the content token estimate improves, and the original snapshot was written with
 exclusive creation and owner-only permissions. A one-shot Node writer validates
 the pre-compression directory identity, writes relative to its anchored working
@@ -137,6 +165,8 @@ directories and the named AGENTS/TEMPLE/CLAUDE instruction files also pass throu
 Missing or
 wrong-version runtime, timeout, malformed worker response, CCR markers, snapshot
 failure or no net reduction also returns the original with a bounded reason.
+`lossless-unverified` means full-value preservation could not be established;
+`lossless-json-only` means the selected mode does not compress text logs.
 Worker diagnostics and private stderr are never inserted into the reading view.
 Invalid UTF-8, unsafe file types and inputs over 1 MiB fail before compression.
 
