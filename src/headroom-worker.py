@@ -27,9 +27,14 @@ if result.messages[:3] != messages[:3] or len(result.messages) != 4:
     raise RuntimeError("Protected message drift")
 content = result.messages[-1]["content"]
 enc = tiktoken.get_encoding("o200k_base")
-json.dump({"version": VERSION, "tokenizer_version": TOKENIZER_VERSION,
+output = {"version": VERSION, "tokenizer_version": TOKENIZER_VERSION,
            "original_sha256": hashlib.sha256(data["content"].encode()).hexdigest(),
            "content": content, "transforms": result.transforms_applied,
            "input_tokens": len(enc.encode(data["content"], disallowed_special=())),
-           "output_tokens": len(enc.encode(content, disallowed_special=()))},
-          sys.stdout, ensure_ascii=False)
+           "output_tokens": len(enc.encode(content, disallowed_special=()))}
+if "model_readback" in data:
+    text = json.dumps({"content": content, "readback": data["model_readback"]},
+                      ensure_ascii=False, separators=(",", ":"))
+    output["model_payload"] = {"text": text, "sha256": hashlib.sha256(text.encode()).hexdigest(),
+                               "tokens": len(enc.encode(text, disallowed_special=()))}
+json.dump(output, sys.stdout, ensure_ascii=False)

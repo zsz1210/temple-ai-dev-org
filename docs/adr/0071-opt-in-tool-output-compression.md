@@ -48,3 +48,24 @@ this adapter and request exact originals. This is not interception of arbitrary
 Codex tools or conversation history. The initial 16 KiB threshold and 1 MiB bound
 are conservative operational limits, not measured optimal routing decisions.
 Real-task efficacy and cross-platform confinement require separate validation.
+
+## Caller payload admission refinement
+
+A bounded real-output replay found that diagnostic-envelope overhead could erase
+small content savings. Add an explicit `headroom-payload` delivery path while
+retaining `headroom-view` compatibility and the disabled default. Plain stdout
+is byte-exact original text for passthrough/fallback; accepted compression carries
+only content and exact original-readback metadata. Library diagnostics remain
+separate, with an explicit CLI JSON inspection mode.
+
+The same pinned worker counts the complete candidate model string. The parent
+reconstructs that string and checks the measurement's text/digest before accepting
+a minimum saving of max(256 tokens,10% of original tokens), plus fewer bytes.
+These conservative bounds are not tuned efficacy or quality guarantees. Reject
+before snapshot creation when savings are insufficient. Small outputs never
+start the worker. A large low-gain output may still pay one compression attempt.
+
+No global tool routing, new tokenizer dependency, model call or additional worker
+invocation is introduced. Estimates exclude caller framing, history, model output
+and later readback. The caller must provide original recovery and evaluate those
+costs and correctness before considering automatic enablement.

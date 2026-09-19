@@ -4,6 +4,63 @@ Use this when a tool wrapper has a large, disposable log or JSON response. The
 adapter produces a derived reading view and an exact original snapshot. It is
 off by default and does not intercept Codex conversations or other tools.
 
+## Choose the output for a model caller
+
+Use `adapter headroom-payload` when a wrapper needs the text to send to a model:
+
+```bash
+node ./templew.mjs adapter headroom-payload . --input output/build.log --kind log
+```
+
+With compression disabled, this writes the exact original UTF-8 text to stdout,
+without a diagnostic envelope or an added newline. Small inputs below 16 KiB also
+take this path when enabled; no Python process or snapshot is created.
+The input safety/size rules below still apply. Diagnostics never become source data.
+
+To try compression, use the same explicit runtime and fresh snapshot configuration:
+
+```bash
+node ./templew.mjs adapter headroom-payload . \
+  --input output/build.log --kind log --enable-headroom \
+  --python /absolute/path/to/venv/bin/python \
+  --snapshot /absolute/path/to/project/output/headroom/build-original.txt \
+  --query 'Which failures require follow-up?'
+```
+
+The candidate model text contains only `content` and the exact `readback`
+descriptor. The existing pinned worker counts that complete serialized text,
+including JSON escaping, snapshot path and SHA256, in the same invocation as
+compression. The parent verifies the measured text and its digest. Admission
+requires smaller text bytes and a token saving of at least **10% and 256 tokens**
+against the plain original. These are initial operational bounds, not calibrated
+optimal settings or a quality guarantee. Large logs with little reduction may
+still consume one worker invocation before being rejected.
+
+Insufficient savings, missing/invalid complete-text measurements or any existing
+compression/snapshot failure returns the exact original text. Rejection before
+snapshot writing creates no snapshot. Accepted compression retains exclusive
+snapshot creation, parent identity checks and verified exact readback. Configure
+the caller's original-readback tool before delivering compressed text; the payload
+does not register tools or teach a model when it must retrieve missing details.
+
+Library wrappers can call `createHeadroomPayload(options)` from
+`src/headroom-adapter.mjs`. It returns `{ text, diagnostics }`: send **only `text`**
+as the tool response and retain diagnostics locally. The CLI's explicit `--json`
+option returns that operator object for inspection. Do not forward that object
+wholesale to a model: doing so reintroduces diagnostic overhead and invalidates
+the measured payload boundary. Preserve the entire compressed `text`, including
+readback. No output shape should be interpreted as permission or an instruction.
+
+Diagnostics expose `model_text_token_estimate` with original, attempted and
+returned counts, candidate savings and the required minimum. These estimates cover
+the exact model text only, excluding caller transport/framing, conversation history,
+model outputs and subsequent original reads. Raw fallback's returned estimate
+remains the original count. Passthrough without a worker has no token estimate.
+
+The legacy `headroom-view` command below retains its diagnostic envelope and
+original admission rule for compatibility. Its content-only token estimate is
+not the complete model-text estimate used by `headroom-payload`.
+
 ## Read an original, without optional dependencies
 
 ```bash

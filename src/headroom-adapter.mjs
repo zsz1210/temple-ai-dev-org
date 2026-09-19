@@ -8,13 +8,15 @@ import { fileURLToPath } from "node:url";
 
 export const HEADROOM_CONTRACT = Object.freeze({
   version: "0.37.0", tokenizerVersion: "0.14.0", license: "Apache-2.0",
-  minimumBytes: 16 * 1024, maximumBytes: 1024 * 1024, timeoutMs: 15000
+  minimumBytes: 16 * 1024, maximumBytes: 1024 * 1024, timeoutMs: 15000,
+  minimumPayloadSavingRatio: 0.1, minimumPayloadSavedTokens: 256
 });
 const workerFile = fileURLToPath(new URL("./headroom-worker.py", import.meta.url));
 const adapterFile = fileURLToPath(import.meta.url);
 const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const byteLength = (value) => Buffer.byteLength(value, "utf8");
 const envelopeBytes = (value) => byteLength(JSON.stringify(value));
+const modelText = (content, readback) => JSON.stringify({ content, readback });
 const hasCcr = (text) => /<<ccr:|\[\s*(?:HEADROOM|CCR)|\bhash=[A-Za-z0-9_-]+/i.test(text);
 
 async function readBoundedFile(filename) {
@@ -37,7 +39,7 @@ async function readBoundedFile(filename) {
 }
 
 // Only explicitly selected, operator-trusted Python environments are executed.
-export async function runHeadroomWorker({ content, query, python }) {
+export async function runHeadroomWorker({ content, query, python, modelReadback }) {
   if (process.platform !== "darwin") return { failure: "unsupported-platform" };
   if (typeof python !== "string" || !path.isAbsolute(python)) return { failure: "runtime-unconfigured" };
   const scratch = await fs.mkdtemp(path.join(os.tmpdir(), "temple-headroom-"));
@@ -45,7 +47,7 @@ export async function runHeadroomWorker({ content, query, python }) {
     const realScratch = await fs.realpath(scratch);
     const profile = `(version 1)(allow default)(deny network*)(deny process-fork)(deny file-write*)(allow file-write* (subpath ${JSON.stringify(realScratch)}) (literal "/dev/null"))`;
     const result = spawnSync("/usr/bin/sandbox-exec", ["-p", profile, python, "-I", "-B", workerFile], {
-      input: JSON.stringify({ content, query }), encoding: "utf8", cwd: realScratch,
+      input: JSON.stringify({ content, query, model_readback: modelReadback }), encoding: "utf8", cwd: realScratch,
       timeout: HEADROOM_CONTRACT.timeoutMs, killSignal: "SIGKILL", maxBuffer: 8 * 1024 * 1024,
       env: {
         PATH: "/usr/bin:/bin", HOME: realScratch, TMPDIR: realScratch,
@@ -96,7 +98,19 @@ function writeSnapshot({ parent, device, inode, name, content }) {
   } catch { return { written: false, partial_possible: true }; }
 }
 
-export async function createHeadroomView({ input, kind, enabled = false, python, snapshot, query = "" }, { runWorker = runHeadroomWorker } = {}) {
+export async function createHeadroomView(options, dependencies) {
+  return buildHeadroomView(options, dependencies, false);
+}
+
+// Keep operator diagnostics out of the exact text supplied as a tool response.
+export async function createHeadroomPayload(options, dependencies) {
+  const diagnostics = await buildHeadroomView(options, dependencies, true);
+  const text = diagnostics.status === "compressed"
+    ? modelText(diagnostics.content, diagnostics.readback) : diagnostics.content;
+  return { text, diagnostics };
+}
+
+async function buildHeadroomView({ input, kind, enabled = false, python, snapshot, query = "" }, { runWorker = runHeadroomWorker } = {}, payload = false) {
   const started = performance.now();
   const bytes = await readBoundedFile(input);
   const content = bytes.toString("utf8");
@@ -135,9 +149,10 @@ export async function createHeadroomView({ input, kind, enabled = false, python,
     catch (error) { if (error.code !== "ENOENT") throw error; }
   } catch { output.reason = "snapshot-unavailable"; return finish(); }
   output.metrics.worker_attempts = 1;
+  const readback = { snapshot: path.join(snapshotParent.parent, snapshotParent.name), sha256: originalHash };
   const workerStarted = performance.now();
   let result;
-  try { result = await runWorker({ content, query, python }); }
+  try { result = await runWorker({ content, query, python, ...(payload ? { modelReadback: readback } : {}) }); }
   catch { result = { failure: "worker-unavailable" }; }
   output.metrics.worker_ms = performance.now() - workerStarted;
   if (!validWorker(result, originalHash)) {
@@ -153,11 +168,33 @@ export async function createHeadroomView({ input, kind, enabled = false, python,
   if (hasCcr(result.content)) { output.reason = "ephemeral-ccr-unsupported"; return finish(); }
   const candidate = { ...output, status: "compressed", reason: "smaller-view",
     content: result.content, headroom_version: result.version, transforms: result.transforms,
-    readback: { snapshot: path.join(snapshotParent.parent, snapshotParent.name), sha256: originalHash },
+    readback,
     metrics: { ...output.metrics, output_bytes: byteLength(result.content), snapshot_bytes: bytes.length,
       local_token_estimate: { ...output.metrics.local_token_estimate, returned_output: result.output_tokens } }
   };
-  if (envelopeBytes(candidate) >= envelopeBytes(output) || result.output_tokens >= result.input_tokens) {
+  if (payload) {
+    const text = modelText(result.content, readback);
+    const measured = result.model_payload;
+    if (!measured || measured.text !== text || measured.sha256 !== digest(text) ||
+        !Number.isSafeInteger(measured.tokens) || measured.tokens < 0) {
+      output.reason = "invalid-payload-measurement"; return finish();
+    }
+    const minimum = Math.max(HEADROOM_CONTRACT.minimumPayloadSavedTokens,
+      Math.ceil(result.input_tokens * HEADROOM_CONTRACT.minimumPayloadSavingRatio));
+    output.metrics.model_text_token_estimate = {
+      tokenizer: "o200k_base", tokenizer_version: result.tokenizer_version,
+      input: result.input_tokens, candidate_output: measured.tokens, returned_output: result.input_tokens,
+      candidate_saved_tokens: result.input_tokens - measured.tokens, minimum_saved_tokens: minimum,
+      scope: "exact model text including compressed readback metadata; excludes tool transport, history, model output and later readback"
+    };
+    if (byteLength(text) >= bytes.length || result.input_tokens - measured.tokens < minimum) {
+      output.reason = "insufficient-payload-savings"; return finish();
+    }
+    candidate.metrics.model_text_token_estimate = {
+      ...output.metrics.model_text_token_estimate, returned_output: measured.tokens
+    };
+    candidate.reason = "payload-savings-qualified";
+  } else if (envelopeBytes(candidate) >= envelopeBytes(output) || result.output_tokens >= result.input_tokens) {
     output.reason = "no-net-reduction"; return finish();
   }
   const receipt = writeSnapshot({ ...snapshotParent, content });
