@@ -1,21 +1,22 @@
 # Alpha release readiness
 
-Last refreshed: 2026-09-16
+Last refreshed: 2026-09-19
 
-**Alpha.32 is published; Alpha.33 is a preparation candidate.** The source version,
-a reviewed merge, a Git tag, a GitHub Release and an npm version are separate states.
-WI-0243 qualifies Alpha.33 before a deliberate later publication decision.
+**Alpha.33 is published on GitHub and npm's `next` channel.** Publication completed
+on 2026-09-16. WI-0243 retains candidate qualification; WI-0244 retains publication
+and registry verification. The source version, a reviewed merge, a Git tag,
+a GitHub Release and an npm version remain separate states.
 
 ## Current release surfaces
 
 | Surface | Observed state | Next action |
 | --- | --- | --- |
-| Published GitHub prerelease | [v0.1.0-alpha.32](https://github.com/zsz1210/temple-ai-dev-org/releases/tag/v0.1.0-alpha.32), target `e63829dc01e50a10e8bbb4c7cdd4ea2a950c6f6b` | Preserve the immutable prior release |
-| npm channels | `next=0.1.0-alpha.32`; `latest=0.1.0-alpha.30` as observed on the refresh date | Use an exact version or `next` for Alpha adoption; the historical `latest` alias does not imply stable qualification |
-| Source candidate | `0.1.0-alpha.33` | Qualify exact bytes and review them before publication |
+| Published GitHub prerelease | [v0.1.0-alpha.33](https://github.com/zsz1210/temple-ai-dev-org/releases/tag/v0.1.0-alpha.33), target `2e269d67bd764d3c47df665bc9043263cf8082e8` | Preserve the immutable published release |
+| npm channels | `next=0.1.0-alpha.33`; `latest=0.1.0-alpha.30` as observed on the refresh date | Use an exact version or `next` for Alpha adoption; the historical `latest` alias does not imply stable qualification |
+| Development source | `main` contains post-release changes; its package version still reads `0.1.0-alpha.33` | Use Git revision and the [Unreleased changelog](../../CHANGELOG.md#unreleased-changes) to distinguish source behavior; qualify a new version before publication |
 | Integration | [Single-maintainer PR policy](../../GOVERNANCE.md#single-maintainer-pull-request-policy) | Ordinary PR, required CI and applicable independent Temple review; no impossible self-approval requirement |
 | npm publication | [Release-only workflow](../operations/npm-release.md) | Publishing a GitHub Release triggers verification and exact-asset comparison before OIDC upload |
-| Real downstream projects | Not modified by release qualification | Plan an explicit project-specific upgrade after the candidate is published |
+| Real downstream projects | Not modified by release qualification | Plan an explicit project-specific upgrade; publication does not upgrade installed projects |
 
 These service observations are dated, not live guarantees. Recheck immutable
 version availability and dist-tags separately at publication time.
@@ -32,12 +33,12 @@ This remains an Alpha trial. Existing measurements are bounded by their candidat
 fixture and environment. They do not establish universal Token, cost or speed
 savings, production readiness or complete multi-human/multi-machine qualification.
 
-## Candidate gates
+## Qualification gates
 
 The [Alpha.33 qualification and upgrade guide](../validation/alpha-33-package-qualification.md)
-defines the candidate checks. Exact results, revision, manifest and archive digests
-belong to WI-0243; this packaged document intentionally does not contain its own
-archive digest.
+defines reusable candidate checks. Alpha.33 candidate results belong to WI-0243;
+WI-0244 retains the official archive and publication checks. This document does
+not embed its own archive digest. A later main revision must be qualified separately.
 
 | Gate | Required evidence |
 | --- | --- |

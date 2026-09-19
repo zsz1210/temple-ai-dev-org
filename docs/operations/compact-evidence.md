@@ -1,5 +1,10 @@
 # Read compact evidence without changing it
 
+Availability: unreleased `main` source; not included in the published Alpha.33
+package. Use a project initialized or explicitly upgraded from a source revision
+containing this command, through its pinned launcher. See the
+[unreleased changes](../../CHANGELOG.md#unreleased-changes).
+
 Use `evidence view` when a saved test log or JSON report is too verbose to read in
 full. It only reads the selected file; it does not run tests, write an artifact,
 grant acceptance, change lifecycle state or load a model.

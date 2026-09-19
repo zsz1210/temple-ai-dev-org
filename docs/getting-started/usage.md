@@ -14,6 +14,13 @@ npm ci
 
 Clone the central framework once and install its exact lockfile dependencies with `npm ci`. The initialization Skill uses the source CLI to install into each product repository; no fork is required. `project-overlay/` is only the installation source inside the central repository. Its contents are installed directly at the product repository root.
 
+This clone follows development `main`, including [unreleased changes](../../CHANGELOG.md#unreleased-changes).
+For the published source baseline, replace the clone command with
+`git clone --branch v0.1.0-alpha.33 https://github.com/zsz1210/temple-ai-dev-org.git`.
+The npm `next` channel currently provides Alpha.33, which does not include main's
+compact evidence or Headroom commands. Existing projects keep their pinned source
+until explicitly upgraded; installing a different global CLI does not change it.
+
 Full framework verification and an optional `npm link` are contributor operations,
 not routine preparation for each product task. Follow [Contributing](../../CONTRIBUTING.md)
 and the [testing guide](testing.md) when modifying Temple itself. Later manual

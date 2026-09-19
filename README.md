@@ -36,6 +36,8 @@ Temple is not an application framework, issue tracker, or autonomous manager. Yo
 
 Requirements: Git, Node.js 24 or later, Codex for guided setup, and a project directory. The current public prerelease is [Alpha.33](https://github.com/zsz1210/temple-ai-dev-org/releases/tag/v0.1.0-alpha.33), available on npm's `next` channel.
 
+**Choose your source:** npm `@next` installs the published Alpha.33 package. The source checkout below follows `main`, which also contains [unreleased changes](CHANGELOG.md#unreleased-changes). Compact evidence and the optional Headroom adapter currently require that development source; they are not included in Alpha.33. For the released source baseline, use `git clone --branch v0.1.0-alpha.33 https://github.com/zsz1210/temple-ai-dev-org.git` instead of the clone command below.
+
 ### AI-guided setup
 
 Clone Temple once so Codex can read its initialization Skill:
@@ -115,7 +117,7 @@ The Guidance layer deliberately contains two different routes. **Context Routing
 - **Stable responsibilities:** Positions define ownership and authority without tying them permanently to one person or AI.
 - **Bounded work:** every change becomes a Work Item with scope, dependencies, acceptance criteria, and a durable state.
 - **Relevant context:** Context Routing points each Position to the specifications, decisions, Skills, and evidence needed for the current step.
-- **Compact evidence:** an optional [reading view](docs/operations/compact-evidence.md) shortens saved test logs and JSON while retaining failure details, limitations, and a digest-bound path to the original.
+- **Compact evidence (unreleased main):** an optional [reading view](docs/operations/compact-evidence.md) shortens saved test logs and JSON while retaining failure details, limitations, and a digest-bound path to the original.
 - **Explainable execution choices:** Adaptive Execution Routing selects an eligible project-owned execution profile from the step's needs; responsibility never hard-codes a model.
 - **Evidence-gated delivery:** implementation, evaluation, Independent QA, and release readiness remain separate claims.
 - **Safe parallel work:** independent tasks can run together; overlapping work waits for coordination and an explicit integration owner.

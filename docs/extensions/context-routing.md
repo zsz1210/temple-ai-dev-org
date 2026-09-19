@@ -141,7 +141,7 @@ The source CLI adds an opt-in `temple.context-entry/v1` response for picking up 
 node ./templew.mjs context resolve . --work-item WI-0001 --position developer --compact --no-write --json
 ```
 
-`--compact` requires `--no-write --json`; it never writes or replaces the full generated capsule. The full response remains unchanged when the flag is omitted. This source addition is unreleased.
+`--compact` requires `--no-write --json`; it never writes or replaces the full generated capsule. The full response remains unchanged when the flag is omitted. Compact entry is included in published Alpha.33.
 
 The compact entry keeps scope, acceptance, current recorded owner/claim, the last handoff and Developer candidate, unresolved items, selected references and warnings. It omits retrieval scoring, repeated query text and tracker observation detail. A `candidate_operation` and the profile edge guide navigation; they are not a readiness result. Additional policy gates, claim eligibility and current evidence must still be validated by the actual operation. Explicit route stage/Position selection does not change lifecycle ownership. Terminal work has no continuation; pending delivery recovery suppresses other next-operation hints.
 
@@ -175,7 +175,9 @@ Read the returned whole mandatory bodies and the installed `temple-work` Lean ex
 
 Installed-template and CLI sandbox checks can verify routing, coverage and no-write behavior without model inference. They do not prove that every model will choose the route or understand the delivered instructions.
 
-## Optional task material (unreleased)
+## Optional task material
+
+Availability: included in published Alpha.33.
 
 `context enter --material task` adds a conservative, derived task view to the same eligible Lean entry. Omitting this option retains the existing stage packet. All original files are still checked for safety, freshness and authority before their representations are selected.
 

@@ -1,5 +1,25 @@
 # Changelog
 
+## Unreleased changes
+
+Changes on `main` after Alpha.33; these are not included in the published
+`0.1.0-alpha.33` npm package. Merging does not publish a new version.
+
+- Added optional compact reading of saved test logs and JSON, with failure details,
+  limitations and digest-bound original readback.
+- Added an opt-in, pinned Headroom tool-output adapter with exact snapshots,
+  complete model-text savings checks and verified JSON-value preservation by
+  default when enabled. Potentially lossy views require a separate opt-in.
+  The adapter remains off by default and does not intercept Codex conversations.
+- Added actionable team-entry guidance, separate actor/task readiness, contributor
+  proposals and mechanical measurement reports that do not rerun tests.
+- Hardened completion and recovery with physical product-byte checks, portable
+  diagnostics and revision-bound evidence across permitted delivery records.
+- Pinned the release packing toolchain and moved exact archive comparison before
+  full release verification.
+- Synchronized public documentation with Alpha.33 publication and distinguished
+  released commands from development-source capabilities.
+
 ## 0.1.0-alpha.33
 
 Published as a GitHub prerelease and on npm's `next` channel on 2026-09-16.
