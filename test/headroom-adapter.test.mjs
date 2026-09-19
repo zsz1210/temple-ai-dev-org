@@ -6,7 +6,7 @@ import path from "node:path";
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { createHeadroomView, readHeadroomOriginal, runHeadroomWorker, HEADROOM_CONTRACT } from "../src/headroom-adapter.mjs";
+import { createHeadroomView, createHeadroomPayload, readHeadroomOriginal, runHeadroomWorker, HEADROOM_CONTRACT } from "../src/headroom-adapter.mjs";
 
 const hash = (value) => createHash("sha256").update(value).digest("hex");
 const cli = fileURLToPath(new URL("../bin/temple.mjs", import.meta.url));
@@ -22,6 +22,88 @@ function worker(content = "Condensed fictional result") {
     original_sha256: hash(original), content, transforms: ["fixture-transform"], input_tokens: 6000, output_tokens: 6 });
 }
 const forbidden = async () => { throw new Error("must not execute"); };
+
+function payloadWorker({ inputTokens = 6000, tokens = 100, content = "Condensed result" } = {}) {
+  return async (data) => {
+    const base = await worker(content)(data);
+    const text = JSON.stringify({ content, readback: data.modelReadback });
+    return { ...base, input_tokens: inputTokens, model_payload: { text, sha256: hash(text), tokens } };
+  };
+}
+
+test("model payload passthrough is byte exact without a worker or diagnostic wrapper", async (t) => {
+  const f = await fixture(t, "\ufeff日本語 😀\r\nno trailing newline");
+  let calls = 0;
+  for (const enabled of [false, true]) {
+    const result = await createHeadroomPayload({ ...f, enabled, kind: "log" }, { runWorker: async () => { calls++; return {}; } });
+    assert.equal(result.text, f.content);
+    assert.equal(result.diagnostics.metrics.worker_attempts, 0);
+  }
+  assert.equal(calls, 0); assert.deepEqual(await fs.readdir(f.root), ["input.txt"]);
+});
+
+test("payload admission counts metadata and enforces absolute and proportional savings before writing", async (t) => {
+  const f = await fixture(t);
+  for (const [inputTokens, tokens, accepted] of [[1000, 745, false], [1000, 744, true], [6000, 5401, false], [6000, 5400, true]]) {
+    const snapshot = path.join(f.root, `raw-${inputTokens}-${tokens}.txt`);
+    const result = await createHeadroomPayload({ ...f, snapshot, enabled: true, kind: "log" }, { runWorker: payloadWorker({ inputTokens, tokens }) });
+    assert.equal(result.diagnostics.status === "compressed", accepted);
+    const estimate = result.diagnostics.metrics.model_text_token_estimate;
+    assert.equal(estimate.returned_output, accepted ? tokens : inputTokens);
+    if (accepted) {
+      const body = JSON.parse(result.text);
+      assert.deepEqual(Object.keys(body), ["content", "readback"]);
+      assert.equal((await readHeadroomOriginal({ input: body.readback.snapshot, sha256: body.readback.sha256 })).content, f.content);
+    } else {
+      assert.equal(result.text, f.content); assert.equal(result.diagnostics.reason, "insufficient-payload-savings");
+      await assert.rejects(fs.access(snapshot));
+    }
+  }
+});
+
+test("tiny content savings or invalid complete-text measurements return raw without snapshots", async (t) => {
+  const f = await fixture(t);
+  const variants = [
+    async (data) => ({ ...await payloadWorker()(data), model_payload: undefined }),
+    async (data) => { const r = await payloadWorker()(data); r.model_payload.tokens = -1; return r; },
+    async (data) => { const r = await payloadWorker()(data); r.model_payload.tokens = Infinity; return r; },
+    async (data) => { const r = await payloadWorker()(data); r.model_payload.sha256 = "0".repeat(64); return r; },
+    async (data) => { const r = await payloadWorker()(data); r.model_payload.text = "stripped readback"; r.model_payload.sha256 = hash(r.model_payload.text); return r; },
+    payloadWorker({ tokens: 5999 }),
+    payloadWorker({ content: f.content + "bigger", tokens: 1 })
+  ];
+  for (const runWorker of variants) {
+    const result = await createHeadroomPayload({ ...f, enabled: true, kind: "log" }, { runWorker });
+    assert.equal(result.text, f.content); assert.equal(result.diagnostics.status, "original");
+    assert.equal(result.diagnostics.readback, null); await assert.rejects(fs.access(f.snapshot));
+  }
+});
+
+test("payload keeps exact serialized readback and snapshot failure restores raw accounting", async (t) => {
+  const f = await fixture(t);
+  const content = '引用 "quoted" \\ line\n😀';
+  const success = await createHeadroomPayload({ ...f, enabled: true, kind: "log" }, { runWorker: payloadWorker({ content }) });
+  assert.equal(JSON.parse(success.text).content, content);
+  assert.equal(success.diagnostics.metrics.model_text_token_estimate.returned_output, 100);
+  const snapshot = path.join(f.root, "conflict.txt");
+  const failed = await createHeadroomPayload({ ...f, snapshot, enabled: true, kind: "log" }, { runWorker: async (data) => {
+    await fs.writeFile(snapshot, "another owner"); return payloadWorker()(data);
+  } });
+  assert.equal(failed.text, f.content); assert.equal(failed.diagnostics.reason, "snapshot-write-failed");
+  assert.equal(failed.diagnostics.metrics.model_text_token_estimate.returned_output, 6000);
+  assert.equal(await fs.readFile(snapshot, "utf8"), "another owner");
+});
+
+test("payload CLI emits only exact model text unless operator JSON is explicitly requested", async (t) => {
+  const f = await fixture(t, "\ufeff繁體中文\r\nno newline");
+  const args = [cli, "adapter", "headroom-payload", f.root, "--input", "input.txt", "--kind", "log", "--enable-headroom"];
+  const plain = spawnSync(process.execPath, args, { encoding: "utf8" });
+  assert.equal(plain.status, 0, plain.stderr); assert.equal(plain.stdout, f.content); assert.equal(plain.stderr, "");
+  const diagnostic = spawnSync(process.execPath, [...args, "--json"], { encoding: "utf8" });
+  assert.equal(diagnostic.status, 0, diagnostic.stderr);
+  const value = JSON.parse(diagnostic.stdout);
+  assert.equal(value.text, f.content); assert.equal(value.diagnostics.metrics.worker_attempts, 0);
+});
 
 test("disabled, small, unsupported and malformed JSON skip runtime and snapshot", async (t) => {
   const f = await fixture(t);

@@ -86,7 +86,7 @@ import { buildUsageBaseline, buildUsagePreflight, evaluateMatchedModelFixture } 
 import { resolveExecutionRequestFile } from "./execution-routing.mjs";
 import { buildModelOnboardingPlanFile } from "./model-onboarding.mjs";
 import { installArchifyAdapter, inspectArchifyAdapter } from "./archify-adapter.mjs";
-import { createHeadroomView, readHeadroomOriginal } from "./headroom-adapter.mjs";
+import { createHeadroomView, createHeadroomPayload, readHeadroomOriginal } from "./headroom-adapter.mjs";
 import { listTasks, refreshTaskTitles, registerTask, updateTask } from "./tasks.mjs";
 import {
   configureTracker,
@@ -269,6 +269,7 @@ Usage:
   temple adapter archify-status [target] [--json]
   temple adapter archify-install [target] --source local-git-checkout [--json]
   temple adapter headroom-view [target] --input file --kind log|json [--enable-headroom --python absolute-path --snapshot fresh-absolute-file] [--query text] [--json]
+  temple adapter headroom-payload [target] --input file --kind log|json [--enable-headroom --python absolute-path --snapshot fresh-absolute-file] [--query text] [--json]
   temple adapter headroom-read [target] --input snapshot --expected-sha256 digest [--json]
   temple handoff [target] --work-item WI-0001 --to position --input-revision ref --completed text --evidence ref
   temple transition [target] --work-item WI-0001 --to state --satisfy requirement=reference
@@ -2157,16 +2158,16 @@ async function runExecution(parsed) {
 
 async function runAdapter(parsed) {
   const target = await assertSafeTarget(parsed.target);
-  if (["headroom-view", "headroom-read"].includes(parsed.action)) {
+  if (["headroom-view", "headroom-payload", "headroom-read"].includes(parsed.action)) {
     if (!parsed.options["--input"]) throw new Error(`${parsed.action} requires --input`);
     const input = path.resolve(target, parsed.options["--input"]);
     const result = parsed.action === "headroom-read"
       ? await readHeadroomOriginal({ input, sha256: parsed.options["--expected-sha256"] })
-      : await createHeadroomView({ input, kind: parsed.options["--kind"],
+      : await (parsed.action === "headroom-payload" ? createHeadroomPayload : createHeadroomView)({ input, kind: parsed.options["--kind"],
         enabled: parsed.flags.has("--enable-headroom"), python: parsed.options["--python"],
         snapshot: parsed.options["--snapshot"], query: parsed.options["--query"] ?? "" });
-    // This envelope is the tool result. Do not silently strip readback or metrics.
-    console.log(formatJson(result));
+    if (parsed.action === "headroom-payload" && !parsed.flags.has("--json")) process.stdout.write(result.text);
+    else console.log(formatJson(result));
     return 0;
   }
   if (parsed.action === "archify-status") {
