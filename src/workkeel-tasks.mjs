@@ -227,22 +227,61 @@ async function administrativeFile(target, item, file, action, request) {
   return (request && digest(document) === digest(request)) || item.history.some(event =>
     event.request_sha256 === digest({ action: event.action, request: document }));
 }
-async function assertCandidate(target, item, revision, { handoff = false, action = null, request = null } = {}) {
+const CANDIDATE_MESSAGES = {
+  'outside-write-scope': 'Candidate changes paths outside approved write roots',
+  'unlisted-report': 'Candidate verification requires a clean product tree, including untracked files',
+  'product-drift': 'Candidate verification requires a clean product tree, including untracked files',
+  'tracked-artifact-changed': 'A tracked candidate artifact changed after verification'
+};
+async function candidateFiles(target, item, revision, { handoff = false, action = null, request = null } = {}) {
   await exactRevision(target, revision);
   await git(target, ["merge-base", "--is-ancestor", item.base_revision, revision]);
   if (handoff && (await git(target, ["rev-parse", "HEAD"])).trim() !== revision) throw new Error("Handoff candidate must be the current commit");
+  const issues = [], administrative = [];
   const changed = (await git(target, ["diff", "--no-renames", "--name-only", "-z", item.base_revision, revision, "--"])).split("\0").filter(Boolean);
   for (const file of changed) if (!item.contract.environment.write_paths.some(root => under(file, root)) &&
-    !await administrativeFile(target, item, file, action, request)) throw new Error("Candidate changes paths outside approved write roots");
+    !await administrativeFile(target, item, file, action, request)) issues.push({path:file, code:'outside-write-scope', next_action:'Preserve the candidate; obtain approval for the actual scope before a new delivery.'});
   const drift = [...(await git(target, ["diff", "--no-renames", "--name-only", "-z", revision, "--"])).split("\0"),
     ...(await git(target, ["ls-files", "--others", "--exclude-standard", "-z"])).split("\0")].filter(Boolean);
   for (const file of new Set(drift)) {
-    if (!await administrativeFile(target, item, file, action, request)) throw new Error("Candidate verification requires a clean product tree, including untracked files");
+    if (!await administrativeFile(target, item, file, action, request)) {
+      const report = file.startsWith(`.ai-org/artifacts/${item.id}/`) && /\.(?:md|txt|log|json)$/.test(file);
+      issues.push({path:file, code:report?'unlisted-report':'product-drift', next_action:report?
+        'If this is new administrative evidence, name this exact file in the request; otherwise preserve it outside the candidate or commit and verify it.':
+        'Preserve the change; commit and verify a new candidate, or keep unrelated generated output outside the product tree.'});
+      continue;
+    }
     // Only the task's canonical state may change if it existed in the candidate.
     // New exact report/request files are administrative; existing artifacts are
     // still immutable candidate inputs, regardless of extension or directory.
-    if (file !== fileRef(item.id) && (await git(target, ["ls-tree", "--name-only", revision, "--", file])).trim()) throw new Error("A tracked candidate artifact changed after verification");
+    if (file !== fileRef(item.id) && (await git(target, ["ls-tree", "--name-only", revision, "--", `:(literal)${file}`])).trim())
+      issues.push({path:file, code:'tracked-artifact-changed', next_action:'Keep the recorded candidate evidence immutable; save later observations in a new file.'});
+    else administrative.push(file);
   }
+  return {issues, administrative};
+}
+async function assertCandidate(target, item, revision, options = {}) {
+  const {issues} = await candidateFiles(target,item,revision,options);
+  if (issues.length) throw new Error(`${CANDIDATE_MESSAGES[issues[0].code]}: ${JSON.stringify(issues[0].path)}`);
+}
+
+/** Read-only file diagnostics, not a rehearsal of authority, review or acceptance. */
+export async function inspectTaskCandidate(targetInput, id, input) {
+  assertKeys(input,['action','request']);
+  if (!['handoff','review','close'].includes(input.action)) throw new Error('Candidate inspection action must be handoff, review or close');
+  assertRequest(input.request,FIELDS[input.action]);
+  const target=await fs.realpath(targetInput),item=await readNativeTask(target,id),request=input.request;
+  if (request.expected_version!==item.version) throw new Error('Stale expected version; inspect current task before retrying');
+  if (!Array.isArray(request.evidence) || request.evidence.length>64 || request.evidence.some(ref=>typeof ref!=='string')) throw new Error('Bounded evidence paths are required');
+  if (input.action!=='handoff' && (!item.delivery || request.revision!==item.delivery.revision)) throw new Error('Candidate must match the delivered revision');
+  const out=await candidateFiles(target,item,request.revision,{handoff:input.action==='handoff',action:input.action,request});
+  return {schema_version:'workkeel.candidate-files/v1',authority:'observation-only',mutation_status:'no-write',execution_authorized:false,
+    task_id:id,task_version:item.version,action:input.action,candidate_revision:request.revision,candidate_files_passed:out.issues.length===0,
+    issues:out.issues.slice(0,128),issue_count:out.issues.length,administrative_paths:out.administrative.slice(0,128),administrative_count:out.administrative.length,
+    truncated:out.issues.length>128||out.administrative.length>128,lifecycle_validation:'not-performed',full_verification:'not-run',actual_review:'not-performed',
+    limitations:['Only candidate files were inspected. This does not authorize or perform a lifecycle operation.',
+      'The actual operation rechecks current authority, version, claim, dependencies, evidence and reviewer separation.',
+      'Files may change after inspection; preserve the exact candidate and recheck at the operation.']};
 }
 async function assertDelivery(target, item, action, request) {
   if (!item.delivery) throw new Error("No delivered candidate");

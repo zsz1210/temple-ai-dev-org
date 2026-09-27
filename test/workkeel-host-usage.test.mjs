@@ -7,11 +7,20 @@ import {execFileSync} from 'node:child_process';
 import {initializeTaskProject} from '../src/workkeel-project.mjs';
 import {previewTaskIntake,applyTaskIntake} from '../src/workkeel-intake.mjs';
 import {readNativeTask,mutateNativeTask} from '../src/workkeel-tasks.mjs';
-import {bindHostUsage,collectHostUsage,reportHostUsage,reportHostActivity,closeHostUsage,readHostMeasurements} from '../src/workkeel-host-usage.mjs';
+import {bindHostUsage,checkHostBindingReadiness,collectHostUsage,reportHostUsage,reportHostActivity,closeHostUsage,readHostMeasurements} from '../src/workkeel-host-usage.mjs';
 import {executionDigest} from '../src/workkeel-execution-policy.mjs';
 import {prepareDispatchTicket} from '../src/workkeel-dispatch.mjs';
 
 const token=(n=1)=>({input_tokens:n,cached_input_tokens:0,cache_write_input_tokens:0,output_tokens:n,reasoning_output_tokens:0,total_tokens:n*2});
+const observation={authority:'observation-only',mutation_status:'no-write',execution_authorized:false};
+async function treeSnapshot(root){
+  const result=[];
+  for(const name of (await fs.readdir(root,{recursive:true})).sort()){
+    const file=path.join(root,name),s=await fs.lstat(file);
+    result.push([name,s.mtimeMs,s.isFile()?await fs.readFile(file,'utf8'):null]);
+  }
+  return result;
+}
 async function fixture(t,{advancingClaimClock=false,dispatchReasoning=undefined}={}) {
   const root=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'workkeel-host-')));t.after(()=>fs.rm(root,{recursive:true,force:true}));
   const git=(...args)=>execFileSync('git',['-C',root,...args],{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
@@ -39,6 +48,46 @@ async function fixture(t,{advancingClaimClock=false,dispatchReasoning=undefined}
   const report={binding_id:'binding',report_id:'report-1',actor,claim_id:task.claim.id,contract_sha256:task.contract_sha256,status:'partial',usage:{input_tokens:0,output_tokens:0,cost_usd:null},tool:'node',provider:'local',model:null,reported_reasoning:null,sample_kind:'fixture',observed_at:at(10)};
   return {root,actor,reviewer,task,at,sourceFile,event,response,append,bind,manual,report,git};
 }
+
+test('binding readiness observes admission without creating stores or reading source',async t=>{
+  const f=await fixture(t),before=await treeSnapshot(f.root+'/.ai-org');
+  await fs.rename(f.sourceFile,f.sourceFile+'.offline');
+  assert.deepEqual(await checkHostBindingReadiness(f.root,f.bind),{...observation,ready:true,code:'host-binding-ready'});
+  assert.deepEqual(await treeSnapshot(f.root+'/.ai-org'),before);
+  await bindHostUsage(f.root,f.manual);
+  const occupied=await treeSnapshot(f.root+'/.ai-org');
+  const next={...f.manual,binding_id:'next',source:{...f.manual.source,turn_id:'next'}};
+  assert.deepEqual(await checkHostBindingReadiness(f.root,next),{...observation,ready:false,code:'host-thread-already-bound',binding_id:'binding'});
+  assert.deepEqual(await treeSnapshot(f.root+'/.ai-org'),occupied);
+  await assert.rejects(bindHostUsage(f.root,next),/host-thread-already-bound/);
+  // Actual failed bind creates a temporary lock but never a binding; check itself writes nothing.
+  const afterBind=await treeSnapshot(f.root+'/.ai-org');
+  await checkHostBindingReadiness(f.root,next);assert.deepEqual(await treeSnapshot(f.root+'/.ai-org'),afterBind);
+  await reportHostUsage(f.root,{...f.report,status:'completed'});
+  assert.deepEqual(await checkHostBindingReadiness(f.root,{...next,source:f.manual.source}),{...observation,ready:false,code:'host-turn-already-bound',binding_id:'binding'});
+  assert.equal((await checkHostBindingReadiness(f.root,next)).ready,true);
+  await bindHostUsage(f.root,next);
+});
+
+test('readiness preserves ignore, integrity, and current claim guards without leaking paths',async t=>{
+  const f=await fixture(t);await bindHostUsage(f.root,f.manual);
+  const next={...f.manual,binding_id:'next',source:{kind:'host-report',thread_id:'next',turn_id:'next'}};
+  const dir=f.root+'/.ai-org/host-usage',binding=dir+'/binding/binding.json';
+  await fs.writeFile(dir+'/.gitignore','unsafe\n');
+  assert.equal((await checkHostBindingReadiness(f.root,next)).code,'host-ignore-policy');
+  await assert.rejects(bindHostUsage(f.root,next),/host-ignore-policy/);
+  await fs.writeFile(dir+'/.gitignore','*\n');
+  const original=await fs.readFile(binding,'utf8');await fs.writeFile(binding,original.replace('"active"','"paused"'));
+  const before=await treeSnapshot(f.root+'/.ai-org');
+  assert.equal((await checkHostBindingReadiness(f.root,next)).code,'host-record-integrity');
+  assert.deepEqual(await treeSnapshot(f.root+'/.ai-org'),before);
+  await assert.rejects(bindHostUsage(f.root,next),/host-record-integrity/);
+  await fs.writeFile(binding,original);
+  await mutateNativeTask(f.root,f.task.id,'release',{operation_id:'release-readiness',expected_version:2,actor:f.actor,claim_id:f.task.claim.id,summary:'Fixture release'});
+  const result=await checkHostBindingReadiness(f.root,next);
+  assert.equal(result.ready,false);assert.equal(JSON.stringify(result).includes(f.root),false);
+  await assert.rejects(bindHostUsage(f.root,next),/matching implementation claim/);
+});
 
 test('explicit attachment excludes earlier usage; response identities deduplicate and read never opens source',async t=>{
   const f=await fixture(t);await f.append(f.response('before',100,100,1));

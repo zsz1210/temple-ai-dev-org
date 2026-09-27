@@ -16,11 +16,12 @@ const TOKEN_KEYS=['input_tokens','cached_input_tokens','cache_write_input_tokens
 const ACTIVITY_KINDS=['planning','implementation','review','repair','verification'];
 function activityKind(value) {if(value!==undefined&&value!==null&&!ACTIVITY_KINDS.includes(value))fail('host-activity-kind');return value??null;}
 const LIMITS={bindings:128,record:1024*1024,responses:4096,scan:32*1024*1024,line:64*1024,chunk:64*1024};
+const READINESS_OBSERVATION={authority:'observation-only',mutation_status:'no-write',execution_authorized:false};
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const now=()=>new Date().toISOString();
 const sameActor=(a,b)=>a?.agent_id===b?.agent_id&&a?.principal_id===b?.principal_id;
 const number=x=>Number.isSafeInteger(x)&&x>=0;
-const fail=code=>{throw Object.assign(new Error(code),{code});};
+const fail=(code,details={})=>{throw Object.assign(new Error(code),{code,...details});};
 function object(value,keys) {
   if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).some(k=>!keys.includes(k)))fail('invalid-host-fields');
 }
@@ -338,9 +339,9 @@ async function scan(b,{initial=false}={}) {
   } finally {await handle.close();}
 }
 
-export async function bindHostUsage(targetInput,request) {
+async function bindingRequest(target,request) {
   object(request,['binding_id','task_id','contract_sha256','claim_id','actor','source','capture_turn_from_start','approval_ref','sample_kind','dispatch_id']);
-  const target=await fs.realpath(targetInput),bindingId=id(request.binding_id);id(request.task_id);
+  const bindingId=id(request.binding_id);id(request.task_id);
   if(!/^[a-f0-9]{64}$/.test(request.contract_sha256??''))fail('host-contract-required');
   object(request.source,['kind','path','thread_id','turn_id','start_offset']);id(request.source.thread_id);id(request.source.turn_id);
   if(request.source.start_offset!==undefined&&(!number(request.source.start_offset)||request.source.kind!=='codex-rollout'))fail('host-source-offset');
@@ -355,8 +356,11 @@ export async function bindHostUsage(targetInput,request) {
   if(task.contract.execution.runtime.kind!=='host-owned')fail('host-runtime-required');
   if(request.capture_turn_from_start&&(request.source.kind!=='codex-rollout'||request.approval_ref!==task.contract.authorization.approval_ref))fail('host-full-turn-approval-required');
   const sample=request.sample_kind??'real-task';if(!['real-task','fixture','paired-experiment','unspecified'].includes(sample))fail('invalid-host-sample-kind');
-  return lock(target,async()=>{
-    const entries=await names(target);if(entries.includes(bindingId))fail('host-binding-exists');if(entries.length>=LIMITS.bindings)fail('host-inventory-bound');
+  return {bindingId,task,ticket,sample};
+}
+async function bindingInventory(target,request,{bindingId,task,ticket}) {
+    const entries=await existsEntry(target,ROOT)?await names(target):[];
+    if(entries.includes(bindingId))fail('host-binding-exists',{binding_id:bindingId});if(entries.length>=LIMITS.bindings)fail('host-inventory-bound');
     const dispatchBindings=[];
     for(const entry of entries) {
       const other=await load(target,entry);
@@ -364,17 +368,44 @@ export async function bindHostUsage(targetInput,request) {
       // this claim's dependencies. Preserve their integrity/identity checks but
       // do not reinterpret their historical tickets as current authorization.
       const relevant=!other.collection_closed||(other.task_id===task.id&&other.claim_id===request.claim_id);
-      if(ticket&&other.dispatch&&relevant){const {readDispatchTicket}=await import('./workkeel-dispatch.mjs');dispatchBindings.push({binding:other,ticket:await readDispatchTicket(target,other.dispatch.execution_id)});}
-      if(['active','paused','error'].includes(other.status)&&other.source.thread_id===request.source.thread_id)fail('host-thread-already-bound');
-      if(other.source.thread_id===request.source.thread_id&&other.source.turn_id===request.source.turn_id)fail('host-turn-already-bound');
+      if(ticket&&other.dispatch&&relevant){
+        const {readDispatchTicket}=await import('./workkeel-dispatch.mjs');let otherTicket;
+        try{otherTicket=await readDispatchTicket(target,other.dispatch.execution_id);}
+        // Preserve the existing bind error contract; readiness returns only safe metadata.
+        catch(error){throw Object.assign(error,{code:'host-dispatch-unavailable',binding_id:entry});}
+        dispatchBindings.push({binding:other,ticket:otherTicket});
+      }
+      if(['active','paused','error'].includes(other.status)&&other.source.thread_id===request.source.thread_id)fail('host-thread-already-bound',{binding_id:entry});
+      if(other.source.thread_id===request.source.thread_id&&other.source.turn_id===request.source.turn_id)fail('host-turn-already-bound',{binding_id:entry});
     }
     if(ticket){
       const overlaps=(a,b)=>a==='.'||b==='.'||a===b||a.startsWith(b+'/')||b.startsWith(a+'/');
       const active=dispatchBindings.filter(({binding})=>['active','paused','error'].includes(binding.status)&&!binding.collection_closed);
       if(active.length>=ticket.policy_parallelism)fail('host-dispatch-parallelism');
-      for(const {ticket:other} of active)if(ticket.node.write_paths.some(a=>[...other.node.read_paths,...other.node.write_paths].some(b=>overlaps(a,b)))||ticket.node.read_paths.some(a=>other.node.write_paths.some(b=>overlaps(a,b))))fail('host-dispatch-scope-conflict');
-      for(const dependency of ticket.node.depends_on)if(!dispatchBindings.some(({binding,ticket:other})=>other.task_id===ticket.task_id&&other.claim_id===ticket.claim_id&&other.node.id===dependency&&binding.status==='completed'))fail('host-dispatch-dependency');
+      for(const {ticket:other,binding} of active)if(ticket.node.write_paths.some(a=>[...other.node.read_paths,...other.node.write_paths].some(b=>overlaps(a,b)))||ticket.node.read_paths.some(a=>other.node.write_paths.some(b=>overlaps(a,b))))fail('host-dispatch-scope-conflict',{binding_id:binding.binding_id});
+      for(const dependency of ticket.node.depends_on)if(!dispatchBindings.some(({binding,ticket:other})=>other.task_id===ticket.task_id&&other.claim_id===ticket.claim_id&&other.node.id===dependency&&binding.status==='completed'))fail('host-dispatch-dependency',{dependency_id:dependency});
     }
+}
+
+/** Observation only: no source scan, lock, store creation, or binding reservation. */
+export async function checkHostBindingReadiness(targetInput,request) {
+  try {
+    const target=await fs.realpath(targetInput),context=await bindingRequest(target,request);
+    await bindingInventory(target,request,context);
+    return {...READINESS_OBSERVATION,ready:true,code:'host-binding-ready'};
+  }catch(error){
+    const code=/^(?:host|invalid-host)-[a-z-]{1,90}$/.test(error.code??'')?error.code:'host-readiness-unavailable';
+    return {...READINESS_OBSERVATION,ready:false,code,...Object.fromEntries(['binding_id','dependency_id'].filter(k=>typeof error[k]==='string'&&ID.test(error[k])).map(k=>[k,error[k]]))};
+  }
+}
+
+export async function bindHostUsage(targetInput,request) {
+  const target=await fs.realpath(targetInput);
+  await bindingRequest(target,request);
+  return lock(target,async()=>{
+    // Recheck current task/ticket authority and inventory after acquiring the lock.
+    const context=await bindingRequest(target,request),{bindingId,task,ticket,sample}=context;
+    await bindingInventory(target,request,context);
     const b={schema_version:SCHEMA,binding_id:bindingId,task_id:task.id,contract_sha256:task.contract_sha256,
       actor:structuredClone(request.actor),claim_id:task.claim.id,claim_at:task.history.at(-1).at,task_version:task.version,task_hash:task.history.at(-1).hash,
       created_at:now(),source:structuredClone(request.source),capture_turn_from_start:request.capture_turn_from_start??false,sample_kind:sample,

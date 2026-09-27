@@ -1,0 +1,314 @@
+{
+  "schema_version": "workkeel.work-item/v1",
+  "id": "WK-operation-readiness",
+  "version": 5,
+  "state": "done",
+  "contract": {
+    "schema_version": "workkeel.task-contract/v1",
+    "id": "WK-operation-readiness",
+    "goal": "Prevent predictable capture setup failures and explain exact candidate file blockers before lifecycle mutations",
+    "actor": {
+      "agent_id": "builder",
+      "principal_id": "owner"
+    },
+    "state": "intake",
+    "scope": {
+      "include": [
+        "Prevent predictable capture setup failures and explain exact candidate file blockers before lifecycle mutations"
+      ],
+      "exclude": [
+        "UI changes",
+        "Downstream product edits",
+        "Package release",
+        "Global model settings",
+        "Relaxed authority or evidence checks"
+      ]
+    },
+    "dependencies": [],
+    "acceptance": {
+      "criteria": [
+        "Predictable binding blockers have read-only diagnostics and do not strand a new prepared capture",
+        "Candidate diagnostics use the existing lifecycle restrictions and identify exact blocking paths",
+        "Offline regression, full verification and distinct actual review pass",
+        "Preserve private inputs and partial measurement semantics"
+      ],
+      "evidence": []
+    },
+    "verification": {
+      "risk_tier": "standard",
+      "separation": "distinct-agent",
+      "implementer": null,
+      "reviewer": null,
+      "candidate_revision": null
+    },
+    "handoff": null,
+    "environment": {
+      "cwd": ".",
+      "read_paths": [
+        "."
+      ],
+      "write_paths": [
+        "src/workkeel-host-usage.mjs",
+        "src/workkeel-tasks.mjs",
+        "scripts/workkeel-execution-capture.mjs",
+        "scripts/workkeel-delivery-preflight.mjs",
+        "test/workkeel-execution-capture.test.mjs",
+        "test/workkeel-host-usage.test.mjs",
+        "test/workkeel-delivery-preflight.test.mjs",
+        "docs/operations/workkeel-native-usage.md",
+        "docs/operations/workkeel-native-dispatch.md",
+        ".ai-org/artifacts/WK-operation-readiness"
+      ],
+      "tools": [
+        "node",
+        "npm",
+        "git",
+        "native-agent-host"
+      ],
+      "resources": [],
+      "network": {
+        "mode": "none",
+        "hosts": []
+      },
+      "external_actions": [],
+      "data": {
+        "classification": "public",
+        "model_access": "approved-connection",
+        "policy_refs": [
+          ".ai-org/artifacts/WK-operation-readiness/approval.md",
+          "docs/policies/development-dispatch.json"
+        ]
+      }
+    },
+    "authorization": {
+      "approved_by": "owner",
+      "approval_ref": ".ai-org/artifacts/WK-operation-readiness/approval.md",
+      "operations": [
+        "read",
+        "write",
+        "execute"
+      ],
+      "expires_at": null
+    },
+    "skills": [],
+    "execution": {
+      "runtime": {
+        "kind": "host-owned",
+        "adapter_id": null,
+        "required_features": []
+      },
+      "model_connection": {
+        "kind": "native"
+      }
+    },
+    "legacy": null
+  },
+  "contract_sha256": "de31f15620af65d7b5e7e8b4b5365f96e49783cde3eeb2bd2b5f16b49666f6ad",
+  "policy_sha256": "04102080b0e70a04898b1e64a2ec05194665087061c4cc37ee7f7df02626db4a",
+  "authority_pins": [
+    {
+      "path": ".ai-org/artifacts/WK-operation-readiness/approval.md",
+      "sha256": "e40a40e9d344b8a385367679affb1d238437ff2873dbfcdc5ea54e870c799cd0"
+    },
+    {
+      "path": "docs/policies/development-dispatch.json",
+      "sha256": "f8bebba95aff3d766d42d1bb2a9fa44dfe7dff607e60a6ebde2d64cc03ae9664"
+    }
+  ],
+  "claim": null,
+  "base_revision": "807141e51d51180a928fef8f63f241e50306a027",
+  "dependency_pins": [],
+  "delivery": {
+    "revision": "ccc02e9885588b745bab0599748d769fa0efbfa4",
+    "summary": "Deliver read-only binding and candidate-file readiness with preserved admission guards. Full verification passes on the exact candidate; six offline reproductions preserve rejection and identify blockers. Native workkeel-work was applied; independent review and local acceptance follow separately.",
+    "implementer": {
+      "agent_id": "builder",
+      "principal_id": "owner"
+    },
+    "claim_id": "claim-a8002576-6b80-4279-972c-4a9f69241f89",
+    "evidence": [
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/design.md",
+        "sha256": "8e79e99a3084dea594c5efff836989d6d0b1202b749d309061d4424a47df3149"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/analysis.md",
+        "sha256": "de73bb4283dcb843db668baccc2c080a7290853750f9058d51cb6ecb1a9f9f55"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/comparison.json",
+        "sha256": "b8c39bfda5b811b3ae0e907f9c5a2d6d45e7e4ae10e32c79595b0b86edd1ffae"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/verification.md",
+        "sha256": "df9b4dd42349a3ac2c8cf863fa6a3cc11460060141b9b9bb909639d882af172b"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/verification-initial.json",
+        "sha256": "b6a707e70d69db7e026ef7708e12dc9aed905a32dc96adef8ec6ddb60684559f"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/verification-initial.txt",
+        "sha256": "7260ccfc4af9ddd900e57bbeb4548bc6c9bd2a0a9428b9309da86025db357d06"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/verification-environment.json",
+        "sha256": "7085c3107c600b1a76dc275763c24730d4b4f9492e300e677857a42903e141d5"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/verification-environment.txt",
+        "sha256": "a737e43c4bbda9547c47a74893a95d2b88407d66c2b50d0407deaf340721891e"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/verification-final.json",
+        "sha256": "7dee62945031d9e007fcf972790ff79c2f9f239bc6a19c2ffffdf10668d3d92e"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/verification-final.txt",
+        "sha256": "160e9b058e38422ac19b995276b82cdea0b874dcbd7a5caa2650cda91e4af3ee"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/verification-evidence-fast.txt",
+        "sha256": "f75b56011cd008f2762e10fb6af54876b200df68a345d2248da0be89d0d0ae0e"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/review.md",
+        "sha256": "77e69046b3c0788a3db0bf1b71af96f6c1920bc901cf0471d0f2f3962bec302b"
+      }
+    ]
+  },
+  "review": {
+    "actor": {
+      "agent_id": "reviewer",
+      "principal_id": "owner"
+    },
+    "revision": "ccc02e9885588b745bab0599748d769fa0efbfa4",
+    "judgment": "pass",
+    "summary": "Independent review passes with no actionable findings. Shared binding readiness preserves admission and privacy guards; candidate diagnostics preserve exact-file lifecycle restrictions. Inspected final full verification evidence on this revision and bounded offline comparisons. Applied workkeel-work to distinct actual review and exact-candidate evidence; no acceptance, publication, deployment or speed/token savings claim.",
+    "evidence": [
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/review.md",
+        "sha256": "77e69046b3c0788a3db0bf1b71af96f6c1920bc901cf0471d0f2f3962bec302b"
+      }
+    ]
+  },
+  "closeout": {
+    "actor": {
+      "agent_id": "builder",
+      "principal_id": "owner"
+    },
+    "revision": "ccc02e9885588b745bab0599748d769fa0efbfa4",
+    "summary": "Accept the approved local operation-readiness changes after full exact-candidate verification, distinct Agent review and bounded comparison. Preserve partial measurements and failed-attempt evidence; no publication or deployment.",
+    "rollback": "Revert the product candidate through a new approved and independently reviewed change; retain immutable task and measurement evidence.",
+    "evidence": [
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/review.md",
+        "sha256": "77e69046b3c0788a3db0bf1b71af96f6c1920bc901cf0471d0f2f3962bec302b"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/review.json",
+        "sha256": "c61f25c78e3354ee312cebcb1e9b00a911a1bfaaa8b90d910ffdfbe17e620289"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/measurements.json",
+        "sha256": "7ec464e165c5d9ca9fb92a7dac41a3791a2e8035e5af71cc2928ccc3651ff147"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/closeout.md",
+        "sha256": "4a2159e1551ed8122598dcfde84dde16dda731e3c68a36abad54b933f4722a75"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-operation-readiness/verification-closeout-fast.txt",
+        "sha256": "f75b56011cd008f2762e10fb6af54876b200df68a345d2248da0be89d0d0ae0e"
+      }
+    ],
+    "external_release": "not-performed"
+  },
+  "attempts": [],
+  "history": [
+    {
+      "sequence": 1,
+      "action": "create",
+      "operation_id": "intake-de31f15620af65d7b5e7e8b4",
+      "request_sha256": "1acb2533acb01ed81fe01338c458a4696bc1dc6739f56f51d02a1c65ea16c8fd",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-09-27T08:58:45.343Z",
+      "state": "intake",
+      "revision": null,
+      "previous_hash": null,
+      "record_sha256": "bd516395453602d9fa3c2919b583dd8b0ac623a07d8b8ca8d87b48302331af48",
+      "hash": "151e992f513f833fda37289d071c8fa7114cc0c5f6cf9ae80086bab78fc594fe"
+    },
+    {
+      "sequence": 2,
+      "action": "claim",
+      "operation_id": "claim-readiness-v1",
+      "request_sha256": "712fa203b80a37695bcdb02cdf20e0df8001ccdef08e42ddde5b4315f6efcd0e",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-09-27T08:58:45.514Z",
+      "state": "build",
+      "revision": null,
+      "previous_hash": "151e992f513f833fda37289d071c8fa7114cc0c5f6cf9ae80086bab78fc594fe",
+      "record_sha256": "9eafef5c1d57ece3c54dfac44d9d396ae2968e9b4c75c1c6b1e269e120e7d9e6",
+      "hash": "6c8d14a0d7aae04d0ab10d4e14a390adddb33f69f4135d9494101a9734ea8474"
+    },
+    {
+      "sequence": 3,
+      "action": "handoff",
+      "operation_id": "handoff-readiness-v1",
+      "request_sha256": "7a69ffb369a2559b1143c0c7b1180509a66af29afbaf23742925a71cd052d166",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-09-27T09:30:45.778Z",
+      "state": "test",
+      "revision": "ccc02e9885588b745bab0599748d769fa0efbfa4",
+      "previous_hash": "6c8d14a0d7aae04d0ab10d4e14a390adddb33f69f4135d9494101a9734ea8474",
+      "record_sha256": "c2df91e4b26a7a0305de41bec2ea87bac5ca5a29a57cc7632e57dec59b0d64bc",
+      "summary": "Deliver read-only binding and candidate-file readiness with preserved admission guards. Full verification passes on the exact candidate; six offline reproductions preserve rejection and identify blockers. Native workkeel-work was applied; independent review and local acceptance follow separately.",
+      "hash": "52577eaf3582c9310c9401c2f26a50be5fe37ee66dbd1828b6dbfbb5c8aec832"
+    },
+    {
+      "sequence": 4,
+      "action": "review",
+      "operation_id": "review-readiness-v1",
+      "request_sha256": "8a5555d5ba69a02cd30af551c20d0e19837bedc8019e1494e1c1b57eab173a60",
+      "actor": {
+        "agent_id": "reviewer",
+        "principal_id": "owner"
+      },
+      "at": "2026-09-27T09:31:10.814Z",
+      "state": "release_gate",
+      "revision": "ccc02e9885588b745bab0599748d769fa0efbfa4",
+      "previous_hash": "52577eaf3582c9310c9401c2f26a50be5fe37ee66dbd1828b6dbfbb5c8aec832",
+      "record_sha256": "fa4aef891ca821c91ef4b1b806c62aaa56c458451e00ca4fa2098976bcb81347",
+      "summary": "Independent review passes with no actionable findings. Shared binding readiness preserves admission and privacy guards; candidate diagnostics preserve exact-file lifecycle restrictions. Inspected final full verification evidence on this revision and bounded offline comparisons. Applied workkeel-work to distinct actual review and exact-candidate evidence; no acceptance, publication, deployment or speed/token savings claim.",
+      "judgment": "pass",
+      "hash": "e24e1f4419a2e55c72ee1e73bac2710937875adfe47302b9c86b81a477a5efc8"
+    },
+    {
+      "sequence": 5,
+      "action": "close",
+      "operation_id": "close-readiness-v1",
+      "request_sha256": "02fefc49f29ba80463c99d205e7023364bf4bb15723c6bf0ad0d17da46fe0f9f",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-09-27T09:33:00.717Z",
+      "state": "done",
+      "revision": "ccc02e9885588b745bab0599748d769fa0efbfa4",
+      "previous_hash": "e24e1f4419a2e55c72ee1e73bac2710937875adfe47302b9c86b81a477a5efc8",
+      "record_sha256": "689e76ed6a57f19e02326e4dac908c880cc3b1e91b58bbcceb524630dba2f2bd",
+      "summary": "Accept the approved local operation-readiness changes after full exact-candidate verification, distinct Agent review and bounded comparison. Preserve partial measurements and failed-attempt evidence; no publication or deployment.",
+      "hash": "4b26082fd71c1d105f4633e922cb8b5210a6714b7f8c05cdfa6ad9688dc38806"
+    }
+  ]
+}

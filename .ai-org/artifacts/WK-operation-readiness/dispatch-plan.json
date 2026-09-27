@@ -1,0 +1,53 @@
+{
+  "nodes": [
+    {
+      "id": "binding-readiness",
+      "activity_kind": "implementation",
+      "depends_on": [],
+      "read_paths": [
+        "src/workkeel-host-usage.mjs",
+        "scripts/workkeel-execution-capture.mjs",
+        "test/workkeel-execution-capture.test.mjs",
+        "test/workkeel-host-usage.test.mjs"
+      ],
+      "write_paths": [
+        "src/workkeel-host-usage.mjs",
+        "scripts/workkeel-execution-capture.mjs",
+        "test/workkeel-execution-capture.test.mjs",
+        "test/workkeel-host-usage.test.mjs"
+      ]
+    },
+    {
+      "id": "independent-review",
+      "activity_kind": "review",
+      "depends_on": [
+        "binding-readiness"
+      ],
+      "read_paths": [
+        "."
+      ],
+      "write_paths": []
+    }
+  ],
+  "coordinator": {
+    "id": "candidate-diagnostics",
+    "activity_kind": "implementation",
+    "depends_on": [],
+    "read_paths": [
+      "src/workkeel-tasks.mjs",
+      "scripts/workkeel-delivery-preflight.mjs",
+      "test/workkeel-delivery-preflight.test.mjs"
+    ],
+    "write_paths": [
+      "src/workkeel-tasks.mjs",
+      "scripts/workkeel-delivery-preflight.mjs",
+      "test/workkeel-delivery-preflight.test.mjs",
+      "docs/operations/workkeel-native-usage.md",
+      "docs/operations/workkeel-native-dispatch.md"
+    ],
+    "binding_kind": "host",
+    "model_selection": "user-selected",
+    "note": "Prepared candidate-diagnostics ticket is unused; coordinator is not a dispatched model."
+  },
+  "review_prerequisite": "Coordinator candidate implementation and local verification must also complete before review launch."
+}

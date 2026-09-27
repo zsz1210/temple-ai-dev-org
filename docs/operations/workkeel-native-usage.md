@@ -94,7 +94,8 @@ calls or automatically identify idle time inside an Agent turn.
 
 1. Prepare the approved dispatch ticket, then start the selected executor. Have
    the host supply its exact thread/turn and source file before product work.
-2. Call `begin` with that source and a stable capture ID. It resolves the exact
+2. Run `check` with the intended begin request to inspect binding readiness, then
+   call `begin` with that source and a stable capture ID. It resolves the exact
    turn's byte offset, attaches the binding and starts the activity clock.
 3. Call `pause` before waiting for a person or another Agent, and `resume` when
    work actually resumes. Give each transition a stable operation ID.
@@ -104,11 +105,31 @@ calls or automatically identify idle time inside an Agent turn.
    A successful command alone does not establish complete task coverage.
 
 ```sh
+node scripts/workkeel-execution-capture.mjs check /absolute/project /private/begin.json
 node scripts/workkeel-execution-capture.mjs begin /absolute/project /private/begin.json
 node scripts/workkeel-execution-capture.mjs pause /absolute/project /private/pause.json
 node scripts/workkeel-execution-capture.mjs resume /absolute/project /private/resume.json
 node scripts/workkeel-execution-capture.mjs finish /absolute/project /private/finish.json
 ```
+
+`check` reads binding prerequisites without creating a ledger, binding, lock or
+source collection. It reports dependency or conflicting binding IDs when safe;
+it never returns source paths or contents. It cannot prove that a source is valid
+or reserve a place in the next execution group. `begin` checks predictable
+binding blockers before saving a new prepared ledger, and the actual bind checks
+again under its existing lock. A race or interrupted persistence still requires
+explicit recovery; a readiness result does not waive any guard.
+
+Dispatch dependencies require completed reports from the declared nodes in the
+same task and claim, not just an in-memory `completed` list. Declare coordinator
+work as host-owned when it is performed in the main conversation; inspect its
+actual report before review. Do not manufacture a dispatched model operation to
+stand in for that work. Each independently executing program has its own source
+identity. If a thread is occupied, complete/collect the actual prior operation
+or use the genuinely distinct execution source; never relabel the same operation
+to bypass a conflict. Reused checkouts can contain ignored bindings for absent
+historical tasks. Preserve that history and use a suitable checkout; do not delete
+the inventory to make readiness pass.
 
 A dispatch begin request uses this shape (replace every example identity):
 
