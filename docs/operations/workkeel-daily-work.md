@@ -101,10 +101,17 @@ host binding at dispatch and complete its report before the task's closing steps
 `task summary` reports the current lifecycle, goal, acceptance, next action,
 exact delivery revision, handoff/review/closeout summaries, evidence digest state
 and task timeline. Rework counts rejected native deliveries, not arbitrary model
-requests; workflow attempts remain separately visible. First-review quality is
-unknown before a review. Lifecycle duration includes waits and human/coordinator
+requests; workflow attempts remain separately visible. `formal_first_review_pass`
+and `formal_rework_count` describe only native delivery reviews; the older
+`first_review_pass` and `rework_count` fields retain that meaning for compatibility.
+First-review quality is unknown before a review. Lifecycle duration includes waits and human/coordinator
 work; recorded time and tokens cover workflow runs and explicitly bound native
 reports only.
+
+Use the [delivery report check and review packet](workkeel-native-dispatch.md#check-expected-operations-before-handoff-and-closeout)
+to check expected bindings before handoff and reports before acceptance. The
+distinct reviewer inspects the delivered candidate and records its judgment in
+the same turn; the coordinator must not impersonate that reviewer.
 
 Timeline rows distinguish a failed review followed by rework from a voluntary
 release of the task claim. A release returns the task to intake so another
@@ -147,6 +154,40 @@ selects the displayed record; stale candidates, changed evidence and unknown dat
 are labeled. Do not store credentials, raw provider messages or sensitive output.
 Use `real-task`, `paired-experiment`, `fixture` or `unspecified` to keep samples
 separate; a grouping label alone does not prove a matched comparison.
+
+### Source reviews before delivery
+
+An optional `pre_delivery_review` field records a source review performed during
+build, before formal handoff. Keep the full observation fields above, set the
+actual current build-stage task version and non-null candidate commit, and add:
+
+```json
+{
+  "pre_delivery_review": {
+    "review_id":"source-review-1",
+    "judgment":"fail",
+    "findings_count":2,
+    "evidence_ref":".ai-org/artifacts/WK-example/source-review-1.md"
+  }
+}
+```
+
+Use actual results and a registered actor. The evidence file is required and
+pinned. Keep a stable review ID on retries; identical replay does not double count,
+and changed content under that ID is rejected. A later review of a repaired
+candidate gets its own ID and evidence. Do not rewrite a failed observation.
+
+`quality.pre_delivery_review` summarizes all verified records: recorded reviews,
+failed reviews, reported findings and their attributed candidate/evidence refs.
+Counts describe recorded observations only, not every review or every unique
+defect. They stay null when none were recorded or evidence is unavailable. A
+finding reported in two reviews counts in both. `independence:not-asserted` means
+attribution alone cannot prove that another actual Agent reviewed the source.
+
+Pre-delivery observations never satisfy the formal review gate or change native
+task history. A formal first pass can coexist with earlier source-review failures;
+neither field alone establishes end-to-end speed or token savings. Older ordinary
+observations remain supported, and the observer still reads data without models.
 
 ## Observer surfaces and limits
 

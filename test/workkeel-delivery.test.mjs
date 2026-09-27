@@ -8,9 +8,9 @@ import {initializeTaskProject} from '../src/workkeel-project.mjs';
 import {previewTaskIntake,applyTaskIntake} from '../src/workkeel-intake.mjs';
 import {readNativeTask,mutateNativeTask} from '../src/workkeel-tasks.mjs';
 import {prepareDispatchTicket} from '../src/workkeel-dispatch.mjs';
-import {readDeliveryContext,attachDelivery,finishDelivery} from '../scripts/workkeel-delivery.mjs';
+import {readDeliveryContext,attachDelivery,finishDelivery,checkDeliveryReports,readDeliveryReview} from '../scripts/workkeel-delivery.mjs';
 
-async function fixture(t) {
+async function fixture(t,{activity_kind='implementation'}={}) {
   const root=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'workkeel-delivery-')));
   t.after(()=>fs.rm(root,{recursive:true,force:true}));
   const git=(...args)=>execFileSync('git',['-C',root,...args],{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
@@ -27,7 +27,7 @@ async function fixture(t) {
   await mutateNativeTask(root,brief.id,'claim',{operation_id:'claim',expected_version:1,actor,base_revision:git('rev-parse','HEAD')});
   const task=await readNativeTask(root,brief.id);
   const ticket=await prepareDispatchTicket(root,{task_id:task.id,actor,claim_id:task.claim.id,contract_sha256:task.contract_sha256,policy_ref:'docs/dispatch.json',
-    node:{id:'implementation',activity_kind:'implementation',depends_on:[],read_paths:['src'],write_paths:['src']},
+    node:{id:activity_kind,activity_kind,depends_on:[],read_paths:['src'],write_paths:activity_kind==='review'?[]:['src']},
     capabilities:{host:'fixture',models:[{provider:'local',model:'requested-model',reasoning:[null]}]},operation_id:'dispatch'});
   const execution_id=ticket.execution_id;
   const host=()=>attachDelivery(root,{execution_id,source:{kind:'host-report',thread_id:'fixture-thread',turn_id:'fixture-turn'},sample_kind:'fixture'});
@@ -157,4 +157,115 @@ test('CLI bounds JSON and redacts source paths on failure',async t=>{
   await finishDelivery(f.root,{execution_id:f.execution_id,report});
   await fs.writeFile(file,JSON.stringify({execution_id:f.execution_id,report:{...report,model:'different'}}));
   const conflict=run('finish',f.root,file);assert.equal(conflict.status,1);assert.match(conflict.stderr,/host-report-conflict/);
+});
+
+const expected=(f,activity_kind='implementation')=>({task_id:f.task.id,expected:[{label:'worker',activity_kind,binding:{kind:'dispatch',id:f.execution_id}}]});
+
+test('expected report check distinguishes absent, prepared, bound, partial and measured zero without writes',async t=>{
+  const f=await fixture(t),request=expected(f),taskBefore=await readNativeTask(f.root,f.task.id);
+  let result=await checkDeliveryReports(f.root,request);
+  assert.equal(result.bindings_ready,false);assert.equal(result.declared_reports_complete,false);
+  assert.equal(result.expected_operations[0].status,'missing-binding');
+  await f.host();const before=await f.binding();
+  result=await checkDeliveryReports(f.root,request);
+  assert.equal(result.bindings_ready,true);assert.equal(result.declared_reports_complete,false);
+  assert.ok(result.expected_operations[0].issues.includes('operation-not-completed'));
+  assert.equal(await f.binding(),before);
+  await finishDelivery(f.root,{execution_id:f.execution_id,report:{...f.report(),status:'partial'}});
+  result=await checkDeliveryReports(f.root,request);
+  assert.ok(result.expected_operations[0].issues.includes('missing:active_duration_ms'));
+  assert.ok(!result.expected_operations[0].issues.includes('missing:usage.input_tokens'));
+  const report={...f.report(),report_id:'with-time'},at=report.observed_at;
+  await finishDelivery(f.root,{execution_id:f.execution_id,report:{...report,execution_duration_ms:0,execution_intervals:[{started_at:at,completed_at:at}]}});
+  result=await checkDeliveryReports(f.root,request);
+  assert.equal(result.declared_reports_complete,true);assert.equal(result.task_coverage_complete,false);
+  assert.equal(result.coverage,'declared-operations-only');assert.equal(result.expected_operations[0].receipt.active_duration_ms,0);
+  assert.equal(result.expected_operations[0].receipt.usage.total_tokens,null);
+  assert.deepEqual(await readNativeTask(f.root,f.task.id),taskBefore);
+  result=await checkDeliveryReports(f.root,{...request,expected:[...request.expected,{label:'coordinator',activity_kind:'planning',binding:null},{label:'repair',activity_kind:'repair',binding:null}]});
+  assert.equal(result.declared_reports_complete,false);assert.equal(result.expected_operations.length,3);
+});
+
+test('report check rejects duplicate/oversized expectations and exposes activity mismatch and corrupt inventory',async t=>{
+  const f=await fixture(t),request=expected(f);await f.host();
+  await assert.rejects(checkDeliveryReports(f.root,{...request,expected:[]}),/expected operations/);
+  await assert.rejects(checkDeliveryReports(f.root,{...request,expected:Array(65).fill(request.expected[0])}),/expected operations/);
+  await assert.rejects(checkDeliveryReports(f.root,{...request,expected:[request.expected[0],{...request.expected[0],label:'copy'}]}),/duplicate/);
+  await assert.rejects(checkDeliveryReports(f.root,{...request,expected:[{...request.expected[0],binding:{kind:'host',id:'../private'}}]}),/invalid/);
+  let result=await checkDeliveryReports(f.root,expected(f,'review'));
+  assert.equal(result.bindings_ready,false);assert.equal(result.expected_operations[0].status,'unavailable');
+  result=await checkDeliveryReports(f.root,{...request,expected:[{...request.expected[0],binding:{kind:'host',id:f.execution_id}}]});
+  assert.equal(result.bindings_ready,false);assert.ok(result.expected_operations[0].issues.includes('binding-kind-mismatch'));
+  result=await checkDeliveryReports(f.root,{...request,expected:[{label:'missing',activity_kind:'repair',binding:null}]});
+  assert.equal(result.unlisted_binding_count,1);
+  await fs.writeFile(`${f.root}/.ai-org/host-usage/${f.execution_id}/measurement.json`,'{}');
+  result=await checkDeliveryReports(f.root,request);
+  assert.equal(result.declared_reports_complete,false);assert.equal(result.inventory_errors.length,1);
+  assert.equal(JSON.stringify(result).includes(f.root),false);
+});
+
+test('report check supports coordinator host bindings without a dispatch ticket and preserves missing tokens',async t=>{
+  const f=await fixture(t);
+  const {bindHostUsage,reportHostUsage}=await import('../src/workkeel-host-usage.mjs');
+  const identity={task_id:f.task.id,actor:f.actor,claim_id:f.task.claim.id,contract_sha256:f.task.contract_sha256};
+  await bindHostUsage(f.root,{...identity,binding_id:'coordinator',source:{kind:'host-report',thread_id:'coordinator',turn_id:'current-task'}});
+  const {task_id,...reportIdentity}=identity;
+  const at=new Date().toISOString();
+  await reportHostUsage(f.root,{...reportIdentity,binding_id:'coordinator',report_id:'final',status:'completed',tool:'host',usage:{},observed_at:at,activity_kind:'planning',execution_duration_ms:0,execution_intervals:[{started_at:at,completed_at:at}]});
+  const result=await checkDeliveryReports(f.root,{task_id,expected:[{label:'coordinator',activity_kind:'planning',binding:{kind:'host',id:'coordinator'}}]});
+  assert.equal(result.bindings_ready,true);assert.equal(result.declared_reports_complete,false);
+  assert.ok(result.expected_operations[0].issues.includes('missing:usage.input_tokens'));
+  assert.equal(result.expected_operations[0].receipt.active_duration_ms,0);
+});
+
+test('one review packet preserves separation and exact candidate; same reviewer records the native judgment',async t=>{
+  const f=await fixture(t,{activity_kind:'review'}),reviewer={agent_id:'reviewer',principal_id:'owner'};
+  const request={task_id:f.task.id,execution_id:f.execution_id,reviewer};
+  await assert.rejects(readDeliveryReview(f.root,request),/not awaiting review/);
+  await f.host();const revision=f.git('rev-parse','HEAD');
+  await mutateNativeTask(f.root,f.task.id,'handoff',{operation_id:'handoff',expected_version:2,actor:f.actor,claim_id:f.task.claim.id,revision,summary:'Exact candidate',evidence:['docs/approval.md'],unresolved:[]});
+  const before=await readNativeTask(f.root,f.task.id),binding=await f.binding();
+  await assert.rejects(readDeliveryReview(f.root,{...request,reviewer:f.actor}),/separation/);
+  const packet=await readDeliveryReview(f.root,request);
+  assert.equal(packet.ready_for_review,true);assert.equal(packet.candidate_revision,revision);
+  assert.equal(packet.review_request_template.expected_version,3);assert.equal(packet.review_request_template.judgment,null);
+  assert.deepEqual(await readNativeTask(f.root,f.task.id),before);assert.equal(await f.binding(),binding);
+  await mutateNativeTask(f.root,f.task.id,'review',{...packet.review_request_template,operation_id:'review',judgment:'pass',summary:'Fixture independently checked',evidence:['docs/approval.md']});
+  assert.equal((await readNativeTask(f.root,f.task.id)).state,'release_gate');
+  await assert.rejects(readDeliveryReview(f.root,request),/not awaiting review/);
+});
+
+test('review packet refuses unbound/wrong-kind operations and reports changed delivery evidence',async t=>{
+  for(const activity_kind of ['implementation','review']) {
+    const f=await fixture(t,{activity_kind}),request={task_id:f.task.id,execution_id:f.execution_id,reviewer:{agent_id:'reviewer',principal_id:'owner'}};
+    if(activity_kind==='implementation')await f.host();
+    await mutateNativeTask(f.root,f.task.id,'handoff',{operation_id:'handoff',expected_version:2,actor:f.actor,claim_id:f.task.claim.id,revision:f.git('rev-parse','HEAD'),summary:'Fixture',evidence:['docs/approval.md'],unresolved:[]});
+    await assert.rejects(readDeliveryReview(f.root,request),activity_kind==='review'?/pre-bound/:/exact review ticket/);
+  }
+  const f=await fixture(t,{activity_kind:'review'});await f.host();
+  await fs.writeFile(f.root+'/src/check.md','Recorded verification');f.git('add','src/check.md');f.git('commit','-qm','Evidence');
+  await mutateNativeTask(f.root,f.task.id,'handoff',{operation_id:'handoff',expected_version:2,actor:f.actor,claim_id:f.task.claim.id,revision:f.git('rev-parse','HEAD'),summary:'Fixture',evidence:['src/check.md'],unresolved:[]});
+  await fs.writeFile(f.root+'/src/check.md','Changed verification');
+  const packet=await readDeliveryReview(f.root,{task_id:f.task.id,execution_id:f.execution_id,reviewer:{agent_id:'reviewer',principal_id:'owner'}});
+  assert.equal(packet.ready_for_review,false);assert.ok(packet.blocking_reasons.includes('evidence-unavailable'));
+  assert.deepEqual(packet.changed_paths,['src/check.md']);
+});
+
+test('ordinary host binding cannot impersonate a dispatch by reusing its UUID, even after reporting',async t=>{
+  const f=await fixture(t,{activity_kind:'review'});
+  const {bindHostUsage,reportHostUsage}=await import('../src/workkeel-host-usage.mjs');
+  const identity={actor:f.actor,claim_id:f.task.claim.id,contract_sha256:f.task.contract_sha256};
+  await bindHostUsage(f.root,{...identity,task_id:f.task.id,binding_id:f.execution_id,source:{kind:'host-report',thread_id:'ordinary-host',turn_id:'ordinary-turn'}});
+  const request=expected(f,'review');
+  let check=await checkDeliveryReports(f.root,request);
+  assert.equal(check.bindings_ready,false);assert.equal(check.expected_operations[0].status,'unavailable');
+  const saved=await f.binding();
+  await assert.rejects(finishDelivery(f.root,{execution_id:f.execution_id,report:f.report()}),/verified dispatch host binding/);
+  assert.equal(await f.binding(),saved);
+  const at=new Date().toISOString();
+  await reportHostUsage(f.root,{...identity,binding_id:f.execution_id,...f.report(),activity_kind:'review',execution_duration_ms:0,execution_intervals:[{started_at:at,completed_at:at}]});
+  check=await checkDeliveryReports(f.root,request);
+  assert.equal(check.declared_reports_complete,false);assert.ok(check.expected_operations[0].issues.includes('dispatch-binding-mismatch'));
+  await mutateNativeTask(f.root,f.task.id,'handoff',{operation_id:'handoff',expected_version:2,actor:f.actor,claim_id:f.task.claim.id,revision:f.git('rev-parse','HEAD'),summary:'Fixture',evidence:['docs/approval.md'],unresolved:[]});
+  await assert.rejects(readDeliveryReview(f.root,{task_id:f.task.id,execution_id:f.execution_id,reviewer:{agent_id:'reviewer',principal_id:'owner'}}),/pre-bound review operation/);
 });
