@@ -14,6 +14,7 @@ import { emptyRuntimeWorkerRegistry, validateRuntimeWorkerRegistry } from "../sr
 import { defaultControlPlaneConfig, validateControlPlaneConfig } from "../src/control-plane-config.mjs";
 import { validateAdversarialScenarioCatalog, validatePolicyEvaluationFixture } from "../src/policy-evaluation.mjs";
 import { defaultUsagePolicy, validateUsagePolicy } from "../src/usage-policy.mjs";
+import { documentationLanguageIssue } from "./documentation-policy.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -31,36 +32,15 @@ check(
   `CHANGELOG.md must list the current framework version ${TEMPLATE_VERSION} first`
 );
 
-const localizedDocumentation = new Set([
-  // Generated from project-authored task titles; preserve their original language.
-  ".ai-org/views/status.md",
-  // Accepted user-facing Traditional Chinese audit; its evidence bytes are immutable.
-  ".ai-org/artifacts/WK-observer-followup/audit.md",
-  // Immutable task authority quotes the user's exact source-conversation title.
-  ".ai-org/artifacts/WK-learning-reuse/approval.md",
-  ".ai-org/artifacts/WK-learning-records/approval.md",
-  // Immutable task authority quotes the user's exact approval in Chinese.
-  ".ai-org/artifacts/WK-usage-comparison/approval.md",
-  "README.md",
-  "README.ja.md",
-  "README.zh-TW.md",
-  "docs/planning/roadmap.md",
-  "docs/planning/roadmap.ja.md",
-  "docs/planning/roadmap.zh-TW.md"
-]);
-const cjkText = /[\u3040-\u30ff\u3400-\u9fff\uf900-\ufaff]/;
 for (const file of (await walkFiles(root)).filter(
   (candidate) =>
     candidate.endsWith(".md") &&
     !candidate.startsWith(".git/") &&
-    !candidate.startsWith("node_modules/") &&
-    !localizedDocumentation.has(candidate)
+    !candidate.startsWith("node_modules/")
 )) {
   const content = await fs.readFile(path.join(root, file), "utf8");
-  // English prose may quote exact UI labels and file names as inline code.
-  // Keep those literals intact, including in immutable review evidence.
-  const prose = content.replace(/`[^`\r\n]+`/g, "");
-  check(!cjkText.test(prose), `${file} contains CJK text; non-localized documentation must use English`);
+  const issue = documentationLanguageIssue(file, content);
+  check(issue === null, issue);
 }
 
 const projectOverlayRoot = path.join(root, "project-overlay");

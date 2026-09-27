@@ -95,6 +95,11 @@ interfaces, acceptance and required instructions. Link supporting evidence inste
 of copying the full parent discussion into every node. One executor reports its
 own work; the coordinator alone performs lifecycle mutations. Prepare each exact
 host binding at dispatch and complete its report before the task's closing steps.
+Use the [capture helper](workkeel-native-usage.md#capture-an-operation-from-start-to-finish)
+when the host does not already report active intervals. Begin before product work,
+pause during waits, resume only while working, then finish and inspect the receipt.
+Keep the original binding while waiting for a late host completion row. Explicit
+source metadata is required; a missing child report is not evidence of zero usage.
 
 ## Handoff and quality
 
@@ -112,6 +117,20 @@ Use the [delivery report check and review packet](workkeel-native-dispatch.md#ch
 to check expected bindings before handoff and reports before acceptance. The
 distinct reviewer inspects the delivered candidate and records its judgment in
 the same turn; the coordinator must not impersonate that reviewer.
+
+Keep coordination with the Agent that already knows the task. Use programs for
+numeric reports and evidence checks; creating another Agent solely to copy
+numbers, update status or reformat a report adds another context handoff.
+Delegate a separate implementation only when its scope is independent enough to
+justify that handoff. Actual independent review remains a separate responsibility.
+
+Prepare delivery documents before committing and verifying the final candidate.
+The optional [evidence preflight and report](workkeel-native-dispatch.md#delivery-evidence-preflight-and-report)
+checks explicit files and produces a numeric summary from existing receipts.
+Then run the required repository gate on that candidate. If documentation is
+added later, check it before pinning it as evidence. Preserve already accepted
+evidence bytes. A generated report never substitutes for executing verification
+or obtaining an actual independent review.
 
 Timeline rows distinguish a failed review followed by rework from a voluntary
 release of the task claim. A release returns the task to intake so another

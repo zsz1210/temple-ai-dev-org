@@ -4,8 +4,10 @@ The observer can show measurements from a coding tool, a local model runner or
 another runtime. It reads normalized metadata; it never calls a model to obtain
 time, tokens or explanations. Collection is optional and separate from task state.
 
-For newly delegated work, use the [delivery helper](workkeel-native-dispatch.md#compact-resumption-and-execution-receipts) to attach
-the exact host source and finish its report under the original dispatch identity.
+For new operations, use the [capture helper](#capture-an-operation-from-start-to-finish)
+to attach the exact host source, record work intervals and finish its report under
+the original identity. The [delivery helper](workkeel-native-dispatch.md#compact-resumption-and-execution-receipts)
+also remains available for hosts that already measure their own intervals.
 The host still has to provide measurements. The helper does not discover sessions,
 infer model activity or grant permission to read another conversation.
 
@@ -82,6 +84,88 @@ usage must remain visible as incomplete observations. No credentials, provider
 request or new model turn are needed. The adapter cannot infer missing child-agent
 usage or distinguish human waiting from every host-reported turn duration.
 
+## Capture an operation from start to finish
+
+The optional source-checkout `scripts/workkeel-execution-capture.mjs` helper
+combines binding, an explicit activity clock and existing native usage reports.
+It requires no package, model call or background service. The execution host
+must call it at the actual work boundaries; it cannot intercept arbitrary tool
+calls or automatically identify idle time inside an Agent turn.
+
+1. Prepare the approved dispatch ticket, then start the selected executor. Have
+   the host supply its exact thread/turn and source file before product work.
+2. Call `begin` with that source and a stable capture ID. It resolves the exact
+   turn's byte offset, attaches the binding and starts the activity clock.
+3. Call `pause` before waiting for a person or another Agent, and `resume` when
+   work actually resumes. Give each transition a stable operation ID.
+4. Call `finish` after the operation. The helper freezes the clock and collects
+   available source metadata, or submits the supplied normalized host report.
+5. Inspect the receipt and the [expected-operation check](workkeel-native-dispatch.md#check-expected-operations-before-handoff-and-closeout).
+   A successful command alone does not establish complete task coverage.
+
+```sh
+node scripts/workkeel-execution-capture.mjs begin /absolute/project /private/begin.json
+node scripts/workkeel-execution-capture.mjs pause /absolute/project /private/pause.json
+node scripts/workkeel-execution-capture.mjs resume /absolute/project /private/resume.json
+node scripts/workkeel-execution-capture.mjs finish /absolute/project /private/finish.json
+```
+
+A dispatch begin request uses this shape (replace every example identity):
+
+```json
+{
+  "capture_id":"implementation-1",
+  "binding":{"kind":"dispatch","execution_id":"returned-execution-id"},
+  "source":{
+    "kind":"codex-rollout",
+    "path":"/private/explicit-source.jsonl",
+    "thread_id":"exact-thread",
+    "turn_id":"exact-turn"
+  },
+  "sample_kind":"real-task"
+}
+```
+
+Other execution hosts use `source.kind:"host-report"` with their own thread and
+operation IDs. A coordinator without a dispatch ticket uses
+`binding:{kind:"host",binding_id,task_id,actor,claim_id,contract_sha256}` and
+an explicit `activity_kind`. A dispatch takes its activity kind from the ticket.
+Each activity needs a separate operation; an implementation clock cannot stand
+in for review or repair.
+
+Pause and resume requests contain `capture_id` and `operation_id`. A Codex finish
+request contains only `capture_id`; tokens and actual model are read from its
+bound source. For another runtime, finish also takes `report` with the supported
+usage and actual runtime metadata. Missing usage stays unknown. A real command
+that calls no model may report measured zero tokens; this says nothing about the
+Agent that arranged that command.
+
+Finishing an active source can return a pending receipt because the host has not
+yet written its completion row. Retry the same finish after that row arrives:
+the clock stays frozen while tokens and completion are collected. This avoids
+counting the collection delay as work or adding the same measurements twice.
+`final_collection:"completed"` means the terminal report was collected; inspect
+the measurement's `runner_state` for completed, interrupted or cancelled work.
+Successful collection does not turn an interrupted operation into a success.
+The clock measures explicitly declared working intervals, including tool work;
+it does not measure pure model inference. Forgotten pauses cannot be inferred
+from task status. Earlier unbound work and an unfinished coordinator turn remain
+outside complete coverage.
+
+The `source` command accepts an explicit path, exact thread and exact turn and
+returns metadata for optional preflight. It never chooses the latest conversation
+or scans directories. Rotated files must be selected by the host; an old file for
+the same thread is not evidence of the current turn. Source identity, header,
+anchor and bounded-read guards still apply at begin. An optional fingerprint
+pins a preflight result; a changed source must be inspected instead of silently
+accepted. Keep source requests and the ignored `.ai-org/execution-capture/`
+ledger private. The ledger contains checkpoints, not prompts or responses.
+
+Interrupted preparation is explicit and requires recovery; the helper does not
+adopt an unrelated existing binding. Begin and resume require a live approved
+claim. An operation already bound before handoff may finish afterward under the
+existing report rules; finishing never revives an ended claim or accepts a task.
+
 ## Report from another runtime
 
 ```sh
@@ -144,14 +228,31 @@ The source-checkout deployment entry point
 `scripts/serve-workkeel-observer.mjs` accepts an optional private file named
 `host-usage-bindings.json` in its existing service state directory. It contains an
 array of previously approved binding IDs, with at most 32 entries. The file must
-be regular, non-symlinked and readable only by its owner. The service loads this
-list at startup and collects every five seconds without overlapping reads.
+be regular, non-symlinked and readable only by its owner. The service reloads this
+explicit list before each collection cycle, normally every five seconds, without
+overlapping reads. Adding or removing an ID takes effect on the next cycle after
+any in-flight collection finishes; restarting the website is unnecessary.
 
 This does not create bindings or launch models. The collector writes measurement
 metadata; the HTTP observer remains read-only. Existing file notifications update
-the observer index and connected pages. Remove a binding from the list and restart
-the owned service to stop automatic collection; close the binding to retain its
-final known subtotal. No global model settings or accounts are changed.
+the observer index and connected pages. Remove a binding from the list to stop
+future automatic collection; removal does not erase its known measurements or
+close its binding. Keep a binding listed until a late host completion row has
+arrived, including the main conversation's final response. Close the binding
+separately when retaining its final known subtotal.
+
+A missing configuration file means an empty collection list. Invalid or unsafe
+configuration pauses collection for that cycle; the old list is not reused. The
+HTTP observer stays available with its existing measurements, and collection
+resumes after a valid list is restored. Individual binding failures are isolated
+and retried without preventing other listed bindings from being collected.
+Errors are logged without source paths or configuration contents. Shutdown waits
+for the active collection and starts no further binding reads.
+
+Every new operation still requires its own approved exact binding and explicit
+list entry. This is not automatic session discovery, permission to scan other
+conversations or proof of whole-task coverage. No global model settings or
+accounts are changed.
 
 The store is bounded to 128 bindings and 4,096 response/report identities per
 binding, with a 1 MiB record limit. Source reads use incremental byte checkpoints
