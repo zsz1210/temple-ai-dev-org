@@ -28,7 +28,7 @@ and the native lifecycle. This document does not itself certify either gate.
 
 Applied workkeel-work: native claim, exact-candidate handoff, distinct actual
 review and authorized local acceptance. Used existing execution capture and
-delivery tools; expected.json identifies the three declared operations. Pure
+delivery tools; expected.json identifies the declared operations. Pure
 program verification reports zero model tokens and its own interval. The main
 operation includes implementation and coordination; it is not pure overhead.
 
@@ -37,3 +37,14 @@ Source collection can remain pending until this conversation turn ends. Follow-u
 snapshots must preserve that gap and earlier evidence bytes. No end-to-end savings
 claim can be established from this single change or these regression fixtures.
 No UI change, deployment, merge, publication or new benchmark is included.
+
+## First verification attempt
+
+The first full verification output contains no failing test details, but the
+coordinator's wrapper supplied unsupported fields to finishCapture and exited
+before preserving the npm exit code. verification-attempt-1.txt is retained as
+incomplete verification evidence, not a passing gate. Its capture was paused on
+recovery and marked interrupted: the 328886 ms interval includes the wrapper
+recovery delay and is not precise test-process runtime. A second full run saves
+its exit code before reporting capture completion. This is an operator reporting
+error, not evidence of a product test failure or an efficiency improvement.

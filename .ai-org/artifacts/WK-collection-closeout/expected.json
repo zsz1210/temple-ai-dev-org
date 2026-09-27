@@ -18,6 +18,11 @@
       }
     },
     {
+      "label": "verification-retry",
+      "activity_kind": "verification",
+      "binding": {"kind": "host", "id": "collection-closeout-verify-2"}
+    },
+    {
       "label": "review",
       "activity_kind": "review",
       "binding": {
