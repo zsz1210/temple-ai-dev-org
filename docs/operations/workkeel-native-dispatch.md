@@ -41,11 +41,15 @@ reasoning scale. Host capabilities and permitted data classes must match.
    host's agent-start tool with only necessary context and approved scope. If the
    host cannot select that tuple, report the mismatch; never silently inherit the
    coordinator model. The host still enforces filesystem, tools and networking.
-5. `dispatch bind` takes `{execution_id,source}` for the returned exact thread/turn
-   or operation. It rechecks active dependency/conflict limits. A local runner or
+5. Before product work, use the [capture helper](workkeel-native-usage.md#capture-an-operation-from-start-to-finish)
+   to bind the returned exact thread/turn and start its activity clock. Hosts that
+   already measure intervals can use `dispatch bind` with `{execution_id,source}`.
+   Binding rechecks active dependency/conflict limits. A local runner or
    other host uses `source.kind:"host-report"`; the optional Codex reader uses an
    explicitly selected rollout path. No unrelated conversations are discovered.
-6. Report usage and actual intervals. Pause while awaiting a person. The coordinator
+6. Finish the capture and inspect its receipt, or report the host's own usage and
+   actual intervals. Retry collection after a late host completion row without
+   restarting the clock. Pause while awaiting a person. The coordinator
    must not count idle waiting for a child as its own work. Preserve unknown data.
 7. An actual different Agent reviews the exact candidate and records the ordinary
    lifecycle review. Prepare/bind its operation before handoff; existing bindings
@@ -145,6 +149,58 @@ These optional source-checkout helpers reuse the native task, dispatch and usage
 APIs. They require no new dependency, service, provider or model call. They reduce
 repeated task-history output and repeated entry of ticket identity fields. The
 execution host still starts Agents and supplies its own measurements.
+
+### Delivery evidence preflight and report
+
+The optional source-checkout command reads existing task-bound receipts and an
+explicit list of evidence files. It does not collect sessions, call models or
+perform lifecycle transitions. Use it to prepare delivery documents before the
+final candidate checks, then repeat the evidence check against the committed
+candidate before handoff.
+
+```json
+{
+  "task_id":"WK-example",
+  "expected":[
+    {"label":"implementation","activity_kind":"implementation",
+     "binding":{"kind":"dispatch","id":"<prepared UUID>"}}
+  ],
+  "candidate_revision":"<exact 40-character commit>",
+  "evidence":[".ai-org/artifacts/WK-example/approval.md"]
+}
+```
+
+```sh
+node /path/to/workkeel/scripts/workkeel-delivery-preflight.mjs check /absolute/project /private/preflight.json
+node /path/to/workkeel/scripts/workkeel-delivery-preflight.mjs report /absolute/project /private/preflight.json
+```
+
+Both commands write to stdout only. `check` produces JSON; `report` produces an
+English Markdown table. They return a nonzero exit status when evidence preflight
+fails. Evidence must be bounded regular files, match the exact current Git
+candidate and pass the same documentation language policy as repository checks.
+Untracked files, changed bytes, symlinks, stale candidates and invalid authority
+evidence remain visible as failures. A localization-looking filename alone does
+not exempt a document from the repository language policy.
+
+Save a generated report as a new artifact, include it in the candidate, and check
+it with the other documents. Do not overwrite a pinned report when new usage
+arrives; save a separately named snapshot. The report describes the supplied
+candidate and measurement snapshot, not a future revision containing the report.
+
+Totals add only known values from declared operations. Unknown is different from
+zero; partial subtotals include their coverage. Cached input is already included
+in input and is never added to it again. Summed operation time includes parallel
+work and is not elapsed task time. A completed expected list cannot establish
+that every task operation was declared. The main conversation may still have an
+uncollected tail at the time of a snapshot.
+
+`evidence_preflight_passed` concerns only these evidence checks. Full verification
+and independent review remain unperformed by this command, even when a file is
+named `verification.md` or contains a passing claim. Run the applicable gate on
+the exact candidate, preserve its actual output, and have the distinct reviewer
+record the normal native review. This command grants no execution or acceptance
+authority and does not replace native lifecycle guards.
 
 ### Resume from current facts
 
