@@ -162,7 +162,9 @@ export async function beginCapture(targetInput,request,options={}){
     await directory(target,true);
     if(await existsEntry(target,`${ROOT}/${request.capture_id}.json`)){
       const v=await load(target,request.capture_id);if(v.request_sha256!==executionDigest(request))fail('begin replay conflict');
-      if(v.state==='prepared')fail('binding persistence interrupted; explicit recovery required');return result(v);
+      if(v.state==='prepared')fail('binding persistence interrupted; explicit recovery required');
+      const inventory=await readHostMeasurements(target),bound=inventory.byTask.get(v.identity.task_id)?.find(m=>m.run_id===v.identity.binding_id);
+      return result(v,bound??null);
     }
     const i=await captureIdentity(target,request);
     const task=await assertTaskExecutionContext(target,i.task_id,i);
@@ -187,7 +189,7 @@ export async function beginCapture(targetInput,request,options={}){
     if(bound.collection_closed||bound.runner_state!=='running')fail('binding is not active; explicit recovery required');
     // Source metadata is rechecked after the API's scan; append is allowed but identity/anchor drift is not.
     if(fingerprint){const checked=await resolveCaptureSource({path:source.path,thread_id:source.thread_id,turn_id:source.turn_id});if(executionDigest(checked.fingerprint)!==executionDigest(fingerprint))fail('source changed during bind');}
-    const started=advance(v,options);v.state='active';v.active_since=started;v.last_at=started;await save(target,v);return result(v);
+    const started=advance(v,options);v.state='active';v.active_since=started;v.last_at=started;await save(target,v);return result(v,bound);
   });
 }
 

@@ -38,7 +38,9 @@ async function fixture(t){
 }
 
 test('pause/resume excludes waiting and frozen finish is idempotent, preserving zero versus unknown',async t=>{
-  const f=await fixture(t);await beginCapture(f.root,f.begin,f.now(10));
+  const f=await fixture(t);const begun=await beginCapture(f.root,f.begin,f.now(10));
+  const replay=await beginCapture(f.root,f.begin,f.now(20));
+  assert.deepEqual(replay.measurement.usage_scope,begun.measurement.usage_scope);assert.equal(replay.active_duration_ms,0);
   await pauseCapture(f.root,{capture_id:'capture',operation_id:'pause'},f.now(110));
   await pauseCapture(f.root,{capture_id:'capture',operation_id:'pause'},f.now(500));
   await assert.rejects(resumeCapture(f.root,{capture_id:'capture',operation_id:'pause'},f.now(500)),/replay conflict/);
@@ -50,7 +52,8 @@ test('pause/resume excludes waiting and frozen finish is idempotent, preserving 
   const retry=await finishCapture(f.root,{capture_id:'capture',report:f.report},f.now(5000));
   assert.deepEqual(retry.execution_intervals,out.execution_intervals);assert.equal(retry.active_duration_ms,200);
   assert.equal(retry.measurement.observations.response_count,1);
-  assert.equal((await beginCapture(f.root,f.begin,f.now(9000))).state,'finished');
+  const finishedReplay=await beginCapture(f.root,f.begin,f.now(9000));assert.equal(finishedReplay.state,'finished');
+  assert.deepEqual(finishedReplay.measurement.usage_scope,retry.measurement.usage_scope);
   await assert.rejects(finishCapture(f.root,{capture_id:'capture',report:{...f.report,usage:{input_tokens:2}}}),/replay conflict/);
   await assert.rejects(beginCapture(f.root,{...f.begin,source:{...f.begin.source,turn_id:'wrong'}}),/replay conflict/);
   await assert.rejects(resumeCapture(f.root,{capture_id:'capture',operation_id:'again'}),/transition/);

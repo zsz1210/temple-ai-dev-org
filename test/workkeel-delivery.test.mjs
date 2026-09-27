@@ -182,6 +182,8 @@ test('expected report check distinguishes absent, prepared, bound, partial and m
   await finishDelivery(f.root,{execution_id:f.execution_id,report:{...report,execution_duration_ms:0,execution_intervals:[{started_at:at,completed_at:at}]}});
   result=await checkDeliveryReports(f.root,request);
   assert.equal(result.declared_reports_complete,true);assert.equal(result.task_coverage_complete,false);
+  assert.equal(result.activity_coverage.implementation.status,'reported');
+  assert.equal(result.activity_coverage.planning.status,'not-declared');
   assert.equal(result.collection.status,'completed');assert.equal(result.collection.counts.completed,1);
   assert.equal(result.expected_operations[0].receipt.cutoffs.usage_observed_after_activity,false);
   assert.equal(result.coverage,'declared-operations-only');assert.equal(result.expected_operations[0].receipt.active_duration_ms,0);
@@ -189,6 +191,7 @@ test('expected report check distinguishes absent, prepared, bound, partial and m
   assert.deepEqual(await readNativeTask(f.root,f.task.id),taskBefore);
   result=await checkDeliveryReports(f.root,{...request,expected:[...request.expected,{label:'coordinator',activity_kind:'planning',binding:null},{label:'repair',activity_kind:'repair',binding:null}]});
   assert.equal(result.declared_reports_complete,false);assert.equal(result.expected_operations.length,3);
+  assert.equal(result.activity_coverage.planning.status,'incomplete');assert.equal(result.activity_coverage.planning.reported,0);
 });
 
 test('report check rejects duplicate/oversized expectations and exposes activity mismatch and corrupt inventory',async t=>{

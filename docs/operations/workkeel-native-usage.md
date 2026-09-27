@@ -77,6 +77,54 @@ the task's exact approved authority reference. Do not use this option to assign
 an entire conversation to a task. A new task or turn needs its own binding;
 finishing a turn does not authorize following future conversations.
 
+### Recording boundaries for new work
+
+Claim the approved task, then bind before detailed planning or implementation.
+For an approved Codex turn, explicitly pass `capture_turn_from_start: true` and
+the exact `approval_ref` at begin to include eligible samples after that claim.
+This remains opt-in: it does not include pre-claim samples, backdate activity
+time, or change any earlier binding. Check the begin result's
+`measurement.usage_scope` immediately; excluded responses signal a narrower
+recording boundary, even if final collection later succeeds.
+
+| Work | Recording start and end |
+| --- | --- |
+| Preparation and planning | Bind immediately after the approved claim, before the detailed work. Pre-claim intake/setup stays outside task attribution. |
+| Implementation or repair | Bind the actual operation before edits; use the matching activity kind. Pause on waits and finish after the work. |
+| Independent review | Prepare the ticket first; the reviewer binds its own exact source before reading the candidate. |
+| Verification and closeout | Plan this work in the expected-operation list before handoff. Preserve an existing coordinator binding through its actual final work, pausing on review waits; collect its terminal row after the turn ends. |
+
+One mixed coordinator turn is not several separately measured activities. Never
+reuse a source with invented operation IDs to bypass binding guards or assign all
+of its time to each stage. If the runtime has no separate operations or measured
+segments, record the mixed scope and leave the per-activity split unknown. A
+finished activity clock does not extend when late tokens are collected. New
+bindings/resumes still require the existing live-claim authority; handoff does
+not grant a new claim for closeout.
+
+### Source-turn references and gaps
+
+Measurements and delivery receipts expose `usage_scope` separately from the
+recorded operation's `usage`. For an already bound Codex source with a healthy
+scan and turn-start metadata, `turn_reference.usage` is its validated cumulative
+turn counter; `outside_operation_usage` subtracts known recorded values from
+known reference values. Missing, unsafe or inconsistent fields remain null.
+This may include preparation or other work and is not newly attributed task
+usage. A nonzero difference is not proof of a lost task report.
+
+The observer lists these references per operation in collapsed tables; it never
+adds them to task/model totals, charts or each other. Unknown, pending, stopped
+and unavailable references remain distinct. Other runtimes without a turn
+reference report that absence. Existing bindings, token totals, activity
+intervals and evidence retain their original scope; the supplemental projection
+does not rewrite them. Reading it does not open another source or call a model.
+
+The delivery helper also shows declared/reported counts for each activity kind.
+An undeclared activity is not measured zero or proof it was unnecessary. Keep
+preparation and closeout explicitly in the expected work plan, including a
+missing binding when one is genuinely needed; complete declared reports still
+do not prove complete task coverage.
+
 The installed Codex adapter reads bounded metadata rows such as
 `token_usage_record`, `turn_context` and turn lifecycle events. The local storage
 format is version-sensitive. Source identity changes, truncation and malformed

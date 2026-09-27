@@ -50,5 +50,26 @@ export async function verifyExecutionClarity(page,monitor){
  assert.match(await page.locator('#detail-content').innerText(),/execution-review/);
  assert.match(await page.locator('#detail-content').innerText(),/本機分類器依專案政策選擇/);
  await page.unroute('**/api/task?*');
- return {execution_clarity:true,busy_recovery:true,visible_retry:true,error_survives_heartbeat:true,latest_filter_wins:true,actual_models_reasoning:true,review_time:true,repair_unknown:true,overlap:true,technical_actor_identity:true,model_calls:0};
+ await verifyUsageScope(page,monitor);
+ return {execution_clarity:true,usage_scope_table:true,reference_excluded_from_totals:true,bilingual_scope_help:true,busy_recovery:true,visible_retry:true,error_survives_heartbeat:true,latest_filter_wins:true,actual_models_reasoning:true,review_time:true,repair_unknown:true,overlap:true,technical_actor_identity:true,model_calls:0};
+}
+
+async function verifyUsageScope(page,monitor){
+ const scope={basis:'after-attachment',started_at:'2026-09-26T09:00:00Z',task_coverage_complete:false,turn_reference:{status:'complete',usage:{input_tokens:10000,output_tokens:2000,total_tokens:12000},outside_operation_usage:{total_tokens:11850}}};
+ await page.route('**/api/task?*',async route=>{const response=await route.fetch(),task=await response.json();task.runs=[{run_id:'scope',measurement_source:'native-host-report',operations:[{operation_id:'scope',usage_source:'native-host-report',runtime_model:'fixture-scope',usage:{input_tokens:120,output_tokens:30},usage_scope:scope,result_recorded:true}]}];task.execution=executionSummary(task);await route.fulfill({response,json:task});});
+ await page.goto(monitor.url);await page.locator('#nav-board').click();await page.locator('[data-task-id="WK-unobserved"]').click();await page.locator('#task-usage-scope').waitFor();
+ assert.equal(await page.locator('#task-usage-scope').evaluate(e=>e.open),false);
+ await page.locator('#task-usage-scope > summary').click();const taskTable=page.locator('#task-usage-scope-table');assert.match(await taskTable.innerText(),/12,000/);assert.match(await taskTable.innerText(),/11,850/);
+ assert.equal(await page.locator('#task-token-breakdown [data-token-metric="total"]').innerText(),'150');
+ await page.getByRole('button',{name:'如何看用量範圍',exact:true}).click();assert.match(await page.locator('.help-popover:popover-open').innerText(),/不會自動補進總計/);await page.keyboard.press('Escape');
+ await page.unroute('**/api/task?*');await page.locator('#close-drawer').click();
+ let knownTotal;
+ await page.route('**/api/analysis?*',async route=>{const response=await route.fetch(),data=await response.json();knownTotal=data.totals.tokens;data.operations.items=data.operations.items.map((op,i)=>({...op,usage_source:'native-host-report',usage_scope:i?{...scope,turn_reference:{status:'unavailable',usage:{total_tokens:null},outside_operation_usage:{total_tokens:null}}}:{...scope,turn_reference:{...scope.turn_reference,outside_operation_usage:{total_tokens:12000-op.token_breakdown.total}}}}));await route.fulfill({response,json:data});});
+ await page.locator('#nav-usage').click();await page.locator('#usage-scope').waitFor();assert.equal(await page.locator('#usage-scope').evaluate(e=>e.open),false);await page.locator('#usage-scope > summary').click();
+ assert.match(await page.locator('#usage-scope-table').innerText(),/12,000/);assert.match(await page.locator('#usage-scope-table').innerText(),/來源不完整/);
+ assert.equal(await page.locator('#usage-token-breakdown [data-token-metric="total"]').innerText(),new Intl.NumberFormat('en').format(knownTotal));
+ await page.screenshot({path:'output/playwright/workkeel-monitor/usage-scope-zh.png',fullPage:true});
+ await page.locator('#nav-settings').click();await page.getByLabel('Language',{exact:true}).selectOption('en');await page.locator('#nav-usage').click();await page.locator('#usage-scope').waitFor();
+ if(!await page.locator('#usage-scope').evaluate(e=>e.open))await page.locator('#usage-scope > summary').click();assert.match(await page.locator('#usage-scope-table').innerText(),/Source-turn reference/);assert.match(await page.locator('#usage-scope-table').innerText(),/Source incomplete/);
+ await page.unroute('**/api/analysis?*');
 }
