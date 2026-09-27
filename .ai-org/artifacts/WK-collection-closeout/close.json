@@ -1,0 +1,18 @@
+{
+  "operation_id": "close-collection-closeout-v1",
+  "expected_version": 4,
+  "actor": {
+    "agent_id": "builder",
+    "principal_id": "owner"
+  },
+  "revision": "77c5faac7d2e269a61e784f382326aacbcbdab9a",
+  "summary": "Accept the verified local delivery after distinct actual review. Preserve interrupted first verification wrapper and pending main-turn collection; no whole-task coverage or efficiency claim.",
+  "rollback": "Revert the source candidate through a separately approved and reviewed task; retain task history and measurement evidence.",
+  "evidence": [
+    ".ai-org/artifacts/WK-collection-closeout/closeout.md",
+    ".ai-org/artifacts/WK-collection-closeout/review.md",
+    ".ai-org/artifacts/WK-collection-closeout/review.json",
+    ".ai-org/artifacts/WK-collection-closeout/measurements-before-acceptance.json",
+    ".ai-org/artifacts/WK-collection-closeout/verification-closeout-fast.txt"
+  ]
+}

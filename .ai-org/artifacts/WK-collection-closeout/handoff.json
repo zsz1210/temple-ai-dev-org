@@ -1,0 +1,17 @@
+{
+  "operation_id": "handoff-collection-closeout-v1",
+  "expected_version": 2,
+  "actor": {
+    "agent_id": "builder",
+    "principal_id": "owner"
+  },
+  "claim_id": "claim-a5f7a8c0-e66f-40f3-a175-ce878a2863c0",
+  "revision": "77c5faac7d2e269a61e784f382326aacbcbdab9a",
+  "summary": "Separate task acceptance, source collection and metric completeness; show independent recording cutoffs and follow-up using existing read-only delivery helpers. Focused regression and full candidate verification passed.",
+  "evidence": [
+    ".ai-org/artifacts/WK-collection-closeout/delivery.md",
+    ".ai-org/artifacts/WK-collection-closeout/verification-full.txt",
+    ".ai-org/artifacts/WK-collection-closeout/verification-full-result.json"
+  ],
+  "unresolved": []
+}

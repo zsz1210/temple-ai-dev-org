@@ -1,8 +1,8 @@
 {
   "schema_version": "workkeel.work-item/v1",
   "id": "WK-collection-closeout",
-  "version": 2,
-  "state": "build",
+  "version": 5,
+  "state": "done",
   "contract": {
     "schema_version": "workkeel.task-contract/v1",
     "id": "WK-collection-closeout",
@@ -111,19 +111,79 @@
       "sha256": "f8bebba95aff3d766d42d1bb2a9fa44dfe7dff607e60a6ebde2d64cc03ae9664"
     }
   ],
-  "claim": {
-    "id": "claim-a5f7a8c0-e66f-40f3-a175-ce878a2863c0",
+  "claim": null,
+  "base_revision": "85406379be2ac552b6f5ab91a2bac389eeafdb0f",
+  "dependency_pins": [],
+  "delivery": {
+    "revision": "77c5faac7d2e269a61e784f382326aacbcbdab9a",
+    "summary": "Separate task acceptance, source collection and metric completeness; show independent recording cutoffs and follow-up using existing read-only delivery helpers. Focused regression and full candidate verification passed.",
+    "implementer": {
+      "agent_id": "builder",
+      "principal_id": "owner"
+    },
+    "claim_id": "claim-a5f7a8c0-e66f-40f3-a175-ce878a2863c0",
+    "evidence": [
+      {
+        "path": ".ai-org/artifacts/WK-collection-closeout/delivery.md",
+        "sha256": "2ce4177dd5bdab5f44b26e198f7339e181bcc6fabf174cf80eb2cb8e02f47d43"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-collection-closeout/verification-full.txt",
+        "sha256": "7cb32bd17aaa9a3160a664c759086b8f23a33ceb67aa34523233e1e732b3fe50"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-collection-closeout/verification-full-result.json",
+        "sha256": "4fca454e1af210a830dfa41e8e01f1bba54e883bd189a4c8460937e24c9c0607"
+      }
+    ]
+  },
+  "review": {
+    "actor": {
+      "agent_id": "reviewer",
+      "principal_id": "owner"
+    },
+    "revision": "77c5faac7d2e269a61e784f382326aacbcbdab9a",
+    "judgment": "pass",
+    "summary": "Independent review passed: acceptance, collection and metric completeness remain separate; cutoffs preserve measured time and privacy. 28 focused tests independently passed; retained full verification exited 0.",
+    "evidence": [
+      {
+        "path": ".ai-org/artifacts/WK-collection-closeout/review.md",
+        "sha256": "9ea75344ede0aa448a6e62699052762f744c8b79e84cff3f63011748b0875abc"
+      }
+    ]
+  },
+  "closeout": {
     "actor": {
       "agent_id": "builder",
       "principal_id": "owner"
     },
-    "at": "2026-09-27T12:47:38.736Z"
+    "revision": "77c5faac7d2e269a61e784f382326aacbcbdab9a",
+    "summary": "Accept the verified local delivery after distinct actual review. Preserve interrupted first verification wrapper and pending main-turn collection; no whole-task coverage or efficiency claim.",
+    "rollback": "Revert the source candidate through a separately approved and reviewed task; retain task history and measurement evidence.",
+    "evidence": [
+      {
+        "path": ".ai-org/artifacts/WK-collection-closeout/closeout.md",
+        "sha256": "ecec5e9e71b9d494d41b33f05b15d6521812052b818f4e19adfb45214ce3f854"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-collection-closeout/review.md",
+        "sha256": "9ea75344ede0aa448a6e62699052762f744c8b79e84cff3f63011748b0875abc"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-collection-closeout/review.json",
+        "sha256": "ccd833f4e6daf4213629d33aad3f5d57e37984e0bc1a42810e52436b8f7e507f"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-collection-closeout/measurements-before-acceptance.json",
+        "sha256": "44b6b9fd79c853e75e0528905feee21a97edd3da8cdfc7573cdfa3992879a64b"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-collection-closeout/verification-closeout-fast.txt",
+        "sha256": "fe4b5452e3aacc9c969ea39411bc21d543ac01758c673d2b9a05e965bbc96d4c"
+      }
+    ],
+    "external_release": "not-performed"
   },
-  "base_revision": "85406379be2ac552b6f5ab91a2bac389eeafdb0f",
-  "dependency_pins": [],
-  "delivery": null,
-  "review": null,
-  "closeout": null,
   "attempts": [],
   "history": [
     {
@@ -157,6 +217,58 @@
       "previous_hash": "34633ff8bc54fa5223b2e08c7b993cdab8b22187fc434f2e06ebc2141f00272d",
       "record_sha256": "caf6f54dd88339251aa1e8bde8eb5237b68ccf155d9628c9925c096253c54024",
       "hash": "f5344324ed2fef9f0ddc78ebeeab0fd5fdd1f966509ed8bd7a6d62229dc0d96d"
+    },
+    {
+      "sequence": 3,
+      "action": "handoff",
+      "operation_id": "handoff-collection-closeout-v1",
+      "request_sha256": "d7250bdef13ffdf82b9718c6781fa47b4c4c2efc35ad6ab3afbe73c2e9e1067e",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-09-27T13:06:37.441Z",
+      "state": "test",
+      "revision": "77c5faac7d2e269a61e784f382326aacbcbdab9a",
+      "previous_hash": "f5344324ed2fef9f0ddc78ebeeab0fd5fdd1f966509ed8bd7a6d62229dc0d96d",
+      "record_sha256": "28c74c96ee01a285060d2b73ca4c7217d582821e243b0ba21b34ee12baad5fb1",
+      "summary": "Separate task acceptance, source collection and metric completeness; show independent recording cutoffs and follow-up using existing read-only delivery helpers. Focused regression and full candidate verification passed.",
+      "hash": "83c17a03a9e0957219ffab8e4b1de5e3fc282f5c51284b12913c48ad08f0a318"
+    },
+    {
+      "sequence": 4,
+      "action": "review",
+      "operation_id": "collection-closeout-independent-review",
+      "request_sha256": "a13258ee031107cb0805e2061e2786e85757ccfb33f14a9cf7c03edddf7e437f",
+      "actor": {
+        "agent_id": "reviewer",
+        "principal_id": "owner"
+      },
+      "at": "2026-09-27T13:07:40.736Z",
+      "state": "release_gate",
+      "revision": "77c5faac7d2e269a61e784f382326aacbcbdab9a",
+      "previous_hash": "83c17a03a9e0957219ffab8e4b1de5e3fc282f5c51284b12913c48ad08f0a318",
+      "record_sha256": "19e7b3f790742568eb6c596e1b69938b6042d2907445053fbb112922cad20d6f",
+      "summary": "Independent review passed: acceptance, collection and metric completeness remain separate; cutoffs preserve measured time and privacy. 28 focused tests independently passed; retained full verification exited 0.",
+      "judgment": "pass",
+      "hash": "23e0cad1acaaa6320dd2517b29d4885b8f22975ba2314a4c727a91624a0dca1d"
+    },
+    {
+      "sequence": 5,
+      "action": "close",
+      "operation_id": "close-collection-closeout-v1",
+      "request_sha256": "b4aede434031cbd8caeb4d65eb9d0a5dac8d0ec3b22e857a1fa6ec630bf5b3bb",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-09-27T13:08:51.445Z",
+      "state": "done",
+      "revision": "77c5faac7d2e269a61e784f382326aacbcbdab9a",
+      "previous_hash": "23e0cad1acaaa6320dd2517b29d4885b8f22975ba2314a4c727a91624a0dca1d",
+      "record_sha256": "fed909ce8000e4caf1d94896afd5fd277109d65b21d4d5ca168e1d25c84d11c5",
+      "summary": "Accept the verified local delivery after distinct actual review. Preserve interrupted first verification wrapper and pending main-turn collection; no whole-task coverage or efficiency claim.",
+      "hash": "e4550f8a544d3e55cdbd7fe346662fcd08c954fb0ab4244206145bd5aa31021f"
     }
   ]
 }

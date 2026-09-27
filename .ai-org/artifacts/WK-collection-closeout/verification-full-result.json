@@ -1,0 +1,9 @@
+{
+  "revision": "77c5faac7d2e269a61e784f382326aacbcbdab9a",
+  "command": "npm run verify",
+  "started_at": "2026-09-27T13:01:04.916Z",
+  "ended_at": "2026-09-27T13:06:18.912Z",
+  "process_duration_ms": 313996,
+  "code": 0,
+  "signal": null
+}
