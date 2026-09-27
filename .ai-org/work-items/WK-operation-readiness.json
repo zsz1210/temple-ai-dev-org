@@ -1,0 +1,166 @@
+{
+  "schema_version": "workkeel.work-item/v1",
+  "id": "WK-operation-readiness",
+  "version": 2,
+  "state": "build",
+  "contract": {
+    "schema_version": "workkeel.task-contract/v1",
+    "id": "WK-operation-readiness",
+    "goal": "Prevent predictable capture setup failures and explain exact candidate file blockers before lifecycle mutations",
+    "actor": {
+      "agent_id": "builder",
+      "principal_id": "owner"
+    },
+    "state": "intake",
+    "scope": {
+      "include": [
+        "Prevent predictable capture setup failures and explain exact candidate file blockers before lifecycle mutations"
+      ],
+      "exclude": [
+        "UI changes",
+        "Downstream product edits",
+        "Package release",
+        "Global model settings",
+        "Relaxed authority or evidence checks"
+      ]
+    },
+    "dependencies": [],
+    "acceptance": {
+      "criteria": [
+        "Predictable binding blockers have read-only diagnostics and do not strand a new prepared capture",
+        "Candidate diagnostics use the existing lifecycle restrictions and identify exact blocking paths",
+        "Offline regression, full verification and distinct actual review pass",
+        "Preserve private inputs and partial measurement semantics"
+      ],
+      "evidence": []
+    },
+    "verification": {
+      "risk_tier": "standard",
+      "separation": "distinct-agent",
+      "implementer": null,
+      "reviewer": null,
+      "candidate_revision": null
+    },
+    "handoff": null,
+    "environment": {
+      "cwd": ".",
+      "read_paths": [
+        "."
+      ],
+      "write_paths": [
+        "src/workkeel-host-usage.mjs",
+        "src/workkeel-tasks.mjs",
+        "scripts/workkeel-execution-capture.mjs",
+        "scripts/workkeel-delivery-preflight.mjs",
+        "test/workkeel-execution-capture.test.mjs",
+        "test/workkeel-host-usage.test.mjs",
+        "test/workkeel-delivery-preflight.test.mjs",
+        "docs/operations/workkeel-native-usage.md",
+        "docs/operations/workkeel-native-dispatch.md",
+        ".ai-org/artifacts/WK-operation-readiness"
+      ],
+      "tools": [
+        "node",
+        "npm",
+        "git",
+        "native-agent-host"
+      ],
+      "resources": [],
+      "network": {
+        "mode": "none",
+        "hosts": []
+      },
+      "external_actions": [],
+      "data": {
+        "classification": "public",
+        "model_access": "approved-connection",
+        "policy_refs": [
+          ".ai-org/artifacts/WK-operation-readiness/approval.md",
+          "docs/policies/development-dispatch.json"
+        ]
+      }
+    },
+    "authorization": {
+      "approved_by": "owner",
+      "approval_ref": ".ai-org/artifacts/WK-operation-readiness/approval.md",
+      "operations": [
+        "read",
+        "write",
+        "execute"
+      ],
+      "expires_at": null
+    },
+    "skills": [],
+    "execution": {
+      "runtime": {
+        "kind": "host-owned",
+        "adapter_id": null,
+        "required_features": []
+      },
+      "model_connection": {
+        "kind": "native"
+      }
+    },
+    "legacy": null
+  },
+  "contract_sha256": "de31f15620af65d7b5e7e8b4b5365f96e49783cde3eeb2bd2b5f16b49666f6ad",
+  "policy_sha256": "04102080b0e70a04898b1e64a2ec05194665087061c4cc37ee7f7df02626db4a",
+  "authority_pins": [
+    {
+      "path": ".ai-org/artifacts/WK-operation-readiness/approval.md",
+      "sha256": "e40a40e9d344b8a385367679affb1d238437ff2873dbfcdc5ea54e870c799cd0"
+    },
+    {
+      "path": "docs/policies/development-dispatch.json",
+      "sha256": "f8bebba95aff3d766d42d1bb2a9fa44dfe7dff607e60a6ebde2d64cc03ae9664"
+    }
+  ],
+  "claim": {
+    "id": "claim-a8002576-6b80-4279-972c-4a9f69241f89",
+    "actor": {
+      "agent_id": "builder",
+      "principal_id": "owner"
+    },
+    "at": "2026-09-27T08:58:45.514Z"
+  },
+  "base_revision": "807141e51d51180a928fef8f63f241e50306a027",
+  "dependency_pins": [],
+  "delivery": null,
+  "review": null,
+  "closeout": null,
+  "attempts": [],
+  "history": [
+    {
+      "sequence": 1,
+      "action": "create",
+      "operation_id": "intake-de31f15620af65d7b5e7e8b4",
+      "request_sha256": "1acb2533acb01ed81fe01338c458a4696bc1dc6739f56f51d02a1c65ea16c8fd",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-09-27T08:58:45.343Z",
+      "state": "intake",
+      "revision": null,
+      "previous_hash": null,
+      "record_sha256": "bd516395453602d9fa3c2919b583dd8b0ac623a07d8b8ca8d87b48302331af48",
+      "hash": "151e992f513f833fda37289d071c8fa7114cc0c5f6cf9ae80086bab78fc594fe"
+    },
+    {
+      "sequence": 2,
+      "action": "claim",
+      "operation_id": "claim-readiness-v1",
+      "request_sha256": "712fa203b80a37695bcdb02cdf20e0df8001ccdef08e42ddde5b4315f6efcd0e",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-09-27T08:58:45.514Z",
+      "state": "build",
+      "revision": null,
+      "previous_hash": "151e992f513f833fda37289d071c8fa7114cc0c5f6cf9ae80086bab78fc594fe",
+      "record_sha256": "9eafef5c1d57ece3c54dfac44d9d396ae2968e9b4c75c1c6b1e269e120e7d9e6",
+      "hash": "6c8d14a0d7aae04d0ab10d4e14a390adddb33f69f4135d9494101a9734ea8474"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": "workkeel.task-brief/v1",
+  "id": "WK-operation-readiness",
+  "goal": "Prevent predictable capture setup failures and explain exact candidate file blockers before lifecycle mutations",
+  "actor": {"agent_id":"builder","principal_id":"owner"},
+  "acceptance": ["Predictable binding blockers have read-only diagnostics and do not strand a new prepared capture", "Candidate diagnostics use the existing lifecycle restrictions and identify exact blocking paths", "Offline regression, full verification and distinct actual review pass", "Preserve private inputs and partial measurement semantics"],
+  "exclude": ["UI changes", "Downstream product edits", "Package release", "Global model settings", "Relaxed authority or evidence checks"],
+  "environment": {
+    "cwd":".", "read_paths":["."],
+    "write_paths":["src/workkeel-host-usage.mjs","src/workkeel-tasks.mjs","scripts/workkeel-execution-capture.mjs","scripts/workkeel-delivery-preflight.mjs","test/workkeel-execution-capture.test.mjs","test/workkeel-host-usage.test.mjs","test/workkeel-delivery-preflight.test.mjs","docs/operations/workkeel-native-usage.md","docs/operations/workkeel-native-dispatch.md",".ai-org/artifacts/WK-operation-readiness"],
+    "tools":["node","npm","git","native-agent-host"],"resources":[],
+    "network":{"mode":"none","hosts":[]},"external_actions":[],
+    "data":{"classification":"public","model_access":"approved-connection","policy_refs":[".ai-org/artifacts/WK-operation-readiness/approval.md","docs/policies/development-dispatch.json"]}
+  },
+  "authorization":{"approved_by":"owner","approval_ref":".ai-org/artifacts/WK-operation-readiness/approval.md","operations":["read","write","execute"],"expires_at":null}
+}
