@@ -1,0 +1,9 @@
+{
+  "operation_id": "claim-collection-closeout",
+  "expected_version": 1,
+  "actor": {
+    "agent_id": "builder",
+    "principal_id": "owner"
+  },
+  "base_revision": "85406379be2ac552b6f5ab91a2bac389eeafdb0f"
+}

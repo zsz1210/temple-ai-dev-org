@@ -206,10 +206,12 @@ Untracked files, changed bytes, symlinks, stale candidates and invalid authority
 evidence remain visible as failures. A localization-looking filename alone does
 not exempt a document from the repository language policy.
 
-Save a generated report as a new artifact, include it in the candidate, and check
-it with the other documents. Do not overwrite a pinned report when new usage
-arrives; save a separately named snapshot. The report describes the supplied
-candidate and measurement snapshot, not a future revision containing the report.
+If a generated report is part of candidate evidence, save it before final
+verification and check it with the other documents. Later measurement snapshots
+belong outside the candidate or in the existing ignored private capture directory;
+do not rewrite pinned evidence or create unlisted files during review. The report
+describes the supplied candidate and measurement snapshot, not a future revision
+containing the report.
 
 Totals add only known values from declared operations. Unknown is different from
 zero; partial subtotals include their coverage. Cached input is already included
@@ -331,7 +333,10 @@ separate host turn duration when available, source state and missing fields.
 Missing and measured zero remain different. A completed operation does not prove
 complete task coverage. Unsupported hosts must expose their reporting gap.
 
-Complete reports before release, rework, cancellation or task close. Existing
+Complete available reports before release, rework, cancellation or task close.
+If the host writes its terminal row only after the reporting turn ends, explicitly
+retain the pending binding for later collection and disclose the gap in closeout.
+Do not mark the source completed or infer activity to make a report look final. Existing
 pre-bound reporting across handoff retains its validated authority; a convenience
 helper does not create a new implementation claim or authorize a new binding.
 Independent review and local acceptance remain separate lifecycle commands.
@@ -367,6 +372,26 @@ Completion here requires an observed source, a completed operation, active time,
 input tokens and output tokens. Other token counters and model fields stay visible
 as missing when unavailable; measured zero is valid. This is a reporting check,
 not a replacement for task authority or a mandatory acceptance gate.
+
+The same check also exposes `task_state`, `task_locally_accepted` and `collection`.
+These answer separate questions: was the task accepted, have the declared sources
+reached an observed terminal outcome, and are the required measurements present?
+`collection.status` is `completed`, `pending`, `stopped` or `unavailable`;
+its counts retain missing bindings and its follow-up list identifies unresolved
+operations. A terminal interrupted operation can finish collection without being
+a successful execution. An explicit stop does not certify final source coverage.
+Unavailable or mismatched bindings and inventory errors prevent collection from
+being summarized as complete. Existing report-completeness requirements stay unchanged.
+
+Each receipt includes `cutoffs.usage_observed_at`, `activity_ended_at` and
+`collected_at`. The first requires an observed token counter, the second comes
+only from recorded execution intervals, and the third is the collector's timestamp.
+`usage_observed_after_activity` is null if either cutoff is unknown. True means
+the usage observation is later; it cannot distinguish late recording from unmeasured
+work and does not authorize extending activity time or calculating tokens per second.
+The Markdown preflight report shows these cutoffs and follow-up actions together.
+Checks read existing sanitized records without opening raw execution sources or
+changing the task. Collect a pending source explicitly, then rerun the same check.
 
 `task_coverage_complete` always remains false. The list is caller-declared and
 cannot prove that no work was omitted. `unlisted_binding_count` exposes additional

@@ -1,0 +1,162 @@
+{
+  "schema_version": "workkeel.work-item/v1",
+  "id": "WK-collection-closeout",
+  "version": 2,
+  "state": "build",
+  "contract": {
+    "schema_version": "workkeel.task-contract/v1",
+    "id": "WK-collection-closeout",
+    "goal": "Separate native task acceptance from measurement collection and consolidate existing closeout reporting",
+    "actor": {
+      "agent_id": "builder",
+      "principal_id": "owner"
+    },
+    "state": "intake",
+    "scope": {
+      "include": [
+        "Separate native task acceptance from measurement collection and consolidate existing closeout reporting"
+      ],
+      "exclude": [
+        "UI changes",
+        "New experiments",
+        "Downstream product changes",
+        "Merge, publication or deployment"
+      ]
+    },
+    "dependencies": [],
+    "acceptance": {
+      "criteria": [
+        "Expose native task state separately from collection progress and required metric completeness",
+        "Show independent usage, activity and collection cutoffs without inferring time",
+        "Read-only reporting preserves validation, private-source boundaries, zero and unknown semantics",
+        "Focused regression, full verification and actual distinct review pass"
+      ],
+      "evidence": []
+    },
+    "verification": {
+      "risk_tier": "standard",
+      "separation": "distinct-agent",
+      "implementer": null,
+      "reviewer": null,
+      "candidate_revision": null
+    },
+    "handoff": null,
+    "environment": {
+      "cwd": ".",
+      "read_paths": [
+        "."
+      ],
+      "write_paths": [
+        "scripts/workkeel-delivery.mjs",
+        "scripts/workkeel-delivery-preflight.mjs",
+        "test/workkeel-delivery.test.mjs",
+        "test/workkeel-delivery-preflight.test.mjs",
+        "docs/operations/workkeel-daily-work.md",
+        "docs/operations/workkeel-native-dispatch.md",
+        ".ai-org/artifacts/WK-collection-closeout"
+      ],
+      "tools": [
+        "node",
+        "npm",
+        "git",
+        "native-agent-host"
+      ],
+      "resources": [],
+      "network": {
+        "mode": "none",
+        "hosts": []
+      },
+      "external_actions": [],
+      "data": {
+        "classification": "public",
+        "model_access": "approved-connection",
+        "policy_refs": [
+          ".ai-org/artifacts/WK-collection-closeout/approval.md",
+          "docs/policies/development-dispatch.json"
+        ]
+      }
+    },
+    "authorization": {
+      "approved_by": "owner",
+      "approval_ref": ".ai-org/artifacts/WK-collection-closeout/approval.md",
+      "operations": [
+        "read",
+        "write",
+        "execute"
+      ],
+      "expires_at": null
+    },
+    "skills": [],
+    "execution": {
+      "runtime": {
+        "kind": "host-owned",
+        "adapter_id": null,
+        "required_features": []
+      },
+      "model_connection": {
+        "kind": "native"
+      }
+    },
+    "legacy": null
+  },
+  "contract_sha256": "da7cf06557858b0e9e0899b8b23c5a87f93444bdffbbae07ccb0895f58edbde5",
+  "policy_sha256": "04102080b0e70a04898b1e64a2ec05194665087061c4cc37ee7f7df02626db4a",
+  "authority_pins": [
+    {
+      "path": ".ai-org/artifacts/WK-collection-closeout/approval.md",
+      "sha256": "e204888d61d9b772ff0614691cdb2ec7abe507b2739c5b99c63e39c91026ccb6"
+    },
+    {
+      "path": "docs/policies/development-dispatch.json",
+      "sha256": "f8bebba95aff3d766d42d1bb2a9fa44dfe7dff607e60a6ebde2d64cc03ae9664"
+    }
+  ],
+  "claim": {
+    "id": "claim-a5f7a8c0-e66f-40f3-a175-ce878a2863c0",
+    "actor": {
+      "agent_id": "builder",
+      "principal_id": "owner"
+    },
+    "at": "2026-09-27T12:47:38.736Z"
+  },
+  "base_revision": "85406379be2ac552b6f5ab91a2bac389eeafdb0f",
+  "dependency_pins": [],
+  "delivery": null,
+  "review": null,
+  "closeout": null,
+  "attempts": [],
+  "history": [
+    {
+      "sequence": 1,
+      "action": "create",
+      "operation_id": "intake-da7cf06557858b0e9e0899b8",
+      "request_sha256": "2267bc903c935833949fe2df8a84e2f7cb052df24643dad0e4427b0595504f02",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-09-27T12:47:38.338Z",
+      "state": "intake",
+      "revision": null,
+      "previous_hash": null,
+      "record_sha256": "dc4696503677b208b340b9933df8c2068b6b612244d52232331e53fc818c17ad",
+      "hash": "34633ff8bc54fa5223b2e08c7b993cdab8b22187fc434f2e06ebc2141f00272d"
+    },
+    {
+      "sequence": 2,
+      "action": "claim",
+      "operation_id": "claim-collection-closeout",
+      "request_sha256": "8803904e6f3cec078f98151ae7d6cd8aa6235e68a9da69168cfe998d4049bb60",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-09-27T12:47:38.736Z",
+      "state": "build",
+      "revision": null,
+      "previous_hash": "34633ff8bc54fa5223b2e08c7b993cdab8b22187fc434f2e06ebc2141f00272d",
+      "record_sha256": "caf6f54dd88339251aa1e8bde8eb5237b68ccf155d9628c9925c096253c54024",
+      "hash": "f5344324ed2fef9f0ddc78ebeeab0fd5fdd1f966509ed8bd7a6d62229dc0d96d"
+    }
+  ]
+}

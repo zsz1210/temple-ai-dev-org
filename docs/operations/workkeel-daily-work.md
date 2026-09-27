@@ -123,6 +123,9 @@ numeric reports and evidence checks; creating another Agent solely to copy
 numbers, update status or reformat a report adds another context handoff.
 Delegate a separate implementation only when its scope is independent enough to
 justify that handoff. Actual independent review remains a separate responsibility.
+For a small coupled helper, test and documentation change, keep implementation
+with that coordinator and dispatch only the distinct review. Do not create a
+separate Agent simply because the changes occupy several files.
 
 Prepare delivery documents before committing and verifying the final candidate.
 The optional [evidence preflight and report](workkeel-native-dispatch.md#delivery-evidence-preflight-and-report)
@@ -131,6 +134,17 @@ Then run the required repository gate on that candidate. If documentation is
 added later, check it before pinning it as evidence. Preserve already accepted
 evidence bytes. A generated report never substitutes for executing verification
 or obtaining an actual independent review.
+
+Use the same expected-operation list for handoff and closeout reporting. The
+delivery check separates native task acceptance, terminal source collection and
+required metric completeness. A completed task can still have a pending source;
+keep that binding and its explicit follow-up instead of reopening the task or
+inventing missing time. Record any remaining reporting gap in closeout evidence.
+When a late terminal row arrives, collect that same source and generate a new
+snapshot outside the candidate or under the existing ignored private capture
+directory. Do not revise evidence bytes already pinned by handoff or acceptance.
+Usage observation, activity end and collection timestamps remain separate; late
+token rows never extend a stopped activity clock.
 
 Timeline rows distinguish a failed review followed by rework from a voluntary
 release of the task claim. A release returns the task to intake so another

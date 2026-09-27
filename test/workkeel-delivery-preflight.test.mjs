@@ -112,8 +112,15 @@ test('zero, unknown and partial measurements remain distinct; preflight does not
   assert.equal(result.full_verification,'not-run');assert.equal(result.actual_review,'not-performed');
   assert.equal(result.task_coverage_complete,false);
   assert.equal(result.reports.declared_reports_complete,false);
+  assert.equal(result.reports.collection.status,'unavailable');
+  assert.equal(result.reports.collection.counts.completed,2);assert.equal(result.reports.collection.counts.missing,1);
   const report=renderDeliveryReport(result);
   assert.ok(!report.includes('Private task prose'));assert.match(report,/0 \| 1 \/ 3/);
+  assert.match(report,/Native task state: `build`\. Locally accepted: no/);
+  assert.match(report,/Declared source collection: `unavailable`\. Required reports complete: no/);
+  assert.match(report,/Usage observed at \| Activity ended at \| Collected at/);
+  assert.match(report,/`report-known-metrics-or-record-gap`/);assert.match(report,/`resolve-missing-binding`/);
+  assert.ok(!report.includes(f.root));
   assert.equal(await fs.readFile(f.root+'/.ai-org/work-items/WK-preflight.json','utf8'),before);
   assert.deepEqual(await readDeliveryPreflight(f.root,request),result);
 });
