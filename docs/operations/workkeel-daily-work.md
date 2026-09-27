@@ -121,6 +121,12 @@ the same turn; the coordinator must not impersonate that reviewer.
 Keep coordination with the Agent that already knows the task. Use programs for
 numeric reports and evidence checks; creating another Agent solely to copy
 numbers, update status or reformat a report adds another context handoff.
+For measurement-enabled work, declare preparation, implementation, review and
+closeout in the expected work plan before detailed execution. Follow the
+[recording-boundary table](workkeel-native-usage.md#recording-boundaries-for-new-work)
+immediately after claim. Inspect excluded responses at begin and preserve pending
+terminal collection through closeout. A mixed coordinator turn must not be
+reported as several invented stage operations.
 Delegate a separate implementation only when its scope is independent enough to
 justify that handoff. Actual independent review remains a separate responsibility.
 For a small coupled helper, test and documentation change, keep implementation

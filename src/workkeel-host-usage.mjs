@@ -36,6 +36,31 @@ function tokens(value) {
 function add(a,b) {return Object.fromEntries(TOKEN_KEYS.map(k=>{if(a[k]===null&&b[k]===null)return [k,null];const n=(a[k]??0)+(b[k]??0);if(!number(n))fail('host-token-overflow');return [k,n];}));}
 const unknown=()=>Object.fromEntries(TOKEN_KEYS.map(k=>[k,null]));
 const zeros=()=>Object.fromEntries(TOKEN_KEYS.map(k=>[k,0]));
+function scopeTokens(value){
+  const out=Object.fromEntries(TOKEN_KEYS.map(k=>[k,number(value?.[k])?value[k]:null]));
+  if(out.cached_input_tokens!==null&&(out.input_tokens===null||out.cached_input_tokens>out.input_tokens))out.cached_input_tokens=null;
+  if(out.reasoning_output_tokens!==null&&(out.output_tokens===null||out.reasoning_output_tokens>out.output_tokens))out.reasoning_output_tokens=null;
+  const total=out.input_tokens!==null&&out.output_tokens!==null?out.input_tokens+out.output_tokens:null;
+  out.total_tokens=number(total)?total:null;return out;
+}
+
+/** References describe only an already-bound source, never additional task attribution. */
+export function nativeUsageScope(binding){
+  const b=binding,source=b.source?.kind==='codex-rollout';
+  const healthy=source&&b.source_status==='observed'&&!b.error_code&&Boolean(b.turn_started_at)&&Boolean(b.last_cumulative);
+  const reference=healthy?scopeTokens(b.last_cumulative):unknown(),recorded=scopeTokens(b.usage);
+  const outside=scopeTokens(Object.fromEntries(TOKEN_KEYS.map(k=>[k,reference[k]!==null&&recorded[k]!==null&&reference[k]>=recorded[k]?reference[k]-recorded[k]:null])));
+  // A field's absence, an incomplete scan or an invalid counter cannot become a zero.
+  const status=!source?'not-reported':b.error_code||b.source_status==='unavailable'||b.source_status==='partial-source'?'unavailable':
+    !healthy?'unknown':b.collection_closed||['stopped','cancelled'].includes(b.status)?'stopped':b.turn_terminal?'complete':'pending';
+  return {basis:source?(b.capture_turn_from_start?'after-claim':'after-attachment'):'host-reported-operation',
+    started_at:b.capture_turn_from_start?b.claim_at:b.created_at,
+    task_coverage_complete:false,
+    excluded_response_count:source&&number(b.unassigned_responses)?b.unassigned_responses:null,
+    turn_reference:{status,usage:reference,outside_operation_usage:outside,
+      started_at:source?b.turn_started_at??null:null,ended_at:source?b.turn_ended_at??null:null,
+      observed_at:source?b.last_source_at??null:null,attribution:'source-turn-only-not-task-total'}};
+}
 
 async function readFile(file,max=LIMITS.record) {
   const handle=await fs.open(file,constants.O_RDONLY|constants.O_NOFOLLOW|constants.O_NONBLOCK);
@@ -151,6 +176,7 @@ async function load(target,bindingId) {
   id(bindingId);const b=await record(target,`${ROOT}/${bindingId}/binding.json`);assertBinding(b,bindingId);return b;
 }
 function measurement(b) {
+  const usageScope=nativeUsageScope(b);
   const final=b.status==='completed';
   const observed=b.assigned_responses>0||b.reports.length>0||Boolean(b.turn_terminal)||b.execution_duration_ms!==null;
   const intervals=b.execution_intervals??[];
@@ -158,7 +184,7 @@ function measurement(b) {
     requested_model:null,runtime_model:b.model??null,observed_model:null,tool:b.tool??null,provider:b.provider??null,
     requested_reasoning:b.reasoning?{name:'effort',value:b.reasoning}:null,reported_reasoning:b.reasoning??null,
     sample_kind:b.sample_kind,connection_kind:'native',state:b.status==='active'?'unconfirmed':b.status,
-    result_recorded:final,coverage_complete:false,usage_source:'native-host-report',usage:{...b.usage,cost_usd:null},
+    result_recorded:final,coverage_complete:false,usage_source:'native-host-report',usage:{...b.usage,cost_usd:null},usage_scope:usageScope,
     dispatched_at:intervals.length===1?intervals[0].started_at:null,completed_at:intervals.length===1?intervals[0].completed_at:null,
     ended_at:intervals.length===1?intervals[0].completed_at:null,last_observed_at:b.observed_at??null,
     adapter_elapsed_ms:b.execution_duration_ms??null,observed_elapsed_ms:null,execution_intervals:intervals,
@@ -175,7 +201,7 @@ function measurement(b) {
     runner_state:b.status==='active'?'running':b.status,created_at:b.created_at,
     last_observed_at:b.observed_at??null,collection_closed:Boolean(b.collection_closed),collection_status:b.collection_closed?'stopped':b.status==='active'?'running':b.status==='completed'?'completed':b.status==='error'?'error':'stopped',
     capture_start:b.capture_turn_from_start?b.claim_at:b.created_at,capture_label:b.capture_turn_from_start?'Explicit bound turn, samples before claim excluded':'After explicit attachment baseline',
-    read_at:now(),coverage_complete:false,coverage:b.capture_turn_from_start?'bound-turn-after-claim-only':'bound-host-interval-only',
+    read_at:now(),coverage_complete:false,coverage:b.capture_turn_from_start?'bound-turn-after-claim-only':'bound-host-interval-only',usage_scope:usageScope,
     reporter_trust:'attributed local report; not provider-authenticated',source_kind:b.source.kind,
     wall_elapsed_ms:null,wall_time_basis:'Unavailable; never inferred from task or binding residence.',
     progress:{recorded_attempts:observed?1:0,completed_attempts:final?1:0,unresolved_attempts:['paused','interrupted','error'].includes(b.status)?1:0,percent:null},usage,

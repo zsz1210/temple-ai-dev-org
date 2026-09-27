@@ -95,6 +95,9 @@ test('explicit attachment excludes earlier usage; response identities deduplicat
   assert.equal(bound.progress.unresolved_attempts,0);assert.equal(bound.runner_state,'running');
   const next=f.response('after',7,107,2);await f.append(next,f.event('event_msg',{type:'token_count',info:{last_token_usage:token(999999)}},3));
   let collected=await collectHostUsage(f.root,'binding');assert.equal(collected.operations[0].usage.input_tokens,7);assert.equal(collected.operations[0].adapter_elapsed_ms,null);
+  assert.equal(collected.usage_scope.turn_reference.usage.input_tokens,107);
+  assert.equal(collected.usage_scope.turn_reference.outside_operation_usage.input_tokens,100);
+  assert.equal(collected.usage_scope.turn_reference.status,'pending');
   await f.append(next);collected=await collectHostUsage(f.root,'binding');assert.equal(collected.operations[0].usage.input_tokens,7);
   const filename=f.root+'/.ai-org/host-usage/binding/measurement.json',before=(await fs.stat(filename)).mtimeMs;
   await collectHostUsage(f.root,'binding');assert.equal((await fs.stat(filename)).mtimeMs,before,'No write on unchanged source');
@@ -111,9 +114,11 @@ test('explicit turn capture excludes preclaim samples and preserves separate rep
   await assert.rejects(bindHostUsage(f.root,{...f.bind,capture_turn_from_start:true}),/approval-required/);
   const bound=await bindHostUsage(f.root,{...f.bind,capture_turn_from_start:true,approval_ref:'docs/approval.md'});
   assert.equal(bound.operations[0].usage.input_tokens,2);assert.equal(bound.observations.unassigned_response_count,1);
+  assert.equal(bound.usage_scope.basis,'after-claim');assert.equal(bound.usage_scope.turn_reference.outside_operation_usage.input_tokens,5);
   await f.append(f.event('event_msg',{type:'task_complete',turn_id:'turn',duration_ms:1234,last_agent_message:'PRIVATE END'},20));
   const run=await collectHostUsage(f.root,'binding');assert.equal(run.runner_state,'completed');assert.equal(run.operations[0].result_recorded,true);
   assert.equal(run.coverage_complete,false);assert.equal(run.operations[0].reported_turn_duration_ms,1234);
+  assert.equal(run.usage_scope.turn_reference.status,'complete');assert.equal(run.usage_scope.turn_reference.usage.total_tokens,14);
   assert.equal(run.operations[0].adapter_elapsed_ms,null);assert.equal(run.operations[0].dispatched_at,null);
   assert.equal(JSON.stringify(run).includes('PRIVATE END'),false);
 });
@@ -254,6 +259,7 @@ test('partial final source lines are deferred and a released claim stops attribu
   await mutateNativeTask(f.root,f.task.id,'release',{operation_id:'release',expected_version:2,actor:f.actor,claim_id:f.task.claim.id,summary:'Fixture release'});
   await f.append(f.response('after-release',2,5,1000));
   const run=await collectHostUsage(f.root,'binding');assert.equal(run.runner_state,'stopped');assert.equal(run.operations[0].usage.input_tokens,3);
+  assert.equal(run.collection_closed,false);assert.equal(run.usage_scope.turn_reference.status,'stopped');
 });
 
 test('partial numeric fields preserve known native subtotals and mixed models remain unknown',async t=>{

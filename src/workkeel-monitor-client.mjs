@@ -191,6 +191,15 @@ function splitTable(record,id){
  }));if(id)wrap.id=id;return wrap;
 }
 function turnField(record){const c=record?.metric_coverage?.turn_ms;return field(t('完整回合時間','Full-turn duration'),duration(record?.turn_ms)+(c?' · '+c.known+' / '+c.total:''),turnHelp());}
+const scopeHelp=()=>t('「已記錄」才會列入任務與模型統計。「回合參考」是同一個已綁定來源回合的用量，可能包含任務開始前或其他工作。「未歸入此操作」是兩者差額，不代表漏算的任務用量，也不會自動補進總計。\n\n參考值逐筆列出，不相加。收集中代表回合尚未結束；來源不完整時保留未知。活動時間另依實際記錄區間計算，不用 Tokens 或任務狀態推算。','Only recorded usage enters task and model totals. The source-turn reference may include preparation or other work. Outside this operation is the difference, not automatically missing task usage. References are never added together or into totals.\n\nCollecting means the turn is still open; incomplete sources remain unknown. Activity time uses explicit intervals, never token counts or task residence.');
+function usageScopeTable(rows,id){
+ const native=rows.filter(r=>r.usage_source==='native-host-report');
+ const wrap=table([t('執行','Execution'),t('已記錄 Tokens','Recorded tokens'),t('回合參考','Source-turn reference'),t('未歸入此操作','Outside this operation'),t('參考狀態','Reference status')],native.map((op,i)=>{
+  const ref=op.usage_scope?.turn_reference,status=ref?.status??'unknown';
+  return [op.index?executionLabel(op):String(i+1),number(op.token_breakdown?.total),number(ref?.usage?.total_tokens),number(ref?.outside_operation_usage?.total_tokens),({complete:t('回合已結束','Turn ended'),pending:t('收集中','Collecting'),stopped:t('已停止收集','Collection stopped'),unavailable:t('來源不完整','Source incomplete'),'not-reported':t('執行工具未提供','Not provided by runtime'),unknown:t('未知','Unknown')})[status]??t('未知','Unknown')];
+ }));if(id)wrap.id=id;
+ if(!native.length)return empty(t('尚無可比對範圍的原生執行紀錄','No native execution records for scope comparison.'));return wrap;
+}
 function executionPanel(task){
  const m=task.execution??executionSummary(task),box=helpHeading(panel(t('工具執行時間','Tool execution time')),t('這裡顯示執行工具為這件任務回報的工作時間，以及模型輸入、輸出使用的 Tokens。Tokens 是模型處理文字等內容的計量單位，不是費用。\n\n時間以每次執行的開始與結束紀錄計算，多個 Agent 同時工作只計一次；未執行的等待時間不會從任務建立日期一路累加。\n\n「未回報」不代表 0；「部分」僅含已綁定的紀錄，未完成或缺少的紀錄不補成 0。未綁定回合、其他 Agent 與審查工作不會自動補入。','This section shows tool execution time reported for this task and model input/output tokens. Tokens measure processed content; they are not a price.\n\nTime comes from reported operation start/end intervals; overlapping agents count once. Waiting does not accumulate from the date the task was created.\n\nUnreported does not mean zero. Partial covers recorded bindings only; unfinished or missing records are not filled with zero. Unbound turns, other agents and review activity are not automatically included.'));
  const measured=aggregateRows(operationRows([task]),'task_id')[0];
@@ -198,6 +207,7 @@ function executionPanel(task){
  if(!m.recorded_operations)box.append(node('p',t('這件任務尚無執行用量紀錄','This task has no execution measurements.'),'chart-note'));
  const hostRuns=(task.runs??[]).filter(run=>run.measurement_source==='native-host-report');
  if(m.recorded_operations)box.append(disclosure('task-coverage',t('紀錄涵蓋範圍','Record coverage'),node('p',m.measured_intervals+' / '+m.recorded_operations+t(' 筆已綁定操作有完整時間區間；此比例不代表整件任務的完成度或總工時。',' bound operations have complete time intervals. This ratio does not measure task completion or total effort.'),'chart-note'),hostRuns.length?node('p',t('原生工具僅回報明確綁定的回合或操作。Tokens 可先回報；若未提供扣除等待的執行區間，工具執行時間仍顯示未回報。','Native reports cover explicitly bound turns or operations. Tokens may arrive before timing; tool execution time remains unreported without wait-excluded intervals.'),'chart-note'):null));
+ if(hostRuns.length){const rows=executionBreakdown(task).rows;box.append(disclosure('task-usage-scope',t('用量範圍','Usage scope'),usageScopeTable(rows.slice(0,8),'task-usage-scope-table'),help(t('如何看用量範圍','Reading usage scope'),scopeHelp()),rows.length>8?node('p',t('顯示前 8 筆，其餘請到模型與執行查看。','First 8 records; see Model & runtime for the rest.'),'chart-note'):null));}
  return box;
 }
 
@@ -259,6 +269,7 @@ function modelDetail(task){
  const reasons={'host-owned':t('沿用主工具的選擇','Selected by the host'),'explicit':t('任務明確指定','Explicit task selection'),'default':t('專案預設','Project default'),'classifier-advisory':t('本機分類器依專案政策選擇','Local classifier with project policy'),'conservative-uncertain-classifier':t('分類不確定，使用保守選項','Conservative model for uncertain classification'),'conservative-high-risk':t('風險較高，使用保守選項','Conservative model for higher risk')};
  p.append(disclosure('execution-'+encodeURIComponent(op.key),t('選模與執行識別','Selection and execution identity'),field(t('選擇原因','Selection reason'),reasons[op.selection_reason]??op.selection_reason),field(t('執行 ID','Execution ID'),op.execution_id??op.operation_id)));
  if(op.usage_source==='native-host-report'){
+   p.append(usageScopeTable([op]),field(t('記錄起點','Recording starts'),date(op.usage_scope?.started_at)),help(t('如何看用量範圍','Reading usage scope'),scopeHelp()));
    p.append(field(t('紀錄來源','Measurement source'),t('已綁定的原生工具回報','Bound native tool report'),t('這份資料由執行工具的紀錄取出，未另行呼叫模型。僅涵蓋綁定範圍，不代表整件任務或所有 Agent 的總用量。','Collected from existing execution-tool records without a model call. It covers the binding only, not every operation or agent in the task.')));
  }box.append(p);}
  return box;
@@ -499,11 +510,13 @@ function usage(){
  const filterDisclosure=disclosure('usage-filters',t('篩選','Filters'),filters),filterSummary=node('span',activeFilters.length?activeFilters.map(select=>select.selectedOptions[0].textContent).join(' · '):t('全部資料','All data'),'filter-summary');
  filterSummary.title=filterSummary.textContent;filterDisclosure.querySelector('summary').append(filterSummary);box.append(filterDisclosure,heading);
  const rows=data.operations.items,groups=data.groups,taskGroups=data.tasks,totals=data.totals;
+ box.append(node('p',t('統計範圍：已記錄的操作','Scope: recorded operations'),'chart-note'));
  const activeCoverage=totals?.metric_coverage?.active_ms;
  const metrics=node('div',undefined,'summary-metrics');for(const [label,value,note] of [[t('已記錄的執行','Recorded operations'),data.operation_count,t('依目前篩選','Current filters')],[t('工具執行時間加總','Sum of tool execution time'),duration(totals?.ms)+(totals&&!totals.time_complete?' *':''),(activeCoverage?activeCoverage.known+' / '+activeCoverage.total+' · ':'')+t('並行執行可能重疊','Parallel calls may overlap')],['Tokens',number(totals?.tokens)+(totals&&!totals.tokens_complete?' *':''),t('已知輸入／輸出小計','Known input / output subtotal')]])metrics.append(append(node('div',undefined,'metric'),node('small',label),node('strong',value),node('small',note)));
  box.append(metrics,helpHeading(panel(t('Tokens 分類','Token breakdown'),splitTable(totals,'usage-token-breakdown'),turnField(totals)),splitHelp()+'\n\n'+turnHelp()));
  if(totals&&(!totals.time_complete||!totals.tokens_complete))box.append(node('p',t('* 部分紀錄','* Partial records'),'chart-note'));
  const coverage=disclosure('usage-coverage',t('紀錄涵蓋範圍','Record coverage'),node('p',t('僅統計已綁定的操作，不涵蓋所有 AI 或審查工作。未回報不視為零。未記錄用量的任務：','Only bound operations are counted, not all AI or review activity. Unreported is not zero. Tasks without usage: ')+(data.coverage.total_tasks-data.coverage.tasks_with_operations),'chart-note'),node('p',data.coverage.measured_time+' / '+data.operation_count+t(' 筆已綁定操作有完整時間；',' bound operations have complete time; ')+data.coverage.measured_tokens+' / '+data.operation_count+t(' 筆有完整 Tokens。比例表示紀錄完整度，0 不代表實測用量為 0。',' have complete tokens. These ratios describe record completeness; zero does not mean measured zero usage.'),'chart-note'));box.append(coverage);
+ box.append(disclosure('usage-scope',t('用量範圍','Usage scope'),usageScopeTable(rows,'usage-scope-table'),node('small',t('依目前篩選與執行紀錄分頁顯示','Current filters and execution-record page')),help(t('如何看用量範圍','Reading usage scope'),scopeHelp())));
  if(!data.operation_count){box.append(empty(t('此範圍尚未回報執行用量','No execution measurements in this range.')));return box;}
  const comparison=helpHeading(panel(group==='model'?t('模型比較','Model comparison'):t('任務比較','Task comparison')),t('工具時間與 Tokens 各自加總已回報資料，涵蓋範圍可能不同；此圖不代表效率排名。','Tool time and tokens sum their own reported records; coverage may differ. This chart is not an efficiency ranking.'));
  const pair=node('div',undefined,'charts-pair');for(const [metric,title] of [['ms',t('工具執行時間','Tool execution time')],['tokens','Tokens']])pair.append(append(node('div'),node('h3',title,'chart-title'),chartWrap(width=>bars(groups,metric,title,width))));
