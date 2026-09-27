@@ -53,7 +53,7 @@ reasoning scale. Host capabilities and permitted data classes must match.
    implementation claim. A generated ID alone does not prove independence.
 
 The source-checkout [delivery helper](#compact-resumption-and-execution-receipts) provides `context`,
-`attach` and `finish` commands over these existing APIs. It fills immutable ticket
+`attach`, `finish`, `check` and `review` commands over these existing APIs. It fills immutable ticket
 identity fields when reporting, preserves explicit host measurements and returns
 a compact receipt with missing fields. It does not start or schedule an Agent.
 Use one operation per activity kind; a review or repair needs its own prepared
@@ -256,6 +256,78 @@ Complete reports before release, rework, cancellation or task close. Existing
 pre-bound reporting across handoff retains its validated authority; a convenience
 helper does not create a new implementation claim or authorize a new binding.
 Independent review and local acceptance remain separate lifecycle commands.
+
+### Check expected operations before handoff and closeout
+
+Keep an explicit, task-local list of expected operations. Include the coordinator
+and each implementation, repair, review or verification operation that actually
+takes place. Declare an unbound operation with `binding:null`; do not omit it to
+make coverage look complete. A host binding supports the coordinator without
+changing the main conversation's model. Dispatch bindings use the prepared UUID.
+
+```json
+{
+  "task_id":"WK-example",
+  "expected":[
+    {"label":"coordinator","activity_kind":"planning","binding":{"kind":"host","id":"coordinator-binding"}},
+    {"label":"implementation","activity_kind":"implementation","binding":{"kind":"dispatch","id":"<prepared UUID>"}},
+    {"label":"repair","activity_kind":"repair","binding":null}
+  ]
+}
+```
+
+```sh
+node /path/to/workkeel/scripts/workkeel-delivery.mjs check /absolute/project /private/expected.json
+```
+
+Before handoff, check `bindings_ready`, especially for the reviewer: new bindings
+require the active build claim. After executions finish, run their reports and
+check `declared_reports_complete` before local acceptance. Each row distinguishes
+missing binding, unavailable record, incomplete report and reported operation.
+Completion here requires an observed source, a completed operation, active time,
+input tokens and output tokens. Other token counters and model fields stay visible
+as missing when unavailable; measured zero is valid. This is a reporting check,
+not a replacement for task authority or a mandatory acceptance gate.
+
+`task_coverage_complete` always remains false. The list is caller-declared and
+cannot prove that no work was omitted. `unlisted_binding_count` exposes additional
+recorded operations in this task, while corrupt project inventory stays explicit.
+No unrelated conversation is searched and no source is collected by this check.
+Missing history stays unknown. Add a repair operation when repair begins; do not
+invent one with zero time just because no repair was recorded.
+
+### Review and record in one actual reviewer turn
+
+Prepare the exact candidate, verification evidence and a bounded review packet
+before starting the distinct reviewer. Prepare its ticket and bind the actual
+turn while the build claim is active, then hand off that candidate. Pass the
+reviewer the task ID, execution ID, candidate and evidence paths. The reviewer
+can obtain the packet after handoff:
+
+```json
+{
+  "task_id":"WK-example",
+  "execution_id":"<pre-bound review UUID>",
+  "reviewer":{"agent_id":"reviewer","principal_id":"owner"}
+}
+```
+
+```sh
+node /path/to/workkeel/scripts/workkeel-delivery.mjs review /absolute/project /private/review-packet.json
+```
+
+The packet contains changed paths, acceptance criteria, evidence references and
+a request template with the exact delivered revision and current task version.
+Judgment, summary, evidence and operation ID are deliberately unset: the actual
+reviewer supplies them after inspecting the candidate. It then records `task
+review` in that same turn. Do not spawn another turn solely to copy a verdict.
+A failure is recorded as a failure and follows the ordinary rework path.
+
+The packet requires the current delivery's pre-bound review ticket and a
+registered reviewer satisfying separation. It grants no authority and does not
+verify product changes; the native review command still checks drift, evidence,
+dependencies, current approval and identity. Finish that review's usage report
+before the authorized coordinator records local acceptance.
 
 For future real product work, record the same fields and review/repair outcomes.
 Do not invent an unrelated product task or model benchmark to fill the dashboard.

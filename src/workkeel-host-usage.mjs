@@ -170,7 +170,8 @@ function measurement(b) {
   const usage=Object.fromEntries(['input_tokens','output_tokens','cost_usd'].map(k=>[k,{total:null,known_subtotal:op.usage[k]??null,
     observed_operations:op.usage[k]!==null?1:0,complete_operations:final&&op.usage[k]!==null?1:0,total_operations:observed?1:0,complete:false}]));
   return {schema_version:'workkeel.host-measurements/v1',authority:'observation-only',mutation_status:'no-write',
-    measurement_source:'native-host-report',run_id:b.binding_id,task_id:b.task_id,runner_state:b.status==='active'?'running':b.status,created_at:b.created_at,
+    measurement_source:'native-host-report',run_id:b.binding_id,task_id:b.task_id,dispatch_execution_id:b.dispatch?.execution_id??null,
+    runner_state:b.status==='active'?'running':b.status,created_at:b.created_at,
     last_observed_at:b.observed_at??null,collection_closed:Boolean(b.collection_closed),collection_status:b.collection_closed?'stopped':b.status==='active'?'running':b.status==='completed'?'completed':b.status==='error'?'error':'stopped',
     capture_start:b.capture_turn_from_start?b.claim_at:b.created_at,capture_label:b.capture_turn_from_start?'Explicit bound turn, samples before claim excluded':'After explicit attachment baseline',
     read_at:now(),coverage_complete:false,coverage:b.capture_turn_from_start?'bound-turn-after-claim-only':'bound-host-interval-only',
