@@ -152,6 +152,29 @@ execution host still starts Agents and supplies its own measurements.
 
 ### Delivery evidence preflight and report
 
+Before handing off, recording review, or closing, inspect the exact pending
+operation's candidate files. Save an input containing `task_id`, `action`
+(`handoff`, `review`, or `close`) and `request` (the complete pending native
+operation request, including the exact candidate and evidence paths):
+
+```sh
+node /path/to/workkeel/scripts/workkeel-delivery-preflight.mjs candidate /absolute/project /private/candidate-request.json
+```
+
+This read-only command shares file classification with the lifecycle writer.
+`candidate_files_passed` describes files only, not permission, verification or
+review. It identifies out-of-scope committed changes, product drift, unlisted
+reports and changes to already tracked candidate artifacts. Output is bounded;
+`truncated` and counts identify omitted rows. The actual operation still rechecks
+the current claim, authority, version, dependencies, evidence and separation.
+
+Prepare analysis programs and delivery documents before the verified candidate.
+Later local analysis programs belong in ignored output; their report files may
+be named explicitly as new administrative evidence. Do not rename code as a report
+to bypass the product gate. A new snapshot needs its own evidence path; listing an
+old tracked report never permits changing its bytes. Preserve existing pinned
+reports and save late measurements under new names.
+
 The optional source-checkout command reads existing task-bound receipts and an
 explicit list of evidence files. It does not collect sessions, call models or
 perform lifecycle transitions. Use it to prepare delivery documents before the

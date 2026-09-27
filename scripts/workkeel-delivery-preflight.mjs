@@ -7,6 +7,7 @@ import {promisify} from 'node:util';
 import {createHash} from 'node:crypto';
 import {exactKeys} from '../src/workkeel-execution-policy.mjs';
 import {readDeliveryContext,checkDeliveryReports} from './workkeel-delivery.mjs';
+import {inspectTaskCandidate} from '../src/workkeel-tasks.mjs';
 import {documentationLanguageIssue} from './documentation-policy.mjs';
 
 const LIMIT=1024*1024;
@@ -141,11 +142,18 @@ export function renderDeliveryReport(result) {
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href)try {
   const [command,target,input,...extra]=process.argv.slice(2);
-  if(extra.length||!target||!input||!['check','report'].includes(command))throw Error('invalid command');
+  if(extra.length||!target||!input||!['check','report','candidate'].includes(command))throw Error('invalid command');
   const request=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(await boundedFile(input,64*1024)));
-  const result=await readDeliveryPreflight(target,request);
-  process.stdout.write(command==='report'?renderDeliveryReport(result):JSON.stringify(result,null,2)+'\n');
-  if(!result.evidence_preflight_passed)process.exitCode=1;
+  if(command==='candidate') {
+    exactKeys(request,['task_id','action','request']);
+    const result=await inspectTaskCandidate(target,request.task_id,{action:request.action,request:request.request});
+    process.stdout.write(JSON.stringify(result,null,2)+'\n');
+    if(!result.candidate_files_passed)process.exitCode=1;
+  } else {
+    const result=await readDeliveryPreflight(target,request);
+    process.stdout.write(command==='report'?renderDeliveryReport(result):JSON.stringify(result,null,2)+'\n');
+    if(!result.evidence_preflight_passed)process.exitCode=1;
+  }
 } catch {
   process.stdout.write(JSON.stringify({error:'delivery-preflight-request-failed',authority:'observation-only',mutation_status:'no-write',full_verification:'not-run',actual_review:'not-performed'})+'\n');
   process.exitCode=1;

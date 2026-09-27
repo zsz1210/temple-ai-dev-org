@@ -6,7 +6,7 @@ import os from 'node:os';
 import {execFileSync,spawnSync} from 'node:child_process';
 import {initializeTaskProject} from '../src/workkeel-project.mjs';
 import {previewTaskIntake,applyTaskIntake} from '../src/workkeel-intake.mjs';
-import {readNativeTask,mutateNativeTask} from '../src/workkeel-tasks.mjs';
+import {readNativeTask,mutateNativeTask,inspectTaskCandidate} from '../src/workkeel-tasks.mjs';
 import {bindHostUsage,reportHostUsage} from '../src/workkeel-host-usage.mjs';
 import {readDeliveryPreflight,renderDeliveryReport} from '../scripts/workkeel-delivery-preflight.mjs';
 import {documentationLanguageIssue} from '../scripts/documentation-policy.mjs';
@@ -37,6 +37,65 @@ async function fixture(t) {
   }
   return {root,git,request,report};
 }
+
+async function candidateRequest(f) {
+  const task=await readNativeTask(f.root,'WK-preflight');
+  return {operation_id:'handoff-files',expected_version:task.version,actor:task.contract.actor,
+    claim_id:task.claim.id,revision:f.git('rev-parse','HEAD'),summary:'Fixture delivery',
+    evidence:['docs/evidence.md'],unresolved:[]};
+}
+
+test('candidate diagnostics identify a stray report before handoff and exact new evidence resolves it',async t=>{
+  const f=await fixture(t),request=await candidateRequest(f),ref='.ai-org/artifacts/WK-preflight/snapshot.json';
+  await fs.mkdir(path.dirname(f.root+'/'+ref),{recursive:true});await fs.writeFile(f.root+'/'+ref,'{"observed":true}');
+  const before=await fs.readFile(f.root+'/.ai-org/work-items/WK-preflight.json','utf8');
+  const blocked=await inspectTaskCandidate(f.root,'WK-preflight',{action:'handoff',request});
+  assert.equal(blocked.candidate_files_passed,false);
+  assert.deepEqual(blocked.issues.map(x=>[x.path,x.code]),[[ref,'unlisted-report']]);
+  await assert.rejects(mutateNativeTask(f.root,'WK-preflight','handoff',request),/including untracked files.*snapshot/);
+  assert.equal(await fs.readFile(f.root+'/.ai-org/work-items/WK-preflight.json','utf8'),before);
+  const exact={...request,evidence:[...request.evidence,ref]};
+  const ready=await inspectTaskCandidate(f.root,'WK-preflight',{action:'handoff',request:exact});
+  assert.equal(ready.candidate_files_passed,true);assert.equal(ready.lifecycle_validation,'not-performed');
+  assert.equal(ready.execution_authorized,false);assert.ok(ready.administrative_paths.includes(ref));
+  const result=await mutateNativeTask(f.root,'WK-preflight','handoff',exact);assert.equal(result.state,'test');
+});
+
+test('candidate diagnostics never exempt executable artifacts or modified tracked evidence',async t=>{
+  const f=await fixture(t),script='.ai-org/artifacts/WK-preflight/report.mjs',tracked='.ai-org/artifacts/WK-preflight/frozen.md';
+  await fs.mkdir(path.dirname(f.root+'/'+tracked),{recursive:true});await fs.writeFile(f.root+'/'+tracked,'Frozen report');
+  f.git('add',tracked);f.git('commit','-qm','Evidence candidate');
+  const request=await candidateRequest(f);request.evidence.push(tracked,script);
+  await fs.writeFile(f.root+'/'+tracked,'Changed report');await fs.writeFile(f.root+'/'+script,'throw Error("not metadata")');
+  const result=await inspectTaskCandidate(f.root,'WK-preflight',{action:'handoff',request});
+  assert.equal(result.candidate_files_passed,false);
+  assert.ok(result.issues.some(i=>i.path===tracked&&i.code==='tracked-artifact-changed'));
+  assert.ok(result.issues.some(i=>i.path===script&&i.code==='product-drift'));
+  await assert.rejects(mutateNativeTask(f.root,'WK-preflight','handoff',request),/tracked candidate artifact changed|including untracked/);
+});
+
+test('candidate diagnostics use exact paths, reject stale requests and do not mutate via the CLI',async t=>{
+  const f=await fixture(t),request=await candidateRequest(f),ref='src/odd\nname.txt';
+  await fs.writeFile(f.root+'/'+ref,'Uncommitted product');
+  const result=await inspectTaskCandidate(f.root,'WK-preflight',{action:'handoff',request});
+  assert.equal(result.issues[0].path,ref);assert.equal(result.issues[0].code,'product-drift');
+  const before=f.git('status','--porcelain=v1');
+  const tmp=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'candidate-input-')));t.after(()=>fs.rm(tmp,{recursive:true,force:true}));
+  await fs.writeFile(tmp+'/request.json',JSON.stringify({task_id:'WK-preflight',action:'handoff',request}));
+  const cli=spawnSync(process.execPath,['scripts/workkeel-delivery-preflight.mjs','candidate',f.root,tmp+'/request.json'],{encoding:'utf8'});
+  assert.equal(cli.status,1);assert.equal(JSON.parse(cli.stdout).issues[0].path,ref);assert.equal(f.git('status','--porcelain=v1'),before);
+  await assert.rejects(inspectTaskCandidate(f.root,'WK-preflight',{action:'handoff',request:{...request,expected_version:1}}),/Stale/);
+  await assert.rejects(inspectTaskCandidate(f.root,'WK-preflight',{action:'handoff',request:{...request,revision:'HEAD'}}),/immutable/);
+  await assert.rejects(inspectTaskCandidate(f.root,'WK-preflight',{action:'close',request:{operation_id:'close',expected_version:2,actor:request.actor,revision:request.revision,evidence:request.evidence}}),/delivered/);
+});
+
+test('out of scope committed changes fail diagnostics and the actual handoff',async t=>{
+  const f=await fixture(t);await fs.writeFile(f.root+'/outside.txt','Outside approved write roots');
+  f.git('add','outside.txt');f.git('commit','-qm','Outside fixture');const request=await candidateRequest(f);
+  const result=await inspectTaskCandidate(f.root,'WK-preflight',{action:'handoff',request});
+  assert.ok(result.issues.some(i=>i.path==='outside.txt'&&i.code==='outside-write-scope'));
+  await assert.rejects(mutateNativeTask(f.root,'WK-preflight','handoff',request),/outside approved write roots.*outside.txt/);
+});
 
 test('zero, unknown and partial measurements remain distinct; preflight does not execute gates or write',async t=>{
   const f=await fixture(t);

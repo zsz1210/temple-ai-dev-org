@@ -29,8 +29,11 @@ friction, not evidence of a product defect or causal token savings.
 
 One task, two disjoint implementation scopes: delegated host/capture code and its
 tests; coordinator candidate diagnostics, documentation and integration. Independent
-review follows both scopes. Bind reviewer directly with explicit review activity
+review follows both scopes. Bind the reviewer's actual dispatch with review activity
 before handoff; do not invent completed planning nodes solely to satisfy a graph.
+The coordinator retains the user-selected model and a host-owned binding. The
+dispatch graph tracks delegated dependencies; also check coordinator completion
+before launching review. A prepared but unused coordinator ticket is not execution.
 
 ## Verification
 

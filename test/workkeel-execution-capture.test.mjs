@@ -9,7 +9,8 @@ import {previewTaskIntake,applyTaskIntake} from '../src/workkeel-intake.mjs';
 import {readNativeTask,mutateNativeTask} from '../src/workkeel-tasks.mjs';
 import {executionDigest} from '../src/workkeel-execution-policy.mjs';
 import {prepareDispatchTicket} from '../src/workkeel-dispatch.mjs';
-import {resolveCaptureSource,beginCapture,pauseCapture,resumeCapture,finishCapture} from '../scripts/workkeel-execution-capture.mjs';
+import {resolveCaptureSource,checkCaptureReadiness,beginCapture,pauseCapture,resumeCapture,finishCapture} from '../scripts/workkeel-execution-capture.mjs';
+const observation={authority:'observation-only',mutation_status:'no-write',execution_authorized:false};
 
 async function fixture(t){
   const root=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'capture-')));t.after(()=>fs.rm(root,{recursive:true,force:true}));
@@ -33,7 +34,7 @@ async function fixture(t){
   await append(event('session_meta',{id:'thread',model_provider:'local',instructions:'PRIVATE'},-2000),event('event_msg',{type:'task_started',turn_id:'turn'},-1000),event('turn_context',{turn_id:'turn',model:'observed-model',effort:'high',secret:'PRIVATE'}));
   await fs.appendFile(root+'/.git/info/exclude','\n/source.jsonl\n');
   const codex={...begin,source:{kind:'codex-rollout',path:sourceFile,thread_id:'thread',turn_id:'turn'}};
-  return {root,actor,task,git,now,at,begin,report,sourceFile,append,event,codex,policy};
+  return {root,actor,task,brief,git,now,at,begin,report,sourceFile,append,event,codex,policy};
 }
 
 test('pause/resume excludes waiting and frozen finish is idempotent, preserving zero versus unknown',async t=>{
@@ -132,6 +133,90 @@ test('dispatch uses pinned identity and preserves requested versus observed mode
   await beginCapture(f.root,{...f.begin,binding:{kind:'dispatch',execution_id:ticket.execution_id}},f.now(100));
   const out=await finishCapture(f.root,{capture_id:'capture',report:{...f.report,model:'observed-model'}},f.now(200));
   assert.equal(out.measurement.dispatch_execution_id,ticket.execution_id);assert.equal(out.measurement.operations[0].requested_model,'requested-model');assert.equal(out.measurement.operations[0].runtime_model,'observed-model');
+});
+
+test('capture dependency preflight leaves no prepared ledger and retries after actual completion',async t=>{
+  const f=await fixture(t);
+  const ticket=async(id,depends_on,write_paths)=>prepareDispatchTicket(f.root,{task_id:f.task.id,actor:f.actor,claim_id:f.task.claim.id,contract_sha256:f.task.contract_sha256,policy_ref:'docs/dispatch.json',operation_id:id,node:{id,activity_kind:'implementation',depends_on,read_paths:[],write_paths},capabilities:{host:'fixture',models:[{provider:'local',model:'requested-model',reasoning:['medium']}]}});
+  const first=await ticket('first',[],['src/first']),second=await ticket('second',['first'],['src/second']);
+  const request=(name,ticket)=>({...f.begin,capture_id:name,binding:{kind:'dispatch',execution_id:ticket.execution_id},source:{kind:'host-report',thread_id:name,turn_id:name}});
+  const pending=request('second',second);
+  const before=(await fs.readdir(f.root+'/.ai-org',{recursive:true})).sort();
+  assert.deepEqual(await checkCaptureReadiness(f.root,pending),{...observation,ready:false,code:'host-dispatch-dependency',dependency_id:'first'});
+  assert.deepEqual((await fs.readdir(f.root+'/.ai-org',{recursive:true})).sort(),before);
+  await assert.rejects(beginCapture(f.root,pending,f.now(10)),/host-dispatch-dependency/);
+  await assert.rejects(fs.stat(f.root+'/.ai-org/execution-capture/second.json'),{code:'ENOENT'});
+  await beginCapture(f.root,request('first',first),f.now(20));
+  assert.equal((await checkCaptureReadiness(f.root,pending)).code,'host-dispatch-dependency');
+  await finishCapture(f.root,{capture_id:'first',report:f.report},f.now(30));
+  assert.deepEqual(await checkCaptureReadiness(f.root,pending),{...observation,ready:true,code:'host-binding-ready'});
+  assert.equal((await beginCapture(f.root,pending,f.now(40))).state,'active');
+});
+
+test('capture occupied thread rejection is retryable, but exact turn remains bound',async t=>{
+  const f=await fixture(t);await beginCapture(f.root,f.begin,f.now(10));
+  const next={...f.begin,capture_id:'next',binding:{...f.begin.binding,binding_id:'next'},source:{...f.begin.source,turn_id:'next'}};
+  assert.deepEqual(await checkCaptureReadiness(f.root,next),{...observation,ready:false,code:'host-thread-already-bound',binding_id:'binding'});
+  await assert.rejects(beginCapture(f.root,next,f.now(20)),/host-thread-already-bound/);
+  await assert.rejects(fs.stat(f.root+'/.ai-org/execution-capture/next.json'),{code:'ENOENT'});
+  await finishCapture(f.root,{capture_id:'capture',report:f.report},f.now(30));
+  assert.equal((await checkCaptureReadiness(f.root,{...next,source:f.begin.source})).code,'host-turn-already-bound');
+  assert.equal((await beginCapture(f.root,next,f.now(40))).state,'active');
+});
+
+test('capture preflight preserves dispatch scope and parallelism admission',async t=>{
+  const f=await fixture(t);
+  const prepare=async(name,scope)=>{
+    const ticket=await prepareDispatchTicket(f.root,{task_id:f.task.id,actor:f.actor,claim_id:f.task.claim.id,contract_sha256:f.task.contract_sha256,policy_ref:'docs/dispatch.json',operation_id:name,node:{id:name,activity_kind:'implementation',depends_on:[],read_paths:[],write_paths:[scope]},capabilities:{host:'fixture',models:[{provider:'local',model:'requested-model',reasoning:['medium']}]}});
+    return {...f.begin,capture_id:name,binding:{kind:'dispatch',execution_id:ticket.execution_id},source:{kind:'host-report',thread_id:name,turn_id:name}};
+  };
+  const a=await prepare('a','src/a'),overlap=await prepare('overlap','src/a/file'),b=await prepare('b','src/b'),c=await prepare('c','src/c');
+  await beginCapture(f.root,a,f.now(10));
+  assert.deepEqual(await checkCaptureReadiness(f.root,overlap),{...observation,ready:false,code:'host-dispatch-scope-conflict',binding_id:a.binding.execution_id});
+  await assert.rejects(beginCapture(f.root,overlap,f.now(20)),/host-dispatch-scope-conflict/);
+  await assert.rejects(fs.stat(f.root+'/.ai-org/execution-capture/overlap.json'),{code:'ENOENT'});
+  await beginCapture(f.root,b,f.now(30));
+  assert.deepEqual(await checkCaptureReadiness(f.root,c),{...observation,ready:false,code:'host-dispatch-parallelism'});
+  await assert.rejects(beginCapture(f.root,c,f.now(40)),/host-dispatch-parallelism/);
+  await assert.rejects(fs.stat(f.root+'/.ai-org/execution-capture/c.json'),{code:'ENOENT'});
+  await finishCapture(f.root,{capture_id:'a',report:f.report},f.now(50));
+  assert.equal((await beginCapture(f.root,c,f.now(60))).state,'active');
+});
+
+test('orphan active dispatch remains blocked with a bounded binding identity',async t=>{
+  const f=await fixture(t),brief={...f.brief,id:'WK-orphan',environment:{...f.brief.environment,write_paths:['docs/old']}};
+  const preview=await previewTaskIntake(f.root,brief);await applyTaskIntake(f.root,brief,preview.fingerprint);
+  await mutateNativeTask(f.root,brief.id,'claim',{operation_id:'orphan-claim',expected_version:1,actor:f.actor,base_revision:f.git('rev-parse','HEAD')});
+  const orphan=await readNativeTask(f.root,brief.id);
+  const prepare=(task,name,scope)=>prepareDispatchTicket(f.root,{task_id:task.id,actor:f.actor,claim_id:task.claim.id,contract_sha256:task.contract_sha256,policy_ref:'docs/dispatch.json',operation_id:name,node:{id:name,activity_kind:'implementation',depends_on:[],read_paths:[],write_paths:[scope]},capabilities:{host:'fixture',models:[{provider:'local',model:'requested-model',reasoning:['medium']}]}});
+  const old=await prepare(orphan,'old','docs/old'),fresh=await prepare(f.task,'fresh','src/fresh');
+  await beginCapture(f.root,{...f.begin,capture_id:'old',binding:{kind:'dispatch',execution_id:old.execution_id}});
+  await fs.unlink(f.root+'/.ai-org/work-items/WK-orphan.json');
+  const request={...f.begin,capture_id:'fresh',binding:{kind:'dispatch',execution_id:fresh.execution_id},source:{kind:'host-report',thread_id:'fresh',turn_id:'fresh'}};
+  const before=(await fs.readdir(f.root+'/.ai-org',{recursive:true})).sort();
+  const expected={...observation,ready:false,code:'host-dispatch-unavailable',binding_id:old.execution_id};
+  assert.deepEqual(await checkCaptureReadiness(f.root,request),expected);
+  assert.deepEqual((await fs.readdir(f.root+'/.ai-org',{recursive:true})).sort(),before);
+  const input=f.root+'/request.json';await fs.writeFile(input,JSON.stringify(request));
+  const output=execFileSync(process.execPath,[path.resolve('scripts/workkeel-execution-capture.mjs'),'check',f.root,input],{encoding:'utf8'});
+  assert.deepEqual(JSON.parse(output),expected);assert.equal(output.includes(f.root),false);assert.equal(output.includes('WK-orphan'),false);
+  await assert.rejects(beginCapture(f.root,request),/host-dispatch-unavailable/);
+  await assert.rejects(fs.stat(f.root+'/.ai-org/execution-capture/fresh.json'),{code:'ENOENT'});
+});
+
+test('readiness is not a reservation and prepared recovery remains explicit',async t=>{
+  const f=await fixture(t);
+  assert.equal((await checkCaptureReadiness(f.root,f.begin)).ready,true);
+  const competitor={...f.begin,capture_id:'competitor',binding:{...f.begin.binding,binding_id:'competitor'}};
+  await beginCapture(f.root,competitor,f.now(10));
+  await assert.rejects(beginCapture(f.root,f.begin,f.now(20)),/host-thread-already-bound/);
+  await assert.rejects(fs.stat(f.root+'/.ai-org/execution-capture/capture.json'),{code:'ENOENT'});
+  const file=f.root+'/.ai-org/execution-capture/competitor.json',envelope=JSON.parse(await fs.readFile(file,'utf8'));
+  Object.assign(envelope.value,{state:'prepared',active_since:null});envelope.sha256=executionDigest(envelope.value);await fs.writeFile(file,JSON.stringify(envelope));
+  const before=await fs.readFile(file,'utf8');
+  assert.deepEqual(await checkCaptureReadiness(f.root,competitor),{...observation,ready:false,code:'capture-prepared-recovery-required'});
+  await assert.rejects(beginCapture(f.root,competitor),/explicit recovery required/);
+  assert.equal(await fs.readFile(file,'utf8'),before);
 });
 
 test('handoff permits stopping/finishing existing capture, but cannot resume or start',async t=>{

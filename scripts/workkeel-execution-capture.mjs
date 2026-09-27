@@ -9,11 +9,12 @@ import {durableAtomicCreate,durableAtomicWrite,formatJson} from '../src/files.mj
 import {exactKeys,executionDigest} from '../src/workkeel-execution-policy.mjs';
 import {assertTaskExecutionContext} from '../src/workkeel-tasks.mjs';
 import {readDispatchTicket,bindDispatchTicket} from '../src/workkeel-dispatch.mjs';
-import {bindHostUsage,collectHostUsage,reportHostActivity,reportHostUsage,readHostMeasurements} from '../src/workkeel-host-usage.mjs';
+import {bindHostUsage,checkHostBindingReadiness,collectHostUsage,reportHostActivity,reportHostUsage,readHostMeasurements} from '../src/workkeel-host-usage.mjs';
 
 const ROOT='.ai-org/execution-capture',SCHEMA='workkeel.execution-capture/v1';
 const ID=/^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$/;
 const SCAN=32*1024*1024,LINE=64*1024,RECORD=256*1024;
+const READINESS_OBSERVATION={authority:'observation-only',mutation_status:'no-write',execution_authorized:false};
 const fail=code=>{throw new Error(`Capture: ${code}`);};
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 function id(value){if(typeof value!=='string'||!ID.test(value))fail('invalid identity');}
@@ -122,10 +123,40 @@ async function identity(target,binding){
   exactKeys(binding,['kind','binding_id','task_id','actor','claim_id','contract_sha256']);if(binding.kind!=='host')fail('binding kind');
   return Object.fromEntries(Object.entries(binding).filter(([k])=>k!=='kind'));
 }
+function captureRequest(request){
+  exactKeys(request,['capture_id','binding','source'],['source_fingerprint','capture_turn_from_start','approval_ref','sample_kind','activity_kind']);id(request.capture_id);
+}
+async function captureIdentity(target,request){
+  const i=await identity(target,request.binding);if(request.activity_kind!==undefined&&i.activity_kind&&i.activity_kind!==request.activity_kind)fail('activity conflict');
+  i.activity_kind??=request.activity_kind??null;
+  if(!['planning','implementation','review','repair','verification'].includes(i.activity_kind))fail('activity kind required');
+  return i;
+}
+function hostRequest(request,i,source=request.source){
+  const {activity_kind,...bindingIdentity}=i;
+  return {...bindingIdentity,source,...(request.binding.kind==='dispatch'?{dispatch_id:i.binding_id}:{}),
+    ...Object.fromEntries(['capture_turn_from_start','approval_ref','sample_kind'].filter(k=>request[k]!==undefined).map(k=>[k,request[k]]))};
+}
+
+/** Predictable binding admission only. Ready is an observation, never a reservation. */
+export async function checkCaptureReadiness(targetInput,request){
+  try{
+    captureRequest(request);const target=await fs.realpath(targetInput);
+    if(await existsEntry(target,ROOT)){
+      await directory(target);
+      if(await existsEntry(target,`${ROOT}/${request.capture_id}.json`)){
+        const v=await load(target,request.capture_id);
+        return {...READINESS_OBSERVATION,ready:false,code:v.state==='prepared'?'capture-prepared-recovery-required':'capture-already-exists'};
+      }
+    }
+    const i=await captureIdentity(target,request);
+    return await checkHostBindingReadiness(target,hostRequest(request,i));
+  }catch{return {...READINESS_OBSERVATION,ready:false,code:'capture-readiness-unavailable'};}
+}
 
 /** Bind before starting the explicit clock. Prepared retries fail closed after interruptions. */
 export async function beginCapture(targetInput,request,options={}){
-  exactKeys(request,['capture_id','binding','source'],['source_fingerprint','capture_turn_from_start','approval_ref','sample_kind','activity_kind']);id(request.capture_id);
+  captureRequest(request);
   const target=await fs.realpath(targetInput);
   return withProjectMutationLock(target,async()=>{
     await directory(target,true);
@@ -133,9 +164,7 @@ export async function beginCapture(targetInput,request,options={}){
       const v=await load(target,request.capture_id);if(v.request_sha256!==executionDigest(request))fail('begin replay conflict');
       if(v.state==='prepared')fail('binding persistence interrupted; explicit recovery required');return result(v);
     }
-    const i=await identity(target,request.binding);if(request.activity_kind!==undefined&&i.activity_kind&&i.activity_kind!==request.activity_kind)fail('activity conflict');
-    i.activity_kind??=request.activity_kind??null;
-    if(!['planning','implementation','review','repair','verification'].includes(i.activity_kind))fail('activity kind required');
+    const i=await captureIdentity(target,request);
     const task=await assertTaskExecutionContext(target,i.task_id,i);
     let source=request.source,fingerprint=null;
     if(source.kind==='codex-rollout'){
@@ -146,6 +175,8 @@ export async function beginCapture(targetInput,request,options={}){
       if(request.source_fingerprint&&executionDigest(request.source_fingerprint)!==executionDigest(fingerprint))fail('stale source fingerprint');
     }else{exactKeys(source,['kind','thread_id','turn_id']);if(source.kind!=='host-report'||request.source_fingerprint!==undefined)fail('source kind');id(source.thread_id);id(source.turn_id);}
     const at=clock(options);if(at<Date.parse(task.history.at(-1).at))fail('clock before claim');
+    const readiness=await checkHostBindingReadiness(target,hostRequest(request,i,source));
+    if(!readiness.ready)throw Object.assign(new Error(readiness.code),readiness);
     const v={schema_version:SCHEMA,capture_id:request.capture_id,request_sha256:executionDigest(request),identity:i,source,fingerprint,
       state:'prepared',active_since:null,last_at:at,finished_at:null,intervals:[],operations:[],final_report:null};
     await save(target,v,true);
@@ -217,8 +248,8 @@ export async function finishCapture(targetInput,request,options={}){
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href)try{
   const [command,target,input,...extra]=process.argv.slice(2);
-  if(extra.length||!target||!input||!['source','begin','pause','resume','finish'].includes(command))fail('command');
+  if(extra.length||!target||!input||!['source','check','begin','pause','resume','finish'].includes(command))fail('command');
   const request=JSON.parse(await readBounded(input,64*1024));
-  const output=command==='source'?await resolveCaptureSource(request):await ({begin:beginCapture,pause:pauseCapture,resume:resumeCapture,finish:finishCapture}[command])(target,request);
+  const output=command==='source'?await resolveCaptureSource(request):await ({check:checkCaptureReadiness,begin:beginCapture,pause:pauseCapture,resume:resumeCapture,finish:finishCapture}[command])(target,request);
   process.stdout.write(JSON.stringify(output,null,2)+'\n');
 }catch{process.stderr.write('Capture request failed; inspect bounded request, exact source, ledger and current authority.\n');process.exitCode=1;}
