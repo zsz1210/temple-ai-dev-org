@@ -1,0 +1,15 @@
+{
+  "operation_id": "close-readiness-v1",
+  "expected_version": 4,
+  "actor": {"agent_id": "builder", "principal_id": "owner"},
+  "revision": "ccc02e9885588b745bab0599748d769fa0efbfa4",
+  "summary": "Accept the approved local operation-readiness changes after full exact-candidate verification, distinct Agent review and bounded comparison. Preserve partial measurements and failed-attempt evidence; no publication or deployment.",
+  "rollback": "Revert the product candidate through a new approved and independently reviewed change; retain immutable task and measurement evidence.",
+  "evidence": [
+    ".ai-org/artifacts/WK-operation-readiness/review.md",
+    ".ai-org/artifacts/WK-operation-readiness/review.json",
+    ".ai-org/artifacts/WK-operation-readiness/measurements.json",
+    ".ai-org/artifacts/WK-operation-readiness/closeout.md",
+    ".ai-org/artifacts/WK-operation-readiness/verification-closeout-fast.txt"
+  ]
+}

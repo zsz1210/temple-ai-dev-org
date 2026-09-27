@@ -1,0 +1,60 @@
+{
+  "schema_version": "workkeel.readiness-comparison/v1",
+  "sample_kind": "fixture",
+  "baseline_revision": "807141e51d51180a928fef8f63f241e50306a027",
+  "candidate_revision": "ccc02e9885588b745bab0599748d769fa0efbfa4",
+  "rows": [
+    {
+      "variant": "baseline",
+      "scenario": "occupied-thread",
+      "rejected": true,
+      "prepared_ledger_created": true,
+      "blocking_item_identified": false,
+      "elapsed_ms": 100.714
+    },
+    {
+      "variant": "baseline",
+      "scenario": "missing-dependency",
+      "rejected": true,
+      "prepared_ledger_created": true,
+      "blocking_item_identified": false,
+      "elapsed_ms": 82.59
+    },
+    {
+      "variant": "baseline",
+      "scenario": "unlisted-report",
+      "rejected": true,
+      "prepared_ledger_created": false,
+      "blocking_item_identified": false,
+      "elapsed_ms": 84.763
+    },
+    {
+      "variant": "candidate",
+      "scenario": "occupied-thread",
+      "rejected": true,
+      "prepared_ledger_created": false,
+      "blocking_item_identified": true,
+      "elapsed_ms": 48.468
+    },
+    {
+      "variant": "candidate",
+      "scenario": "missing-dependency",
+      "rejected": true,
+      "prepared_ledger_created": false,
+      "blocking_item_identified": true,
+      "elapsed_ms": 51.163
+    },
+    {
+      "variant": "candidate",
+      "scenario": "unlisted-report",
+      "rejected": true,
+      "prepared_ledger_created": false,
+      "blocking_item_identified": true,
+      "elapsed_ms": 180.114
+    }
+  ],
+  "limitations": [
+    "Six offline reproductions only; no model calls, end-to-end timing comparison or token savings claim",
+    "Elapsed values describe the rejected operation and may include different validation work"
+  ]
+}

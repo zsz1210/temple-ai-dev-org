@@ -1,0 +1,12 @@
+{
+  "candidate_revision": "ccc02e9885588b745bab0599748d769fa0efbfa4",
+  "command": [
+    "npm",
+    "run",
+    "verify"
+  ],
+  "exit_code": 1,
+  "elapsed_ms": 291588,
+  "started_at_epoch_ms": 1790500589714,
+  "completed_at_epoch_ms": 1790500881302
+}

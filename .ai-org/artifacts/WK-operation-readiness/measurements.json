@@ -1,0 +1,63 @@
+{
+  "schema_version": "workkeel.readiness-measurements/v1",
+  "sample_kind": "real-task",
+  "task_id": "WK-operation-readiness",
+  "candidate_revision": "ccc02e9885588b745bab0599748d769fa0efbfa4",
+  "authority": "attributed-observation-only",
+  "rows": [
+    {
+      "execution": "coordinator",
+      "collection_status": "pending",
+      "coverage_complete": false,
+      "coverage": "explicitly bound operation after attachment only",
+      "reported_active_ms": 1088504,
+      "model": "gpt-6-astra",
+      "reasoning": "xhigh",
+      "known_input_tokens": 10291445,
+      "known_cached_input_tokens": 10130688,
+      "known_output_tokens": 35645,
+      "known_total_tokens": 10327090,
+      "complete_task_tokens": null
+    },
+    {
+      "execution": "implementation",
+      "collection_status": "completed",
+      "coverage_complete": false,
+      "coverage": "explicitly bound operation after attachment only",
+      "reported_active_ms": 350487,
+      "model": "gpt-6-sol",
+      "reasoning": "medium",
+      "known_input_tokens": 1343611,
+      "known_cached_input_tokens": 1317760,
+      "known_output_tokens": 10983,
+      "known_total_tokens": 1354594,
+      "complete_task_tokens": null
+    },
+    {
+      "execution": "review",
+      "collection_status": "completed",
+      "coverage_complete": false,
+      "coverage": "explicitly bound operation after attachment only",
+      "reported_active_ms": 198963,
+      "model": "gpt-6-sol",
+      "reasoning": "medium",
+      "known_input_tokens": 3861876,
+      "known_cached_input_tokens": 3809152,
+      "known_output_tokens": 5537,
+      "known_total_tokens": 3867413,
+      "complete_task_tokens": null
+    }
+  ],
+  "verification_program_ms": [
+    299402,
+    291588,
+    301730
+  ],
+  "limitations": [
+    "Snapshots cover only explicitly attached portions and coordinator terminal collection is pending.",
+    "Cached input is part of input, not an additional quantity; tokens are host-reported, not provider authenticated.",
+    "Activity clocks are reporter-declared; pauses exclude known waits, not a measurement of model compute.",
+    "Program verification time is separate and may overlap agent activity. No whole-task time, token efficiency or cost claim.",
+    "Final acceptance, administrative checks and conversation tail occur after the frozen coordinator clock."
+  ]
+}

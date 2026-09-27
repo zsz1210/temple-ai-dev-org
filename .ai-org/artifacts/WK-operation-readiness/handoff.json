@@ -1,0 +1,23 @@
+{
+  "operation_id": "handoff-readiness-v1",
+  "expected_version": 2,
+  "actor": {"agent_id": "builder", "principal_id": "owner"},
+  "claim_id": "claim-a8002576-6b80-4279-972c-4a9f69241f89",
+  "revision": "ccc02e9885588b745bab0599748d769fa0efbfa4",
+  "summary": "Deliver read-only binding and candidate-file readiness with preserved admission guards. Full verification passes on the exact candidate; six offline reproductions preserve rejection and identify blockers. Native workkeel-work was applied; independent review and local acceptance follow separately.",
+  "evidence": [
+    ".ai-org/artifacts/WK-operation-readiness/design.md",
+    ".ai-org/artifacts/WK-operation-readiness/analysis.md",
+    ".ai-org/artifacts/WK-operation-readiness/comparison.json",
+    ".ai-org/artifacts/WK-operation-readiness/verification.md",
+    ".ai-org/artifacts/WK-operation-readiness/verification-initial.json",
+    ".ai-org/artifacts/WK-operation-readiness/verification-initial.txt",
+    ".ai-org/artifacts/WK-operation-readiness/verification-environment.json",
+    ".ai-org/artifacts/WK-operation-readiness/verification-environment.txt",
+    ".ai-org/artifacts/WK-operation-readiness/verification-final.json",
+    ".ai-org/artifacts/WK-operation-readiness/verification-final.txt",
+    ".ai-org/artifacts/WK-operation-readiness/verification-evidence-fast.txt",
+    ".ai-org/artifacts/WK-operation-readiness/review.md"
+  ],
+  "unresolved": []
+}
