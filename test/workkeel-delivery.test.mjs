@@ -166,10 +166,13 @@ test('expected report check distinguishes absent, prepared, bound, partial and m
   let result=await checkDeliveryReports(f.root,request);
   assert.equal(result.bindings_ready,false);assert.equal(result.declared_reports_complete,false);
   assert.equal(result.expected_operations[0].status,'missing-binding');
+  assert.equal(result.collection.status,'unavailable');assert.equal(result.collection.counts.missing,1);
   await f.host();const before=await f.binding();
   result=await checkDeliveryReports(f.root,request);
   assert.equal(result.bindings_ready,true);assert.equal(result.declared_reports_complete,false);
   assert.ok(result.expected_operations[0].issues.includes('operation-not-completed'));
+  assert.equal(result.collection.status,'pending');assert.equal(result.task_state,'build');assert.equal(result.task_locally_accepted,false);
+  assert.ok(result.collection.follow_up[0].actions.includes('collect-after-operation-ends'));
   assert.equal(await f.binding(),before);
   await finishDelivery(f.root,{execution_id:f.execution_id,report:{...f.report(),status:'partial'}});
   result=await checkDeliveryReports(f.root,request);
@@ -179,6 +182,8 @@ test('expected report check distinguishes absent, prepared, bound, partial and m
   await finishDelivery(f.root,{execution_id:f.execution_id,report:{...report,execution_duration_ms:0,execution_intervals:[{started_at:at,completed_at:at}]}});
   result=await checkDeliveryReports(f.root,request);
   assert.equal(result.declared_reports_complete,true);assert.equal(result.task_coverage_complete,false);
+  assert.equal(result.collection.status,'completed');assert.equal(result.collection.counts.completed,1);
+  assert.equal(result.expected_operations[0].receipt.cutoffs.usage_observed_after_activity,false);
   assert.equal(result.coverage,'declared-operations-only');assert.equal(result.expected_operations[0].receipt.active_duration_ms,0);
   assert.equal(result.expected_operations[0].receipt.usage.total_tokens,null);
   assert.deepEqual(await readNativeTask(f.root,f.task.id),taskBefore);
@@ -196,11 +201,13 @@ test('report check rejects duplicate/oversized expectations and exposes activity
   assert.equal(result.bindings_ready,false);assert.equal(result.expected_operations[0].status,'unavailable');
   result=await checkDeliveryReports(f.root,{...request,expected:[{...request.expected[0],binding:{kind:'host',id:f.execution_id}}]});
   assert.equal(result.bindings_ready,false);assert.ok(result.expected_operations[0].issues.includes('binding-kind-mismatch'));
+  assert.equal(result.collection.status,'unavailable');assert.equal(result.collection.counts.unavailable,1);
   result=await checkDeliveryReports(f.root,{...request,expected:[{label:'missing',activity_kind:'repair',binding:null}]});
   assert.equal(result.unlisted_binding_count,1);
   await fs.writeFile(`${f.root}/.ai-org/host-usage/${f.execution_id}/measurement.json`,'{}');
   result=await checkDeliveryReports(f.root,request);
   assert.equal(result.declared_reports_complete,false);assert.equal(result.inventory_errors.length,1);
+  assert.equal(result.collection.status,'unavailable');
   assert.equal(JSON.stringify(result).includes(f.root),false);
 });
 
@@ -216,6 +223,62 @@ test('report check supports coordinator host bindings without a dispatch ticket 
   assert.equal(result.bindings_ready,true);assert.equal(result.declared_reports_complete,false);
   assert.ok(result.expected_operations[0].issues.includes('missing:usage.input_tokens'));
   assert.equal(result.expected_operations[0].receipt.active_duration_ms,0);
+  assert.equal(result.collection.status,'completed');
+  assert.equal(result.expected_operations[0].receipt.cutoffs.usage_observed_at,null);
+  assert.equal(result.expected_operations[0].receipt.cutoffs.usage_observed_after_activity,null);
+});
+
+test('accepted task and pending measurement remain separate, and checking never collects the source',async t=>{
+  const f=await fixture(t);await f.host();
+  const revision=f.git('rev-parse','HEAD');
+  await mutateNativeTask(f.root,f.task.id,'handoff',{operation_id:'handoff',expected_version:2,actor:f.actor,claim_id:f.task.claim.id,revision,summary:'Fixture delivery',evidence:['docs/approval.md'],unresolved:[]});
+  await mutateNativeTask(f.root,f.task.id,'review',{operation_id:'review',expected_version:3,actor:{agent_id:'reviewer',principal_id:'owner'},revision,judgment:'pass',summary:'Independent fixture',evidence:['docs/approval.md']});
+  await mutateNativeTask(f.root,f.task.id,'close',{operation_id:'close',expected_version:4,actor:f.actor,revision,summary:'Accepted; source still pending',rollback:'Revert fixture',evidence:['docs/approval.md']});
+  const before=await f.binding(),taskBefore=await readNativeTask(f.root,f.task.id);
+  const result=await checkDeliveryReports(f.root,expected(f));
+  assert.equal(result.task_state,'done');assert.equal(result.task_locally_accepted,true);
+  assert.equal(result.collection.status,'pending');assert.equal(result.declared_reports_complete,false);
+  assert.equal(await f.binding(),before);assert.deepEqual(await readNativeTask(f.root,f.task.id),taskBefore);
+});
+
+test('late token observation preserves the original activity cutoff and explicit collection stop',async t=>{
+  const f=await fixture(t),r=await rollout(f);
+  await r.append([{timestamp:r.at(2),type:'token_usage_record',ordinal:1,payload:{thread_id:r.source.thread_id,turn_id:r.source.turn_id,response_id:'first',usage:{input_tokens:5,output_tokens:2},turn_token_usage:{input_tokens:5,output_tokens:2}}}]);
+  const activity={report_id:'activity',observed_at:r.at(10),execution_duration_ms:3,execution_intervals:[{started_at:r.at(2),completed_at:r.at(5)}]};
+  const first=await finishDelivery(f.root,{execution_id:f.execution_id,collect:true,activity});
+  assert.equal(first.collection_status,'pending');assert.equal(first.cutoffs.usage_observed_after_activity,false);
+  await r.append([{timestamp:r.at(20),type:'token_usage_record',ordinal:2,payload:{thread_id:r.source.thread_id,turn_id:r.source.turn_id,response_id:'late',usage:{input_tokens:3,output_tokens:1},turn_token_usage:{input_tokens:8,output_tokens:3}}},
+    {timestamp:r.at(30),type:'event_msg',payload:{type:'task_complete',turn_id:r.source.turn_id,duration_ms:30}}]);
+  const saved=await f.binding(),stale=await checkDeliveryReports(f.root,expected(f));
+  assert.equal(stale.collection.status,'pending');assert.equal(await f.binding(),saved);
+  const last=await finishDelivery(f.root,{execution_id:f.execution_id,collect:true});
+  assert.equal(last.collection_status,'completed');assert.equal(last.active_duration_ms,3);
+  assert.equal(last.cutoffs.activity_ended_at,r.at(5));assert.equal(last.cutoffs.usage_observed_at,r.at(20));
+  assert.equal(last.cutoffs.usage_observed_after_activity,true);assert.ok(last.cutoffs.collected_at);
+  let check=await checkDeliveryReports(f.root,expected(f));
+  assert.ok(check.collection.follow_up[0].actions.includes('keep-usage-and-activity-cutoffs-separate'));
+  assert.equal(check.declared_reports_complete,true);
+  const {closeHostUsage}=await import('../src/workkeel-host-usage.mjs');
+  await closeHostUsage(f.root,{binding_id:f.execution_id,actor:f.actor});
+  check=await checkDeliveryReports(f.root,expected(f));
+  assert.equal(check.collection.status,'stopped');assert.equal(check.declared_reports_complete,true);
+  assert.equal(JSON.stringify(check).includes(r.source.path),false);
+});
+
+test('terminal interruption completes collection without success; source failure remains unavailable',async t=>{
+  const f=await fixture(t),r=await rollout(f);
+  await r.append([{timestamp:r.at(4),type:'event_msg',payload:{type:'turn_aborted',turn_id:r.source.turn_id}}]);
+  const receipt=await finishDelivery(f.root,{execution_id:f.execution_id,collect:true});
+  assert.equal(receipt.state,'interrupted');assert.equal(receipt.collection_status,'completed');
+  assert.equal(receipt.operation_completed,false);assert.equal(receipt.cutoffs.usage_observed_at,null);
+  let check=await checkDeliveryReports(f.root,expected(f));
+  assert.equal(check.declared_reports_complete,false);assert.equal(check.collection.status,'completed');
+  assert.ok(check.collection.follow_up[0].actions.includes('preserve-unsuccessful-outcome'));
+  await fs.rename(r.source.path,r.source.path+'.moved');
+  const unavailable=await finishDelivery(f.root,{execution_id:f.execution_id,collect:true});
+  assert.equal(unavailable.collection_status,'unavailable');
+  check=await checkDeliveryReports(f.root,expected(f));
+  assert.equal(check.collection.status,'unavailable');assert.equal(JSON.stringify(check).includes(r.source.path),false);
 });
 
 test('one review packet preserves separation and exact candidate; same reviewer records the native judgment',async t=>{

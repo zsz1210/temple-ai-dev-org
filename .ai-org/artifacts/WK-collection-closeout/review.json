@@ -1,0 +1,9 @@
+{
+  "operation_id": "collection-closeout-independent-review",
+  "expected_version": 3,
+  "actor": {"agent_id": "reviewer", "principal_id": "owner"},
+  "revision": "77c5faac7d2e269a61e784f382326aacbcbdab9a",
+  "judgment": "pass",
+  "summary": "Independent review passed: acceptance, collection and metric completeness remain separate; cutoffs preserve measured time and privacy. 28 focused tests independently passed; retained full verification exited 0.",
+  "evidence": [".ai-org/artifacts/WK-collection-closeout/review.md"]
+}

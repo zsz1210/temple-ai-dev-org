@@ -20,6 +20,25 @@ const KINDS=['planning','implementation','review','repair','verification'];
 const REQUIRED_METRICS=['active_duration_ms','usage.input_tokens','usage.output_tokens'];
 const ID=/^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$/;
 
+function collectionProgress(rows,errors) {
+  const counts={completed:0,pending:0,stopped:0,unavailable:0,missing:0},followUp=[];
+  for(const row of rows) {
+    const state=row.collection_status;
+    counts[state]++;
+    const actions=[];
+    if(state==='missing')actions.push('resolve-missing-binding');
+    if(state==='unavailable')actions.push('inspect-binding-or-source');
+    if(state==='pending')actions.push('collect-after-operation-ends');
+    if(state==='stopped')actions.push('record-collection-limitation');
+    if(state==='completed'&&!row.receipt.operation_completed)actions.push('preserve-unsuccessful-outcome');
+    if(row.issues.some(issue=>issue.startsWith('missing:')))actions.push('report-known-metrics-or-record-gap');
+    if(row.receipt?.cutoffs.usage_observed_after_activity===true)actions.push('keep-usage-and-activity-cutoffs-separate');
+    if(actions.length)followUp.push({label:row.label,binding:row.binding,actions});
+  }
+  const status=errors.length||counts.unavailable||counts.missing?'unavailable':counts.pending?'pending':counts.stopped?'stopped':'completed';
+  return {status,counts,follow_up:followUp};
+}
+
 /** Inspect an explicit expected set. Never discover sessions or collect sources. */
 export async function checkDeliveryReports(target,request) {
   exactKeys(request,['task_id','expected']);
@@ -61,18 +80,21 @@ export async function checkDeliveryReports(target,request) {
       row.status=row.issues.length?'incomplete':'reported';
     }
     if(row.issues.some(issue=>['dispatch-unavailable-or-mismatched','dispatch-binding-mismatch','binding-kind-mismatch'].includes(issue)))row.status='unavailable';
+    row.collection_status=row.status==='unavailable'||row.issues.includes('activity-mismatch')?'unavailable':row.receipt?.collection_status??'missing';
     rows.push(row);
   }
   const errors=inventory.errors.filter(e=>e.task_id===summary.task_id||e.task_id===null);
   const unlisted=measurements.filter(m=>!bindings.has(m.run_id)).length;
   return {schema_version:'workkeel.delivery-report-check/v1',authority:'observation-only',mutation_status:'no-write',execution_authorized:false,
-    task_id:summary.task_id,task_version:summary.version,coverage:'declared-operations-only',task_coverage_complete:false,
+    task_id:summary.task_id,task_version:summary.version,task_state:summary.task_state,task_locally_accepted:summary.task_state==='done',
+    collection:collectionProgress(rows,errors),coverage:'declared-operations-only',task_coverage_complete:false,
     bindings_ready:errors.length===0&&rows.every(r=>r.receipt&&r.status!=='unavailable'&&!r.issues.includes('activity-mismatch')),
     declared_reports_complete:errors.length===0&&rows.every(r=>r.status==='reported'),unlisted_binding_count:unlisted,
     required_metrics:REQUIRED_METRICS,expected_operations:rows,inventory_errors:errors,
     limitations:['The expected list is caller-declared; omitted coordinator, repair or other work is not proven absent.',
       'Reported coverage is limited to these bindings. Missing time or tokens remain unknown; zero is a measured value.',
-      'No source was collected and no lifecycle action was performed. Recheck after final reports and before closeout.']};
+      'Task acceptance, terminal source collection and metric completeness are separate observations. Completed collection does not prove successful execution or complete task coverage.',
+      'No source was collected and no lifecycle action was performed. Recheck the same bindings after final reports; preserve earlier evidence snapshots.']};
 }
 
 /** One packet for the actual reviewer to inspect and record in the same turn. */
@@ -117,10 +139,19 @@ function receipt(measurement) {
   const usage=Object.fromEntries(TOKEN_KEYS.map(k=>[k,op?.usage[k]??null]));
   const metrics={provider:op?.provider??null,model:op?.runtime_model??null,reported_reasoning:op?.reported_reasoning??null,
     active_duration_ms:measurement.timing.adapter_work_ms,turn_duration_ms:measurement.observations.reported_turn_duration_ms};
+  const intervals=op?.execution_intervals??[];
+  const activityEnded=intervals.reduce((last,interval)=>last===null||Date.parse(interval.completed_at)>Date.parse(last)?interval.completed_at:last,null);
+  const usageObserved=TOKEN_KEYS.some(k=>usage[k]!==null)?measurement.last_observed_at:null;
+  const sourceUnavailable=Boolean(measurement.observations.error_code)||['unavailable','partial-source'].includes(measurement.observations.source_status);
+  const sourceObserved=['observed','reporter-observed'].includes(measurement.observations.source_status);
+  const collectionStatus=sourceUnavailable?'unavailable':measurement.collection_closed?'stopped':
+    sourceObserved&&['completed','interrupted','cancelled'].includes(measurement.runner_state)?'completed':'pending';
   return {schema_version:'workkeel.delivery-receipt/v1',authority:'observation-only',execution_authorized:false,
     task_id:measurement.task_id,execution_id:measurement.run_id,dispatch_execution_id:measurement.dispatch_execution_id,source_kind:measurement.source_kind,
     state:measurement.runner_state,operation_completed:op?.result_recorded??false,task_coverage_complete:false,
-    coverage:measurement.coverage,task_acceptance:'not-performed',collection_closed:measurement.collection_closed,
+    coverage:measurement.coverage,task_acceptance:'not-performed',collection_closed:measurement.collection_closed,collection_status:collectionStatus,
+    cutoffs:{usage_observed_at:usageObserved,activity_ended_at:activityEnded,collected_at:measurement.observations.last_collected_at,
+      usage_observed_after_activity:usageObserved===null||activityEnded===null?null:Date.parse(usageObserved)>Date.parse(activityEnded)},
     activity_kind:op?.activity_kind??null,requested_model:op?.requested_model??null,selection_match:op?.selection_match??'unknown',
     ...metrics,usage,missing_fields:[...Object.keys(metrics).filter(k=>metrics[k]===null),...TOKEN_KEYS.filter(k=>usage[k]===null).map(k=>`usage.${k}`)],
     source_status:measurement.observations.source_status,error_code:measurement.observations.error_code,

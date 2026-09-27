@@ -1,0 +1,336 @@
+{
+  "schema_version": "workkeel.delivery-report-check/v1",
+  "authority": "observation-only",
+  "mutation_status": "no-write",
+  "execution_authorized": false,
+  "task_id": "WK-collection-closeout",
+  "task_version": 4,
+  "task_state": "release_gate",
+  "task_locally_accepted": false,
+  "collection": {
+    "status": "pending",
+    "counts": {
+      "completed": 3,
+      "pending": 1,
+      "stopped": 0,
+      "unavailable": 0,
+      "missing": 0
+    },
+    "follow_up": [
+      {
+        "label": "coordinator",
+        "binding": {
+          "kind": "host",
+          "id": "collection-closeout-main"
+        },
+        "actions": [
+          "collect-after-operation-ends",
+          "report-known-metrics-or-record-gap"
+        ]
+      },
+      {
+        "label": "verification",
+        "binding": {
+          "kind": "host",
+          "id": "collection-closeout-verify"
+        },
+        "actions": [
+          "preserve-unsuccessful-outcome",
+          "keep-usage-and-activity-cutoffs-separate"
+        ]
+      },
+      {
+        "label": "review",
+        "binding": {
+          "kind": "dispatch",
+          "id": "30a39e9b-8eda-484c-a364-fdf46980b51c"
+        },
+        "actions": [
+          "keep-usage-and-activity-cutoffs-separate"
+        ]
+      }
+    ]
+  },
+  "coverage": "declared-operations-only",
+  "task_coverage_complete": false,
+  "bindings_ready": true,
+  "declared_reports_complete": false,
+  "unlisted_binding_count": 0,
+  "required_metrics": [
+    "active_duration_ms",
+    "usage.input_tokens",
+    "usage.output_tokens"
+  ],
+  "expected_operations": [
+    {
+      "label": "coordinator",
+      "activity_kind": "implementation",
+      "binding": {
+        "kind": "host",
+        "id": "collection-closeout-main"
+      },
+      "status": "incomplete",
+      "issues": [
+        "activity-unreported",
+        "operation-not-completed",
+        "missing:active_duration_ms"
+      ],
+      "receipt": {
+        "schema_version": "workkeel.delivery-receipt/v1",
+        "authority": "observation-only",
+        "execution_authorized": false,
+        "task_id": "WK-collection-closeout",
+        "execution_id": "collection-closeout-main",
+        "dispatch_execution_id": null,
+        "source_kind": "codex-rollout",
+        "state": "running",
+        "operation_completed": false,
+        "task_coverage_complete": false,
+        "coverage": "bound-host-interval-only",
+        "task_acceptance": "not-performed",
+        "collection_closed": false,
+        "collection_status": "pending",
+        "cutoffs": {
+          "usage_observed_at": "2026-09-27T13:08:29.226Z",
+          "activity_ended_at": null,
+          "collected_at": "2026-09-27T13:08:29.296Z",
+          "usage_observed_after_activity": null
+        },
+        "activity_kind": null,
+        "requested_model": null,
+        "selection_match": "unknown",
+        "provider": "openai",
+        "model": "gpt-6-astra",
+        "reported_reasoning": "xhigh",
+        "active_duration_ms": null,
+        "turn_duration_ms": null,
+        "usage": {
+          "input_tokens": 5814145,
+          "cached_input_tokens": 5725568,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 21839,
+          "reasoning_output_tokens": 4810,
+          "total_tokens": 5835984
+        },
+        "missing_fields": [
+          "active_duration_ms",
+          "turn_duration_ms"
+        ],
+        "source_status": "observed",
+        "error_code": null,
+        "reporter_trust": "attributed local report; not provider-authenticated",
+        "limitations": [
+          "Coverage is limited to the explicitly bound host operation; other turns and child agents are not inferred.",
+          "Unknown remains null; observations are not a process liveness guarantee or task acceptance.",
+          "Active duration requires explicitly reported execution intervals; turn duration includes tools and is not active time.",
+          "Usage and optional activity are cumulative observations, not task handoff, review or closeout."
+        ]
+      },
+      "collection_status": "pending"
+    },
+    {
+      "label": "verification",
+      "activity_kind": "verification",
+      "binding": {
+        "kind": "host",
+        "id": "collection-closeout-verify"
+      },
+      "status": "incomplete",
+      "issues": [
+        "operation-not-completed"
+      ],
+      "receipt": {
+        "schema_version": "workkeel.delivery-receipt/v1",
+        "authority": "observation-only",
+        "execution_authorized": false,
+        "task_id": "WK-collection-closeout",
+        "execution_id": "collection-closeout-verify",
+        "dispatch_execution_id": null,
+        "source_kind": "host-report",
+        "state": "interrupted",
+        "operation_completed": false,
+        "task_coverage_complete": false,
+        "coverage": "bound-host-interval-only",
+        "task_acceptance": "not-performed",
+        "collection_closed": false,
+        "collection_status": "completed",
+        "cutoffs": {
+          "usage_observed_at": "2026-09-27T13:01:04.388Z",
+          "activity_ended_at": "2026-09-27T13:00:07.206Z",
+          "collected_at": "2026-09-27T13:01:04.448Z",
+          "usage_observed_after_activity": true
+        },
+        "activity_kind": "verification",
+        "requested_model": null,
+        "selection_match": "unknown",
+        "provider": "local",
+        "model": null,
+        "reported_reasoning": null,
+        "active_duration_ms": 328886,
+        "turn_duration_ms": null,
+        "usage": {
+          "input_tokens": 0,
+          "cached_input_tokens": null,
+          "cache_write_input_tokens": null,
+          "output_tokens": 0,
+          "reasoning_output_tokens": null,
+          "total_tokens": null
+        },
+        "missing_fields": [
+          "model",
+          "reported_reasoning",
+          "turn_duration_ms",
+          "usage.cached_input_tokens",
+          "usage.cache_write_input_tokens",
+          "usage.reasoning_output_tokens",
+          "usage.total_tokens"
+        ],
+        "source_status": "reporter-observed",
+        "error_code": null,
+        "reporter_trust": "attributed local report; not provider-authenticated",
+        "limitations": [
+          "Coverage is limited to the explicitly bound host operation; other turns and child agents are not inferred.",
+          "Unknown remains null; observations are not a process liveness guarantee or task acceptance.",
+          "Active duration requires explicitly reported execution intervals; turn duration includes tools and is not active time.",
+          "Usage and optional activity are cumulative observations, not task handoff, review or closeout."
+        ]
+      },
+      "collection_status": "completed"
+    },
+    {
+      "label": "verification-retry",
+      "activity_kind": "verification",
+      "binding": {
+        "kind": "host",
+        "id": "collection-closeout-verify-2"
+      },
+      "status": "reported",
+      "issues": [],
+      "receipt": {
+        "schema_version": "workkeel.delivery-receipt/v1",
+        "authority": "observation-only",
+        "execution_authorized": false,
+        "task_id": "WK-collection-closeout",
+        "execution_id": "collection-closeout-verify-2",
+        "dispatch_execution_id": null,
+        "source_kind": "host-report",
+        "state": "completed",
+        "operation_completed": true,
+        "task_coverage_complete": false,
+        "coverage": "bound-host-interval-only",
+        "task_acceptance": "not-performed",
+        "collection_closed": false,
+        "collection_status": "completed",
+        "cutoffs": {
+          "usage_observed_at": "2026-09-27T13:06:18.931Z",
+          "activity_ended_at": "2026-09-27T13:06:18.931Z",
+          "collected_at": "2026-09-27T13:06:18.976Z",
+          "usage_observed_after_activity": false
+        },
+        "activity_kind": "verification",
+        "requested_model": null,
+        "selection_match": "unknown",
+        "provider": "local",
+        "model": null,
+        "reported_reasoning": null,
+        "active_duration_ms": 314025,
+        "turn_duration_ms": null,
+        "usage": {
+          "input_tokens": 0,
+          "cached_input_tokens": null,
+          "cache_write_input_tokens": null,
+          "output_tokens": 0,
+          "reasoning_output_tokens": null,
+          "total_tokens": null
+        },
+        "missing_fields": [
+          "model",
+          "reported_reasoning",
+          "turn_duration_ms",
+          "usage.cached_input_tokens",
+          "usage.cache_write_input_tokens",
+          "usage.reasoning_output_tokens",
+          "usage.total_tokens"
+        ],
+        "source_status": "reporter-observed",
+        "error_code": null,
+        "reporter_trust": "attributed local report; not provider-authenticated",
+        "limitations": [
+          "Coverage is limited to the explicitly bound host operation; other turns and child agents are not inferred.",
+          "Unknown remains null; observations are not a process liveness guarantee or task acceptance.",
+          "Active duration requires explicitly reported execution intervals; turn duration includes tools and is not active time.",
+          "Usage and optional activity are cumulative observations, not task handoff, review or closeout."
+        ]
+      },
+      "collection_status": "completed"
+    },
+    {
+      "label": "review",
+      "activity_kind": "review",
+      "binding": {
+        "kind": "dispatch",
+        "id": "30a39e9b-8eda-484c-a364-fdf46980b51c"
+      },
+      "status": "reported",
+      "issues": [],
+      "receipt": {
+        "schema_version": "workkeel.delivery-receipt/v1",
+        "authority": "observation-only",
+        "execution_authorized": false,
+        "task_id": "WK-collection-closeout",
+        "execution_id": "30a39e9b-8eda-484c-a364-fdf46980b51c",
+        "dispatch_execution_id": "30a39e9b-8eda-484c-a364-fdf46980b51c",
+        "source_kind": "codex-rollout",
+        "state": "completed",
+        "operation_completed": true,
+        "task_coverage_complete": false,
+        "coverage": "bound-host-interval-only",
+        "task_acceptance": "not-performed",
+        "collection_closed": false,
+        "collection_status": "completed",
+        "cutoffs": {
+          "usage_observed_at": "2026-09-27T13:07:57.350Z",
+          "activity_ended_at": "2026-09-27T13:03:29.925Z",
+          "collected_at": "2026-09-27T13:08:29.265Z",
+          "usage_observed_after_activity": true
+        },
+        "activity_kind": "review",
+        "requested_model": "gpt-6-sol",
+        "selection_match": "match",
+        "provider": "openai",
+        "model": "gpt-6-sol",
+        "reported_reasoning": "medium",
+        "active_duration_ms": 66773,
+        "turn_duration_ms": null,
+        "usage": {
+          "input_tokens": 1136100,
+          "cached_input_tokens": 1104512,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2930,
+          "reasoning_output_tokens": 65,
+          "total_tokens": 1139030
+        },
+        "missing_fields": [
+          "turn_duration_ms"
+        ],
+        "source_status": "observed",
+        "error_code": null,
+        "reporter_trust": "attributed local report; not provider-authenticated",
+        "limitations": [
+          "Coverage is limited to the explicitly bound host operation; other turns and child agents are not inferred.",
+          "Unknown remains null; observations are not a process liveness guarantee or task acceptance.",
+          "Active duration requires explicitly reported execution intervals; turn duration includes tools and is not active time.",
+          "Usage and optional activity are cumulative observations, not task handoff, review or closeout."
+        ]
+      },
+      "collection_status": "completed"
+    }
+  ],
+  "inventory_errors": [],
+  "limitations": [
+    "The expected list is caller-declared; omitted coordinator, repair or other work is not proven absent.",
+    "Reported coverage is limited to these bindings. Missing time or tokens remain unknown; zero is a measured value.",
+    "Task acceptance, terminal source collection and metric completeness are separate observations. Completed collection does not prove successful execution or complete task coverage.",
+    "No source was collected and no lifecycle action was performed. Recheck the same bindings after final reports; preserve earlier evidence snapshots."
+  ]
+}

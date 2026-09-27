@@ -119,10 +119,23 @@ export function renderDeliveryReport(result) {
   const lines=['# Delivery evidence preflight','',`Task: ${literal(result.task_id)}`,`Candidate: ${literal(result.candidate_revision)}`,'',
     `Evidence preflight passed: ${result.evidence_preflight_passed===true?'yes':'no'}`,
     'Full verification: not-run. Actual review: not-performed.','',
+    `Native task state: ${literal(result.reports.task_state)}. Locally accepted: ${result.reports.task_locally_accepted?'yes':'no'}.`,
+    `Declared source collection: ${literal(result.reports.collection.status)}. Required reports complete: ${result.reports.declared_reports_complete?'yes':'no'}.`,'',
     'Observations only. Coverage is limited to declared operations; whole-task coverage is not established.','',
     '| Operation | Kind | Status | Model | Active ms | Input | Cached input | Output | Total |',
     '| --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |'];
   for(const row of result.reports.expected_operations)lines.push(`| ${literal(row.label)} | ${literal(row.activity_kind)} | ${literal(row.status)} | ${literal(row.receipt?.model)} | ${number(row.receipt?.active_duration_ms)} | ${number(row.receipt?.usage?.input_tokens)} | ${number(row.receipt?.usage?.cached_input_tokens)} | ${number(row.receipt?.usage?.output_tokens)} | ${number(row.receipt?.usage?.total_tokens)} |`);
+  lines.push('','## Collection and recording cutoffs','',
+    '| Operation | Collection | Usage observed at | Activity ended at | Collected at | Usage observed later |',
+    '| --- | --- | --- | --- | --- | --- |');
+  for(const row of result.reports.expected_operations) {
+    const receipt=row.receipt,cutoffs=receipt?.cutoffs;
+    lines.push(`| ${literal(row.label)} | ${literal(row.collection_status)} | ${literal(cutoffs?.usage_observed_at)} | ${literal(cutoffs?.activity_ended_at)} | ${literal(cutoffs?.collected_at)} | ${cutoffs?.usage_observed_after_activity===null||cutoffs?.usage_observed_after_activity===undefined?'unknown':cutoffs.usage_observed_after_activity?'yes':'no'} |`);
+  }
+  lines.push('','Timestamps are recording cutoffs, not matching work boundaries. Later usage does not extend activity time or establish tokens per second.','',
+    '## Follow-up','');
+  for(const item of result.reports.collection.follow_up)lines.push(`- ${literal(item.label)}: ${item.actions.map(literal).join(', ')}.`);
+  if(!result.reports.collection.follow_up.length)lines.push('No operation follow-up identified. Check inventory warnings separately.');
   lines.push('','| Metric | Known sum | Known / expected | Coverage |','| --- | ---: | ---: | --- |');
   for(const key of METRICS) {
     const total=result.totals[key];lines.push(`| ${literal(key)} | ${number(total.value)} | ${total.known} / ${total.expected} | ${literal(total.coverage)} |`);

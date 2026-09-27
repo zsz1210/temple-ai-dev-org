@@ -1,0 +1,34 @@
+{
+  "task_id": "WK-collection-closeout",
+  "expected": [
+    {
+      "label": "coordinator",
+      "activity_kind": "implementation",
+      "binding": {
+        "kind": "host",
+        "id": "collection-closeout-main"
+      }
+    },
+    {
+      "label": "verification",
+      "activity_kind": "verification",
+      "binding": {
+        "kind": "host",
+        "id": "collection-closeout-verify"
+      }
+    },
+    {
+      "label": "verification-retry",
+      "activity_kind": "verification",
+      "binding": {"kind": "host", "id": "collection-closeout-verify-2"}
+    },
+    {
+      "label": "review",
+      "activity_kind": "review",
+      "binding": {
+        "kind": "dispatch",
+        "id": "30a39e9b-8eda-484c-a364-fdf46980b51c"
+      }
+    }
+  ]
+}
