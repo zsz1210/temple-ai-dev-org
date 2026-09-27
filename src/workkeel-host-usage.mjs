@@ -371,7 +371,8 @@ async function bindingInventory(target,request,{bindingId,task,ticket}) {
       if(ticket&&other.dispatch&&relevant){
         const {readDispatchTicket}=await import('./workkeel-dispatch.mjs');let otherTicket;
         try{otherTicket=await readDispatchTicket(target,other.dispatch.execution_id);}
-        catch{fail('host-dispatch-unavailable',{binding_id:entry});}
+        // Preserve the existing bind error contract; readiness returns only safe metadata.
+        catch(error){throw Object.assign(error,{code:'host-dispatch-unavailable',binding_id:entry});}
         dispatchBindings.push({binding:other,ticket:otherTicket});
       }
       if(['active','paused','error'].includes(other.status)&&other.source.thread_id===request.source.thread_id)fail('host-thread-already-bound',{binding_id:entry});
