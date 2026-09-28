@@ -10,7 +10,7 @@ import {readTaskProject,assertActor} from '../src/workkeel-project.mjs';
 import {readDispatchTicket, bindDispatchTicket} from '../src/workkeel-dispatch.mjs';
 import {collectHostUsage, reportHostUsage, reportHostActivity, readHostMeasurements} from '../src/workkeel-host-usage.mjs';
 import {exactKeys} from '../src/workkeel-execution-policy.mjs';
-import {prepareDeliveryRequest,deliveryOperationGuide} from './workkeel-delivery-request.mjs';
+import {prepareDeliveryRequest,recordDeliveryCheck,deliveryOperationGuide} from './workkeel-delivery-request.mjs';
 
 const TOKEN_KEYS=['input_tokens','cached_input_tokens','cache_write_input_tokens','output_tokens','reasoning_output_tokens','total_tokens'];
 const REPORT_REQUIRED=['report_id','status','usage','tool','observed_at'];
@@ -217,12 +217,23 @@ async function requestFile(file) {
   } finally {await handle.close();}
 }
 
+async function stdinRequest() {
+  const chunks=[];let length=0;
+  for await(const chunk of process.stdin) {
+    length+=chunk.length;
+    if(length>64*1024)throw Error('bounded JSON request required');
+    chunks.push(chunk);
+  }
+  return JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(Buffer.concat(chunks)));
+}
+
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href)try {
   const [command,target,input,...extra]=process.argv.slice(2);
-  if(extra.length||!target||!input||!['context','guide','prepare','attach','finish','check','review'].includes(command))throw Error('invalid command');
+  if(extra.length||!target||!input||!['context','guide','prepare','record-check','attach','finish','check','review'].includes(command))throw Error('invalid command');
   const result=['context','guide'].includes(command)?await ({context:readDeliveryContext,guide:readDeliveryGuide}[command])(target,input):
-    await ({prepare:prepareDeliveryRequest,attach:attachDelivery,finish:finishDelivery,check:checkDeliveryReports,review:readDeliveryReview}[command])(target,await requestFile(input));
+    await ({prepare:prepareDeliveryRequest,'record-check':recordDeliveryCheck,attach:attachDelivery,finish:finishDelivery,check:checkDeliveryReports,review:readDeliveryReview}[command])(target,command==='record-check'&&input==='-'?await stdinRequest():await requestFile(input));
   process.stdout.write(JSON.stringify(result,null,2)+'\n');
+  if(command==='record-check'&&result.status!=='pass')process.exitCode=1;
 } catch(error) {
   // Underlying filesystem exceptions can contain a private source path.
   const safeCode=typeof error?.code==='string'&&/^host-[a-z-]+$/.test(error.code)?` (${error.code})`:'';
