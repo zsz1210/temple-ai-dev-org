@@ -31,6 +31,7 @@ export async function recordDeliveryCheck(target,input) {
   for(const ref of input.files)if(typeof ref!=='string'||!task.contract.environment.read_paths.some(p=>p==='.'||ref===p||ref.startsWith(p+'/')))throw Error('Delivery: file outside approved read paths');
   const hashes=async()=>Object.fromEntries(await Promise.all(input.files.map(async ref=>[ref,(await readTaskFile(root,ref)).bytes_digest])));
   const before=await hashes(),directory=`.ai-org/artifacts/${task.id}`,logRef=`${directory}/${input.name}.log`;
+  if(!task.contract.environment.write_paths.some(p=>p==='.'||logRef===p||logRef.startsWith(p+'/')))throw Error('Delivery: log outside approved write paths');
   await safeDirectory(root,directory,{create:true});
   // Exclusive creation preserves older evidence and reserves the name before execution.
   const handle=await fs.open(path.join(root,logRef),'wx',0o600);
@@ -55,6 +56,7 @@ export async function recordDeliveryCheck(target,input) {
       if(current.version!==task.version)contextError='task-version-changed';
     } catch {contextError='task-context-or-files-changed';}
     const changed=after?input.files.filter(p=>before[p]!==after[p]):input.files;
+    if(!measured.execution_started&&!startBlocked)measured.instrument_error??='command-start-unconfirmed';
     const status=startBlocked?'blocked':measured.instrument_error||measured.timed_out||!measured.process_exit_confirmed||measured.surviving_descendants?'instrument-failure':
       contextError||changed.length?'invalidated':measured.exit_code===0?'pass':'fail';
     const footer=`\nSTDOUT\n${measured.stdout}\nSTDERR\n${measured.stderr}\nExit code: ${measured.exit_code??'unknown'}\nStatus: ${status}\nExecution started: ${measured.execution_started}\nCompleted: ${new Date().toISOString()}\nContext error: ${contextError??'none'}\nChanged files: ${JSON.stringify(changed)}\nInstrument error: ${measured.instrument_error??'none'}\nTimed out: ${measured.timed_out}\nProcess exit confirmed: ${measured.process_exit_confirmed}\n`;

@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import {execFileSync,spawnSync} from 'node:child_process';
+import childProcess,{execFileSync,spawnSync} from 'node:child_process';
+import {syncBuiltinESMExports} from 'node:module';
 import {initializeTaskProject} from '../src/workkeel-project.mjs';
 import {previewTaskIntake,applyTaskIntake} from '../src/workkeel-intake.mjs';
 import {readNativeTask,mutateNativeTask} from '../src/workkeel-tasks.mjs';
@@ -11,7 +12,7 @@ import {prepareDeliveryRequest,recordDeliveryCheck} from '../scripts/workkeel-de
 import {readDeliveryGuide} from '../scripts/workkeel-delivery.mjs';
 
 const actor={agent_id:'builder',principal_id:'owner'},reviewer={agent_id:'reviewer',principal_id:'owner'};
-async function fixture(t) {
+async function fixture(t,write_paths=['src']) {
   const root=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'delivery-request-')));
   t.after(()=>fs.rm(root,{recursive:true,force:true}));
   const git=(...args)=>execFileSync('git',['-C',root,...args],{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
@@ -21,7 +22,7 @@ async function fixture(t) {
   await fs.writeFile(root+'/docs/approval.md','Approved fixture');await fs.writeFile(root+'/src/a.txt','baseline');
   git('add','.');git('commit','-qm','Baseline');
   const brief={schema_version:'workkeel.task-brief/v1',id:'WK-entry',goal:'Delivery request fixture',actor,acceptance:['Preserve native guards'],
-    environment:{cwd:'.',read_paths:['.'],write_paths:['src'],tools:['node'],resources:[],network:{mode:'none',hosts:[]},external_actions:[],data:{classification:'internal',model_access:'none',policy_refs:['docs/approval.md']}},
+    environment:{cwd:'.',read_paths:['.'],write_paths,tools:['node'],resources:[],network:{mode:'none',hosts:[]},external_actions:[],data:{classification:'internal',model_access:'none',policy_refs:['docs/approval.md']}},
     authorization:{approved_by:'owner',approval_ref:'docs/approval.md',operations:['read','write','execute'],expires_at:null}};
   const preview=await previewTaskIntake(root,brief);await applyTaskIntake(root,brief,preview.fingerprint);
   const input=(action,fields={})=>({task_id:brief.id,action,actor:action==='review'?reviewer:actor,operation_id:action,...fields});
@@ -130,8 +131,8 @@ test('CLI preparation is read-only, emits usable JSON and preserves bounded file
   await fs.writeFile(input,' '.repeat(65537));const large=run('prepare',input);assert.equal(large.status,1);assert.ok(!large.stderr.includes(privateDir));
 });
 
-async function checkFixture(t) {
-  const f=await fixture(t);await f.apply(await f.prepare('claim'));
+async function checkFixture(t,write_paths=['src','.ai-org/artifacts/WK-entry']) {
+  const f=await fixture(t,write_paths);await f.apply(await f.prepare('claim'));
   await fs.writeFile(f.root+'/src/check.test.mjs',"import test from 'node:test'; import assert from 'node:assert/strict'; import fs from 'node:fs'; test('value',()=>assert.equal(fs.readFileSync('src/a.txt','utf8'),'fixed'));\n");
   const input=name=>({task_id:'WK-entry',actor,expected_version:2,name,tests:['src/check.test.mjs'],files:['src/a.txt','src/check.test.mjs']});
   return {...f,check:name=>recordDeliveryCheck(f.root,input(name)),checkInput:input};
@@ -162,6 +163,30 @@ test('record-check rejects stale actor, invalid paths and changed authority befo
   await assert.rejects(recordDeliveryCheck(f.root,{...input,files:['src/link.test.mjs'],tests:['src/link.test.mjs']}));
   await fs.writeFile(f.root+'/docs/approval.md','changed approval');await assert.rejects(f.check('authority'));
   await assert.rejects(fs.access(f.root+'/.ai-org/artifacts/WK-entry/authority.log'));
+});
+
+test('record-check requires log write scope before creating evidence',async t=>{
+  const f=await checkFixture(t,['src','.ai-org/artifacts/WK-entry-other']);
+  await assert.rejects(f.check('denied'),/log outside approved write paths/);
+  await assert.rejects(fs.access(f.root+'/.ai-org/artifacts/WK-entry'));
+});
+
+test('record-check does not report a supervisor startup failure as a RED test',async t=>{
+  const f=await checkFixture(t),spawn=childProcess.spawn;
+  // Fault injection: the real supervisor child receives the start request but
+  // exits before starting the test command or acknowledging it over IPC.
+  childProcess.spawn=function(executable,args,options) {
+    if(args[0]?.endsWith('/delivery-check-worker.mjs'))args=['-e',"process.on('message',()=>process.exit(2))"];
+    return spawn.call(this,executable,args,options);
+  };
+  syncBuiltinESMExports();
+  try {
+    const result=await f.check('startup-failure');
+    assert.equal(result.execution_started,false);assert.equal(result.exit_code,2);
+    assert.equal(result.status,'instrument-failure');assert.equal(result.instrument_error,'command-start-unconfirmed');
+    assert.equal(result.process_exit_confirmed,true);
+    assert.match(await fs.readFile(f.root+'/'+result.log_ref,'utf8'),/Status: instrument-failure/);
+  } finally {childProcess.spawn=spawn;syncBuiltinESMExports();}
 });
 
 test('record-check invalidates a passing command that changes its declared inputs',async t=>{

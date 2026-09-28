@@ -633,7 +633,8 @@ JSON
 
 The current build claimant supplies the observed version and explicit test/source
 paths. The approved environment must permit Node, repository-root execution and
-reading those files. This source-checkout utility currently requires a POSIX host.
+reading those files and writing the task's log path under
+`.ai-org/artifacts/<task>/`. This source-checkout utility currently requires a POSIX host.
 It executes `node --test --test-reporter=tap` with the specified tests, records the
 actual command, output, exit code and file hashes, then rechecks task authority
 and declared files. The process supervisor limits execution to 60 seconds and
