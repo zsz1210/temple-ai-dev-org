@@ -1,7 +1,12 @@
 import {execFile} from 'node:child_process';
-import {promisify} from 'node:util';
-import {readNativeTask} from '../src/workkeel-tasks.mjs';
-import {readTaskProject,assertActor,assertApprover} from '../src/workkeel-project.mjs';
+import {promisify,isDeepStrictEqual} from 'node:util';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {readTaskFile} from '../src/task-contract.mjs';
+import {sha256} from '../src/files.mjs';
+import {runSupervisedCommand} from '../src/delivery-check.mjs';
+import {readNativeTask,assertTaskExecutionContext} from '../src/workkeel-tasks.mjs';
+import {readTaskProject,assertActor,assertApprover,safeDirectory} from '../src/workkeel-project.mjs';
 import {exactKeys} from '../src/workkeel-execution-policy.mjs';
 
 const FIELDS={claim:[],handoff:['summary','evidence','unresolved'],review:['judgment','summary','evidence'],close:['summary','rollback','evidence']};
@@ -9,6 +14,64 @@ const STATE={claim:'intake',handoff:'build',review:'test',close:'release_gate'};
 const ID=/^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$/;
 const sameActor=(a,b)=>a.agent_id===b.agent_id&&a.principal_id===b.principal_id;
 const text=value=>{if(typeof value!=='string'||!value.trim()||value.length>8000)throw Error('Delivery: bounded nonempty decision text required');};
+
+/** Record an actual Node test command and its input hashes; never accept a task. */
+export async function recordDeliveryCheck(target,input) {
+  exactKeys(input,['task_id','actor','expected_version','name','tests','files']);
+  if(typeof input.name!=='string'||!ID.test(input.name))throw Error('Delivery: explicit check name required');
+  if(!Array.isArray(input.files)||!input.files.length||input.files.length>32||new Set(input.files).size!==input.files.length||
+     !Array.isArray(input.tests)||!input.tests.length||input.tests.length>16||new Set(input.tests).size!==input.tests.length||input.tests.some(f=>!input.files.includes(f)))throw Error('Delivery: bounded explicit test and source files required');
+  input=structuredClone(input);
+  const root=await fs.realpath(target),task=await readNativeTask(root,input.task_id);
+  if(input.expected_version!==task.version)throw Error('Delivery: stale observed version');
+  const context={actor:input.actor,claim_id:task.claim?.id,contract_sha256:task.contract_sha256};
+  await assertTaskExecutionContext(root,task.id,context);
+  if(!task.contract.environment.tools.includes('node'))throw Error('Delivery: approved Node tool required');
+  if(task.contract.environment.cwd!=='.')throw Error('Delivery: check recording requires repository-root execution scope');
+  for(const ref of input.files)if(typeof ref!=='string'||!task.contract.environment.read_paths.some(p=>p==='.'||ref===p||ref.startsWith(p+'/')))throw Error('Delivery: file outside approved read paths');
+  const hashes=async()=>Object.fromEntries(await Promise.all(input.files.map(async ref=>[ref,(await readTaskFile(root,ref)).bytes_digest])));
+  const before=await hashes(),directory=`.ai-org/artifacts/${task.id}`,logRef=`${directory}/${input.name}.log`;
+  if(!task.contract.environment.write_paths.some(p=>p==='.'||logRef===p||logRef.startsWith(p+'/')))throw Error('Delivery: log outside approved write paths');
+  await safeDirectory(root,directory,{create:true});
+  // Exclusive creation preserves older evidence and reserves the name before execution.
+  const handle=await fs.open(path.join(root,logRef),'wx',0o600);
+  const args=['--test','--test-reporter=tap',...input.tests.map(f=>'./'+f)];
+  const quote=s=>/^[A-Za-z0-9_./:=+-]+$/.test(s)?s:JSON.stringify(s);
+  const header=`Command: node ${args.map(quote).join(' ')}\nExecutable: ${process.execPath}\nStarted: ${new Date().toISOString()}\nTask: ${task.id} version ${task.version}\nState: running; no completion recorded yet\n`+Object.entries(before).map(([p,h])=>`SHA256 ${p} ${h}\n`).join('');
+  try {
+    await handle.writeFile(header);await handle.sync();
+    const env={...process.env};
+    for(const key of ['NODE_TEST_CONTEXT','NODE_OPTIONS','NODE_PATH'])delete env[key];
+    let startBlocked=false;
+    const measured=await runSupervisedCommand({executable:process.execPath,args,cwd:root,env},{timeout_ms:60000,output_limit_bytes:512*1024,hooks:{started:async()=>{
+      try {
+        const current=await assertTaskExecutionContext(root,task.id,context);
+        if(current.version!==task.version||!isDeepStrictEqual(before,await hashes()))throw Error('changed');
+      } catch {startBlocked=true;throw Error('check-input-or-authority-changed-before-start');}
+    }}});
+    let after=null,contextError=null;
+    try {
+      after=await hashes();
+      const current=await assertTaskExecutionContext(root,task.id,context);
+      if(current.version!==task.version)contextError='task-version-changed';
+    } catch {contextError='task-context-or-files-changed';}
+    const changed=after?input.files.filter(p=>before[p]!==after[p]):input.files;
+    if(!measured.execution_started&&!startBlocked)measured.instrument_error??='command-start-unconfirmed';
+    const status=startBlocked?'blocked':measured.instrument_error||measured.timed_out||!measured.process_exit_confirmed||measured.surviving_descendants?'instrument-failure':
+      contextError||changed.length?'invalidated':measured.exit_code===0?'pass':'fail';
+    const footer=`\nSTDOUT\n${measured.stdout}\nSTDERR\n${measured.stderr}\nExit code: ${measured.exit_code??'unknown'}\nStatus: ${status}\nExecution started: ${measured.execution_started}\nCompleted: ${new Date().toISOString()}\nContext error: ${contextError??'none'}\nChanged files: ${JSON.stringify(changed)}\nInstrument error: ${measured.instrument_error??'none'}\nTimed out: ${measured.timed_out}\nProcess exit confirmed: ${measured.process_exit_confirmed}\n`;
+    await handle.writeFile(footer);await handle.sync();
+    // Detect replacement of the destination rather than reporting a redirected log as evidence.
+    if((await readTaskFile(root,logRef)).bytes_digest!==sha256(header+footer))throw Error('Delivery: check log changed while recording');
+    const excerpt=value=>new TextDecoder().decode(Buffer.from(value).subarray(0,12*1024),{stream:true});
+    return {schema_version:'workkeel.check-receipt/v1',task_id:task.id,task_version:task.version,status,exit_code:measured.exit_code,
+      command:{executable:process.execPath,args,cwd:'.'},
+      output:{stdout:excerpt(measured.stdout),stderr:excerpt(measured.stderr),truncated:Buffer.byteLength(measured.stdout)>12*1024||Buffer.byteLength(measured.stderr)>12*1024},
+      execution_started:measured.execution_started,log_ref:logRef,files_before:before,files_after:after,changed_files:changed,
+      context_error:contextError,instrument_error:measured.instrument_error,timed_out:measured.timed_out,process_exit_confirmed:measured.process_exit_confirmed,
+      acceptance_granted:false,lifecycle_mutation:false,boundary_enforcement:'host-responsibility'};
+  } finally {await handle.close();}
+}
 
 /** Operation-specific input contract, not permission or a successful decision. */
 export function deliveryOperationGuide(state,review) {

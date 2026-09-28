@@ -618,6 +618,83 @@ Raw task records and machine-local execution sources remain private under the
 repository's publication boundary. The source integration does not publish those
 records. This analysis reuses the existing run; it is not a new measurement.
 
+### Optional test evidence recording
+
+For an approved Node test run, `record-check` records a real Node test
+run without changing task state. Direct native lifecycle requests remain the
+default; the recorder performs no lifecycle operation. This utility is available from the
+source checkout; it is not included in the npm package.
+
+```sh
+node /path/to/workkeel/scripts/workkeel-delivery.mjs record-check /absolute/project - <<'JSON'
+{"task_id":"WK-example","actor":{"agent_id":"builder","principal_id":"owner"},"expected_version":2,"name":"red-test","tests":["test/example.test.mjs"],"files":["src/example.mjs","test/example.test.mjs"]}
+JSON
+```
+
+The current build claimant supplies the observed version and explicit test/source
+paths. The approved environment must permit Node, repository-root execution and
+reading those files and writing the task's log path under
+`.ai-org/artifacts/<task>/`. This source-checkout utility currently requires a POSIX host.
+It executes `node --test --test-reporter=tap` with the specified tests, records the
+actual command, output, exit code and file hashes, then rechecks task authority
+and declared files. The process supervisor limits execution to 60 seconds and
+output to 512 KiB, and checks child-process cleanup. It never calls a model.
+
+The JSON receipt includes the actual command and output, limited to 12 KiB per
+stream, with an explicit `output.truncated` flag. Inspect that output to check
+whether RED failed for the expected reason and GREEN passed. Open the preserved
+log when output is truncated or more detail is needed; a separate log-reading
+command is otherwise unnecessary. The full admitted output stays in the log.
+
+Logs are created exclusively under `.ai-org/artifacts/<task>/<name>.log`. Use
+separate names for `red-test`, `green-test` and any `candidate-test`; old evidence
+is never overwritten. Include every retained log in handoff evidence. A failed
+test returns a nonzero CLI status; that is expected for a genuine RED run. A
+timeout, output overflow or failed cleanup is an instrumentation failure. Changed
+declared files or task context invalidate the result. A log ending with only its
+running header has no completed result. Preserve it and use a new name if an
+authorized retry is needed.
+
+The recorder verifies only the explicitly listed files. It is not a sandbox or
+a complete inventory of test dependencies; the execution host still enforces
+path, network and data boundaries. A passing receipt proves that this recorded
+command passed on those inputs. It does not grant task acceptance, establish
+independent review or prove all requirements were tested.
+
+### Recorder evaluation and adoption limits
+
+A bounded five-round study used the same small `summarizeRuns` repair, fixed
+GPT-5.6 Sol and GPT-6 Sol at medium reasoning, separate same-model reviewers,
+and an unchanged 12-test external oracle. The final round used direct lifecycle
+requests plus this recorder and its bounded output receipts. Both recorder arms
+completed preparation, implementation, review and closeout and passed the oracle.
+
+| Final-round comparison | Host-turn duration | Uncached input plus output |
+| --- | ---: | ---: |
+| Recorder / original Workkeel, 5.6 Sol | -33.1% | +1.5% |
+| Recorder / Superpowers, 5.6 Sol | -26.8% | +1.9% |
+| Recorder / Superpowers, 6 Sol | +2.1% | -16.4% |
+
+These are single samples of one task, not a general speed or quality guarantee.
+Host-turn duration includes provider/tool waits within the turn. Uncached input
+plus output excludes cached input; it is neither total tokens nor currency.
+Coordinator development and local verification/review costs were unavailable and
+excluded, not zero. The protocols changed between rounds; they are not five
+replications of one treatment. Earlier documentation and submission proposals
+did not establish adoption benefit and are not part of this recorder integration.
+
+The final original Workkeel 6 Sol arm was incomplete after an evidence rejection,
+so it supplies no complete recorder/original pair. The common implementation
+prompt asked for command output while the review prompt explicitly required the
+literal command text inside logs. Missing-command rejections under that mismatch
+do not establish product-code defects. Later offline passing diagnostics did not
+replace original acceptance or fill missing stages. The oracle also retained a
+known exotic usage-array coverage gap. Raw task records and machine-local runs
+remain private; this summary does not provide an independently reproducible
+public benchmark dataset. The recorder remains optional and direct lifecycle
+requests remain the default. It supports approved Node tests on POSIX hosts and
+does not impose a provider or model requirement on Workkeel.
+
 ### Next improvement boundary
 
 Before another live comparison, define a supported lifetime for decision inputs
