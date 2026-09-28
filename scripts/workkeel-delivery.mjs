@@ -10,6 +10,7 @@ import {readTaskProject,assertActor} from '../src/workkeel-project.mjs';
 import {readDispatchTicket, bindDispatchTicket} from '../src/workkeel-dispatch.mjs';
 import {collectHostUsage, reportHostUsage, reportHostActivity, readHostMeasurements} from '../src/workkeel-host-usage.mjs';
 import {exactKeys} from '../src/workkeel-execution-policy.mjs';
+import {prepareDeliveryRequest,deliveryOperationGuide} from './workkeel-delivery-request.mjs';
 
 const TOKEN_KEYS=['input_tokens','cached_input_tokens','cache_write_input_tokens','output_tokens','reasoning_output_tokens','total_tokens'];
 const REPORT_REQUIRED=['report_id','status','usage','tool','observed_at'];
@@ -135,6 +136,12 @@ export async function readDeliveryContext(target,taskId) {
   return {schema_version:'workkeel.delivery-context/v1',...result,execution_authorized:false};
 }
 
+export async function readDeliveryGuide(target,taskId) {
+  const context=await readDeliveryContext(target,taskId);
+  return {schema_version:'workkeel.delivery-guide/v1',authority:'observation-only',mutation_status:'no-write',execution_authorized:false,
+    context,operation:deliveryOperationGuide(context.task_state,context.review)};
+}
+
 function receipt(measurement) {
   const op=measurement.operations[0]??null;
   const usage=Object.fromEntries(TOKEN_KEYS.map(k=>[k,op?.usage[k]??null]));
@@ -212,9 +219,9 @@ async function requestFile(file) {
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href)try {
   const [command,target,input,...extra]=process.argv.slice(2);
-  if(extra.length||!target||!input||!['context','attach','finish','check','review'].includes(command))throw Error('invalid command');
-  const result=command==='context'?await readDeliveryContext(target,input):
-    await ({attach:attachDelivery,finish:finishDelivery,check:checkDeliveryReports,review:readDeliveryReview}[command])(target,await requestFile(input));
+  if(extra.length||!target||!input||!['context','guide','prepare','attach','finish','check','review'].includes(command))throw Error('invalid command');
+  const result=['context','guide'].includes(command)?await ({context:readDeliveryContext,guide:readDeliveryGuide}[command])(target,input):
+    await ({prepare:prepareDeliveryRequest,attach:attachDelivery,finish:finishDelivery,check:checkDeliveryReports,review:readDeliveryReview}[command])(target,await requestFile(input));
   process.stdout.write(JSON.stringify(result,null,2)+'\n');
 } catch(error) {
   // Underlying filesystem exceptions can contain a private source path.

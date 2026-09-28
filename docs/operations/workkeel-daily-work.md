@@ -27,6 +27,12 @@ before the final full suite. A changed approved scope still requires explicit
 authority; never edit a pinned contract merely to make a candidate fit.
 
 For resumption, start with the [compact delivery context](workkeel-native-dispatch.md#compact-resumption-and-execution-receipts).
+When using the reviewed source checkout, `node scripts/workkeel-delivery.mjs guide
+/absolute/project TASK-ID` adds just the current operation's required input fields.
+Use [request preparation](workkeel-native-dispatch.md#prepare-a-lifecycle-request)
+to fill version, claim and revision from current records. Read the relevant guide
+section when needed instead of repeatedly loading both complete operation manuals.
+This does not waive required project instructions or the approved task contract.
 Read required project instructions and follow the current scope, attention reasons,
 candidate and evidence references. Open detailed history only to resolve a concrete
 question. A status question needs no new claim or repeat of completed verification.
@@ -87,7 +93,8 @@ workkeel monitor .
 Inspect the returned contract before applying. If the brief, policy or approval
 bytes change, obtain a fresh preview. Apply calls the existing native creation
 guard. Identical replays do not create duplicate tasks. Continue with the existing
-[claim, handoff, review and close commands](../getting-started/workkeel.md).
+[claim, handoff, review and close commands](../getting-started/workkeel.md), optionally
+using the source-checkout request helper to produce their mechanical fields.
 Only separately approved [workflows](workkeel-workflows.md) launch a model.
 
 Keep each executor's prompt bounded to its goal, permitted files, relevant
