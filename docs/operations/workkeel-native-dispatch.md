@@ -57,7 +57,9 @@ reasoning scale. Host capabilities and permitted data classes must match.
    implementation claim. A generated ID alone does not prove independence.
 
 The source-checkout [delivery helper](#compact-resumption-and-execution-receipts) provides `context`,
-`guide`, `prepare`, `attach`, `finish`, `check` and `review` commands over these existing APIs. It fills immutable ticket
+`attach`, `finish`, `check` and `review` commands over these existing APIs. Experimental
+`guide` and `prepare` commands are retained for explicit evaluation; they are not
+the default lifecycle entry. The helper fills immutable ticket
 identity fields when reporting, preserves explicit host measurements and returns
 a compact receipt with missing fields. It does not start or schedule an Agent.
 Use one operation per activity kind; a review or repair needs its own prepared
@@ -249,7 +251,14 @@ the same approved implementation.
 
 ### Prepare a lifecycle request
 
-From a reviewed source checkout, start with:
+**Experimental, not the default delivery path.** Use the existing
+[direct native requests](../getting-started/workkeel.md#claim-deliver-review-accept)
+for ordinary work. A single bounded comparison did not establish time or token
+savings; [its analysis](#direct-and-prepared-delivery-requests) records added
+steps and test-harness limitations. No instruction to use this helper overrides
+the project's scope or candidate checks.
+
+For explicit evaluation from a reviewed source checkout:
 
 ```sh
 node /path/to/workkeel/scripts/workkeel-delivery.mjs guide /absolute/project WK-example
@@ -286,6 +295,14 @@ as a task-local request file, then use the existing pinned native command:
 ```sh
 workkeel task handoff . --id WK-example --request .ai-org/artifacts/WK-example/handoff.json
 ```
+
+The example's private decision and prepared-output files are outside the product
+repository. A decision input is not a recorded native request. Placing it under
+task artifacts does not automatically exempt it from candidate checks. Preserve
+it only within authorized locations; where it is deliberately retained as task
+evidence, list the exact file in the applicable evidence references. Do not add
+ignore rules or delete evidence merely to get past a candidate rejection. Inspect
+the task and the file's purpose before retrying the identical saved request.
 
 | Action | Caller supplies, in addition to task, action, actor and operation ID | Derived fields |
 | --- | --- | --- |
@@ -499,3 +516,113 @@ Do not invent an unrelated product task or model benchmark to fill the dashboard
 Compare only compatible recorded scopes; publishing, user waiting and unmeasured
 work must remain explicit. This helper does not alter the observer UI or learning
 promotion rules.
+
+## Direct and prepared delivery requests
+
+### Decision
+
+Ordinary work uses the [direct native lifecycle](../getting-started/workkeel.md#claim-deliver-review-accept).
+The source-checkout `guide` and `prepare` helpers remain experimental, available
+for explicitly scoped evaluation. There is no established efficiency benefit.
+This correction changes human-facing entry guidance, not executable behavior,
+task stages, model policy, candidate checks or review independence.
+
+### What differs
+
+| Step | Direct requests (default) | Guided preparation (experimental) |
+| --- | --- | --- |
+| Read | Required project instructions, approved contract, relevant native request reference | The same mandatory sources plus a current-stage `guide` response; full references on demand |
+| Decide | Actor, operation ID, actual summary, evidence, verdict and acceptance | The same human/Agent decisions; the helper cannot make them |
+| Build request | Fill current version, claim and exact candidate in one complete request | Save decision input, run `prepare`, inspect its returned request, save that request |
+| Apply | Inspect and submit the saved request to the native CLI | Submit the saved prepared request to the same native CLI |
+| Guard | Authority, current version, exact candidate, scope, evidence, distinct review | The same unchanged native guards; successful preparation is not acceptance |
+| Recover | Inspect state/history and replay the identical saved request when appropriate | The same recovery requirement, plus lifecycle management for intermediate input/output files |
+
+The helper derives mechanical fields. That can avoid a transcription error, but
+it also adds calls and intermediate artifacts. The direct route does not require
+re-reading entire manuals at every transition, skipping review or guessing fields.
+Existing compact context and execution reporting remain available in both routes.
+
+### One diagnostic pair, 2026-09-28
+
+Both arms used merged source `a3747aca05cf4e67ad26e7cda98c3355fba3b041`, the same
+defective usage-summary fixture, approved specification/plan, three permitted
+product files and 12 external acceptance checks. Each had preparation,
+implementation, an actual distinct reviewer and closeout; eight model turns in
+total. Model and reasoning were fixed to `gpt-6-sol / medium`, default service
+tier, through Codex app-server `0.158.0-alpha.2.1`, without a classifier or proxy.
+This is the measured host configuration, not a Workkeel provider requirement.
+Guided ran before direct in the preselected order. No repeated trial was selected
+to improve the result.
+
+| Observed measure | Direct | Guided | Guided change |
+| --- | ---: | ---: | ---: |
+| Host turn duration | 194.06 s | 397.36 s | +104.8% |
+| Total tokens | 1,270,538 | 2,441,112 | +92.1% |
+| Cached input, already included in total | 1,145,344 | 2,306,944 | — |
+| Uncached input plus output | 125,194 | 134,168 | +7.2% |
+| Completed shell command batches | 19 | 37 | +94.7% |
+| External acceptance | 12/12 | 12/12 | Same |
+
+| Stage | Direct time | Guided time | Direct command batches | Guided command batches |
+| --- | ---: | ---: | ---: | ---: |
+| Preparation | 31.62 s | 55.35 s | 6 | 9 |
+| Implementation and handoff | 91.55 s | 175.33 s | 6 | 11 |
+| Independent review | 49.57 s | 99.11 s | 5 | 12 |
+| Acceptance and closeout | 21.32 s | 67.58 s | 2 | 5 |
+
+Time is measured host-turn duration, including tool and provider waits inside the
+turn, excluding human waits and gaps between turns. It is not pure inference time.
+Total tokens include cached input; uncached input plus output is a separate
+measure, not a price or subscription calculation. Compound shell commands count
+as one batch. No per-command token or causal time allocation is available.
+
+### Observed friction and limits
+
+1. **Intermediate files conflicted with candidate checks.** The test harness
+   directed workflow requests/reports into task artifacts. The guided agent also
+   placed its decision inputs there without referencing them as evidence. Native
+   validation rejected them. The documented helper example instead used private
+   paths outside the repository. Thus this friction includes a harness/entry
+   integration mismatch; it does not prove that every documented helper use fails.
+   The agent added exact local Git exclude entries and deleted one intermediate
+   input. Those workarounds are not the approved default and mean this is not a
+   protocol-clean efficiency pair. Original contents remain in captured events.
+2. **The route added round trips.** Both arms completed the native lifecycle, but
+   guided used more request-preparation and diagnostic calls. Cached context was
+   repeatedly processed. This is consistent with the much larger total-token
+   increase than the uncached-plus-output increase. It does not assign all excess
+   time to those calls or distinguish provider load from model decisions.
+3. **One review claim lacked confirming execution evidence.** Guided review
+   claimed successful extra inline assertions, but the associated compound command
+   ended with an error and retained no separate success output for those assertions.
+   Its ordinary eight-test run and the host's separate 12-test evaluator did pass.
+   A passing recorded verdict is not proof that every prose claim was verified.
+
+The direct control explicitly read two full references, whereas normal direct
+work may use relevant sections subject to mandatory project instructions. Generated
+tests also differed (seven direct, eight guided); both faced the same external
+12-test gate. Cache, order, stochastic implementations and host load remain
+confounders. The pair is diagnostic evidence, not a general ranking or a claim
+that Workkeel tasks will take twice as long.
+
+The runner's 49 automated checks passed, including frozen inputs, model selection,
+actual separate review threads and native measurement reconciliation. Those checks
+did not cover local Git excludes or the unsupported review sentence. The later
+audit therefore classified strict protocol compliance as false. Native records
+cover implementation, review and closeout; preparation is included only in runner
+totals. Cumulative reports were not added twice. Parent coordination, integration,
+harness construction and report writing are outside both arms' totals.
+
+Raw task records and machine-local execution sources remain private under the
+repository's publication boundary. The source integration does not publish those
+records. This analysis reuses the existing run; it is not a new measurement.
+
+### Next improvement boundary
+
+Before another live comparison, define a supported lifetime for decision inputs
+and prepared output, then verify the complete prepare/apply sequence offline.
+Preserve candidate scope and evidence checks. Any convenience must remove caller
+steps rather than require the model to copy another intermediate JSON object.
+Review claims must point to individually identifiable successful checks. No new
+helper redesign, model trial, release or deployment is performed by this decision.

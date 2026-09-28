@@ -27,16 +27,18 @@ before the final full suite. A changed approved scope still requires explicit
 authority; never edit a pinned contract merely to make a candidate fit.
 
 For resumption, start with the [compact delivery context](workkeel-native-dispatch.md#compact-resumption-and-execution-receipts).
-When using the reviewed source checkout, `node scripts/workkeel-delivery.mjs guide
-/absolute/project TASK-ID` adds just the current operation's required input fields.
-Use [request preparation](workkeel-native-dispatch.md#prepare-a-lifecycle-request)
-to fill version, claim and revision from current records. Read the relevant guide
-section when needed instead of repeatedly loading both complete operation manuals.
-This does not waive required project instructions or the approved task contract.
 Read required project instructions and follow the current scope, attention reasons,
 candidate and evidence references. Open detailed history only to resolve a concrete
 question. A status question needs no new claim or repeat of completed verification.
 Task creation, handoff and local acceptance do not establish external publication.
+
+The default delivery path uses the existing [native lifecycle requests](../getting-started/workkeel.md#claim-deliver-review-accept):
+read current task facts, save the complete request, inspect it, then apply it with
+the pinned native CLI. Use the documented request fields and relevant references;
+required project instructions and the approved contract remain mandatory.
+The source-checkout `guide` and `prepare` helpers are experimental and are not
+required by this path. One bounded comparison found additional work and no
+efficiency gain; see the [comparison and limits](workkeel-native-dispatch.md#direct-and-prepared-delivery-requests).
 
 ## One brief instead of repeating the full contract
 
@@ -93,8 +95,7 @@ workkeel monitor .
 Inspect the returned contract before applying. If the brief, policy or approval
 bytes change, obtain a fresh preview. Apply calls the existing native creation
 guard. Identical replays do not create duplicate tasks. Continue with the existing
-[claim, handoff, review and close commands](../getting-started/workkeel.md), optionally
-using the source-checkout request helper to produce their mechanical fields.
+[claim, handoff, review and close commands](../getting-started/workkeel.md).
 Only separately approved [workflows](workkeel-workflows.md) launch a model.
 
 Keep each executor's prompt bounded to its goal, permitted files, relevant
