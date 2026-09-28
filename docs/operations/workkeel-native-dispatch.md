@@ -57,7 +57,7 @@ reasoning scale. Host capabilities and permitted data classes must match.
    implementation claim. A generated ID alone does not prove independence.
 
 The source-checkout [delivery helper](#compact-resumption-and-execution-receipts) provides `context`,
-`attach`, `finish`, `check` and `review` commands over these existing APIs. It fills immutable ticket
+`guide`, `prepare`, `attach`, `finish`, `check` and `review` commands over these existing APIs. It fills immutable ticket
 identity fields when reporting, preserves explicit host measurements and returns
 a compact receipt with missing fields. It does not start or schedule an Agent.
 Use one operation per activity kind; a review or repair needs its own prepared
@@ -246,6 +246,67 @@ files and candidate integration, approval text, versions and publication needs.
 If the actual scope changes, preserve the earlier contract and obtain appropriate
 authority. Do not create replacement tasks solely to rename a node or continue
 the same approved implementation.
+
+### Prepare a lifecycle request
+
+From a reviewed source checkout, start with:
+
+```sh
+node /path/to/workkeel/scripts/workkeel-delivery.mjs guide /absolute/project WK-example
+```
+
+This read-only response combines the compact context with the current operation's
+required fields and one instruction. Scope, acceptance and evidence warnings remain
+complete. Read required project instructions, the approved contract and relevant
+evidence; load the detailed operation reference when a question remains. The helper
+is source-checkout tooling, not a new installed CLI command or bundled npm script.
+
+The same helper prepares mechanical fields without changing task state. Save an
+input with actual decisions, for example a completed handoff:
+
+```json
+{
+  "task_id":"WK-example",
+  "action":"handoff",
+  "actor":{"agent_id":"builder","principal_id":"owner"},
+  "operation_id":"handoff-1",
+  "summary":"Describe the actual changes and completed checks",
+  "evidence":[".ai-org/artifacts/WK-example/developer.md"],
+  "unresolved":[]
+}
+```
+
+```sh
+node /path/to/workkeel/scripts/workkeel-delivery.mjs prepare /absolute/project /private/decision.json > /private/prepared.json
+```
+
+Inspect the returned `request`, including its exact revision. Save only that field
+as a task-local request file, then use the existing pinned native command:
+
+```sh
+workkeel task handoff . --id WK-example --request .ai-org/artifacts/WK-example/handoff.json
+```
+
+| Action | Caller supplies, in addition to task, action, actor and operation ID | Derived fields |
+| --- | --- | --- |
+| `claim` | No decision fields | Current task version and Git HEAD |
+| `handoff` | Actual summary, evidence and explicit empty unresolved list | Current version, claim ID and Git HEAD |
+| `review` | Actual review judgment, summary and evidence | Current version and delivered revision |
+| `close` | Actual acceptance summary, rollback and evidence | Current version and delivered revision |
+
+Preparation neither runs checks nor validates all candidate/evidence conditions.
+`validation_status: native-apply-required` means the ordinary native command must
+still check authority, dependencies, version, candidate, scope, evidence and reviewer
+separation. Input cannot override derived fields. No verdict, summary, evidence,
+actor or operation ID is invented. A distinct actual reviewer still owns review;
+preparing a request does not make the caller independent or grant acceptance authority.
+
+Save requests before applying. After an uncertain write, inspect history and replay
+the identical saved request. Preparation refuses already-recorded operation IDs;
+it must not silently refresh a stale request or change its meaning on retry. A
+failed review needs the existing explicit rework path. Cancellation and release
+also retain their existing native commands. No new model, network call or lifecycle
+mutation is performed by `guide` or `prepare`.
 
 ### Attach the exact execution
 
