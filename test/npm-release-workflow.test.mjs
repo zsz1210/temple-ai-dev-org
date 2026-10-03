@@ -172,7 +172,15 @@ const fs=require('node:fs'),path=require('node:path'),cp=require('node:child_pro
 const args=process.argv.slice(2), name=path.basename(process.argv[1]);
 const out=process.env.RUNNER_TEMP, mode=process.env.TEST_RELEASE_MODE;
 const log=(s)=>fs.appendFileSync(path.join(out,'calls'),s+'\\n');
-if(name==='node') {const r=cp.spawnSync(process.execPath,[process.env.TEST_RELEASE_VALIDATOR,...args.slice(1)],{stdio:'inherit'});process.exit(r.status??1);}
+if(name==='node') {
+ if(args[0]==='scripts/check-published-npm.mjs') {
+  const post=args.includes('--require-published');log(post?'registry-after':'registry-before');
+  if(mode==='registry-failure')process.exit(1);
+  if(!post)fs.appendFileSync(process.env.GITHUB_OUTPUT,'action='+ (mode==='already-published'?'skip':'publish')+'\\n');
+  process.exit(0);
+ }
+ const r=cp.spawnSync(process.execPath,[process.env.TEST_RELEASE_VALIDATOR,...args.slice(1)],{stdio:'inherit'});process.exit(r.status??1);
+}
 if(name==='gh') {const dir=args[args.indexOf('--dir')+1];fs.copyFileSync(path.join(out,'attached'),path.join(dir,process.env.ARCHIVE_FILENAME));process.exit(0);}
 if(args[0]==='--version') {console.log(${JSON.stringify(RELEASE_TOOLCHAIN.npm)});process.exit(0);}
 if(args[0]==='ci') {log('install');process.exit(0);}
@@ -186,7 +194,7 @@ if(args[1]==='release:pack') {
 throw Error('Unexpected command '+name+' '+args.join(' '));
 `;
   for (const name of ["node", "npm", "gh"]) await fs.writeFile(path.join(bin, name), transport, { mode: 0o755 });
-  for (const mode of ["early-mismatch", "test-failure", "late-drift", "pass"]) {
+  for (const mode of ["early-mismatch", "test-failure", "late-drift", "registry-failure", "already-published", "pass"]) {
     const cwd = path.join(directory, mode); await fs.mkdir(cwd);
     await fs.writeFile(path.join(cwd, "package.json"), JSON.stringify(packageDocument()));
     await fs.writeFile(path.join(cwd, "attached"), mode === "early-mismatch" ? "different" : "qualified");
@@ -196,6 +204,7 @@ throw Error('Unexpected command '+name+' '+args.join(' '));
       DIST_TAG: "next", TEST_RELEASE_MODE: mode, TEST_RELEASE_VALIDATOR: path.join(root, "scripts/validate-npm-release.mjs") };
     let failed = false;
     for (const body of runBodies) {
+      if (body.includes('npm publish') && (await fs.readFile(env.GITHUB_OUTPUT, 'utf8')).includes('action=skip')) continue;
       const result = spawnSync("/bin/bash", ["-e", "-c", body], { cwd, env, encoding: "utf8", timeout: 10000 });
       if (result.status !== 0) { failed = true; break; }
     }
@@ -204,10 +213,12 @@ throw Error('Unexpected command '+name+' '+args.join(' '));
       "early-mismatch": ["install", "early-pack"],
       "test-failure": ["install", "early-pack", "verify"],
       "late-drift": ["install", "early-pack", "verify", "final-pack"],
-      pass: ["install", "early-pack", "verify", "final-pack", "publish"]
+      "registry-failure": ["install", "early-pack", "verify", "final-pack", "registry-before"],
+      "already-published": ["install", "early-pack", "verify", "final-pack", "registry-before", "registry-after"],
+      pass: ["install", "early-pack", "verify", "final-pack", "registry-before", "publish", "registry-after"]
     };
     assert.deepEqual(calls, expected[mode], mode);
-    assert.equal(failed, mode !== "pass", mode);
+    assert.equal(failed, !["pass", "already-published"].includes(mode), mode);
   }
 });
 
@@ -226,6 +237,8 @@ test("npm publication workflow has one Release-only OIDC boundary", async () => 
   assert.match(workflow, /gh release download/);
   assert.match(workflow, /verify-asset/);
   assert.match(workflow, /npm publish .* --access public --tag "\$DIST_TAG"/);
+  assert.match(workflow, /if: \$\{\{ steps\.registry\.outputs\.action == 'publish' \}\}/);
+  assert.match(workflow, /--require-published/);
   assert.doesNotMatch(workflow, /NPM_TOKEN|NODE_AUTH_TOKEN|secrets\./);
   assert.doesNotMatch(workflow, /continue-on-error|retry|fallback/i);
 
