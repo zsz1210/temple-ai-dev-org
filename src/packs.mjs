@@ -25,12 +25,14 @@ function safePackPath(relativePath) {
 }
 
 function versionParts(value) {
-  const match = /^(\d+)\.(\d+)\.(\d+)(?:-alpha\.(\d+))?$/.exec(String(value));
+  const match = /^(\d+)\.(\d+)\.(\d+)(?:-(alpha|beta)\.(\d+))?$/.exec(String(value));
   if (!match) return null;
-  return match.slice(1).map((entry, index) => index === 3 && entry === undefined ? Number.MAX_SAFE_INTEGER : Number(entry));
+  const parts = match.slice(1, 4).map(Number);
+  parts.push(match[4] === undefined ? 2 : match[4] === 'beta' ? 1 : 0, Number(match[5] ?? 0));
+  return parts.every(Number.isSafeInteger) ? parts : null;
 }
 
-function compareVersions(left, right) {
+export function comparePackVersions(left, right) {
   const leftParts = versionParts(left);
   const rightParts = versionParts(right);
   if (!leftParts || !rightParts) return null;
@@ -43,8 +45,8 @@ function compareVersions(left, right) {
 function compatible(manifest) {
   const minimum = manifest.compatibility.temple.min;
   const maximum = manifest.compatibility.temple.max_exclusive;
-  const againstMinimum = compareVersions(TEMPLATE_VERSION, minimum);
-  const againstMaximum = compareVersions(TEMPLATE_VERSION, maximum);
+  const againstMinimum = comparePackVersions(TEMPLATE_VERSION, minimum);
+  const againstMaximum = comparePackVersions(TEMPLATE_VERSION, maximum);
   return againstMinimum !== null && againstMaximum !== null && againstMinimum >= 0 && againstMaximum < 0 &&
     Number(process.versions.node.split(".")[0]) >= manifest.compatibility.node.min_major;
 }

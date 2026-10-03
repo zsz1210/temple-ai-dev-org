@@ -17,6 +17,8 @@ interruption/rejected-delivery recovery qualification.
   filtered Skill inventories without replacing retained reader content.
 - Aligns observer documentation with same-tab session access and the indexed
   2,000-task API; the compatibility snapshot keeps its 200-task bound.
+- Allows bundled pack compatibility ranges to recognize Beta versions, ordered
+  after Alpha and before the corresponding stable release, with regression coverage.
 - Real provider usage remains unknown when the execution host supplies no
   attributable measurements. Human waiting is not inferred as active execution.
 
