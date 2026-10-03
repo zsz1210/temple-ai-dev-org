@@ -4,7 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 const root = path.dirname(fileURLToPath(import.meta.url));
 const pin = JSON.parse(fs.readFileSync(path.join(root, "workkeel.lock"), "utf8")).cli;
-if (pin.package_name !== "@zsz1210/workkeel" || pin.version !== "0.1.0-alpha.34") throw Error("Workkeel pin mismatch");
+if (pin.package_name !== "@zsz1210/workkeel" || pin.version !== "0.1.0-beta.1") throw Error("Workkeel pin mismatch");
 const installed = path.join(root, "node_modules", "@zsz1210", "workkeel", "bin", "workkeel.mjs");
 const source = process.env.WORKKEEL_CLI_PATH || (fs.existsSync(installed) ? installed : null);
 if (source) {

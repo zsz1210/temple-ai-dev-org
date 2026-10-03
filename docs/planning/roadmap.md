@@ -8,7 +8,7 @@ This repository uses the native workflow and retains legacy records read-only.
 
 ## Available in development source
 
-Alpha.34 is the current release candidate; registry publication is pending verification.
+Beta.1 (`0.1.0-beta.1`) is the current release candidate; registry publication is pending verification.
 
 - Native task contracts, scoped claims, exact-candidate handoff, distinct review
   and explicit acceptance.

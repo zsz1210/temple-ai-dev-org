@@ -2,7 +2,7 @@
   "schema_version": "workkeel.project/v1",
   "cli": {
     "package_name": "@zsz1210/workkeel",
-    "version": "0.1.0-alpha.34"
+    "version": "0.1.0-beta.1"
   },
   "policy": {
     "schema_version": "workkeel.task-policy/v1",

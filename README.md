@@ -9,7 +9,7 @@ models. It is not tied to OpenAI, Codex or a particular model.
 English · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md)
 
 [![CI](https://github.com/zsz1210/workkeel/actions/workflows/ci.yml/badge.svg)](https://github.com/zsz1210/workkeel/actions/workflows/ci.yml)
-Early Alpha · Node.js 24+ · [MIT](LICENSE)
+Beta.1 candidate · Node.js 24+ · [MIT](LICENSE)
 
 ## What it does
 
@@ -153,7 +153,7 @@ stop for reconciliation. The observer reads these records without executing work
 
 ## Evidence and limits
 
-The framework is Alpha. Local locks are not distributed coordination, attributed
+The framework is an experimental Beta. Full interruption/rejected-delivery recovery and fresh-machine installation remain unqualified. Local locks are not distributed coordination, attributed
 identities are not provider-authenticated identities, and native host sessions have
 no automatic usage data unless their host records it. Skill selection does not prove
 application quality. Learning milestones do not imply automatic Skill promotion.

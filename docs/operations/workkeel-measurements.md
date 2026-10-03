@@ -43,10 +43,14 @@ incomplete. Fatal snapshot failures hide old content. It never repairs or resume
 
 The monitor reads existing records only and does not require optional LangGraph
 packages merely to view them. It excludes retained legacy-mode tasks; it does not
-migrate a project or replace the legacy Console. Limits: 200 visible native tasks and a
-4 MiB response; use the per-task JSON command for larger projects. Starting the
-viewer and reading snapshots writes no project files. Browser reload loses the
-in-memory access token; reopen the printed link to regain access.
+migrate a project or replace the legacy Console. The indexed observer supports
+2,000 native tasks with bounded, paginated APIs; the compatibility full snapshot
+retains its 200-task and 4 MiB response limits. See the
+[observer bounds](workkeel-observer.md#local-overhead-and-limits).
+Starting the viewer and reading snapshots writes no project files. Same-tab reload
+uses sessionStorage to retain local access when available; after tab/session loss
+or unavailable storage, reopen the printed capability link. Proxy access follows
+its configured authentication mode.
 
 This is a task monitor, not the [offline workflow explainer](../assets/workkeel-flow.html).
 

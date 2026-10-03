@@ -8,7 +8,7 @@ Workkeel 記錄已批准的範圍、執行過程、交接與審查證據。能�
 [English](README.md) · 繁體中文 · [日本語](README.ja.md)
 
 [![CI](https://github.com/zsz1210/workkeel/actions/workflows/ci.yml/badge.svg)](https://github.com/zsz1210/workkeel/actions/workflows/ci.yml)
-Early Alpha · Node.js 24+ · [MIT](LICENSE)
+Beta.1 candidate · Node.js 24+ · [MIT](LICENSE)
 
 ## 可以做什麼
 
@@ -120,7 +120,7 @@ node bin/workkeel.mjs monitor /path/to/task-first-project
 
 ## 驗證與限制
 
-目前是 Alpha。本機鎖不等於跨機協調；紀錄上的身分不等於供應商認證。
+目前為實驗性 Beta；完整中斷／拒絕交付恢復與新機安裝仍未取得完整驗證。本機鎖不等於跨機協調；紀錄上的身分不等於供應商認證。
 外部工具的原生對話若沒有提供執行紀錄，就沒有自動用量資料。
 指定 Skill 不代表已正確應用；學習進度也不代表已完成自動升格。
 
