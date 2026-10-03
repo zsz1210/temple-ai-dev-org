@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.1.0-beta.1
+
+Workkeel Beta.1 prerelease candidate for internal and early adopter evaluation.
+GitHub/npm publication remains pending until the release and registry checks pass.
+This Beta does not claim production readiness or complete fresh-machine and
+interruption/rejected-delivery recovery qualification.
+
+- Includes the task-first coordination, scoped approval, exact-candidate handoff,
+  distinct-Agent review, Learning, usage attribution and read-only observer from
+  the Alpha.34 development source, plus the reviewed public-main improvements.
+- Preserves open observer document content when a source is removed, marks it as
+  a previously read version, and revalidates after restoration. Filtered inventory
+  entries are checked through the existing allowed document endpoint.
+- Adds real-browser regression coverage for source removal/restoration and
+  filtered Skill inventories without replacing retained reader content.
+- Aligns observer documentation with same-tab session access and the indexed
+  2,000-task API; the compatibility snapshot keeps its 200-task bound.
+- Allows bundled pack compatibility ranges and migration baselines to recognize Beta versions, ordered
+  after Alpha and before the corresponding stable release, with regression coverage.
+- Real provider usage remains unknown when the execution host supplies no
+  attributable measurements. Human waiting is not inferred as active execution.
+
 ## 0.1.0-alpha.34
 
 Release candidate for the renamed `@zsz1210/workkeel` package. Publication and

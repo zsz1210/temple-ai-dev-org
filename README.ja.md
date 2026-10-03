@@ -9,7 +9,7 @@ OpenAI、Codex、特定のモデルを前提としません。
 [English](README.md) · [繁體中文](README.zh-TW.md) · 日本語
 
 [![CI](https://github.com/zsz1210/workkeel/actions/workflows/ci.yml/badge.svg)](https://github.com/zsz1210/workkeel/actions/workflows/ci.yml)
-Early Alpha · Node.js 24+ · [MIT](LICENSE)
+Beta.1 candidate · Node.js 24+ · [MIT](LICENSE)
 
 ## できること
 
@@ -123,7 +123,7 @@ node bin/workkeel.mjs monitor /path/to/task-first-project
 
 ## 検証と制約
 
-現在は Alpha です。ローカルロックは分散調整ではなく、記録上の身元はプロバイダー認証ではありません。
+実験段階の Beta です。中断／拒否後の完全な復旧と新規環境への導入は未検証です。ローカルロックは分散調整ではなく、記録上の身元はプロバイダー認証ではありません。
 ネイティブセッションの使用量は、ホストが記録しなければ自動取得されません。
 Skill の指定は適切な適用の証明ではなく、学習の段階表示も自動昇格を意味しません。
 

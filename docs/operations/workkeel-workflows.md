@@ -71,9 +71,11 @@ serve local views and event streams on demand; a managed observer is a separate
 opt-in. Its current records are not yet a complete dashboard for the new Workkeel
 task and graph execution stores. No macOS application is shipped.
 
-A future monitor can show task state, runner state, selected/confirmed model,
-completed steps, elapsed time and observed token usage without asking a model to
-summarize progress. Model reasoning has no trustworthy percent-complete measure;
+The existing [read-only observer](workkeel-observer.md) shows recorded task and
+workflow state, selected/confirmed models, execution intervals and observed token
+usage without asking a model to summarize progress. It does not control execution
+or provide complete live coverage of every graph/host session. Model reasoning
+has no trustworthy percent-complete measure;
 unknown usage remains unknown. Subscription tokens are not a dollar invoice.
 An on-demand viewer need not install a background service, but continuing work
 after closing it still requires the execution process to remain alive.

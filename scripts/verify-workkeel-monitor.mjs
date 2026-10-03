@@ -47,7 +47,33 @@ async function verifyLiveState(page,monitor,root){
  await page.unroute('**/api/changes?*');await page.unroute('**/api/workspace');await page.unroute('**/api/task?*');await page.unroute('**/api/document?*');
  await page.locator('#close-document').click();await page.locator('#close-drawer').click();await page.locator('#nav-learning').click();await page.getByRole('button',{name:'技能庫',exact:true}).click();await page.locator('#search').fill('copper kestrel');await page.getByRole('button',{name:'custom-check',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#document-body').textContent.includes('copper kestrel'));
  const original=await page.locator('#document-body').innerText();await fs.appendFile(path.join(root,'.agents/skills/custom-check/SKILL.md'),'\nLive-state source update.\n');await page.waitForFunction(()=>document.querySelector('#document-status').textContent.includes('來源已更新'));assert.equal(await page.locator('#document-body').innerText(),original);
- return {live_state:true,changed_data:true,heartbeat:true,node_identity:true,focus_selection:true,open_closed_disclosures:true,help:true,drawer_fullscreen_scroll:true,stale_task_response:true,document_update_notice:true,task_tab:true,actual_library_file_change:true};
+ // Removing a Skill source must mark the retained reader text stale, even when
+ // the task/workspace revision is unchanged. Restoring the same bytes revalidates
+ // the retained version without replacing its DOM or reading position.
+ const skillFile=path.join(root,'.agents/skills/custom-check/SKILL.md'),skillBytes=await fs.readFile(skillFile);
+ await page.locator('#reload-document').click();await page.waitForFunction(()=>document.querySelector('#document-status').textContent.includes('唯讀'));
+ const retained=await page.locator('#document-body').innerText();
+ await page.evaluate(()=>{window.retainedDocumentNode=document.querySelector('#document-body').firstChild;});
+ try{
+  await fs.unlink(skillFile);
+  await page.waitForFunction(()=>document.querySelector('#document-status').textContent.includes('來源無法讀取或已移除'));
+  assert.equal(await page.locator('#document-body').innerText(),retained);
+  assert.equal(await page.evaluate(()=>retainedDocumentNode===document.querySelector('#document-body').firstChild),true);
+ }finally{await fs.writeFile(skillFile,skillBytes);}
+ await page.waitForFunction(()=>document.querySelector('#document-status').textContent.includes('唯讀'));
+ assert.equal(await page.locator('#document-body').innerText(),retained);
+ assert.equal(await page.evaluate(()=>retainedDocumentNode===document.querySelector('#document-body').firstChild),true);
+ // A filtered inventory alone must not claim that an existing source is gone.
+ let fallbackReads=0;
+ const countFallback=request=>{if(request.url().includes('/api/document?'))fallbackReads++;};page.on('request',countFallback);
+ await page.route('**/api/library?*',async route=>{const data=await (await route.fetch()).json();data.skills=[];await route.fulfill({json:data});});
+ await page.getByRole('button',{name:'custom-check',exact:true}).waitFor({state:'detached'});
+ for(let i=0;i<40&&!fallbackReads;i++)await page.waitForTimeout(100);
+ assert.ok(fallbackReads>0,'a missing filtered inventory entry is checked through the document endpoint');
+ assert.match(await page.locator('#document-status').innerText(),/唯讀/);
+ assert.equal(await page.locator('#document-body').innerText(),retained);
+ page.off('request',countFallback);await page.unroute('**/api/library?*');
+ return {live_state:true,changed_data:true,heartbeat:true,node_identity:true,focus_selection:true,open_closed_disclosures:true,help:true,drawer_fullscreen_scroll:true,stale_task_response:true,document_update_notice:true,task_tab:true,actual_library_file_change:true,removed_source_notice:true,restored_source_revalidation:true,filtered_source_revalidation:true};
 }
 async function verifyObserverRegressions(page,monitor,root,index){
  const waitText=(selector,text)=>page.waitForFunction(({selector,text})=>document.querySelector(selector)?.textContent.includes(text),{selector,text});

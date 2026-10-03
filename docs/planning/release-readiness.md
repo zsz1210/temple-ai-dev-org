@@ -1,8 +1,8 @@
-# Alpha release readiness
+# Beta release readiness
 
-Last refreshed: 2026-09-26
+Last refreshed: 2026-10-03
 
-**Alpha.34 is the Workkeel release candidate; publication is pending.** The renamed
+**Beta.1 (`0.1.0-beta.1`) is the Workkeel release candidate; publication is pending.** The renamed
 `@zsz1210/workkeel` registry endpoint returned 404 on the refresh date. Its first
 publication and trusted-publisher configuration must be completed explicitly.
 An npm trust relationship requires an existing package; see the official
@@ -16,11 +16,21 @@ a GitHub Release and an npm version remain separate states.
 
 ## Current release surfaces
 
+Beta.1 is an experimental prerelease. Internal Agent simulations, deterministic
+fixtures and real Chrome observer checks establish only their recorded conditions.
+Complete interruption/rejected-delivery recovery, fresh-machine registry setup,
+real-human comprehension and provider usage attribution are not fully qualified.
+The npm package endpoint still returned 404 on the refresh date; the maintainer's
+existing npm authentication check returned 401. First publication requires account
+authentication and second-factor confirmation. Trusted Publisher setup changes
+external permissions and remains a separate owner action; do not trigger a known
+unconfigured OIDC upload or substitute a token.
+
 | Surface | Observed state | Next action |
 | --- | --- | --- |
 | Published GitHub prerelease | [v0.1.0-alpha.33](https://github.com/zsz1210/temple-ai-dev-org/releases/tag/v0.1.0-alpha.33), target `2e269d67bd764d3c47df665bc9043263cf8082e8` | Preserve the immutable published release |
 | npm channels | The renamed Workkeel package is not yet available; prior dist-tags belong to the historical Temple package | Verify the exact name and version; do not treat historical availability as a Workkeel publication |
-| Development source | Alpha.34 release candidate, including native Learning and observer work | Use the exact revision and [changelog](../../CHANGELOG.md) until archive and registry qualification are complete |
+| Development source | Beta.1 release candidate, including native Learning and the verified retained-document observer repair | Use the exact revision and [changelog](../../CHANGELOG.md) until archive and registry qualification are complete |
 | Integration | [Single-maintainer PR policy](../../GOVERNANCE.md#single-maintainer-pull-request-policy) | Ordinary PR, required CI and independent native Workkeel review; no impossible self-approval requirement |
 | npm publication | [Release-only workflow](../operations/npm-release.md) | Publishing a GitHub Release triggers verification and exact-asset comparison before OIDC upload |
 | Real downstream projects | Not modified by release qualification | Plan an explicit project-specific upgrade; publication does not upgrade installed projects |

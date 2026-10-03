@@ -565,6 +565,7 @@ async function refresh(force=false){
  if(state.source_status==='unavailable')throw Error('source-unavailable');
  if(state.indexing||!state.ready){connection=snapshot?(snapshot.complete?'healthy':'partial'):'indexing';updateConnection();if(!snapshot)$('content').replaceChildren(empty(t('正在核對來源與建立索引，完成後會自動顯示','Validating sources and building the index; this page will update automatically')));return;}
  const changed=force||!snapshot||state.changed;
+ let documentInventoryChanged=changed;
  if(changed){const next=await api('/api/workspace');snapshot=next;lastSignature=next.health.revision;$('project-name').textContent=next.project.name;
   $('status').className=next.complete?'':'error';$('status').textContent=next.complete?'':t('部分紀錄無法驗證，請查看標示的任務。','Some records could not be verified. Inspect the marked tasks.');}
  if(snapshot)snapshot.health={...snapshot.health,...state};connection=state.source_status==='healthy'?'healthy':'partial';updateConnection();
@@ -574,8 +575,18 @@ async function refresh(force=false){
   const requestedTask=selected,request=++detailRequest,detail=await api('/api/task?id='+encodeURIComponent(requestedTask));
   if(selected===requestedTask&&request===detailRequest&&!learningSelected){selectedTask=detail;if(fullTask||$('drawer').open)renderDetail();}
  }
- if(view==='learning'||learningSelected||openDocument&&library){const requestedQuery=libraryQuery,requestedLearning=learningSelected?.id;lastLibraryQuery=requestedQuery;const fresh=await api('/api/library?q='+encodeURIComponent(requestedQuery));if(requestedQuery===libraryQuery){const differs=signature(fresh)!==signature(library);library=fresh;if(differs&&view==='learning')render();if(learningSelected&&learningSelected.id===requestedLearning){const entry=fresh.learning.find(e=>e.id===learningSelected.id);if(entry){learningSelected=entry;renderLearningDetail(entry);}else if($('drawer').open)$('detail-content').replaceChildren(empty(t('紀錄已移除或無法讀取','Record removed or unavailable')));}}}
- if(openDocument&&documentSignature){const docs=[...(selectedTask?.documents??[]),...(library?.skills??[]),...(library?.learning??[]).map(e=>({...e,id:e.document_id}))],doc=docs.find(x=>x.id===openDocument);if(doc?.digest&&doc.digest!==documentSignature)$('document-status').textContent=t('來源已更新，按「重新讀取」查看。','Source updated. Reload when ready.');}
+ if(view==='learning'||learningSelected||openDocument&&library){const requestedQuery=libraryQuery,requestedLearning=learningSelected?.id;lastLibraryQuery=requestedQuery;const fresh=await api('/api/library?q='+encodeURIComponent(requestedQuery));if(requestedQuery===libraryQuery){const differs=signature(fresh)!==signature(library);documentInventoryChanged||=differs;library=fresh;if(differs&&view==='learning')render();if(learningSelected&&learningSelected.id===requestedLearning){const entry=fresh.learning.find(e=>e.id===learningSelected.id);if(entry){learningSelected=entry;renderLearningDetail(entry);}else if($('drawer').open)$('detail-content').replaceChildren(empty(t('紀錄已移除或無法讀取','Record removed or unavailable')));}}}
+ if(openDocument&&documentSignature){
+  const id=openDocument,epoch=bodyRequest,retained=documentSignature;
+  const docs=[...(selectedTask?.documents??[]),...(library?.skills??[]),...(library?.learning??[]).map(e=>({...e,id:e.document_id}))],doc=docs.find(x=>x.id===id);
+  // A missing inventory entry may be a filtered Skill, not a removed source.
+  // Revalidate it through the existing allowlisted endpoint after source changes.
+  if(doc?.digest||documentInventoryChanged){
+   let digest=doc?.digest;
+   if(!digest)try{digest=(await api('/api/document?id='+encodeURIComponent(id)+(selectedTask?.record_mode==='work-items'?'&history=1':''))).digest;}catch{}
+   if(openDocument===id&&bodyRequest===epoch&&documentSignature===retained)$('document-status').textContent=!digest?t('來源無法讀取或已移除；以下為先前讀取的版本。','Source unavailable or removed; showing the previously read version.'):digest!==retained?t('來源已更新，按「重新讀取」查看。','Source updated. Reload when ready.'):t('唯讀 · 版本 ','Read only · Version ')+retained.slice(0,12);
+  }
+ }
  }catch(error){const sourceFailure=error.message==='source-unavailable';snapshot=null;lastSignature='';selectedTask=null;library=null;connection=sourceFailure?'source-error':'offline';updateConnection();$('status').className='error';$('status').textContent=sourceFailure?t('服務已連線，但來源資料無法驗證；舊資料已隱藏。請檢查來源檔案與讀取權限。','The service is connected, but source records could not be verified. Stale data is hidden. Check source files and read access.'):t('無法讀取最新資料，舊資料已隱藏。請確認本機服務仍在執行。','Cannot read current records. Stale data is hidden. Check the local service.');if(fullTask)$('drawer').append($('detail-surface'));render();if($('drawer').open)$('detail-content').replaceChildren(empty(sourceFailure?t('來源無法驗證，暫停顯示任務資料','Source unavailable; task data is hidden'):t('連線中斷，暫停顯示任務資料','Disconnected; task data is hidden')));if(openDocument)$('document-status').textContent=sourceFailure?t('來源無法驗證；以下為先前讀取的版本。','Source unavailable; showing the previously read version.'):t('連線中斷；以下為先前讀取的版本。','Disconnected; showing the previously read version.');}
  finally{loading=false;if(!document.hidden)timer=setTimeout(refresh,2000);}
 }
