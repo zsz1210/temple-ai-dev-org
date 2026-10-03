@@ -17,7 +17,7 @@ test('pack compatibility orders Alpha, Beta and stable releases numerically', ()
 test('bundled packs remain within their declared framework range for this release', async () => {
   const packs = await listPackDefinitions();
   assert.ok(packs.length > 0);
-  for (const pack of packs) {
+  for (const { manifest: pack } of packs) {
     assert.ok(comparePackVersions(TEMPLATE_VERSION, pack.compatibility.temple.min) >= 0);
     assert.equal(comparePackVersions(TEMPLATE_VERSION, pack.compatibility.temple.max_exclusive), -1);
   }
