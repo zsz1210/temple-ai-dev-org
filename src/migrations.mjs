@@ -6,9 +6,12 @@ export const MIGRATION_REGISTRY_SCHEMA = "temple.migrations/v1";
 export const MIGRATION_REGISTRY_RELATIVE_PATH = ".ai-org/core/migrations.json";
 
 function versionParts(value) {
-  const match = /^(\d+)\.(\d+)\.(\d+)(?:-alpha\.(\d+))?$/.exec(String(value));
+  const match = /^(\d+)\.(\d+)\.(\d+)(?:-(alpha|beta)\.(\d+))?$/.exec(String(value));
   if (!match) throw new Error(`Unsupported Temple version in migration state: ${value}`);
-  return match.slice(1).map((entry, index) => index === 3 && entry === undefined ? Number.MAX_SAFE_INTEGER : Number(entry));
+  const parts = match.slice(1, 4).map(Number);
+  parts.push(match[4] === undefined ? 2 : match[4] === 'beta' ? 1 : 0, Number(match[5] ?? 0));
+  if (!parts.every(Number.isSafeInteger)) throw new Error(`Unsupported Temple version in migration state: ${value}`);
+  return parts;
 }
 
 export function compareTempleVersions(left, right) {
