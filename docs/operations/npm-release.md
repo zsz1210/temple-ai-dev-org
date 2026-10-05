@@ -1,11 +1,15 @@
 # npm release operations
 
-Workkeel publishes npm packages only after a maintainer deliberately publishes a GitHub Release. Pull requests, pushes, merges, and draft Releases do not publish anything.
+Ordinary Workkeel npm publishing runs after a maintainer deliberately publishes
+a GitHub Release. Pull requests, pushes, merges, and draft Releases do not trigger
+publication. The first-package bootstrap described below requires a separate
+owner-authenticated upload before a Trusted Publisher can be configured.
 
 The Workkeel source rename is not an npm publication. Existing Temple Alpha.33
 releases and package pins remain historical; do not replace their archives or tags.
-The new package's Trusted Publisher is **not configured by the rename**. Its setup
-and first publication require separate owner authorization and live qualification.
+The new package's Trusted Publisher was explicitly configured during the Beta.1
+publication, after its owner-authenticated first upload. This was not inherited
+from the rename. See the dated [publication record](../planning/release-readiness.md).
 
 ## One-time npm setup
 
@@ -81,7 +85,7 @@ output directory if packing fails. It does not overwrite a candidate or change
 your Node installation. Inspect and remove only your own failed output directory
 before using a new destination.
 
-Publishing the Release triggers `.github/workflows/publish-npm.yml`. GitHub recommends the `release.published` event for workflows that must cover both stable and prerelease publications, including prereleases published from drafts. The workflow first packs with the qualified toolchain, validates metadata, downloads the attached archive, and compares bytes. Only then does it run complete verification. It repacks and compares the retained asset again after testing before calling npm through OIDC. A mismatch never becomes acceptable merely because the decompressed contents match. See [GitHub's release-event reference](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#release).
+Publishing the Release triggers `.github/workflows/publish-npm.yml`. GitHub recommends the `release.published` event for workflows that must cover both stable and prerelease publications, including prereleases published from drafts. The workflow first packs with the qualified toolchain, validates metadata, downloads the attached archive, and compares bytes. Only then does it run complete verification. It repacks and compares the retained asset again after testing. If the version is absent, it publishes through OIDC. For an already uploaded bootstrap version, it skips upload only after registry identity, both integrity hashes, downloaded bytes and the intended dist-tag match. Both paths finish with registry verification. A mismatch never becomes acceptable merely because the decompressed contents match. See [GitHub's release-event reference](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#release).
 
 ## Channel mapping
 

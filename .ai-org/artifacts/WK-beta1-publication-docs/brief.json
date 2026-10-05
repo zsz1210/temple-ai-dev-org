@@ -1,0 +1,24 @@
+{
+  "schema_version": "workkeel.task-brief/v1",
+  "id": "WK-beta1-publication-docs",
+  "goal": "Synchronize public documentation with the verified Beta.1 publication",
+  "actor": {"agent_id": "builder", "principal_id": "owner"},
+  "acceptance": [
+    "README and Roadmap editions identify the exact published Beta.1 and next channel consistently",
+    "Release readiness distinguishes owner-authenticated bootstrap publication from OIDC provenance and preserves experimental limits",
+    "Published package bytes, tag, version, historical evidence and product behavior remain unchanged",
+    "Applicable verification and a distinct actual review pass before ordinary PR integration"
+  ],
+  "exclude": ["Product changes", "New package publication", "Account or global setting changes", "New benchmarks"],
+  "environment": {
+    "cwd": ".",
+    "read_paths": ["."],
+    "write_paths": ["README.md", "README.ja.md", "README.zh-TW.md", "CHANGELOG.md", "docs/README.md", "docs/planning/roadmap.md", "docs/planning/roadmap.ja.md", "docs/planning/roadmap.zh-TW.md", "docs/planning/release-readiness.md", "docs/getting-started/workkeel.md", "docs/operations/npm-release.md", ".ai-org/artifacts/WK-beta1-publication-docs"],
+    "tools": ["node", "npm", "git", "gh", "native-agent-host"],
+    "resources": [],
+    "network": {"mode": "allowlist", "hosts": ["github.com", "api.github.com", "registry.npmjs.org"]},
+    "external_actions": ["release-read", "registry-read", "documentation-pr-integration"],
+    "data": {"classification": "public", "model_access": "approved-connection", "policy_refs": [".ai-org/artifacts/WK-beta1-publication-docs/approval.md", "docs/policies/development-dispatch.json"]}
+  },
+  "authorization": {"approved_by": "owner", "approval_ref": ".ai-org/artifacts/WK-beta1-publication-docs/approval.md", "operations": ["read", "write", "execute", "network", "external"], "expires_at": null}
+}

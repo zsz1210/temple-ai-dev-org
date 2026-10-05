@@ -1,0 +1,178 @@
+{
+  "schema_version": "workkeel.work-item/v1",
+  "id": "WK-beta1-publication-docs",
+  "version": 2,
+  "state": "build",
+  "contract": {
+    "schema_version": "workkeel.task-contract/v1",
+    "id": "WK-beta1-publication-docs",
+    "goal": "Synchronize public documentation with the verified Beta.1 publication",
+    "actor": {
+      "agent_id": "builder",
+      "principal_id": "owner"
+    },
+    "state": "intake",
+    "scope": {
+      "include": [
+        "Synchronize public documentation with the verified Beta.1 publication"
+      ],
+      "exclude": [
+        "Product changes",
+        "New package publication",
+        "Account or global setting changes",
+        "New benchmarks"
+      ]
+    },
+    "dependencies": [],
+    "acceptance": {
+      "criteria": [
+        "README and Roadmap editions identify the exact published Beta.1 and next channel consistently",
+        "Release readiness distinguishes owner-authenticated bootstrap publication from OIDC provenance and preserves experimental limits",
+        "Published package bytes, tag, version, historical evidence and product behavior remain unchanged",
+        "Applicable verification and a distinct actual review pass before ordinary PR integration"
+      ],
+      "evidence": []
+    },
+    "verification": {
+      "risk_tier": "standard",
+      "separation": "distinct-agent",
+      "implementer": null,
+      "reviewer": null,
+      "candidate_revision": null
+    },
+    "handoff": null,
+    "environment": {
+      "cwd": ".",
+      "read_paths": [
+        "."
+      ],
+      "write_paths": [
+        "README.md",
+        "README.ja.md",
+        "README.zh-TW.md",
+        "CHANGELOG.md",
+        "docs/README.md",
+        "docs/planning/roadmap.md",
+        "docs/planning/roadmap.ja.md",
+        "docs/planning/roadmap.zh-TW.md",
+        "docs/planning/release-readiness.md",
+        "docs/getting-started/workkeel.md",
+        "docs/operations/npm-release.md",
+        ".ai-org/artifacts/WK-beta1-publication-docs"
+      ],
+      "tools": [
+        "node",
+        "npm",
+        "git",
+        "gh",
+        "native-agent-host"
+      ],
+      "resources": [],
+      "network": {
+        "mode": "allowlist",
+        "hosts": [
+          "github.com",
+          "api.github.com",
+          "registry.npmjs.org"
+        ]
+      },
+      "external_actions": [
+        "release-read",
+        "registry-read",
+        "documentation-pr-integration"
+      ],
+      "data": {
+        "classification": "public",
+        "model_access": "approved-connection",
+        "policy_refs": [
+          ".ai-org/artifacts/WK-beta1-publication-docs/approval.md",
+          "docs/policies/development-dispatch.json"
+        ]
+      }
+    },
+    "authorization": {
+      "approved_by": "owner",
+      "approval_ref": ".ai-org/artifacts/WK-beta1-publication-docs/approval.md",
+      "operations": [
+        "read",
+        "write",
+        "execute",
+        "network",
+        "external"
+      ],
+      "expires_at": null
+    },
+    "skills": [],
+    "execution": {
+      "runtime": {
+        "kind": "host-owned",
+        "adapter_id": null,
+        "required_features": []
+      },
+      "model_connection": {
+        "kind": "native"
+      }
+    },
+    "legacy": null
+  },
+  "contract_sha256": "0c096c6f5403d2ac480884fa5cea5f37f491b179258db1cd8d7116887a158128",
+  "policy_sha256": "04102080b0e70a04898b1e64a2ec05194665087061c4cc37ee7f7df02626db4a",
+  "authority_pins": [
+    {
+      "path": ".ai-org/artifacts/WK-beta1-publication-docs/approval.md",
+      "sha256": "21fe33717d39a667aa527a8f5ee55387245da87876ce2d5c4b55533dfe50436a"
+    },
+    {
+      "path": "docs/policies/development-dispatch.json",
+      "sha256": "f8bebba95aff3d766d42d1bb2a9fa44dfe7dff607e60a6ebde2d64cc03ae9664"
+    }
+  ],
+  "claim": {
+    "id": "claim-1d9fa199-3db2-434b-b315-dd1ab24f80b7",
+    "actor": {
+      "agent_id": "builder",
+      "principal_id": "owner"
+    },
+    "at": "2026-10-05T15:11:23.421Z"
+  },
+  "base_revision": "9d843708928bb60da154e16be6b1bd0d431b984b",
+  "dependency_pins": [],
+  "delivery": null,
+  "review": null,
+  "closeout": null,
+  "attempts": [],
+  "history": [
+    {
+      "sequence": 1,
+      "action": "create",
+      "operation_id": "intake-0c096c6f5403d2ac480884fa",
+      "request_sha256": "bb5494a7e331eb7ac6914d4a70b7683d913a8e9e908daf7371652fab83fe2d7a",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-10-05T15:11:22.876Z",
+      "state": "intake",
+      "revision": null,
+      "previous_hash": null,
+      "record_sha256": "6af7b4584fca6bfb0aa03a3484cad2d160ece31e9fb1b6bb730436c2adac02d6",
+      "hash": "43cb290f008616619ca86bd77e130ce8d3bae7b40e9a12b353d811c1df809c2e"
+    },
+    {
+      "sequence": 2,
+      "action": "claim",
+      "operation_id": "claim-beta1-docs-1",
+      "request_sha256": "51bdceffb0eccc9f26cae51d1f4205a6f394d101e084572e441f2464a8ef9b19",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-10-05T15:11:23.421Z",
+      "state": "build",
+      "revision": null,
+      "previous_hash": "43cb290f008616619ca86bd77e130ce8d3bae7b40e9a12b353d811c1df809c2e",
+      "record_sha256": "b20af1d0212483b37d03af20f1ef1dfb3635f1fcf43aa9b8c74725cbf7ad2dbc",
+      "hash": "94f4b3b3c87980987fd9bc15f67a81f915377a24997feb4d8111574d27b0ac3b"
+    }
+  ]
+}
