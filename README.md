@@ -9,7 +9,7 @@ models. It is not tied to OpenAI, Codex or a particular model.
 English · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md)
 
 [![CI](https://github.com/zsz1210/workkeel/actions/workflows/ci.yml/badge.svg)](https://github.com/zsz1210/workkeel/actions/workflows/ci.yml)
-Beta.1 candidate · Node.js 24+ · [MIT](LICENSE)
+Beta.1 experimental prerelease · Node.js 24+ · [MIT](LICENSE)
 
 ## What it does
 
@@ -42,10 +42,25 @@ steps. The task records remain in the project.
 [Quick start](docs/getting-started/workkeel.md) ·
 [Workflow execution](docs/operations/workkeel-workflows.md)
 
+## Install Beta.1
+
+Requires Node.js 24+ and an existing coding tool. From your project directory:
+
+```sh
+npm install --save-dev --save-exact --ignore-scripts @zsz1210/workkeel@0.1.0-beta.1
+npx --no-install workkeel --version
+npx --no-install workkeel start .
+```
+
+Beta.1 is published on npm's `next` channel for early evaluation. See the
+[release notes](https://github.com/zsz1210/workkeel/releases/tag/v0.1.0-beta.1)
+for verification and limits. Installation does not initialize or migrate a project;
+`start` only previews setup guidance. Follow the [quick start](docs/getting-started/workkeel.md).
+
 ## Start from source
 
-Requires Git, Node.js 24+ and an existing coding tool. This source is not yet a
-published Workkeel npm release.
+For development, use Git and Node.js 24+. The main branch may contain changes
+after the immutable Beta.1 package.
 
 ```sh
 git clone https://github.com/zsz1210/workkeel.git
@@ -68,9 +83,10 @@ temple-work remain historical compatibility material.
 ## Local observer
 
 ```sh
-node bin/workkeel.mjs monitor /path/to/task-first-project
+npx --no-install workkeel monitor /path/to/task-first-project
 ```
 
+From a source checkout, use `node bin/workkeel.mjs monitor` instead.
 Open the complete local access URL printed by the command. The website includes:
 
 - An attention-first Dashboard, a recent-work board and paginated task history.

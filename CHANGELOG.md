@@ -2,8 +2,9 @@
 
 ## 0.1.0-beta.1
 
-Workkeel Beta.1 prerelease candidate for internal and early adopter evaluation.
-GitHub/npm publication remains pending until the release and registry checks pass.
+Workkeel Beta.1 experimental prerelease for internal and early adopter evaluation.
+Published on GitHub and npm's `next` channel on 2026-10-06 (Japan time;
+2026-10-05 UTC). See the [publication record](docs/planning/release-readiness.md).
 This Beta does not claim production readiness or complete fresh-machine and
 interruption/rejected-delivery recovery qualification.
 
@@ -24,9 +25,9 @@ interruption/rejected-delivery recovery qualification.
 
 ## 0.1.0-alpha.34
 
-Release candidate for the renamed `@zsz1210/workkeel` package. Publication and
-registry availability remain pending until the release workflow and registry checks pass.
-Historical Alpha.33 is the Temple package; its availability does not publish this rename.
+Historical development candidate for the renamed `@zsz1210/workkeel` package;
+Alpha.34 was not published separately. Its changes are included in Beta.1 above.
+Historical Alpha.33 is the separately published Temple package.
 
 - Added native Learning capture, scoped validation, explicit task use and transitive
   source-impact queries. Deterministic multilingual aliases require no model call;

@@ -8,6 +8,7 @@ tasks, execution and review evidence together in your repository.
 | Goal | Read |
 | --- | --- |
 | Understand the framework and its concepts | [README](../README.md), [terminology](concepts/terminology.md), [architecture](concepts/architecture.md) |
+| Install the published Beta.1 and check its limits | [Installation](../README.md#install-beta1), [publication record](planning/release-readiness.md) |
 | Initialize, claim, hand off and accept a task | [Quick start](getting-started/workkeel.md), [task contract](concepts/task-contract.md) |
 | Prepare a daily brief, resume a handoff and observe delivery | [Daily work](operations/workkeel-daily-work.md) |
 | Validate, find and reuse lessons; inspect source changes | [Native Learning](extensions/workkeel-learning.md) |

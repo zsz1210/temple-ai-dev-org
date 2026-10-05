@@ -1,0 +1,9 @@
+{
+  "operation_id": "review-beta1-docs-1",
+  "expected_version": 3,
+  "actor": {"agent_id": "reviewer", "principal_id": "owner"},
+  "revision": "fc2e66b7592eab9ea8af235b5a34ee370c9e9b38",
+  "judgment": "pass",
+  "summary": "Independent documentation review passed on the exact Beta.1 publication candidate; release, registry, workflow and prose verification evidence align, with experimental and provenance limits retained.",
+  "evidence": [".ai-org/artifacts/WK-beta1-publication-docs/review.md"]
+}

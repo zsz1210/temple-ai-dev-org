@@ -1,0 +1,12 @@
+{
+  "operation_id": "close-beta1-docs-1",
+  "expected_version": 4,
+  "actor": {"agent_id": "builder", "principal_id": "owner"},
+  "revision": "fc2e66b7592eab9ea8af235b5a34ee370c9e9b38",
+  "summary": "Accept the authorized Beta.1 documentation follow-up after distinct actual review passed on the exact candidate. Ordinary PR integration remains subject to required GitHub checks.",
+  "rollback": "Revert the documentation candidate through a new reviewed change; preserve the published package, tag, archive and task history.",
+  "evidence": [
+    ".ai-org/artifacts/WK-beta1-publication-docs/developer.md",
+    ".ai-org/artifacts/WK-beta1-publication-docs/review.md"
+  ]
+}

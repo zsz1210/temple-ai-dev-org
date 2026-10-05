@@ -6,9 +6,11 @@ Workkeel connects approved tasks, coding-agent execution, handoffs and verified
 results. New projects use task-first coordination without company Positions.
 This repository uses the native workflow and retains legacy records read-only.
 
-## Available in development source
+## Available in Beta.1
 
-Beta.1 (`0.1.0-beta.1`) is the current release candidate; registry publication is pending verification.
+Beta.1 (`0.1.0-beta.1`) is published as an experimental GitHub prerelease and on
+npm's `next` channel. See [release readiness](release-readiness.md) for the exact
+revision, observed publication and qualification limits.
 
 - Native task contracts, scoped claims, exact-candidate handoff, distinct review
   and explicit acceptance.
@@ -22,9 +24,9 @@ Beta.1 (`0.1.0-beta.1`) is the current release candidate; registry publication i
 - Recorded workflow measurements, unknown/partial coverage and bounded attributed
   check/link observations. Native conversations are not automatically measured.
 
-The renamed Workkeel package is not yet a published release. Historical Temple
-Alpha.33 availability does not publish the current source or qualify new features.
-Merging a PR is separate from package publication or deployment.
+The package is `@zsz1210/workkeel`; historical Temple Alpha.33 remains a separate
+package and release. Later main changes are not automatically in Beta.1.
+Merging a PR remains separate from package publication or deployment.
 
 ## Current priorities
 

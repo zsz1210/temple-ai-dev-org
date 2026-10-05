@@ -9,7 +9,7 @@ OpenAI、Codex、特定のモデルを前提としません。
 [English](README.md) · [繁體中文](README.zh-TW.md) · 日本語
 
 [![CI](https://github.com/zsz1210/workkeel/actions/workflows/ci.yml/badge.svg)](https://github.com/zsz1210/workkeel/actions/workflows/ci.yml)
-Beta.1 candidate · Node.js 24+ · [MIT](LICENSE)
+Beta.1 実験的プレリリース · Node.js 24+ · [MIT](LICENSE)
 
 ## できること
 
@@ -36,9 +36,24 @@ Beta.1 candidate · Node.js 24+ · [MIT](LICENSE)
 [クイックスタート](docs/getting-started/workkeel.md) ·
 [ワークフロー実行](docs/operations/workkeel-workflows.md)
 
+## Beta.1 をインストールする
+
+Node.js 24+ と既存の開発ツールが必要です。プロジェクトのディレクトリで実行します。
+
+```sh
+npm install --save-dev --save-exact --ignore-scripts @zsz1210/workkeel@0.1.0-beta.1
+npx --no-install workkeel --version
+npx --no-install workkeel start .
+```
+
+Beta.1 は早期評価向けに npm の `next` チャネルで公開されています。検証結果と制約は
+[リリースノート](https://github.com/zsz1210/workkeel/releases/tag/v0.1.0-beta.1)を参照してください。
+インストールだけでは初期化や移行は行いません。`start` は設定案内を表示するだけです。
+続きは[クイックスタート](docs/getting-started/workkeel.md)に従ってください。
+
 ## ソースから始める
 
-Git、Node.js 24+、既存の開発ツールが必要です。Workkeel の npm パッケージはまだ公開されていません。
+ソース開発には Git と Node.js 24+ が必要です。main ブランチには固定された Beta.1 パッケージの公開後の変更が含まれる場合があります。
 
 ```sh
 git clone https://github.com/zsz1210/workkeel.git
@@ -60,9 +75,10 @@ Task-first プロジェクトでは WORKKEEL.md と workkeel CLI を使います
 ## ローカル観測サイト
 
 ```sh
-node bin/workkeel.mjs monitor /path/to/task-first-project
+npx --no-install workkeel monitor /path/to/task-first-project
 ```
 
+ソースから実行する場合は `node bin/workkeel.mjs monitor` を使用します。
 端末に表示される完全なローカルアクセス URL を開くと、次の情報を確認できます。
 
 - Dashboard、Task board、Activity、Backlog の文書テーブル。

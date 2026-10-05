@@ -1,0 +1,11 @@
+{
+  "operation_id": "dispatch-beta1-docs-review-1",
+  "task_id": "WK-beta1-publication-docs",
+  "actor": {"agent_id":"builder","principal_id":"owner"},
+  "claim_id": "claim-1d9fa199-3db2-434b-b315-dd1ab24f80b7",
+  "contract_sha256": "0c096c6f5403d2ac480884fa5cea5f37f491b179258db1cd8d7116887a158128",
+  "policy_ref": "docs/policies/development-dispatch.json",
+  "node": {"id":"review-beta1-docs","activity_kind":"review","depends_on":[],"read_paths":["."],"write_paths":[]},
+  "capabilities": {"host":"codex-collaboration","models":[{"provider":"openai","model":"gpt-6-sol","reasoning":["medium"]}]},
+  "route": {"alias":"conservative"}
+}

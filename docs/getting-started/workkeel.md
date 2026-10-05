@@ -7,10 +7,14 @@ add explicit model routing and recoverable steps; start with the task lifecycle 
 
 ## Availability and compatibility
 
-Use Node.js 24 or newer. This checkout provides `node bin/workkeel.mjs`.
-The new npm name is not a publication claim: do not assume a Workkeel package has
-been released. Existing projects keep `temple`, `templew.mjs`, `temple.lock` and
-their original workflows; `workkeel legacy <arguments>` is an explicit alias.
+Use Node.js 24 or newer. Beta.1 is published as
+`@zsz1210/workkeel@0.1.0-beta.1` on npm's `next` channel; follow the
+[installation commands](../../README.md#install-beta1) and
+[qualification limits](../planning/release-readiness.md). Installed projects can
+use `npx --no-install workkeel`; a reviewed source checkout provides
+`node bin/workkeel.mjs`. Examples below using a source path remain the source
+alternative. Existing legacy projects keep `temple`, `templew.mjs`, `temple.lock`
+and their original workflows; `workkeel legacy <arguments>` is an explicit alias.
 
 Task-first v1 supports ordinary low/standard-risk work. High/critical-risk,
 sensitive-data and verified/distributed identity workflows retain legacy mode.

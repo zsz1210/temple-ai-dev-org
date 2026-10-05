@@ -1,95 +1,82 @@
 # Beta release readiness
 
-Last refreshed: 2026-10-03
+Last refreshed: 2026-10-06 (Japan time; publication occurred on 2026-10-05 UTC).
 
-**Beta.1 (`0.1.0-beta.1`) is the Workkeel release candidate; publication is pending.** The renamed
-`@zsz1210/workkeel` registry endpoint returned 404 on the refresh date. Its first
-publication and trusted-publisher configuration must be completed explicitly.
-An npm trust relationship requires an existing package; see the official
-[npm trust prerequisites](https://docs.npmjs.com/cli/v11/commands/npm-trust/).
-Do not assume that the historical package's permission follows a rename.
-
-**Historical Alpha.33 was published as `@zsz1210/temple-ai-dev-org`.** Publication completed
-on 2026-09-16. WI-0243 retains candidate qualification; WI-0244 retains publication
-and registry verification. The source version, a reviewed merge, a Git tag,
-a GitHub Release and an npm version remain separate states.
+**Workkeel Beta.1 (`@zsz1210/workkeel@0.1.0-beta.1`) is published on GitHub and
+npm's `next` channel.** It is an experimental prerelease for internal and early
+adopter evaluation, not a production-readiness claim.
 
 ## Current release surfaces
 
-Beta.1 is an experimental prerelease. Internal Agent simulations, deterministic
-fixtures and real Chrome observer checks establish only their recorded conditions.
-Complete interruption/rejected-delivery recovery, fresh-machine registry setup,
-real-human comprehension and provider usage attribution are not fully qualified.
-The npm package endpoint still returned 404 on the refresh date; the maintainer's
-existing npm authentication check returned 401. First publication requires account
-authentication and second-factor confirmation. Trusted Publisher setup changes
-external permissions and remains a separate owner action; do not trigger a known
-unconfigured OIDC upload or substitute a token.
-
-| Surface | Observed state | Next action |
-| --- | --- | --- |
-| Published GitHub prerelease | [v0.1.0-alpha.33](https://github.com/zsz1210/temple-ai-dev-org/releases/tag/v0.1.0-alpha.33), target `2e269d67bd764d3c47df665bc9043263cf8082e8` | Preserve the immutable published release |
-| npm channels | The renamed Workkeel package is not yet available; prior dist-tags belong to the historical Temple package | Verify the exact name and version; do not treat historical availability as a Workkeel publication |
-| Development source | Beta.1 release candidate, including native Learning and the verified retained-document observer repair | Use the exact revision and [changelog](../../CHANGELOG.md) until archive and registry qualification are complete |
-| Integration | [Single-maintainer PR policy](../../GOVERNANCE.md#single-maintainer-pull-request-policy) | Ordinary PR, required CI and independent native Workkeel review; no impossible self-approval requirement |
-| npm publication | [Release-only workflow](../operations/npm-release.md) | Publishing a GitHub Release triggers verification and exact-asset comparison before OIDC upload |
-| Real downstream projects | Not modified by release qualification | Plan an explicit project-specific upgrade; publication does not upgrade installed projects |
-
-These service observations are dated, not live guarantees. Recheck immutable
-version availability and dist-tags separately at publication time.
-
-## Alpha.33 scope
-
-The [changelog](../../CHANGELOG.md) records contributor readiness, explicit policy
-transitions, attributable ownership, measurement reuse, evidence durability and
-record reconciliation. Recent implementation work also reduced test duplication,
-batched continuity Git reads, reused eligible schema compiler setup within one
-Doctor call, and repaired Console test startup synchronization.
-
-This remains an Alpha trial. Existing measurements are bounded by their candidate,
-fixture and environment. They do not establish universal Token, cost or speed
-savings, production readiness or complete multi-human/multi-machine qualification.
-
-## Qualification gates
-
-The [Alpha.33 qualification and upgrade guide](../validation/alpha-33-package-qualification.md)
-defines reusable candidate checks. Alpha.33 candidate results belong to WI-0243;
-WI-0244 retains the official archive and publication checks. This document does
-not embed its own archive digest. A later main revision must be qualified separately.
-
-| Gate | Required evidence |
+| Surface | Observed state |
 | --- | --- |
-| Source and dependency identity | Consistent package, lockfile, template and self-host bootstrap versions; clean lockfile installation on Node.js 24 |
-| Repository verification | Complete `npm run verify` for the frozen release candidate, plus Doctor after organization-state mutations |
-| Package boundary | Exact allowlisted manifest, integrity and SHA-256; no root self-host state or private project data |
-| Consumer behavior | Install the retained archive, check CLI version, dry-run init, init, idempotence, pinned launcher, Doctor and Status |
-| Upgrade safety | Published Alpha.32 baseline, unchanged project-owned files and policies, preserved local managed-file conflict, consistent Alpha.33 bootstrap |
-| Independent judgment | Distinct Developer and Independent QA identities reviewing exact candidate evidence |
-| Publication review | Matching tag, source, prerelease flag, notes and exact archive; deliberate maintainer publication |
-| Post-publication | Registry version/integrity/channel verification and clean retrieval of the published package |
+| GitHub prerelease | [v0.1.0-beta.1](https://github.com/zsz1210/workkeel/releases/tag/v0.1.0-beta.1), published at `2026-10-05T15:07:50Z` |
+| Immutable source | `9d843708928bb60da154e16be6b1bd0d431b984b`; its tree matches independently reviewed candidate `706509c1b3c49e6ca163e577338c593b2273bb7c` |
+| npm package | `@zsz1210/workkeel@0.1.0-beta.1`, with `next=0.1.0-beta.1`; experimental prerelease |
+| Retained archive | `zsz1210-workkeel-0.1.0-beta.1.tgz`, 1,297,689 bytes |
+| Archive SHA-256 | `76178b34fcca44a259fcf2dfc77f106a56e2d3f76ca049dd2478867530d37cae` |
+| Trusted Publisher | GitHub repository `zsz1210/workkeel`, workflow `publish-npm.yml`, no Environment; owner-authorized and read back after setup |
+| Publication workflow | [Exact-source and registry verification](https://github.com/zsz1210/workkeel/actions/runs/37330280974); workflow status is separate from registry availability |
+| Source after publication | Documentation follow-ups do not replace the immutable tag or archive |
+| Existing projects | Not modified by publication; upgrades and profile migrations remain explicit |
 
-A package audit does not qualify every historical repository artifact for a new
-publication surface. Prior historical disclosures and binary-review limits remain
-in their original evidence. Preparation does not change repository visibility,
-npm permissions, optional integrations or public deployment.
+These service observations are dated, not live guarantees. Check an exact version
+and the mutable dist-tags separately. The package's embedded README records the
+candidate state at packaging time; current source and release notes record the
+subsequent publication without altering those archived bytes.
 
-## Upgrade decision
+## Qualification and publication evidence
 
-Use a disposable copy first, retain the old lock and project-owned state, and
-follow the [upgrade guide](../validation/alpha-33-package-qualification.md#upgrading-an-existing-project).
-A framework upgrade preserves legacy project policy; it does not silently switch
-a project to ordinary attribution or authorize a profile migration.
+The retained qualification reported complete verification of 169 test files with
+1,626 passing markers and zero failures, distinct native review, required CI and
+the product candidate's eight-group real-Chrome observer gate. The publication
+guard follow-up changed no product or package bytes. See
+[PR #153](https://github.com/zsz1210/workkeel/pull/153) and the release notes for
+the exact candidate relationship and retained checks.
 
-## Historical evidence
+Publication preparation additionally passed 18 release tests and native Doctor.
+A fresh package from official Node 24.20.0, npm 11.19.0 and zlib
+1.3.2.1-motley-42c2f19 was byte-identical to the retained GitHub attachment.
 
-- [Alpha.30 package qualification](../validation/alpha-30-package-qualification.md)
-  and WI-0167 retain the earlier 443-test/package/publication observations.
-- [Final pre-Alpha clean-room rehearsal](../validation/final-pre-alpha-clean-room.md)
-  retains the bounded fresh-session and cold-recovery results.
-- Alpha.31's failed publication attempt remains in history. Alpha.32 corrected
-  clean-host scratch and locked offline onboarding before its successful successor.
-- Earlier privacy and public-source decisions remain in WI-0160 through WI-0167;
-  they are not fresh verification of Alpha.33.
+The first upload used owner authentication to create the previously absent npm
+package. Registry identity, SHA-512 integrity, SHA-1, downloaded archive bytes and
+the `next` channel matched the retained asset. A clean installation from npm's
+`next` channel reported `0.1.0-beta.1`. Trusted Publishing was then configured
+with separate owner authorization before the GitHub draft was published.
 
-No announcement, stable `latest` promotion, hosted service or deployment follows
-automatically from a passing candidate.
+This bootstrap upload does **not** establish OIDC upload provenance. The release
+workflow can recognize that exact pre-existing archive and skip a duplicate
+immutable-version upload after its full verification. A future new version must
+provide the first successful OIDC-upload evidence; do not rerun this already
+published version to manufacture it. Follow [npm release operations](../operations/npm-release.md).
+
+## Scope and limits
+
+Beta.1 includes native task coordination, scoped approval, exact-candidate handoff,
+distinct-Agent review, Learning, usage attribution and the read-only observer,
+including retained-document recovery and Beta version compatibility. See the
+[changelog](../../CHANGELOG.md#010-beta1) and [roadmap](roadmap.md).
+
+Internal Agent simulations, controlled fixtures and real Chrome checks establish
+only their recorded conditions. Complete interruption/rejected-delivery recovery,
+fresh-machine registry setup, real-human comprehension and provider usage
+attribution remain incompletely qualified. A clean install on the publication
+host is not a fresh-machine trial. Unknown tokens and active time remain unknown.
+No universal cost or speed benefit, production readiness or complete
+multi-human/multi-machine qualification is claimed.
+
+## Upgrade and history
+
+Evaluate in a disposable copy first, retain the old lock and project-owned state,
+and make any migration an explicit decision. The
+[historical Alpha.33 qualification guide](../validation/alpha-33-package-qualification.md)
+supplies earlier compatibility context, not a fresh Beta.1 upgrade qualification.
+
+Historical Alpha.33 was published as `@zsz1210/temple-ai-dev-org` on 2026-09-16,
+at source `2e269d67bd764d3c47df665bc9043263cf8082e8`. Its package, tag and evidence
+remain unchanged. Alpha.34 was an unpublished development candidate whose changes
+are included in Beta.1. Earlier failed publication attempts and their corrections
+remain in the changelog and original records.
+
+No downstream upgrade, stable-channel promotion, hosted service or deployment
+follows automatically from this publication.

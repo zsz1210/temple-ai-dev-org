@@ -8,7 +8,7 @@ Workkeel 記錄已批准的範圍、執行過程、交接與審查證據。能�
 [English](README.md) · 繁體中文 · [日本語](README.ja.md)
 
 [![CI](https://github.com/zsz1210/workkeel/actions/workflows/ci.yml/badge.svg)](https://github.com/zsz1210/workkeel/actions/workflows/ci.yml)
-Beta.1 candidate · Node.js 24+ · [MIT](LICENSE)
+Beta.1 實驗性預覽版 · Node.js 24+ · [MIT](LICENSE)
 
 ## 可以做什麼
 
@@ -35,9 +35,23 @@ Beta.1 candidate · Node.js 24+ · [MIT](LICENSE)
 [快速開始](docs/getting-started/workkeel.md) ·
 [工作流程執行](docs/operations/workkeel-workflows.md)
 
+## 安裝 Beta.1
+
+需要 Node.js 24+ 與既有的程式開發工具。在你的專案目錄執行：
+
+```sh
+npm install --save-dev --save-exact --ignore-scripts @zsz1210/workkeel@0.1.0-beta.1
+npx --no-install workkeel --version
+npx --no-install workkeel start .
+```
+
+Beta.1 已發布至 npm 的 `next` 通道，供早期評估使用。驗證結果與限制請見
+[發布說明](https://github.com/zsz1210/workkeel/releases/tag/v0.1.0-beta.1)。
+安裝不會初始化或遷移專案；`start` 只預覽設定指引。後續請依[快速開始](docs/getting-started/workkeel.md)操作。
+
 ## 從原始碼開始
 
-需要 Git、Node.js 24+ 與既有的程式開發工具。目前尚未發布 Workkeel npm 套件。
+開發原始碼需要 Git 與 Node.js 24+。主分支可能包含固定 Beta.1 套件發布之後的變更。
 
 ```sh
 git clone https://github.com/zsz1210/workkeel.git
@@ -58,9 +72,10 @@ TEMPLE.md 與 temple-work 保留作為歷史相容資料。
 ## 本機觀察網站
 
 ```sh
-node bin/workkeel.mjs monitor /path/to/task-first-project
+npx --no-install workkeel monitor /path/to/task-first-project
 ```
 
+從原始碼目錄執行時，改用 `node bin/workkeel.mjs monitor`。
 開啟終端輸出的完整本機存取網址，即可查看：
 
 - 需要處理的事項與近期成果總覽、最近工作的看板、可分頁搜尋的任務文件。
