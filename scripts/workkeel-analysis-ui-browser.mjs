@@ -9,7 +9,7 @@ export async function verifyAnalysisUI(page,monitor,output){
   const data=await (await route.fetch()).json();
   data.title='讓執行時間更有意義';data.goal='只計已回報的 AI 執行時間，排除人工等待。';
   data.task_state=mode==='done'?'done':mode==='waiting'?'release_gate':'build';
-  data.runs=[{run_id:'analysis-ui-fixture',runner_state:mode==='paused'?'paused':'running',last_observed_at:reportAt,operations:[{operation_id:'recorded',result_recorded:true,coverage_complete:false,activity_kind:'implementation',runtime_model:'fixture-model',execution_intervals:[{started_at:'2026-01-01T00:00:00Z',completed_at:'2026-01-01T00:05:00Z'}],adapter_elapsed_ms:300000,usage:{input_tokens:0,output_tokens:0}}]}];
+  data.runs=[{run_id:'analysis-ui-fixture',runner_state:mode==='paused'?'paused':'running',last_observed_at:reportAt==='near-expiry'?new Date(Date.now()-52000).toISOString():reportAt,operations:[{operation_id:'recorded',result_recorded:true,coverage_complete:false,activity_kind:'implementation',runtime_model:'fixture-model',execution_intervals:[{started_at:'2026-01-01T00:00:00Z',completed_at:'2026-01-01T00:05:00Z'}],adapter_elapsed_ms:300000,usage:{input_tokens:0,output_tokens:0}}]}];
   data.timeline=[{state:'intake',at:'2026-01-01T00:00:00Z'},{state:'build',at:'2026-01-01T00:00:01Z'},{state:'test',at:'2026-01-01T00:06:00Z'},{state:'build',action:'rework',at:'2026-01-01T00:07:00Z'}];
   delete data.execution;
   await route.fulfill({json:data});
@@ -54,11 +54,17 @@ export async function verifyAnalysisUI(page,monitor,output){
   }
   mode='running';reportAt=new Date(Date.now()-61000).toISOString();
   await page.waitForFunction(()=>document.querySelector('.flow-status')?.textContent.includes('等待最新執行回報'));assert.equal(await time.innerText(),measured);
-  // Expiry must happen even when polling says the task data is unchanged.
-  reportAt=new Date(Date.now()-55000).toISOString();await page.waitForFunction(()=>document.querySelector('#task-flow')?.dataset.moving==='true');
+  // Expiry must happen even when polling hangs before it can report a change.
+  reportAt='near-expiry';await page.waitForFunction(()=>document.querySelector('#task-flow')?.dataset.moving==='true');
   await page.unroute('**/api/changes?*');
+  let releasePoll,held=false;
+  await page.route('**/api/changes?*',async route=>{held=true;await new Promise(resolve=>{releasePoll=resolve;});const data=await (await route.fetch()).json();await route.fulfill({json:{...data,changed:false}});});
+  try{
+   await page.waitForFunction(()=>document.querySelector('#task-flow')?.dataset.moving==='false',null,{timeout:10000});
+   assert.equal(held,true,'expiry is checked with a poll still pending');
+   assert.match(await page.locator('.flow-status').innerText(),/等待最新執行回報/);
+  }finally{releasePoll?.();await page.unroute('**/api/changes?*');}
   await page.route('**/api/changes?*',async route=>{const data=await (await route.fetch()).json();await route.fulfill({json:{...data,changed:false}});});
-  await page.waitForFunction(()=>document.querySelector('#task-flow')?.dataset.moving==='false');
   assert.equal(await time.innerText(),measured);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
   await page.locator('.back-link').click();assert.equal(await page.locator('#search').inputValue(),'WK-working');assert.match(await page.locator('#search-filter-count').innerText(),/1/);

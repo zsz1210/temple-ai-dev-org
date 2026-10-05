@@ -24,7 +24,7 @@ let historyBacklog=false,lastLibraryQuery=null;
 let showLegacySkills=false,skillOrigin='all';
 let detailOperationPage=0,detailRequest=0;
 let selectedTask=null,fullTask=false,returnState=null,pageResult=null,analysisResult=null,activityResult=null,queryEpoch=0,backlogCursor=null,backlogPrevious=[],operationCursor=null,operationPrevious=[],activityCursor=null,activityPrevious=[],activityHours='24',lastChecked=null,lastChanged=null,lastValidated=null,sourceHealth='unknown',connection='connecting';
-let pendingView=null,viewError=null;
+let pendingView=null,viewError=null,flowExpiryTimer;
 const titles={dashboard:['總覽','Dashboard'],board:['工作看板','Task board'],usage:['用量分析','Usage analysis'],activity:['活動紀錄','Activity'],backlog:['任務文件','Backlog'],learning:['學習與技能','Learning & skills'],settings:['設定','Settings'],about:['運作說明','How Workkeel works']};
 const stages=['intake','build','test','release_gate','done'];
 const shownStages=()=>stages;
@@ -180,7 +180,12 @@ function activity(){
 
 const flowState=task=>taskFlowSummary(task,{connected:connection==='healthy',visible:!document.hidden});
 const flowLabel=mode=>({done:t('已完成','Completed'),cancelled:t('已取消','Cancelled'),suspended:t('暫停更新','Updates paused'),waiting:t('等待下一步','Waiting for next step'),'reported-running':t('近期回報執行中','Recently reported running'),stale:t('等待最新執行回報','Awaiting a fresh report'),paused:t('執行已暫停或中斷','Execution paused or interrupted'),unreported:t('尚無近期執行回報','No recent execution report')})[mode];
-function updateFlow(){const el=$('task-flow');if(!el||!selectedTask)return;const state=flowState(selectedTask);el.dataset.moving=String(state.moving);el.querySelector('.flow-status').textContent=flowLabel(state.mode);}
+function updateFlow(){
+ clearTimeout(flowExpiryTimer);const el=$('task-flow');if(!el||!selectedTask)return;
+ const state=flowState(selectedTask);el.dataset.moving=String(state.moving);el.querySelector('.flow-status').textContent=flowLabel(state.mode);
+ // Expire the observation even when the next network request is still pending.
+ if(state.moving)flowExpiryTimer=setTimeout(updateFlow,Math.max(1,Date.parse(state.reported_at)+60000-Date.now()));
+}
 function stageProgress(task){
  const state=flowState(task),box=node('section',undefined,'task-flow');box.id='task-flow';box.dataset.moving=String(state.moving);
  box.append(append(node('div',undefined,'section-head'),node('h2',t('任務流程','Task flow')),node('span',flowLabel(state.mode),'flow-status')));
@@ -330,7 +335,7 @@ function renderDetail(){
  reconcile($('detail-tabs'),... [['overview',t('內容','Overview')],['documents',t('文件','Documents')],['model',t('模型與執行','Model & runtime')],['skills','Skills'],['settings',t('設定','Settings')]].map(([key,label])=>{const b=button(label,()=>{tab=key;copyEpoch++;renderDetail();if(fullTask)history.replaceState(history.state,'','?view=task&task='+encodeURIComponent(selected)+'&tab='+tab);});b.dataset.key=key;b.setAttribute('aria-current',tab===key?'page':'false');return b;}));
  const body=tab==='overview'?overviewDetail(task):tab==='model'?modelDetail(task):tab==='skills'?skillDetail(task):tab==='settings'?taskSettings(task):
  task.documents?.length?table([t('文件','Document'),t('版本','Version')],task.documents.map(d=>[button(d.path,()=>showDocument(d.id)),d.pinned_digest?.slice(0,12)])):empty(t('此階段尚無文件','No documents at this stage'));
- body.dataset.key=task.id+':'+tab;reconcile($('detail-content'),body);
+ body.dataset.key=task.id+':'+tab;reconcile($('detail-content'),body);updateFlow();
 }
 function fullTaskPage(){
  const surface=$('detail-surface'),box=node('article',undefined,'task-full-page');

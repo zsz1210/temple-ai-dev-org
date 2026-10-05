@@ -41,7 +41,7 @@ export function taskFlowSummary(task,{now=Date.now(),connected=true,visible=true
   const fresh=running.filter(run=>{const at=Date.parse(run.last_observed_at);return Number.isFinite(at)&&now>=at&&now-at<60000&&!run.observations?.error_code;});
   const mode=terminal?task.task_state:!connected||!visible?'suspended':!eligible?'waiting':fresh.length?'reported-running':running.length?'stale':runs.some(run=>['paused','interrupted','error'].includes(run.runner_state))?'paused':'unreported';
   const history=task.timeline??[];
-  return {mode,moving:mode==='reported-running',reported_at:fresh.map(run=>run.last_observed_at).sort().at(-1)??null,
+  return {mode,moving:mode==='reported-running',reported_at:fresh.map(run=>run.last_observed_at).sort((a,b)=>Date.parse(a)-Date.parse(b)).at(-1)??null,
     stages:['intake','build','test','release_gate','done'].map(state=>{
       const events=history.filter(e=>e.state===state&&Number.isFinite(Date.parse(e.at))).sort((a,b)=>Date.parse(a.at)-Date.parse(b.at));
       return {state,current:task.task_state===state,visited:events.length>0,last_at:events.at(-1)?.at??null};

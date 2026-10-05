@@ -11,6 +11,8 @@ test('task flow requires a fresh explicit report and never uses lifecycle reside
  for(const options of [{connected:false},{visible:false}])assert.equal(taskFlowSummary(task,{now,...options}).moving,false);
  assert.equal(taskFlowSummary({...task,read_status:'unavailable'},{now}).moving,false);
  assert.equal(taskFlowSummary({...task,runs:[]},{now}).mode,'unreported');
+ const olderOffset='2023-11-15T07:14:10+09:00',newerUtc='2023-11-14T22:14:15Z';
+ assert.equal(taskFlowSummary({...task,runs:[{runner_state:'running',last_observed_at:olderOffset},{runner_state:'running',last_observed_at:newerUtc}]},{now:Date.parse('2023-11-14T22:14:20Z')}).reported_at,newerUtc);
 });
 test('task flow distinguishes actual visits from progress guesses and retains rework history',()=>{
  const flow=taskFlowSummary({read_status:'available',task_state:'build',timeline:[{state:'test',at:at(20)},{state:'build',action:'rework',at:at(30)}]});
