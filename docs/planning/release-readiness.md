@@ -12,7 +12,7 @@ adopter evaluation, not a production-readiness claim.
 | --- | --- |
 | GitHub prerelease | [v0.1.0-beta.1](https://github.com/zsz1210/workkeel/releases/tag/v0.1.0-beta.1), published at `2026-10-05T15:07:50Z` |
 | Immutable source | `9d843708928bb60da154e16be6b1bd0d431b984b`; its tree matches independently reviewed candidate `706509c1b3c49e6ca163e577338c593b2273bb7c` |
-| npm package | `@zsz1210/workkeel@0.1.0-beta.1`, with `next=0.1.0-beta.1`; no stable-channel promotion |
+| npm package | `@zsz1210/workkeel@0.1.0-beta.1`, with `next=0.1.0-beta.1`; experimental prerelease |
 | Retained archive | `zsz1210-workkeel-0.1.0-beta.1.tgz`, 1,297,689 bytes |
 | Archive SHA-256 | `76178b34fcca44a259fcf2dfc77f106a56e2d3f76ca049dd2478867530d37cae` |
 | Trusted Publisher | GitHub repository `zsz1210/workkeel`, workflow `publish-npm.yml`, no Environment; owner-authorized and read back after setup |
