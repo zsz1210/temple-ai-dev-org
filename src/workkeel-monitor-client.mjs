@@ -1,5 +1,5 @@
 import {label as zhLabel,formatDuration,formatCount,taskActions,handoffText} from '/view.mjs';
-import {operationRows,filterRows,aggregateRows,trendRows,executionSummary,stageExecutionSummary,executionBreakdown} from '/analytics.mjs';
+import {operationRows,filterRows,aggregateRows,trendRows,executionSummary,stageExecutionSummary,executionBreakdown,taskFlowSummary} from '/analytics.mjs';
 import {resolveTimeZone,validTimeZone,zoneLabel} from '/workkeel-monitor-time.mjs';
 import {reconcile,on} from '/dom.mjs';
 const $=id=>document.getElementById(id);
@@ -42,7 +42,7 @@ const empty=message=>node('div',message??t('目前沒有資料','No records yet'
 const badge=(value,cls='')=>node('span',name(value),'badge '+cls);
 const panel=(title,...children)=>{const el=append(node('section',undefined,'panel'),node('h2',title),...children);el.dataset.key=title;return el;};
 const help=(title,body,id)=>{
- const wrap=node('span',undefined,'help'),b=button('?',()=>{}),pop=node('div',undefined,'help-popover');
+ const wrap=node('span',undefined,'help'),b=button('i',()=>{}),pop=node('div',undefined,'help-popover');
  pop.append(node('h3',title));for(const paragraph of body.split('\n\n'))pop.append(node('p',paragraph));
  b.setAttribute('aria-label',title);b.setAttribute('aria-expanded','false');pop.id=id??'help-'+encodeURIComponent(title);pop.setAttribute('popover','auto');pop.setAttribute('role','note');b.setAttribute('aria-controls',pop.id);
  on(b,'click',event=>{const b=event.currentTarget,pop=b.parentElement.querySelector('.help-popover');if(pop.matches(':popover-open')){pop.hidePopover();return;}pop.showPopover();const r=b.getBoundingClientRect(),w=Math.min(330,innerWidth-32),h=pop.getBoundingClientRect().height;
@@ -89,13 +89,20 @@ function shell(){
  const filter=$('state-filter').value;
  $('state-filter').replaceChildren(...[['all',t('全部','All')],['attention',t('待處理','Needs attention')],['unfinished',t('所有未完成','All unfinished')],...shownStages().map(s=>[s,name(s)]),['cancelled',name('cancelled')],['unknown',name('unknown')]].map(([v,s])=>{const o=node('option',s);o.value=v;return o;}));$('state-filter').value=filter||'all';
  $('toolbar').hidden=fullTask||['dashboard','settings','about','usage'].includes(view);$('state-filter').hidden=['learning','board','activity'].includes(view);$('view-controls').replaceChildren();$('view-controls').className='row';
+ $('search-filters').classList.toggle('library-search',view==='learning');if(view==='learning')$('search-filters').open=true;updateSearchFilters();
  if(view==='board'){$('view-controls').className='filter-chips';for(const [key,label] of [['all',t('全部','All')],['attention',t('待處理','Needs attention')]]){const n=(snapshot?.tasks??[]).filter(x=>key==='all'||x.needs_attention).length,b=button(label+' '+n,()=>{$('state-filter').value=key;shell();render();});b.setAttribute('aria-pressed',String(($('state-filter').value||'all')===key));$('view-controls').append(b);}}
  if(view==='learning'){$('view-controls').className='segment-control';for(const [key,label] of [['learning',t('學習紀錄','Lessons & practices')],['skills',t('技能庫','Skills')]]){const b=button(label,()=>{libraryMode=key;shell();render();});b.setAttribute('aria-pressed',String(libraryMode===key));$('view-controls').append(b);}}
  $('close-drawer').setAttribute('aria-label',t('關閉詳情','Close details'));$('close-document').setAttribute('aria-label',t('關閉文件','Close document'));$('reload-document').textContent=t('重新讀取','Reload document');
 }
 function capturePage(){return {view,search:$('search').value,filter:$('state-filter').value,scroll:window.scrollY,historyBacklog,backlogCursor,backlogPrevious:[...backlogPrevious],operationCursor,operationPrevious:[...operationPrevious],activityCursor,activityPrevious:[...activityPrevious],activityHours,analytics:{...analytics},group,period,libraryMode,learningFilter};}
 function restorePage(state){if(!state)return;view=state.view??'board';shell();$('search').value=state.search??'';$('state-filter').value=state.filter??'all';historyBacklog=state.historyBacklog??false;backlogCursor=state.backlogCursor??null;backlogPrevious=state.backlogPrevious??[];operationCursor=state.operationCursor??null;operationPrevious=state.operationPrevious??[];activityCursor=state.activityCursor??null;activityPrevious=state.activityPrevious??[];activityHours=state.activityHours??'24';analytics=state.analytics??analytics;group=state.group??group;period=state.period??period;libraryMode=state.libraryMode??libraryMode;learningFilter=state.learningFilter??'all';}
-function showPage(key){historyBacklog=false;closeHelp();if(fullTask){$('drawer').append($('detail-surface'));fullTask=false;selectedTask=null;}returnState=null;selected=null;view=key;$('search').value='';libraryQuery='';learningFilter='all';backlogCursor=null;backlogPrevious=[];operationCursor=null;operationPrevious=[];activityCursor=null;activityPrevious=[];$('state-filter').value='all';history.replaceState(null,'','?view='+key);shell();render();loadView();if(key==='learning')refresh();window.scrollTo({top:0});}
+function showPage(key){historyBacklog=false;closeHelp();if(fullTask){$('drawer').append($('detail-surface'));fullTask=false;selectedTask=null;}returnState=null;selected=null;view=key;$('search').value='';$('search-filters').open=false;libraryQuery='';learningFilter='all';backlogCursor=null;backlogPrevious=[];operationCursor=null;operationPrevious=[];activityCursor=null;activityPrevious=[];$('state-filter').value='all';history.replaceState(null,'','?view='+key);shell();render();loadView();if(key==='learning')refresh();window.scrollTo({top:0});}
+
+function updateSearchFilters(){
+ const active=Number(Boolean($('search').value))+Number($('state-filter').value!=='all');
+ $('search-filter-title').textContent=t('詳細篩選','Detailed filters');$('search-filter-count').textContent=active?t('已套用 ','Applied ')+active:t('全部資料','All data');
+ $('reset-search').textContent=t('清除篩選','Clear filters');$('reset-search').disabled=!active;
+}
 
 function tasks(){const q=$('search').value.toLocaleLowerCase(),state=$('state-filter').value;return (snapshot?.tasks??[]).filter(task=>(task.id+' '+task.title+' '+task.goal).toLocaleLowerCase().includes(q)&&(state==='all'||state==='attention'&&task.needs_attention||state===task.task_state));}
 function taskButton(task,card=false){
@@ -171,7 +178,25 @@ function activity(){
  const details=node('details',undefined,'disclosure');details.id='activity-events';details.open=true;details.append(node('summary',t('任務事件 ','Task events ')+data.events.total),timeline([...eventTasks.values()],50),pager(data.events,c=>{activityPrevious.push(activityCursor);activityCursor=c;loadView();},activityPrevious.length?()=>{activityCursor=activityPrevious.pop();loadView();}:null));box.append(details);return box;
 }
 
-function stageProgress(task){const container=node('div',undefined,'detail-stage'),current=shownStages().indexOf(task.task_state);for(const [i,state] of shownStages().entries()){const el=node('span',name(state),i<current?'passed':'');if(i===current)el.setAttribute('aria-current','step');container.append(el);}return container;}
+const flowState=task=>taskFlowSummary(task,{connected:connection==='healthy',visible:!document.hidden});
+const flowLabel=mode=>({done:t('已完成','Completed'),cancelled:t('已取消','Cancelled'),suspended:t('暫停更新','Updates paused'),waiting:t('等待下一步','Waiting for next step'),'reported-running':t('近期回報執行中','Recently reported running'),stale:t('等待最新執行回報','Awaiting a fresh report'),paused:t('執行已暫停或中斷','Execution paused or interrupted'),unreported:t('尚無近期執行回報','No recent execution report')})[mode];
+function updateFlow(){const el=$('task-flow');if(!el||!selectedTask)return;const state=flowState(selectedTask);el.dataset.moving=String(state.moving);el.querySelector('.flow-status').textContent=flowLabel(state.mode);}
+function stageProgress(task){
+ const state=flowState(task),box=node('section',undefined,'task-flow');box.id='task-flow';box.dataset.moving=String(state.moving);
+ box.append(append(node('div',undefined,'section-head'),node('h2',t('任務流程','Task flow')),node('span',flowLabel(state.mode),'flow-status')));
+ const track=node('div',undefined,'task-flow-track');track.setAttribute('aria-label',t('任務階段','Task stages'));
+ const purposes=[t('確認需求與驗收條件','Confirm scope and acceptance'),t('實作與開發者驗證','Build and developer checks'),t('由不同 Agent 審查','Review by a different agent'),t('核對證據與交付版本','Accept evidence and candidate'),t('查看本機驗收結果','Inspect local acceptance')];
+ state.stages.forEach((stage,i)=>{
+  const status=stage.current?t('目前階段','Current stage'):stage.visited?t('曾到達','Previously reached'):t('尚無紀錄','Not recorded');
+  const wrap=help(name(stage.state),purposes[i]+'\n\n'+status+(stage.last_at?' · '+date(stage.last_at):'')+'\n\n'+t('這是任務階段紀錄，不代表 Agent 現在正在運算。退回修正後，曾到達的階段仍保留；是否驗收以交付與審查紀錄為準。','This records lifecycle stages, not current agent computation. Previously reached stages remain after rework; acceptance is established by delivery and review records.'),'flow-help-'+stage.state);
+  wrap.className='help task-flow-node';wrap.dataset.key=stage.state;const b=wrap.querySelector('button');b.className='task-flow-card';b.replaceChildren(node('small',String(i+1).padStart(2,'0'),'flow-number'),node('strong',name(stage.state)),node('small',purposes[i],'flow-purpose'),node('small',status,'flow-record'));
+  b.setAttribute('aria-label',name(stage.state)+' · '+status);if(stage.current)b.setAttribute('aria-current','step');wrap.dataset.current=String(stage.current);wrap.dataset.visited=String(stage.visited);track.append(wrap);
+ });
+ const measured=task.execution??executionSummary(task),metrics=node('div',undefined,'flow-metrics');
+ metrics.append(append(node('div'),node('small',t('AI 執行時間 · 含工具','AI execution time · includes tools')),reportedMeasurement(measured.execution_ms,measured.time_complete,duration),node('small',t('已回報區間，不計等待','Reported intervals, excluding waits'))),append(node('div'),node('small',t('時間紀錄','Timing coverage')),node('strong',measured.measured_intervals+' / '+measured.recorded_operations),node('small',t('有完整區間／已綁定操作','Complete intervals / bound operations'))));
+ box.append(track,metrics,node('p',t('流動效果代表 60 秒內收到執行中回報；不推算即時工時。點選階段查看紀錄。','Motion means a running report arrived within 60 seconds; it does not estimate live work time. Select a stage for its record.'),'chart-note'));
+ return box;
+}
 function taskNotice(task){if(task.read_status==='available'&&task.task_state==='done'&&task.record_mode!=='work-items')return [t('已完成','Done'),t('最後完成摘要：','Completion summary: ')+(task.closeout?.summary??[...(task.timeline??[])].reverse().find(event=>event.action==='close')?.reason??t('已記錄完成驗收','Completion recorded')),...(task.needs_attention?(lang==='en'?[task.next_action]:taskActions(task)):[])];if(task.record_mode==='work-items')return [t('目前階段：','Recorded stage: ')+name(task.source_state),...(task.unresolved??[])];if(lang!=='en')return taskActions(task);return task.read_status==='unavailable'?['This task record could not be verified.']:[task.next_action??'Inspect the task record.'];}
 function lifecycle(task){
  const timing=stageExecutionSummary(task),box=helpHeading(panel(t('各階段已記錄時間','Recorded time by stage')),t('查看規劃、實作、審查、修正和驗證各花了多少執行時間。新紀錄以執行工具回報的工作種類分類；舊紀錄沒有分類時，才依任務當時的階段整理。\n\n只計入已回報的執行區間，排除等待你回覆的時間。同一分類內同時執行的區間只計一次；不同分類可能並行，因此各列相加可能大於任務的實際經過時間。\n\n未回報不代表 0。這是已綁定操作的工作時間，包含工具執行，不是模型的純推論時間。','See reported time for planning, implementation, review, repair and verification. New records use the reported activity kind; older records fall back to task stages.\n\nOnly reported execution intervals count, excluding human waits. Overlaps count once within a kind; different kinds may run concurrently, so rows can sum to more than task wall time.\n\nUnreported is not zero. Bound operation time includes tools and is not model-only compute time.'));
@@ -203,7 +228,7 @@ function usageScopeTable(rows,id){
 function executionPanel(task){
  const m=task.execution??executionSummary(task),box=helpHeading(panel(t('工具執行時間','Tool execution time')),t('這裡顯示執行工具為這件任務回報的工作時間，以及模型輸入、輸出使用的 Tokens。Tokens 是模型處理文字等內容的計量單位，不是費用。\n\n時間以每次執行的開始與結束紀錄計算，多個 Agent 同時工作只計一次；未執行的等待時間不會從任務建立日期一路累加。\n\n「未回報」不代表 0；「部分」僅含已綁定的紀錄，未完成或缺少的紀錄不補成 0。未綁定回合、其他 Agent 與審查工作不會自動補入。','This section shows tool execution time reported for this task and model input/output tokens. Tokens measure processed content; they are not a price.\n\nTime comes from reported operation start/end intervals; overlapping agents count once. Waiting does not accumulate from the date the task was created.\n\nUnreported does not mean zero. Partial covers recorded bindings only; unfinished or missing records are not filled with zero. Unbound turns, other agents and review activity are not automatically included.'));
  const measured=aggregateRows(operationRows([task]),'task_id')[0];
- box.append(field(t('已回報工具時間','Reported tool time'),reportedMeasurement(m.execution_ms,m.time_complete,duration)),turnField(measured),splitTable(measured,'task-token-breakdown'),help(t('Tokens 分類說明','About token breakdown'),splitHelp()));
+ box.append(field(t('AI 執行時間（含工具）','AI execution time (includes tools)'),reportedMeasurement(m.execution_ms,m.time_complete,duration),t('只計已回報且扣除等待的執行區間。例如兩位 Agent 各執行 3 分鐘，其中重疊 1 分鐘，這裡顯示 5 分鐘；之後等待你回覆 10 分鐘，數字仍是 5 分鐘。缺少紀錄保留未回報或部分，不視為 0。','Only reported, wait-excluded execution intervals count. For example, two agents each work for 3 minutes with 1 minute of overlap: this shows 5 minutes. A subsequent 10-minute human wait leaves it at 5 minutes. Missing records remain unreported or partial, never zero.')),turnField(measured),splitTable(measured,'task-token-breakdown'),help(t('Tokens 分類說明','About token breakdown'),splitHelp()));
  if(!m.recorded_operations)box.append(node('p',t('這件任務尚無執行用量紀錄','This task has no execution measurements.'),'chart-note'));
  const hostRuns=(task.runs??[]).filter(run=>run.measurement_source==='native-host-report');
  if(m.recorded_operations)box.append(disclosure('task-coverage',t('紀錄涵蓋範圍','Record coverage'),node('p',m.measured_intervals+' / '+m.recorded_operations+t(' 筆已綁定操作有完整時間區間；此比例不代表整件任務的完成度或總工時。',' bound operations have complete time intervals. This ratio does not measure task completion or total effort.'),'chart-note'),hostRuns.length?node('p',t('原生工具僅回報明確綁定的回合或操作。Tokens 可先回報；若未提供扣除等待的執行區間，工具執行時間仍顯示未回報。','Native reports cover explicitly bound turns or operations. Tokens may arrive before timing; tool execution time remains unreported without wait-excluded intervals.'),'chart-note'):null));
@@ -507,7 +532,8 @@ function usage(){
  for(const [key,label,options] of [['days',t('期間','Period'),[['all',t('全部','All time')],['7',t('近 7 天（含今天）','Last 7 days')],['30',t('近 30 天（含今天）','Last 30 days')]]],...['tool','model','reasoning','kind','outcome','task_type','task'].map((key,i)=>[key,[t('執行工具','Tool'),t('回報模型','Reported model'),t('回報推理強度','Reported reasoning'),t('樣本分類','Sample type'),t('任務結果','Task outcome'),t('比較分類','Comparison group'),t('任務','Task')][i],[['all',t('全部','All')],...(data.dimensions[key==='kind'?'sample_kind':key==='task'?'task_id':key]??[]).map(v=>[v,name(v)])]])]){
  const labelEl=node('label',label),select=node('select');select.id='usage-'+key;for(const [v,label] of options){const o=node('option',label);o.value=v;select.append(o);}if(!options.some(o=>o[0]===analytics[key]))analytics[key]='all';select.value=analytics[key];on(select,'change',event=>{analytics[key]=event.currentTarget.value;operationCursor=null;operationPrevious=[];loadView();});labelEl.append(select);filters.append(labelEl);}
  const activeFilters=[...filters.querySelectorAll('select')].filter(select=>select.value!=='all');
- const filterDisclosure=disclosure('usage-filters',t('篩選','Filters'),filters),filterSummary=node('span',activeFilters.length?activeFilters.map(select=>select.selectedOptions[0].textContent).join(' · '):t('全部資料','All data'),'filter-summary');
+ const reset=button(t('清除篩選','Clear filters'),()=>{for(const key of Object.keys(analytics))analytics[key]='all';operationCursor=null;operationPrevious=[];loadView();});reset.disabled=!activeFilters.length;
+ const filterDisclosure=disclosure('usage-filters',t('詳細篩選','Detailed filters'),filters,reset),filterSummary=node('span',activeFilters.length?activeFilters.length+' · '+activeFilters.map(select=>select.selectedOptions[0].textContent).join(' · '):t('全部資料','All data'),'filter-summary');
  filterSummary.title=filterSummary.textContent;filterDisclosure.querySelector('summary').append(filterSummary);box.append(filterDisclosure,heading);
  const rows=data.operations.items,groups=data.groups,taskGroups=data.tasks,totals=data.totals;
  box.append(node('p',t('統計範圍：已記錄的操作','Scope: recorded operations'),'chart-note'));
@@ -531,6 +557,7 @@ function usage(){
 
 
 function render(){
+ updateSearchFilters();
  chartObserver?.disconnect();
  if(!snapshot&&view!=='about'){$('content').replaceChildren(empty(t('等待最新資料','Waiting for current records')));return;}
  // The full-page detail surface is already mounted; never detach it on a poll.
@@ -553,6 +580,7 @@ function api(url,isCurrent=()=>true){
 }
 function signature(value){return JSON.stringify(value,(key,val)=>key==='read_at'?undefined:val);}
 function updateConnection(){
+ updateFlow();
  const label={connecting:t('連線中','Connecting'),indexing:t('同步中','Syncing'),healthy:t('已連線','Connected'),partial:t('來源需檢查','Check sources'),'source-error':t('來源無法驗證','Source unavailable'),offline:t('連線中斷','Disconnected'),paused:t('暫停更新','Updates paused')}[connection];
  $('connection').dataset.health=connection;$('connection-text').textContent=label;
  const reachable=['healthy','partial','indexing','source-error'].includes(connection),sourceLabel=connection==='offline'||connection==='paused'?t('尚未重新確認','Not rechecked'):{healthy:t('正常','Healthy'),partial:t('部分資料無法驗證','Some records unavailable'),indexing:t('核對中','Validating'),unavailable:t('來源無法驗證','Source unavailable')}[sourceHealth]??t('尚未確認','Not checked');
@@ -605,6 +633,9 @@ for(const dialog of [$('drawer'),$('document')]){
 }
 $('close-document').addEventListener('click',()=>$('document').close());$('document').addEventListener('close',()=>{bodyRequest++;openDocument=null;});
 $('reload-document').addEventListener('click',()=>openDocument&&showDocument(openDocument,true));
+$('search').addEventListener('input',updateSearchFilters);
+$('state-filter').addEventListener('change',updateSearchFilters);
+$('reset-search').addEventListener('click',()=>{$('search').value='';$('state-filter').value='all';libraryQuery='';backlogCursor=null;backlogPrevious=[];activityCursor=null;activityPrevious=[];updateSearchFilters();shell();render();loadView();if(view==='learning')refresh();});
 $('search').addEventListener('input',()=>{if(view==='learning'){clearTimeout(searchTimer);searchTimer=setTimeout(()=>{libraryQuery=$('search').value.slice(0,200);refresh();},200);}else {backlogCursor=null;backlogPrevious=[];activityCursor=null;activityPrevious=[];if(['backlog','activity'].includes(view)){clearTimeout(searchTimer);searchTimer=setTimeout(loadView,150);}else render();}});
 $('state-filter').addEventListener('change',()=>{backlogCursor=null;backlogPrevious=[];if(view==='backlog')loadView();else render();});
 document.addEventListener('visibilitychange',()=>{clearTimeout(timer);if(!document.hidden)refresh();else{connection='paused';updateConnection();}});
