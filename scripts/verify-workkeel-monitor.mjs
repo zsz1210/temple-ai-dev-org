@@ -192,7 +192,7 @@ async function verifyObserverClarity(page,monitor,index){
  await page.locator('#detail-content').getByRole('button',{name:'docs/approval.md',exact:true}).click();await waitText('#document-body','Approved synthetic');
  await page.locator('#close-document').click();await page.locator('#close-drawer').click();
  await openSearchFilters(page);await page.locator('#search').fill('no-matching-clarity-fixture');await waitText('#content','No tasks match');
- await page.getByRole('button',{name:'Clear filters',exact:true}).click();await waitText('#content tbody','WK-unobserved');
+ await page.locator('#content').getByRole('button',{name:'Clear filters',exact:true}).click();await waitText('#content tbody','WK-unobserved');
  assert.equal(await page.locator('#search').inputValue(),'');assert.match(await page.locator('#content').innerText(),/not reported execution measurements/);
 
  await openTask('WK-unobserved');assert.match(await page.locator('#detail-content').innerText(),/This task has no execution measurements/);
@@ -201,7 +201,7 @@ async function verifyObserverClarity(page,monitor,index){
  const circle=await help.evaluate(el=>{const rect=el.getBoundingClientRect(),target=getComputedStyle(el,'::before');return {width:rect.width,height:rect.height,radius:getComputedStyle(el).borderRadius,targetWidth:parseFloat(target.width),targetHeight:parseFloat(target.height)};});
  assert.ok(Math.abs(circle.width-16)<.1&&Math.abs(circle.height-16)<.1,'visible help circle stays compact at 16 px');
  assert.ok(circle.targetWidth>=24&&circle.targetHeight>=24,'transparent pointer target remains at least 24 px');
- assert.ok(circle.radius==='50%'||parseFloat(circle.radius)>=circle.width/2,'help control is circular');assert.equal(await help.innerText(),'?');
+ assert.ok(circle.radius==='50%'||parseFloat(circle.radius)>=circle.width/2,'help control is circular');assert.equal(await help.innerText(),'i');
  await help.click();const popover=page.locator('.help-popover:popover-open');
  assert.equal(await popover.getByRole('heading',{name:'Recorded time by stage',exact:true}).isVisible(),true);
  assert.match(await popover.locator('p').first().innerText(),/reported time.*planning, implementation, review, repair and verification/i);
