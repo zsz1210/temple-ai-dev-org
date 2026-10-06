@@ -30,6 +30,23 @@ export function operationRows(tasks) {
   }
   return rows;
 }
+
+// A recent host report is an observation, never proof of current computation.
+// Do not animate from lifecycle residence, polling time or a binding's creation.
+export function taskFlowSummary(task,{now=Date.now(),connected=true,visible=true}={}) {
+  const terminal=['done','cancelled'].includes(task.task_state);
+  const eligible=task.read_status==='available'&&['build','test'].includes(task.task_state);
+  const runs=task.runs??[];
+  const running=runs.filter(run=>run.runner_state==='running'&&!run.collection_closed);
+  const fresh=running.filter(run=>{const at=Date.parse(run.last_observed_at);return Number.isFinite(at)&&now>=at&&now-at<60000&&!run.observations?.error_code;});
+  const mode=terminal?task.task_state:!connected||!visible?'suspended':!eligible?'waiting':fresh.length?'reported-running':running.length?'stale':runs.some(run=>['paused','interrupted','error'].includes(run.runner_state))?'paused':'unreported';
+  const history=task.timeline??[];
+  return {mode,moving:mode==='reported-running',reported_at:fresh.map(run=>run.last_observed_at).sort((a,b)=>Date.parse(a)-Date.parse(b)).at(-1)??null,
+    stages:['intake','build','test','release_gate','done'].map(state=>{
+      const events=history.filter(e=>e.state===state&&Number.isFinite(Date.parse(e.at))).sort((a,b)=>Date.parse(a.at)-Date.parse(b.at));
+      return {state,current:task.task_state===state,visited:events.length>0,last_at:events.at(-1)?.at??null};
+    })};
+}
 export function filterRows(rows,{model='all',tool='all',reasoning='all',kind='all',outcome='all',task_type='all',task='all',days='all',now=Date.now(),timeZone=null}={}) {
   const cutoff=days==='all'?-Infinity:now-Number(days)*86400000;
   const firstDay=days==='all'||!timeZone?null:calendarOffset(calendarDate(now,timeZone),1-Number(days));

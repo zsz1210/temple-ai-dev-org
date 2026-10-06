@@ -8,6 +8,8 @@ import {startTaskMonitor} from '../src/workkeel-monitor.mjs';
 import {createObserverIndex} from '../src/workkeel-observer-index.mjs';
 import {verifyExecutionClarity} from './workkeel-execution-clarity-browser.mjs';
 import {verifyObserverRelease} from './workkeel-observer-release-browser.mjs';
+import {verifyAnalysisUI} from './workkeel-analysis-ui-browser.mjs';
+async function openSearchFilters(page){if(!await page.locator('#search-filters').evaluate(el=>el.open))await page.locator('#search-filters > summary').click();}
 
 // Focused desktop reproduction of the four independent observer-review findings.
 // The default gate also runs these checks after its existing responsive coverage.
@@ -17,7 +19,8 @@ const followupOnly=process.env.OBSERVER_FOLLOWUP_ONLY==='1';
 const liveOnly=process.env.OBSERVER_LIVE_ONLY==='1';
 const executionOnly=process.env.OBSERVER_EXECUTION_ONLY==='1';
 const releaseOnly=process.env.OBSERVER_RELEASE_ONLY==='1';
-const focusedOnly=regressionsOnly||clarityOnly||followupOnly||liveOnly||executionOnly||releaseOnly;
+const analysisOnly=process.env.OBSERVER_ANALYSIS_ONLY==='1';
+const focusedOnly=regressionsOnly||clarityOnly||followupOnly||liveOnly||executionOnly||releaseOnly||analysisOnly;
 async function verifyLiveState(page,monitor,root){
  let version=0,served=-1,workspaceRequests=0,hold=false,release,held;
  await page.route('**/api/changes?*',async route=>{const response=await route.fetch(),data=await response.json();await route.fulfill({json:{...data,changed:version!==served}});});
@@ -45,7 +48,7 @@ async function verifyLiveState(page,monitor,root){
  const text=await page.locator('#document-body').innerText();await page.evaluate(()=>{window.documentNode=document.querySelector('#document-body').firstChild;});version++;
  await page.waitForFunction(()=>document.querySelector('#document-status').textContent.includes('來源已更新'));assert.equal(await page.locator('#document-body').innerText(),text);assert.equal(await page.evaluate(()=>documentNode===document.querySelector('#document-body').firstChild),true);assert.equal(await page.locator('#detail-tabs [aria-current="page"]').innerText(),'文件');
  await page.unroute('**/api/changes?*');await page.unroute('**/api/workspace');await page.unroute('**/api/task?*');await page.unroute('**/api/document?*');
- await page.locator('#close-document').click();await page.locator('#close-drawer').click();await page.locator('#nav-learning').click();await page.getByRole('button',{name:'技能庫',exact:true}).click();await page.locator('#search').fill('copper kestrel');await page.getByRole('button',{name:'custom-check',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#document-body').textContent.includes('copper kestrel'));
+ await page.locator('#close-document').click();await page.locator('#close-drawer').click();await page.locator('#nav-learning').click();await page.getByRole('button',{name:'技能庫',exact:true}).click();await openSearchFilters(page);await page.locator('#search').fill('copper kestrel');await page.getByRole('button',{name:'custom-check',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#document-body').textContent.includes('copper kestrel'));
  const original=await page.locator('#document-body').innerText();await fs.appendFile(path.join(root,'.agents/skills/custom-check/SKILL.md'),'\nLive-state source update.\n');await page.waitForFunction(()=>document.querySelector('#document-status').textContent.includes('來源已更新'));assert.equal(await page.locator('#document-body').innerText(),original);
  // Removing a Skill source must mark the retained reader text stale, even when
  // the task/workspace revision is unchanged. Restoring the same bytes revalidates
@@ -81,11 +84,11 @@ async function verifyObserverRegressions(page,monitor,root,index){
  const access=new URL(monitor.url),headers={Authorization:'Bearer '+access.hash.slice(1)};
  await page.goto(monitor.url);await page.waitForFunction(()=>document.querySelector('#connection').dataset.health==='healthy');
 
- await page.locator('#nav-board').click();await page.locator('#search').fill('Unobserved');
+ await page.locator('#nav-board').click();await openSearchFilters(page);await page.locator('#search').fill('Unobserved');
  await page.locator('.task-card').click();await page.locator('#lifecycle').waitFor();
  await page.locator('#expand-task').click();await page.locator('.task-full-page').waitFor();
- await page.locator('#nav-backlog').click();await page.locator('#state-filter').selectOption('test');
- await page.locator('#search').fill('review');await waitText('#content tbody','WK-review');
+ await page.locator('#nav-backlog').click();await openSearchFilters(page);await page.locator('#state-filter').selectOption('test');
+ await openSearchFilters(page);await page.locator('#search').fill('review');await waitText('#content tbody','WK-review');
  await page.locator('#content tbody button').first().click();await page.locator('#lifecycle').waitFor();
  await page.locator('#expand-task').click();await page.locator('.task-full-page').waitFor();
  assert.match(await page.locator('.back-link').innerText(),/任務文件/);
@@ -160,7 +163,7 @@ async function verifyPagination(page,index){
   else await page.getByRole('button',{name:'7 天',exact:true}).click();
   await firstPage();await next();await first(50);await previous();await firstPage();
   if(view==='activity'){
-   await next();await first(50);await page.locator('#search').fill('Pagination fixture');
+   await next();await first(50);await openSearchFilters(page);await page.locator('#search').fill('Pagination fixture');
    await firstPage();await next();await first(50);await previous();await firstPage();
   }
   await next();await first(50);(await index.snapshot()).tasks[0].title+=' revision-'+view;index.invalidate('synthetic-pagination-revision-'+view);
@@ -188,8 +191,8 @@ async function verifyObserverClarity(page,monitor,index){
  await page.locator('#detail-tabs button[aria-current="page"]').filter({hasText:'Documents'}).waitFor();
  await page.locator('#detail-content').getByRole('button',{name:'docs/approval.md',exact:true}).click();await waitText('#document-body','Approved synthetic');
  await page.locator('#close-document').click();await page.locator('#close-drawer').click();
- await page.locator('#search').fill('no-matching-clarity-fixture');await waitText('#content','No tasks match');
- await page.getByRole('button',{name:'Clear filters',exact:true}).click();await waitText('#content tbody','WK-unobserved');
+ await openSearchFilters(page);await page.locator('#search').fill('no-matching-clarity-fixture');await waitText('#content','No tasks match');
+ await page.locator('#content').getByRole('button',{name:'Clear filters',exact:true}).click();await waitText('#content tbody','WK-unobserved');
  assert.equal(await page.locator('#search').inputValue(),'');assert.match(await page.locator('#content').innerText(),/not reported execution measurements/);
 
  await openTask('WK-unobserved');assert.match(await page.locator('#detail-content').innerText(),/This task has no execution measurements/);
@@ -198,7 +201,7 @@ async function verifyObserverClarity(page,monitor,index){
  const circle=await help.evaluate(el=>{const rect=el.getBoundingClientRect(),target=getComputedStyle(el,'::before');return {width:rect.width,height:rect.height,radius:getComputedStyle(el).borderRadius,targetWidth:parseFloat(target.width),targetHeight:parseFloat(target.height)};});
  assert.ok(Math.abs(circle.width-16)<.1&&Math.abs(circle.height-16)<.1,'visible help circle stays compact at 16 px');
  assert.ok(circle.targetWidth>=24&&circle.targetHeight>=24,'transparent pointer target remains at least 24 px');
- assert.ok(circle.radius==='50%'||parseFloat(circle.radius)>=circle.width/2,'help control is circular');assert.equal(await help.innerText(),'?');
+ assert.ok(circle.radius==='50%'||parseFloat(circle.radius)>=circle.width/2,'help control is circular');assert.equal(await help.innerText(),'i');
  await help.click();const popover=page.locator('.help-popover:popover-open');
  assert.equal(await popover.getByRole('heading',{name:'Recorded time by stage',exact:true}).isVisible(),true);
  assert.match(await popover.locator('p').first().innerText(),/reported time.*planning, implementation, review, repair and verification/i);
@@ -266,7 +269,7 @@ async function verifyObserverClarity(page,monitor,index){
 
  await page.locator('#nav-activity').click();await page.locator('#activity-events').waitFor();
  assert.equal(await page.locator('#activity-events').evaluate(el=>el.open),true,'task events are visible on first entry');
- await page.locator('#search').fill('WK-unobserved');await waitText('#activity-events','WK-unobserved');
+ await openSearchFilters(page);await page.locator('#search').fill('WK-unobserved');await waitText('#activity-events','WK-unobserved');
  await page.waitForFunction(()=>!document.querySelector('.activity-span'));
  assert.match(await page.locator('#content').innerText(),/No execution timing has been reported/);
  assert.equal(await page.locator('#activity-events .timeline-event').first().isVisible(),true);
@@ -437,7 +440,7 @@ try{
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'About overflow');
   await page.screenshot({path:path.join(output,viewport.width+'-about-en.png'),fullPage:true});
   await page.locator('#nav-settings').click();await page.getByLabel('Language',{exact:true}).selectOption('zh-TW');
-  await page.locator('#nav-board').click();await page.getByLabel('搜尋',{exact:true}).fill('Unobserved');
+  await page.locator('#nav-board').click();await openSearchFilters(page);await page.getByLabel('搜尋',{exact:true}).fill('Unobserved');
   assert.equal(await page.locator('.task-card').count(),1);await page.locator('.task-card').click();
   await page.locator('#detail-content #lifecycle').waitFor();
   await page.getByRole('button',{name:/各階段已記錄時間/}).click();
@@ -464,7 +467,7 @@ try{
   const copied=await page.evaluate(()=>navigator.clipboard.readText());assert.match(copied,/WK-unobserved/);assert.doesNotMatch(copied,/PRIVATE_OUTPUT_NOT_FOR_MONITOR/);
   assert.deepEqual(copied.split('\n').filter(s=>s.startsWith('本機驗收：')),['本機驗收：尚未完成']);
   await page.getByRole('button',{name:'模型與執行',exact:true}).click();assert.match(await page.locator('#detail-content').innerText(),/尚無執行紀錄/);
-  await page.keyboard.press('Escape');await page.getByLabel('搜尋',{exact:true}).fill('');
+  await page.keyboard.press('Escape');await openSearchFilters(page);await page.getByLabel('搜尋',{exact:true}).fill('');
   for(const id of ['WK-completed','WK-interrupted','WK-review','WK-accepted','WK-working']){
    await page.locator('.task-card[data-task-id="'+id+'"]').click();
    await page.locator('#lifecycle').waitFor();assert.match(await page.locator('#lifecycle').innerText(),/各階段已記錄時間/);
@@ -479,7 +482,7 @@ try{
   }
   await page.locator('#nav-learning').click();await page.getByRole('button',{name:'技能庫',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('#content').textContent.includes('尚未加入專案'));
-  await page.getByLabel('搜尋',{exact:true}).fill('copper kestrel');
+  await openSearchFilters(page);await page.getByLabel('搜尋',{exact:true}).fill('copper kestrel');
   await page.waitForFunction(()=>document.querySelector('#content').textContent.includes('custom-check')&&!document.querySelector('#content').textContent.includes('external-check'));
   await page.getByRole('button',{name:'custom-check',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#document-body').textContent.includes('copper kestrel'));
   assert.equal(await page.locator('#document-body script').count(),0);
@@ -488,7 +491,7 @@ try{
   await page.waitForFunction(()=>document.querySelector('#document-status').textContent.includes('來源已更新'));
   assert.equal(await page.locator('#document-body').innerText(),body);
   await page.locator('#reload-document').click();await page.waitForFunction(()=>document.querySelector('#document-body').textContent.includes('Source changed'));
-  await page.locator('#close-document').click();await page.getByLabel('搜尋',{exact:true}).fill('');await refresh();
+  await page.locator('#close-document').click();await openSearchFilters(page);await page.getByLabel('搜尋',{exact:true}).fill('');await refresh();
   await page.locator('#nav-backlog').click();await page.locator('#content tbody button').first().click();await page.getByRole('button',{name:'文件',exact:true}).click();await page.locator('#detail-content button').first().click();await page.waitForFunction(()=>document.querySelector('#document-body').textContent.includes('Approved synthetic'));
   await page.locator('#close-document').click();await page.locator('#close-drawer').click();
   await page.locator('#nav-board').click();
@@ -514,11 +517,11 @@ try{
  const now=Date.now(),operations=Array.from({length:120},(_,i)=>({operation_id:'work-'+String(i).padStart(3,'0'),result_recorded:true,runtime_model:'fixture-pagination',dispatched_at:new Date(now-i*60000-1000).toISOString(),ended_at:new Date(now-i*60000).toISOString(),adapter_elapsed_ms:1000,usage:{input_tokens:100,output_tokens:10}}));
  const task={id:'WK-pagination',title:'Pagination fixture',task_state:'done',read_status:'available',updated_at:new Date(now).toISOString(),runs:[{run_id:'pagination',operations}],timeline:operations.map((op,i)=>({at:op.dispatched_at,action:'event-'+String(i).padStart(3,'0'),state:'build'}))};
  paginationIndex=createObserverIndex(empty,async()=>({tasks:[task],complete:true,project:{}}));
- for(const mode of (releaseOnly?['release']:executionOnly?['execution','live']:liveOnly?['live']:followupOnly?['followup']:clarityOnly?['clarity']:regressionsOnly?['regressions']:['regressions','clarity','followup','live','execution','release'])){
+ for(const mode of (analysisOnly?['analysis']:releaseOnly?['release']:executionOnly?['execution','live']:liveOnly?['live']:followupOnly?['followup']:clarityOnly?['clarity']:regressionsOnly?['regressions']:['regressions','clarity','followup','live','execution','release','analysis'])){
   const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce',colorScheme:'dark'});
   page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
   await page.route('**/*',route=>{const url=new URL(route.request().url());if(url.hostname!=='127.0.0.1'){external.push(url.origin);return route.abort();}return route.continue();});
-  checks.push(mode==='release'?await verifyObserverRelease(page,monitor,output):mode==='execution'?await verifyExecutionClarity(page,monitor):mode==='live'?await verifyLiveState(page,monitor,root):mode==='followup'?await verifyObserverFollowup(page,monitor):mode==='clarity'?await verifyObserverClarity(page,monitor,paginationIndex):await verifyObserverRegressions(page,monitor,root,paginationIndex));await context.close();
+  checks.push(mode==='analysis'?await verifyAnalysisUI(page,monitor,output):mode==='release'?await verifyObserverRelease(page,monitor,output):mode==='execution'?await verifyExecutionClarity(page,monitor):mode==='live'?await verifyLiveState(page,monitor,root):mode==='followup'?await verifyObserverFollowup(page,monitor):mode==='clarity'?await verifyObserverClarity(page,monitor,paginationIndex):await verifyObserverRegressions(page,monitor,root,paginationIndex));await context.close();
  }
  assert.deepEqual(errors,[]);assert.deepEqual(external,[]);
  if(releaseOnly)await fs.writeFile(path.join(output,'observer-release-report.json'),JSON.stringify({passed:true,mode:'focused-desktop-observer-release',checks,errors,external_requests:external.length,model_calls:0},null,2)+'\n');

@@ -1,8 +1,26 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {stageExecutionSummary,executionSummary,executionBreakdown,operationRows,aggregateRows,filterRows} from '../src/workkeel-monitor-analytics.mjs';
+import {stageExecutionSummary,executionSummary,executionBreakdown,operationRows,aggregateRows,filterRows,taskFlowSummary} from '../src/workkeel-monitor-analytics.mjs';
 const at=n=>new Date(1700000000000+n).toISOString();
 const op=(id,kind,a,b)=>({operation_id:id,activity_kind:kind,execution_intervals:[{started_at:at(a),completed_at:at(b)}],adapter_elapsed_ms:b-a,result_recorded:true,usage:{input_tokens:0,output_tokens:0}});
+test('task flow requires a fresh explicit report and never uses lifecycle residence as liveness',()=>{
+ const now=1700000060000,task={read_status:'available',task_state:'build',runs:[{runner_state:'running',last_observed_at:at(59999)}]};
+ assert.equal(taskFlowSummary(task,{now}).moving,true);
+ for(const run of [{runner_state:'running'},{runner_state:'running',last_observed_at:at(0)},{runner_state:'running',last_observed_at:at(60001)},{runner_state:'paused',last_observed_at:at(59999)},{...task.runs[0],collection_closed:true},{...task.runs[0],observations:{error_code:'source-failed'}}])assert.equal(taskFlowSummary({...task,runs:[run]},{now}).moving,false);
+ for(const state of ['intake','release_gate','done','cancelled','unknown'])assert.equal(taskFlowSummary({...task,task_state:state},{now}).moving,false);
+ for(const options of [{connected:false},{visible:false}])assert.equal(taskFlowSummary(task,{now,...options}).moving,false);
+ assert.equal(taskFlowSummary({...task,read_status:'unavailable'},{now}).moving,false);
+ assert.equal(taskFlowSummary({...task,runs:[]},{now}).mode,'unreported');
+ const olderOffset='2023-11-15T07:14:10+09:00',newerUtc='2023-11-14T22:14:15Z';
+ assert.equal(taskFlowSummary({...task,runs:[{runner_state:'running',last_observed_at:olderOffset},{runner_state:'running',last_observed_at:newerUtc}]},{now:Date.parse('2023-11-14T22:14:20Z')}).reported_at,newerUtc);
+});
+test('task flow distinguishes actual visits from progress guesses and retains rework history',()=>{
+ const flow=taskFlowSummary({read_status:'available',task_state:'build',timeline:[{state:'test',at:at(20)},{state:'build',action:'rework',at:at(30)}]});
+ assert.equal(flow.stages.find(s=>s.state==='intake').visited,false);
+ assert.deepEqual(flow.stages.find(s=>s.state==='test'),{state:'test',current:false,visited:true,last_at:at(20)});
+ assert.equal(flow.stages.find(s=>s.state==='build').current,true);
+ assert.equal(flow.stages.find(s=>s.state==='release_gate').visited,false);
+});
 test('analytics counts reported models and reasoning while retaining tool-only totals',()=>{
  const rows=operationRows([{id:'one-model',runs:[{run_id:'r',operations:[
   {...op('build','implementation',0,10),runtime_model:'model-a',requested_reasoning:{value:'high'}},
