@@ -84,6 +84,25 @@ test('zero clock interval and absent usage remain distinct',async t=>{
   assert.equal(out.active_duration_ms,0);assert.equal(out.measurement.operations[0].usage.input_tokens,null);
 });
 
+test('finished capture history does not exhaust live clocks and retained ledgers stay immutable',async t=>{
+  const f=await fixture(t);await beginCapture(f.root,f.begin,f.now(1));
+  await finishCapture(f.root,{capture_id:'capture',report:f.report},f.now(2));
+  const root=f.root+'/.ai-org/execution-capture',original=await fs.readFile(root+'/capture.json','utf8'),v=JSON.parse(original).value;
+  for(let i=1;i<128;i++){
+    const copy={...v,capture_id:'old-'+i};
+    await fs.writeFile(root+'/'+copy.capture_id+'.json',JSON.stringify({value:copy,sha256:executionDigest(copy)}));
+  }
+  const fresh={...f.begin,capture_id:'fresh',binding:{...f.begin.binding,binding_id:'fresh'},source:{kind:'host-report',thread_id:'fresh',turn_id:'fresh'}};
+  assert.equal((await beginCapture(f.root,fresh,f.now(3))).state,'active');
+  assert.equal(await fs.readFile(root+'/capture.json','utf8'),original);
+  for(let i=1;i<128;i++){
+    const copy={...v,capture_id:'old-'+i,state:'paused',finished_at:null,final_report:null};
+    await fs.writeFile(root+'/'+copy.capture_id+'.json',JSON.stringify({value:copy,sha256:executionDigest(copy)}));
+  }
+  await assert.rejects(beginCapture(f.root,{...fresh,capture_id:'overflow',binding:{...fresh.binding,binding_id:'overflow'},source:{kind:'host-report',thread_id:'overflow',turn_id:'overflow'}},f.now(4)),/ledger open capacity/);
+  await assert.rejects(fs.stat(root+'/overflow.json'),/ENOENT/);
+});
+
 test('malformed normalized reports do not freeze the clock and missing activity cannot start',async t=>{
   const f=await fixture(t);const {activity_kind,...missing}=f.begin;
   await assert.rejects(beginCapture(f.root,missing,f.now(1)),/activity kind required/);
@@ -254,7 +273,11 @@ test('corrupt ledger, symlink ledger and interrupted bind all fail closed',async
 test('ledger capacity rejects creation without making existing captures unreadable',async t=>{
   const f=await fixture(t);await beginCapture(f.root,f.begin,f.now(1));
   const dir=f.root+'/.ai-org/execution-capture';
-  for(let n=0;n<127;n++)await fs.writeFile(`${dir}/fixture-${n}.json`,'{}');
+  const original=JSON.parse(await fs.readFile(dir+'/capture.json','utf8')).value;
+  for(let n=0;n<1023;n++){
+    const v={...original,capture_id:'fixture-'+n};
+    await fs.writeFile(`${dir}/fixture-${n}.json`,JSON.stringify({value:v,sha256:executionDigest(v)}));
+  }
   await assert.rejects(beginCapture(f.root,{...f.begin,capture_id:'overflow',binding:{...f.begin.binding,binding_id:'overflow'},source:{kind:'host-report',thread_id:'other',turn_id:'other'}},f.now(2)),/capacity/);
   const out=await finishCapture(f.root,{capture_id:'capture',report:f.report},f.now(3));assert.equal(out.active_duration_ms,2);
 });

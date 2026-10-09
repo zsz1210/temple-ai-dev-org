@@ -9,6 +9,9 @@ const execFileAsync = promisify(execFile);
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 export const REQUIRED_PACKAGE_PATHS = [
+  "src/workkeel-iteration.mjs",
+  "docs/operations/workkeel-iteration-quality.md",
+  "docs/operations/workkeel-evidence-availability.md",
   "src/workkeel-learning.mjs",
   "docs/extensions/workkeel-learning.md",
   "docs/validation/native-learning-wire-contract.md",
@@ -176,7 +179,7 @@ const ALLOWED_TOP_LEVEL_DIRECTORIES = ["bin/", "docs/", "packs/", "project-overl
 // WI-0267 adds exactly two monitor modules, the monitor ADR and routing evaluation.
 // External development tools, raw receipts and browser evidence stay excluded.
 // WI-0269 adds exactly three product modules, one daily guide and one ADR.
-const MAX_FILE_COUNT = 533; // Adds native learning module, its guide and scoped wire review; roots and byte limit unchanged.
+const MAX_FILE_COUNT = 536; // Adds iteration projection and guide; roots and byte limit unchanged.
 const MAX_UNPACKED_SIZE = 8 * 1024 * 1024;
 
 export function validatePackageDryRun(pack) {

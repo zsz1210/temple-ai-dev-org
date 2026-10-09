@@ -142,6 +142,7 @@ test('exact host binding retains requested versus reported model, rejects confli
 
 test('closed unrelated dispatch history cannot block a fresh task, while open history and duplicate identities still fail',async t=>{
   const f=await fixture(t),old=await prepareDispatchTicket(f.root,f.request);
+  await fs.unlink(f.root+'/.ai-org/artifacts/'+old.task_id+'/dispatch-claim-'+old.task_hash+'.json'); // Legacy missing proof.
   const source={kind:'host-report',thread_id:'old-dispatch-thread',turn_id:'old-turn'};
   await bindDispatchTicket(f.root,{execution_id:old.execution_id,source,sample_kind:'fixture'});
   await mutateNativeTask(f.root,f.task.id,'cancel',{operation_id:'cancel',expected_version:2,actor:f.actor,summary:'Synthetic supersession',evidence:['docs/approval.md']});

@@ -127,6 +127,18 @@ test('changed authority and ended claims refuse new host reports before mutation
 
 test('pre-bound operations report after handoff while new attachments require an active claim',async t=>{
   const f=await fixture(t);await f.host();
+  const proofDir=f.root+'/.ai-org/artifacts/'+f.task.id;
+  const proofName=(await fs.readdir(proofDir)).find(n=>n.startsWith('dispatch-claim-'));
+  const proofFile=proofDir+'/'+proofName,original=await fs.readFile(proofFile,'utf8');
+  const handoff={operation_id:'handoff',expected_version:2,actor:f.actor,claim_id:f.task.claim.id,
+    revision:f.git('rev-parse','HEAD'),summary:'Exact candidate handed off',evidence:['docs/approval.md'],unresolved:[]};
+  await fs.writeFile(proofFile,original.replace('"build"','"done"'));
+  await assert.rejects(mutateNativeTask(f.root,f.task.id,'handoff',handoff),/clean product tree/);
+  await fs.writeFile(proofFile,original);
+  const wrong=proofDir+'/dispatch-claim-'+('0'.repeat(64))+'.json';
+  await fs.writeFile(wrong,original);
+  await assert.rejects(mutateNativeTask(f.root,f.task.id,'handoff',handoff),/clean product tree/);
+  await fs.unlink(wrong);
   await mutateNativeTask(f.root,f.task.id,'handoff',{operation_id:'handoff',expected_version:2,actor:f.actor,claim_id:f.task.claim.id,
     revision:f.git('rev-parse','HEAD'),summary:'Exact candidate handed off',evidence:['docs/approval.md'],unresolved:[]});
   const receipt=await finishDelivery(f.root,{execution_id:f.execution_id,report:f.report()});

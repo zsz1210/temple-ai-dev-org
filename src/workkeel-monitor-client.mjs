@@ -255,6 +255,22 @@ function executionOverview(task,all=false){
  append(node('div'),reportedMeasurement(op.ms,op.time_complete,duration),append(node('small'),reportedMeasurement(op.tokens,op.tokens_complete,number),node('span',' Tokens')))])));
  if(!all)box.append(button(t('查看每次執行','View execution details'),()=>{tab='model';renderDetail();}));return box;
 }
+function deliveryProgress(task){
+ const data=task.quality?.delivery_progress,p=data?.progress;
+ const box=helpHeading(panel(t('成果完成度','Delivery progress')),t('已製作：已有對應成果。功能已驗證：對應功能測試有通過紀錄。品質已驗收：指定驗收者已確認品質。三者各自引用證據；測試次數不能換算為完成項目數。\n\n這是具名回報，並非系統自動驗收。未記錄顯示未知，0 代表明確記錄為零。證據變更時不顯示舊數字；尚未交付或版本不同會註明。修正輪次只計已記錄的比較，環境重跑不等於產品缺陷。','Produced means an artifact exists. Functionally verified means mapped functional checks passed. Quality accepted means a named authority accepted quality. Each requires its own evidence; test counts are not item counts.\n\nThese are attributed reports, not automatic acceptance. Missing is unknown; zero is explicit. Changed evidence hides old counts. Undelivered or stale revisions are labeled. Repair rounds cover recorded comparisons only; environment reruns are not product defects.'));
+ box.id='delivery-progress';
+ if(!p){box.append(node('p',data?.status==='unavailable'?t('成果證據無法驗證','Progress evidence unavailable'):t('尚未回報各項成果的完成度','Delivery progress has not been reported'),'coverage-note'));}
+ else {
+  const rows=[['produced',t('已製作','Produced')],['functionally_verified',t('功能已驗證','Functionally verified')],['quality_accepted',t('品質已驗收','Quality accepted')]];
+  box.append(table([t('成果階段','Stage'),t('已記錄項目／總數','Recorded items / total')],rows.map(([k,label])=>[label,p[k].count===null?t('未知','Unknown'):number(p[k].count)+' / '+number(p.total)])),field(t('證據版本','Evidence revision'),p.candidate_revision),node('p',p.revision_status==='candidate-matched'?t('與交付版本相符','Matches delivered candidate'):p.revision_status==='stale'?t('舊版本資料，請重新驗證','Stale revision; revalidation required'):t('此版本尚未正式交付','This revision has not been formally delivered'),'chart-note'));
+  const sources=disclosure('progress-evidence',t('各項證據與涵蓋範圍','Stage evidence and coverage'));
+  for(const [k,label] of rows){const s=p[k];sources.append(field(label,s.evidence_ref?t('已核對引用：','Verified reference: ')+s.evidence_ref+' · '+(s.evidence_sha256??'').slice(0,12):t('尚未回報對應證據','No evidence reported')));}box.append(sources);
+  if(p.quality_authority)box.append(field(t('品質驗收者','Quality authority'),p.quality_authority));
+ }
+ if(data?.recorded_rounds)box.append(field(t('已記錄修正輪次','Recorded repair rounds'),number(data.recorded_rounds)),field(t('其中環境重跑','Environment reruns'),number(data.environment_reruns)));
+ const window=data?.three_iteration_window;if(window)box.append(node('p',t('後續三輪量測：','Three-iteration measurement: ')+window.recorded+' / '+window.target+t(' 輪已記錄；未執行的輪次保持待觀察。',' recorded; unexecuted rounds remain pending.'),'chart-note'));
+ return box;
+}
 function overviewDetail(task){
  const body=node('div');body.append(task.record_mode==='work-items'?node('p',t('歷史紀錄 · 原階段：','Historical record · Original stage: ')+name(task.task_state),'chart-note'):stageProgress(task),executionPanel(task));const action=panel(t('目前狀態','Current state'),...taskNotice(task).map(s=>node('p',s,'attention-text')));action.id='next-action';
  const copy=button(t('複製接手摘要','Copy handoff'),()=>copyHandoff(task)),status=node('span',undefined,'small'),fallback=node('textarea');copy.id='copy-handoff';copy.disabled=task.read_status!=='available';status.id='copy-status';status.setAttribute('role','status');fallback.id='handoff-text';fallback.readOnly=true;fallback.hidden=true;
@@ -266,7 +282,7 @@ function overviewDetail(task){
  if(task.delivery){delivery.append(field(t('候選版本','Candidate'),task.candidate_revision),field(t('交付說明','Delivery'),task.delivery.summary));if(task.review)delivery.append(field(t('審查結果','Review'),name(task.review.judgment)),field(t('審查說明','Review summary'),task.review.summary));else delivery.append(node('p',t('已交付，等待獨立審查','Delivered; awaiting independent review')));
  delivery.append(field(t('驗收','Acceptance'),task.quality?.locally_accepted?t('已驗收','Accepted'):t('尚未驗收','Not accepted')));}
  else delivery.append(node('p',t('尚未交付候選版本；完成實作後才會產生交付與審查紀錄。','No candidate has been delivered. Delivery and review records appear after implementation.')));
- delivery.id='delivery';body.append(delivery,lifecycle(task),executionOverview(task));
+ delivery.id='delivery';body.append(delivery,deliveryProgress(task),lifecycle(task),executionOverview(task));
  const evidence=task.evidence??[];
 
  const links=node('div',undefined,'row detail-links');

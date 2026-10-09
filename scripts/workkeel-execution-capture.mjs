@@ -15,6 +15,7 @@ const ROOT='.ai-org/execution-capture',SCHEMA='workkeel.execution-capture/v1';
 const ID=/^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$/;
 const SCAN=32*1024*1024,LINE=64*1024,RECORD=256*1024;
 const READINESS_OBSERVATION={authority:'observation-only',mutation_status:'no-write',execution_authorized:false};
+const HISTORY_LIMIT=1024,OPEN_LIMIT=128;
 const fail=code=>{throw new Error(`Capture: ${code}`);};
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 function id(value){if(typeof value!=='string'||!ID.test(value))fail('invalid identity');}
@@ -75,13 +76,22 @@ async function directory(target,create=false){
   if(await readBounded(path.join(dir,'.gitignore'),32)!=='*\n')fail('ignore policy');
   let count=0;for await(const e of await fs.opendir(dir)){
     if(e.name==='.gitignore')continue;
-    if(++count>128||!e.isFile()||e.isSymbolicLink()||!e.name.endsWith('.json')||!ID.test(e.name.slice(0,-5)))fail('ledger inventory');
+    if(++count>HISTORY_LIMIT||!e.isFile()||e.isSymbolicLink()||!e.name.endsWith('.json')||!ID.test(e.name.slice(0,-5)))fail('ledger inventory');
   }
   return dir;
 }
 async function save(target,value,create=false){
   validate(value);const dir=await directory(target,true),file=path.join(dir,`${value.capture_id}.json`);
-  if(create){let count=0;for await(const e of await fs.opendir(dir))if(e.name!=='.gitignore')count++;if(count>=128)fail('ledger inventory capacity');}
+  if(create){
+    let count=0,open=0;
+    for await(const e of await fs.opendir(dir))if(e.name!=='.gitignore'){
+      count++;
+      const old=await readLedger(path.join(dir,e.name),e.name.slice(0,-5));
+      if(old.state!=='finished')open++;
+    }
+    if(count>=HISTORY_LIMIT)fail('ledger inventory capacity');
+    if(open>=OPEN_LIMIT)fail('ledger open capacity');
+  }
   const text=formatJson({value,sha256:executionDigest(value)});if(Buffer.byteLength(text)>RECORD)fail('ledger bound');
   if(!create&&await existsEntry(target,`${ROOT}/${value.capture_id}.json`))await load(target,value.capture_id);
   await (create?durableAtomicCreate:durableAtomicWrite)(file,text);
@@ -103,7 +113,10 @@ function validate(v){
   if(v.state==='finished'&&!v.intervals.length||v.state==='prepared'&&(v.intervals.length||v.operations.length)||v.state!=='finished'&&v.final_report!==null)fail('ledger lifecycle');
 }
 async function load(target,captureId){
-  id(captureId);const dir=await directory(target),e=JSON.parse(await readBounded(path.join(dir,`${captureId}.json`)));
+  id(captureId);const dir=await directory(target);return readLedger(path.join(dir,`${captureId}.json`),captureId);
+}
+async function readLedger(file,captureId){
+  const e=JSON.parse(await readBounded(file));
   exactKeys(e,['value','sha256']);if(executionDigest(e.value)!==e.sha256||e.value.capture_id!==captureId)fail('ledger integrity');validate(e.value);return e.value;
 }
 const duration=v=>v.intervals.reduce((n,r)=>n+Date.parse(r.completed_at)-Date.parse(r.started_at),0);

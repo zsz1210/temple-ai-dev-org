@@ -21,6 +21,17 @@ async function treeSnapshot(root){
   }
   return result;
 }
+async function copyBindings(f,count,{closed=false}={}) {
+  const root=f.root+'/.ai-org/host-usage',original=JSON.parse(await fs.readFile(root+'/binding/binding.json','utf8')).value;
+  for(let i=1;i<count;i++){
+    const b=structuredClone(original);b.binding_id='history-'+i;b.source.thread_id='thread-'+i;b.source.turn_id='turn-'+i;
+    b.collection_closed=closed;if(closed)b.status='stopped';
+    const dir=root+'/'+b.binding_id;await fs.mkdir(dir);
+    await fs.writeFile(dir+'/binding.json',JSON.stringify({value:b,sha256:executionDigest(b)}));
+    const p={binding_sha256:executionDigest(b),measurement:{task_id:b.task_id,run_id:b.binding_id}};
+    await fs.writeFile(dir+'/measurement.json',JSON.stringify({value:p,sha256:executionDigest(p)}));
+  }
+}
 async function fixture(t,{advancingClaimClock=false,dispatchReasoning=undefined}={}) {
   const root=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'workkeel-host-')));t.after(()=>fs.rm(root,{recursive:true,force:true}));
   const git=(...args)=>execFileSync('git',['-C',root,...args],{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
@@ -107,6 +118,47 @@ test('explicit attachment excludes earlier usage; response identities deduplicat
   const shown=JSON.stringify(index.byTask.get(f.task.id));
   for(const secret of [f.sourceFile,'PRIVATE INSTRUCTIONS','PRIVATE SUMMARY','response_id','thread_token_usage'])assert.equal(shown.includes(secret),false);
   const disk=await fs.readFile(f.root+'/.ai-org/host-usage/binding/binding.json','utf8');assert.equal(disk.includes('PRIVATE'),false);
+});
+
+test('128 closed observations retain history and source uniqueness while new work gets a live slot',async t=>{
+  const f=await fixture(t);await bindHostUsage(f.root,f.manual);
+  await reportHostUsage(f.root,{...f.report,status:'completed',usage:{input_tokens:7,output_tokens:3}});
+  await closeHostUsage(f.root,{binding_id:'binding',actor:f.actor});
+  await copyBindings(f,128,{closed:true});
+  const before=await fs.readFile(f.root+'/.ai-org/host-usage/binding/binding.json','utf8');
+  await assert.rejects(bindHostUsage(f.root,{...f.manual,binding_id:'duplicate'}),/turn-already-bound/);
+  const fresh={...f.manual,binding_id:'fresh',source:{kind:'host-report',thread_id:'fresh-thread',turn_id:'fresh-turn'}};
+  assert.deepEqual(await checkHostBindingReadiness(f.root,fresh),{...observation,ready:true,code:'host-binding-ready'});
+  await bindHostUsage(f.root,fresh);
+  const index=await readHostMeasurements(f.root);
+  assert.equal(index.index_reads,129);assert.equal(index.errors.length,0);
+  assert.equal(index.byTask.get(f.task.id).find(m=>m.run_id==='binding').operations[0].usage.input_tokens,7);
+  assert.equal(await fs.readFile(f.root+'/.ai-org/host-usage/binding/binding.json','utf8'),before);
+});
+
+test('128 open collectors still block new bindings; closing one frees exactly one slot',async t=>{
+  const f=await fixture(t);await bindHostUsage(f.root,f.manual);await copyBindings(f,128);
+  const fresh={...f.manual,binding_id:'fresh',source:{kind:'host-report',thread_id:'fresh',turn_id:'fresh'}};
+  const snapshot=await treeSnapshot(f.root+'/.ai-org');
+  assert.deepEqual(await checkHostBindingReadiness(f.root,fresh),{...observation,ready:false,code:'host-open-inventory-bound'});
+  assert.deepEqual(await treeSnapshot(f.root+'/.ai-org'),snapshot);
+  await assert.rejects(bindHostUsage(f.root,fresh),/host-open-inventory-bound/);
+  await closeHostUsage(f.root,{binding_id:'binding',actor:f.actor});
+  assert.equal((await checkHostBindingReadiness(f.root,fresh)).ready,true);
+  await bindHostUsage(f.root,fresh);
+  await assert.rejects(bindHostUsage(f.root,{...fresh,binding_id:'overflow',source:{kind:'host-report',thread_id:'overflow',turn_id:'overflow'}}),/host-open-inventory-bound/);
+});
+
+test('history has a separate hard boundary and corrupt closed rows never bypass validation',async t=>{
+  const f=await fixture(t);await bindHostUsage(f.root,f.manual);await closeHostUsage(f.root,{binding_id:'binding',actor:f.actor});
+  await copyBindings(f,1024,{closed:true});
+  const fresh={...f.manual,binding_id:'overflow',source:{kind:'host-report',thread_id:'fresh',turn_id:'fresh'}};
+  const index=await readHostMeasurements(f.root);assert.equal(index.index_reads,1024);assert.equal(index.errors.length,0);
+  assert.deepEqual(await checkHostBindingReadiness(f.root,fresh),{...observation,ready:false,code:'host-inventory-bound'});
+  await assert.rejects(bindHostUsage(f.root,fresh),/host-inventory-bound/);
+  await fs.rm(f.root+'/.ai-org/host-usage/history-1023',{recursive:true});
+  await fs.writeFile(f.root+'/.ai-org/host-usage/history-1/binding.json','{}');
+  await assert.rejects(bindHostUsage(f.root,fresh),/host-record-integrity/);
 });
 
 test('explicit turn capture excludes preclaim samples and preserves separate reported turn duration',async t=>{

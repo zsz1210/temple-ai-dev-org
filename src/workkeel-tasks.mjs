@@ -224,6 +224,19 @@ async function administrativeFile(target, item, file, action, request) {
   if (!file.endsWith(".json")) return false;
   let document;
   try { document = (await readTaskContractInput(target, file)).document; } catch { return false; }
+  // Dispatch retains a claim body as framework evidence. Only the exact body
+  // anchored to this task's canonical chain is administrative; a filename alone
+  // cannot exempt arbitrary untracked files from the clean-candidate gate.
+  if (file.startsWith(`.ai-org/artifacts/${item.id}/dispatch-claim-`)) {
+    try {
+      assertRecord(document, item.id);
+      const last = document.history.at(-1);
+      return document.state === "build" && last.action === "claim" &&
+        file === `.ai-org/artifacts/${item.id}/dispatch-claim-${last.hash}.json` &&
+        document.contract_sha256 === item.contract_sha256 &&
+        digest(document.history) === digest(item.history.slice(0, document.version));
+    } catch { return false; }
+  }
   return (request && digest(document) === digest(request)) || item.history.some(event =>
     event.request_sha256 === digest({ action: event.action, request: document }));
 }
