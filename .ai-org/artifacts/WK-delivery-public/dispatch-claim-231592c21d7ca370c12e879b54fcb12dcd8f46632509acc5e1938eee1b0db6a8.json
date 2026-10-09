@@ -1,0 +1,191 @@
+{
+  "schema_version": "workkeel.work-item/v1",
+  "id": "WK-delivery-public",
+  "version": 2,
+  "state": "build",
+  "contract": {
+    "schema_version": "workkeel.task-contract/v1",
+    "id": "WK-delivery-public",
+    "goal": "Integrate the five verified delivery improvements onto current public main and merge a reviewed passing pull request",
+    "actor": {
+      "agent_id": "builder",
+      "principal_id": "owner"
+    },
+    "state": "intake",
+    "scope": {
+      "include": [
+        "Integrate the five verified delivery improvements onto current public main and merge a reviewed passing pull request"
+      ],
+      "exclude": [
+        "Private history publication",
+        "New package release or version tag",
+        "Game or service changes",
+        "Real media deletion",
+        "Unrelated feature work"
+      ]
+    },
+    "dependencies": [],
+    "acceptance": {
+      "criteria": [
+        "All five delivery improvement families and their regression coverage are integrated without replacing newer public observer, capture, usage or Beta behavior",
+        "Only approved product changes and sanitized new public task evidence are added; no private ancestry, task data, machine paths or media is published",
+        "Exact candidate passes full verification, native Doctor and applicable real-browser gates with explicit evidence",
+        "A distinct actual registered Agent records review before owner-authorized acceptance",
+        "A PR based on fresh public main passes remote checks and is ordinarily merged at its reviewed head without force or protection bypass"
+      ],
+      "evidence": []
+    },
+    "verification": {
+      "risk_tier": "standard",
+      "separation": "distinct-agent",
+      "implementer": null,
+      "reviewer": null,
+      "candidate_revision": null
+    },
+    "handoff": null,
+    "environment": {
+      "cwd": ".",
+      "read_paths": [
+        "."
+      ],
+      "write_paths": [
+        "src",
+        "scripts",
+        "test",
+        "docs/operations",
+        ".ai-org/artifacts/WK-delivery-public"
+      ],
+      "tools": [
+        "node",
+        "npm",
+        "git",
+        "gh",
+        "shell",
+        "apply_patch",
+        "native-agent-host",
+        "browser"
+      ],
+      "resources": [
+        "accepted-local-framework-source",
+        "pinned-installed-dependencies",
+        "existing-approved-model-connection",
+        "installed-browser",
+        "github-repository"
+      ],
+      "network": {
+        "mode": "allowlist",
+        "hosts": [
+          "127.0.0.1",
+          "localhost",
+          "github.com",
+          "api.github.com",
+          "registry.npmjs.org"
+        ]
+      },
+      "external_actions": [
+        "branch-push",
+        "pull-request-create",
+        "pull-request-merge",
+        "checks-read"
+      ],
+      "data": {
+        "classification": "public",
+        "model_access": "approved-connection",
+        "policy_refs": [
+          ".ai-org/artifacts/WK-delivery-public/approval.md",
+          "docs/policies/development-dispatch.json"
+        ]
+      }
+    },
+    "authorization": {
+      "approved_by": "owner",
+      "approval_ref": ".ai-org/artifacts/WK-delivery-public/approval.md",
+      "operations": [
+        "read",
+        "write",
+        "execute",
+        "network",
+        "external"
+      ],
+      "expires_at": null
+    },
+    "skills": [
+      ".agents/skills/workkeel-work/SKILL.md"
+    ],
+    "execution": {
+      "runtime": {
+        "kind": "host-owned",
+        "adapter_id": null,
+        "required_features": []
+      },
+      "model_connection": {
+        "kind": "native"
+      }
+    },
+    "legacy": null
+  },
+  "contract_sha256": "d05b2a3b43dc75ac86b201d85c8468938b7b82c3ebe68ebb778c0c7ee9b2dc08",
+  "policy_sha256": "04102080b0e70a04898b1e64a2ec05194665087061c4cc37ee7f7df02626db4a",
+  "authority_pins": [
+    {
+      "path": ".ai-org/artifacts/WK-delivery-public/approval.md",
+      "sha256": "80af1c8886bda7d6a5a389fad5591ac7f1fafcaa442fed9eddd919095afa144c"
+    },
+    {
+      "path": "docs/policies/development-dispatch.json",
+      "sha256": "f8bebba95aff3d766d42d1bb2a9fa44dfe7dff607e60a6ebde2d64cc03ae9664"
+    },
+    {
+      "path": ".agents/skills/workkeel-work/SKILL.md",
+      "sha256": "4220f1233f01a228650e481e331d8c18dc9a2fb267b74b1a18307890f43faeb1"
+    }
+  ],
+  "claim": {
+    "id": "claim-99a22c05-2f6f-4e94-b3c2-9398d2b594e1",
+    "actor": {
+      "agent_id": "builder",
+      "principal_id": "owner"
+    },
+    "at": "2026-10-09T13:38:13.235Z"
+  },
+  "base_revision": "362c3a39489f39c6a6939d6891c3ad898edeead0",
+  "dependency_pins": [],
+  "delivery": null,
+  "review": null,
+  "closeout": null,
+  "attempts": [],
+  "history": [
+    {
+      "sequence": 1,
+      "action": "create",
+      "operation_id": "intake-d05b2a3b43dc75ac86b201d8",
+      "request_sha256": "94df80f0a96ea3ef934bafff0893c7d8e6c2e8f2ac70f4fac2b87607b5c0c689",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-10-09T13:38:12.833Z",
+      "state": "intake",
+      "revision": null,
+      "previous_hash": null,
+      "record_sha256": "d3fdb4eca72ed50df9bbbea938dab68047010b802e578470997aafc166d8bca7",
+      "hash": "3b9f5876c79c11ec9a5309022c83a80c7d23e5b6d2155f37bbe2d5b828d6a0f0"
+    },
+    {
+      "sequence": 2,
+      "action": "claim",
+      "operation_id": "claim-delivery-public",
+      "request_sha256": "a43ff89e55e0990126fe60cf4aabf9fe7ff167975d71b1c24c7fc9a2c96f5a8e",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-10-09T13:38:13.235Z",
+      "state": "build",
+      "revision": null,
+      "previous_hash": "3b9f5876c79c11ec9a5309022c83a80c7d23e5b6d2155f37bbe2d5b828d6a0f0",
+      "record_sha256": "f51772a84614b433aeb6e7af663598fbde3c2388a4ce556b6676452352b5f8bf",
+      "hash": "231592c21d7ca370c12e879b54fcb12dcd8f46632509acc5e1938eee1b0db6a8"
+    }
+  ]
+}

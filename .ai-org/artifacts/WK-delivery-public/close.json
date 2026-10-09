@@ -1,0 +1,17 @@
+{
+  "operation_id": "close-delivery-public",
+  "expected_version": 4,
+  "actor": {
+    "agent_id": "builder",
+    "principal_id": "owner"
+  },
+  "revision": "9cc6e1c49d86e1434bae35de333f87e3673d60b6",
+  "summary": "Owner-authorized local integration accepted after full verification and actual independent PASS. Administrative publication through PR 156 remains a separate authorized operation; measurement gaps are explicit.",
+  "rollback": "Revert the public PR through a new reviewed change, preserving canonical history and evidence; never reset shared main.",
+  "evidence": [
+    ".ai-org/artifacts/WK-delivery-public/independent-review.md",
+    ".ai-org/artifacts/WK-delivery-public/verification.json",
+    ".ai-org/artifacts/WK-delivery-public/collection-at-acceptance.json",
+    ".ai-org/artifacts/WK-delivery-public/closeout.md"
+  ]
+}

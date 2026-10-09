@@ -1,0 +1,31 @@
+{
+  "task_id": "WK-delivery-public",
+  "expected": [
+    {
+      "label": "pre-claim-preparation",
+      "activity_kind": "planning",
+      "binding": null
+    },
+    {
+      "label": "coordinator-implementation-and-checks",
+      "activity_kind": "implementation",
+      "binding": {
+        "kind": "host",
+        "id": "delivery-public-main"
+      }
+    },
+    {
+      "label": "independent-agent-review",
+      "activity_kind": "review",
+      "binding": {
+        "kind": "dispatch",
+        "id": "a50a4869-48d9-4f9e-8e39-0bd2dfb7efc9"
+      }
+    },
+    {
+      "label": "acceptance-and-publication",
+      "activity_kind": "planning",
+      "binding": null
+    }
+  ]
+}

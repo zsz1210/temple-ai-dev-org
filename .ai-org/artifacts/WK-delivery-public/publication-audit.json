@@ -1,0 +1,19 @@
+{
+  "candidate": "9cc6e1c49d86e1434bae35de333f87e3673d60b6",
+  "base": "362c3a39489f39c6a6939d6891c3ad898edeead0",
+  "changed_files": 30,
+  "unexpected_paths": [],
+  "private_ancestor_present": false,
+  "detected_private_lines": 0,
+  "upstream_metadata_unchanged": true,
+  "unchanged_metadata": [
+    "package.json",
+    "package-lock.json",
+    "workkeel.lock",
+    "AGENTS.md",
+    "WORKKEEL.md",
+    "docs/policies/development-dispatch.json",
+    "scripts/documentation-policy.mjs"
+  ],
+  "checks_passed": true
+}

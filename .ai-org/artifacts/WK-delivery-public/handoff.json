@@ -1,0 +1,22 @@
+{
+  "operation_id": "handoff-delivery-public",
+  "expected_version": 2,
+  "actor": {
+    "agent_id": "builder",
+    "principal_id": "owner"
+  },
+  "claim_id": "claim-99a22c05-2f6f-4e94-b3c2-9398d2b594e1",
+  "revision": "9cc6e1c49d86e1434bae35de333f87e3673d60b6",
+  "summary": "Integrated delivery evidence, retention and attributed progress with current public runtime; full 171-file verification, both browser gates and native Doctor pass. Skills and measurement gaps recorded; PR publication remains a separate authorized step.",
+  "evidence": [
+    ".ai-org/artifacts/WK-delivery-public/developer.md",
+    ".ai-org/artifacts/WK-delivery-public/verification.json",
+    ".ai-org/artifacts/WK-delivery-public/browser.json",
+    ".ai-org/artifacts/WK-delivery-public/publication-audit.json",
+    ".ai-org/artifacts/WK-delivery-public/expected-operations.json",
+    ".ai-org/artifacts/WK-delivery-public/collection-at-handoff.json",
+    ".ai-org/artifacts/WK-delivery-public/review-dispatch.json",
+    ".ai-org/artifacts/WK-delivery-public/dispatch-claim-231592c21d7ca370c12e879b54fcb12dcd8f46632509acc5e1938eee1b0db6a8.json"
+  ],
+  "unresolved": []
+}

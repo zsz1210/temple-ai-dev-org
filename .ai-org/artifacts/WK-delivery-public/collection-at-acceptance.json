@@ -1,0 +1,159 @@
+{
+  "candidate": "9cc6e1c49d86e1434bae35de333f87e3673d60b6",
+  "task_state_at_observation": "release_gate",
+  "task_coverage_complete": false,
+  "inventory_errors": [],
+  "operations": [
+    {
+      "label": "pre-claim-preparation",
+      "activity_kind": "planning",
+      "binding": null,
+      "status": "missing-binding",
+      "collection_status": "missing",
+      "issues": [
+        "binding-missing-or-unavailable"
+      ],
+      "receipt": null
+    },
+    {
+      "label": "coordinator-implementation-and-checks",
+      "activity_kind": "implementation",
+      "binding": {
+        "kind": "host",
+        "id": "delivery-public-main"
+      },
+      "status": "incomplete",
+      "collection_status": "pending",
+      "issues": [
+        "operation-not-completed"
+      ],
+      "receipt": {
+        "state": "running",
+        "operation_completed": false,
+        "active_duration_ms": 1149837,
+        "model": "gpt-6-astra",
+        "usage_scope": {
+          "basis": "after-attachment",
+          "started_at": "2026-10-09T13:38:13.476Z",
+          "task_coverage_complete": false,
+          "excluded_response_count": 7,
+          "turn_reference": {
+            "status": "pending",
+            "usage": {
+              "input_tokens": 11916029,
+              "cached_input_tokens": 11715200,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 48352,
+              "reasoning_output_tokens": 18378,
+              "total_tokens": 11964381
+            },
+            "outside_operation_usage": {
+              "input_tokens": 1223956,
+              "cached_input_tokens": 1190016,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 5453,
+              "reasoning_output_tokens": 2043,
+              "total_tokens": 1229409
+            },
+            "started_at": "2026-10-09T13:35:20.294Z",
+            "ended_at": null,
+            "observed_at": "2026-10-09T14:09:25.730Z",
+            "attribution": "source-turn-only-not-task-total"
+          }
+        },
+        "usage": {
+          "input_tokens": 10692073,
+          "cached_input_tokens": 10525184,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 42899,
+          "reasoning_output_tokens": 16335,
+          "total_tokens": 10734972
+        },
+        "cutoffs": {
+          "usage_observed_at": "2026-10-09T14:09:25.730Z",
+          "activity_ended_at": "2026-10-09T14:09:25.758Z",
+          "collected_at": "2026-10-09T14:09:25.845Z",
+          "usage_observed_after_activity": false
+        }
+      }
+    },
+    {
+      "label": "independent-agent-review",
+      "activity_kind": "review",
+      "binding": {
+        "kind": "dispatch",
+        "id": "a50a4869-48d9-4f9e-8e39-0bd2dfb7efc9"
+      },
+      "status": "reported",
+      "collection_status": "completed",
+      "issues": [],
+      "receipt": {
+        "state": "completed",
+        "operation_completed": true,
+        "active_duration_ms": 339283,
+        "model": "gpt-6-sol",
+        "usage_scope": {
+          "basis": "after-attachment",
+          "started_at": "2026-10-09T13:46:10.204Z",
+          "task_coverage_complete": false,
+          "excluded_response_count": 5,
+          "turn_reference": {
+            "status": "complete",
+            "usage": {
+              "input_tokens": 7624777,
+              "cached_input_tokens": 7470592,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 12661,
+              "reasoning_output_tokens": 3279,
+              "total_tokens": 7637438
+            },
+            "outside_operation_usage": {
+              "input_tokens": 210532,
+              "cached_input_tokens": 165888,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 553,
+              "reasoning_output_tokens": 66,
+              "total_tokens": 211085
+            },
+            "started_at": "2026-10-09T13:45:27.858Z",
+            "ended_at": "2026-10-09T14:11:31.895Z",
+            "observed_at": "2026-10-09T14:11:31.886Z",
+            "attribution": "source-turn-only-not-task-total"
+          }
+        },
+        "usage": {
+          "input_tokens": 7414245,
+          "cached_input_tokens": 7304704,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 12108,
+          "reasoning_output_tokens": 3213,
+          "total_tokens": 7426353
+        },
+        "cutoffs": {
+          "usage_observed_at": "2026-10-09T14:11:31.886Z",
+          "activity_ended_at": "2026-10-09T14:11:15.076Z",
+          "collected_at": "2026-10-09T14:12:12.056Z",
+          "usage_observed_after_activity": true
+        }
+      }
+    },
+    {
+      "label": "acceptance-and-publication",
+      "activity_kind": "planning",
+      "binding": null,
+      "status": "missing-binding",
+      "collection_status": "missing",
+      "issues": [
+        "binding-missing-or-unavailable"
+      ],
+      "receipt": null
+    }
+  ],
+  "limitations": [
+    "This is a declared inventory assembled for delivery, not proof that every operation was measured.",
+    "Pre-claim preparation and final acceptance/publication are explicitly unmeasured; no zero values are imputed.",
+    "The mixed coordinator capture is labeled implementation and does not invent separate planning, repair or verification stage clocks.",
+    "The coordinator activity clock is frozen, but its current turn has no terminal source row yet. Preserve this binding and collect the same source after the turn ends; save a new local snapshot without changing pinned evidence.",
+    "The actual independent reviewer source completed and its measurement was collected. Task acceptance, source collection and metric completeness remain separate."
+  ]
+}

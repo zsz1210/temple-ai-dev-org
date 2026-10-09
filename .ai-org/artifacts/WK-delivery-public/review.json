@@ -1,0 +1,14 @@
+{
+  "operation_id": "review-delivery-public",
+  "expected_version": 3,
+  "actor": {
+    "agent_id": "reviewer",
+    "principal_id": "owner"
+  },
+  "revision": "9cc6e1c49d86e1434bae35de333f87e3673d60b6",
+  "judgment": "pass",
+  "summary": "Independent QA inspected the exact public integration and corrected native Console boundary; focused tests, full verification evidence, browser evidence and Doctor support a passing review with disclosed fixture limitations.",
+  "evidence": [
+    ".ai-org/artifacts/WK-delivery-public/independent-review.md"
+  ]
+}

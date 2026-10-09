@@ -1,0 +1,35 @@
+{
+  "operation_id": "review-delivery-public",
+  "task_id": "WK-delivery-public",
+  "actor": {
+    "agent_id": "builder",
+    "principal_id": "owner"
+  },
+  "claim_id": "claim-99a22c05-2f6f-4e94-b3c2-9398d2b594e1",
+  "contract_sha256": "d05b2a3b43dc75ac86b201d85c8468938b7b82c3ebe68ebb778c0c7ee9b2dc08",
+  "policy_ref": "docs/policies/development-dispatch.json",
+  "node": {
+    "id": "independent-review",
+    "activity_kind": "review",
+    "depends_on": [],
+    "read_paths": [
+      "."
+    ],
+    "write_paths": []
+  },
+  "capabilities": {
+    "host": "codex-subagent",
+    "models": [
+      {
+        "provider": "openai",
+        "model": "gpt-6-sol",
+        "reasoning": [
+          "medium"
+        ]
+      }
+    ]
+  },
+  "route": {
+    "alias": "conservative"
+  }
+}
