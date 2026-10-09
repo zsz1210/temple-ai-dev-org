@@ -345,8 +345,13 @@ async function fieldAttentionContract(browser, serverUrl) {
         review_state: state === "awaiting-environment" || state === "review-completed" ? "completed" : "not-running",
         acceptance_state: "not-complete", next_action: `Fixture next action: ${state}`,
         missing_conditions: state === "awaiting-environment" ? [{ kind: "environment", description: "Independent device observation unavailable" }] : [] } }));
-    snapshot.live_observer.work.items = items;
-    snapshot.live_observer.work.total = items.length;
+    const nativeItem = { ...items[0], id: "WK-browser-native", title: "Synthetic native task", delivery_attention: null };
+    snapshot.live_observer.work.items = [...items, nativeItem];
+    snapshot.live_observer.work.total = items.length + 1;
+    let nativeDeliveryRequests = 0;
+    page.on("request", request => {
+      if (new URL(request.url()).pathname === `/api/v1/work-items/${nativeItem.id}/delivery`) nativeDeliveryRequests++;
+    });
     await page.route("**/api/v1/snapshot", route => route.fulfill({ json: snapshot }));
     await page.route("**/api/v1/work-items/*/delivery", route => route.fulfill({ json: {
       schema_version: "temple.delivery-summary/v1", work_item_id: route.request().url().split("/").at(-2), availability: "session-missing", observed_at: snapshot.generated_at
@@ -362,9 +367,13 @@ async function fieldAttentionContract(browser, serverUrl) {
         throw new Error(`Waiting/completed fixture shown as running: ${item.delivery_attention.state}`);
       }
     }
+    await page.locator(`[data-work-item-id="${nativeItem.id}"]`).click();
+    await page.locator("#delivery-detail").getByText("This is a native Workkeel task. Open the Workkeel observer to inspect its delivery evidence and review.", { exact: true }).waitFor();
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    if (nativeDeliveryRequests !== 0) throw new Error("Native task requested the legacy delivery API");
     await page.locator('[data-work-item-id="WI-9901"]').click();
     await page.screenshot({ path: path.join(os.tmpdir(), "temple-field-console-environment.png"), fullPage: true });
-    console.log("PASS field attention · 6 synthetic states, actionable next step, no false running review");
+    console.log("PASS field attention · 6 synthetic states, actionable next step, no false running review, native delivery boundary");
   } finally { await context.close(); }
 }
 

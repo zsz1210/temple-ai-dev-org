@@ -1,0 +1,322 @@
+{
+  "schema_version": "workkeel.delivery-report-check/v1",
+  "authority": "observation-only",
+  "mutation_status": "no-write",
+  "execution_authorized": false,
+  "task_id": "WK-delivery-public",
+  "task_version": 2,
+  "task_state": "build",
+  "task_locally_accepted": false,
+  "collection": {
+    "status": "unavailable",
+    "counts": {
+      "completed": 0,
+      "pending": 2,
+      "stopped": 0,
+      "unavailable": 0,
+      "missing": 2
+    },
+    "follow_up": [
+      {
+        "label": "pre-claim-preparation",
+        "binding": null,
+        "actions": [
+          "resolve-missing-binding"
+        ]
+      },
+      {
+        "label": "coordinator-implementation-and-checks",
+        "binding": {
+          "kind": "host",
+          "id": "delivery-public-main"
+        },
+        "actions": [
+          "collect-after-operation-ends"
+        ]
+      },
+      {
+        "label": "independent-agent-review",
+        "binding": {
+          "kind": "dispatch",
+          "id": "a50a4869-48d9-4f9e-8e39-0bd2dfb7efc9"
+        },
+        "actions": [
+          "collect-after-operation-ends",
+          "report-known-metrics-or-record-gap"
+        ]
+      },
+      {
+        "label": "acceptance-and-publication",
+        "binding": null,
+        "actions": [
+          "resolve-missing-binding"
+        ]
+      }
+    ]
+  },
+  "coverage": "declared-operations-only",
+  "task_coverage_complete": false,
+  "bindings_ready": false,
+  "declared_reports_complete": false,
+  "unlisted_binding_count": 0,
+  "required_metrics": [
+    "active_duration_ms",
+    "usage.input_tokens",
+    "usage.output_tokens"
+  ],
+  "expected_operations": [
+    {
+      "label": "pre-claim-preparation",
+      "activity_kind": "planning",
+      "binding": null,
+      "status": "missing-binding",
+      "issues": [
+        "binding-missing-or-unavailable"
+      ],
+      "receipt": null,
+      "collection_status": "missing"
+    },
+    {
+      "label": "coordinator-implementation-and-checks",
+      "activity_kind": "implementation",
+      "binding": {
+        "kind": "host",
+        "id": "delivery-public-main"
+      },
+      "status": "incomplete",
+      "issues": [
+        "operation-not-completed"
+      ],
+      "receipt": {
+        "schema_version": "workkeel.delivery-receipt/v1",
+        "authority": "observation-only",
+        "execution_authorized": false,
+        "task_id": "WK-delivery-public",
+        "execution_id": "delivery-public-main",
+        "dispatch_execution_id": null,
+        "source_kind": "codex-rollout",
+        "state": "running",
+        "operation_completed": false,
+        "task_coverage_complete": false,
+        "coverage": "bound-host-interval-only",
+        "usage_scope": {
+          "basis": "after-attachment",
+          "started_at": "2026-10-09T13:38:13.476Z",
+          "task_coverage_complete": false,
+          "excluded_response_count": 7,
+          "turn_reference": {
+            "status": "pending",
+            "usage": {
+              "input_tokens": 11916029,
+              "cached_input_tokens": 11715200,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 48352,
+              "reasoning_output_tokens": 18378,
+              "total_tokens": 11964381
+            },
+            "outside_operation_usage": {
+              "input_tokens": 1223956,
+              "cached_input_tokens": 1190016,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 5453,
+              "reasoning_output_tokens": 2043,
+              "total_tokens": 1229409
+            },
+            "started_at": "2026-10-09T13:35:20.294Z",
+            "ended_at": null,
+            "observed_at": "2026-10-09T14:09:25.730Z",
+            "attribution": "source-turn-only-not-task-total"
+          }
+        },
+        "task_acceptance": "not-performed",
+        "collection_closed": false,
+        "collection_status": "pending",
+        "cutoffs": {
+          "usage_observed_at": "2026-10-09T14:09:25.730Z",
+          "activity_ended_at": "2026-10-09T14:09:25.758Z",
+          "collected_at": "2026-10-09T14:09:25.845Z",
+          "usage_observed_after_activity": false
+        },
+        "activity_kind": "implementation",
+        "requested_model": null,
+        "selection_match": "unknown",
+        "provider": "openai",
+        "model": "gpt-6-astra",
+        "reported_reasoning": "xhigh",
+        "active_duration_ms": 1149837,
+        "turn_duration_ms": null,
+        "usage": {
+          "input_tokens": 10692073,
+          "cached_input_tokens": 10525184,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 42899,
+          "reasoning_output_tokens": 16335,
+          "total_tokens": 10734972
+        },
+        "missing_fields": [
+          "turn_duration_ms"
+        ],
+        "source_status": "observed",
+        "error_code": null,
+        "reporter_trust": "attributed local report; not provider-authenticated",
+        "limitations": [
+          "Coverage is limited to the explicitly bound host operation; other turns and child agents are not inferred.",
+          "Unknown remains null; observations are not a process liveness guarantee or task acceptance.",
+          "Active duration requires explicitly reported execution intervals; turn duration includes tools and is not active time.",
+          "Usage and optional activity are cumulative observations, not task handoff, review or closeout."
+        ]
+      },
+      "collection_status": "pending"
+    },
+    {
+      "label": "independent-agent-review",
+      "activity_kind": "review",
+      "binding": {
+        "kind": "dispatch",
+        "id": "a50a4869-48d9-4f9e-8e39-0bd2dfb7efc9"
+      },
+      "status": "incomplete",
+      "issues": [
+        "operation-not-completed",
+        "missing:active_duration_ms",
+        "missing:usage.input_tokens",
+        "missing:usage.output_tokens"
+      ],
+      "receipt": {
+        "schema_version": "workkeel.delivery-receipt/v1",
+        "authority": "observation-only",
+        "execution_authorized": false,
+        "task_id": "WK-delivery-public",
+        "execution_id": "a50a4869-48d9-4f9e-8e39-0bd2dfb7efc9",
+        "dispatch_execution_id": "a50a4869-48d9-4f9e-8e39-0bd2dfb7efc9",
+        "source_kind": "codex-rollout",
+        "state": "running",
+        "operation_completed": false,
+        "task_coverage_complete": false,
+        "coverage": "bound-host-interval-only",
+        "usage_scope": {
+          "basis": "after-attachment",
+          "started_at": "2026-10-09T13:46:10.204Z",
+          "task_coverage_complete": false,
+          "excluded_response_count": 5,
+          "turn_reference": {
+            "status": "pending",
+            "usage": {
+              "input_tokens": 210532,
+              "cached_input_tokens": 165888,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 553,
+              "reasoning_output_tokens": 66,
+              "total_tokens": 211085
+            },
+            "outside_operation_usage": {
+              "input_tokens": null,
+              "cached_input_tokens": null,
+              "cache_write_input_tokens": null,
+              "output_tokens": null,
+              "reasoning_output_tokens": null,
+              "total_tokens": null
+            },
+            "started_at": "2026-10-09T13:45:27.858Z",
+            "ended_at": null,
+            "observed_at": "2026-10-09T13:45:47.728Z",
+            "attribution": "source-turn-only-not-task-total"
+          }
+        },
+        "task_acceptance": "not-performed",
+        "collection_closed": false,
+        "collection_status": "pending",
+        "cutoffs": {
+          "usage_observed_at": null,
+          "activity_ended_at": null,
+          "collected_at": "2026-10-09T13:46:10.208Z",
+          "usage_observed_after_activity": null
+        },
+        "activity_kind": null,
+        "requested_model": null,
+        "selection_match": "unknown",
+        "provider": null,
+        "model": null,
+        "reported_reasoning": null,
+        "active_duration_ms": null,
+        "turn_duration_ms": null,
+        "usage": {
+          "input_tokens": null,
+          "cached_input_tokens": null,
+          "cache_write_input_tokens": null,
+          "output_tokens": null,
+          "reasoning_output_tokens": null,
+          "total_tokens": null
+        },
+        "missing_fields": [
+          "provider",
+          "model",
+          "reported_reasoning",
+          "active_duration_ms",
+          "turn_duration_ms",
+          "usage.input_tokens",
+          "usage.cached_input_tokens",
+          "usage.cache_write_input_tokens",
+          "usage.output_tokens",
+          "usage.reasoning_output_tokens",
+          "usage.total_tokens"
+        ],
+        "source_status": "observed",
+        "error_code": null,
+        "reporter_trust": "attributed local report; not provider-authenticated",
+        "limitations": [
+          "Coverage is limited to the explicitly bound host operation; other turns and child agents are not inferred.",
+          "Unknown remains null; observations are not a process liveness guarantee or task acceptance.",
+          "Active duration requires explicitly reported execution intervals; turn duration includes tools and is not active time.",
+          "Usage and optional activity are cumulative observations, not task handoff, review or closeout."
+        ]
+      },
+      "collection_status": "pending"
+    },
+    {
+      "label": "acceptance-and-publication",
+      "activity_kind": "planning",
+      "binding": null,
+      "status": "missing-binding",
+      "issues": [
+        "binding-missing-or-unavailable"
+      ],
+      "receipt": null,
+      "collection_status": "missing"
+    }
+  ],
+  "inventory_errors": [],
+  "activity_coverage": {
+    "planning": {
+      "declared": 2,
+      "reported": 0,
+      "status": "incomplete"
+    },
+    "implementation": {
+      "declared": 1,
+      "reported": 0,
+      "status": "incomplete"
+    },
+    "review": {
+      "declared": 1,
+      "reported": 0,
+      "status": "incomplete"
+    },
+    "repair": {
+      "declared": 0,
+      "reported": 0,
+      "status": "not-declared"
+    },
+    "verification": {
+      "declared": 0,
+      "reported": 0,
+      "status": "not-declared"
+    }
+  },
+  "limitations": [
+    "The expected list is caller-declared; omitted coordinator, repair or other work is not proven absent.",
+    "Reported coverage is limited to these bindings. Missing time or tokens remain unknown; zero is a measured value.",
+    "Task acceptance, terminal source collection and metric completeness are separate observations. Completed collection does not prove successful execution or complete task coverage.",
+    "No source was collected and no lifecycle action was performed. Recheck the same bindings after final reports; preserve earlier evidence snapshots."
+  ]
+}

@@ -127,8 +127,10 @@ approved delegation; unsupported hosts expose their selection or reporting gap.
 
 ### Retained claim evidence
 
-Some older cancellations removed the active claim ID. A historical dispatch then
-remains unavailable unless an operator explicitly retains the original task body
+New dispatch preparation retains the original claim body before creating its
+ticket. Identical retries do not replace that proof. Some older cancellations
+removed the active claim ID. An older historical dispatch then remains unavailable
+unless an operator explicitly retains the original task body
 at `.ai-org/artifacts/<task-id>/dispatch-claim-<claim-event-hash>.json`.
 The reader uses the normal task validator and requires the exact task version,
 contract, actor, claim ID and complete history prefix. The last event's body hash
@@ -140,6 +142,9 @@ This restores access to existing measurements only. It neither revives a claim
 nor permits new execution, rewrites task/ticket history, invents measurements or
 accepts a delivery. Preserve the exact snapshot bytes and review the source before
 retaining it; live execution still requires the current approved claim.
+Missing proof is reported as `host-claim-proof-missing`; invalid proof is
+`host-claim-proof-invalid`. Neither error is a media-file error. Never reconstruct
+an old claim from a ticket or reinterpret unavailable usage as zero.
 
 This repository's own [development policy](../policies/development-dispatch.json)
 retains the approved personal Luna/Sol medium choices and at most three workers.

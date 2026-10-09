@@ -9,6 +9,7 @@ import { durableAtomicCreate } from './files.mjs';
 import { executionDigest, exactKeys } from './workkeel-execution-policy.mjs';
 import { projectTaskTiming } from './workkeel-task-timing.mjs';
 import { observeFileRead, observeSource } from './workkeel-read-metrics.mjs';
+import {validateDeliveryProgress,validateIteration,iterationEvidence,summarizeIterations} from './workkeel-iteration.mjs';
 
 const SHA = /^[a-f0-9]{40}(?:[a-f0-9]{24})?$/;
 const bounded = (value, max=2000) => typeof value==='string' && value.trim().length>0 && value.length<=max;
@@ -18,7 +19,7 @@ export function safeObservationLink(value, kind) {
   return /^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/pull\/[1-9][0-9]*$/.test(value) ? value : null;
 }
 function validateObservation(value, task) {
-  exactKeys(value,['schema_version','task_id','task_version','actor','candidate_revision','observed_at','source','sample_kind','comparison_group','checks','links','note'],['pre_delivery_review']);
+  exactKeys(value,['schema_version','task_id','task_version','actor','candidate_revision','observed_at','source','sample_kind','comparison_group','checks','links','note'],['pre_delivery_review','delivery_progress','iteration']);
   if (value.schema_version!=='workkeel.task-observation/v1' || value.task_id!==task.id || !Number.isSafeInteger(value.task_version) || value.task_version<1 || value.task_version>task.version) throw Error('Invalid task observation binding');
   if (!(value.candidate_revision===null || SHA.test(value.candidate_revision)) || !bounded(value.source,160) || !bounded(value.note)) throw Error('Invalid observation metadata');
   if (typeof value.observed_at!=='string' || !/^\d{4}-\d\d-\d\dT/.test(value.observed_at) || !Number.isFinite(Date.parse(value.observed_at)) || Date.parse(value.observed_at)>Date.now()+300000) throw Error('Invalid observation timestamp');
@@ -37,11 +38,13 @@ function validateObservation(value, task) {
       !['pass','fail'].includes(review.judgment)||!Number.isSafeInteger(review.findings_count)||review.findings_count<0||!bounded(review.evidence_ref,500))throw Error('Invalid pre-delivery review');
     if(value.candidate_revision===null||task.history[value.task_version-1]?.state!=='build')throw Error('Pre-delivery review requires a candidate and a build-stage task version');
   }
+  if(value.delivery_progress!==undefined)validateDeliveryProgress(value.delivery_progress,value);
+  if(value.iteration!==undefined)validateIteration(value.iteration,value);
   return value;
 }
 async function checkEvidence(target, value) {
   const pins=[];
-  for(const check of [...value.checks,...(value.pre_delivery_review?[value.pre_delivery_review]:[])]) if(check.evidence_ref!==null) {
+  for(const check of [...value.checks,...(value.pre_delivery_review?[value.pre_delivery_review]:[]),...iterationEvidence(value).map(evidence_ref=>({evidence_ref}))]) if(check.evidence_ref!==null) {
     const file=await readTaskFile(target,check.evidence_ref);
     if(!file.content.trim())throw Error('Check evidence is empty');
     pins.push({path:check.evidence_ref,sha256:file.digest});
@@ -59,7 +62,9 @@ export async function recordTaskObservation(target, id, value) {
     const history=await observation(target,task);
     const previous=value.pre_delivery_review&&history.records?.find(item=>item.pre_delivery_review?.review_id===value.pre_delivery_review.review_id);
     if(previous&&executionDigest(previous)!==executionDigest(value))throw Error('Pre-delivery review ID already binds a different observation');
-    if(!previous&&value.task_version!==task.version)throw Error('Stale task observation; inspect the current task');
+    const priorIteration=value.iteration&&history.records?.find(item=>item.iteration?.id===value.iteration.id);
+    if(priorIteration&&executionDigest(priorIteration)!==executionDigest(value))throw Error('Iteration ID already binds a different observation');
+    if(!previous&&!priorIteration&&value.task_version!==task.version)throw Error('Stale task observation; inspect the current task');
     const ref=`.ai-org/observations/${id}`,directory=await safeDirectory(target,ref,{create:true});
     // Keep project-local observations out of product changes and ordinary Git staging.
     const ignoreRef='.ai-org/observations/.gitignore';
@@ -81,7 +86,7 @@ async function observation(target,task) {
   if(!await existsEntry(target,ref))return {status:'unobserved',value:null,records:[]};
   const directory=await safeDirectory(target,ref),names=(await fs.readdir(directory)).sort();
   if(names.length>64)throw Error('Observation history exceeds limit');
-  const records=[],reviewIds=new Set(),project=await readTaskProject(target);
+  const records=[],pins=new Map(),reviewIds=new Set(),iterationIds=new Set(),project=await readTaskProject(target);
   for(const name of names){
     if(!/^[a-f0-9]{64}\.json$/.test(name))throw Error('Invalid observation file');
     const doc=(await readTaskContractInput(target,`${ref}/${name}`)).document;
@@ -90,14 +95,18 @@ async function observation(target,task) {
     validateObservation(doc.record.value,task);
     assertActor(project.policy,doc.record.value.actor);
     if(executionDigest(await checkEvidence(target,doc.record.value))!==executionDigest(doc.record.evidence))throw Error('Observation evidence changed');
+    for(const pin of doc.record.evidence)pins.set(pin.path,pin);
     const reviewId=doc.record.value.pre_delivery_review?.review_id;
     if(reviewId&&reviewIds.has(reviewId))throw Error('Duplicate pre-delivery review ID in observation history');
     if(reviewId)reviewIds.add(reviewId);
+    const iterationId=doc.record.value.iteration?.id;
+    if(iterationId&&iterationIds.has(iterationId))throw Error('Duplicate iteration ID in observation history');
+    if(iterationId)iterationIds.add(iterationId);
     records.push(doc.record.value);
   }
   records.sort((a,b)=>Date.parse(b.observed_at)-Date.parse(a.observed_at));
   const value=records[0]??null;
-  return {status:!value?'unobserved':value.candidate_revision===null?'unbound':value.candidate_revision===task.delivery?.revision?'candidate-matched':'stale',value,records};
+  return {status:!value?'unobserved':value.candidate_revision===null?'unbound':value.candidate_revision===task.delivery?.revision?'candidate-matched':'stale',value,records,pins:[...pins.values()]};
 }
 
 function preDeliverySummary(observed) {
@@ -226,7 +235,7 @@ export async function readTaskSummary(target,id,{now=new Date()}={}) {
     quality:{rework_count:rejected,review_judgment:task.review?.judgment??null,
       first_review_pass:rejected>0?false:task.review?task.review.judgment==='pass':null,
       formal_rework_count:rejected,formal_first_review_pass:rejected>0?false:task.review?task.review.judgment==='pass':null,
-      metric_scope:'formal-task-review',pre_delivery_review:preDeliverySummary(observed),
+      metric_scope:'formal-task-review',pre_delivery_review:preDeliverySummary(observed),delivery_progress:summarizeIterations(observed,task.delivery?.revision??null),
       approval_status:authorityExpired?'expired':'current',
       locally_accepted:task.state==='done',evidence_current:policyCurrent&&evidenceStatus.every(p=>p.status==='verified'),policy_current:policyCurrent,
       lifecycle_elapsed_ms:['done','cancelled'].includes(task.state)?lifecycle.elapsed_ms:null},

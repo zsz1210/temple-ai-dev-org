@@ -10,6 +10,9 @@ import {verifyExecutionClarity} from './workkeel-execution-clarity-browser.mjs';
 import {verifyObserverRelease} from './workkeel-observer-release-browser.mjs';
 import {verifyAnalysisUI} from './workkeel-analysis-ui-browser.mjs';
 async function openSearchFilters(page){if(!await page.locator('#search-filters').evaluate(el=>el.open))await page.locator('#search-filters > summary').click();}
+import {execFileSync} from 'node:child_process';
+import {readNativeTask} from '../src/workkeel-tasks.mjs';
+import {recordTaskObservation} from '../src/workkeel-task-summary.mjs';
 
 // Focused desktop reproduction of the four independent observer-review findings.
 // The default gate also runs these checks after its existing responsive coverage.
@@ -350,6 +353,13 @@ async function verifyObserverFollowup(page,monitor){
 
 const output=path.resolve('output/playwright/workkeel-monitor');await fs.mkdir(output,{recursive:true});
 const root=await createObserverFixture(),empty=await createMonitorFixture({empty:true});
+const progressTask=await readNativeTask(root,'WK-working');
+await recordTaskObservation(root,progressTask.id,{
+ schema_version:'workkeel.task-observation/v1',task_id:progressTask.id,task_version:progressTask.version,actor:progressTask.contract.actor,
+ candidate_revision:execFileSync('git',['-C',root,'rev-parse','HEAD'],{encoding:'utf8'}).trim(),observed_at:new Date().toISOString(),source:'Browser fixture',sample_kind:'fixture',comparison_group:null,
+ checks:[],links:{conversation:null,pull_request:null},note:'Synthetic stage coverage, not game progress.',
+ delivery_progress:{total:200,produced:{count:200,evidence_ref:'docs/approval.md'},functionally_verified:{count:null,evidence_ref:null},quality_accepted:{count:0,evidence_ref:'docs/approval.md'},quality_authority:null}
+});
 let monitor,emptyMonitor,browser,page,paginationIndex;const checks=[],external=[],errors=[];
 try{
  monitor=await startTaskMonitor(root);emptyMonitor=await startTaskMonitor(empty);
@@ -472,6 +482,12 @@ try{
    await page.locator('.task-card[data-task-id="'+id+'"]').click();
    await page.locator('#lifecycle').waitFor();assert.match(await page.locator('#lifecycle').innerText(),/各階段已記錄時間/);
    if(id==='WK-accepted')assert.match(await page.locator('#delivery').innerText(),/已驗收/);
+   if(id==='WK-working'){
+    const progress=page.locator('#delivery-progress');assert.match(await progress.innerText(),/200 \/ 200/);assert.match(await progress.innerText(),/未知/);assert.match(await progress.innerText(),/0 \/ 200/);assert.match(await progress.innerText(),/尚未正式交付/);
+    const height=(await progress.boundingBox()).height;await progress.getByRole('button').click();assert.equal(await page.locator('.help-popover:popover-open').count(),1);assert.match(await page.locator('.help-popover:popover-open').innerText(),/測試次數不能換算/);assert.equal((await progress.boundingBox()).height,height);await page.keyboard.press('Escape');
+    await page.locator('#progress-evidence summary').click();assert.match(await page.locator('#progress-evidence').innerText(),/已核對引用：docs\/approval.md/);assert.match(await page.locator('#progress-evidence').innerText(),/尚未回報對應證據/);await page.locator('#progress-evidence summary').click();
+    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:path.join(output,viewport.width+'-delivery-progress.png'),fullPage:true});
+   }
    await page.getByRole('button',{name:'模型與執行',exact:true}).click();
    if(id==='WK-interrupted')assert.match(await page.locator('#detail-content').innerText(),/部分/);
    if(id==='WK-completed')assert.match(await page.locator('#detail-content').innerText(),/fixture-local-model/);

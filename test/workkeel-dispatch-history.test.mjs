@@ -36,8 +36,11 @@ async function fixture(t) {
 
 test('exact retained claim restores existing usage without reviving execution or changing canonical history',async t=>{
  const f=await fixture(t),file=f.root+'/.ai-org/work-items/'+f.snapshot.id+'.json',before=await fs.readFile(file,'utf8');
+ assert.deepEqual(JSON.parse(await fs.readFile(f.proof,'utf8')),f.snapshot,'prepare retains the original anchored claim automatically');
+ assert.equal((await readHostMeasurements(f.root)).errors.length,0,'cancellation does not discard readable measurements');
+ await fs.unlink(f.proof);
  await assert.rejects(readDispatchTicket(f.root,f.ticket.execution_id),/historical claim mismatch/);
- assert.equal((await readHostMeasurements(f.root)).errors.length,1);
+ assert.equal((await readHostMeasurements(f.root)).errors[0].code,'host-claim-proof-missing');
  await fs.writeFile(f.proof,JSON.stringify(f.snapshot));
  assert.deepEqual(await readDispatchTicket(f.root,f.ticket.execution_id),f.ticket);
  const m=await readHostMeasurements(f.root);assert.equal(m.errors.length,0);assert.equal(m.byTask.get(f.snapshot.id)[0].operations[0].usage.total_tokens,11);
@@ -54,11 +57,11 @@ test('claim proof rejects forged bodies and internally rehashed histories agains
  rehashed.history.at(-1).record_sha256=executionDigest(Object.fromEntries(Object.entries(rehashed).filter(([k])=>k!=='history')));
  const {hash,...body}=rehashed.history.at(-1);rehashed.history.at(-1).hash=executionDigest(body);
  await fs.writeFile(f.proof,JSON.stringify(rehashed));await assert.rejects(readDispatchTicket(f.root,f.ticket.execution_id),/snapshot mismatch/);
- assert.equal((await readHostMeasurements(f.root)).errors.length,1);
+ assert.equal((await readHostMeasurements(f.root)).errors[0].code,'host-claim-proof-invalid');
 });
 
 test('claim proof reads are bounded and reject symlinks and malformed content',async t=>{
- const f=await fixture(t),target=f.root+'/proof.json';await fs.writeFile(target,JSON.stringify(f.snapshot));await fs.symlink(target,f.proof);
+ const f=await fixture(t),target=f.root+'/proof.json';await fs.writeFile(target,JSON.stringify(f.snapshot));await fs.unlink(f.proof);await fs.symlink(target,f.proof);
  await assert.rejects(readDispatchTicket(f.root,f.ticket.execution_id));await fs.unlink(f.proof);
  for(const bytes of ['{bad',' '.repeat(1024*1024+1)]) {await fs.writeFile(f.proof,bytes);await assert.rejects(readDispatchTicket(f.root,f.ticket.execution_id));}
 });

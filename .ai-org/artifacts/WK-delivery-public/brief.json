@@ -1,0 +1,24 @@
+{
+  "schema_version":"workkeel.task-brief/v1",
+  "id":"WK-delivery-public",
+  "goal":"Integrate the five verified delivery improvements onto current public main and merge a reviewed passing pull request",
+  "actor":{"agent_id":"builder","principal_id":"owner"},
+  "acceptance":[
+    "All five delivery improvement families and their regression coverage are integrated without replacing newer public observer, capture, usage or Beta behavior",
+    "Only approved product changes and sanitized new public task evidence are added; no private ancestry, task data, machine paths or media is published",
+    "Exact candidate passes full verification, native Doctor and applicable real-browser gates with explicit evidence",
+    "A distinct actual registered Agent records review before owner-authorized acceptance",
+    "A PR based on fresh public main passes remote checks and is ordinarily merged at its reviewed head without force or protection bypass"
+  ],
+  "exclude":["Private history publication","New package release or version tag","Game or service changes","Real media deletion","Unrelated feature work"],
+  "environment":{
+    "cwd":".","read_paths":["."],"write_paths":["src","scripts","test","docs/operations",".ai-org/artifacts/WK-delivery-public"],
+    "tools":["node","npm","git","gh","shell","apply_patch","native-agent-host","browser"],
+    "resources":["accepted-local-framework-source","pinned-installed-dependencies","existing-approved-model-connection","installed-browser","github-repository"],
+    "network":{"mode":"allowlist","hosts":["127.0.0.1","localhost","github.com","api.github.com","registry.npmjs.org"]},
+    "external_actions":["branch-push","pull-request-create","pull-request-merge","checks-read"],
+    "data":{"classification":"public","model_access":"approved-connection","policy_refs":[".ai-org/artifacts/WK-delivery-public/approval.md","docs/policies/development-dispatch.json"]}
+  },
+  "authorization":{"approved_by":"owner","approval_ref":".ai-org/artifacts/WK-delivery-public/approval.md","operations":["read","write","execute","network","external"],"expires_at":null},
+  "skills":[".agents/skills/workkeel-work/SKILL.md"]
+}

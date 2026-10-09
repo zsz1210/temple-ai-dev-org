@@ -147,6 +147,16 @@ export async function prepareDispatchTicket(targetInput,request) {
       return prior;
     }
     if(entries.length>=1024)fail('ticket inventory bound');
+    // Preserve the exact claim body before a later cancellation can remove its
+    // identity. The canonical event body hash anchors this proof; never rebuild it.
+    const proofRef=`.ai-org/artifacts/${task.id}/dispatch-claim-${task.history.at(-1).hash}.json`;
+    if(await existsEntry(target,proofRef)) {
+      const proof=validateNativeTaskSnapshot((await readTaskContractInput(target,proofRef)).document,task.id);
+      if(executionDigest(proof)!==executionDigest(task))fail('historical claim snapshot mismatch');
+    } else {
+      const proofDir=await safeDirectory(target,path.posix.dirname(proofRef),{create:true});
+      await durableAtomicCreate(path.join(proofDir,path.posix.basename(proofRef)),formatJson(task));
+    }
     const ticket={schema_version:'workkeel.dispatch-ticket/v1',execution_id:randomUUID(),display_label:request.display_label??null,
       operation_id:request.operation_id,request_sha256:executionDigest(request),
       task_id:task.id,task_version:task.version,task_hash:task.history.at(-1).hash,contract_sha256:task.contract_sha256,
@@ -182,11 +192,16 @@ export async function readDispatchTicket(target,executionId) {
     // original body, anchored to the current canonical hash chain, can prove it.
     // This read-only proof never makes an ended claim eligible for new execution.
     const ref=`.ai-org/artifacts/${task.id}/dispatch-claim-${claim.hash}.json`;
-    if(!await existsEntry(target,ref))fail('historical claim mismatch');
-    const snapshot=validateNativeTaskSnapshot((await readTaskContractInput(target,ref)).document,task.id);
+    if(!await existsEntry(target,ref))throw Object.assign(new Error('Dispatch: historical claim mismatch; retained proof missing'),{code:'host-claim-proof-missing'});
+    let snapshot;
+    try {
+      snapshot=validateNativeTaskSnapshot((await readTaskContractInput(target,ref)).document,task.id);
     if(snapshot.version!==ticket.task_version||snapshot.state!=='build'||snapshot.contract_sha256!==ticket.contract_sha256||
       snapshot.claim?.id!==ticket.claim_id||snapshot.claim?.actor?.agent_id!==ticket.actor.agent_id||snapshot.claim?.actor?.principal_id!==ticket.actor.principal_id||
       executionDigest(snapshot.history)!==executionDigest(task.history.slice(0,ticket.task_version)))fail('historical claim snapshot mismatch');
+    } catch(error) {
+      throw Object.assign(new Error('Dispatch: historical claim snapshot mismatch'),{code:'host-claim-proof-invalid'});
+    }
   }
   const policyInput=await pinnedPolicy(target,task,ticket.policy_ref);
   if(policyInput.digest!==ticket.policy_file_sha256||executionDigest(policyInput.document)!==ticket.selected.policy_sha256||

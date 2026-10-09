@@ -1,0 +1,319 @@
+{
+  "schema_version": "workkeel.work-item/v1",
+  "id": "WK-delivery-public",
+  "version": 5,
+  "state": "done",
+  "contract": {
+    "schema_version": "workkeel.task-contract/v1",
+    "id": "WK-delivery-public",
+    "goal": "Integrate the five verified delivery improvements onto current public main and merge a reviewed passing pull request",
+    "actor": {
+      "agent_id": "builder",
+      "principal_id": "owner"
+    },
+    "state": "intake",
+    "scope": {
+      "include": [
+        "Integrate the five verified delivery improvements onto current public main and merge a reviewed passing pull request"
+      ],
+      "exclude": [
+        "Private history publication",
+        "New package release or version tag",
+        "Game or service changes",
+        "Real media deletion",
+        "Unrelated feature work"
+      ]
+    },
+    "dependencies": [],
+    "acceptance": {
+      "criteria": [
+        "All five delivery improvement families and their regression coverage are integrated without replacing newer public observer, capture, usage or Beta behavior",
+        "Only approved product changes and sanitized new public task evidence are added; no private ancestry, task data, machine paths or media is published",
+        "Exact candidate passes full verification, native Doctor and applicable real-browser gates with explicit evidence",
+        "A distinct actual registered Agent records review before owner-authorized acceptance",
+        "A PR based on fresh public main passes remote checks and is ordinarily merged at its reviewed head without force or protection bypass"
+      ],
+      "evidence": []
+    },
+    "verification": {
+      "risk_tier": "standard",
+      "separation": "distinct-agent",
+      "implementer": null,
+      "reviewer": null,
+      "candidate_revision": null
+    },
+    "handoff": null,
+    "environment": {
+      "cwd": ".",
+      "read_paths": [
+        "."
+      ],
+      "write_paths": [
+        "src",
+        "scripts",
+        "test",
+        "docs/operations",
+        ".ai-org/artifacts/WK-delivery-public"
+      ],
+      "tools": [
+        "node",
+        "npm",
+        "git",
+        "gh",
+        "shell",
+        "apply_patch",
+        "native-agent-host",
+        "browser"
+      ],
+      "resources": [
+        "accepted-local-framework-source",
+        "pinned-installed-dependencies",
+        "existing-approved-model-connection",
+        "installed-browser",
+        "github-repository"
+      ],
+      "network": {
+        "mode": "allowlist",
+        "hosts": [
+          "127.0.0.1",
+          "localhost",
+          "github.com",
+          "api.github.com",
+          "registry.npmjs.org"
+        ]
+      },
+      "external_actions": [
+        "branch-push",
+        "pull-request-create",
+        "pull-request-merge",
+        "checks-read"
+      ],
+      "data": {
+        "classification": "public",
+        "model_access": "approved-connection",
+        "policy_refs": [
+          ".ai-org/artifacts/WK-delivery-public/approval.md",
+          "docs/policies/development-dispatch.json"
+        ]
+      }
+    },
+    "authorization": {
+      "approved_by": "owner",
+      "approval_ref": ".ai-org/artifacts/WK-delivery-public/approval.md",
+      "operations": [
+        "read",
+        "write",
+        "execute",
+        "network",
+        "external"
+      ],
+      "expires_at": null
+    },
+    "skills": [
+      ".agents/skills/workkeel-work/SKILL.md"
+    ],
+    "execution": {
+      "runtime": {
+        "kind": "host-owned",
+        "adapter_id": null,
+        "required_features": []
+      },
+      "model_connection": {
+        "kind": "native"
+      }
+    },
+    "legacy": null
+  },
+  "contract_sha256": "d05b2a3b43dc75ac86b201d85c8468938b7b82c3ebe68ebb778c0c7ee9b2dc08",
+  "policy_sha256": "04102080b0e70a04898b1e64a2ec05194665087061c4cc37ee7f7df02626db4a",
+  "authority_pins": [
+    {
+      "path": ".ai-org/artifacts/WK-delivery-public/approval.md",
+      "sha256": "80af1c8886bda7d6a5a389fad5591ac7f1fafcaa442fed9eddd919095afa144c"
+    },
+    {
+      "path": "docs/policies/development-dispatch.json",
+      "sha256": "f8bebba95aff3d766d42d1bb2a9fa44dfe7dff607e60a6ebde2d64cc03ae9664"
+    },
+    {
+      "path": ".agents/skills/workkeel-work/SKILL.md",
+      "sha256": "4220f1233f01a228650e481e331d8c18dc9a2fb267b74b1a18307890f43faeb1"
+    }
+  ],
+  "claim": null,
+  "base_revision": "362c3a39489f39c6a6939d6891c3ad898edeead0",
+  "dependency_pins": [],
+  "delivery": {
+    "revision": "9cc6e1c49d86e1434bae35de333f87e3673d60b6",
+    "summary": "Integrated delivery evidence, retention and attributed progress with current public runtime; full 171-file verification, both browser gates and native Doctor pass. Skills and measurement gaps recorded; PR publication remains a separate authorized step.",
+    "implementer": {
+      "agent_id": "builder",
+      "principal_id": "owner"
+    },
+    "claim_id": "claim-99a22c05-2f6f-4e94-b3c2-9398d2b594e1",
+    "evidence": [
+      {
+        "path": ".ai-org/artifacts/WK-delivery-public/developer.md",
+        "sha256": "494865058ad10c3841ceefea0f43d6adcfa5d75c111461026f669cc9aa3a9372"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-delivery-public/verification.json",
+        "sha256": "3fa10bbb6b6438e08bd685f9beeafb826ce6328bedd9be19cab39916cf3f2908"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-delivery-public/browser.json",
+        "sha256": "08684c49b23e49a87d263cf10fa055076647387667a5ae4f80c14f8f93097981"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-delivery-public/publication-audit.json",
+        "sha256": "5de489d84b03bf7ce219e653a73cd774657fb0eed028cf8aecc62ae0c33ced22"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-delivery-public/expected-operations.json",
+        "sha256": "d1d4146d6a6411a665524defa536d1f46d9d8d10ec210e78ff69bcac48253062"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-delivery-public/collection-at-handoff.json",
+        "sha256": "a57ddecb62481941e867e02d1f0e202e66eb2e937cacfb7a3d1a5c65a1b040c4"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-delivery-public/review-dispatch.json",
+        "sha256": "e9e7efdd64524cc9ea0bb6ac02858a3f5f41acb97945ed770aa15eca680be6e5"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-delivery-public/dispatch-claim-231592c21d7ca370c12e879b54fcb12dcd8f46632509acc5e1938eee1b0db6a8.json",
+        "sha256": "2d4bb395fcf14f00eb0050b227556477e0e0e5dbf79b1c917407de122e244b17"
+      }
+    ]
+  },
+  "review": {
+    "actor": {
+      "agent_id": "reviewer",
+      "principal_id": "owner"
+    },
+    "revision": "9cc6e1c49d86e1434bae35de333f87e3673d60b6",
+    "judgment": "pass",
+    "summary": "Independent QA inspected the exact public integration and corrected native Console boundary; focused tests, full verification evidence, browser evidence and Doctor support a passing review with disclosed fixture limitations.",
+    "evidence": [
+      {
+        "path": ".ai-org/artifacts/WK-delivery-public/independent-review.md",
+        "sha256": "ddb24d5cf3de95cb3682059cdfb24cb7fe8084577a36c020f0b8bada7bcf5bab"
+      }
+    ]
+  },
+  "closeout": {
+    "actor": {
+      "agent_id": "builder",
+      "principal_id": "owner"
+    },
+    "revision": "9cc6e1c49d86e1434bae35de333f87e3673d60b6",
+    "summary": "Owner-authorized local integration accepted after full verification and actual independent PASS. Administrative publication through PR 156 remains a separate authorized operation; measurement gaps are explicit.",
+    "rollback": "Revert the public PR through a new reviewed change, preserving canonical history and evidence; never reset shared main.",
+    "evidence": [
+      {
+        "path": ".ai-org/artifacts/WK-delivery-public/independent-review.md",
+        "sha256": "ddb24d5cf3de95cb3682059cdfb24cb7fe8084577a36c020f0b8bada7bcf5bab"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-delivery-public/verification.json",
+        "sha256": "3fa10bbb6b6438e08bd685f9beeafb826ce6328bedd9be19cab39916cf3f2908"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-delivery-public/collection-at-acceptance.json",
+        "sha256": "83139c54ee7e75d95aa0241c521b6fc7bb812a697be3389f1e234c81a30fc922"
+      },
+      {
+        "path": ".ai-org/artifacts/WK-delivery-public/closeout.md",
+        "sha256": "082ba7c7f3b7c6a0ba23a484a7849cdec687061f9ca9bff99d246a497a5c3aaf"
+      }
+    ],
+    "external_release": "not-performed"
+  },
+  "attempts": [],
+  "history": [
+    {
+      "sequence": 1,
+      "action": "create",
+      "operation_id": "intake-d05b2a3b43dc75ac86b201d8",
+      "request_sha256": "94df80f0a96ea3ef934bafff0893c7d8e6c2e8f2ac70f4fac2b87607b5c0c689",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-10-09T13:38:12.833Z",
+      "state": "intake",
+      "revision": null,
+      "previous_hash": null,
+      "record_sha256": "d3fdb4eca72ed50df9bbbea938dab68047010b802e578470997aafc166d8bca7",
+      "hash": "3b9f5876c79c11ec9a5309022c83a80c7d23e5b6d2155f37bbe2d5b828d6a0f0"
+    },
+    {
+      "sequence": 2,
+      "action": "claim",
+      "operation_id": "claim-delivery-public",
+      "request_sha256": "a43ff89e55e0990126fe60cf4aabf9fe7ff167975d71b1c24c7fc9a2c96f5a8e",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-10-09T13:38:13.235Z",
+      "state": "build",
+      "revision": null,
+      "previous_hash": "3b9f5876c79c11ec9a5309022c83a80c7d23e5b6d2155f37bbe2d5b828d6a0f0",
+      "record_sha256": "f51772a84614b433aeb6e7af663598fbde3c2388a4ce556b6676452352b5f8bf",
+      "hash": "231592c21d7ca370c12e879b54fcb12dcd8f46632509acc5e1938eee1b0db6a8"
+    },
+    {
+      "sequence": 3,
+      "action": "handoff",
+      "operation_id": "handoff-delivery-public",
+      "request_sha256": "b9b77a26f23611cf5559e22cd6fc5e636daebcb3ba0bbe2813273dc5a00f3899",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-10-09T14:09:55.024Z",
+      "state": "test",
+      "revision": "9cc6e1c49d86e1434bae35de333f87e3673d60b6",
+      "previous_hash": "231592c21d7ca370c12e879b54fcb12dcd8f46632509acc5e1938eee1b0db6a8",
+      "record_sha256": "4d0ae24991a75fab688adada92f8989038f3ecb2a7dbd18a0d73478c415083d9",
+      "summary": "Integrated delivery evidence, retention and attributed progress with current public runtime; full 171-file verification, both browser gates and native Doctor pass. Skills and measurement gaps recorded; PR publication remains a separate authorized step.",
+      "hash": "e1307c436d4322b66344e540bae573fc9d752c16d88e6f38bd753258eb858490"
+    },
+    {
+      "sequence": 4,
+      "action": "review",
+      "operation_id": "review-delivery-public",
+      "request_sha256": "04a29e6b48c8a1a3b3a2a8673cf8bb8db8a4238ae74043f7b34c27fd15f14a78",
+      "actor": {
+        "agent_id": "reviewer",
+        "principal_id": "owner"
+      },
+      "at": "2026-10-09T14:11:06.922Z",
+      "state": "release_gate",
+      "revision": "9cc6e1c49d86e1434bae35de333f87e3673d60b6",
+      "previous_hash": "e1307c436d4322b66344e540bae573fc9d752c16d88e6f38bd753258eb858490",
+      "record_sha256": "136562c30bc8c9af85fab38dc8c777654106630edb6cc0783f0ba23cde9fdc78",
+      "summary": "Independent QA inspected the exact public integration and corrected native Console boundary; focused tests, full verification evidence, browser evidence and Doctor support a passing review with disclosed fixture limitations.",
+      "judgment": "pass",
+      "hash": "f3750c8fc7406107ef70fb60b8c0667d5c580bafd8862ca73dfac700b443d1b3"
+    },
+    {
+      "sequence": 5,
+      "action": "close",
+      "operation_id": "close-delivery-public",
+      "request_sha256": "3292230f2e000d61b8f48ae1e8f987f5daed73e978da55057cda37e7b67b118b",
+      "actor": {
+        "agent_id": "builder",
+        "principal_id": "owner"
+      },
+      "at": "2026-10-09T14:13:40.177Z",
+      "state": "done",
+      "revision": "9cc6e1c49d86e1434bae35de333f87e3673d60b6",
+      "previous_hash": "f3750c8fc7406107ef70fb60b8c0667d5c580bafd8862ca73dfac700b443d1b3",
+      "record_sha256": "f347248e1ba10bf65c47e963acf948b6dc1dc468efa3c62f97411ec5b56fb303",
+      "summary": "Owner-authorized local integration accepted after full verification and actual independent PASS. Administrative publication through PR 156 remains a separate authorized operation; measurement gaps are explicit.",
+      "hash": "cad066409b31c08f9a9739a76271b2886bc34844e9aa46520363c72f917fc13b"
+    }
+  ]
+}

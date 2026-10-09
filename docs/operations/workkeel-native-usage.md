@@ -323,7 +323,13 @@ list entry. This is not automatic session discovery, permission to scan other
 conversations or proof of whole-task coverage. No global model settings or
 accounts are changed.
 
-The store is bounded to 128 bindings and 4,096 response/report identities per
+Closing collection with `usage close` frees an open slot while preserving the
+original binding, measurements and duplicate-source guards. A completed host turn
+can still receive late metadata, so it remains open until explicitly closed.
+The capture helper similarly retains up to 1,024 ledgers, with at most 128
+unfinished clocks. It never removes a finished ledger automatically.
+
+The store is bounded to 1,024 retained bindings, 128 open collectors and 4,096 response/report identities per
 binding, with a 1 MiB record limit. Source reads use incremental byte checkpoints
 and bounded metadata rows; limits and identity changes produce an explicit
 incomplete result. Archive or export retained measurements deliberately before

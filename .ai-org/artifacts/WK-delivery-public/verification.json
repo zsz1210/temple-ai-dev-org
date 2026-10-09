@@ -1,0 +1,67 @@
+{
+  "candidate": "9cc6e1c49d86e1434bae35de333f87e3673d60b6",
+  "checks": [
+    {
+      "command": "npm run verify",
+      "exit_code": 0,
+      "scope": "Complete inventory, 171 test files; no skipped files or reduced gate",
+      "log_sha256": "4b48224d0426ee9f969ab29c6d412a6f1eb754098a8590ac258b84bd3b658507"
+    },
+    {
+      "command": "node scripts/verify-workkeel-monitor.mjs",
+      "exit_code": 0,
+      "evidence": "browser.json"
+    },
+    {
+      "command": "npm run test:browser",
+      "exit_code": 0,
+      "evidence": "browser.json"
+    },
+    {
+      "command": "WORKKEEL_CLI_PATH=./bin/workkeel.mjs node ./workkeelw.mjs doctor .",
+      "exit_code": 0,
+      "valid": true,
+      "errors": [],
+      "log_sha256": "b449902f4fe001f097a5a239d484c034b7487b91c7d6866d95b310e622873714"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "earlier_checks": [
+    {
+      "candidate": "faf8913c0b626869f04faf28cb8e9ebc15b31893",
+      "check": "Six delivery feature test files",
+      "tests": 83,
+      "passed": 83,
+      "failed": 0,
+      "log_sha256": "9a9e35d2f8af3b9e5895f529652031cea3c4007c320abda3de9e2ed729065d2a"
+    },
+    {
+      "candidate": "faf8913c0b626869f04faf28cb8e9ebc15b31893",
+      "check": "npm run verify",
+      "test_files": 171,
+      "exit_code": 0,
+      "log_sha256": "4f8978209011085563d463eff81b20e2d64fca710e7206db79504a492a955dfc"
+    }
+  ],
+  "retained_failures": [
+    {
+      "gate": "Initial final-candidate documentation precheck",
+      "outcome": "Draft evidence linked two not-yet-created reports; changed those draft references to plain filenames before the successful gate. Product bytes unchanged.",
+      "log_sha256": "3f53f37459e93720fe6fa9634ec5821beecac2ce4fcfe4ed050b76a68996c593"
+    },
+    {
+      "gate": "First full suite on revised candidate",
+      "outcome": "A test-owned git hash-object process waited for stdin and was explicitly terminated. This interrupted run is not counted as passing. The affected three-test file passed alone; the complete unchanged candidate then passed npm run verify without concurrent browser gates.",
+      "log_sha256": "cafb0fb5608233c5b72f5e792bf46ad098ef2f220c14832bbc9e79e055b6044f"
+    }
+  ],
+  "browser_failure": "See browser.json for the reproduced native/legacy API boundary and its verified correction.",
+  "limitations": [
+    "Browser and media-retention checks use disposable synthetic fixtures.",
+    "No real-project speed, cost or artistic-quality outcome is inferred.",
+    "The local full gate and GitHub bounded CI are distinct checks."
+  ]
+}

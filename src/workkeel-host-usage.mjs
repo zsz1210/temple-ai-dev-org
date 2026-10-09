@@ -15,7 +15,9 @@ const ID=/^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$/;
 const TOKEN_KEYS=['input_tokens','cached_input_tokens','cache_write_input_tokens','output_tokens','reasoning_output_tokens','total_tokens'];
 const ACTIVITY_KINDS=['planning','implementation','review','repair','verification'];
 function activityKind(value) {if(value!==undefined&&value!==null&&!ACTIVITY_KINDS.includes(value))fail('host-activity-kind');return value??null;}
-const LIMITS={bindings:128,record:1024*1024,responses:4096,scan:32*1024*1024,line:64*1024,chunk:64*1024};
+// Retained observations and open collectors have different resource lifetimes.
+// Closing collection frees a live slot without deleting evidence or source IDs.
+const LIMITS={bindings:1024,openBindings:128,record:1024*1024,responses:4096,scan:32*1024*1024,line:64*1024,chunk:64*1024};
 const READINESS_OBSERVATION={authority:'observation-only',mutation_status:'no-write',execution_authorized:false};
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const now=()=>new Date().toISOString();
@@ -387,9 +389,10 @@ async function bindingRequest(target,request) {
 async function bindingInventory(target,request,{bindingId,task,ticket}) {
     const entries=await existsEntry(target,ROOT)?await names(target):[];
     if(entries.includes(bindingId))fail('host-binding-exists',{binding_id:bindingId});if(entries.length>=LIMITS.bindings)fail('host-inventory-bound');
-    const dispatchBindings=[];
+    const dispatchBindings=[];let openBindings=0;
     for(const entry of entries) {
       const other=await load(target,entry);
+      if(!other.collection_closed)openBindings++;
       // Closed records from other claims cannot occupy a live scope or satisfy
       // this claim's dependencies. Preserve their integrity/identity checks but
       // do not reinterpret their historical tickets as current authorization.
@@ -404,6 +407,7 @@ async function bindingInventory(target,request,{bindingId,task,ticket}) {
       if(['active','paused','error'].includes(other.status)&&other.source.thread_id===request.source.thread_id)fail('host-thread-already-bound',{binding_id:entry});
       if(other.source.thread_id===request.source.thread_id&&other.source.turn_id===request.source.turn_id)fail('host-turn-already-bound',{binding_id:entry});
     }
+    if(openBindings>=LIMITS.openBindings)fail('host-open-inventory-bound');
     if(ticket){
       const overlaps=(a,b)=>a==='.'||b==='.'||a===b||a.startsWith(b+'/')||b.startsWith(a+'/');
       const active=dispatchBindings.filter(({binding})=>['active','paused','error'].includes(binding.status)&&!binding.collection_closed);
@@ -575,7 +579,9 @@ export async function readHostMeasurements(target) {
       // Re-project verified private state rather than trusting arbitrary display fields.
       const m=measurement(b);if(!byTask.has(taskId))byTask.set(taskId,[]);byTask.get(taskId).push(m);
       if(b.error_code)errors.push({run_id:entry,task_id:taskId,code:b.error_code});
-    }catch{errors.push({run_id:entry,task_id:taskId,code:'host-measurement-unavailable'});}
+    }catch(error){errors.push({run_id:entry,task_id:taskId,code:
+      ['host-claim-proof-missing','host-claim-proof-invalid','host-record-integrity','host-projection-changed','host-task-binding-changed'].includes(error.code)
+        ?error.code:'host-measurement-unavailable'});}
   }
   return {byTask,errors,index_reads:indexReads};
 }

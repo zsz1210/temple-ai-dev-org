@@ -500,6 +500,7 @@ export function renderControlPlaneDashboard(projectName, options = {}) {
     function renderDeliveryDetail(snapshot,item,target){
       if(item.delivery_attention){const attention=item.delivery_attention;const state=node("section","work-detail-section");state.id="delivery-attention";state.append(node("h3","","Next step"),node("p","",attention.next_action));deliveryGrid(state,[["Delivery",humanize(attention.state)],["Execution",humanize(attention.execution_state)],["Review",humanize(attention.review_state)],["Acceptance",humanize(attention.acceptance_state)]]);for(const condition of attention.missing_conditions||[])state.append(node("p","",humanize(condition.kind)+": "+condition.description));target.append(state)}
       const section=node("section","work-detail-section");section.id="delivery-detail";section.dataset.workItemId=item.id;section.append(node("h3","","Recorded delivery summary"));target.append(section);
+      if(item.id.startsWith("WK-")){section.append(node("p","sub","This is a native Workkeel task. Open the Workkeel observer to inspect its delivery evidence and review."));return}
       if(snapshot.private_viewer){section.append(node("p","sub","Delivery detail is available in the local Console only."));return}
       const cached=deliveryCache.get(item.id);const loading=deliveryInflight.has(item.id);
       if(!cached){section.append(node("p","sub","Loading delivery record…"));section.setAttribute("aria-busy","true");if(!loading)loadDelivery(item.id);return}

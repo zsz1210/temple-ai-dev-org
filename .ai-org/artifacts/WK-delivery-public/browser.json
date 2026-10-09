@@ -1,0 +1,49 @@
+{
+  "candidate": "9cc6e1c49d86e1434bae35de333f87e3673d60b6",
+  "native_monitor": {
+    "command": "node scripts/verify-workkeel-monitor.mjs",
+    "exit_code": 0,
+    "passed": true,
+    "check_groups": 9,
+    "errors": [],
+    "external_requests": 0,
+    "model_calls": 0,
+    "report_sha256": "9d762122ff2782b9e4770122c035431357ae260ad0f37c38a1ff5d3e23829ee2",
+    "log_sha256": "adba1efdf1bd571d5b7cd05150221f2c01c7b3e550fcaadc88a911f517e50c3a"
+  },
+  "legacy_console": {
+    "command": "npm run test:browser",
+    "exit_code": 0,
+    "passed": true,
+    "viewports": [
+      390,
+      768,
+      1440,
+      3440
+    ],
+    "primary_views": 6,
+    "reduced_motion": true,
+    "legacy_attention_states": 6,
+    "native_row_legacy_api_requests": 0,
+    "log_sha256": "a220f84974a1345bb0c16e8d06ac67efc02ba53b4ee41b01ed7af40d55d455e7"
+  },
+  "visually_inspected_captures": [
+    {
+      "name": "1440-delivery-progress.png",
+      "bytes": 212199,
+      "sha256": "ea05282d6d4c908ef0981a63f2ec354df765b788ea6f39a8f9a68c3b865195a6"
+    },
+    {
+      "name": "390-delivery-progress.png",
+      "bytes": 92674,
+      "sha256": "bf6e93659559775de280284a5011ce0ffb57cb09f0a9a3aef8cad3efc4c678af"
+    }
+  ],
+  "retention": "Raw browser reports and screenshots retained locally outside the publication candidate; no live project media changed.",
+  "initial_failure": {
+    "candidate": "faf8913c0b626869f04faf28cb8e9ebc15b31893",
+    "gate": "legacy-console",
+    "cause": "The active native task was sent to the legacy WI-only delivery endpoint and received HTTP 404.",
+    "resolution": "Explicit native observer guidance, no legacy request; real-browser regression added."
+  }
+}
